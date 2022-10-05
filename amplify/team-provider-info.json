@@ -14,6 +14,9 @@
     "categories": {
       "auth": {
         "bootcampr07359af5": {}
+      },
+      "api": {
+        "UserMgmt": {}
       }
     }
   }

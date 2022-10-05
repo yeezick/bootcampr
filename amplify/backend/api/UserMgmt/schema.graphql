@@ -1,0 +1,49 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+# Amplify tutorial
+type Note @model @auth(rules: [ { allow: public } ] ){
+  id: ID!
+  name: String!
+  description: String
+}
+
+type User @model {
+  id: ID!
+  bio: String
+  description: String
+  email: String!
+  name: String!
+  profilePicture: String # should be a file
+  role: String!
+  supportingLinks: [String!] # should be an object of strings: linkedin, portfolio
+
+  # what if the following could be stored in an object with title "projects"
+  declinedProjects: [String!]
+  interestedProjects: [String!] # ID's of projects
+  ownerOf: [String!] # ID's of projects
+  savedProjects: [String!] # ID's of projects
+}
+
+type Project @model { 
+  id: ID!
+  duration: String
+  meetingCadence: String!
+  members: [String!] # ID of users
+  openRoles: String!
+  overview: String! 
+  owner: String! # ID of project owner
+  status: String!
+  tools: String! 
+  title: String!
+}
+
+# Role type (if necessary here) consists of: 
+# {
+#   description: String!
+#   max_amount: Int
+#   skills: [String!]
+#   status: String!
+#   title: String!
+# }
