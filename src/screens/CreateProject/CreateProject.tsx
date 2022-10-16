@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { RiUploadCloudFill } from 'react-icons/ri';
+import './CreateProject.scss';
 
 export interface CreateProjectProps {}
 
@@ -28,8 +29,8 @@ const CreateProject: React.FC<CreateProjectProps> = (props) => {
       <form action="" className="project-form">
         <div className="photo-container">
           <label htmlFor="photo" className="photo">
-            Upload Image
             <RiUploadCloudFill size={25} />
+            Upload Image
             <input accept="image/*" id="photo" name="photo" type="file" multiple={false} onChange={handleImageChange} />
           </label>
         </div>
@@ -83,8 +84,10 @@ const CreateProject: React.FC<CreateProjectProps> = (props) => {
         <label htmlFor="overview">Overview</label>
         <textarea name="overview" className="overview" cols={30} rows={10}></textarea>
 
-        <button>Save as Draft</button>
-        <button onClick={uploadFile}>Publish</button>
+        <div className="btn-container">
+          <button>Save as Draft</button>
+          <button onClick={uploadFile}>Publish</button>
+        </div>
       </form>
     </div>
   );
