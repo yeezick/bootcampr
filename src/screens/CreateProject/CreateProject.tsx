@@ -1,17 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export interface CreateProjectProps {}
 
 const CreateProject: React.FC<CreateProjectProps> = (props) => {
+  const [fileSelected, setFileSelected] = useState<File>();
+
+  const handleImageChange = function (e: React.ChangeEvent<HTMLInputElement>) {
+    const fileList = e.target.files;
+
+    if (!fileList) return;
+
+    setFileSelected(fileList[0]);
+  };
+
+  const uploadFile = function (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
+    if (fileSelected) {
+      const formData = new FormData();
+      formData.append('image', fileSelected, fileSelected.name);
+    }
+  };
+
   return (
     <div className="create-project">
       <p className="heading">Create a Project</p>
 
       <form action="" className="project-form">
-        <label htmlFor="photo" className="photo">
-          Upload Image
-          <input type="file" />
-        </label>
+        <div className="photo-container">
+          <label htmlFor="photo" className="photo">
+            Upload Image
+            <input accept="image/*" id="photo" name="photo" type="file" multiple={false} onChange={handleImageChange} />
+          </label>
+        </div>
 
         <label htmlFor="title">Title</label>
         <input type="text" name="title" />
@@ -63,7 +82,7 @@ const CreateProject: React.FC<CreateProjectProps> = (props) => {
         <textarea name="overview" className="overview" cols={30} rows={10}></textarea>
 
         <button>Save as Draft</button>
-        <button>Publish</button>
+        <button onClick={uploadFile}>Publish</button>
       </form>
     </div>
   );
