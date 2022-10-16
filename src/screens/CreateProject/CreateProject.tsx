@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { RiUploadCloudFill } from 'react-icons/ri';
 
 export interface CreateProjectProps {}
 
@@ -28,6 +29,7 @@ const CreateProject: React.FC<CreateProjectProps> = (props) => {
         <div className="photo-container">
           <label htmlFor="photo" className="photo">
             Upload Image
+            <RiUploadCloudFill size={25} />
             <input accept="image/*" id="photo" name="photo" type="file" multiple={false} onChange={handleImageChange} />
           </label>
         </div>
