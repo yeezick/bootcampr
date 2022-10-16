@@ -1,0 +1,11 @@
+nav {
+  background-color: rgba(108, 122, 137, 1);
+  display: flex; 
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 20px;
+
+  div {
+    color: orange;
+  }
+}
