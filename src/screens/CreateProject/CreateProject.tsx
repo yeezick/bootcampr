@@ -1,11 +1,44 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createProject } from '../../api/projects';
 import { RiUploadCloudFill } from 'react-icons/ri';
 import './CreateProject.scss';
 
-export interface CreateProjectProps {}
+export interface CreateProject {
+  id: number;
+  name: string;
+  description: string;
+  designer_count: number;
+  engineer_count: number;
+  interested_applicants: number;
+  owner: number;
+  seeking: boolean;
+  time_commitment: string;
+  team_members: number;
+  title: string;
+  tools: number;
+}
 
-const CreateProject: React.FC<CreateProjectProps> = (props) => {
+interface Props {
+  project?: CreateProject;
+}
+
+const CreateProject: React.FC<Props> = ({ project }) => {
   const [fileSelected, setFileSelected] = useState<File>();
+  const [createProjects, setCreateProjects] = useState<any[]>([]);
+  const navigate = useNavigate();
+
+  const handleNewProject = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(e.currentTarget);
+    // setCreateProject({
+    //   ...createProject,
+    //   e.currentTarget
+    // });
+
+    // const newProject = await createProject(projectInfo);
+    // if (newProject) navigate(`/projects/${newProject._id}`);
+  };
 
   const handleImageChange = function (e: React.ChangeEvent<HTMLInputElement>) {
     const fileList = e.target.files;
@@ -26,7 +59,7 @@ const CreateProject: React.FC<CreateProjectProps> = (props) => {
     <div className="create-project">
       <p className="heading">Create a Project</p>
 
-      <form action="" className="project-form">
+      <form onSubmit={handleNewProject} className="project-form">
         <div className="photo-container">
           <label htmlFor="photo" className="photo">
             <RiUploadCloudFill size={25} />
@@ -86,7 +119,9 @@ const CreateProject: React.FC<CreateProjectProps> = (props) => {
 
         <div className="btn-container">
           <button>Save as Draft</button>
-          <button onClick={uploadFile}>Publish</button>
+          <button onClick={uploadFile} type="submit">
+            Publish
+          </button>
         </div>
       </form>
     </div>

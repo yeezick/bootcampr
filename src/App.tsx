@@ -1,12 +1,12 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import CreateProject from "./screens/CreateProject/CreateProject";
-import "./App.css";
-import Landing from "./screens/Landing/Landing";
-import SignIn from "./screens/SignIn/SignIn";
-import SignUp from "./screens/SignUp/SignUp";
-import Nav from "./layout/Nav/Nav";
-import { Layout } from "./layout/Layout";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import CreateProject from './screens/CreateProject/CreateProject';
+import './App.css';
+import Landing from './screens/Landing/Landing';
+import SignIn from './screens/SignIn/SignIn';
+import SignUp from './screens/SignUp/SignUp';
+import Nav from './layout/Nav/Nav';
+import { Layout } from './layout/Layout';
 
 function App() {
   return (
