@@ -29,19 +29,14 @@ const CreateProject: React.FC<Props> = ({ project }) => {
   const navigate = useNavigate();
 
   const handleProjectInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setCreateProjects((createProject) => {
-      console.log(e.target.value);
-      return { ...createProject, [e.target.name]: e.target.value };
+    setCreateProjects((createProjects) => {
+      return { ...createProjects, [e.target.name]: e.target.value };
     });
   };
 
-  console.log(createProjects);
-
   const handleNewProject = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('form submit');
-
-    // const newProject = await createProject(projectInfo);
+    const newProject = await createProject(createProjects);
     // if (newProject) navigate(`/projects/${newProject._id}`);
   };
 
@@ -90,7 +85,7 @@ const CreateProject: React.FC<Props> = ({ project }) => {
         </select>
 
         <label htmlFor="roles">Roles</label>
-        <select name="roles" onChange={(e) => handleImageChange}>
+        <select name="roles" onChange={(e) => handleProjectInputChange}>
           <optgroup label="Roles">
             <option value="0"></option>
             <option value="1">Software Engineer</option>
@@ -100,7 +95,7 @@ const CreateProject: React.FC<Props> = ({ project }) => {
         </select>
 
         <label htmlFor="technologies-used">Technologies Used</label>
-        <select name="technologies-used" onChange={(e) => handleImageChange}>
+        <select name="technologies-used" onChange={(e) => handleProjectInputChange}>
           <optgroup label="Technologies">
             <option value="0"></option>
             <option value="1">React</option>
@@ -110,7 +105,7 @@ const CreateProject: React.FC<Props> = ({ project }) => {
         </select>
 
         <label htmlFor="meeting-cadence">Meeting Cadence</label>
-        <select name="time_commitment" onChange={(e) => handleImageChange}>
+        <select name="time_commitment" onChange={(e) => handleProjectInputChange}>
           <optgroup label="Meeting cadence">
             <option value="0"></option>
             <option value="1">Once per month</option>
@@ -125,7 +120,7 @@ const CreateProject: React.FC<Props> = ({ project }) => {
           className="overview"
           cols={30}
           rows={10}
-          onChange={(e) => handleImageChange}
+          onChange={(e) => handleProjectInputChange}
         ></textarea>
 
         <div className="btn-container">
