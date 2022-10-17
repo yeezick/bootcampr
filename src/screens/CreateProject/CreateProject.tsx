@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { InputHTMLAttributes, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createProject } from '../../api/projects';
 import { RiUploadCloudFill } from 'react-icons/ri';
@@ -6,7 +6,6 @@ import './CreateProject.scss';
 
 export interface CreateProject {
   id: number;
-  name: string;
   description: string;
   designer_count: number;
   engineer_count: number;
@@ -17,6 +16,7 @@ export interface CreateProject {
   team_members: number;
   title: string;
   tools: number;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 interface Props {
@@ -28,13 +28,18 @@ const CreateProject: React.FC<Props> = ({ project }) => {
   const [createProjects, setCreateProjects] = useState<any[]>([]);
   const navigate = useNavigate();
 
+  const handleProjectInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setCreateProjects((createProject) => {
+      console.log(e.target.value);
+      return { ...createProject, [e.target.name]: e.target.value };
+    });
+  };
+
+  console.log(createProjects);
+
   const handleNewProject = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(e.currentTarget);
-    // setCreateProject({
-    //   ...createProject,
-    //   e.currentTarget
-    // });
+    console.log('form submit');
 
     // const newProject = await createProject(projectInfo);
     // if (newProject) navigate(`/projects/${newProject._id}`);
@@ -72,10 +77,10 @@ const CreateProject: React.FC<Props> = ({ project }) => {
         <input type="text" name="title" />
 
         <label htmlFor="project-owner">Project Owner</label>
-        <input type="text" name="project-owner" />
+        <input type="text" name="owner" onChange={handleProjectInputChange} />
 
         <label htmlFor="industry">Industry</label>
-        <select name="industry">
+        <select name="industry" onChange={handleProjectInputChange}>
           <optgroup label="Industry">
             <option value="0"></option>
             <option value="1">Retail</option>
@@ -85,7 +90,7 @@ const CreateProject: React.FC<Props> = ({ project }) => {
         </select>
 
         <label htmlFor="roles">Roles</label>
-        <select name="roles">
+        <select name="roles" onChange={(e) => handleImageChange}>
           <optgroup label="Roles">
             <option value="0"></option>
             <option value="1">Software Engineer</option>
@@ -95,7 +100,7 @@ const CreateProject: React.FC<Props> = ({ project }) => {
         </select>
 
         <label htmlFor="technologies-used">Technologies Used</label>
-        <select name="technologies-used">
+        <select name="technologies-used" onChange={(e) => handleImageChange}>
           <optgroup label="Technologies">
             <option value="0"></option>
             <option value="1">React</option>
@@ -105,7 +110,7 @@ const CreateProject: React.FC<Props> = ({ project }) => {
         </select>
 
         <label htmlFor="meeting-cadence">Meeting Cadence</label>
-        <select name="meeting-cadence">
+        <select name="time_commitment" onChange={(e) => handleImageChange}>
           <optgroup label="Meeting cadence">
             <option value="0"></option>
             <option value="1">Once per month</option>
@@ -115,7 +120,13 @@ const CreateProject: React.FC<Props> = ({ project }) => {
         </select>
 
         <label htmlFor="overview">Overview</label>
-        <textarea name="overview" className="overview" cols={30} rows={10}></textarea>
+        <textarea
+          name="description"
+          className="overview"
+          cols={30}
+          rows={10}
+          onChange={(e) => handleImageChange}
+        ></textarea>
 
         <div className="btn-container">
           <button>Save as Draft</button>
