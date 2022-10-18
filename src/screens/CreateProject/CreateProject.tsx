@@ -36,7 +36,6 @@ const CreateProject: React.FC<Props> = ({ project }) => {
   const handleProjectInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
-    console.log(e.target.value);
     setCreateProjects((createProjects) => {
       return { ...createProjects, [e.target.name]: e.target.value };
     });
