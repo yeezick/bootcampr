@@ -33,7 +33,10 @@ const CreateProject: React.FC<Props> = ({ project }) => {
   const [createProjects, setCreateProjects] = useState<any[]>([]);
   const navigate = useNavigate();
 
-  const handleProjectInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleProjectInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+  ) => {
+    console.log(e.target.value);
     setCreateProjects((createProjects) => {
       return { ...createProjects, [e.target.name]: e.target.value };
     });
@@ -74,19 +77,19 @@ const CreateProject: React.FC<Props> = ({ project }) => {
         </div>
 
         <label htmlFor="title">Title</label>
-        <input type="text" name="title" />
+        <input type="text" name="title" onChange={handleProjectInputChange} />
 
         <label htmlFor="project-owner">Project Owner</label>
         <input type="text" name="project_owner" onChange={handleProjectInputChange} />
 
-        <label htmlFor="techonologies_used">Technologies Used</label>
+        <label htmlFor="technologies_used">Technologies Used (separate by commas)</label>
         <input
           list="technologies"
           type="email"
           name="technologies_used"
           autoComplete="off"
           multiple={true}
-          onChange={(e) => handleProjectInputChange}
+          onChange={handleProjectInputChange}
         />
         <datalist id="technologies">
           <option value="React"></option>
@@ -103,15 +106,12 @@ const CreateProject: React.FC<Props> = ({ project }) => {
           <option value="MUI"></option>
         </datalist>
 
-        <label htmlFor="meeting-cadence">Meeting Cadence</label>
-        <select name="time_commitment" onChange={(e) => handleProjectInputChange}>
-          <optgroup label="Meeting cadence">
-            <option value="0"></option>
-            <option value="Monthly">Monthly</option>
-            <option value="Biweekly">Biweekly</option>
-            <option value="Weekly">Weekly</option>
-            <option value="Daily">Daily</option>
-          </optgroup>
+        <label htmlFor="meeting_cadence">Meeting Cadence</label>
+        <select name="meeting_cadence" onChange={handleProjectInputChange}>
+          <option value="Monthly">Monthly</option>
+          <option value="Biweekly">Biweekly</option>
+          <option value="Weekly">Weekly</option>
+          <option value="Daily">Daily</option>
         </select>
 
         <label htmlFor="overview">Overview</label>
@@ -120,10 +120,10 @@ const CreateProject: React.FC<Props> = ({ project }) => {
           className="overview"
           cols={30}
           rows={10}
-          onChange={(e) => handleProjectInputChange}
+          onChange={(e) => handleProjectInputChange(e)}
         ></textarea>
 
-        <p>Save project as a draft or publish</p>
+        <p>Save project as a draft or publish?</p>
         <div className="checkbox-container">
           <label htmlFor="status">
             Draft
@@ -141,7 +141,7 @@ const CreateProject: React.FC<Props> = ({ project }) => {
               type="checkbox"
               className="checkbox"
               name="status"
-              value="Publish"
+              value="Published"
               onChange={(e) => handleProjectInputChange(e)}
             />
           </label>
