@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createProject } from '../../api/projects';
 import { RiUploadCloudFill } from 'react-icons/ri';
@@ -45,7 +45,7 @@ const CreateProject: React.FC<Props> = ({ project }) => {
   const handleNewProject = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newProject = await createProject(createProjects);
-    // if (newProject) navigate(`/projects/${newProject._id}`);
+    if (newProject) navigate(`/`);
   };
 
   const handleImageChange = function (e: React.ChangeEvent<HTMLInputElement>) {
@@ -79,6 +79,7 @@ const CreateProject: React.FC<Props> = ({ project }) => {
         <label htmlFor="title">Title</label>
         <input type="text" name="title" onChange={handleProjectInputChange} />
 
+        {/* Will be able to remove this section once a user is able to be logged in and token or userID is stored in redux store or local storage. Must enter the id in this label until then or api call will fail. */}
         <label htmlFor="project-owner">Project Owner</label>
         <input type="text" name="project_owner" onChange={handleProjectInputChange} />
 
@@ -108,6 +109,7 @@ const CreateProject: React.FC<Props> = ({ project }) => {
 
         <label htmlFor="meeting_cadence">Meeting Cadence</label>
         <select name="meeting_cadence" onChange={handleProjectInputChange}>
+          <option value="0"></option>
           <option value="Monthly">Monthly</option>
           <option value="Biweekly">Biweekly</option>
           <option value="Weekly">Weekly</option>
