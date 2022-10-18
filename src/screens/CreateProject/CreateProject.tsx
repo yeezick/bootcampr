@@ -64,7 +64,7 @@ const CreateProject: React.FC<Props> = ({ project }) => {
     <div className="create-project">
       <p className="heading">Create a Project</p>
 
-      <form onSubmit={handleNewProject} className="project-form">
+      <form onSubmit={handleNewProject} className="project-form" noValidate>
         <div className="photo-container">
           <label htmlFor="photo" className="photo">
             <RiUploadCloudFill size={25} />
@@ -77,61 +77,79 @@ const CreateProject: React.FC<Props> = ({ project }) => {
         <input type="text" name="title" />
 
         <label htmlFor="project-owner">Project Owner</label>
-        <input type="text" name="owner" onChange={handleProjectInputChange} />
+        <input type="text" name="project_owner" onChange={handleProjectInputChange} />
 
-        <label htmlFor="industry">Industry</label>
-        <select name="industry" onChange={handleProjectInputChange}>
-          <optgroup label="Industry">
-            <option value="0"></option>
-            <option value="1">Retail</option>
-            <option value="2">Banking</option>
-            <option value="3">Healthcare</option>
-          </optgroup>
-        </select>
-
-        <label htmlFor="roles">Roles</label>
-        <select name="roles" onChange={(e) => handleProjectInputChange}>
-          <optgroup label="Roles">
-            <option value="0"></option>
-            <option value="1">Software Engineer</option>
-            <option value="2">UX Designer</option>
-            <option value="3">Scrum Master</option>
-          </optgroup>
-        </select>
-
-        <label htmlFor="technologies-used">Technologies Used</label>
-        <select name="technologies-used" onChange={(e) => handleProjectInputChange}>
-          <optgroup label="Technologies">
-            <option value="0"></option>
-            <option value="1">React</option>
-            <option value="2">Redux</option>
-            <option value="3">Typescript</option>
-          </optgroup>
-        </select>
+        <label htmlFor="techonologies_used">Technologies Used</label>
+        <input
+          list="technologies"
+          type="email"
+          name="technologies_used"
+          autoComplete="off"
+          multiple={true}
+          onChange={(e) => handleProjectInputChange}
+        />
+        <datalist id="technologies">
+          <option value="React"></option>
+          <option value="Redux"></option>
+          <option value="Typescript"></option>
+          <option value="HTML"></option>
+          <option value="CSS"></option>
+          <option value="SCSS"></option>
+          <option value="Bootstrap"></option>
+          <option value="C#"></option>
+          <option value="Java"></option>
+          <option value="AWS"></option>
+          <option value="Jira"></option>
+          <option value="MUI"></option>
+        </datalist>
 
         <label htmlFor="meeting-cadence">Meeting Cadence</label>
         <select name="time_commitment" onChange={(e) => handleProjectInputChange}>
           <optgroup label="Meeting cadence">
             <option value="0"></option>
-            <option value="1">Once per month</option>
-            <option value="2">Once per week</option>
-            <option value="3">Daily</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Biweekly">Biweekly</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Daily">Daily</option>
           </optgroup>
         </select>
 
         <label htmlFor="overview">Overview</label>
         <textarea
-          name="description"
+          name="overview"
           className="overview"
           cols={30}
           rows={10}
           onChange={(e) => handleProjectInputChange}
         ></textarea>
 
-        <div className="btn-container">
-          <button>Save as Draft</button>
-          <button onClick={uploadFile} type="submit">
+        <p>Save project as a draft or publish</p>
+        <div className="checkbox-container">
+          <label htmlFor="status">
+            Draft
+            <input
+              type="checkbox"
+              className="checkbox"
+              name="status"
+              value="Draft"
+              onChange={(e) => handleProjectInputChange(e)}
+            />
+          </label>
+          <label htmlFor="status">
             Publish
+            <input
+              type="checkbox"
+              className="checkbox"
+              name="status"
+              value="Publish"
+              onChange={(e) => handleProjectInputChange(e)}
+            />
+          </label>
+        </div>
+
+        <div className="btn-container">
+          <button onClick={uploadFile} type="submit">
+            Submit
           </button>
         </div>
       </form>
