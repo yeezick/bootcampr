@@ -18,6 +18,6 @@ const usersSlice = createSlice({
     },
   },
 });
-
+export const loggedUser = (state: any) => state.users.users;
 export const { getCurrentUser } = usersSlice.actions;
 export default usersSlice.reducer;

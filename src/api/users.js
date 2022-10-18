@@ -10,7 +10,7 @@ export const getAllUsers = async () => {
 };
 
 export const getOneUser = async (id) => {
-  let testId = '634ed956de5f3e206f279e8c';
+  let testId = '634f0bfa570c7584a7c6a0e5';
   try {
     const res = await api.get(`/users/${testId}`);
     return res.data;

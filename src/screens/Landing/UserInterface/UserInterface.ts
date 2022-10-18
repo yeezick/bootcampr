@@ -1,7 +1,7 @@
 export interface UserInterface {
   about: string;
   email: string;
-  member_of_projects: Array<1>;
+  member_of_projects: Project[];
   first_name: string;
   fun_fact: string;
   interested_projects: Array<1>;
@@ -11,5 +11,19 @@ export interface UserInterface {
   portfolio_link: string;
   show_portfolio: boolean;
   rejected_projects: Array<1>;
-  role: Array<1>;
+  role: string;
+}
+interface Project {
+  createdAt: string;
+  description: string;
+  designer_count: number;
+  engineer_count: number;
+  interested_applicants: string[];
+  owner: string;
+  seeking: boolean;
+  team_members: string[];
+  time_commitment: string;
+  title: string;
+  tools: any;
+  updatedAt: string;
 }
