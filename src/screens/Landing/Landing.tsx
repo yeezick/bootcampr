@@ -1,31 +1,25 @@
-import React from "react";
-import logo from "../../logo.svg";
-import { getAllProjects } from "../../api/projects";
-
+import React, { useEffect, useState } from 'react';
+import logo from '../../logo.svg';
+import { getAllProjects } from '../../api/projects';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentUser } from '../../app/features/users/userSlice';
+import { UserInterface } from './UserInterface/UserInterface';
 const Landing: React.FC = () => {
+  const [currentUser, setCurrentUser] = useState<UserInterface>();
   const handleHello = async () => {
     const data = await getAllProjects();
-    console.log(data);
   };
-
+  let dispatch = useDispatch();
+  const loggedUser = useSelector((state: any) => state.users.users);
+  useEffect(() => {
+    loggedUser.then((res: any) => setCurrentUser(res));
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <button onClick={handleHello}>Click Me</button>
-      </header>
-    </div>
+    <>
+      <div>
+        <div>{currentUser?.first_name}</div>
+      </div>
+    </>
   );
 };
 
