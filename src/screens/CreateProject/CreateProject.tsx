@@ -6,16 +6,21 @@ import './CreateProject.scss';
 
 export interface CreateProject {
   id: number;
-  description: string;
-  designer_count: number;
-  engineer_count: number;
-  interested_applicants: number;
-  owner: number;
-  seeking: boolean;
-  time_commitment: string;
-  team_members: number;
-  title: string;
-  tools: number;
+  status: string;
+  project_owner: { type: any };
+  overview: string;
+  meeting_cadence: string;
+  technologies_used: [];
+  roles: [
+    interested_applicants: [],
+    status: string,
+    category: string,
+    title: string,
+    description: string,
+    skills: [],
+    desired_headcount: number,
+  ];
+  duration: string;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
