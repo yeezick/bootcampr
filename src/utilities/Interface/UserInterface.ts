@@ -6,14 +6,15 @@ export interface UserInterface {
   fun_fact: string;
   interested_projects: Array<1>;
   last_name: string;
-  password_digest: string;
   portfolio_projects: object;
   portfolio_link: string;
   show_portfolio: boolean;
   rejected_projects: Array<1>;
   role: string;
+  __v?: number;
+  _id: string;
 }
-interface Project {
+export interface Project {
   createdAt: string;
   description: string;
   designer_count: number;
