@@ -60,7 +60,7 @@ export const signIn = async (credentials) => {
   try {
     const res = await api.post('/sign-in', credentials);
     if (res.status === 401) {
-      if (localStorage.getItem(token)) localStorage.removeItem(token);
+      if (localStorage.getItem('token')) localStorage.removeItem('token');
       return res.data
     }
     const { token, user } = res.data;
