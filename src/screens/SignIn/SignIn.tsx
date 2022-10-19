@@ -4,7 +4,7 @@ import { signIn } from '../../api/users.js'
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
-
+  const [apiResponse, setApiResponse] = useState<any>()
   // Element References
   const passwordRef = useRef<HTMLInputElement>(null)
   const emailRef = useRef<HTMLInputElement>(null)
@@ -26,29 +26,32 @@ const SignIn: React.FC = (): JSX.Element => {
 
     const credentials = { email: emailRef.current?.value, password: passwordRef.current?.value }
     const test = await signIn(credentials)
-    console.log(test)
+    setApiResponse(test)
   }
 
   return (
-    <form onSubmit={handleSubmitForm}>
+    <>
+      <form onSubmit={handleSubmitForm}>
 
-      <input
-        type="email"
-        onChange={handleFormDataChange}
-        ref={emailRef}
-        required
-      />
+        <input
+          type="email"
+          onChange={handleFormDataChange}
+          ref={emailRef}
+          required
+        />
 
-      <input
-        type="password"
-        onChange={handleFormDataChange}
-        ref={passwordRef}
-        required
-      />
+        <input
+          type="password"
+          onChange={handleFormDataChange}
+          ref={passwordRef}
+          required
+        />
 
-      <button disabled={buttonDisabled} type="submit">Go</button>
+        <button disabled={buttonDisabled} type="submit">Go</button>
 
-    </form>
+      </form>
+      <pre>{JSON.stringify(apiResponse, null, 2)}</pre>
+    </>
   );
 };
 
