@@ -8,6 +8,7 @@ import SignUp from './screens/SignUp/SignUp';
 import Nav from './layout/Nav/Nav';
 import Projects from './screens/Projects/Projects';
 import { Layout } from './layout/Layout';
+import ProjectDetails from './screens/Projects/ProjectDetails';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/projects/create" element={<CreateProject />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:id" element={<ProjectDetails />} />
         </Routes>
       </Router>
     </Layout>

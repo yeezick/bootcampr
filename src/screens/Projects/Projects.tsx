@@ -6,12 +6,12 @@ import './Projects.scss';
 export interface IProjectProps {}
 
 export interface Project {
-  _id: String | null | undefined;
+  id: String | null | undefined;
   title: String;
   duration: String;
   meeting_cadence: String;
   technologies_used: [String];
-  project_owner: {};
+  project_owner: [String];
 }
 
 const Projects: React.FC<IProjectProps> = () => {
@@ -34,7 +34,7 @@ const Projects: React.FC<IProjectProps> = () => {
           return (
             <li key={project._id}>
               <h3>{project.title}</h3>
-              <p>{project.meeting_cadence}</p>
+              <p>{project.technologies_used}</p>
               <p>{project.duration}</p>
               <Link to={`/project/${project._id}`}>Learn More</Link>
             </li>
