@@ -36,7 +36,7 @@ const Projects: React.FC<IProjectProps> = () => {
               <h3>{project.title}</h3>
               <p>{project.technologies_used}</p>
               <p>{project.duration}</p>
-              <Link to={`/project/${project._id}`}>Learn More</Link>
+              <Link to={`/projects/${project._id}`}>Learn More</Link>
             </li>
           );
         })}

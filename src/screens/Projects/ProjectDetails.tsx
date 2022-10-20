@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getOneProject } from '../../api/projects';
 import { Project } from './Projects';
 import { useParams } from 'react-router-dom';
@@ -17,9 +17,25 @@ const ProjectDetails: React.FC = (): JSX.Element => {
   const params = useParams();
 
   const fetchProject = async () => {
-    const displayOneProject = await getOneProject(id);
+    const displayOneProject = await getOneProject(params.id);
+    setProject(displayOneProject);
   };
-  return <div>ProjectDetails</div>;
+
+  useEffect(() => {
+    fetchProject();
+  }, []);
+
+  console.log(project);
+
+  return (
+    <div className="project-container">
+      <h1>Browse Projects</h1>
+      <p>{project.title}</p>
+      <p>{project.duration}</p>
+      <p>{project.meeting_cadence}</p>
+      <p>{project.technologies_used}</p>
+    </div>
+  );
 };
 
 export default ProjectDetails;
