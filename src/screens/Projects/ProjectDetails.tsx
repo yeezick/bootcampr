@@ -30,21 +30,20 @@ const ProjectDetails: React.FC = (): JSX.Element => {
     fetchProject();
   }, []);
 
-  console.log(project);
-
   return (
     <div className="project-container">
       <Link to="/projects">Back to All Projects</Link>
       <h1>Title: {project.title}</h1>
-      <p>Project Overview: {project.overview}</p>
+      <p>Project Overview: {project.overview} </p>
       <p>Project Duration: {project.duration}</p>
       <p> Meeting Cadence: {project.meeting_cadence}</p>
       <p>Project Technologies: {project.technologies_used}</p>
       <p>
         Project Owner:
-        {project.project_owner.first_name} {project.project_owner.last_name}
+        {project.project_owner ? project.project_owner.first_name : null}
+        {project.project_owner ? project.project_owner.last_name : null}
       </p>
-      <p>Project Owner Portfolio: {project.project_owner.portfolio_link}</p>
+      <p>Project Owner Portfolio: {project.project_owner ? project.project_owner.portfolio_link : null}</p>
     </div>
   );
 };
