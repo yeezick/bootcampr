@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getOneUser, getAllUsers } from '../../../api/users';
 import { UserInterface } from '../../../Interface/UserInterface';
 import { RootState } from '../../store';
 
@@ -15,9 +14,6 @@ const usersSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    hi: (state, action: PayloadAction<any>) => {
-      console.log(state.authUser, 'hello');
-    },
     setAuthUser: (state, action: PayloadAction<UserInterface>) => {
       state.authUser = action.payload;
     },
@@ -25,5 +21,5 @@ const usersSlice = createSlice({
 });
 
 export const selectAuthUser = (state: RootState) => state.ui.authUser;
-export const { hi, setAuthUser } = usersSlice.actions;
+export const { setAuthUser } = usersSlice.actions;
 export default usersSlice.reducer;
