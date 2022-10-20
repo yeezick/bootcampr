@@ -10,8 +10,13 @@ export interface Project {
   title: String;
   duration: String;
   meeting_cadence: String;
+  overview: String;
   technologies_used: [String];
-  project_owner: [String];
+  project_owner: {
+    first_name: String;
+    last_name: String;
+    portfolio_link: String;
+  };
 }
 
 const Projects: React.FC<IProjectProps> = () => {
