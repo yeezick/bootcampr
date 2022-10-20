@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { getAllProjects } from '../../api/projects';
 import { Link } from 'react-router-dom';
+import './Projects.scss';
 
 export interface IProjectProps {}
 
 export interface Project {
-  _id: String;
+  _id: String | null | undefined;
   title: String;
   duration: String;
   meeting_cadence: String;
@@ -21,8 +22,6 @@ const Projects: React.FC<IProjectProps> = () => {
     setProjects(displayAllProjects);
   };
 
-  console.log(projects);
-
   useEffect(() => {
     fetchProjects();
   }, []);
@@ -30,18 +29,18 @@ const Projects: React.FC<IProjectProps> = () => {
   return (
     <div className="project-container">
       <h1>Browse Projects</h1>
-      <p>
-        {projects.map((project) => {
+      <ul>
+        {projects.map((project: any) => {
           return (
-            <li>
-              <p>{project.title}</p>
-              <p>{project.duration}</p>
+            <li key={project._id}>
+              <h3>{project.title}</h3>
               <p>{project.meeting_cadence}</p>
+              <p>{project.duration}</p>
               <Link to={`/project/${project._id}`}>Learn More</Link>
             </li>
           );
         })}
-      </p>
+      </ul>
     </div>
   );
 };
