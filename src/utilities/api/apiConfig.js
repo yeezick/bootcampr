@@ -21,5 +21,5 @@ api.interceptors.request.use(
   (error) => {
     console.log('Request error: ', error);
     return Promise.reject(error);
-  }
+  },
 );
