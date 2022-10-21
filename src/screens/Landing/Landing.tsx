@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Project, UserInterface } from '../../utilities/Interface/UserInterface';
+import { UserInterface } from '../../utilities/Interface/UserInterface';
 import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { getAllUsers } from '../../utilities/api/users';
+import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
 
 const Landing: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<UserInterface | null>();
@@ -19,7 +20,6 @@ const Landing: React.FC = () => {
 
   useEffect(() => {
     setCurrentUser(allUser);
-    console.log(allUser);
   }, [allUser]);
 
   return (
@@ -34,7 +34,7 @@ const Landing: React.FC = () => {
             <h1>portfolio {currentUser?.portfolio_link}</h1>
             <h1>role {currentUser.role}</h1>
             <h1>member_of_projects ...</h1>
-            {currentUser?.member_of_projects?.map((projects: Project, id: number) => (
+            {currentUser?.member_of_projects?.map((projects: ProjectInterface, id: number) => (
               <div key={id}>
                 <h5>{projects.description}</h5>
                 <h5>{projects.title}</h5>

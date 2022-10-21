@@ -1,7 +1,8 @@
+import { ProjectInterface } from './ProjectInterface';
 export interface UserInterface {
   about: string;
   email: string;
-  member_of_projects: Project[];
+  member_of_projects: ProjectInterface[];
   first_name: string;
   fun_fact: string;
   interested_projects: Array<1>;
@@ -13,18 +14,4 @@ export interface UserInterface {
   role: string;
   __v?: number;
   _id: string;
-}
-export interface Project {
-  createdAt: string;
-  description: string;
-  designer_count: number;
-  engineer_count: number;
-  interested_applicants: string[];
-  owner: string;
-  seeking: boolean;
-  team_members: string[];
-  time_commitment: string;
-  title: string;
-  tools: any;
-  updatedAt: string;
 }
