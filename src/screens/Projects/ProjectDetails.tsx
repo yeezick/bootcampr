@@ -5,12 +5,14 @@ import { useParams, Link } from 'react-router-dom';
 
 const ProjectDetails: React.FC = (): JSX.Element => {
   const [project, setProject] = useState<ProjectInterface>({
-    id: null,
+    id: new String(),
     title: new String(),
     duration: new String(),
     meeting_cadence: new String(),
     overview: new String(),
-    technologies_used: [new String()],
+    technologies_used: [],
+    createdAt: new String(),
+    updatedAt: new String(),
     project_owner: {
       first_name: new String(),
       last_name: new String(),
