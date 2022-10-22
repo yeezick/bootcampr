@@ -2,25 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { getAllProjects } from '../../utilities/api/projects';
 import { Link } from 'react-router-dom';
 import './Projects.scss';
+import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
 
-export interface IProjectProps {}
-
-export interface Project {
-  id: String | null | undefined;
-  title: String;
-  duration: String;
-  meeting_cadence: String;
-  overview: String;
-  technologies_used: [String];
-  project_owner: {
-    first_name: String;
-    last_name: String;
-    portfolio_link: String;
-  };
-}
-
-const Projects: React.FC<IProjectProps> = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
+const Projects: React.FC = () => {
+  const [projects, setProjects] = useState<ProjectInterface[]>([]);
 
   const fetchProjects = async () => {
     const displayAllProjects = await getAllProjects();

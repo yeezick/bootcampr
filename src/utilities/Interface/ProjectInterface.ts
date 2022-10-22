@@ -1,14 +1,13 @@
 export interface ProjectInterface {
-  createdAt: string;
-  description: string;
-  designer_count: number;
-  engineer_count: number;
-  interested_applicants: string[];
-  owner: string;
-  seeking: boolean;
-  team_members: string[];
-  time_commitment: string;
-  title: string;
-  tools: any;
-  updatedAt: string;
+  id: String | null | undefined;
+  title: String;
+  duration: String;
+  meeting_cadence: String;
+  overview: String;
+  technologies_used: String[];
+  project_owner: {
+    first_name: String;
+    last_name: String;
+    portfolio_link: String;
+  };
 }

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { getOneProject } from '../../utilities/api/projects';
-import { Project } from './Projects';
+import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
 import { useParams, Link } from 'react-router-dom';
 
-export interface DetailsProps {}
-
 const ProjectDetails: React.FC = (): JSX.Element => {
-  const [project, setProject] = useState<Project>({
+  const [project, setProject] = useState<ProjectInterface>({
     id: null,
     title: new String(),
     duration: new String(),
