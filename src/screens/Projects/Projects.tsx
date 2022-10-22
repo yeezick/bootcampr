@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAllProjects } from '../../api/projects';
+import { getAllProjects } from '../../utilities/api/projects';
 import { Link } from 'react-router-dom';
 import './Projects.scss';
 

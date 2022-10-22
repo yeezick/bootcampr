@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getOneProject } from '../../api/projects';
+import { getOneProject } from '../../utilities/api/projects';
 import { Project } from './Projects';
 import { useParams, Link } from 'react-router-dom';
 
