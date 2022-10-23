@@ -35,11 +35,11 @@ export interface EditProject {
 const EditProject: React.FC<Props> = ({ id, project }) => {
 
     const [fileSelected, setFileSelected] = useState<File>();
-    const [currentProject, setCurrentProject] = useState<any[]>([]);
+    const [currentProject, setCurrentProject] = useState<any>([]);
   const [updatedProject, setupdatedProject] = useState<any[]>([]);
   const navigate = useNavigate();
 
-  // Need project IDs to render current info and update the project
+  // Need project IDs to render current info and update the selected project
   const projectId = useParams();
 
   useEffect(() => {
@@ -97,11 +97,21 @@ const EditProject: React.FC<Props> = ({ id, project }) => {
         </div>
 
         <label htmlFor="title">Title</label>
-        <input type="text" name="title" onChange={handleProjectInputChange} />
+        <input
+            type="text"
+            name="title"
+            value={currentProject.title}
+            onChange={handleProjectInputChange}
+        />
 
         {/* Will be able to remove this section once a user is able to be logged in and token or userID is stored in redux store or local storage. Must enter the id in this label until then or api call will fail. */}
         <label htmlFor="project-owner">Project Owner</label>
-        <input type="text" name="project_owner" onChange={handleProjectInputChange} />
+        <input
+            type="text"
+            name="project_owner"
+            value={currentProject.owner}
+            onChange={handleProjectInputChange}
+        />
 
         <label htmlFor="technologies_used">Technologies Used (separate by commas)</label>
         <input
@@ -110,6 +120,7 @@ const EditProject: React.FC<Props> = ({ id, project }) => {
           name="technologies_used"
           autoComplete="off"
           multiple={true}
+          value={currentProject.tools}
           onChange={handleProjectInputChange}
         />
         <datalist id="technologies">
@@ -142,6 +153,7 @@ const EditProject: React.FC<Props> = ({ id, project }) => {
           className="overview"
           cols={30}
           rows={10}
+          value={currentProject.description}
           onChange={(e) => handleProjectInputChange(e)}
         ></textarea>
 
