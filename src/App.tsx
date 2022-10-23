@@ -7,6 +7,7 @@ import SignIn from "./screens/SignIn/SignIn";
 import SignUp from "./screens/SignUp/SignUp";
 import Nav from "./layout/Nav/Nav";
 import { Layout } from "./layout/Layout";
+import EditProject from "./screens/EditProject/EditProject";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/projects/create" element={<CreateProject />} />
+          <Route path="/projects/:id" element={<EditProject />} />
         </Routes>
       </Router>
     </Layout>
