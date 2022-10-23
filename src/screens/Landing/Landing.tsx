@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { UserInterface } from '../../utilities/Interface/UserInterface';
+import { UserInterface } from '../../utilities/types/UserInterface';
 import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { getAllUsers } from '../../utilities/api/users';
-import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
+import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 
 const Landing: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<UserInterface | null>();

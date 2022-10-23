@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import './Nav.scss';
 
 const Nav: React.FC = () => {
+  const authUser = useSelector(selectAuthUser);
+
   return (
     <div className="nav">
       <nav>
@@ -18,6 +22,11 @@ const Nav: React.FC = () => {
         <div>
           <Link to="/projects/create">Create Project</Link>
         </div>
+        {authUser && (
+          <div>
+            <Link to={`/users/${authUser._id}`}>User Profile</Link>
+          </div>
+        )}
       </nav>
     </div>
   );
