@@ -1,7 +1,18 @@
-import React from 'react'
+import { getAllUsers } from '../../utilities/api/users';
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 
 const RegisterUserInfo: React.FC = () => {
+  // const user = useSelector(state => state.ui)
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const res = await getAllUsers()
+      setUser(res[0])
+    }
+    getUsers()
+  }, [])
 
   const handleUpdateProfile = () => {}
 
