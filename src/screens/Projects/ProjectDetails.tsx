@@ -21,14 +21,13 @@ const ProjectDetails: React.FC = (): JSX.Element => {
   });
   const params = useParams();
 
-  const fetchProject = async () => {
-    const displayOneProject = await getOneProject(params.id);
-    setProject(displayOneProject);
-  };
-
   useEffect(() => {
+    const fetchProject = async () => {
+      const displayOneProject = await getOneProject(params.id);
+      setProject(displayOneProject);
+    };
     fetchProject();
-  }, []);
+  }, [setProject]);
 
   return (
     <div className="project-container">
