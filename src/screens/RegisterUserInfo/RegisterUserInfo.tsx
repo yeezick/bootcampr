@@ -25,14 +25,14 @@ const RegisterUserInfo: React.FC = () => {
       const res = await getAllUsers()
       setUser(res[0])
       console.log('RESPONSE', user)
-      console.log('USER ID', user._id)
+      // console.log('USER ID', user._id)
     }
     getUsers()
   }, [])
 
   const handleUpdateProfile =  (e: any) => {
     e.preventDefault()
-    updateUser(user._id ,{...formData})
+    // updateUser(user._id ,{...formData})
     // const 
   }
 
