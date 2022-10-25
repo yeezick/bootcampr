@@ -1,0 +1,21 @@
+.project-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  border: 1px dotted rgb(57, 54, 54);
+  margin: 20px;
+  padding: 50px;
+  text-align: center;
+}
+
+p,
+h3 {
+  text-transform: capitalize;
+}
