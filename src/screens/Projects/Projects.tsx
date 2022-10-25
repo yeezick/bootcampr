@@ -7,14 +7,13 @@ import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
 const Projects: React.FC = () => {
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
 
-  const fetchProjects = async () => {
-    const displayAllProjects = await getAllProjects();
-    setProjects(displayAllProjects);
-  };
-
   useEffect(() => {
+    const fetchProjects = async () => {
+      const displayAllProjects = await getAllProjects();
+      setProjects(displayAllProjects);
+    };
     fetchProjects();
-  }, []);
+  }, [setProjects]);
 
   return (
     <div className="project-container">
