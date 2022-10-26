@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createProject } from '../../api/projects';
+import { createProject } from '../../utilities/api/projects';
 import { RiUploadCloudFill } from 'react-icons/ri';
 import './CreateProject.scss';
 
@@ -30,20 +30,20 @@ interface Props {
 
 const CreateProject: React.FC<Props> = ({ project }) => {
   const [fileSelected, setFileSelected] = useState<File>();
-  const [createProjects, setCreateProjects] = useState<any[]>([]);
+  const [projectForm, setProjectForm] = useState({});
   const navigate = useNavigate();
 
   const handleProjectInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
-    setCreateProjects((createProjects) => {
-      return { ...createProjects, [e.target.name]: e.target.value };
+    setProjectForm((projectForm) => {
+      return { ...projectForm, [e.target.name]: e.target.value };
     });
   };
 
   const handleNewProject = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newProject = await createProject(createProjects);
+    const newProject = await createProject(projectForm);
     if (newProject) navigate(`/`);
   };
 
