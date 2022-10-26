@@ -16,10 +16,13 @@ const CreateProject: React.FC = () => {
   const handleProjectInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
-    console.log(e.target.value);
-    setProjectForm((projectForm) => {
-      return { ...projectForm, [e.target.name]: e.target.value, project_owner: currentUser };
-    });
+    if (currentUser) {
+      setProjectForm((projectForm) => {
+        return { ...projectForm, [e.target.name]: e.target.value, project_owner: currentUser._id };
+      });
+    } else {
+      navigate('/sign-in');
+    }
   };
 
   const handleNewProject = async (e: React.FormEvent<HTMLFormElement>) => {
