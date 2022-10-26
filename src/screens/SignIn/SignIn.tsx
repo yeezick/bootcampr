@@ -1,3 +1,4 @@
+import styles from './SignIn.module.css'
 import React, { useState, useRef } from "react";
 import { signIn } from '../../api/users.js'
 
@@ -31,16 +32,22 @@ const SignIn: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <form onSubmit={handleSubmitForm}>
+      <form className={styles.sign_in_form} onSubmit={handleSubmitForm}>
 
+        <label htmlFor="email">Email</label>
         <input
+          name="email"
+          id="email"
           type="email"
           onChange={handleFormDataChange}
           ref={emailRef}
           required
         />
 
+        <label htmlFor="password">Password</label>
         <input
+          name="password"
+          id="password"
           type="password"
           onChange={handleFormDataChange}
           ref={passwordRef}
@@ -49,8 +56,8 @@ const SignIn: React.FC = (): JSX.Element => {
 
         <button disabled={buttonDisabled} type="submit">Go</button>
 
+        <pre>{JSON.stringify(apiResponse, null, 2)}</pre>
       </form>
-      <pre>{JSON.stringify(apiResponse, null, 2)}</pre>
     </>
   );
 };
