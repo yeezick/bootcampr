@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createProject } from '../../utilities/api/projects';
+import { useSelector } from 'react-redux';
 import { RiUploadCloudFill } from 'react-icons/ri';
 import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
 import './CreateProject.scss';
+import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 
 const CreateProject: React.FC = () => {
+  const currentUser = useSelector(selectAuthUser);
   const [fileSelected, setFileSelected] = useState<File>();
   const [projectForm, setProjectForm] = useState<ProjectInterface[]>([]);
   const navigate = useNavigate();
@@ -14,12 +17,13 @@ const CreateProject: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
     setProjectForm((projectForm) => {
-      return { ...projectForm, [e.target.name]: e.target.value };
+      return { ...projectForm, [e.target.name]: e.target.value, project_owner: `63588a482940c29ac11fb0e4` };
     });
   };
 
   const handleNewProject = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(e.target);
     const newProject = await createProject(projectForm);
     if (newProject) navigate(`/`);
   };
@@ -54,10 +58,6 @@ const CreateProject: React.FC = () => {
 
         <label htmlFor="title">Title</label>
         <input type="text" name="title" onChange={handleProjectInputChange} />
-
-        {/* Will be able to remove this section once a user is able to be logged in and token or userID is stored in redux store or local storage. Must enter the id in this label until then or api call will fail. */}
-        <label htmlFor="project-owner">Project Owner</label>
-        <input type="text" name="project_owner" onChange={handleProjectInputChange} />
 
         <label htmlFor="technologies_used">Technologies Used (separate by commas)</label>
         <input
@@ -100,6 +100,9 @@ const CreateProject: React.FC = () => {
           rows={10}
           onChange={(e) => handleProjectInputChange(e)}
         ></textarea>
+
+        <label htmlFor="duration">Duration of the project</label>
+        <input type="text" name="duration" onChange={handleProjectInputChange} />
 
         <p>Save project as a draft or publish?</p>
         <div className="checkbox-container">
