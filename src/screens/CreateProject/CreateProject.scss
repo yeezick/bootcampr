@@ -36,13 +36,19 @@
     display: none;
   }
 
+  .alert {
+    color: #e40b0b;
+    margin-top: 90px;
+    text-align: center;
+  }
+
   input,
   select,
   textarea {
     width: 550px;
   }
 
-  .checkbox {
+  .radio {
     width: 15px;
   }
 

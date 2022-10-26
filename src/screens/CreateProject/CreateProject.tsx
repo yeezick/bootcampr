@@ -16,23 +16,21 @@ const CreateProject: React.FC = () => {
   const handleProjectInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
+    console.log(e.target.value);
     setProjectForm((projectForm) => {
-      return { ...projectForm, [e.target.name]: e.target.value, project_owner: `63588a482940c29ac11fb0e4` };
+      return { ...projectForm, [e.target.name]: e.target.value, project_owner: currentUser };
     });
   };
 
   const handleNewProject = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(e.target);
     const newProject = await createProject(projectForm);
     if (newProject) navigate(`/`);
   };
 
   const handleImageChange = function (e: React.ChangeEvent<HTMLInputElement>) {
     const fileList = e.target.files;
-
     if (!fileList) return;
-
     setFileSelected(fileList[0]);
   };
 
@@ -50,10 +48,12 @@ const CreateProject: React.FC = () => {
       <form onSubmit={handleNewProject} className="project-form" noValidate>
         <div className="photo-container">
           <label htmlFor="photo" className="photo">
-            <RiUploadCloudFill size={25} />
             Upload Image
-            <input accept="image/*" id="photo" name="photo" type="file" multiple={false} onChange={handleImageChange} />
+            <RiUploadCloudFill size={25} />
           </label>
+
+          <input accept="image/*" id="photo" name="photo" type="file" multiple={false} onChange={handleImageChange} />
+          <p className="alert">* This feature is not built out yet.</p>
         </div>
 
         <label htmlFor="title">Title</label>
@@ -105,27 +105,24 @@ const CreateProject: React.FC = () => {
         <input type="text" name="duration" onChange={handleProjectInputChange} />
 
         <p>Save project as a draft or publish?</p>
-        <div className="checkbox-container">
-          <label htmlFor="status">
-            Draft
-            <input
-              type="checkbox"
-              className="checkbox"
-              name="status"
-              value="Draft"
-              onChange={(e) => handleProjectInputChange(e)}
-            />
-          </label>
-          <label htmlFor="status">
-            Publish
-            <input
-              type="checkbox"
-              className="checkbox"
-              name="status"
-              value="Published"
-              onChange={(e) => handleProjectInputChange(e)}
-            />
-          </label>
+        <div className="radio-container">
+          <label htmlFor="status">Draft</label>
+          <input
+            type="radio"
+            className="radio"
+            name="status"
+            value="Draft"
+            onChange={(e) => handleProjectInputChange(e)}
+          />
+
+          <label htmlFor="status">Publish</label>
+          <input
+            type="radio"
+            className="radio"
+            name="status"
+            value="Published"
+            onChange={(e) => handleProjectInputChange(e)}
+          />
         </div>
 
         <div className="btn-container">
