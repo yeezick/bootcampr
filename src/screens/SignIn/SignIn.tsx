@@ -1,17 +1,23 @@
 import styles from './SignIn.module.css'
 import React, { useState, useRef } from "react";
-import { signIn } from '../../api/users.js'
+import { signIn } from '../../utilities/api/users.js'
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../utilities/redux/store'
+import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice'
+import { useNavigate } from 'react-router-dom';
 
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
-  const [apiResponse, setApiResponse] = useState<any>()
+  const [invalidCredentials, setInvalidCredentials] = useState<boolean>(false)
   // Element References
   const passwordRef = useRef<HTMLInputElement>(null)
   const emailRef = useRef<HTMLInputElement>(null)
 
   // Constants
   const VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  const dispatch: AppDispatch = useDispatch()
+  const navigate = useNavigate()
 
   // Event Handlers
   const handleFormDataChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -26,8 +32,11 @@ const SignIn: React.FC = (): JSX.Element => {
     e.preventDefault()
 
     const credentials = { email: emailRef.current?.value, password: passwordRef.current?.value }
-    const test = await signIn(credentials)
-    setApiResponse(test)
+    let response = await signIn(credentials)
+    if (response.unauthorized) return setInvalidCredentials(true)
+
+    dispatch(setAuthUser(response))
+    navigate('/')
   }
 
   return (
@@ -56,7 +65,7 @@ const SignIn: React.FC = (): JSX.Element => {
 
         <button disabled={buttonDisabled} type="submit">Go</button>
 
-        <pre>{JSON.stringify(apiResponse, null, 2)}</pre>
+        <p>{invalidCredentials && <span>Invalid Credentials</span>}</p>
       </form>
     </>
   );
