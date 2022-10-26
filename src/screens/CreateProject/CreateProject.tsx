@@ -2,35 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createProject } from '../../utilities/api/projects';
 import { RiUploadCloudFill } from 'react-icons/ri';
+import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
 import './CreateProject.scss';
 
-export interface CreateProject {
-  id: number;
-  status: string;
-  project_owner: { type: any };
-  overview: string;
-  meeting_cadence: string;
-  technologies_used: [];
-  roles: [
-    interested_applicants: [],
-    status: string,
-    category: string,
-    title: string,
-    description: string,
-    skills: [],
-    desired_headcount: number,
-  ];
-  duration: string;
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-}
-
-interface Props {
-  project?: CreateProject;
-}
-
-const CreateProject: React.FC<Props> = ({ project }) => {
+const CreateProject: React.FC = () => {
   const [fileSelected, setFileSelected] = useState<File>();
-  const [projectForm, setProjectForm] = useState({});
+  const [projectForm, setProjectForm] = useState<ProjectInterface[]>([]);
   const navigate = useNavigate();
 
   const handleProjectInputChange = (
