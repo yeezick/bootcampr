@@ -1,11 +1,10 @@
 import { signUp } from "../../utilities/api/users";
-import React,{ useState } from "react";
+import { register, reset } from "../../utilities/redux/slices/users/authSlice";
+import React,{ useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SignUpInterface } from "../../utilities/Interface/SignUpInterface";
-import './SignUp.css'
-import { RootState } from "../../utilities/redux/store";
-import { authSlice, register } from "../../utilities/redux/slices/users/authSlice";
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
+import './SignUp.css'
 
 
 const SignUp: React.FC = () => {
@@ -23,6 +22,20 @@ const SignUp: React.FC = () => {
     password: "",
     confirmPassword: ""
   })
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(reset())
+      setFormValues({
+        email: "",
+        first_name: "",
+        last_name: "",
+        password: "",
+        confirmPassword: ""
+      })
+      navigate('/sign-in')
+    }
+  }, [isSuccess, dispatch])
   
   const handleChange= (e: any) =>  {
       setFormValues({ ...formValues, [e.target.name]: e.target.value })
@@ -31,20 +44,10 @@ const SignUp: React.FC = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     
-    const newUser: SignUpInterface = (formValues)
+    // const newUser: SignUpInterface = (formValues)
 
-    dispatch(register(newUser))
+    dispatch(register(formValues))
     // await signUp(formValues)
-  
-    setFormValues({
-      email: "",
-      first_name: "",
-      last_name: "",
-      password: "",
-      confirmPassword: ""
-    })
-  
-    navigate('/sign-in')
   }
   
   const isFormValid = () => {
@@ -70,6 +73,9 @@ const SignUp: React.FC = () => {
       setPwdRevealIcon('https://i.postimg.cc/zGQTSGmF/pngwing-com-1.png')
     }
   }
+
+  if (isLoading)
+    return <h1 style={{color: 'orange'}}>Loading... ...</h1>
   
   return (
   <>

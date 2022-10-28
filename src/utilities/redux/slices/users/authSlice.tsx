@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { SignUpInterface } from '../../../Interface/SignUpInterface';
 import { signUp } from "../../../api/users";
+import { RootState } from '../../store'
 
 // TODO: move higher
 interface AsyncState {
@@ -59,5 +60,11 @@ export const authSlice = createSlice({
       })
   }
 })
+
+export const { reset } = authSlice.actions
+
+export const selectedUser = (state: RootState) => {
+  return state.auth
+}
 
 export default authSlice.reducer

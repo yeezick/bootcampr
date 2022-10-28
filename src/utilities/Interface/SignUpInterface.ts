@@ -3,5 +3,5 @@ export interface SignUpInterface {
   password: string | undefined,
   first_name: string | undefined,
   last_name: string | undefined,
-  confirmPassword?: string | undefined
+  confirmPassword: string | undefined
 }
