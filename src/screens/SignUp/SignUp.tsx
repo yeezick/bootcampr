@@ -1,15 +1,17 @@
 import { signUp } from "../../utilities/api/users";
 import React,{ useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SignUpInterface } from "../../utilities/Interface/SignUpInterface";
 import './SignUp.css'
 import { RootState } from "../../utilities/redux/store";
-import { signUpUser } from "../../utilities/redux/slices/users/signUpSlice";
+import { authSlice } from "../../utilities/redux/slices/users/authSlice";
 
 
 const SignUp: React.FC = () => {
   let navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const [inputType, setInputType] = useState('password')
   const [pwdRevealIcon, setPwdRevealIcon] = useState('https://i.postimg.cc/zGQTSGmF/pngwing-com-1.png')
   const [formValues, setFormValues ] = useState<SignUpInterface>({
@@ -19,36 +21,28 @@ const SignUp: React.FC = () => {
     password: "",
     confirmPassword: ""
   })
-  const registerUser = useSelector((state: RootState)=>state.signUp.signUpUser )
-  const dispatch = useDispatch()
   
   const handleChange= (e:any) =>  {
       setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
-  
-  
+
   const handleSubmit = async (e:any) => {
     e.preventDefault()
     
-    dispatch(signUpUser(formValues))
-    // await signUp({
-    //   email: formValues.email,
-    //   first_name: formValues.first_name,
-    //   last_name: formValues.last_name,
-    //   password: formValues.password,
-    // })
+    await signUp(formValues)
   
-    // setFormValues({
-    //   email:"",
-    //   first_name: "",
-    //   last_name:"",
-    //   password:"",
-    //   confirmPassword:""
-    // })
+    setFormValues({
+      email: "",
+      first_name: "",
+      last_name: "",
+      password: "",
+      confirmPassword: ""
+    })
   
     navigate('/sign-in')
   }
-    const isFormValid = () => {
+  
+  const isFormValid = () => {
     return (!formValues.email || !formValues.first_name || !formValues.last_name || !formValues.password || !formValues.confirmPassword || formValues.password !== formValues.confirmPassword)
   }
   
