@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { SignUpInterface } from "../../utilities/Interface/SignUpInterface";
 import './SignUp.css'
 import { RootState } from "../../utilities/redux/store";
-import { authSlice } from "../../utilities/redux/slices/users/authSlice";
+import { authSlice, register } from "../../utilities/redux/slices/users/authSlice";
 
 
 const SignUp: React.FC = () => {
-  let navigate = useNavigate()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
+
+  const { isLoading, isSuccess } = useSelector((state) => state.auth)
 
   const [inputType, setInputType] = useState('password')
   const [pwdRevealIcon, setPwdRevealIcon] = useState('https://i.postimg.cc/zGQTSGmF/pngwing-com-1.png')
@@ -22,14 +24,17 @@ const SignUp: React.FC = () => {
     confirmPassword: ""
   })
   
-  const handleChange= (e:any) =>  {
+  const handleChange= (e: any) =>  {
       setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault()
     
-    await signUp(formValues)
+    const newUser: SignUpInterface = (formValues)
+
+    dispatch(register(newUser))
+    // await signUp(formValues)
   
     setFormValues({
       email: "",

@@ -3,7 +3,7 @@ import { SignUpInterface } from '../../../Interface/SignUpInterface';
 import { signUp } from "../../../api/users";
 
 // TODO: move higher
-export interface AsyncState {
+interface AsyncState {
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
