@@ -11,39 +11,34 @@ export const EditProfile: React.FC = () => {
   const [userForm, updateUserForm] = useState<UserInterface>(authUser);
   const params = useParams();
 
-  console.log('edtUSer:', authUser);
-
-  const handleInputChange = (e: React.FormEvent<HTMLInputElement>, label: string) => {
-    console.log('e:', e);
-    // updateUserForm((currForm) => {
-    //   return {
-    //     ...currForm, currForm[label]: e.target.value
-    //    }
-    // })
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    updateUserForm({ ...userForm, [name]: value });
   };
 
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('params', params);
+    console.log('userform:', userForm);
     const updatedUser = await updateUser(params.id, userForm);
   };
 
   if (!authUser) {
     return <div>Loading user...</div>;
   }
-  const { about, first_name, last_name, portfolio_link, role } = authUser;
+  const { about, first_name, last_name, portfolio_link, role } = userForm;
 
   return (
     <div className="editprofile-screen">
       <form onSubmit={handleUserUpdate}>
         <label>
           First Name
-          <input type="text" value={first_name} onChange={(event) => handleInputChange(event, 'first_name')} />
+          <input type="text" name="first_name" value={first_name} onChange={(event) => handleInputChange(event)} />
         </label>
 
         <label>
           Last Name
-          <input type="text" value={last_name} onChange={(event) => handleInputChange(event, 'last_name')} />
+          <input type="text" name="last_name" value={last_name} onChange={(event) => handleInputChange(event)} />
         </label>
 
         {/* <label>
@@ -53,7 +48,7 @@ export const EditProfile: React.FC = () => {
 
         <label>
           I am a DROPDOWN
-          <input type="text" value={role} onChange={(event) => handleInputChange(event, 'role')} />
+          <input type="text" name="role" value={role} onChange={(event) => handleInputChange(event)} />
         </label>
 
         <label>
@@ -66,15 +61,21 @@ export const EditProfile: React.FC = () => {
 
         <label>
           Portfolio Link
-          <input type="text" value={portfolio_link} onChange={(event) => handleInputChange(event, 'portfolio_link')} />
+          <input
+            type="text"
+            name="portfolio_link"
+            value={portfolio_link}
+            onChange={(event) => handleInputChange(event)}
+          />
         </label>
 
         <label>
           LinkedIn Link
           <input
             type="text"
+            name="linkedin"
             value={'add_linkedin_to_user_schema'}
-            onChange={(event) => handleInputChange(event, 'linkedin')}
+            onChange={(event) => handleInputChange(event)}
           />
         </label>
 
