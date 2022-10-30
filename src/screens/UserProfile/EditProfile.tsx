@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { updateUser } from '../../utilities/api/users';
-import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { UserInterface } from '../../utilities/types/UserInterface';
 import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
+import { UserInterface } from '../../utilities/types/UserInterface';
+import { updateUser } from '../../utilities/api/users';
 import './EditProfile.scss';
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
   const [userForm, updateUserForm] = useState<UserInterface>(authUser);
   const params = useParams();
+  const dispatch = useDispatch();
+  const { about, first_name, last_name, portfolio_link, role } = userForm;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -18,15 +21,13 @@ export const EditProfile: React.FC = () => {
 
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('params', params);
-    console.log('userform:', userForm);
     const updatedUser = await updateUser(params.id, userForm);
+    dispatch(setAuthUser(updatedUser));
   };
 
   if (!authUser) {
     return <div>Loading user...</div>;
   }
-  const { about, first_name, last_name, portfolio_link, role } = userForm;
 
   return (
     <div className="editprofile-screen">
