@@ -1,32 +1,29 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserInterface } from '../../../types/UserInterface';
-import { ProjectInterface } from '../../../types/ProjectInterface';
+import { UiSliceInterface, UserInterface } from '../../../types/UserInterface';
 import { RootState } from '../../store';
-import { stat } from 'fs';
 
-interface UserProperties {
-  about?: string;
-  email?: string;
-  member_of_projects?: ProjectInterface[];
-  first_name?: string;
-  fun_fact?: string;
-  interested_projects?: string[]; // ID of projects
-  last_name?: string;
-  portfolio_projects?: object;
-  portfolio_link?: string;
-  show_portfolio?: boolean;
-  rejected_projects?: string[]; // ID of projects
-  role?: string;
-  _id?: string;
-}
-
-interface UserState {
-  // do we need this type?
-  authUser: UserInterface | null;
-}
-
-const initialState: UserState = {
-  authUser: null,
+const initialState: UiSliceInterface = {
+  auth: {
+    user: {
+      about: '',
+      email: '',
+      member_of_projects: null,
+      first_name: '',
+      fun_fact: '',
+      interested_projects: null, // ID of projects
+      last_name: '',
+      portfolio_projects: null,
+      portfolio_link: '',
+      show_portfolio: true,
+      rejected_projects: null, // ID of projects
+      role: '',
+      __v: 0,
+      _id: '',
+    },
+  },
+  status: {
+    isAuthenticated: false,
+  },
 };
 
 const usersSlice = createSlice({
@@ -34,11 +31,11 @@ const usersSlice = createSlice({
   initialState,
   reducers: {
     setAuthUser: (state, action: PayloadAction<UserInterface>) => {
-      state.authUser = action.payload;
+      state.auth.user = action.payload;
     },
   },
 });
 
-export const selectAuthUser = (state: RootState) => state.ui.authUser;
+export const selectAuthUser = (state: RootState) => state.ui.auth.user;
 export const { setAuthUser } = usersSlice.actions;
 export default usersSlice.reducer;
