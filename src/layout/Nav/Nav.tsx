@@ -16,6 +16,9 @@ const Nav: React.FC = () => {
           <Link to="/">Landing Page</Link>
         </div>
         <div>
+          <Link to="/projects">Browse Projects</Link>
+        </div>
+        <div>
           <Link to="/projects/create">Create Project</Link>
         </div>
       </nav>

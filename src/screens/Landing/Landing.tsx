@@ -35,11 +35,10 @@ const Landing: React.FC = () => {
             <h1>member_of_projects ...</h1>
             {currentUser?.member_of_projects?.map((projects: ProjectInterface, id: number) => (
               <div key={id}>
-                <h5>{projects.description}</h5>
                 <h5>{projects.title}</h5>
-                <h5>{projects.time_commitment}</h5>
-                <h5>{projects.designer_count}</h5>
-                <h5>{projects.engineer_count}</h5>
+                <h5>{projects.overview}</h5>
+                <h5>{projects.meeting_cadence}</h5>
+                <h5>{projects.technologies_used}</h5>
               </div>
             ))}
           </>
