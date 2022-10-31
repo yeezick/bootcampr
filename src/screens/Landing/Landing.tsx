@@ -6,7 +6,6 @@ import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai';
 
 const Landing: React.FC = () => {
   const [loginStatus, setLoginStatus] = useState<boolean | null>(null);
-  const allUser = useSelector(selectAuthUser);
   const dispatch = useDispatch();
 
   const randomUserLogin = async () => {
