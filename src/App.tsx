@@ -9,6 +9,8 @@ import Nav from './layout/Nav/Nav';
 import { Layout } from './layout/Layout';
 import { UserProfile } from './screens/UserProfile/UserProfile';
 import { EditProfile } from './screens/UserProfile/EditProfile';
+import { Projects } from './screens/Projects/Projects';
+import { ProjectDetails } from './screens/Projects/ProjectDetails';
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/users/:id" element={<UserProfile />} />
           <Route path="/users/:id/edit" element={<EditProfile />} />
           <Route path="/projects/create" element={<CreateProject />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:id" element={<ProjectDetails />} />
         </Routes>
       </Router>
     </Layout>

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { getAllUsers } from '../../utilities/api/users';
 import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai';
 
