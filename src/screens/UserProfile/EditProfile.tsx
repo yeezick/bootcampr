@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { UserInterface } from '../../utilities/types/UserInterface';
@@ -12,6 +12,7 @@ export const EditProfile: React.FC = () => {
   const [userForm, updateUserForm] = useState<UserInterface>(authUser);
   const params = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { about, first_name, last_name, portfolio_link, role } = userForm;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,6 +24,7 @@ export const EditProfile: React.FC = () => {
     e.preventDefault();
     const updatedUser = await updateUser(params.id, userForm);
     dispatch(setAuthUser(updatedUser));
+    navigate(`/users/${authUser._id}`);
   };
 
   if (!authUser) {

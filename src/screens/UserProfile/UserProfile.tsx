@@ -4,18 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { UserInterface } from '../../utilities/types/UserInterface';
 import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { arrayBuffer, json } from 'stream/consumers';
 
-type Props = {};
-
-export const UserProfile = (props: Props) => {
-  const [userInfo, setUserInfo] = useState<UserInterface | null>(); // should be defaulted to dummy data instead of null
+export const UserProfile = () => {
   const authUser = useSelector(selectAuthUser);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setUserInfo(authUser);
-  }, [authUser]);
 
   if (!authUser) {
     return <div>Loading user...</div>;
