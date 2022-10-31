@@ -14,9 +14,9 @@ export const ProjectDetails: React.FC = (): JSX.Element => {
     createdAt: new String(),
     updatedAt: new String(),
     project_owner: {
-      first_name: new String(),
-      last_name: new String(),
-      portfolio_link: new String(),
+      firstName: new String(),
+      lastName: new String(),
+      portfolioUrl: new String(),
     },
   });
   const params = useParams();
@@ -39,10 +39,10 @@ export const ProjectDetails: React.FC = (): JSX.Element => {
       <p>Project Technologies: {project.technologies_used}</p>
       <p>
         Project Owner:
-        {project.project_owner ? project.project_owner.first_name : null}
-        {project.project_owner ? project.project_owner.last_name : null}
+        {project.project_owner ? project.project_owner.firstName : null}
+        {project.project_owner ? project.project_owner.lastName : null}
       </p>
-      <p>Project Owner Portfolio: {project.project_owner ? project.project_owner.portfolio_link : null}</p>
+      <p>Project Owner Portfolio: {project.project_owner ? project.project_owner.portfolioUrl : null}</p>
     </div>
   );
 };

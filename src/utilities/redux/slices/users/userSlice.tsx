@@ -1,22 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { stat } from 'fs';
 import { UiSliceInterface, UserInterface } from '../../../types/UserInterface';
 import { RootState } from '../../store';
 
 const initialState: UiSliceInterface = {
   auth: {
     user: {
-      about: '',
+      bio: '',
       email: '',
-      member_of_projects: null,
-      first_name: '',
-      fun_fact: '',
-      interested_projects: null, // ID of projects
-      last_name: '',
-      portfolio_projects: null,
-      portfolio_link: '',
-      show_portfolio: true,
-      rejected_projects: null, // ID of projects
+      firstName: '',
+      lastName: '',
+      linkedinUrl: '',
+      portfolioUrl: '',
+      profilePicture: '',
       role: '',
       __v: 0,
       _id: '',

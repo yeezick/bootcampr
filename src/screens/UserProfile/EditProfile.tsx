@@ -13,7 +13,7 @@ export const EditProfile: React.FC = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { about, first_name, last_name, portfolio_link, role } = userForm;
+  const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role, _id: userId } = userForm;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -24,7 +24,7 @@ export const EditProfile: React.FC = () => {
     e.preventDefault();
     const updatedUser = await updateUser(params.id, userForm);
     dispatch(setAuthUser(updatedUser));
-    navigate(`/users/${authUser._id}`);
+    navigate(`/users/${userId}`);
   };
 
   if (!authUser) {
@@ -35,19 +35,24 @@ export const EditProfile: React.FC = () => {
     <div className="editprofile-screen">
       <form onSubmit={handleUserUpdate}>
         <label>
+          Profile Picture
+          <input
+            type="text"
+            name="profilePicture"
+            value={profilePicture}
+            onChange={(event) => handleInputChange(event)}
+          />
+        </label>
+
+        <label>
           First Name
-          <input type="text" name="first_name" value={first_name} onChange={(event) => handleInputChange(event)} />
+          <input type="text" name="firstName" value={firstName} onChange={(event) => handleInputChange(event)} />
         </label>
 
         <label>
           Last Name
-          <input type="text" name="last_name" value={last_name} onChange={(event) => handleInputChange(event)} />
+          <input type="text" name="lastName" value={lastName} onChange={(event) => handleInputChange(event)} />
         </label>
-
-        {/* <label>
-          Display Name
-          <input type="text" value={authUser} onChange={handleInputChange} />
-        </label> */}
 
         <label>
           I am a DROPDOWN
@@ -56,30 +61,17 @@ export const EditProfile: React.FC = () => {
 
         <label>
           About Me
-          <textarea cols={30} rows={10}>
-            {about}
-          </textarea>
-          {/* <textarea type="text" value={authUser} onChange={handleInputChange} /> */}
+          <input type="text" name="bio" value={bio} onChange={(event) => handleInputChange(event)} />
         </label>
 
         <label>
-          Portfolio Link
-          <input
-            type="text"
-            name="portfolio_link"
-            value={portfolio_link}
-            onChange={(event) => handleInputChange(event)}
-          />
+          Portfolio URL
+          <input type="text" name="portfolioUrl" value={portfolioUrl} onChange={(event) => handleInputChange(event)} />
         </label>
 
         <label>
-          LinkedIn Link
-          <input
-            type="text"
-            name="linkedin"
-            value={'add_linkedin_to_user_schema'}
-            onChange={(event) => handleInputChange(event)}
-          />
+          Linkedin URL
+          <input type="text" name="linkedinUrl" value={linkedinUrl} onChange={(event) => handleInputChange(event)} />
         </label>
 
         <button type="submit">Update Info</button>

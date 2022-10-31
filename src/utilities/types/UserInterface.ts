@@ -1,18 +1,20 @@
 import { ProjectInterface } from './ProjectInterface';
 
-export interface UserInterface {
-  about: string;
+export interface UserInterface  {
+  bio: string;
+  declinedProjects?: ProjectInterface[];
   email: string;
-  member_of_projects: ProjectInterface[] | null;
-  first_name: string;
-  fun_fact: string;
-  interested_projects: string[] | null; // ID of projects
-  last_name: string;
-  portfolio_projects: object | null; 
-  portfolio_link: string;
-  show_portfolio: boolean;
-  rejected_projects: string[] | null; // ID of projects
+  firstName: string;
+  interestedProjects?: ProjectInterface[];
+  lastName: string;
+  linkedinUrl: string;
+  memberOfProjects?: ProjectInterface[];
+  ownerOfProjects?: ProjectInterface[];
+  portfolioUrl: string;
+  portfolioProjects?: ProjectInterface[];
+  profilePicture: string;
   role: string;
+  savedProjects?: ProjectInterface[];
   __v?: number;
   _id: string;
 }
