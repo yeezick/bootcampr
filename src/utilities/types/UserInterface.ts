@@ -28,8 +28,8 @@ export interface UiSliceInterface {
     isLoading?: boolean;
     isSuccess?: boolean;
     isError?: {
-      status: boolean;
-      message: string;
+      status?: boolean;
+      message?: string;
     };
   };
 }
