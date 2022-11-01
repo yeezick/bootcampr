@@ -14,15 +14,26 @@
   max-width: 800px;
 }
 
-.arrow {
+.arrow,
+.active_arrow {
   display: block;
-  transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -webkit-transform: rotate(90deg);
   font-size: 1.5rem;
   border: none;
   background-color: transparent;
   cursor: pointer;
+  transition: all .2s ease-in-out;
+}
+
+.arrow {
+  transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+}
+
+.active_arrow {
+  transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
 }
 
 .setting_name {
