@@ -57,9 +57,9 @@ const SignUp: React.FC = () => {
   const DoPasswordsMatch = () => {
     if (formValues.password && formValues.confirmPassword) {
       if (formValues.password !== formValues.confirmPassword) {
-        return <h4 style={{color: 'red'}}>Passwords do not match</h4>
+        return <h4 id='pwd-mismatch'>Passwords do not match</h4>
       } else {
-        return <h4 style={{color: 'rgb(48, 161, 192)'}}>Passwords match!</h4>
+        return <h4 id='pwd-match'>Passwords match!</h4>
       }
     }
   }

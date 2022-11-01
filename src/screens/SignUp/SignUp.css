@@ -26,6 +26,14 @@ margin: 0;
 margin-top: 2rem;
 }
 
+#pwd-mismatch {
+  color: red;
+}
+
+#pwd-match {
+  color: rgb(48, 161, 192);
+}
+
 #pwd-reveal-gray {
 height: 17px;
 position: absolute;
