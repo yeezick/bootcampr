@@ -4,6 +4,8 @@ import { UserInterface } from '../../utilities/Interface/UserInterface';
 import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { getAllUsers } from '../../utilities/api/users';
 import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
+// Remove This
+import { Link } from 'react-router-dom'
 
 const Landing: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<UserInterface | null>();
@@ -25,6 +27,8 @@ const Landing: React.FC = () => {
   return (
     <>
       <div>
+        {/* Remove This */}
+        <Link to="/account-settings">⚙️</Link>
         <h1> landing screen </h1>
         {currentUser && (
           <>

@@ -1,0 +1,33 @@
+.account_settings_container {
+  padding: 10px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start
+}
+
+.update_container {
+  background-color: lightgrey;
+  border-radius: 10px;
+  width: 30vw;
+  min-width: 300px;
+  max-width: 800px;
+}
+
+.arrow {
+  display: block;
+  transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  font-size: 1.5rem;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.setting_name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
