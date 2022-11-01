@@ -1,9 +1,9 @@
-// import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-// import { SignUpInterface } from '../../../Interface/SignUpInterface';
-// import { signUp } from "../../../api/users";
-// import { RootState } from '../../store'
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { SignUpInterface } from "../../../types/UserInterface";
+import { signUp } from "../../../api/users";
+import { RootState } from '../../store'
 
-// // TODO: move higher
+// TODO: move higher
 // interface AsyncState {
 //   isLoading: boolean;
 //   isSuccess: boolean;

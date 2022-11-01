@@ -1,7 +1,7 @@
-import { register, reset } from "../../utilities/redux/slices/users/authSlice";
+import { register, reset } from "../../utilities/redux/slices/users/userSlice";
 import React,{ useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { SignUpInterface } from "../../utilities/Interface/SignUpInterface";
+import { SignUpInterface } from "../../utilities/types/UserInterface";
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 import './SignUp.scss'
 
@@ -10,7 +10,7 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const { isLoading, isSuccess } = useAppSelector((state) => state.auth)
+  const { isLoading, isSuccess } = useAppSelector((state) => state.ui.status)
 
   const [inputType, setInputType] = useState('password')
   const [pwdRevealIcon, setPwdRevealIcon] = useState('https://i.postimg.cc/zGQTSGmF/pngwing-com-1.png')
