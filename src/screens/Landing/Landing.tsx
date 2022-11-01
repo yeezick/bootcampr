@@ -9,6 +9,8 @@ const Landing: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<UserInterface | null>();
   const allUser = useSelector(selectAuthUser);
   const dispatch = useDispatch();
+  console.log(allUser);
+
   useEffect(() => {
     const fetchUsers = async () => {
       const gettingAllUser = await getAllUsers();

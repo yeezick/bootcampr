@@ -9,6 +9,7 @@ import Nav from './layout/Nav/Nav';
 import Projects from './screens/Projects/Projects';
 import { Layout } from './layout/Layout';
 import ProjectDetails from './screens/Projects/ProjectDetails';
+import Dashboard from './screens/Dashboard/Dashboard';
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
           <Route path="/projects/create" element={<CreateProject />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:id" element={<ProjectDetails />} />
+          <Route path="/projects/:id" element={<ProjectDetails />} />
+          <Route path="/user/dashboard" element={<Dashboard />} />
         </Routes>
       </Router>
     </Layout>

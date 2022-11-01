@@ -5,7 +5,7 @@ import { useParams, Link } from 'react-router-dom';
 
 const ProjectDetails: React.FC = (): JSX.Element => {
   const [project, setProject] = useState<ProjectInterface>({
-    id: new String(),
+    _id: new String(),
     title: new String(),
     duration: new String(),
     meeting_cadence: new String(),

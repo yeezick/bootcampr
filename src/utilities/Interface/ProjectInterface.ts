@@ -1,5 +1,5 @@
 export interface ProjectInterface {
-  id: String;
+  _id: String;
   title: String;
   duration: String;
   meeting_cadence: String;
