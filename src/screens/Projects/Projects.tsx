@@ -26,7 +26,12 @@ const Projects: React.FC = () => {
             <li key={project._id}>
               <h3>{project.title}</h3>
               {project.technologies_used.map((technologies: any, index: any) => {
-                return <span key={index}>{technologies}; </span>;
+                return (
+                  <span className="technologies" key={index}>
+                    {technologies}
+                    {'  '}
+                  </span>
+                );
               })}
               <p>{project.duration}</p>
               <Link to={`/projects/${project._id}`}>Learn More</Link>
