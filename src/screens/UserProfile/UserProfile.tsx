@@ -7,8 +7,9 @@ export const UserProfile = () => {
   const authUser = useSelector(selectAuthUser);
   const navigate = useNavigate();
 
+  // BC-334: should handle this case
   if (!authUser) {
-    return <div>Loading user...</div>;
+    return <div>Loading user... or there isn't one.</div>;
   }
 
   const routeToEdit = () => {
