@@ -54,13 +54,13 @@ const SignUp: React.FC = () => {
     return (!formValues.email || !formValues.first_name || !formValues.last_name || !formValues.password || !formValues.confirmPassword || formValues.password !== formValues.confirmPassword)
   }
   
-  const doPasswordsMatch = () => {
-    if ((formValues.password && formValues.confirmPassword) && formValues.password !== formValues.confirmPassword) {
-      return <h4 style={{color: 'red'}}>Passwords do not match</h4>
-    }
-  
-    if ((formValues.password && formValues.confirmPassword) && formValues.password === formValues.confirmPassword) {
-      return <h4 style={{color: 'rgb(48, 161, 192)'}}>Passwords match!</h4>
+  const DoPasswordsMatch = () => {
+    if (formValues.password && formValues.confirmPassword) {
+      if (formValues.password !== formValues.confirmPassword) {
+        return <h4 style={{color: 'red'}}>Passwords do not match</h4>
+      } else {
+        return <h4 style={{color: 'rgb(48, 161, 192)'}}>Passwords match!</h4>
+      }
     }
   }
   
@@ -78,7 +78,6 @@ const SignUp: React.FC = () => {
     return <h1 style={{color: 'orange'}}>Loading... ...</h1>
   
   return (
-  <>
     <div className="signup-container">
       <h3>User Register</h3>
       <form onSubmit={handleSubmit} autoComplete="off">
@@ -92,9 +91,9 @@ const SignUp: React.FC = () => {
         <input type={inputType} name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} value={formValues.confirmPassword}  autoComplete="off"/>
         <button type="submit" disabled={isFormValid()}>Create Account</button>
       </form>
-      {doPasswordsMatch()}
+      {DoPasswordsMatch()}
     </div>
-  </>)
+  )
 };
 
 export default SignUp;
