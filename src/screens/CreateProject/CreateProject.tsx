@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { createProject } from '../../utilities/api/projects';
 import { useSelector } from 'react-redux';
 import { RiUploadCloudFill } from 'react-icons/ri';
@@ -8,7 +8,7 @@ import './CreateProject.scss';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 
 const CreateProject: React.FC = () => {
-  const currentUser = useSelector(selectAuthUser);
+  const authUser = useSelector(selectAuthUser);
   const [fileSelected, setFileSelected] = useState<File>();
   const [projectForm, setProjectForm] = useState<ProjectInterface>({
     createdAt: '',
@@ -28,7 +28,7 @@ const CreateProject: React.FC = () => {
       show_portfolio: true,
       rejected_projects: [],
       role: '',
-      _id: '',
+      _id: `${authUser?._id}`,
     },
     technologies_used: [],
     title: '',
@@ -39,34 +39,39 @@ const CreateProject: React.FC = () => {
   const handleProjectInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
-    setProjectForm({ ...projectForm, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setProjectForm({ ...projectForm, [name]: value });
   };
 
   useEffect(() => {
-    setProjectForm({
-      id: '',
-      title: '',
-      duration: '',
-      meeting_cadence: '',
-      overview: '',
-      technologies_used: [],
-      createdAt: '',
-      updatedAt: '',
-      project_owner: {
-        about: '',
-        email: '',
-        first_name: '',
-        fun_fact: '',
-        interested_projects: [],
-        last_name: '',
-        portfolio_projects: {},
-        portfolio_link: '',
-        show_portfolio: true,
-        rejected_projects: [],
-        role: '',
-        _id: '',
-      },
-    });
+    if (authUser) {
+      setProjectForm({
+        createdAt: '',
+        duration: '',
+        id: '',
+        meeting_cadence: '',
+        overview: '',
+        project_owner: {
+          about: '',
+          email: '',
+          first_name: '',
+          fun_fact: '',
+          interested_projects: [],
+          last_name: '',
+          portfolio_projects: {},
+          portfolio_link: '',
+          show_portfolio: true,
+          rejected_projects: [],
+          role: '',
+          _id: `${authUser?._id}`,
+        },
+        technologies_used: [],
+        title: '',
+        updatedAt: '',
+      });
+    } else {
+      navigate('/sign-in');
+    }
   }, [setProjectForm]);
 
   const handleNewProject = async (e: React.FormEvent<HTMLFormElement>) => {

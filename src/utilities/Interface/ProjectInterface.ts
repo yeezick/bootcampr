@@ -1,5 +1,3 @@
-import { UserInterface } from './UserInterface';
-
 export interface ProjectInterface {
   createdAt: string | undefined;
   duration: string | undefined;

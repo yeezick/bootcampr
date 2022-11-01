@@ -52,7 +52,8 @@ const ProjectDetails: React.FC = (): JSX.Element => {
       <p> Meeting Cadence: {project.meeting_cadence}</p>
       <p>Project Technologies: {project.technologies_used}</p>
       <p>
-        Project Owner:
+        {' '}
+        Project Owner:&nbsp;
         {project.project_owner ? project.project_owner.first_name : null}
         {project.project_owner ? project.project_owner.last_name : null}
       </p>
