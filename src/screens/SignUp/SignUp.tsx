@@ -11,6 +11,7 @@ const SignUp: React.FC = () => {
   const dispatch = useAppDispatch()
 
   const { isLoading, isSuccess } = useAppSelector((state) => state.ui.status)
+  const { _id } = useAppSelector((state) => state.ui.auth.user)
 
   const [inputType, setInputType] = useState('password')
   const [pwdRevealIcon, setPwdRevealIcon] = useState('https://i.postimg.cc/zGQTSGmF/pngwing-com-1.png')
@@ -32,7 +33,7 @@ const SignUp: React.FC = () => {
         last_name: "",
         password: ""
       })
-      navigate('/sign-in')
+      navigate(`/users/${_id}/account-setup`)
     }
   }, [isSuccess, dispatch])
   
