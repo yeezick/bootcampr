@@ -8,7 +8,9 @@ const AdditionalInfo: React.FC = () => {
 
   return (
     <div className="acct-setup-container">
-      <img src='https://tinyurl.com/2tbvwnfb' alt='photo' />
+      <section className="profile-photo-grid">
+        <img src='https://tinyurl.com/2tbvwnfb' alt='photo' />
+      </section>
       <h2>Set Up Your Profile</h2>
       <h3>First Name: {firstName}</h3>
       <h3>Last Name: {lastName}</h3>
