@@ -52,9 +52,9 @@ const SignUp: React.FC = () => {
   const DoPasswordsMatch = () => {
     if (formValues.password && formValues.confirmPassword) {
       if (formValues.password !== formValues.confirmPassword) {
-        return <h4 id='pwd-mismatch'>Passwords do not match</h4>
+        return <h4 className='pwd-mismatch'>Passwords do not match</h4>
       } else {
-        return <h4 id='pwd-match'>Passwords match!</h4>
+        return <h4 className='pwd-match'>Passwords match!</h4>
       }
     }
   }
@@ -80,7 +80,7 @@ const SignUp: React.FC = () => {
         <input type="text" name="last_name" placeholder="Last Name" onChange={handleChange} value={formValues.last_name} autoComplete="off"/>
         <input type="email" name="email" placeholder="Email"  onChange={handleChange} value={formValues.email} autoComplete="off" required />
         <div>
-          <img onClick={passwordReveal} src={pwdRevealIcon} alt='pwd' id={inputType === 'password' ? 'pwd-reveal-gray' : 'pwd-reveal'} />
+          <img onClick={passwordReveal} src={pwdRevealIcon} alt='pwd' className={inputType === 'password' ? 'pwd-reveal-gray' : 'pwd-reveal'} />
           <input type={inputType} name="password" placeholder="Password" onChange={handleChange} value={formValues.password} autoComplete="off" />
         </div>
         <input type={inputType} name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} value={formValues.confirmPassword}  autoComplete="off"/>

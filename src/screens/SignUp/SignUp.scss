@@ -1,3 +1,32 @@
+.pwd-match {
+  color: rgb(48, 161, 192);
+}
+
+.pwd-mismatch {
+  color: red;
+}
+
+.pwd-reveal {
+  height: 17px;
+  position: absolute;
+  top: 33.1%;
+  right: 45.8%;
+  cursor: pointer;
+}
+
+.pwd-reveal-gray {
+  height: 17px;
+  position: absolute;
+  top: 33.1%;
+  right: 45.8%;
+  cursor: pointer;
+  filter: invert(50%)
+}
+
+.pwd-reveal-gray:hover {
+  filter: none;
+}
+
 .signup-container {
   display: flex;
   flex-direction: column;
@@ -9,6 +38,10 @@
   border-radius: 2% / 1%;
   box-shadow: 0 8px 17px -6px rgba(0, 0, 0, 0.7);
 }
+
+.signup-container button {
+  cursor: pointer;
+}
   
 .signup-container form {
   display: flex;
@@ -17,40 +50,7 @@
   row-gap: 1rem;
 }
 
-.signup-container button {
-  cursor: pointer;
-}
-
 .signup-container h4 {
   margin: 0;
   margin-top: 2rem;
-}
-
-#pwd-mismatch {
-  color: red;
-}
-
-#pwd-match {
-  color: rgb(48, 161, 192);
-}
-
-#pwd-reveal-gray {
-  height: 17px;
-  position: absolute;
-  top: 33.1%;
-  right: 45.8%;
-  cursor: pointer;
-  filter: invert(50%)
-}
-
-#pwd-reveal-gray:hover {
-  filter: none;
-}
-
-#pwd-reveal {
-  height: 17px;
-  position: absolute;
-  top: 33.1%;
-  right: 45.8%;
-  cursor: pointer;
 }
