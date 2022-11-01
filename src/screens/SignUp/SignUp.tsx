@@ -73,7 +73,7 @@ const SignUp: React.FC = () => {
     }
   }
 
-  if (isLoading)
+  if (!isLoading)
     return (
       <div className="loading-status">
         <FaSpinner className="loading-icon" />
