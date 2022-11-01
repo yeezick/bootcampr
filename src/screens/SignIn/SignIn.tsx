@@ -1,18 +1,21 @@
 import styles from './SignIn.module.css'
-import React, { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import { signIn } from '../../utilities/api/users.js'
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../utilities/redux/store'
-import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice'
+import { setAuthUser } from '../../utilities/redux/slices/users/userSlice'
 import { useNavigate } from 'react-router-dom';
+
+interface FormData {
+  email: string
+  password: string
+}
 
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
   const [invalidCredentials, setInvalidCredentials] = useState<boolean>(false)
-  // Element References
-  const passwordRef = useRef<HTMLInputElement>(null)
-  const emailRef = useRef<HTMLInputElement>(null)
+  const [formData, setFormData] = useState<FormData>({ email: "", password: "" })
 
   // Constants
   const VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -20,24 +23,32 @@ const SignIn: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
 
   // Event Handlers
-  const handleFormDataChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const validEmailAddressProvided = emailRef.current?.value.match(VALID_EMAIL_REGEX)
-    const passwordFieldFilledOut = passwordRef.current?.value !== ''
+  const formValidation = (): void => {
+    const validEmailAddressProvided = formData.email.match(VALID_EMAIL_REGEX)
+    const passwordFieldFilledOut = formData.password !== ''
 
     if (validEmailAddressProvided && passwordFieldFilledOut) setButtonDisabled(false)
     else setButtonDisabled(true)
   }
 
+  const handleFormDataChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
   const handleSubmitForm = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault()
 
-    const credentials = { email: emailRef.current?.value, password: passwordRef.current?.value }
-    let response = await signIn(credentials)
+    const response = await signIn(formData)
     if (response.unauthorized) return setInvalidCredentials(true)
 
     dispatch(setAuthUser(response))
     navigate('/')
   }
+
+  // Side Effects
+  useEffect(() => {
+    formValidation()
+  }, [formData])
 
   return (
     <>
@@ -49,7 +60,6 @@ const SignIn: React.FC = (): JSX.Element => {
           id="email"
           type="email"
           onChange={handleFormDataChange}
-          ref={emailRef}
           required
         />
 
@@ -59,7 +69,6 @@ const SignIn: React.FC = (): JSX.Element => {
           id="password"
           type="password"
           onChange={handleFormDataChange}
-          ref={passwordRef}
           required
         />
 
