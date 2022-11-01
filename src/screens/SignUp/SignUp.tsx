@@ -3,6 +3,8 @@ import React,{ useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SignUpInterface } from "../../utilities/types/UserInterface";
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
+import { BsEyeFill, BsEyeSlash } from 'react-icons/bs'
+import { FaSpinner } from 'react-icons/fa'
 import './SignUp.scss'
 
 
@@ -14,7 +16,6 @@ const SignUp: React.FC = () => {
   const { _id } = useAppSelector((state) => state.ui.auth.user)
 
   const [inputType, setInputType] = useState('password')
-  const [pwdRevealIcon, setPwdRevealIcon] = useState('https://i.postimg.cc/zGQTSGmF/pngwing-com-1.png')
   const [formValues, setFormValues ] = useState<SignUpInterface>({
     confirmPassword: "",
     email: "",
@@ -67,15 +68,18 @@ const SignUp: React.FC = () => {
   const passwordReveal = () => {
     if (inputType === 'password') {
       setInputType('text')
-      setPwdRevealIcon('https://i.postimg.cc/CLt33bby/pngwing-com.png')
     } else {
       setInputType('password')
-      setPwdRevealIcon('https://i.postimg.cc/zGQTSGmF/pngwing-com-1.png')
     }
   }
 
   if (isLoading)
-    return <h1 className='loading-status'>Loading... ...</h1>
+    return (
+      <div className="loading-status">
+        <FaSpinner className="loading-icon" />
+        <h3>Bootcamper</h3>
+      </div>
+    )
   
   return (
     <div className="signup-container">
@@ -85,7 +89,7 @@ const SignUp: React.FC = () => {
         <input type="text" name="last_name" placeholder="Last Name" onChange={handleChange} value={formValues.last_name} autoComplete="off" required />
         <input type="email" name="email" placeholder="Email"  onChange={handleChange} value={formValues.email} autoComplete="off" required />
         <div>
-          <img onClick={passwordReveal} src={pwdRevealIcon} alt='pwd' className={inputType === 'password' ? 'pwd-reveal-gray' : 'pwd-reveal'} />
+          {inputType === 'password' ? <BsEyeSlash onClick={passwordReveal} className='pwd-reveal-gray' /> : <BsEyeFill onClick={passwordReveal} className='pwd-reveal' />}
           <input type={inputType} name="password" placeholder="Password" onChange={handleChange} value={formValues.password} autoComplete="off" />
         </div>
         <input type={inputType} name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} value={formValues.confirmPassword}  autoComplete="off"/>
@@ -94,6 +98,6 @@ const SignUp: React.FC = () => {
       {DoPasswordsMatch()}
     </div>
   )
-};
+}
 
 export default SignUp;
