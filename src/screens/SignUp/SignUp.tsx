@@ -66,14 +66,10 @@ const SignUp: React.FC = () => {
   }
   
   const passwordReveal = () => {
-    if (inputType === 'password') {
-      setInputType('text')
-    } else {
-      setInputType('password')
-    }
+    inputType === 'password' ? setInputType('text') : setInputType('password')
   }
 
-  if (!isLoading)
+  if (isLoading)
     return (
       <div className="loading-status">
         <FaSpinner className="loading-icon" />
