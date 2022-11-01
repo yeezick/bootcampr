@@ -15,6 +15,8 @@ const Projects: React.FC = () => {
     fetchProjects();
   }, [setProjects]);
 
+  console.log(projects);
+
   return (
     <div className="project-container">
       <h1>Browse Projects</h1>
@@ -23,7 +25,9 @@ const Projects: React.FC = () => {
           return (
             <li key={project._id}>
               <h3>{project.title}</h3>
-              <p>{project.technologies_used}</p>
+              {project.technologies_used.map((technologies: any, index: any) => {
+                return <span key={index}>{technologies}; </span>;
+              })}
               <p>{project.duration}</p>
               <Link to={`/projects/${project._id}`}>Learn More</Link>
             </li>
