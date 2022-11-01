@@ -29,9 +29,17 @@ export interface UiSliceInterface {
     isSuccess?: boolean;
     isError?: {
       status: boolean;
-      messsage: string;
+      message: string;
     };
   };
+}
+
+export interface SignUpInterface {
+  email: string | undefined,
+  password: string | undefined,
+  first_name: string | undefined,
+  last_name: string | undefined,
+  confirmPassword: string | undefined
 }
 
 // export interface PortfolioProjectInterface {
