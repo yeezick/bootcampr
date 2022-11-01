@@ -17,22 +17,22 @@ const SignUp: React.FC = () => {
 
   const [inputType, setInputType] = useState('password')
   const [formValues, setFormValues ] = useState<SignUpInterface>({
-    confirmPassword: "",
-    email: "",
-    first_name: "",
-    last_name: "",
-    password: ""
+    confirmPassword: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    password: ''
   })
 
   useEffect(() => {
     if (isSuccess) {
       dispatch(reset())
       setFormValues({
-        confirmPassword: "",
-        email: "",
-        first_name: "",
-        last_name: "",
-        password: ""
+        confirmPassword: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        password: ''
       })
       navigate(`/users/${_id}/account-setup`)
     }
@@ -81,8 +81,8 @@ const SignUp: React.FC = () => {
     <div className="signup-container">
       <h3>User Register</h3>
       <form onSubmit={handleSubmit} autoComplete="off">
-        <input type="text" name="first_name" placeholder="First Name"  onChange={handleChange} value={formValues.first_name} autoComplete="off" required />
-        <input type="text" name="last_name" placeholder="Last Name" onChange={handleChange} value={formValues.last_name} autoComplete="off" required />
+        <input type="text" name="firstName" placeholder="First Name"  onChange={handleChange} value={formValues.firstName} autoComplete="off" required />
+        <input type="text" name="lastName" placeholder="Last Name" onChange={handleChange} value={formValues.lastName} autoComplete="off" required />
         <input type="email" name="email" placeholder="Email"  onChange={handleChange} value={formValues.email} autoComplete="off" required />
         <div>
           {inputType === 'password' ? <BsEyeSlash onClick={passwordReveal} className='pwd-reveal-gray' /> : <BsEyeFill onClick={passwordReveal} className='pwd-reveal' />}
