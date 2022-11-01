@@ -16,7 +16,20 @@ const CreateProject: React.FC = () => {
     id: '',
     meeting_cadence: '',
     overview: '',
-    project_owner: '',
+    project_owner: {
+      about: '',
+      email: '',
+      first_name: '',
+      fun_fact: '',
+      interested_projects: [],
+      last_name: '',
+      portfolio_projects: {},
+      portfolio_link: '',
+      show_portfolio: true,
+      rejected_projects: [],
+      role: '',
+      _id: '',
+    },
     technologies_used: [],
     title: '',
     updatedAt: '',
@@ -26,7 +39,7 @@ const CreateProject: React.FC = () => {
   const handleProjectInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
-    setProjectForm({ ...projectForm, [e.target.name]: e.target.value, project_owner: currentUser?._id });
+    setProjectForm({ ...projectForm, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
@@ -39,7 +52,20 @@ const CreateProject: React.FC = () => {
       technologies_used: [],
       createdAt: '',
       updatedAt: '',
-      project_owner: '',
+      project_owner: {
+        about: '',
+        email: '',
+        first_name: '',
+        fun_fact: '',
+        interested_projects: [],
+        last_name: '',
+        portfolio_projects: {},
+        portfolio_link: '',
+        show_portfolio: true,
+        rejected_projects: [],
+        role: '',
+        _id: '',
+      },
     });
   }, [setProjectForm]);
 
