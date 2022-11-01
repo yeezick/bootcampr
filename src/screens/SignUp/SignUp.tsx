@@ -45,8 +45,12 @@ const SignUp: React.FC = () => {
     dispatch(register(formValues))
   }
   
-  const isFormValid = () => {
-    return (!formValues.email || !formValues.first_name || !formValues.last_name || !formValues.password || !formValues.confirmPassword || formValues.password !== formValues.confirmPassword)
+  const validateForm = () => {
+    for (const [key, value] of Object.entries(formValues)) {
+      if (!value || (formValues.password !== formValues.confirmPassword)) {
+          return true
+      }
+    }
   }
   
   const DoPasswordsMatch = () => {
@@ -76,15 +80,15 @@ const SignUp: React.FC = () => {
     <div className="signup-container">
       <h3>User Register</h3>
       <form onSubmit={handleSubmit} autoComplete="off">
-        <input type="text" name="first_name" placeholder="First Name"  onChange={handleChange} value={formValues.first_name} autoComplete="off" />
-        <input type="text" name="last_name" placeholder="Last Name" onChange={handleChange} value={formValues.last_name} autoComplete="off"/>
+        <input type="text" name="first_name" placeholder="First Name"  onChange={handleChange} value={formValues.first_name} autoComplete="off" required />
+        <input type="text" name="last_name" placeholder="Last Name" onChange={handleChange} value={formValues.last_name} autoComplete="off" required />
         <input type="email" name="email" placeholder="Email"  onChange={handleChange} value={formValues.email} autoComplete="off" required />
         <div>
           <img onClick={passwordReveal} src={pwdRevealIcon} alt='pwd' className={inputType === 'password' ? 'pwd-reveal-gray' : 'pwd-reveal'} />
           <input type={inputType} name="password" placeholder="Password" onChange={handleChange} value={formValues.password} autoComplete="off" />
         </div>
         <input type={inputType} name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} value={formValues.confirmPassword}  autoComplete="off"/>
-        <button type="submit" disabled={isFormValid()}>Create Account</button>
+        <button type="submit" disabled={validateForm()}>Create Account</button>
       </form>
       {DoPasswordsMatch()}
     </div>
