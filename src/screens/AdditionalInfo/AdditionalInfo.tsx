@@ -18,7 +18,7 @@ const AdditionalInfo: React.FC = () => {
       <h2>Socials</h2>
       <h3>LinkedIn URL: {linkedinUrl}</h3>
       <h3>Portfolio URL: {portfolioUrl}</h3>
-      <h3>Profile Photo URL: {portfolioUrl}</h3>
+      <h3>Profile Photo URL: {profilePicture}</h3>
     </div>
   )
 }
