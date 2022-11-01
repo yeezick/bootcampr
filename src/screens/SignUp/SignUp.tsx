@@ -49,7 +49,7 @@ const SignUp: React.FC = () => {
   const validateForm = () => {
     for (const [key, value] of Object.entries(formValues)) {
       if (!value || (formValues.password !== formValues.confirmPassword)) {
-          return true
+        return true
       }
     }
   }
@@ -75,7 +75,7 @@ const SignUp: React.FC = () => {
   }
 
   if (isLoading)
-    return <h1 style={{color: 'orange'}}>Loading... ...</h1>
+    return <h1 className='loading-status'>Loading... ...</h1>
   
   return (
     <div className="signup-container">
