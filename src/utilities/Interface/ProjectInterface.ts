@@ -1,15 +1,11 @@
 export interface ProjectInterface {
-  id: String;
-  title: String;
-  duration: String;
-  meeting_cadence: String;
-  overview: String;
-  technologies_used: String[];
-  createdAt: String;
-  updatedAt: String;
-  project_owner: {
-    first_name: String;
-    last_name: String;
-    portfolio_link: String;
-  };
+  createdAt: string | undefined;
+  duration: string | undefined;
+  id: string | undefined;
+  meeting_cadence: string | undefined;
+  overview: string | undefined;
+  project_owner: string | undefined;
+  technologies_used: string[] | undefined;
+  title: string | undefined;
+  updatedAt: string | undefined;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createProject } from '../../utilities/api/projects';
 import { useSelector } from 'react-redux';
@@ -10,25 +10,43 @@ import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 const CreateProject: React.FC = () => {
   const currentUser = useSelector(selectAuthUser);
   const [fileSelected, setFileSelected] = useState<File>();
-  const [projectForm, setProjectForm] = useState<ProjectInterface[]>([]);
+  const [projectForm, setProjectForm] = useState<ProjectInterface>({
+    createdAt: '',
+    duration: '',
+    id: '',
+    meeting_cadence: '',
+    overview: '',
+    project_owner: '',
+    technologies_used: [],
+    title: '',
+    updatedAt: '',
+  });
   const navigate = useNavigate();
 
   const handleProjectInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
-    if (currentUser) {
-      setProjectForm((projectForm) => {
-        return { ...projectForm, [e.target.name]: e.target.value, project_owner: currentUser._id };
-      });
-    } else {
-      navigate('/sign-in');
-    }
+    setProjectForm({ ...projectForm, [e.target.name]: e.target.value, project_owner: currentUser?._id });
   };
+
+  useEffect(() => {
+    setProjectForm({
+      id: '',
+      title: '',
+      duration: '',
+      meeting_cadence: '',
+      overview: '',
+      technologies_used: [],
+      createdAt: '',
+      updatedAt: '',
+      project_owner: '',
+    });
+  }, [setProjectForm]);
 
   const handleNewProject = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newProject = await createProject(projectForm);
-    if (newProject) navigate(`/`);
+    if (newProject) navigate(`/projects`);
   };
 
   const handleImageChange = function (e: React.ChangeEvent<HTMLInputElement>) {
