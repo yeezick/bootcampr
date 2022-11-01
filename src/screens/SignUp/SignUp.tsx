@@ -15,32 +15,32 @@ const SignUp: React.FC = () => {
   const [inputType, setInputType] = useState('password')
   const [pwdRevealIcon, setPwdRevealIcon] = useState('https://i.postimg.cc/zGQTSGmF/pngwing-com-1.png')
   const [formValues, setFormValues ] = useState<SignUpInterface>({
+    confirmPassword: "",
     email: "",
     first_name: "",
     last_name: "",
-    password: "",
-    confirmPassword: ""
+    password: ""
   })
 
   useEffect(() => {
     if (isSuccess) {
       dispatch(reset())
       setFormValues({
+        confirmPassword: "",
         email: "",
         first_name: "",
         last_name: "",
-        password: "",
-        confirmPassword: ""
+        password: ""
       })
       navigate('/sign-in')
     }
   }, [isSuccess, dispatch])
   
-  const handleChange= (e: any) =>  {
+  const handleChange= (e: React.ChangeEvent<HTMLInputElement>) =>  {
       setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(register(formValues))
   }
