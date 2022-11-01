@@ -1,10 +1,9 @@
-import { signUp } from "../../utilities/api/users";
 import { register, reset } from "../../utilities/redux/slices/users/authSlice";
 import React,{ useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SignUpInterface } from "../../utilities/Interface/SignUpInterface";
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
-import './SignUp.css'
+import './SignUp.scss'
 
 
 const SignUp: React.FC = () => {
@@ -43,11 +42,7 @@ const SignUp: React.FC = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
-    
-    // const newUser: SignUpInterface = (formValues)
-
     dispatch(register(formValues))
-    // await signUp(formValues)
   }
   
   const isFormValid = () => {
@@ -65,7 +60,7 @@ const SignUp: React.FC = () => {
   }
   
   const passwordReveal = () => {
-    if (inputType === 'password' && pwdRevealIcon === 'https://i.postimg.cc/zGQTSGmF/pngwing-com-1.png') {
+    if (inputType === 'password') {
       setInputType('text')
       setPwdRevealIcon('https://i.postimg.cc/CLt33bby/pngwing-com.png')
     } else {
