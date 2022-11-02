@@ -35,10 +35,8 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
     let response: any;
     if (emailDropDownActive) {
       response = await updateUsersEmail(authFormData, _id)
-      console.log('Response: ', response)
     } else {
       response = await updateUsersPassword(authFormData, _id)
-      console.log('Response: ', response)
     }
 
     switch (response.status) {
