@@ -21,6 +21,9 @@ const Nav: React.FC = () => {
         <div>
           <Link to="/projects/create">Create Project</Link>
         </div>
+        <div>
+          <Link to="/sign-in">Logout</Link>
+        </div>
       </nav>
     </div>
   );
