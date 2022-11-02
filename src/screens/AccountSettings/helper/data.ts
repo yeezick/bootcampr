@@ -2,8 +2,14 @@ import AuthSettingsFormDropdown from '../forms/AuthSettingsFormDropdown/AuthSett
 
 
 // Prop Declarations
-const emailSettingsProps = { type: 'email', fields: ["Current Email", 'New Email', "Confirm New Email"] }
-const passwordSettingsProps = { type: 'email', fields: ["Current Password", 'New Password', "Confirm New Password"] }
+const emailSettingsProps = {
+  type: ['password', 'newEmail', 'confirmNewEmail'],
+  fields: ["Password", 'New Email', "Confirm New Email"]
+}
+const passwordSettingsProps = {
+  type: ['password', 'newPassword', 'confirmNewPassword'],
+  fields: ["Current Password", 'New Password', "Confirm New Password"]
+}
 
 // Interfaces
 export interface AccountSettingsProps {
@@ -12,7 +18,7 @@ export interface AccountSettingsProps {
 
 export interface AuthSettingsFormDropdownProps {
   fields: string[];
-  type: string;
+  type: string[];
 }
 
 export interface DropDownSettings {
@@ -21,21 +27,22 @@ export interface DropDownSettings {
 }
 
 export interface EmailFormData {
-  email?: string;
-  newEmail?: string;
-  confirmNewEmail?: string;
+  password: string;
+  newEmail: string;
+  confirmNewEmail: string;
 }
 
 export interface PasswordFormData {
-  password?: string;
-  newPassword?: string;
-  confirmNewPassword?: string;
+  password: string;
+  newPassword: string;
+  confirmNewPassword: string;
 }
 
 export interface AuthFormInputProps {
   field: string;
   setAuthFormData: React.Dispatch<React.SetStateAction<EmailFormData | PasswordFormData>>;
   authFormData: EmailFormData | PasswordFormData;
+  type: string;
 }
 
 // Initialization
@@ -51,7 +58,7 @@ export const initialPasswordFormData = {
 }
 
 export const initialEmailFormData = {
-  email: "",
+  password: "",
   newEmail: "",
   confirmNewEmail: ""
 }

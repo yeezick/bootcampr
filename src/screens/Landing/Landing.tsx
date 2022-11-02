@@ -9,20 +9,6 @@ import { Link } from 'react-router-dom'
 
 const Landing: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<UserInterface | null>();
-  const allUser = useSelector(selectAuthUser);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const gettingAllUser = await getAllUsers();
-      dispatch(setAuthUser(gettingAllUser[0]));
-    };
-    fetchUsers();
-  }, []);
-
-  useEffect(() => {
-    setCurrentUser(allUser);
-  }, [allUser]);
 
   return (
     <>
@@ -30,7 +16,7 @@ const Landing: React.FC = () => {
         {/* Remove This */}
         <Link to="/account-settings">⚙️</Link>
         <h1> landing screen </h1>
-        {currentUser && (
+        {/* {currentUser && (
           <>
             <h1>first name {currentUser.first_name}</h1>
             <h1>last name {currentUser.last_name}</h1>
@@ -47,7 +33,7 @@ const Landing: React.FC = () => {
               </div>
             ))}
           </>
-        )}
+        )} */}
       </div>
     </>
   );

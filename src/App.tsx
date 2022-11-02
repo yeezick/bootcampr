@@ -23,7 +23,7 @@ function App() {
           <Route path="/projects/create" element={<CreateProject />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:id" element={<ProjectDetails />} />
-          <Route path="account-settings" element={< AccountSettings />} />
+          <Route path="/account-settings" element={< AccountSettings />} />
         </Routes>
       </Router>
     </Layout>

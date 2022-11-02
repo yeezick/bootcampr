@@ -11,6 +11,7 @@ const AccountSettings = ({ }: AccountSettingsProps): JSX.Element => {
   const handleOpenDropDown = (setting: string) => {
     let newActiveDropdown = { ...activeDropdown }
 
+    // This Code Toggles The Dropdown & Closes Any Other Open One
     for (let key in activeDropdown) {
       if (key === setting) {
         if (newActiveDropdown[key as keyof DropDownSettings] === true) newActiveDropdown[key as keyof DropDownSettings] = false

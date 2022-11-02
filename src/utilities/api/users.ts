@@ -1,4 +1,5 @@
 import { api } from './apiConfig';
+import { PasswordFormData, EmailFormData } from '../../screens/AccountSettings/helper/data';
 
 export const getAllUsers = async () => {
   try {
@@ -9,7 +10,7 @@ export const getAllUsers = async () => {
   }
 };
 
-export const getOneUser = async (id) => {
+export const getOneUser = async (id: any) => {
   try {
     const res = await api.get(`/users/${id}`);
     return res.data;
@@ -18,7 +19,7 @@ export const getOneUser = async (id) => {
   }
 };
 
-export const updateUser = async (id, userUpdate) => {
+export const updateUser = async (id: any, userUpdate: any) => {
   try {
     const res = await api.put(`/users/${id}`, userUpdate);
     return res.data;
@@ -27,7 +28,7 @@ export const updateUser = async (id, userUpdate) => {
   }
 };
 
-export const addPortfolioProject = async (id, newProject) => {
+export const addPortfolioProject = async (id: any, newProject: any) => {
   try {
     const res = await api.patch(`/users/${id}`, newProject);
     return res.data;
@@ -36,7 +37,7 @@ export const addPortfolioProject = async (id, newProject) => {
   }
 };
 
-export const checkEmailAuth = async (email) => {
+export const checkEmailAuth = async (email: any) => {
   try {
     const res = await api.post('/email', email);
     return res.data.message;
@@ -45,7 +46,7 @@ export const checkEmailAuth = async (email) => {
   }
 };
 
-export const signUp = async (credentials) => {
+export const signUp = async (credentials: any) => {
   try {
     const res = await api.post('/sign-up', credentials);
     const { token, user } = res.data;
@@ -56,7 +57,7 @@ export const signUp = async (credentials) => {
   }
 };
 
-export const signIn = async (credentials) => {
+export const signIn = async (credentials: any) => {
   try {
     const res = await api.post('/sign-in', credentials);
     if (res.status === 401) {
@@ -90,3 +91,22 @@ export const verify = async () => {
   }
   return false;
 };
+
+
+export const updateUsersEmail = async (formData: PasswordFormData | EmailFormData, userId: string | undefined) => {
+  try {
+    const data = await api.patch(`/update-email/${userId}`, formData)
+    return data
+  } catch (error) {
+    return { error: 'Something went wrong' }
+  }
+}
+
+export const updateUsersPassword = async (formData: PasswordFormData | EmailFormData, userId: string | undefined) => {
+  try {
+    const data = await api.patch(`/update-password/${userId}`, formData)
+    return data
+  } catch (error) {
+    return { error: { status: 500, message: 'Something went wrong' } }
+  }
+}

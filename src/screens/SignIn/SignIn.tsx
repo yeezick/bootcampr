@@ -1,6 +1,6 @@
 import styles from './SignIn.module.css'
 import { useState, useEffect } from "react";
-import { signIn } from '../../utilities/api/users.js'
+import { signIn } from '../../utilities/api/users'
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../utilities/redux/store'
 import { setAuthUser } from '../../utilities/redux/slices/users/userSlice'
