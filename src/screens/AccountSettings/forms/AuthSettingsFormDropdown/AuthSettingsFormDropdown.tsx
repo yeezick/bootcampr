@@ -20,6 +20,18 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
   // Event Handlers
   const handleUpdateCredentials = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    // Check for password / email confirmation matches
+    // I had to make copies to get around type errors
+    let temp: any;
+    if (emailDropDownActive) {
+      temp = { ...authFormData }
+      if (temp['newEmail'] !== temp["confirmNewEmail"]) return setUpdateStatus("email-match-error")
+    } else {
+      temp = { ...authFormData }
+      if (temp['newPassword'] !== temp["confirmNewPassword"]) return setUpdateStatus("password-match-error")
+    }
+
+    // Send API call and conditionally render success / error message
     let response: any;
     if (emailDropDownActive) {
       response = await updateUsersEmail(authFormData, _id)
@@ -61,6 +73,8 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
         {updateStatus === 'authorized' && <p>✔️ Update Successful</p>}
         {updateStatus === 'unauthorized' && <p>❌ Wrong Password</p>}
         {updateStatus === 'error' && <p>❌ Error, Please try again later</p>}
+        {updateStatus === 'password-match-error' && <p>❌ Passwords don't match</p>}
+        {updateStatus === 'email-match-error' && <p>❌ Emails don't match</p>}
       </form>
     </div>
   );
