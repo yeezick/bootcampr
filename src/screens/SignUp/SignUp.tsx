@@ -1,10 +1,9 @@
-import { register, reset } from "../../utilities/redux/slices/users/userSlice";
+import { register, reset, uiStatus } from "../../utilities/redux/slices/users/userSlice";
 import React,{ useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SignUpInterface } from "../../utilities/types/UserInterface";
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs'
-// import { FaSpinner } from 'react-icons/fa'
 import './SignUp.scss'
 
 
@@ -12,7 +11,7 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const { isLoading, isSuccess } = useAppSelector((state) => state.ui.status)
+  const status = useAppSelector(uiStatus)
   const { _id } = useAppSelector((state) => state.ui.auth.user)
 
   const [inputType, setInputType] = useState('password')
@@ -25,7 +24,7 @@ const SignUp: React.FC = () => {
   })
 
   useEffect(() => {
-    if (isSuccess) {
+    if (status.isSuccess) {
       dispatch(reset())
       setFormValues({
         confirmPassword: '',
@@ -36,7 +35,7 @@ const SignUp: React.FC = () => {
       })
       navigate(`/users/${_id}/account-setup`)
     }
-  }, [isSuccess, dispatch])
+  }, [status.isSuccess, dispatch])
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>  {
       setFormValues({ ...formValues, [e.target.name]: e.target.value })
@@ -68,14 +67,6 @@ const SignUp: React.FC = () => {
   const passwordReveal = () => {
     inputType === 'password' ? setInputType('text') : setInputType('password')
   }
-
-  // if (isLoading)
-  //   return (
-  //     <div className="loading-status">
-  //       <FaSpinner className="loading-icon" />
-  //       <h3>Bootcamper</h3>
-  //     </div>
-  //   )
   
   return (
     <div className="signup-container">

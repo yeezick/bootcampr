@@ -1,7 +1,7 @@
 import { FaSpinner } from 'react-icons/fa'
 import './Loader.scss'
 
-const Loader = () => {
+const Loader: React.FC = () => {
 
   return (
     <div className="loading-status">

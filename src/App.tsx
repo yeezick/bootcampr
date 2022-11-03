@@ -14,7 +14,6 @@ import { Projects } from './screens/Projects/Projects';
 import { ProjectDetails } from './screens/Projects/ProjectDetails';
 import { useAppSelector } from './utilities/redux/hooks';
 import { uiStatus } from './utilities/redux/slices/users/userSlice';
-import { useEffect } from 'react';
 
 function App() {
   const status = useAppSelector(uiStatus)
