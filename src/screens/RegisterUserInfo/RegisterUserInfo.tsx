@@ -16,6 +16,7 @@ const RegisterUserInfo: React.FC = () => {
   useEffect(() => {
     if (status.isSuccess) {
       dispatch(reset())
+      navigate(`/users/${userId}`)
     }
   }, [])
 
@@ -27,7 +28,6 @@ const RegisterUserInfo: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(updateProfile(userForm))
-    navigate(`/users/${userId}`)
   }
 
   return (
