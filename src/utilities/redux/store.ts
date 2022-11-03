@@ -1,5 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import userSlice from './slices/users/userSlice';
+
+
 export const store = configureStore({
   reducer: {
     ui: userSlice
