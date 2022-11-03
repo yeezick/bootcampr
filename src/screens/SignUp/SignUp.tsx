@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { SignUpInterface } from "../../utilities/types/UserInterface";
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs'
-import { FaSpinner } from 'react-icons/fa'
+// import { FaSpinner } from 'react-icons/fa'
 import './SignUp.scss'
 
 
@@ -69,13 +69,13 @@ const SignUp: React.FC = () => {
     inputType === 'password' ? setInputType('text') : setInputType('password')
   }
 
-  if (isLoading)
-    return (
-      <div className="loading-status">
-        <FaSpinner className="loading-icon" />
-        <h3>Bootcamper</h3>
-      </div>
-    )
+  // if (isLoading)
+  //   return (
+  //     <div className="loading-status">
+  //       <FaSpinner className="loading-icon" />
+  //       <h3>Bootcamper</h3>
+  //     </div>
+  //   )
   
   return (
     <div className="signup-container">
