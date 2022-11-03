@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { SignUpInterface, UiSliceInterface, UserInterface } from '../../../types/UserInterface';
-import { signUp } from '../../../api/users';
+import { signUp, updateUser } from '../../../api/users';
 import { RootState } from '../../store';
 
 
@@ -31,12 +31,23 @@ const initialState: UiSliceInterface = {
 };
 
 export const register = createAsyncThunk(
-  'sign-up',
+  'users/signUp',
   async (user: SignUpInterface, thunkAPI) => {
     try {
       return await signUp(user)
     } catch (error) {
       return thunkAPI.rejectWithValue('Unable to register!')
+    }
+  }
+)
+
+export const updateProfile = createAsyncThunk(
+  'users/updateUser',
+  async (user: UserInterface, thunkAPI) => {
+    try {
+      return await updateUser(user._id, user)
+    } catch (error) {
+      return thunkAPI.rejectWithValue('Unable to update user!')
     }
   }
 )
@@ -68,6 +79,20 @@ const usersSlice = createSlice({
         state.auth.user = action.payload;
       })
       .addCase(register.rejected, (state) => {
+        state.status.isLoading = false;
+        state.status.isError = { status: true };
+      })
+      // UPDATE USER
+      .addCase(updateProfile.pending, (state) => {
+        state.status.isLoading = true;
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.status.isLoading = false;
+        state.status.isSuccess = true;
+        state.status.isAuthenticated = true
+        state.auth.user = action.payload;
+      })
+      .addCase(updateProfile.rejected, (state) => {
         state.status.isLoading = false;
         state.status.isError = { status: true };
       })
