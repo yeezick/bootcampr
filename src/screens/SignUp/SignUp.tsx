@@ -38,7 +38,7 @@ const SignUp: React.FC = () => {
     }
   }, [isSuccess, dispatch])
   
-  const handleChange= (e: React.ChangeEvent<HTMLInputElement>) =>  {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>  {
       setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
 
