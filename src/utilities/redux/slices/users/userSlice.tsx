@@ -75,5 +75,6 @@ const usersSlice = createSlice({
 });
 
 export const selectAuthUser = (state: RootState) => state.ui.auth.user;
+export const uiStatus = (state: RootState) => state.ui.status;
 export const { setAuthUser, reset } = usersSlice.actions;
 export default usersSlice.reducer;
