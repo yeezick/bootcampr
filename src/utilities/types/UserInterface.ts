@@ -35,11 +35,11 @@ export interface UiSliceInterface {
 }
 
 export interface SignUpInterface {
-  confirmPassword: string | undefined,
-  email: string | undefined,
-  firstName: string | undefined,
-  lastName: string | undefined,
-  password: string | undefined
+  confirmPassword?: string,
+  email?: string,
+  firstName?: string,
+  lastName?: string,
+  password?: string
 }
 
 // export interface PortfolioProjectInterface {
