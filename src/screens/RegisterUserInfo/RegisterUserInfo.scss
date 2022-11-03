@@ -1,0 +1,16 @@
+.profile-photo-grid {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 25vh;
+}
+
+.profile-photo-grid img {
+  background-color: white;
+  border: 3px groove rgb(207, 206, 202);
+  border-radius: 50%;
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.7);
+  height: 23vh;
+  object-fit: cover;
+  padding: 0;
+}
