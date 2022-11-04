@@ -72,15 +72,32 @@ const SignUp: React.FC = () => {
     <div className="signup-container">
       <h3>User Register</h3>
       <form onSubmit={handleSubmit} autoComplete="off">
-        <input type="text" name="firstName" placeholder="First Name"  onChange={handleChange} value={formValues.firstName} autoComplete="off" required />
-        <input type="text" name="lastName" placeholder="Last Name" onChange={handleChange} value={formValues.lastName} autoComplete="off" required />
-        <input type="email" name="email" placeholder="Email"  onChange={handleChange} value={formValues.email} autoComplete="off" required />
-        <div className="pwd-reveal-container">
-          {inputType === 'password' ? <BsEyeSlash onClick={passwordReveal} className='pwd-reveal-gray' /> : <BsEyeFill onClick={passwordReveal} className='pwd-reveal' />}
-          <input type={inputType} name="password" placeholder="Password" onChange={handleChange} value={formValues.password} autoComplete="off" />
+        <div className="form-input">
+          <label>First Name</label>
+          <input type="text" name="firstName" placeholder="First Name"  onChange={handleChange} value={formValues.firstName} autoComplete="off" required />
         </div>
-        <input type={inputType} name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} value={formValues.confirmPassword}  autoComplete="off"/>
-        <button type="submit" disabled={validateForm()}>Create Account</button>
+        <div className="form-input">
+          <label>Last Name</label>
+          <input type="text" name="lastName" placeholder="Last Name" onChange={handleChange} value={formValues.lastName} autoComplete="off" required />
+        </div>
+        <div className="form-input">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="Email"  onChange={handleChange} value={formValues.email} autoComplete="off" required />
+        </div>
+        <div className="pwd-input">
+          <div>
+            <label>Password</label>
+            {inputType === 'password' ? <BsEyeSlash onClick={passwordReveal} className='pwd-reveal-gray' /> : <BsEyeFill onClick={passwordReveal} className='pwd-reveal' />}
+            <input type={inputType} name="password" placeholder="Password" onChange={handleChange} value={formValues.password} autoComplete="off" />
+          </div>
+        </div>
+        <div className="form-input">
+          <label>Confirm Password</label>
+          <input type={inputType} name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} value={formValues.confirmPassword}  autoComplete="off" />
+        </div>
+        <div className="form-btn">
+          <button type="submit" disabled={validateForm()}>Create Account</button>
+        </div>
       </form>
       {DoPasswordsMatch()}
     </div>
