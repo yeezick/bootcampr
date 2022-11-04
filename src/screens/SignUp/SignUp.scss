@@ -8,26 +8,25 @@
 
 .pwd-reveal {
   cursor: pointer;
-  height: 17px;
+  font-size: 19px;
+  margin: 9px 0 0 230px;
   position: absolute;
-  right: 45.8%;
-  top: 33.1%;
 }
 
 .pwd-reveal-gray {
   cursor: pointer;
-  filter: invert(50%);
-  height: 17px;
+  font-size: 19px;
+  margin: 9px 0 0 230px;
+  opacity: 0.4;
   position: absolute;
-  right: 45.8%;
-  top: 33.1%;
 }
 
 .pwd-reveal-gray:hover {
-  filter: none;
+  opacity: 1;
 }
 
 .signup-container {
+  align-items: center;
   border-radius: 2% / 1%;
   box-shadow: 0 8px 17px -6px rgba(0, 0, 0, 0.7);
   display: flex;
@@ -35,22 +34,57 @@
   margin: 0 auto;
   margin-top: 3rem;
   padding: 1rem 2rem 2rem 2rem;
-  text-align: center;
-  width: 10rem;
+  width: 18rem;
 }
 
 .signup-container button {
+  background-color: rgb(202, 207, 212);
+  border: none;
+  border-radius: 2% / 19%;
+  color: rgb(44, 56, 66);
   cursor: pointer;
+  font-size: 15px;
+  height: 4vh;
+  width: 16.3rem;
 }
-  
+
+.signup-container button:disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.signup-container button:hover {
+  background-color: rgb(79, 127, 169);
+  color: white;
+}
+
+.signup-container button:active {
+  background-color: rgb(54, 91, 123);
+}
+
 .signup-container form {
   align-items: center;
   display: flex;
   flex-direction: column;
-  row-gap: 1rem;
+  row-gap: 1.2rem;
 }
 
 .signup-container h4 {
   margin: 0;
   margin-top: 2rem;
+}
+
+.signup-container input {
+  background-color: rgb(248, 248, 248);
+  border: 1px solid rgb(65, 82, 97);
+  border-radius: 2% / 19%;
+  font-size: 15px;
+  height: 4vh;
+  padding: 0 1vh 0 1vh;
+  width: 27vh;
+}
+
+.pwd-reveal-container input {
+  padding-right: 35px;
+  width: 24vh;
 }
