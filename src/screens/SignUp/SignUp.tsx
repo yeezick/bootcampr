@@ -75,7 +75,7 @@ const SignUp: React.FC = () => {
         <input type="text" name="firstName" placeholder="First Name"  onChange={handleChange} value={formValues.firstName} autoComplete="off" required />
         <input type="text" name="lastName" placeholder="Last Name" onChange={handleChange} value={formValues.lastName} autoComplete="off" required />
         <input type="email" name="email" placeholder="Email"  onChange={handleChange} value={formValues.email} autoComplete="off" required />
-        <div>
+        <div className="pwd-reveal-container">
           {inputType === 'password' ? <BsEyeSlash onClick={passwordReveal} className='pwd-reveal-gray' /> : <BsEyeFill onClick={passwordReveal} className='pwd-reveal' />}
           <input type={inputType} name="password" placeholder="Password" onChange={handleChange} value={formValues.password} autoComplete="off" />
         </div>
