@@ -36,30 +36,48 @@ const RegisterUserInfo: React.FC = () => {
   }
 
   return (
-    <div className="acct-setup-container">
+    <div className="acct-setup-page">
       <h1>Hi, {firstName}!</h1>
-      <section className="profile-photo-grid">
-        <h4>Profile Photo:</h4>
-        <img src={!profilePicture ? 'https://tinyurl.com/2tbvwnfb' : profilePicture} alt='photo' />
-        <input onChange={handleChange} type='text' name='profilePicture' placeholder='Profile Photo' value={profilePicture || ''} />
-      </section>
-      <h2>Set Up Your Profile</h2>
-      <form onSubmit={handleSubmit}>
-        <h4>First Name:</h4>
-        <input onChange={handleChange} type='text' name='firstName' placeholder='First Name' value={firstName || ''} />
-        <h4>Last Name:</h4>
-        <input onChange={handleChange} type='text' name='lastName' placeholder='Last Name' value={lastName || ''} />
-        <h4>About Me:</h4>
-        <input onChange={handleChange} type='text' name='bio' placeholder='About Me' value={bio || ''} />
-        <h4>My Role:</h4>
-        <input onChange={handleChange} type='text' name='role' placeholder='My Role' value={role || ''} />
-        <h2>Socials:</h2>
-        <h4>LinkedIn URL:</h4>
-        <input onChange={handleChange} type='text' name='linkedinUrl' placeholder='LinkedIn URL' value={linkedinUrl || ''} />
-        <h4>Portfolio URL:</h4>
-        <input onChange={handleChange} type='text' name='portfolioUrl' placeholder='Portfolio URL' value={portfolioUrl || ''} />
-        <button type="submit">Submit Profile</button>
-      </form>
+      <div className="form-container">
+        <section className="profile-photo-grid">
+          <img src={!profilePicture ? 'https://tinyurl.com/2tbvwnfb' : profilePicture} alt='photo' />
+          <h4>Profile Photo:</h4>
+          <input onChange={handleChange} type='text' name='profilePicture' placeholder='Profile Photo' value={profilePicture || ''} />
+        </section>
+        <div className="user-info-grid">
+          <h2>Set Up Your Profile</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-input">
+              <h4>First Name:</h4>
+              <input onChange={handleChange} type='text' name='firstName' placeholder='First Name' value={firstName || ''} />
+            </div>
+            <div className="form-input">
+              <h4>Last Name:</h4>
+              <input onChange={handleChange} type='text' name='lastName' placeholder='Last Name' value={lastName || ''} />
+            </div>
+            <div className="form-input">
+              <h4>About Me:</h4>
+              <input onChange={handleChange} type='text' name='bio' placeholder='About Me' value={bio || ''} />
+            </div>
+            <div className="form-input">
+              <h4>My Role:</h4>
+              <input onChange={handleChange} type='text' name='role' placeholder='My Role' value={role || ''} />
+            </div>
+            <h2>Socials:</h2>
+            <div className="form-input">
+              <h4>LinkedIn URL:</h4>
+              <input onChange={handleChange} type='text' name='linkedinUrl' placeholder='LinkedIn URL' value={linkedinUrl || ''} />
+            </div>
+            <div className="form-input">
+              <h4>Portfolio URL:</h4>
+              <input onChange={handleChange} type='text' name='portfolioUrl' placeholder='Portfolio URL' value={portfolioUrl || ''} />
+            </div>
+            <div className="form-btn">
+              <button type="submit">Submit Profile</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   )
 }
