@@ -2,36 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { getOneProject } from '../../utilities/api/projects';
 import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
 import { useParams, Link } from 'react-router-dom';
+import { ProjectDetailsObject } from '../../utilities/data/constants';
 
 export interface IProjectsProps {
   children?: JSX.Element | JSX.Element[];
 }
 
 const ProjectDetails: React.FC = (): JSX.Element => {
-  const [project, setProject] = useState<ProjectInterface>({
-    id: '',
-    title: '',
-    duration: '',
-    meeting_cadence: '',
-    overview: '',
-    technologies_used: [],
-    createdAt: '',
-    updatedAt: '',
-    project_owner: {
-      about: '',
-      email: '',
-      first_name: '',
-      fun_fact: '',
-      interested_projects: [],
-      last_name: '',
-      portfolio_projects: {},
-      portfolio_link: '',
-      show_portfolio: true,
-      rejected_projects: [],
-      role: '',
-      _id: '',
-    },
-  });
+  const [project, setProject] = useState<ProjectInterface>(ProjectDetailsObject);
 
   const params = useParams();
 
