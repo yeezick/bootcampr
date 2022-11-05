@@ -15,8 +15,6 @@ const Projects: React.FC = () => {
     fetchProjects();
   }, [setProjects]);
 
-  console.log(projects);
-
   return (
     <div className="project-container">
       <h1>Browse Projects</h1>
