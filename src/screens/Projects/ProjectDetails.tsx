@@ -33,6 +33,7 @@ const ProjectDetails: React.FC = (): JSX.Element => {
   if (!project._id) <h1>Loading project or none found...</h1>;
 
   const { duration, meeting_cadence, overview, technologies_used, title } = project;
+  const { firstName, lastName, _id: ownerId } = projectOwner;
 
   return (
     <div className="project-container">
@@ -42,13 +43,13 @@ const ProjectDetails: React.FC = (): JSX.Element => {
       <p>Project Duration: {duration}</p>
       <p> Meeting Cadence: {meeting_cadence}</p>
       <p>Project Technologies: {technologies_used}</p>
-      {projectOwner._id && (
+      {ownerId && (
         <>
           <p>
-            Project Owner: {projectOwner.firstName} {projectOwner.lastName}
+            Project Owner: {firstName} {lastName}
           </p>
           <div>
-            <Link to={`/users/${projectOwner._id}`}>Sign Up</Link>
+            <Link to={`/users/${ownerId}`}>Sign Up</Link>
           </div>
         </>
       )}
