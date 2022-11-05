@@ -15,7 +15,11 @@ li {
   text-align: center;
 }
 
-p,
-h3 {
-  text-transform: capitalize;
+.technologies {
+  background-color: rgb(126, 125, 125);
+  border-radius: 5%;
+  color: white;
+  font-weight: 500;
+  margin: 5px;
+  padding: 5px;
 }
