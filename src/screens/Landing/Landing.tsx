@@ -1,51 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { UserInterface } from '../../utilities/Interface/UserInterface';
-import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { getAllUsers } from '../../utilities/api/users';
-import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
+import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai';
 
 const Landing: React.FC = () => {
-  const [currentUser, setCurrentUser] = useState<UserInterface | null>();
-  const allUser = useSelector(selectAuthUser);
+  const [loginStatus, setLoginStatus] = useState<boolean | null>(null);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const gettingAllUser = await getAllUsers();
+  const randomUserLogin = async () => {
+    const gettingAllUser = await getAllUsers();
+    if (gettingAllUser) {
       dispatch(setAuthUser(gettingAllUser[0]));
-    };
-    fetchUsers();
-  }, []);
+      setLoginStatus(true);
+    } else {
+      setLoginStatus(false);
+    }
+  };
 
-  useEffect(() => {
-    setCurrentUser(allUser);
-  }, [allUser]);
+  const LoginStatusSymbol: React.FC = () => {
+    if (loginStatus === true) {
+      return <AiOutlineCheckCircle />;
+    } else if (loginStatus === false) {
+      return <AiOutlineStop />;
+    } else {
+      return <></>;
+    }
+  };
 
   return (
-    <>
-      <div>
-        <h1> landing screen </h1>
-        {currentUser && (
-          <>
-            <h1>first name {currentUser.first_name}</h1>
-            <h1>last name {currentUser.last_name}</h1>
-            <h1>email {currentUser.email}</h1>
-            <h1>portfolio {currentUser?.portfolio_link}</h1>
-            <h1>role {currentUser.role}</h1>
-            <h1>member_of_projects ...</h1>
-            {currentUser?.member_of_projects?.map((projects: ProjectInterface, id: number) => (
-              <div key={id}>
-                <h5>{projects.title}</h5>
-                <h5>{projects.overview}</h5>
-                <h5>{projects.meeting_cadence}</h5>
-                <h5>{projects.technologies_used}</h5>
-              </div>
-            ))}
-          </>
-        )}
-      </div>
-    </>
+    <div className="">
+      <h1> landing screen </h1>
+      <h2>
+        Login as a random user using the button below <br /> Button is for devs who want to skip auth user flow
+      </h2>
+      <button onClick={randomUserLogin}>Login as random user</button>
+      <LoginStatusSymbol />
+    </div>
   );
 };
 
