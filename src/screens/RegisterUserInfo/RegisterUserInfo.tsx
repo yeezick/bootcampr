@@ -41,23 +41,23 @@ const RegisterUserInfo: React.FC = () => {
       <section className="profile-photo-grid">
         <h4>Profile Photo:</h4>
         <img src={!profilePicture ? 'https://tinyurl.com/2tbvwnfb' : profilePicture} alt='photo' />
-        <input onChange={handleChange} type='text' name='profilePicture' placeholder='Profile Photo' value={profilePicture} />
+        <input onChange={handleChange} type='text' name='profilePicture' placeholder='Profile Photo' value={profilePicture || ''} />
       </section>
       <h2>Set Up Your Profile</h2>
       <form onSubmit={handleSubmit}>
         <h4>First Name:</h4>
-        <input onChange={handleChange} type='text' name='firstName' placeholder='First Name' value={firstName} />
+        <input onChange={handleChange} type='text' name='firstName' placeholder='First Name' value={firstName || ''} />
         <h4>Last Name:</h4>
-        <input onChange={handleChange} type='text' name='lastName' placeholder='Last Name' value={lastName} />
+        <input onChange={handleChange} type='text' name='lastName' placeholder='Last Name' value={lastName || ''} />
         <h4>About Me:</h4>
-        <input onChange={handleChange} type='text' name='bio' placeholder='About Me' value={bio} />
+        <input onChange={handleChange} type='text' name='bio' placeholder='About Me' value={bio || ''} />
         <h4>My Role:</h4>
-        <input onChange={handleChange} type='text' name='role' placeholder='My Role' value={role} />
+        <input onChange={handleChange} type='text' name='role' placeholder='My Role' value={role || ''} />
         <h2>Socials:</h2>
         <h4>LinkedIn URL:</h4>
-        <input onChange={handleChange} type='text' name='linkedinUrl' placeholder='LinkedIn URL' value={linkedinUrl} />
+        <input onChange={handleChange} type='text' name='linkedinUrl' placeholder='LinkedIn URL' value={linkedinUrl || ''} />
         <h4>Portfolio URL:</h4>
-        <input onChange={handleChange} type='text' name='portfolioUrl' placeholder='Portfolio URL' value={portfolioUrl} />
+        <input onChange={handleChange} type='text' name='portfolioUrl' placeholder='Portfolio URL' value={portfolioUrl || ''} />
         <button type="submit">Submit Profile</button>
       </form>
     </div>
