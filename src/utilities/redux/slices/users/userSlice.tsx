@@ -60,6 +60,9 @@ const usersSlice = createSlice({
     setAuthUser: (state, action: PayloadAction<UserInterface>) => {
       state.auth.user = action.payload;
     },
+    newUserCheck: (state, action: PayloadAction<boolean>) => {
+      state.status.isNewUser = action.payload;
+    },
     reset: (state) => {
       state.status.isLoading = false;
       state.status.isSuccess = false;
@@ -102,5 +105,5 @@ const usersSlice = createSlice({
 
 export const selectAuthUser = (state: RootState) => state.ui.auth.user;
 export const uiStatus = (state: RootState) => state.ui.status;
-export const { setAuthUser, reset } = usersSlice.actions;
+export const { setAuthUser, newUserCheck, reset } = usersSlice.actions;
 export default usersSlice.reducer;
