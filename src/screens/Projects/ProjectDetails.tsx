@@ -2,40 +2,56 @@ import React, { useState, useEffect } from 'react';
 import { getOneProject } from '../../utilities/api/projects';
 import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
 import { useParams, Link } from 'react-router-dom';
-import { ProjectDetailsObject } from '../../utilities/data/constants';
+import { emptyProject, emptyProjectOwner } from '../../utilities/data/constants';
+import { getOneUser } from '../../utilities/api/users';
 
 export interface IProjectsProps {
   children?: JSX.Element | JSX.Element[];
 }
 
 const ProjectDetails: React.FC = (): JSX.Element => {
-  const [project, setProject] = useState<ProjectInterface>(ProjectDetailsObject);
+  const [project, setProject] = useState<ProjectInterface>(emptyProject);
+  const [projectOwner, setProjectOwner] = useState(emptyProjectOwner);
 
   const params = useParams();
 
   useEffect(() => {
     const fetchProject = async () => {
-      const displayOneProject = await getOneProject(params.id);
-      setProject(displayOneProject);
+      const singleProject = await getOneProject(params.id);
+      let projectOwner = await getOneUser(singleProject.project_owner);
+      projectOwner = {
+        firstName: projectOwner.firstName,
+        lastName: projectOwner.lastName,
+        _id: projectOwner._id,
+      };
+      setProjectOwner(projectOwner);
+      setProject(singleProject);
     };
     fetchProject();
-  }, [setProject]);
+  }, []);
+
+  if (!project._id) <h1>Loading project or none found...</h1>;
+
+  const { duration, meeting_cadence, overview, technologies_used, title } = project;
 
   return (
     <div className="project-container">
       <Link to="/projects">Back to All Projects</Link>
-      <h1>Title: {project.title}</h1>
-      <p>Project Overview: {project.overview} </p>
-      <p>Project Duration: {project.duration}</p>
-      <p> Meeting Cadence: {project.meeting_cadence}</p>
-      <p>Project Technologies: {project.technologies_used}</p>
-      <p>
-        {' '}
-        Project Owner:&nbsp;
-        {project.project_owner ? project.project_owner.first_name : null}
-        {project.project_owner ? project.project_owner.last_name : null}
-      </p>
-      <p>Project Owner Portfolio: {project.project_owner ? project.project_owner.portfolio_link : null}</p>
+      <h1>Title: {title}</h1>
+      <p>Project Overview: {overview} </p>
+      <p>Project Duration: {duration}</p>
+      <p> Meeting Cadence: {meeting_cadence}</p>
+      <p>Project Technologies: {technologies_used}</p>
+      {projectOwner._id && (
+        <>
+          <p>
+            Project Owner: {projectOwner.firstName} {projectOwner.lastName}
+          </p>
+          <div>
+            <Link to={`/users/${projectOwner._id}`}>Sign Up</Link>
+          </div>
+        </>
+      )}
     </div>
   );
 };

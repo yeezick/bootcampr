@@ -6,12 +6,12 @@ import { RiUploadCloudFill } from 'react-icons/ri';
 import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
 import './CreateProject.scss';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { CreateProjectObject } from '../../utilities/data/constants';
+import { emptyProject } from '../../utilities/data/constants';
 
 const CreateProject: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
   const [fileSelected, setFileSelected] = useState<File>();
-  const [projectForm, setProjectForm] = useState<ProjectInterface>(CreateProjectObject);
+  const [projectForm, setProjectForm] = useState<ProjectInterface>(emptyProject);
   const navigate = useNavigate();
 
   const handleProjectInputChange = (
@@ -23,11 +23,11 @@ const CreateProject: React.FC = () => {
 
   useEffect(() => {
     if (authUser) {
-      setProjectForm(CreateProjectObject);
+      setProjectForm({ ...emptyProject, project_owner: authUser._id });
     } else {
       navigate('/sign-in');
     }
-  }, [setProjectForm]);
+  }, []);
 
   console.log(authUser?._id);
 
