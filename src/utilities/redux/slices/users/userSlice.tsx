@@ -26,7 +26,8 @@ const initialState: UiSliceInterface = {
     isError: {
       status: false,
       message: ''
-    }
+    },
+    isNewUser: true
   },
 };
 

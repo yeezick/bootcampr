@@ -31,6 +31,7 @@ export interface UiSliceInterface {
       status?: boolean;
       message?: string;
     };
+    isNewUser?: boolean;
   };
 }
 
