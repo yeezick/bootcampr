@@ -29,8 +29,6 @@ const CreateProject: React.FC = () => {
     }
   }, []);
 
-  console.log(authUser?._id);
-
   const handleNewProject = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newProject = await createProject(projectForm);
