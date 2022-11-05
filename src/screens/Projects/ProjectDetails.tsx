@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { getOneProject } from '../../utilities/api/projects';
-import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
 import { useParams, Link } from 'react-router-dom';
+import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 import { emptyProject, emptyProjectOwner } from '../../utilities/data/constants';
 import { getOneUser } from '../../utilities/api/users';
+import { getOneProject } from '../../utilities/api/projects';
 
-export interface IProjectsProps {
-  children?: JSX.Element | JSX.Element[];
-}
-
-const ProjectDetails: React.FC = (): JSX.Element => {
+export const ProjectDetails: React.FC = (): JSX.Element => {
   const [project, setProject] = useState<ProjectInterface>(emptyProject);
   const [projectOwner, setProjectOwner] = useState(emptyProjectOwner);
 
@@ -49,12 +45,10 @@ const ProjectDetails: React.FC = (): JSX.Element => {
             Project Owner: {firstName} {lastName}
           </p>
           <div>
-            <Link to={`/users/${ownerId}`}>Sign Up</Link>
+            <Link to={`/users/${ownerId}`}>Vist Profile</Link>
           </div>
         </>
       )}
     </div>
   );
 };
-
-export default ProjectDetails;

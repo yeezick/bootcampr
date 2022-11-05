@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createProject } from '../../utilities/api/projects';
 import { useSelector } from 'react-redux';
 import { RiUploadCloudFill } from 'react-icons/ri';
-import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
-import './CreateProject.scss';
+import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { emptyProject } from '../../utilities/data/constants';
+import { createProject } from '../../utilities/api/projects';
+import './CreateProject.scss';
 
 const CreateProject: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
