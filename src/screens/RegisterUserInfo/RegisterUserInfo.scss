@@ -17,7 +17,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  width: 27vh;
+  width: 17rem;
 }
 
 .profile-photo-grid img {
@@ -25,8 +25,8 @@
   border: 3px groove rgb(207, 206, 202);
   border-radius: 50%;
   box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.7);
-  height: 27vh;
   margin-bottom: 2rem;
+  width: 15rem;
 }
 
 .profile-photo-grid input {
