@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
-import { uiStatus, selectAuthUser, reset, updateProfile } from '../../utilities/redux/slices/users/userSlice';
+import { uiStatus, selectAuthUser, reset, updateProfile, newUserCheck } from '../../utilities/redux/slices/users/userSlice';
 import { UserInterface } from "../../utilities/types/UserInterface";
 import { useEffect, useState } from "react";
 import './RegisterUserInfo.scss'
@@ -17,6 +17,11 @@ const RegisterUserInfo: React.FC = () => {
     if (status.isSuccess) {
       dispatch(reset())
       navigate(`/users/${userId}`)
+      dispatch(newUserCheck(false))
+    }
+
+    if (status.isNewUser === false) {
+      navigate(`/users/${userId}/edit`)
     }
   }, [])
 
