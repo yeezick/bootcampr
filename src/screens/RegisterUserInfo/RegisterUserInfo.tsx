@@ -39,7 +39,9 @@ export const RegisterUserInfo: React.FC = () => {
       <h1>Hi, {firstName}!</h1>
       <div className="form-container">
         <section className="profile-photo-grid">
-          <img src={!profilePicture ? 'https://pbs.twimg.com/profile_images/1564398871996174336/M-hffw5a_400x400.jpg' : profilePicture} alt='photo' />
+          <div className="profile-photo">
+            <img src={!profilePicture ? 'https://pbs.twimg.com/profile_images/1564398871996174336/M-hffw5a_400x400.jpg' : profilePicture} alt='photo' />
+          </div>
           <label>Profile Photo:</label>
           <input onChange={handleChange} type='text' name='profilePicture' placeholder='Profile Photo' value={profilePicture} />
         </section>

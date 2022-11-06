@@ -20,13 +20,23 @@
   width: 17rem;
 }
 
-.profile-photo-grid img {
+.profile-photo {
+  align-items: center;
   background-color: white;
   border: 3px groove rgb(207, 206, 202);
   border-radius: 50%;
   box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.7);
+  display: flex;
+  height: 17rem;
+  justify-content: center;
   margin-bottom: 2rem;
-  width: 15rem;
+  overflow: hidden;
+  width: 17rem;
+}
+
+.profile-photo-grid img {
+  height: 17rem;
+  width: auto;
 }
 
 .profile-photo-grid input {
