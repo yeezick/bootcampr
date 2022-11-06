@@ -3,7 +3,6 @@ import { SignUpInterface, UiSliceInterface, UserInterface } from '../../../types
 import { signUp, updateUser } from '../../../api/users';
 import { RootState } from '../../store';
 
-
 const initialState: UiSliceInterface = {
   auth: {
     user: {
@@ -27,7 +26,6 @@ const initialState: UiSliceInterface = {
       status: false,
       message: ''
     },
-    isNewUser: true
   },
 };
 
@@ -46,7 +44,11 @@ export const updateProfile = createAsyncThunk(
   'users/updateUser',
   async (user: UserInterface, thunkAPI) => {
     try {
-      return await updateUser(user._id, user)
+      const res = await updateUser(user._id, user)
+      if (res) {
+        reset()
+        return res
+      }
     } catch (error) {
       return thunkAPI.rejectWithValue('Unable to update user!')
     }
@@ -60,15 +62,14 @@ const usersSlice = createSlice({
     setAuthUser: (state, action: PayloadAction<UserInterface>) => {
       state.auth.user = action.payload;
     },
-    newUserCheck: (state, action: PayloadAction<boolean>) => {
-      state.status.isNewUser = action.payload;
+    updateAuthUser: (state, action: PayloadAction<UserInterface>) => {
+      state.auth.user = action.payload
     },
     reset: (state) => {
       state.status.isLoading = false;
       state.status.isSuccess = false;
       state.status.isError = { status: false };
     }
-    
   },
   extraReducers: (builder) => {
     builder
@@ -105,5 +106,5 @@ const usersSlice = createSlice({
 
 export const selectAuthUser = (state: RootState) => state.ui.auth.user;
 export const uiStatus = (state: RootState) => state.ui.status;
-export const { setAuthUser, newUserCheck, reset } = usersSlice.actions;
+export const { setAuthUser, updateAuthUser, reset } = usersSlice.actions;
 export default usersSlice.reducer;

@@ -1,28 +1,18 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import CreateProject from './screens/CreateProject/CreateProject';
-import Landing from './screens/Landing/Landing';
-import Loader from './components/Loader/Loader';
-import RegisterUserInfo from './screens/RegisterUserInfo/RegisterUserInfo';
-import SignIn from './screens/SignIn/SignIn';
-import SignUp from './screens/SignUp/SignUp';
-import Nav from './layout/Nav/Nav';
+import { CreateProject } from './screens/CreateProject/CreateProject';
+import { Landing } from './screens/Landing/Landing';
+import { RegisterUserInfo } from './screens/RegisterUserInfo/RegisterUserInfo';
+import { SignIn } from './screens/SignIn/SignIn';
+import { SignUp } from './screens/SignUp/SignUp';
+import { Nav } from './layout/Nav/Nav';
 import { Layout } from './layout/Layout';
 import { UserProfile } from './screens/UserProfile/UserProfile';
 import { EditProfile } from './screens/UserProfile/EditProfile';
 import { Projects } from './screens/Projects/Projects';
 import { ProjectDetails } from './screens/Projects/ProjectDetails';
-import { useAppSelector } from './utilities/redux/hooks';
-import { uiStatus } from './utilities/redux/slices/users/userSlice';
 import './App.css';
 
 function App() {
-  const status = useAppSelector(uiStatus)
-
-  if (status.isLoading) {
-    return <Loader />
-  }
-
   return (
     <Layout>
       <Router>

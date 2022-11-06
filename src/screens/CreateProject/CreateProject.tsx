@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import { RiUploadCloudFill } from 'react-icons/ri';
 import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { emptyProject } from '../../utilities/data/constants';
+import { emptyProject } from '../../utilities/data/projectConstants';
 import { createProject } from '../../utilities/api/projects';
 import './CreateProject.scss';
 
-const CreateProject: React.FC = () => {
+export const CreateProject: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
   const [fileSelected, setFileSelected] = useState<File>();
   const [projectForm, setProjectForm] = useState<ProjectInterface>(emptyProject);
@@ -141,5 +141,3 @@ const CreateProject: React.FC = () => {
     </div>
   );
 };
-
-export default CreateProject;

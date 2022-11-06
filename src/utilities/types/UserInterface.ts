@@ -31,16 +31,15 @@ export interface UiSliceInterface {
       status?: boolean;
       message?: string;
     };
-    isNewUser?: boolean;
   };
 }
 
 export interface SignUpInterface {
-  confirmPassword?: string,
-  email?: string,
-  firstName?: string,
-  lastName?: string,
-  password?: string
+  confirmPassword: string,
+  email: string,
+  firstName: string,
+  lastName: string,
+  password: string
 }
 
 // export interface PortfolioProjectInterface {
