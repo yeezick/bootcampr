@@ -32,16 +32,16 @@ const Sidebar = () => {
         </div>
         <div className="nav-links">
           <Link className="link" to={`/`}>
-            <AiFillStar size={16} viewBox={'0 0 1024 900'} /> My Profile
+            <AiFillStar size={18} viewBox={'0 0 1024 900'} /> My Profile
           </Link>
           <Link className="link" to={`/`}>
-            <AiFillStar size={16} /> My Projects
+            <AiFillStar size={18} /> My Projects
           </Link>
           <Link className="link" to={`/`}>
-            <AiFillStar size={16} /> My Applications
+            <AiFillStar size={18} /> My Applications
           </Link>
           <Link className="link" to={`/}`}>
-            <AiFillStar size={16} /> Sign Out
+            <AiFillStar size={18} /> Sign Out
           </Link>
         </div>
       </div>
