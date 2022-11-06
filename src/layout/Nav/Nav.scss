@@ -11,16 +11,15 @@ nav {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    // gap: 96px;
   }
 
   .logo {
-    padding-left: 65px;
+    padding-left: 25px;
   }
 
   .link {
     color: #ffffff;
-    font-size: 16px;
+    font-size: 1vw;
     font-weight: 700;
     padding: 0 10px;
     text-decoration: none;
@@ -31,6 +30,7 @@ nav {
     display: flex;
     flex-wrap: wrap;
     gap: 22px;
+    width: 30%;
   }
 
   .sign-up {
