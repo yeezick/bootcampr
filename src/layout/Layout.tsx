@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from './Sidebar/Sidebar';
 import Nav from './Nav/Nav';
+import './Layout.scss';
 
 type Props = {
   children: React.ReactNode;

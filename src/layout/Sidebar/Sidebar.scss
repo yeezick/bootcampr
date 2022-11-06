@@ -1,0 +1,17 @@
+.sidebar-container {
+  width: 272px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  transition: 0.3s ease-in-out;
+}
+
+.sidebar {
+  //   display: none;
+}
+
+.link {
+  //   z-index: 1;
+}
