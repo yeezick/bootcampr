@@ -82,16 +82,6 @@ const Nav: React.FC = () => {
       </div>
       <div className="nav-links">
         <div>
-          <Link className="link" to="/sign-up">
-            Sign Up
-          </Link>
-        </div>
-        <div>
-          <Link className="link" to="/sign-in">
-            Sign In
-          </Link>
-        </div>
-        <div>
           <Link className="link" to="/">
             Landing Page
           </Link>
@@ -106,7 +96,22 @@ const Nav: React.FC = () => {
             Create Project
           </Link>
         </div>
-        {authLinks && (
+      </div>
+      <div className="auth-btn">
+        <div>
+          <Link className="link sign-up" to="/sign-up">
+            Sign up
+          </Link>
+        </div>
+
+        <div>
+          <Link className="link log-in" to="/sign-in">
+            Log in
+          </Link>
+        </div>
+      </div>
+
+      {/* {authLinks && (
           <>
             <div>
               <Link className="link" to={`/users/${authUser._id}`}>
@@ -119,8 +124,7 @@ const Nav: React.FC = () => {
               </Link>
             </div>
           </>
-        )}
-      </div>
+        )} */}
     </nav>
   );
 };
