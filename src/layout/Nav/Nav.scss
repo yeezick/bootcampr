@@ -1,6 +1,7 @@
 nav {
   background-color: #353131;
   display: flex;
+  height: 53px;
   justify-content: space-between;
   padding: 20px;
   position: relative;
@@ -9,7 +10,8 @@ nav {
     align-items: center;
     display: flex;
     flex-direction: row;
-    gap: 96px;
+    flex-wrap: wrap;
+    // gap: 96px;
   }
 
   .logo {
@@ -27,6 +29,7 @@ nav {
   .auth-btn {
     align-items: center;
     display: flex;
+    flex-wrap: wrap;
     gap: 22px;
   }
 

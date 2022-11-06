@@ -9,10 +9,12 @@ type Props = {
 
 export const Layout: React.FC<Props> = ({ children }: Props) => {
   return (
-    <div className="layout-container">
+    <>
       <Nav />
       <Sidebar />
-      <div>{children};</div>
-    </div>
+      <div className="layout-container">
+        <div>{children};</div>
+      </div>
+    </>
   );
 };
