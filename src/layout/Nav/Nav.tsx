@@ -5,7 +5,8 @@ import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import './Nav.scss';
 import { Logo } from '../../assets/Logo';
 
-const Nav: React.FC = () => {
+export const Nav: React.FC = () => {
+  const [authLinks, setAuthLinks] = useState<boolean>(false);
   const authUser = useSelector(selectAuthUser);
 
   return (
@@ -57,5 +58,3 @@ const Nav: React.FC = () => {
     </nav>
   );
 };
-
-export default Nav;
