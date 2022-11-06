@@ -27,11 +27,19 @@ export interface UiSliceInterface {
     isAuthenticated: boolean;
     isLoading?: boolean;
     isSuccess?: boolean;
-    isError?: {
-      status: boolean;
-      messsage: string;
+    isError?: { // status + message should not be conditional? if there is an error. Any error should return the status and a message to describe it 
+      status?: boolean;
+      message?: string;
     };
   };
+}
+
+export interface SignUpInterface {
+  confirmPassword: string,
+  email: string,
+  firstName: string,
+  lastName: string,
+  password: string
 }
 
 // export interface PortfolioProjectInterface {

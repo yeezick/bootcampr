@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ProjectInterface } from '../../utilities/types/ProjectInterface';
-import { emptyProject, emptyProjectOwner } from '../../utilities/data/constants';
+import { emptyProject, emptyProjectOwner } from '../../utilities/data/projectConstants';
 import { getOneUser } from '../../utilities/api/users';
 import { getOneProject } from '../../utilities/api/projects';
 
