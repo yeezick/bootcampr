@@ -28,7 +28,7 @@ export const Sidebar = (props: SidebarProps) => {
             {authUser.firstName ? authUser.firstName : 'Wiggly'} {authUser.lastName ? authUser.lastName : 'Jones'}
           </p>
 
-          <Link className="edit-profile" to={`/users/${authUser._id}/edit`} onClick={toggleSidebar}>
+          <Link className="edit-profile" to={`/users/${authUser._id}/edit`}>
             Edit Profile
           </Link>
         </div>

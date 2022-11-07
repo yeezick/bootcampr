@@ -6,6 +6,7 @@ import './Nav.scss';
 import Logo from '../../assets/Logo.svg';
 
 interface SidebarProps {
+  isOpen: boolean;
   toggleSidebar: () => void;
 }
 

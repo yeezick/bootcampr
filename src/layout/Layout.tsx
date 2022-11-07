@@ -34,9 +34,9 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
 
   return (
     <>
-      <Nav toggleSidebar={toggleSidebar} />
+      <Nav isOpen={isOpen} toggleSidebar={toggleSidebar} />
       <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-      <div className="layout-container">
+      <div className={isOpen ? 'layout-container active' : ''}>
         <div>{children};</div>
       </div>
     </>
