@@ -5,7 +5,8 @@ export const getAllUsers = async () => {
     const res = await api.get('/users');
     return res.data;
   } catch (error) {
-    throw error;
+    console.error(error);
+    return false;
   }
 };
 
