@@ -2,14 +2,6 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { SignUpInterface, UiSliceInterface, UserInterface } from '../../../types/UserInterface';
 import { signUp, updateUser } from '../../../api/users';
 import { RootState } from '../../store';
-<<<<<<< HEAD:src/utilities/redux/slices/users/userSlice.ts
-export interface UserState {
-  authUser: UserInterface | null;
-}
-
-const initialState: UserState = {
-  authUser: null,
-=======
 
 const initialState: UiSliceInterface = {
   auth: {
@@ -35,7 +27,6 @@ const initialState: UiSliceInterface = {
       message: ''
     },
   },
->>>>>>> development:src/utilities/redux/slices/users/userSlice.tsx
 };
 
 export const register = createAsyncThunk(

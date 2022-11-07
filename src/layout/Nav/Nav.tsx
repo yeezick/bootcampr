@@ -8,6 +8,8 @@ export const Nav: React.FC = () => {
   const [authLinks, setAuthLinks] = useState<boolean>(false);
   const authUser = useSelector(selectAuthUser);
 
+  console.log(authUser)
+
   useEffect(() => {
     if (authUser) setAuthLinks(true);
   }, [authUser]);

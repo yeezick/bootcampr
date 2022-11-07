@@ -51,33 +51,38 @@ const SignIn: React.FC = (): JSX.Element => {
   }, [formData])
 
   return (
-    <>
+    <div className={styles.sign_in_container}>
       <form className={styles.sign_in_form} onSubmit={handleSubmitForm}>
-
-        <label htmlFor="email">Email</label>
-        <input
-          name="email"
-          id="email"
-          type="email"
-          onChange={handleFormDataChange}
-          required
-        />
-
-        <label htmlFor="password">Password</label>
-        <input
-          name="password"
-          id="password"
-          type="password"
-          onChange={handleFormDataChange}
-          required
-        />
-
+        <div className={styles.sign_in_inputs}>
+          <h3>Sign-In</h3>
+          <div className={styles.flex_column}>
+            <label className={styles.input_label} htmlFor="email">Email</label>
+            <input
+              className={styles.input}
+              name="email"
+              id="email"
+              type="email"
+              onChange={handleFormDataChange}
+              required
+            />
+          </div>
+          <div className={styles.flex_column}>
+            <label className={styles.input_label} htmlFor="password">Password</label>
+            <input
+              className={styles.input}
+              name="password"
+              id="password"
+              type="password"
+              onChange={handleFormDataChange}
+              required
+            />
+          </div>
+        </div>
         <button disabled={buttonDisabled} type="submit">Go</button>
-
-        <p>{invalidCredentials && <span>Invalid Credentials</span>}</p>
       </form>
-    </>
+      <p className={`${!invalidCredentials ? styles.hidden : styles.error_message}`}>{invalidCredentials && <span>Invalid Credentials</span>}</p>
+    </div>
   );
 };
 
-export default SignIn;
+export { SignIn };
