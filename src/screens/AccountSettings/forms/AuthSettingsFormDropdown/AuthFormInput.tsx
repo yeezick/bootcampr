@@ -1,4 +1,4 @@
-import { AuthFormInputProps, EmailFormData } from '../../helper/data'
+import { AuthFormInputProps } from '../../../../utilities/types/AccountSettingsInterface'
 import styles from './AuthSettingsFormDropdown.module.css'
 
 const AuthFormInput = ({ setAuthFormData, authFormData, field, type }: AuthFormInputProps): JSX.Element => {

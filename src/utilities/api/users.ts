@@ -1,12 +1,13 @@
 import { api } from './apiConfig';
-import { PasswordFormData, EmailFormData } from '../../screens/AccountSettings/helper/data';
+import { PasswordFormData, EmailFormData } from '../types/AccountSettingsInterface';
 
 export const getAllUsers = async () => {
   try {
     const res = await api.get('/users');
     return res.data;
   } catch (error) {
-    throw error;
+    console.error(error);
+    return false;
   }
 };
 

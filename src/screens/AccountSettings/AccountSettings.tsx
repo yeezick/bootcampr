@@ -1,26 +1,32 @@
 import { useState } from 'react'
+import { initialState, settings } from './helper/data'
+import { DropDownSettings, AccountSettingsProps } from '../../utilities/types/AccountSettingsInterface'
 import styles from './AccountSettings.module.css'
-import { initialState, AccountSettingsProps, DropDownSettings, settings } from './helper/data'
 
 
 const AccountSettings = ({ }: AccountSettingsProps): JSX.Element => {
   // State Variables
-  const [activeDropdown, setActiveDropdown] = useState<DropDownSettings>(initialState)
+  const [dropdownModes, setDropdownModes] = useState<DropDownSettings>(initialState)
+
+
+
+  // Helper Functions
+  const closeDropdown = (key: string, tempModes: DropDownSettings) => tempModes[key as keyof DropDownSettings] = false
+  const openDropdown = (key: string, tempModes: DropDownSettings) => tempModes[key as keyof DropDownSettings] = true
 
   // Event Handlers
-  const handleOpenDropDown = (setting: string) => {
-    let newActiveDropdown = { ...activeDropdown }
+  const handleToggleDropdown = (setting: string) => {
+    const tempModes = { ...dropdownModes }
 
-    // This Code Toggles The Dropdown & Closes Any Other Open One
-    for (let key in activeDropdown) {
-      if (key === setting) {
-        if (newActiveDropdown[key as keyof DropDownSettings] === true) newActiveDropdown[key as keyof DropDownSettings] = false
-        else newActiveDropdown[key as keyof DropDownSettings] = true
-      }
-      else newActiveDropdown[key as keyof DropDownSettings] = false
+    for (let key in dropdownModes) {
+      const settingWasClickedOn: boolean = key === setting
+      const theDropdownIsAlreadyOpen: boolean = tempModes[key as keyof DropDownSettings] === true
+
+      if (settingWasClickedOn) theDropdownIsAlreadyOpen ? closeDropdown(key, tempModes) : openDropdown(key, tempModes)
+      else closeDropdown(key, tempModes)
     }
 
-    setActiveDropdown(newActiveDropdown)
+    setDropdownModes(tempModes)
   }
 
   // JSX
@@ -32,13 +38,12 @@ const AccountSettings = ({ }: AccountSettingsProps): JSX.Element => {
             <p>Update {title}</p>
 
             <button
-              onClick={() => handleOpenDropDown(val)}
-              className={`${activeDropdown[val as keyof DropDownSettings] ? styles.arrow : styles.active_arrow}`}>
+              onClick={() => handleToggleDropdown(val)}
+              className={`${dropdownModes[val as keyof DropDownSettings] ? styles.arrow : styles.active_arrow}`}>
               &#9002;
             </button>
-
             {
-              activeDropdown[val as keyof DropDownSettings]
+              dropdownModes[val as keyof DropDownSettings]
               &&
               < Component {...props} />
             }

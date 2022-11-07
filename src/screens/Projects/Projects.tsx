@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { getAllProjects } from '../../utilities/api/projects';
 import { Link } from 'react-router-dom';
+import { getAllProjects } from '../../utilities/api/projects';
+import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 import './Projects.scss';
-import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
 
-const Projects: React.FC = () => {
+export const Projects: React.FC = () => {
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
 
   useEffect(() => {
@@ -33,5 +33,3 @@ const Projects: React.FC = () => {
     </div>
   );
 };
-
-export default Projects;
