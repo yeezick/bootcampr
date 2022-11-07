@@ -5,7 +5,7 @@ import { setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { getAllUsers } from '../../utilities/api/users';
 import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai';
 
-const Landing: React.FC = () => {
+export const Landing: React.FC = () => {
   const [loginStatus, setLoginStatus] = useState<boolean | null>(null);
   const dispatch = useDispatch();
 
@@ -40,5 +40,3 @@ const Landing: React.FC = () => {
     </div>
   );
 };
-
-export default Landing;

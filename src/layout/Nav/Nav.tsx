@@ -4,9 +4,11 @@ import { useSelector } from 'react-redux';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import './Nav.scss';
 
-const Nav: React.FC = () => {
+export const Nav: React.FC = () => {
   const [authLinks, setAuthLinks] = useState<boolean>(false);
   const authUser = useSelector(selectAuthUser);
+
+  console.log(authUser)
 
   useEffect(() => {
     if (authUser) setAuthLinks(true);
@@ -44,5 +46,3 @@ const Nav: React.FC = () => {
     </div>
   );
 };
-
-export default Nav;
