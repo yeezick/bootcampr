@@ -11,6 +11,23 @@
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
   transition: 0.3s ease-in-out;
 
+  .menu-btn {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    left: 10px;
+    top: 25px;
+    position: absolute;
+  }
+
+  i {
+    background-color: #ffffff;
+    border-radius: 2px;
+    height: 4px;
+    margin: 4px;
+    width: 32px;
+  }
+
   .current-user {
     display: flex;
     align-items: center;

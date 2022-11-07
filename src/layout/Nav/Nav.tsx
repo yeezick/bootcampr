@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
@@ -13,11 +12,15 @@ interface SidebarProps {
 export const Nav = (props: SidebarProps) => {
   const authUser = useSelector(selectAuthUser);
 
+  const toggleSidebarHandler = () => {
+    props.toggleSidebar();
+  };
+
   return (
     <nav>
       <div className="nav-container">
         {authUser._id !== '' ? (
-          <div className="menu-btn" onClick={props.toggleSidebar}>
+          <div className="menu-btn" onClick={toggleSidebarHandler}>
             <i></i>
             <i></i>
             <i></i>
