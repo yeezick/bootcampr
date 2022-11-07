@@ -6,7 +6,6 @@ import './Nav.scss';
 import { Logo } from '../../assets/Logo';
 
 export const Nav: React.FC = () => {
-  const [authLinks, setAuthLinks] = useState<boolean>(false);
   const authUser = useSelector(selectAuthUser);
 
   return (

@@ -5,9 +5,16 @@ import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import './Sidebar.scss';
 import { AiFillStar } from 'react-icons/ai';
 
-export const Sidebar = () => {
+interface SidebarProps {
+  isOpen: boolean;
+  toggleSidebar: () => void;
+}
+
+export const Sidebar = (props: SidebarProps) => {
   const [authLinks, setAuthLinks] = useState<boolean>(false);
   const authUser = useSelector(selectAuthUser);
+
+  console.log(props);
 
   useEffect(() => {
     if (authUser) setAuthLinks(true);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Loader } from '../components/Loader/Loader';
 import { verify } from '../utilities/api/users';
 import { useAppDispatch, useAppSelector } from '../utilities/redux/hooks';
@@ -14,6 +14,11 @@ type Props = {
 export const Layout: React.FC<Props> = ({ children }: Props) => {
   const dispatch = useAppDispatch();
   const status = useAppSelector(uiStatus);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -30,7 +35,7 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
   return (
     <>
       <Nav />
-      <Sidebar />
+      <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
       <div className="layout-container">
         <div>{children};</div>
       </div>

@@ -6,6 +6,14 @@ nav {
   padding: 20px;
   position: relative;
 
+  .menu-btn {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    left: 10px;
+    position: absolute;
+  }
+
   .nav-links {
     align-items: center;
     display: flex;
@@ -55,12 +63,4 @@ nav {
     margin: 4px;
     width: 32px;
   }
-}
-
-.menu-btn {
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  left: 10px;
-  position: absolute;
 }
