@@ -33,7 +33,7 @@ export const Sidebar = (props: SidebarProps) => {
         </div>
       </div>
       <div className="nav-links">
-        <Link className="link" to={`/`}>
+        <Link className="link" to={`/users/${authUser._id}`}>
           <AiFillStar size={18} viewBox={'0 0 1024 900'} /> My Profile
         </Link>
         <Link className="link" to={`/`}>
@@ -42,7 +42,7 @@ export const Sidebar = (props: SidebarProps) => {
         <Link className="link" to={`/`}>
           <AiFillStar size={18} /> My Applications
         </Link>
-        <Link className="link" to={`/}`}>
+        <Link className="link" to={`/`}>
           <AiFillStar size={18} /> Sign Out
         </Link>
       </div>
