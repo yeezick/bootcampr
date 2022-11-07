@@ -3,21 +3,21 @@
 }
 
 .sidebar-container.active {
-  width: 272px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
   height: 100vh;
+  left: 0;
   position: fixed;
   top: 0;
-  left: 0;
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
   transition: 0.3s ease-in-out;
+  width: 272px;
 
   .menu-btn {
     cursor: pointer;
     display: flex;
     flex-direction: column;
     left: 10px;
-    top: 25px;
     position: absolute;
+    top: 25px;
   }
 
   i {
@@ -29,8 +29,8 @@
   }
 
   .current-user {
-    display: flex;
     align-items: center;
+    display: flex;
     margin: 133px 27px 50px 0px;
     padding: 19px;
   }
@@ -66,9 +66,9 @@
     color: #000;
     border-radius: 4px;
     font-size: 14px;
-    text-decoration: none;
     margin-bottom: 25px;
     padding: 8px 16px;
+    text-decoration: none;
   }
 
   .link:hover {
