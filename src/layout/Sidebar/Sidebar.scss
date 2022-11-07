@@ -1,3 +1,7 @@
+.hide-sidebar {
+  display: none;
+}
+
 .sidebar-container.active {
   width: 272px;
   height: 100vh;
@@ -6,10 +10,6 @@
   left: 0;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
   transition: 0.3s ease-in-out;
-
-  .sidebar {
-    display: none;
-  }
 
   .current-user {
     display: flex;

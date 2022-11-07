@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import './Nav.scss';
-import { Logo } from '../../assets/Logo';
+import Logo from '../../assets/Logo.svg';
 
 interface SidebarProps {
   toggleSidebar: () => void;
@@ -23,7 +23,7 @@ export const Nav = (props: SidebarProps) => {
           </div>
         ) : null}
         <div className="logo">
-          <Logo />
+          <img src={Logo} />
         </div>
       </div>
       <div className="nav-links">
