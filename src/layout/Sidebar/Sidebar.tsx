@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import './Sidebar.scss';
 import { AiFillStar } from 'react-icons/ai';
+import { toggleSidebar } from '../../utilities/redux/slices/users/userSlice';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -14,17 +15,15 @@ export const Sidebar = (props: SidebarProps) => {
   const [authLinks, setAuthLinks] = useState<boolean>(false);
   const authUser = useSelector(selectAuthUser);
 
-  console.log(props);
-
   useEffect(() => {
     if (authUser) setAuthLinks(true);
   }, [authUser]);
 
-  console.log(authUser);
+  console.log(toggleSidebar);
 
   return (
-    <div className="sidebar-container">
-      <div className="sidebar">
+    <div className={props.isOpen ? 'sidebar-container active' : 'sidebar'}>
+      <div>
         <div className="current-user">
           <div className="image"></div>
           <div>
@@ -32,7 +31,7 @@ export const Sidebar = (props: SidebarProps) => {
               {authUser.firstName ? authUser.firstName : 'Wiggly'} {authUser.lastName ? authUser.lastName : 'Jones'}
             </p>
 
-            <Link className="edit-profile" to={`/users/${authUser._id}/edit`}>
+            <Link className="edit-profile" to={`/users/${authUser._id}/edit`} onClick={toggleSidebar}>
               Edit Profile
             </Link>
           </div>

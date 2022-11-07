@@ -34,7 +34,7 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
 
   return (
     <>
-      <Nav />
+      <Nav toggleSidebar={toggleSidebar} />
       <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
       <div className="layout-container">
         <div>{children};</div>

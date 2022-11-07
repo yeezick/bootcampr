@@ -5,14 +5,18 @@ import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import './Nav.scss';
 import { Logo } from '../../assets/Logo';
 
-export const Nav: React.FC = () => {
+interface SidebarProps {
+  toggleSidebar: () => void;
+}
+
+export const Nav = (props: SidebarProps) => {
   const authUser = useSelector(selectAuthUser);
 
   return (
     <nav>
       <div className="nav-container">
         {authUser._id !== '' ? (
-          <div className="menu-btn">
+          <div className="menu-btn" onClick={props.toggleSidebar}>
             <i></i>
             <i></i>
             <i></i>
