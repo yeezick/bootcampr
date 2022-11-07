@@ -3,7 +3,7 @@ import { Loader } from '../components/Loader/Loader';
 import { verify } from '../utilities/api/users';
 import { useAppDispatch, useAppSelector } from '../utilities/redux/hooks';
 import { uiStatus, updateAuthUser } from '../utilities/redux/slices/users/userSlice';
-import Sidebar from './Sidebar/Sidebar';
+import { Sidebar } from './Sidebar/Sidebar';
 import { Nav } from './Nav/Nav';
 import './Layout.scss';
 

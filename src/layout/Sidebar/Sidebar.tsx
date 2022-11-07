@@ -5,7 +5,7 @@ import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import './Sidebar.scss';
 import { AiFillStar } from 'react-icons/ai';
 
-const Sidebar = () => {
+export const Sidebar = () => {
   const [authLinks, setAuthLinks] = useState<boolean>(false);
   const authUser = useSelector(selectAuthUser);
 
@@ -48,5 +48,3 @@ const Sidebar = () => {
     </div>
   );
 };
-
-export default Sidebar;
