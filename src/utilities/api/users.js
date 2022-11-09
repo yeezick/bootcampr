@@ -69,14 +69,9 @@ export const signIn = async (credentials) => {
   }
 };
 
-export const signOut = async () => {
-  try {
-    localStorage.removeItem('token');
-    return true;
-  } catch (error) {
-    throw error;
-  }
-}; // missing endpoint
+export const logOut = async () => {
+  localStorage.removeItem("token")
+}; 
 
 export const verify = async () => {
   const token = localStorage.getItem('token');

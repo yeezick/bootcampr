@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
+import { logoutAuthUser, selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import './Nav.scss';
+import { logOut } from '../../utilities/api/users';
+import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 
 export const Nav: React.FC = () => {
   const [authLinks, setAuthLinks] = useState<boolean>(false);
-  const authUser = useSelector(selectAuthUser);
-
+  const authUser = useAppSelector(selectAuthUser);
+  const dispatch = useAppDispatch();
+  
   useEffect(() => {
-    if (authUser) setAuthLinks(true);
+     (authUser._id) ? setAuthLinks(true) : setAuthLinks(false);
   }, [authUser]);
 
   return (
@@ -37,6 +39,11 @@ export const Nav: React.FC = () => {
             </div>
             <div>
               <Link to={`/users/${authUser._id}/edit`}>Edit Profile</Link>
+            </div>
+            <div>
+              <Link to="/">
+                <button onClick={() => [logOut(), dispatch(logoutAuthUser())]}>Logout</button>
+              </Link>
             </div>
           </>
         )}
