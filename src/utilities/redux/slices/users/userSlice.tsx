@@ -60,6 +60,7 @@ const usersSlice = createSlice({
   initialState,
   reducers: {
     logoutAuthUser: (state) => {
+      // resetting authuser state
       state.auth.user = initialState.auth.user;
     },
     setAuthUser: (state, action: PayloadAction<UserInterface>) => {
