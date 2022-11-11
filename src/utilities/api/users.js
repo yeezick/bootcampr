@@ -49,8 +49,8 @@ export const checkEmailAuth = async (email) => {
 export const signUp = async (credentials) => {
   try {
     const res = await api.post('/sign-up', credentials);
-    const { token, user } = res.data;
-    localStorage.setItem('token', token);
+    const { bootcamprAuthToken, user } = res.data;
+    localStorage.setItem('bootcamprAuthToken', bootcamprAuthToken);
     return user;
   } catch (error) {
     throw error;
@@ -60,9 +60,9 @@ export const signUp = async (credentials) => {
 export const signIn = async (credentials) => {
   try {
     const res = await api.post('/sign-in', credentials);
-    const { token, user } = res.data;
-    localStorage.setItem('token', token);
-    // const user = jwtDecode(res.data.token);
+    const { bootcamprAuthToken, user } = res.data;
+    localStorage.setItem('bootcamprAuthToken', bootcamprAuthToken);
+    // const user = jwtDecode(res.data.bootcamprAuthToken);
     return user;
   } catch (error) {
     throw error;
@@ -70,12 +70,12 @@ export const signIn = async (credentials) => {
 };
 
 export const logOut = async () => {
-  localStorage.removeItem("token")
+  localStorage.removeItem('bootcamprAuthToken');
 }; 
 
 export const verify = async () => {
-  const token = localStorage.getItem('token');
-  if (token) {
+  const bootcamprAuthToken = localStorage.getItem('bootcamprAuthToken');
+  if (bootcamprAuthToken) {
     const { data: payload } = await api.get('/verify');
     const { data: user } = await api.get(`/users/${payload.userID}`);
     return user;

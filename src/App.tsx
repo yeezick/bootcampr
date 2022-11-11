@@ -4,7 +4,6 @@ import { Landing } from './screens/Landing/Landing';
 import { RegisterUserInfo } from './screens/RegisterUserInfo/RegisterUserInfo';
 import { SignIn } from './screens/SignIn/SignIn';
 import { SignUp } from './screens/SignUp/SignUp';
-import { LogOut } from './screens/LogOut/LogOut';
 import { Nav } from './layout/Nav/Nav';
 import { Layout } from './layout/Layout';
 import { UserProfile } from './screens/UserProfile/UserProfile';
@@ -22,7 +21,6 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/logout" element={<LogOut />} />
           <Route path="/users/:id" element={<UserProfile />} />
           <Route path="/users/:id/account-setup" element={<RegisterUserInfo />} />
           <Route path="/users/:id/edit" element={<EditProfile />} />

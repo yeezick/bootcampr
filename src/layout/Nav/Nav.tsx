@@ -14,6 +14,12 @@ export const Nav: React.FC = () => {
      (authUser._id) ? setAuthLinks(true) : setAuthLinks(false);
   }, [authUser]);
 
+  const handleLogOut = () =>{
+    logOut(); 
+    dispatch(logoutAuthUser());
+  }
+
+
   return (
     <div className="nav">
       <nav>
@@ -42,7 +48,7 @@ export const Nav: React.FC = () => {
             </div>
             <div>
               <Link to="/">
-                <button onClick={() => [logOut(), dispatch(logoutAuthUser())]}>Logout</button>
+                <button onClick={handleLogOut}>Logout</button>
               </Link>
             </div>
           </>
