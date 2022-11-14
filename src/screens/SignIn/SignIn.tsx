@@ -5,17 +5,13 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../utilities/redux/store'
 import { setAuthUser } from '../../utilities/redux/slices/users/userSlice'
 import { useNavigate } from 'react-router-dom';
-
-interface FormData {
-  email: string
-  password: string
-}
+import { SignInInterface } from '../../utilities/types/UserInterface';
 
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
   const [invalidCredentials, setInvalidCredentials] = useState<boolean>(false)
-  const [formData, setFormData] = useState<FormData>({ email: "", password: "" })
+  const [formData, setFormData] = useState<SignInInterface>({ email: "", password: "" })
 
   // Constants
   const VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -39,7 +35,7 @@ const SignIn: React.FC = (): JSX.Element => {
     e.preventDefault()
 
     const response = await signIn(formData)
-    if (response?.message === "Invalid email or password" ?? false) return setInvalidCredentials(true)
+    if (response?.message === "Invalid email or password") return setInvalidCredentials(true)
 
     dispatch(setAuthUser(response))
     navigate('/')
