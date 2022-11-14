@@ -8,6 +8,7 @@
   width: 100%;
   height: 30px;
   padding: 5px;
+  padding-right: 30px;
   margin-bottom: 10px;
   font-size: 15px;
   border-radius: 10px;
@@ -23,6 +24,7 @@
 
 .form_input_container {
   text-align: left;
+  position: relative;
 }
 
 .auth_form_submit_button {
@@ -40,4 +42,27 @@
 
 .auth_form_submit_button:hover {
   background-color: rgba(0, 0, 0, 0.8);
+}
+
+.toggle_hide_password {
+  position: absolute;
+  top: 22px;
+  right: 10px;
+}
+
+
+.pwd_reveal {
+  cursor: pointer;
+  font-size: 19px;
+}
+
+.pwd_reveal_gray {
+  cursor: pointer;
+  font-size: 19px;
+  opacity: 0.3;
+  transition: all .15s ease-in-out;
+}
+
+.pwd_reveal_gray:hover {
+  opacity: 1;
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AuthFormInput from './AuthFormInput'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -17,6 +17,7 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
   // State Variables
   const [authFormData, setAuthFormData] = useState<EmailFormData | PasswordFormData>(emailDropDownActive ? initialEmailFormData : initialPasswordFormData)
   const [updateStatus, setUpdateStatus] = useState<string>("pending")
+  const [confirmationMatches, setConfirmationMatches] = useState<boolean>(true)
 
   // Helper Functions
   const fetchAPI = async () => {
@@ -31,22 +32,15 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
       const emailsDoNotMatch = temp['newEmail'] !== temp["confirmNewEmail"]
       const invalidEmail = !temp['newEmail'].match(VALID_EMAIL_REGEX)
 
-      if (emailsDoNotMatch) {
-        setUpdateStatus("email-match-error")
-        return false
-      }
-      if (invalidEmail) {
-        setUpdateStatus("invalid-email")
-        return false
-      }
+      if (emailsDoNotMatch) setUpdateStatus(() => "email-match-error")
+      if (invalidEmail) setUpdateStatus(() => "invalid-email")
+      if (emailsDoNotMatch || invalidEmail) return false
+    }
 
-    } else {
-      const passwordsDoNotMatch = temp['newPassword'] !== temp["confirmNewPassword"]
-
-      if (passwordsDoNotMatch) {
-        setUpdateStatus("password-match-error")
-        return false
-      }
+    const passwordsDoNotMatch = temp['newPassword'] !== temp["confirmNewPassword"]
+    if (passwordsDoNotMatch) {
+      setUpdateStatus(() => "password-match-error")
+      return false
     }
     return true
   }
@@ -54,16 +48,20 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
   // Event Handlers
   const handleUpdateCredentials = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
     if (!validateForm()) return
 
     const { status }: any = await fetchAPI()
 
-    if (status === 201) return setUpdateStatus("authorized")
-    if (status === 401) return setUpdateStatus("unauthorized")
+    if (status === 201) return setUpdateStatus(() => "authorized")
+    if (status === 401) return setUpdateStatus(() => "unauthorized")
 
     setUpdateStatus("error")
   }
+
+  // Side Effects
+  useEffect(() => {
+    setUpdateStatus(() => 'pending')
+  }, [authFormData])
 
   return (
     <div className={styles.form_container}>
