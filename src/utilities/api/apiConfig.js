@@ -1,17 +1,16 @@
 import axios from 'axios';
 
+let baseURL = 'http://' + process.env.REACT_APP_BACKEND_ENV + process.env.REACT_APP_API_URL;
+console.log(baseURL);
+// export const api = axios.create({ baseURL });
+export const api = axios.create({
+  baseURL: baseURL,
+});
 const getToken = () => {
   return new Promise((resolve) => {
     resolve(`Bearer ${localStorage.getItem('token') || null}`);
   });
 };
-
-export const api = axios.create({
-  baseURL:
-    process.env.NODE_ENV === 'production'
-      ? 'https://bootcamper-dev-backend.herokuapp.com/api'
-      : 'http://localhost:8001/api',
-});
 
 api.interceptors.request.use(
   async (config) => {
