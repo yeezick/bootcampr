@@ -70,7 +70,11 @@ export const signIn = async (credentials) => {
 };
 
 export const logOut = async () => {
-  localStorage.removeItem('bootcamprAuthToken');
+  try {
+    localStorage.removeItem('bootcamprAuthToken');
+  } catch (error) {
+    throw error;
+  }
 }; 
 
 export const verify = async () => {

@@ -8,17 +8,17 @@ import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 export const Nav: React.FC = () => {
   const [authLinks, setAuthLinks] = useState<boolean>(false);
   const authUser = useAppSelector(selectAuthUser);
+  const{ _id: userId } = authUser;
   const dispatch = useAppDispatch();
   
   useEffect(() => {
-     (authUser._id) ? setAuthLinks(true) : setAuthLinks(false);
+     (userId) ? setAuthLinks(true) : setAuthLinks(false);
   }, [authUser]);
 
   const handleLogOut = () =>{
     logOut(); 
     dispatch(logoutAuthUser());
   }
-
 
   return (
     <div className="nav">
@@ -41,10 +41,10 @@ export const Nav: React.FC = () => {
         {authLinks && (
           <>
             <div>
-              <Link to={`/users/${authUser._id}`}>My Profile</Link>
+              <Link to={`/users/${userId}`}>My Profile</Link>
             </div>
             <div>
-              <Link to={`/users/${authUser._id}/edit`}>Edit Profile</Link>
+              <Link to={`/users/${userId}/edit`}>Edit Profile</Link>
             </div>
             <div>
               <Link to="/">
