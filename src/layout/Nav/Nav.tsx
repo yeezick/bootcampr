@@ -8,8 +8,11 @@ export const Nav: React.FC = () => {
   const [authLinks, setAuthLinks] = useState<boolean>(false);
   const authUser = useSelector(selectAuthUser);
 
+<<<<<<< HEAD
   console.log("Auth Links: ", authLinks)
 
+=======
+>>>>>>> feature/BC-323-sign-in-functionality
   useEffect(() => {
     if (authUser) setAuthLinks(true);
   }, [authUser]);

@@ -5,22 +5,20 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../utilities/redux/store'
 import { setAuthUser } from '../../utilities/redux/slices/users/userSlice'
 import { useNavigate } from 'react-router-dom';
+import { SignInInterface } from '../../utilities/types/UserInterface';
 
-interface FormData {
-  email: string
-  password: string
-}
 
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
   const [invalidCredentials, setInvalidCredentials] = useState<boolean>(false)
-  const [formData, setFormData] = useState<FormData>({ email: "", password: "" })
+  const [formData, setFormData] = useState<SignInInterface>({ email: "", password: "" })
 
   // Constants
   const VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
+  const invalidCredentialsMessage = <span className={styles.error_message}>Invalid Credentials</span>
 
   // Event Handlers
   const formValidation = (): void => {
@@ -39,7 +37,8 @@ const SignIn: React.FC = (): JSX.Element => {
     e.preventDefault()
 
     const response = await signIn(formData)
-    if (response?.message === "Invalid email or password" ?? false) return setInvalidCredentials(true)
+    console.log(response)
+    if (response?.message === "Invalid email or password") return setInvalidCredentials(true)
 
     dispatch(setAuthUser(response))
     navigate('/')
@@ -55,6 +54,7 @@ const SignIn: React.FC = (): JSX.Element => {
       <form className={styles.sign_in_form} onSubmit={handleSubmitForm}>
         <div className={styles.sign_in_inputs}>
           <h3>Sign-In</h3>
+
           <div className={styles.flex_column}>
             <label className={styles.input_label} htmlFor="email">Email</label>
             <input
@@ -66,6 +66,7 @@ const SignIn: React.FC = (): JSX.Element => {
               required
             />
           </div>
+
           <div className={styles.flex_column}>
             <label className={styles.input_label} htmlFor="password">Password</label>
             <input
@@ -78,9 +79,12 @@ const SignIn: React.FC = (): JSX.Element => {
             />
           </div>
         </div>
+
         <button disabled={buttonDisabled} type="submit">Go</button>
       </form>
-      <p className={`${!invalidCredentials ? styles.hidden : styles.error_message}`}>{invalidCredentials && <span>Invalid Credentials</span>}</p>
+      <>
+        {invalidCredentials && invalidCredentialsMessage}
+      </>
     </div>
   );
 };

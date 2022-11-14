@@ -19,11 +19,10 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.log('Request error: ', error);
+    console.error('Request error: ', error);
     return Promise.reject(error);
   },
 );
-
 
 api.interceptors.response.use(response => {
   return response;
