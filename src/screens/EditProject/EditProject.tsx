@@ -1,41 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getOneProject } from "../../api/projects";
-import { editProject } from "../../api/projects";
+import { getOneProject } from '../../utilities/api/projects';
+import { editProject } from '../../utilities/api/projects';
 import { RiUploadCloudFill } from 'react-icons/ri';
 import './EditProject.scss';
 
-
 export interface EditProject {
-    id: number;
-    status: string;
-    project_owner: { type: any };
-    overview: string;
-    meeting_cadence: string;
-    technologies_used: [];
-    roles: [
-      interested_applicants: [],
-      status: string,
-      category: string,
-      title: string,
-      description: string,
-      skills: [],
-      desired_headcount: number,
-    ];
-    duration: string;
-    onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  }
+  id: number;
+  status: string;
+  project_owner: { type: any };
+  overview: string;
+  meeting_cadence: string;
+  technologies_used: [];
+  roles: [
+    interested_applicants: [],
+    status: string,
+    category: string,
+    title: string,
+    description: string,
+    skills: [],
+    desired_headcount: number,
+  ];
+  duration: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+}
 
-  interface Props {
-    id?: EditProject;
-    project?: EditProject;
-  }
+interface Props {
+  id?: EditProject;
+  project?: EditProject;
+}
 
-
-const EditProject: React.FC<Props> = ({ id, project }) => {
-
-    const [fileSelected, setFileSelected] = useState<File>();
-    const [currentProject, setCurrentProject] = useState<any>([]);
+export const EditProject: React.FC = () => {
+  const [fileSelected, setFileSelected] = useState<File>();
+  const [currentProject, setCurrentProject] = useState<any>([]);
   const [updatedProject, setupdatedProject] = useState<any[]>([]);
   const navigate = useNavigate();
 
@@ -44,13 +41,13 @@ const EditProject: React.FC<Props> = ({ id, project }) => {
 
   useEffect(() => {
     getOneProject(projectId)
-    .then((res) => {
-        setCurrentProject(res.data)
-    })
-    .catch((error) => {
-        alert("Cannot find project");
+      .then((res) => {
+        setCurrentProject(res.data);
+      })
+      .catch((error) => {
+        alert('Cannot find project');
         console.log(error.message);
-    })
+      });
   }, [projectId]);
 
   const handleProjectInputChange = (
@@ -82,7 +79,6 @@ const EditProject: React.FC<Props> = ({ id, project }) => {
     if (updated) navigate(`/projects/${projectId}`);
   };
 
-
   return (
     <div className="create-project">
       <p className="heading">Edit a Project</p>
@@ -97,21 +93,11 @@ const EditProject: React.FC<Props> = ({ id, project }) => {
         </div>
 
         <label htmlFor="title">Title</label>
-        <input
-            type="text"
-            name="title"
-            value={currentProject.title}
-            onChange={handleProjectInputChange}
-        />
+        <input type="text" name="title" value={currentProject.title} onChange={handleProjectInputChange} />
 
         {/* Will be able to remove this section once a user is able to be logged in and token or userID is stored in redux store or local storage. Must enter the id in this label until then or api call will fail. */}
         <label htmlFor="project-owner">Project Owner</label>
-        <input
-            type="text"
-            name="project_owner"
-            value={currentProject.owner}
-            onChange={handleProjectInputChange}
-        />
+        <input type="text" name="project_owner" value={currentProject.owner} onChange={handleProjectInputChange} />
 
         <label htmlFor="technologies_used">Technologies Used (separate by commas)</label>
         <input

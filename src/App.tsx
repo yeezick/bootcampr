@@ -9,8 +9,9 @@ import { Layout } from './layout/Layout';
 import { UserProfile } from './screens/UserProfile/UserProfile';
 import { EditProfile } from './screens/UserProfile/EditProfile';
 import { Projects } from './screens/Projects/Projects';
+import { EditProject } from './screens/EditProject/EditProject';
 import { ProjectDetails } from './screens/Projects/ProjectDetails';
-import EditProject from './screens/EditProject/EditProject';
+
 import './App.css';
 
 function App() {
@@ -27,8 +28,8 @@ function App() {
           <Route path="/users/:id/edit" element={<EditProfile />} />
           <Route path="/projects/create" element={<CreateProject />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:id/edit" element={<EditProject />} />
           <Route path="/projects/:id" element={<ProjectDetails />} />
-          <Route path="/projects/edit/:id" element={<EditProject />} />
         </Routes>
       </Router>
     </Layout>

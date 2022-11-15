@@ -30,6 +30,9 @@ export const Nav: React.FC = () => {
         <div>
           <Link to="/projects/create">Create Project</Link>
         </div>
+        <div>
+          <Link to="/projects/:id/edit">Edit Project</Link>
+        </div>
         {authLinks && (
           <>
             <div>
@@ -37,9 +40,6 @@ export const Nav: React.FC = () => {
             </div>
             <div>
               <Link to={`/users/${authUser._id}/edit`}>Edit Profile</Link>
-            </div>
-            <div>
-              <Link to="/projects/edit/:id">Edit Project</Link>
             </div>
           </>
         )}
