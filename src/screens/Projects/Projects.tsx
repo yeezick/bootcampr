@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { getAllProjects } from '../../utilities/api/projects';
 import { Link } from 'react-router-dom';
+import { getAllProjects } from '../../utilities/api/projects';
+import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 import './Projects.scss';
-import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
 
-const Projects: React.FC = () => {
+export const Projects: React.FC = () => {
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
 
   useEffect(() => {
@@ -23,7 +23,14 @@ const Projects: React.FC = () => {
           return (
             <li key={project._id}>
               <h3>{project.title}</h3>
-              <p>{project.technologies_used}</p>
+              {project.technologies_used.map((technologies: any, index: any) => {
+                return (
+                  <span className="technologies" key={index}>
+                    {technologies}
+                    {'  '}
+                  </span>
+                );
+              })}
               <p>{project.duration}</p>
               <Link to={`/projects/${project._id}`}>Learn More</Link>
             </li>
@@ -33,5 +40,3 @@ const Projects: React.FC = () => {
     </div>
   );
 };
-
-export default Projects;
