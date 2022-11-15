@@ -45,7 +45,7 @@ export const ProjectDetails: React.FC = (): JSX.Element => {
             Project Owner: {firstName} {lastName}
           </p>
           <div>
-            <Link to={`/users/${ownerId}`}>Vist Profile</Link>
+            <Link to={`/users/${ownerId}`}>Visit Profile</Link>
           </div>
         </>
       )}

@@ -16,6 +16,10 @@ export const UserProfile = () => {
     navigate(`/users/${authUser._id}/edit`);
   };
 
+  const routeToEditProject = () => {
+    navigate(`/projects/${authUser._id}/edit`);
+  };
+
   return (
     <div>
       <h1>first name {authUser.firstName}</h1>
@@ -33,6 +37,7 @@ export const UserProfile = () => {
           <h5>duration: {projects.duration}</h5>
           <h5>meeting cadence: {projects.meeting_cadence}</h5>
           <h5>technologies used: {projects.technologies_used}</h5>
+          <button onClick={routeToEditProject}>Edit Project</button>
         </div>
       ))}
     </div>

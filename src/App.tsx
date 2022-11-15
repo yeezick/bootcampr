@@ -9,7 +9,7 @@ import { Layout } from './layout/Layout';
 import { UserProfile } from './screens/UserProfile/UserProfile';
 import { EditProfile } from './screens/UserProfile/EditProfile';
 import { Projects } from './screens/Projects/Projects';
-import { EditProject } from './screens/EditProject/EditProject';
+import { EditProject } from './screens/CreateProject/EditProject';
 import { ProjectDetails } from './screens/Projects/ProjectDetails';
 
 import './App.css';
