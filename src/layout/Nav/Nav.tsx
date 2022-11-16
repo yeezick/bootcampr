@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { logoutAuthUser, selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import './Nav.scss';
-import { logOut } from '../../utilities/api/users';
+// import { logOut } from '../../utilities/api/users';
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 import Logo from '../../assets/Logo.svg';
 
@@ -23,7 +23,7 @@ export const Nav = (props: SidebarProps) => {
   };
 
   const handleLogOut = () => {
-    logOut();
+    // logOut();
     dispatch(logoutAuthUser());
   };
 
