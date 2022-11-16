@@ -13,7 +13,7 @@ const passwordSettingsProps = {
 
 
 // Initialization
-export const initialState: DropDownSettings = {
+export const initialDropdownState: DropDownSettings = {
   password: false,
   email: false
 }

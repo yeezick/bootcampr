@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { initialState, settings } from './helper/data'
+import { initialDropdownState, settings } from './helper/data'
 import { DropDownSettings, AccountSettingsProps } from '../../utilities/types/AccountSettingsInterface'
 import styles from './AccountSettings.module.css'
 
 
 const AccountSettings = ({ }: AccountSettingsProps): JSX.Element => {
   // State Variables
-  const [dropdownModes, setDropdownModes] = useState<DropDownSettings>(initialState)
+  const [dropdownModes, setDropdownModes] = useState<DropDownSettings>(initialDropdownState)
 
   // Helper Functions
   const closeDropdown = (key: string, tempModes: DropDownSettings) => tempModes[key as keyof DropDownSettings] = false
@@ -30,6 +30,7 @@ const AccountSettings = ({ }: AccountSettingsProps): JSX.Element => {
   // JSX
   return (
     <div className={styles.account_settings_container}>
+
       {settings.map(({ title, val, Component, props }) => (
         <div key={val} className={styles.update_container}>
           <div className={styles.setting_name}>
@@ -40,14 +41,13 @@ const AccountSettings = ({ }: AccountSettingsProps): JSX.Element => {
               className={`${dropdownModes[val as keyof DropDownSettings] ? styles.arrow : styles.active_arrow}`}>
               &#9002;
             </button>
-            {
-              dropdownModes[val as keyof DropDownSettings]
-              &&
-              < Component {...props} />
-            }
+
+            {dropdownModes[val as keyof DropDownSettings] && < Component {...props} />}
+
           </div>
         </div>
       ))}
+
     </div>
   )
 }

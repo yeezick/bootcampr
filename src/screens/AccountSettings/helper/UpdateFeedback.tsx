@@ -14,6 +14,7 @@ const UpdateFeedback = ({ updateStatus }: UpdateCredentialsFeedbackMessageProps)
       {updateStatus === 'password-match-error' && <p>❌ Passwords don't match</p>}
       {updateStatus === 'email-match-error' && <p>❌ Emails don't match</p>}
       {updateStatus === 'invalid-email' && <p>❌ Invalid Email</p>}
+      {updateStatus === 'enter-valid-password' && <p>❌ Please Enter A Valid Password</p>}
     </div>
   )
 }

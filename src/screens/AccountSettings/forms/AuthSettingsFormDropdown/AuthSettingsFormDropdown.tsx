@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import AuthFormInput from './AuthFormInput'
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { selectAuthUser } from '../../../../utilities/redux/slices/users/userSlice'
 import { updateUsersPassword, updateUsersEmail } from '../../../../utilities/api/users'
 import { initialPasswordFormData, initialEmailFormData } from '../../helper/data'
 import { EmailFormData, PasswordFormData, AuthSettingsFormDropdownProps } from '../../../../utilities/types/AccountSettingsInterface'
@@ -26,17 +24,19 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
     else return await updateUsersPassword(authFormData, id)
   }
 
+  // Validate Email
   const validateEmailDropdown = (temp: any) => {
-    const validEmail = temp['newEmail'].match(VALID_EMAIL_REGEX)
-    const emailsMatch = temp['newEmail'] === temp["confirmNewEmail"]
+    const validEmail = temp.newEmail.match(VALID_EMAIL_REGEX)
+    const emailsMatch = temp.newEmail === temp.confirmNewEmail
 
     if (validEmail && emailsMatch) setDisableButton(false)
     else setDisableButton(true)
   }
 
+  // Validate Password
   const validatePasswordDropdown = (temp: any) => {
-    const passwordsDoNotMatch = temp['newPassword'] !== temp["confirmNewPassword"]
-    const fieldsNotFilledOut = temp['newPassword'] === "" || temp["password"] === ""
+    const passwordsDoNotMatch = temp.newPassword !== temp.confirmNewPassword
+    const fieldsNotFilledOut = temp.newPassword === "" || temp.password === ""
 
     if (passwordsDoNotMatch || fieldsNotFilledOut) setDisableButton(true)
     else setDisableButton(false)
@@ -46,21 +46,27 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
   const handleUpdateCredentials = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const { status }: any = await fetchAPI()
+    const { status, data }: any = await fetchAPI()
 
-    if (status === 201) return setUpdateStatus(() => "authorized")
-    if (status === 401) return setUpdateStatus(() => "unauthorized")
+    if (status === 201) {
+      return setUpdateStatus("authorized")
+    }
+
+    if (status === 401) {
+      if (data.message === "Password is required") return setUpdateStatus("enter-valid-password")
+      else return setUpdateStatus("unauthorized")
+    }
 
     setUpdateStatus("error")
   }
 
+
   // Side Effects
   useEffect(() => {
-    // Validate Email or Password
     if (emailDropDownActive) validateEmailDropdown({ ...authFormData })
     else validatePasswordDropdown({ ...authFormData })
-
   }, [authFormData])
+
 
   return (
     <div className={styles.form_container}>
