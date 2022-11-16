@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { UserInterface } from '../../utilities/Interface/UserInterface';
+
 import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { getAllUsers } from '../../utilities/api/users';
 import { ProjectInterface } from '../../utilities/Interface/ProjectInterface';
 import { Link } from 'react-router-dom';
+import { UserInterface } from '../../utilities/types/UserInterface';
 
 const Dashboard: React.FC = () => {
   const [user, setCurrentUser] = useState<UserInterface | null>();
@@ -22,6 +23,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     setCurrentUser(allUser);
   }, [allUser]);
+  console.log(user);
 
   return (
     <>
@@ -29,24 +31,23 @@ const Dashboard: React.FC = () => {
         <h1> landing screen </h1>
         {user && (
           <>
-            <h1>first name {user.first_name}</h1>
-            <h1>last name {user.last_name}</h1>
+            <h1>first name {user.firstName}</h1>
+            <h1>last name {user.lastName}</h1>
             <h1>email {user.email}</h1>
-            <h1>portfolio {user?.portfolio_link}</h1>
             <h1>role {user.role}</h1>
             <h1>member_of_projects ...</h1>
-            {user?.member_of_projects.length !== 0 ? (
-              user?.member_of_projects?.map((projects: ProjectInterface, id: number) => (
-                <div key={id}>
-                  <Link to={`/projects/${projects._id}`}>go to the project</Link>
-                  <h5>{projects.title}</h5>
-                  <h5>{projects.overview}</h5>
-                  <h5>{projects.meeting_cadence}</h5>
-                  <h5>{projects.technologies_used}</h5>
+            {user.memberOfProjects && user.memberOfProjects.length !== 0 ? (
+              user.memberOfProjects.map((project, idx) => (
+                <div key={idx}>
+                  <Link to={`projects/${project?._id}`}>Link of the project</Link>
+                  <h1>{project.title}</h1>
+                  <h1>{project.duration}</h1>
+                  <h1>{project.overview}</h1>
+                  <h1>{project.status}</h1>
                 </div>
               ))
             ) : (
-              <h1>no projects yet</h1>
+              <h1>no project yet</h1>
             )}
           </>
         )}
