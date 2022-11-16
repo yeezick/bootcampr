@@ -8,8 +8,6 @@ const AccountSettings = ({ }: AccountSettingsProps): JSX.Element => {
   // State Variables
   const [dropdownModes, setDropdownModes] = useState<DropDownSettings>(initialState)
 
-
-
   // Helper Functions
   const closeDropdown = (key: string, tempModes: DropDownSettings) => tempModes[key as keyof DropDownSettings] = false
   const openDropdown = (key: string, tempModes: DropDownSettings) => tempModes[key as keyof DropDownSettings] = true

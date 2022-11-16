@@ -44,6 +44,11 @@
   background-color: rgba(0, 0, 0, 0.8);
 }
 
+.auth_form_submit_button:disabled {
+  background-color: rgba(0, 0, 0, 0.5);
+  cursor: default;
+}
+
 .toggle_hide_password {
   position: absolute;
   top: 22px;

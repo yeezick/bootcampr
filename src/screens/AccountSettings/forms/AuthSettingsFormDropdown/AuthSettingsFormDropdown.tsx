@@ -7,6 +7,7 @@ import { updateUsersPassword, updateUsersEmail } from '../../../../utilities/api
 import { initialPasswordFormData, initialEmailFormData } from '../../helper/data'
 import { EmailFormData, PasswordFormData, AuthSettingsFormDropdownProps } from '../../../../utilities/types/AccountSettingsInterface'
 import styles from './AuthSettingsFormDropdown.module.css';
+import UpdateFeedback from '../../helper/UpdateFeedback'
 
 const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProps): JSX.Element => {
   // Constants
@@ -17,7 +18,7 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
   // State Variables
   const [authFormData, setAuthFormData] = useState<EmailFormData | PasswordFormData>(emailDropDownActive ? initialEmailFormData : initialPasswordFormData)
   const [updateStatus, setUpdateStatus] = useState<string>("pending")
-  const [confirmationMatches, setConfirmationMatches] = useState<boolean>(true)
+  const [disableButton, setDisableButton] = useState<boolean>(true)
 
   // Helper Functions
   const fetchAPI = async () => {
@@ -25,30 +26,25 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
     else return await updateUsersPassword(authFormData, id)
   }
 
-  const validateForm = (): boolean => {
-    let temp: any = { ...authFormData }
+  const validateEmailDropdown = (temp: any) => {
+    const validEmail = temp['newEmail'].match(VALID_EMAIL_REGEX)
+    const emailsMatch = temp['newEmail'] === temp["confirmNewEmail"]
 
-    if (emailDropDownActive) {
-      const emailsDoNotMatch = temp['newEmail'] !== temp["confirmNewEmail"]
-      const invalidEmail = !temp['newEmail'].match(VALID_EMAIL_REGEX)
+    if (validEmail && emailsMatch) setDisableButton(false)
+    else setDisableButton(true)
+  }
 
-      if (emailsDoNotMatch) setUpdateStatus(() => "email-match-error")
-      if (invalidEmail) setUpdateStatus(() => "invalid-email")
-      if (emailsDoNotMatch || invalidEmail) return false
-    }
-
+  const validatePasswordDropdown = (temp: any) => {
     const passwordsDoNotMatch = temp['newPassword'] !== temp["confirmNewPassword"]
-    if (passwordsDoNotMatch) {
-      setUpdateStatus(() => "password-match-error")
-      return false
-    }
-    return true
+    const fieldsNotFilledOut = temp['newPassword'] === "" || temp["password"] === ""
+
+    if (passwordsDoNotMatch || fieldsNotFilledOut) setDisableButton(true)
+    else setDisableButton(false)
   }
 
   // Event Handlers
   const handleUpdateCredentials = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!validateForm()) return
 
     const { status }: any = await fetchAPI()
 
@@ -60,7 +56,10 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
 
   // Side Effects
   useEffect(() => {
-    setUpdateStatus(() => 'pending')
+    // Validate Email or Password
+    if (emailDropDownActive) validateEmailDropdown({ ...authFormData })
+    else validatePasswordDropdown({ ...authFormData })
+
   }, [authFormData])
 
   return (
@@ -78,16 +77,14 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
         ))}
 
         <button
+          disabled={disableButton}
           type="submit"
           className={styles.auth_form_submit_button}>
           Update
         </button>
-        {updateStatus === 'authorized' && <p>✔️ Update Successful</p>}
-        {updateStatus === 'unauthorized' && <p>❌ Wrong Password</p>}
-        {updateStatus === 'error' && <p>❌ Error, Please try again later</p>}
-        {updateStatus === 'password-match-error' && <p>❌ Passwords don't match</p>}
-        {updateStatus === 'email-match-error' && <p>❌ Emails don't match</p>}
-        {updateStatus === 'invalid-email' && <p>❌ Invalid Email</p>}
+
+        {updateStatus !== 'pending' && < UpdateFeedback updateStatus={updateStatus} />}
+
       </form>
     </div>
   );
