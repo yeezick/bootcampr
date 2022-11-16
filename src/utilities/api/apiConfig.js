@@ -1,7 +1,12 @@
 import axios from 'axios';
 
-let baseURL = 'http://' + process.env.REACT_APP_BACKEND_ENV + process.env.REACT_APP_API_URL;
-console.log(baseURL);
+let baseURL;
+if (process.env.REACT_APP_BACKEND_ENV === 'cloud') {
+  baseURL = process.env.REACT_APP_API_URL;
+} else {
+  baseURL = 'http://localhost:8001/';
+}
+
 // export const api = axios.create({ baseURL });
 export const api = axios.create({
   baseURL: baseURL,
