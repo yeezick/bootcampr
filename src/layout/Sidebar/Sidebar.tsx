@@ -1,8 +1,10 @@
+import React, { useEffect, useState } from 'react';
+import { logoutAuthUser, selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import './Sidebar.scss';
 import { AiFillStar } from 'react-icons/ai';
+import { logOut } from '../../utilities/api/users';
+import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -10,7 +12,19 @@ interface SidebarProps {
 }
 
 export const Sidebar = (props: SidebarProps) => {
-  const authUser = useSelector(selectAuthUser);
+  const [authLinks, setAuthLinks] = useState<boolean>(false);
+  const authUser = useAppSelector(selectAuthUser);
+  const { _id: userId } = authUser;
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    userId ? setAuthLinks(true) : setAuthLinks(false);
+  }, [authUser]);
+
+  const handleLogout = () => {
+    logOut();
+    dispatch(logoutAuthUser());
+  };
 
   return (
     <div className={props.isOpen ? 'sidebar-container active' : 'hide-sidebar'}>
@@ -42,7 +56,7 @@ export const Sidebar = (props: SidebarProps) => {
         <Link className="link" to={`/`}>
           <AiFillStar size={18} /> My Applications
         </Link>
-        <Link className="link" to={`/`}>
+        <Link className="link" to={`/`} onClick={handleLogout}>
           <AiFillStar size={18} /> Sign Out
         </Link>
       </div>

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { logoutAuthUser, selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
+import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import './Nav.scss';
-// import { logOut } from '../../utilities/api/users';
-import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
+import { useAppDispatch } from '../../utilities/redux/hooks';
 import Logo from '../../assets/Logo.svg';
 
 interface SidebarProps {
@@ -13,7 +12,6 @@ interface SidebarProps {
 }
 
 export const Nav = (props: SidebarProps) => {
-  const [authLinks, setAuthLinks] = useState<boolean>(false);
   const authUser = useSelector(selectAuthUser);
   const { _id: userId } = authUser;
   const dispatch = useAppDispatch();
@@ -21,15 +19,6 @@ export const Nav = (props: SidebarProps) => {
   const toggleSidebarHandler = () => {
     props.toggleSidebar();
   };
-
-  const handleLogOut = () => {
-    // logOut();
-    dispatch(logoutAuthUser());
-  };
-
-  useEffect(() => {
-    userId ? setAuthLinks(true) : setAuthLinks(false);
-  }, [authUser]);
 
   return (
     <nav>
