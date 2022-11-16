@@ -1,4 +1,4 @@
-import { UserInterface } from "./UserInterface";
+import { UserInterface } from './UserInterface';
 
 export interface ProjectInterface {
   createdAt?: string;
@@ -12,5 +12,5 @@ export interface ProjectInterface {
   title: string;
   updatedAt?: string;
   _id?: string;
-  __v?: number
+  __v?: number;
 }

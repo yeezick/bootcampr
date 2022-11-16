@@ -7,6 +7,8 @@ export const UserProfile = () => {
   const authUser = useSelector(selectAuthUser);
   const navigate = useNavigate();
 
+  console.log(authUser.ownerOfProjects);
+
   // BC-334: should handle this case
   if (!authUser) {
     return <div>Loading user... or there isn't one.</div>;
@@ -16,8 +18,9 @@ export const UserProfile = () => {
     navigate(`/users/${authUser._id}/edit`);
   };
 
-  const routeToEditProject = () => {
-    navigate(`/projects/${authUser._id}/edit`);
+  const routeToEditProject = (e: any) => {
+    console.log(e.target.value);
+    navigate(`/projects/${authUser.ownerOfProjects}/edit`);
   };
 
   return (
@@ -28,6 +31,11 @@ export const UserProfile = () => {
       <h1>email {authUser.email}</h1>
       <h1>portfolio {authUser?.portfolioUrl}</h1>
       <h1>role {authUser.role}</h1>
+      {authUser.ownerOfProjects?.map((project) => (
+        <button value={project.title} onClick={routeToEditProject}>
+          clcik
+        </button>
+      ))}
       <h1>memberOfProjects ...</h1>
       {authUser.memberOfProjects?.map((projects: ProjectInterface, id: number) => (
         <div key={`userprofile-memberof-${id}`}>
@@ -37,7 +45,6 @@ export const UserProfile = () => {
           <h5>duration: {projects.duration}</h5>
           <h5>meeting cadence: {projects.meeting_cadence}</h5>
           <h5>technologies used: {projects.technologies_used}</h5>
-          <button onClick={routeToEditProject}>Edit Project</button>
         </div>
       ))}
     </div>

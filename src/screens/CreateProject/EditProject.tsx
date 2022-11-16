@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { RiUploadCloudFill } from 'react-icons/ri';
 import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { emptyProject } from '../../utilities/data/projectConstants';
-import { createProject } from '../../utilities/api/projects';
+import { emptyProject, emptyProjectOwner } from '../../utilities/data/projectConstants';
+import { getOneUser } from '../../utilities/api/users';
 import { getOneProject } from '../../utilities/api/projects';
 import { editProject } from '../../utilities/api/projects';
 import './CreateProject.scss';
@@ -13,28 +13,46 @@ import './CreateProject.scss';
 export const EditProject = () => {
   const authUser = useSelector(selectAuthUser);
   const [fileSelected, setFileSelected] = useState<File>();
-  const [projectForm, setProjectForm] = useState<ProjectInterface>(emptyProject);
+  const [projectForm, updateProjectForm] = useState<ProjectInterface>(emptyProject);
+  const [projectOwner, setProjectOwner] = useState(emptyProjectOwner);
+  const { duration, meeting_cadence, overview, technologies_used, title } = projectForm;
+  const { firstName, lastName, _id: ownerId } = projectOwner;
+  const params = useParams();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleProjectInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setProjectForm({ ...projectForm, [name]: value });
+    updateProjectForm({ ...projectForm, [name]: value });
   };
 
   useEffect(() => {
-    if (authUser) {
-      setProjectForm({ ...emptyProject, project_owner: authUser._id });
-    } else {
-      navigate('/sign-in');
-    }
+    const fetchProject = async () => {
+      const singleProject = await getOneProject(params.id);
+      let projectOwner = await getOneUser(singleProject.project_owner);
+      projectOwner = {
+        firstName: projectOwner.firstName,
+        lastName: projectOwner.lastName,
+        _id: projectOwner._id,
+      };
+      //   setProjectOwner(projectOwner);
+      updateProjectForm(singleProject);
+    };
+    fetchProject();
   }, []);
 
-  const handleNewProject = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   useEffect(() => {
+  //     if (authUser) {
+  //       updateProjectForm({ ...projectForm, project_owner: authUser._id });
+  //     } else {
+  //       navigate('/sign-in');
+  //     }
+  //   }, []);
+
+  const handleUpdateProject = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newProject = await createProject(projectForm);
-    if (newProject) navigate(`/projects`);
+    const updateProject = await editProject(params.id, projectForm);
+    if (updateProject) navigate(`/projects`);
   };
 
   const handleImageChange = function (e: React.ChangeEvent<HTMLInputElement>) {
@@ -52,9 +70,9 @@ export const EditProject = () => {
 
   return (
     <div className="create-project">
-      <p className="heading">Create a Project</p>
+      <p className="heading">Edit Project</p>
 
-      <form onSubmit={handleNewProject} className="project-form" noValidate>
+      <form onSubmit={handleUpdateProject} className="project-form" noValidate>
         <div className="photo-container">
           <label htmlFor="photo" className="photo">
             Upload Image
@@ -66,7 +84,7 @@ export const EditProject = () => {
         </div>
 
         <label htmlFor="title">Title</label>
-        <input type="text" name="title" onChange={handleProjectInputChange} />
+        <input type="text" name="title" defaultValue={title} onChange={handleInputChange} />
 
         <label htmlFor="technologies_used">Technologies Used (separate by commas)</label>
         <input
@@ -75,7 +93,7 @@ export const EditProject = () => {
           name="technologies_used"
           autoComplete="off"
           multiple={true}
-          onChange={handleProjectInputChange}
+          onChange={handleInputChange}
         />
         <datalist id="technologies">
           <option value="React"></option>
@@ -93,7 +111,7 @@ export const EditProject = () => {
         </datalist>
 
         <label htmlFor="meeting_cadence">Meeting Cadence</label>
-        <select name="meeting_cadence" onChange={handleProjectInputChange}>
+        <select name="meeting_cadence" onChange={handleInputChange}>
           <option value="0"></option>
           <option value="Monthly">Monthly</option>
           <option value="Biweekly">Biweekly</option>
@@ -107,22 +125,16 @@ export const EditProject = () => {
           className="overview"
           cols={30}
           rows={10}
-          onChange={(e) => handleProjectInputChange(e)}
+          onChange={(e) => handleInputChange(e)}
         ></textarea>
 
         <label htmlFor="duration">Duration of the project</label>
-        <input type="text" name="duration" onChange={handleProjectInputChange} />
+        <input type="text" name="duration" onChange={handleInputChange} />
 
         <p>Save project as a draft or publish?</p>
         <div className="radio-container">
           <label htmlFor="status">Draft</label>
-          <input
-            type="radio"
-            className="radio"
-            name="status"
-            value="Draft"
-            onChange={(e) => handleProjectInputChange(e)}
-          />
+          <input type="radio" className="radio" name="status" value="Draft" onChange={(e) => handleInputChange(e)} />
 
           <label htmlFor="status">Publish</label>
           <input
@@ -130,7 +142,7 @@ export const EditProject = () => {
             className="radio"
             name="status"
             value="Published"
-            onChange={(e) => handleProjectInputChange(e)}
+            onChange={(e) => handleInputChange(e)}
           />
         </div>
 
