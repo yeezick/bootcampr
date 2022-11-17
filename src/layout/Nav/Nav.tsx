@@ -23,7 +23,7 @@ export const Nav = (props: SidebarProps) => {
   return (
     <nav>
       <div className="nav-container">
-        {authUser._id !== '' ? (
+        {userId !== '' ? (
           <div className="menu-btn" onClick={toggleSidebarHandler}>
             <i></i>
             <i></i>
