@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import './Nav.scss';
-import { useAppDispatch } from '../../utilities/redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
+import { toggleSidebar } from '../../utilities/redux/slices/users/userSlice';
 import Logo from '../../assets/Logo.svg';
+import './Nav.scss';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -12,7 +12,7 @@ interface SidebarProps {
 }
 
 export const Nav = (props: SidebarProps) => {
-  const authUser = useSelector(selectAuthUser);
+  const authUser = useAppSelector(selectAuthUser);
   const { _id: userId } = authUser;
   const dispatch = useAppDispatch();
 
