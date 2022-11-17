@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../utilities/redux/hooks';
 import { uiStatus, updateAuthUser } from '../utilities/redux/slices/users/userSlice';
 import { Sidebar } from './Sidebar/Sidebar';
 import { Nav } from './Nav/Nav';
+import { toggleSidebar } from '../utilities/redux/slices/users/userSlice';
 import './Layout.scss';
 
 type Props = {

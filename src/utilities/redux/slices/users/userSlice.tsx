@@ -66,7 +66,7 @@ const usersSlice = createSlice({
     updateAuthUser: (state, action: PayloadAction<UserInterface>) => {
       state.auth.user = action.payload;
     },
-    toggleSidebar(state) {
+    toggleSidebar: (state) => {
       state.sidebar.visibleSidebar = !state.sidebar.visibleSidebar;
     },
     reset: (state) => {
