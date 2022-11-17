@@ -68,6 +68,7 @@ const usersSlice = createSlice({
     },
     toggleSidebar: (state) => {
       state.sidebar.visibleSidebar = !state.sidebar.visibleSidebar;
+      console.log(state.sidebar.visibleSidebar);
     },
     reset: (state) => {
       state.status.isLoading = false;
