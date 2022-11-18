@@ -71,3 +71,8 @@
 .pwd_reveal_gray:hover {
   opacity: 1;
 }
+
+.match_error {
+  font-size: .7rem;
+  color: red;
+}

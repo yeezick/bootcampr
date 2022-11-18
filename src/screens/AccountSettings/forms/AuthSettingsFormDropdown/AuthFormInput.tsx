@@ -30,7 +30,6 @@ const AuthFormInput = ({ setAuthFormData, authFormData, field, type }: AuthFormI
           {showPassword ? < BsEyeFill className={styles.pwd_reveal} /> : <BsEyeSlash className={styles.pwd_reveal_gray} />}
         </span>
       )}
-
     </div>
   )
 }

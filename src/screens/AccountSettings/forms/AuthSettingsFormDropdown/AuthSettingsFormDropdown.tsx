@@ -6,6 +6,7 @@ import { initialPasswordFormData, initialEmailFormData } from '../../helper/data
 import { EmailFormData, PasswordFormData, AuthSettingsFormDropdownProps } from '../../../../utilities/types/AccountSettingsInterface'
 import styles from './AuthSettingsFormDropdown.module.css';
 import UpdateFeedback from '../../helper/UpdateFeedback'
+import FormErrors from '../../helper/FormErrors';
 
 const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProps): JSX.Element => {
   // Constants
@@ -19,40 +20,41 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
   const [disableButton, setDisableButton] = useState<boolean>(true)
 
   // Helper Functions
-  const fetchAPI = async () => emailDropDownActive ? await updateUsersEmail(authFormData, id) : await updateUsersPassword(authFormData, id)
+  const VALIDATION_HELPERS = {
+    fetchAPI: async () => emailDropDownActive ? await updateUsersEmail(authFormData, id) : await updateUsersPassword(authFormData, id),
+    emailsMatch: (temp: any | EmailFormData) => temp.newEmail === temp.confirmNewEmail,
+    passwordsMatch: (temp: any | PasswordFormData) => temp.newPassword === temp.confirmNewPassword,
+    validEmail: (temp: any | EmailFormData) => temp.newEmail.match(VALID_EMAIL_REGEX),
+    emailFieldsFilledOut: (temp: any | EmailFormData) => temp.newEmail !== "" && temp.confirmNewEmail !== "",
+    passwordFieldsFilledOut: (temp: any | PasswordFormData) => temp.newPassword !== "" && temp.confirmNewPassword !== ""
+  }
 
   // Validate Email
-  const validateEmailDropdown = (temp: any) => {
-    const validEmail = temp.newEmail.match(VALID_EMAIL_REGEX)
-    const emailsMatch = temp.newEmail === temp.confirmNewEmail
+  const validateEmailDropdown = (temp: EmailFormData) => {
+    const { emailsMatch, validEmail } = VALIDATION_HELPERS
 
-    if (validEmail && emailsMatch) setDisableButton(false)
-    else setDisableButton(true)
+    if (validEmail(temp) && emailsMatch(temp)) return setDisableButton(false)
+    else return setDisableButton(true)
   }
 
   // Validate Password
-  const validatePasswordDropdown = (temp: any) => {
-    const passwordsDoNotMatch = temp.newPassword !== temp.confirmNewPassword
+  const validatePasswordDropdown = (temp: PasswordFormData) => {
+    const { passwordsMatch } = VALIDATION_HELPERS
     const fieldsNotFilledOut = temp.newPassword === "" || temp.password === ""
 
-    if (passwordsDoNotMatch || fieldsNotFilledOut) setDisableButton(true)
+    if (!passwordsMatch(temp) || fieldsNotFilledOut) setDisableButton(true)
     else setDisableButton(false)
   }
 
   // Event Handlers
   const handleUpdateCredentials = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const { fetchAPI } = VALIDATION_HELPERS
 
-    const { status, data }: any = await fetchAPI()
+    const { status }: any = await fetchAPI()
 
-    if (status === 201) {
-      return setUpdateStatus("authorized")
-    }
-
-    if (status === 401) {
-      if (data.message === "Password is required") return setUpdateStatus("enter-valid-password")
-      else return setUpdateStatus("unauthorized")
-    }
+    if (status === 201) return setUpdateStatus("authorized")
+    if (status === 401) return setUpdateStatus("unauthorized")
 
     setUpdateStatus("error")
   }
@@ -60,8 +62,11 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
 
   // Side Effects
   useEffect(() => {
-    if (emailDropDownActive) validateEmailDropdown({ ...authFormData })
-    else validatePasswordDropdown({ ...authFormData })
+    let temp: any = { ...authFormData }
+
+    if (emailDropDownActive) validateEmailDropdown(temp)
+    else validatePasswordDropdown(temp)
+
   }, [authFormData])
 
 
@@ -86,6 +91,7 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
           Update
         </button>
 
+        < FormErrors VALIDATION_HELPERS={VALIDATION_HELPERS} emailDropDownActive={emailDropDownActive} authFormData={authFormData} />
         {updateStatus !== 'pending' && < UpdateFeedback updateStatus={updateStatus} />}
 
       </form>
