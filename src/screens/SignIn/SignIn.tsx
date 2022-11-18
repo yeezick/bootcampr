@@ -37,7 +37,6 @@ const SignIn: React.FC = (): JSX.Element => {
     e.preventDefault()
 
     const response = await signIn(formData)
-    console.log(response)
     if (response?.message === "Invalid email or password") return setInvalidCredentials(true)
 
     dispatch(setAuthUser(response))

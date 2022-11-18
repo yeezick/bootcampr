@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 let baseURL;
-console.log(process.env.REACT_APP_BACKEND_ENV)
 if (process.env.REACT_APP_BACKEND_ENV === 'cloud') {
   baseURL = process.env.REACT_APP_API_URL;
 } else {
