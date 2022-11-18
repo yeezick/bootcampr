@@ -52,6 +52,7 @@ import { Sidebar } from './Sidebar/Sidebar';
 import { Nav } from './Nav/Nav';
 import { toggleSidebar } from '../utilities/redux/slices/users/userSlice';
 import './Layout.scss';
+import { useSelector, useDispatch } from 'react-redux';
 
 type Props = {
   children: React.ReactNode;
@@ -60,6 +61,9 @@ type Props = {
 export const Layout: React.FC<Props> = ({ children }: Props) => {
   const dispatch = useAppDispatch();
   const status = useAppSelector(uiStatus);
+  const hidden = useAppSelector((state) => state.ui);
+
+  console.log(hidden.sidebar.visibleSidebar);
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -77,7 +81,7 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
     <>
       <Nav />
       <Sidebar />
-      <div className={toggleSidebar() ? 'layout-container active' : ''}>
+      <div className={hidden.sidebar.visibleSidebar ? 'layout-container active' : ''}>
         <div>{children};</div>
       </div>
     </>
