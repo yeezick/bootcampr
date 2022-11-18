@@ -1,11 +1,67 @@
 nav {
-  background-color: rgba(108, 122, 137, 1);
-  display: flex; 
-  flex-direction: row;
-  justify-content: space-evenly;
+  background-color: #353131;
+  display: flex;
+  height: 53px;
+  justify-content: space-between;
   padding: 20px;
+  position: relative;
 
-  div {
-    color: orange;
+  .menu-btn {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    left: 10px;
+    position: absolute;
+    top: 25px;
+  }
+
+  i {
+    background-color: #ffffff;
+    border-radius: 2px;
+    height: 4px;
+    margin: 4px;
+    width: 32px;
+  }
+
+  .nav-links {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  img {
+    padding-left: 65px;
+  }
+
+  .link {
+    color: #ffffff;
+    font-size: 1vw;
+    font-weight: 700;
+    padding: 0 10px;
+    text-decoration: none;
+  }
+
+  .auth-btn {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    width: 30%;
+  }
+
+  .sign-up {
+    background-color: #f29e34;
+    border-radius: 10px;
+    color: #000;
+    padding: 15px 30px;
+  }
+
+  .log-in {
+    background-color: #fefefe;
+    border: 1px solid #000;
+    border-radius: 10px;
+    color: #000;
+    padding: 15px 30px;
   }
 }
