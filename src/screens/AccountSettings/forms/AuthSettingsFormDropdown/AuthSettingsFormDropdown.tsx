@@ -9,7 +9,7 @@ import UpdateFeedback from '../../helper/UpdateFeedback'
 
 const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProps): JSX.Element => {
   // Constants
-  const emailDropDownActive: boolean = type[1] === 'newEmail'
+  const emailDropDownActive: boolean = type[1] === 'newEmail' // Lets us know whether or not the user is entering email or password info so we can change teh formData state accordingly.
   const { id } = useParams()
   const VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -19,10 +19,7 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
   const [disableButton, setDisableButton] = useState<boolean>(true)
 
   // Helper Functions
-  const fetchAPI = async () => {
-    if (emailDropDownActive) return await updateUsersEmail(authFormData, id)
-    else return await updateUsersPassword(authFormData, id)
-  }
+  const fetchAPI = async () => emailDropDownActive ? await updateUsersEmail(authFormData, id) : await updateUsersPassword(authFormData, id)
 
   // Validate Email
   const validateEmailDropdown = (temp: any) => {
