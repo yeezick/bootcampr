@@ -4,7 +4,6 @@ import { Landing } from './screens/Landing/Landing';
 import { RegisterUserInfo } from './screens/RegisterUserInfo/RegisterUserInfo';
 import { SignIn } from './screens/SignIn/SignIn';
 import { SignUp } from './screens/SignUp/SignUp';
-import { Nav } from './layout/Nav/Nav';
 import { Layout } from './layout/Layout';
 import { UserProfile } from './screens/UserProfile/UserProfile';
 import { EditProfile } from './screens/UserProfile/EditProfile';
