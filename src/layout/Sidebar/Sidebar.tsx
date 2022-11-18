@@ -71,7 +71,7 @@ export const Sidebar = () => {
   const authUser = useAppSelector(selectAuthUser);
   const { _id: userId, firstName, lastName } = authUser;
   const dispatch = useAppDispatch();
-  const hidden = useAppSelector((state) => state.ui);
+  const visibleSidebar = useAppSelector((state) => state.ui.sidebar.visibleSidebar);
 
   const handleLogout = () => {
     logOut();
@@ -84,7 +84,7 @@ export const Sidebar = () => {
   };
 
   return (
-    <div className={hidden.sidebar.visibleSidebar ? 'sidebar-container active' : 'hide-sidebar'}>
+    <div className={visibleSidebar ? 'sidebar-container active' : 'hide-sidebar'}>
       <div className="menu-btn" onClick={toggleSidebarHandler}>
         <i></i>
         <i></i>
