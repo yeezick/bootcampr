@@ -1,60 +1,65 @@
-import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { logoutAuthUser, selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import './Nav.scss';
-import { logOut } from '../../utilities/api/users';
+import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
+import { toggleSidebar } from '../../utilities/redux/slices/users/userSlice';
+import Logo from '../../assets/Logo.svg';
+import './Nav.scss';
 
-export const Nav: React.FC = () => {
-  const [authLinks, setAuthLinks] = useState<boolean>(false);
+export const Nav = () => {
   const authUser = useAppSelector(selectAuthUser);
-  const{ _id: userId } = authUser;
+  const { _id: userId } = authUser;
   const dispatch = useAppDispatch();
-  
-  useEffect(() => {
-     (userId) ? setAuthLinks(true) : setAuthLinks(false);
-  }, [authUser]);
 
-  const handleLogOut = () =>{
-    logOut(); 
-    dispatch(logoutAuthUser());
-  }
+  const toggleSidebarHandler = () => {
+    dispatch(toggleSidebar());
+  };
 
   return (
-    <div className="nav">
-      <nav>
+    <nav>
+      <div className="nav-container">
+        {userId !== '' ? (
+          <div className="menu-btn" onClick={toggleSidebarHandler}>
+            <i></i>
+            <i></i>
+            <i></i>
+          </div>
+        ) : null}
+        <div className="logo">
+          <img src={Logo} />
+        </div>
+      </div>
+      <div className="nav-links">
         <div>
-          <Link to="/sign-up">Sign Up</Link>
+          <Link className="link" to="/">
+            Landing Page
+          </Link>
         </div>
         <div>
-          <Link to="/sign-in">Sign In</Link>
+          <Link className="link" to="/projects">
+            Browse Projects
+          </Link>
         </div>
         <div>
-          <Link to="/">Landing Page</Link>
+          <Link className="link" to="/projects/create">
+            Create Project
+          </Link>
         </div>
-        <div>
-          <Link to="/projects">Browse Projects</Link>
-        </div>
-        <div>
-          <Link to="/projects/create">Create Project</Link>
-        </div>
+      </div>
+      {userId !== '' ? null : (
+        <div className="auth-btn">
+          <div>
+            <Link className="link sign-up" to="/sign-up">
+              Sign up
+            </Link>
+          </div>
 
-        {authLinks && (
-          <>
-            <div>
-              <Link to={`/users/${userId}`}>My Profile</Link>
-            </div>
-            <div>
-              <Link to={`/users/${userId}/edit`}>Edit Profile</Link>
-            </div>
-            <div>
-              <Link to="/">
-                <button onClick={handleLogOut}>Logout</button>
-              </Link>
-            </div>
-          </>
-        )}
-      </nav>
-    </div>
+          <div>
+            <Link className="link log-in" to="/sign-in">
+              Log in
+            </Link>
+          </div>
+        </div>
+      )}
+    </nav>
   );
 };
