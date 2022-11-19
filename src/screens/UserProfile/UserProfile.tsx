@@ -1,14 +1,11 @@
 import { useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { useEffect } from 'react';
 
 export const UserProfile = () => {
   const authUser = useSelector(selectAuthUser);
   const navigate = useNavigate();
-
-  console.log(authUser);
 
   // BC-334: should handle this case
   if (!authUser) {
@@ -19,17 +16,6 @@ export const UserProfile = () => {
     navigate(`/users/${authUser._id}/edit`);
   };
 
-  const routeToEditProject = (e: any) => {
-    console.log(e.target.value);
-    navigate(`/projects/${authUser._id}/edit`);
-  };
-
-  useEffect(() => {
-    authUser.ownerOfProjects?.map((project) => {
-      return console.log(project);
-    });
-  }, []);
-
   return (
     <div>
       <h1>first name {authUser.firstName}</h1>
@@ -38,9 +24,7 @@ export const UserProfile = () => {
       <h1>email {authUser.email}</h1>
       <h1>portfolio {authUser?.portfolioUrl}</h1>
       <h1>role {authUser.role}</h1>
-      {authUser.ownerOfProjects?.map((project: any) => (
-        <Link to={`/projects/${project}/edit`}>Edit My Project</Link>
-      ))}
+
       <h1>memberOfProjects ...</h1>
       {authUser.memberOfProjects?.map((projects: ProjectInterface, id: number) => (
         <div key={`userprofile-memberof-${id}`}>
