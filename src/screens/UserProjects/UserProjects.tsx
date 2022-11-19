@@ -1,25 +1,13 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { getOneUser } from '../../utilities/api/users';
+import { Link } from 'react-router-dom';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { useAppSelector } from '../../utilities/redux/hooks';
-import { ProjectInterface } from '../../utilities/types/ProjectInterface';
-import { emptyProject } from '../../utilities/data/projectConstants';
-import { UserInterface } from '../../utilities/types/UserInterface';
+import './UserProjects.scss';
 
 export const UserProjects = () => {
   const authUser = useAppSelector(selectAuthUser);
-  const { _id: userId, ownerOfProjects } = authUser;
-  //   const [projectOwnerDetails, setProjectOwnerDetails] = useState<UserInterface>(emptyProject);
-  const navigate = useNavigate();
+  const { ownerOfProjects } = authUser;
 
   console.log(ownerOfProjects);
-
-  useEffect(() => {
-    const asdf = authUser.ownerOfProjects?.map((proj) => {
-      console.log(proj);
-    });
-  }, []);
 
   return (
     <>
