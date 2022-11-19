@@ -90,8 +90,8 @@ export const CreateProject: React.FC = () => {
           <option value="MUI"></option>
         </datalist>
 
-        <label htmlFor="meetingCadence">Meeting Cadence</label>
-        <select name="meetingCadence" onChange={handleProjectInputChange}>
+        <label htmlFor="meeting_cadence">Meeting Cadence</label>
+        <select name="meeting_cadence" onChange={handleProjectInputChange}>
           <option value="0"></option>
           <option value="Monthly">Monthly</option>
           <option value="Biweekly">Biweekly</option>
