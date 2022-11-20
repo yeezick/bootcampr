@@ -12,20 +12,23 @@ export const UserProjects = () => {
   return (
     <div className="projects-container">
       {ownerOfProjects?.map((project: any) => (
-        <div key={project._id}>
+        <div key={project._id} className="projects">
           <h1>{project.title}</h1>
-          <div className="status">
-            <p>Status</p>
-            <p>{project.status}</p>
-            <button>
-              <Link to={`/projects/${project._id}/edit`}>Edit My Project</Link>
+          <div className="status-container">
+            <p className="status">Status</p>
+            <div id="status">
+              <p className="status draft-publish">{project.status}</p>
+            </div>
+            <button className="status edit-btn">
+              <Link to={`/projects/${project._id}/edit`}>Edit</Link>
             </button>
           </div>
           <div>
-            <button>PROJECT DETAILS</button>
-            <button>ROLES</button>
-            <button>MEETINGS</button>
+            <button className="details-btn">Project Details</button>
+            <button className="details-btn">Roles</button>
+            <button className="details-btn">Meetings</button>
           </div>
+          <hr className="divider" />
           <p className="subheading">Description</p>
           <p>{project.overview}</p>
           <p className="subheading">Industry</p>

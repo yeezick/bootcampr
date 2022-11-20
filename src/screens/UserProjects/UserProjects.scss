@@ -1,6 +1,83 @@
 .projects-container {
-  margin-left: 64px;
+  margin: 0 64px;
+
+  .projects {
+    margin-bottom: 120px;
+    position: relative;
+  }
+
+  .status-container {
+    display: flex;
+    gap: 16px;
+    padding-top: 100px;
+    position: absolute;
+    right: 10px;
+    top: -103px;
+  }
 
   .status {
+    font-size: 14px;
+    margin-right: 17px;
+  }
+
+  #status {
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    color: #313335;
+    height: 41px;
+    width: 137px;
+  }
+
+  .draft-publish {
+    padding-left: 16px;
+  }
+
+  .edit-btn {
+    background-color: #8048c8;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 16px;
+  }
+
+  a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  .details-btn {
+    background: none;
+    border: none;
+    color: #313335;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 10px;
+    text-transform: uppercase;
+  }
+  .details-btn::after {
+    content: '';
+    display: block;
+    position: absolute;
+    height: 4px;
+    width: 0;
+    background-color: #f29d20;
+    transition: width 0.3s ease-in-out;
+  }
+
+  .details-btn::after {
+    bottom: 170px;
+  }
+
+  .details-btn:hover::after {
+    width: 60px;
+  }
+
+  hr {
+    background-color: #d9d9d9;
+  }
+
+  .subheading {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 20px 0;
   }
 }
