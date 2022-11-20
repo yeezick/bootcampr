@@ -54,13 +54,13 @@
     text-transform: uppercase;
   }
   .details-btn::after {
+    background-color: #f29d20;
     content: '';
     display: block;
-    position: absolute;
     height: 4px;
-    width: 0;
-    background-color: #f29d20;
+    position: absolute;
     transition: width 0.3s ease-in-out;
+    width: 0;
   }
 
   .details-btn::after {
