@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppSelector } from '../../utilities/redux/hooks';
 import { RiUploadCloudFill } from 'react-icons/ri';
 import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { emptyProject, emptyProjectOwner } from '../../utilities/data/projectConstants';
+import { emptyProject } from '../../utilities/data/projectConstants';
 import { getOneUser } from '../../utilities/api/users';
-import { getOneProject } from '../../utilities/api/projects';
-import { editProject } from '../../utilities/api/projects';
+import { getOneProject, editProject } from '../../utilities/api/projects';
 import './CreateProject.scss';
 
 export const EditProject = () => {
-  const authUser = useSelector(selectAuthUser);
+  const authUser = useAppSelector(selectAuthUser);
   const [fileSelected, setFileSelected] = useState<File>();
   const [projectForm, updateProjectForm] = useState<ProjectInterface>(emptyProject);
-  const [projectOwner, setProjectOwner] = useState(emptyProjectOwner);
   const { duration, meeting_cadence, overview, technologies_used, title, status } = projectForm;
-  const { firstName, lastName, _id: ownerId } = projectOwner;
   const params = useParams();
-  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,7 +32,6 @@ export const EditProject = () => {
         lastName: projectOwner.lastName,
         _id: projectOwner._id,
       };
-      //   setProjectOwner(projectOwner);
       updateProjectForm(singleProject);
     };
     fetchProject();
@@ -112,9 +108,7 @@ export const EditProject = () => {
         <select name="meeting_cadence" onChange={handleInputChange} value={meeting_cadence}>
           <option value="0">{meeting_cadence}</option>
           <option value="Monthly">Monthly</option>
-          <option value="Biweekly" selected={true}>
-            Biweekly
-          </option>
+          <option value="Biweekly">Biweekly</option>
           <option value="Weekly">Weekly</option>
           <option value="Daily">Daily</option>
         </select>

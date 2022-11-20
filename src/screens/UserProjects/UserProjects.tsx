@@ -1,17 +1,32 @@
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { useAppSelector } from '../../utilities/redux/hooks';
 import './UserProjects.scss';
+import React, { useState, useEffect } from 'react';
+import { getOneProject } from '../../utilities/api/projects';
+import { getOneUser } from '../../utilities/api/users';
+import { getUserProjects } from '../../utilities/api/projects';
+import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 
 export const UserProjects = () => {
+  const [projects, setProjects] = useState<ProjectInterface[]>([]);
   const authUser = useAppSelector(selectAuthUser);
-  const { ownerOfProjects } = authUser;
+  const { _id } = authUser;
 
-  console.log(ownerOfProjects);
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const displayAllProjects = await getUserProjects(_id);
+      setProjects(displayAllProjects);
+    };
+    fetchProjects();
+  }, [setProjects]);
+
+  console.log(projects);
 
   return (
     <div className="projects-container">
-      {ownerOfProjects?.map((project: any) => (
+      {projects?.map((project: any) => (
         <div key={project._id} className="projects">
           <h1>{project.title}</h1>
           <div className="status-container">
