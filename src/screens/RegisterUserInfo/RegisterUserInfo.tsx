@@ -5,6 +5,10 @@ import { UserInterface } from '../../utilities/types/UserInterface';
 import { useEffect, useState } from 'react';
 import './RegisterUserInfo.scss';
 import { emptyUser } from '../../utilities/data/userConstants';
+import { UserInterface } from '../../utilities/types/UserInterface';
+import { useEffect, useState } from 'react';
+import { emptyUser } from '../../utilities/data/userConstants';
+import './RegisterUserInfo.scss';
 
 export const RegisterUserInfo: React.FC = () => {
   const navigate = useNavigate();
@@ -19,6 +23,9 @@ export const RegisterUserInfo: React.FC = () => {
     }
     if (authUser) {
       setUserForm({ ...authUser });
+      setUserForm((currForm) => {
+        return { ...currForm, ...authUser };
+      });
     }
   }, [authUser]);
 
