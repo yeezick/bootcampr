@@ -15,18 +15,18 @@ export const EditProject = () => {
   const [fileSelected, setFileSelected] = useState<File>();
   const [projectForm, updateProjectForm] = useState<ProjectInterface>(emptyProject);
   const [projectOwner, setProjectOwner] = useState(emptyProjectOwner);
-  const { duration, meeting_cadence, overview, technologies_used, title } = projectForm;
+  const { duration, meeting_cadence, overview, technologies_used, title, status } = projectForm;
   const { firstName, lastName, _id: ownerId } = projectOwner;
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    updateProjectForm({ ...projectForm, [name]: value });
-  };
-
   useEffect(() => {
+    if (authUser) {
+      updateProjectForm((currForm) => {
+        return { ...currForm, ...authUser };
+      });
+    }
     const fetchProject = async () => {
       const singleProject = await getOneProject(params.id);
       let projectOwner = await getOneUser(singleProject.project_owner);
@@ -41,18 +41,15 @@ export const EditProject = () => {
     fetchProject();
   }, []);
 
-  //   useEffect(() => {
-  //     if (authUser) {
-  //       updateProjectForm({ ...projectForm, project_owner: authUser._id });
-  //     } else {
-  //       navigate('/sign-in');
-  //     }
-  //   }, []);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    updateProjectForm({ ...projectForm, [name]: value });
+  };
 
   const handleUpdateProject = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const updateProject = await editProject(params.id, projectForm);
-    if (updateProject) navigate(`/projects`);
+    if (updateProject) navigate(`/users/projects`);
   };
 
   const handleImageChange = function (e: React.ChangeEvent<HTMLInputElement>) {
@@ -84,7 +81,7 @@ export const EditProject = () => {
         </div>
 
         <label htmlFor="title">Title</label>
-        <input type="text" name="title" defaultValue={title} onChange={handleInputChange} />
+        <input type="text" name="title" value={title} onChange={handleInputChange} />
 
         <label htmlFor="technologies_used">Technologies Used (separate by commas)</label>
         <input
@@ -93,6 +90,7 @@ export const EditProject = () => {
           name="technologies_used"
           autoComplete="off"
           multiple={true}
+          value={technologies_used}
           onChange={handleInputChange}
         />
         <datalist id="technologies">
@@ -111,10 +109,12 @@ export const EditProject = () => {
         </datalist>
 
         <label htmlFor="meeting_cadence">Meeting Cadence</label>
-        <select name="meeting_cadence" onChange={handleInputChange}>
-          <option value="0"></option>
+        <select name="meeting_cadence" onChange={handleInputChange} value={meeting_cadence}>
+          <option value="0">{meeting_cadence}</option>
           <option value="Monthly">Monthly</option>
-          <option value="Biweekly">Biweekly</option>
+          <option value="Biweekly" selected={true}>
+            Biweekly
+          </option>
           <option value="Weekly">Weekly</option>
           <option value="Daily">Daily</option>
         </select>
@@ -125,16 +125,24 @@ export const EditProject = () => {
           className="overview"
           cols={30}
           rows={10}
+          value={overview}
           onChange={(e) => handleInputChange(e)}
         ></textarea>
 
         <label htmlFor="duration">Duration of the project</label>
-        <input type="text" name="duration" onChange={handleInputChange} />
+        <input type="text" name="duration" value={duration} onChange={handleInputChange} />
 
         <p>Save project as a draft or publish?</p>
         <div className="radio-container">
           <label htmlFor="status">Draft</label>
-          <input type="radio" className="radio" name="status" value="Draft" onChange={(e) => handleInputChange(e)} />
+          <input
+            type="radio"
+            className="radio"
+            name="status"
+            value="Draft"
+            checked={status === 'Draft' ? true : false}
+            onChange={(e) => handleInputChange(e)}
+          />
 
           <label htmlFor="status">Publish</label>
           <input
@@ -142,6 +150,7 @@ export const EditProject = () => {
             className="radio"
             name="status"
             value="Published"
+            checked={status === 'Published' ? true : false}
             onChange={(e) => handleInputChange(e)}
           />
         </div>
