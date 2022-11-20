@@ -6,7 +6,7 @@ import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { emptyProject } from '../../utilities/data/projectConstants';
 import { getOneUser } from '../../utilities/api/users';
-import { getOneProject, editProject } from '../../utilities/api/projects';
+import { getOneProject, editProject, deleteProject } from '../../utilities/api/projects';
 import './CreateProject.scss';
 
 export const EditProject = () => {
@@ -46,6 +46,12 @@ export const EditProject = () => {
     e.preventDefault();
     const updateProject = await editProject(params.id, projectForm);
     if (updateProject) navigate(`/users/projects`);
+  };
+
+  const handleDeleteProject = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    const deleteOneProject = await deleteProject(params.id);
+    if (deleteOneProject) navigate(`/users/projects`);
   };
 
   const handleImageChange = function (e: React.ChangeEvent<HTMLInputElement>) {
@@ -152,6 +158,9 @@ export const EditProject = () => {
         <div className="btn-container">
           <button onClick={uploadFile} type="submit">
             Submit
+          </button>
+          <button onClick={handleDeleteProject} type="submit">
+            Delete
           </button>
         </div>
       </form>
