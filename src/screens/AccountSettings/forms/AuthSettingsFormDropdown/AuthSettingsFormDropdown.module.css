@@ -1,43 +1,43 @@
 .auth_form_label {
-  display: block;
   color: grey;
+  display: block;
   font-size: .75rem;
 }
 
 .auth_form_input {
-  width: 100%;
-  height: 30px;
-  padding: 5px;
-  padding-right: 30px;
-  margin-bottom: 10px;
-  font-size: 15px;
   border-radius: 10px;
   border: none;
+  font-size: 15px;
+  height: 30px;
+  margin-bottom: 10px;
+  padding: 5px;
+  padding-right: 30px;
+  width: 100%;
 }
 
 .form_container {
-  width: 100%;
-  padding: 10px;
   border-top: 1px solid rgba(128, 128, 128, 0.5);
+  padding: 10px;
   text-align: center;
+  width: 100%;
 }
 
 .form_input_container {
-  text-align: left;
   position: relative;
+  text-align: left;
 }
 
 .auth_form_submit_button {
-  margin: 10px 0;
-  cursor: pointer;
-  width: 100%;
-  height: 25px;
   border: none;
   background-color: black;
   border-radius: 10px;
+  cursor: pointer;
   color: white;
-  transition: all .15s ease-in-out;
   font-weight: bold;
+  height: 25px;
+  margin: 10px 0;
+  transition: all .15s ease-in-out;
+  width: 100%;
 }
 
 .auth_form_submit_button:hover {
@@ -45,14 +45,14 @@
 }
 
 .auth_form_submit_button:disabled {
-  background-color: rgba(0, 0, 0, 0.5);
   cursor: default;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .toggle_hide_password {
   position: absolute;
-  top: 22px;
   right: 10px;
+  top: 22px;
 }
 
 
@@ -73,6 +73,6 @@
 }
 
 .match_error {
-  font-size: .7rem;
   color: red;
+  font-size: .7rem;
 }

@@ -10,6 +10,9 @@ const AuthFormInput = ({ setAuthFormData, authFormData, field, type }: AuthFormI
   // State Variables
   const [showPassword, setShowPassword] = useState<boolean>(PasswordInput ? false : true)
 
+  // Event Handlers
+  const handleTogglePassword = () => setShowPassword(state => !state)
+  const handleUpdateFormData = (e: React.ChangeEvent<HTMLInputElement>) => setAuthFormData({ ...authFormData, [type]: e.target.value })
 
   return (
     <div className={styles.form_input_container}>
@@ -20,13 +23,13 @@ const AuthFormInput = ({ setAuthFormData, authFormData, field, type }: AuthFormI
         id={`${type}_input`}
         name={`${type}_input`}
         type={`${showPassword ? 'text' : 'password'}`}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAuthFormData({ ...authFormData, [type]: e.target.value })}
+        onChange={handleUpdateFormData}
       />
 
       {PasswordInput && (
         <span
           className={styles.toggle_hide_password}
-          onClick={() => setShowPassword(state => !state)}>
+          onClick={handleTogglePassword}>
           {showPassword ? < BsEyeFill className={styles.pwd_reveal} /> : <BsEyeSlash className={styles.pwd_reveal_gray} />}
         </span>
       )}

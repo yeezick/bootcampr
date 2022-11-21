@@ -1,16 +1,13 @@
 import { useState } from 'react'
 import { initialDropdownState, settings } from './helper/data'
 import { DropDownSettings, AccountSettingsProps } from '../../utilities/types/AccountSettingsInterface'
+import { closeDropdown, openDropdown } from './helper/dropdownHelpers'
 import styles from './AccountSettings.module.css'
 
 
-const AccountSettings = ({ }: AccountSettingsProps): JSX.Element => {
+export const AccountSettings = ({ }: AccountSettingsProps): JSX.Element => {
   // State Variables
   const [dropdownModes, setDropdownModes] = useState<DropDownSettings>(initialDropdownState)
-
-  // Helper Functions
-  const closeDropdown = (key: string, tempModes: DropDownSettings) => tempModes[key as keyof DropDownSettings] = false
-  const openDropdown = (key: string, tempModes: DropDownSettings) => tempModes[key as keyof DropDownSettings] = true
 
   // Event Handlers
   const handleToggleDropdown = (setting: string) => {
@@ -51,5 +48,3 @@ const AccountSettings = ({ }: AccountSettingsProps): JSX.Element => {
     </div>
   )
 }
-
-export default AccountSettings;
