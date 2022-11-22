@@ -15,6 +15,8 @@ export const EditProfile: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role, _id: userId } = userForm;
+  const inputCustomLinkArr = [{ type: 'text', id: 1, value: '' }];
+  const [customInputs, setCustomInputs] = useState(inputCustomLinkArr);
 
   useEffect(() => {
     if (authUser) {
@@ -34,6 +36,29 @@ export const EditProfile: React.FC = () => {
     const updatedUser = await updateUser(params.id, userForm);
     dispatch(setAuthUser(updatedUser));
     navigate(`/users/${userId}`);
+  };
+
+  const addCustomInput = () => {
+    setCustomInputs((link) => {
+      return [
+        ...link,
+        {
+          type: 'text',
+          id: 1,
+          value: '',
+        },
+      ];
+    });
+  };
+
+  const handleCustomInputChange = (e: any) => {
+    e.preventDefault();
+    const { id, name, value } = e.target;
+    setCustomInputs((link) => {
+      const newInput = link.slice();
+      newInput[id].value = value;
+      return newInput;
+    });
   };
 
   if (!authUser) {
