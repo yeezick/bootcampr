@@ -15,8 +15,8 @@ export const EditProfile: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role, _id: userId } = userForm;
-  const inputCustomLinkArr = [{ type: 'text', id: 1, value: '' }];
-  const [customInputs, setCustomInputs] = useState(inputCustomLinkArr);
+  // const inputCustomLinkArr = [{ type: 'text', id: '', value: '' }];
+  const [customInputs, setCustomInputs] = useState<any>([]);
 
   useEffect(() => {
     if (authUser) {
@@ -33,18 +33,19 @@ export const EditProfile: React.FC = () => {
 
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const updatedUser = await updateUser(params.id, userForm);
     dispatch(setAuthUser(updatedUser));
     navigate(`/users/${userId}`);
   };
 
   const addCustomInput = () => {
-    setCustomInputs((link) => {
+    setCustomInputs((link: any) => {
       return [
         ...link,
         {
           type: 'text',
-          id: 1,
+          id: '',
           value: '',
         },
       ];
@@ -53,12 +54,13 @@ export const EditProfile: React.FC = () => {
 
   const handleCustomInputChange = (e: any) => {
     e.preventDefault();
-    const { id, name, value } = e.target;
-    setCustomInputs((link) => {
-      const newInput = link.slice();
-      newInput[id].value = value;
-      return newInput;
-    });
+    console.log(e.target.index);
+    const { name, value } = e.target;
+    // setCustomInputs((link) => {
+    //   const newInput = link.slice();
+    //   newInput[id].value = value;
+    //   return newInput;
+    // });
   };
 
   if (!authUser) {
@@ -108,15 +110,36 @@ export const EditProfile: React.FC = () => {
           <input type="text" name="linkedinUrl" value={linkedinUrl} onChange={(event) => handleInputChange(event)} />
         </label>
 
-        <button type="button">+ Add Custom Link</button>
+        <button type="button" onClick={addCustomInput}>
+          + Add Custom Link
+        </button>
 
-        <label htmlFor="dynamicUrlName">
-          <input type="text" />
-        </label>
-
-        <label htmlFor="dynamicUrlLink">
-          <input type="text" />
-        </label>
+        {customInputs.map((link: any, index: any) => {
+          return (
+            <>
+              <label htmlFor="customUrlName">
+                Url Name
+                <input
+                  key={index}
+                  type={link.type}
+                  name="customUrlName"
+                  value={link.value}
+                  onChange={handleCustomInputChange}
+                />{' '}
+              </label>
+              <label htmlFor="customUrlLink">
+                Url Link
+                <input
+                  key={index}
+                  type={link.type}
+                  name="customUrlLink"
+                  value={link.value}
+                  onChange={handleCustomInputChange}
+                />
+              </label>
+            </>
+          );
+        })}
 
         <button type="submit">Update Info</button>
       </form>
