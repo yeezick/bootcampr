@@ -26,6 +26,8 @@ export const EditProfile: React.FC = () => {
     }
   }, [authUser]);
 
+  console.log(authUser);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     updateUserForm({ ...userForm, [name]: value });
@@ -45,23 +47,24 @@ export const EditProfile: React.FC = () => {
         ...link,
         {
           type: 'text',
-          id: '',
           value: '',
         },
       ];
     });
   };
 
-  const handleCustomInputChange = (e: any) => {
-    e.preventDefault();
-    console.log(e.target.index);
-    const { name, value } = e.target;
-    // setCustomInputs((link) => {
-    //   const newInput = link.slice();
-    //   newInput[id].value = value;
-    //   return newInput;
-    // });
+  const handleCustomInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, id } = e.target;
+    console.log(id);
+    setCustomInputs((link: any) => {
+      const newCustomInputArr = link.slice();
+      newCustomInputArr[id].value = value;
+      console.log(newCustomInputArr[id].value);
+      return newCustomInputArr;
+    });
   };
+
+  console.log(customInputs);
 
   if (!authUser) {
     return <div>Loading user...</div>;
@@ -120,21 +123,23 @@ export const EditProfile: React.FC = () => {
               <label htmlFor="customUrlName">
                 Url Name
                 <input
-                  key={index}
+                  id={index}
                   type={link.type}
                   name="customUrlName"
                   value={link.value}
                   onChange={handleCustomInputChange}
+                  required
                 />{' '}
               </label>
               <label htmlFor="customUrlLink">
                 Url Link
                 <input
-                  key={index}
+                  id={index}
                   type={link.type}
                   name="customUrlLink"
                   value={link.value}
                   onChange={handleCustomInputChange}
+                  required
                 />
               </label>
             </>
