@@ -18,9 +18,11 @@ export const EditProfile: React.FC = () => {
 
   useEffect(() => {
     if (authUser) {
-      updateUserForm((currForm) => { return { ...currForm, ...authUser }})
+      updateUserForm((currForm) => {
+        return { ...currForm, ...authUser };
+      });
     }
-  }, [authUser])
+  }, [authUser]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -79,6 +81,16 @@ export const EditProfile: React.FC = () => {
         <label>
           Linkedin URL
           <input type="text" name="linkedinUrl" value={linkedinUrl} onChange={(event) => handleInputChange(event)} />
+        </label>
+
+        <button type="button">+ Add Custom Link</button>
+
+        <label htmlFor="dynamicUrlName">
+          <input type="text" />
+        </label>
+
+        <label htmlFor="dynamicUrlLink">
+          <input type="text" />
         </label>
 
         <button type="submit">Update Info</button>
