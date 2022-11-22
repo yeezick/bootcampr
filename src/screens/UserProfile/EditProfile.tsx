@@ -3,14 +3,14 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { emptyUser } from '../../utilities/data/userConstants';
-import { UserInterface } from '../../utilities/types/UserInterface';
+import { emptyUser, emptyUserLinks } from '../../utilities/data/userConstants';
+import { UserInterface, CustomProfileLinkInterface } from '../../utilities/types/UserInterface';
 import { updateUser } from '../../utilities/api/users';
 import './EditProfile.scss';
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
-  const [userForm, updateUserForm] = useState<UserInterface>(emptyUser);
+  const [userForm, updateUserForm] = useState<CustomProfileLinkInterface>(emptyUserLinks);
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();

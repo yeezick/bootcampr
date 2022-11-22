@@ -46,6 +46,29 @@ export interface SignUpInterface {
   password: string;
 }
 
+export interface CustomProfileLinkInterface {
+  bio: string;
+  customProfileLinks?: {
+    customUrlName: string;
+    customUrlLink: string;
+  };
+  declinedProjects?: ProjectInterface[];
+  email: string;
+  firstName: string;
+  interestedProjects?: ProjectInterface[];
+  lastName: string;
+  linkedinUrl: string;
+  memberOfProjects?: ProjectInterface[];
+  ownerOfProjects?: ProjectInterface[];
+  portfolioUrl: string;
+  portfolioProjects?: ProjectInterface[];
+  profilePicture: string;
+  role: string;
+  savedProjects?: ProjectInterface[];
+  __v?: number;
+  _id: string;
+}
+
 // export interface PortfolioProjectInterface {
 
 // }
