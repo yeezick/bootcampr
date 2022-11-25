@@ -4,10 +4,13 @@ export const initialState: UiSliceInterface = {
   auth: {
     user: {
       bio: '',
-      customProfileLinks: {
-        customUrlName: '',
-        customUrlLink: '',
-      },
+      customProfileLinks: [
+        {
+          _id: '',
+          customUrlName: '',
+          customUrlLink: '',
+        },
+      ],
       email: '',
       firstName: '',
       lastName: '',
@@ -35,6 +38,13 @@ export const initialState: UiSliceInterface = {
 
 export const emptyUser: UserInterface = {
   bio: '',
+  customProfileLinks: [
+    {
+      _id: '',
+      customUrlName: '',
+      customUrlLink: '',
+    },
+  ],
   email: '',
   firstName: '',
   lastName: '',

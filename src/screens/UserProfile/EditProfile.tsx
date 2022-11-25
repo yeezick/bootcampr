@@ -124,7 +124,30 @@ export const EditProfile: React.FC = () => {
           + Add Custom Link
         </button>
 
-        {}
+        {authUser.customProfileLinks?.map((url) => {
+          return (
+            <div key={url._id}>
+              <label htmlFor="customUrlName">
+                Url Name
+                <input
+                  type="text"
+                  value={url.customUrlName}
+                  name="customUrlName"
+                  onChange={(event) => handleInputChange(event)}
+                />
+              </label>
+              <label htmlFor="customUrlLink">
+                Url Link
+                <input
+                  type="text"
+                  name="customUrlLink"
+                  value={url.customUrlLink}
+                  onChange={(event) => handleInputChange(event)}
+                />
+              </label>
+            </div>
+          );
+        })}
 
         {customInputs.map((link: any, index: any) => {
           return (
