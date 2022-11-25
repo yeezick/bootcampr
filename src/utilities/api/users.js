@@ -75,7 +75,7 @@ export const logOut = async () => {
   } catch (error) {
     throw error;
   }
-}; 
+};
 
 export const verify = async () => {
   const bootcamprAuthToken = localStorage.getItem('bootcamprAuthToken');
@@ -85,4 +85,13 @@ export const verify = async () => {
     return user;
   }
   return false;
+};
+
+export const CreateUserImage = async (tempUUID, file) => {
+  const addUserImage = new FormData();
+  addUserImage.append('image', file);
+  addUserImage.append('uuid', tempUUID);
+  await api.post(`'http://localhost:8001/addUserImage`, addUserImage, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 };

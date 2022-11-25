@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 let baseURL;
 if (process.env.REACT_APP_BACKEND_ENV === 'cloud') {
   baseURL = process.env.REACT_APP_API_URL;
@@ -11,6 +10,7 @@ if (process.env.REACT_APP_BACKEND_ENV === 'cloud') {
 export const api = axios.create({
   baseURL: baseURL,
 });
+
 const getToken = () => {
   return new Promise((resolve) => {
     resolve(`Bearer ${localStorage.getItem('token') || null}`);

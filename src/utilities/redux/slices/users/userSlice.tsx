@@ -13,6 +13,7 @@ const initialState: UiSliceInterface = {
       linkedinUrl: '',
       portfolioUrl: '',
       profilePicture: '',
+      tempNanoidId: '',
       role: '',
       __v: 0,
       _id: '',

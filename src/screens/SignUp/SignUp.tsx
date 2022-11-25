@@ -1,11 +1,13 @@
 import { register, reset, selectAuthUser, uiStatus } from '../../utilities/redux/slices/users/userSlice';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SignUpInterface } from '../../utilities/types/UserInterface';
+import { AddImageInterface, SignUpInterface } from '../../utilities/types/UserInterface';
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
 import './SignUp.scss';
+import { nanoid } from '@reduxjs/toolkit';
 import { emptySignUp } from '../../utilities/data/userConstants';
+import AddUserProfileImage from './AddUserProfileImage/AddUserProfileImage';
 
 type PasswordMatchCases = null | boolean;
 
@@ -17,7 +19,9 @@ export const SignUp: React.FC = () => {
   const [inputType, setInputType] = useState('password');
   const [passwordsMatch, togglePasswordsMatch] = useState<PasswordMatchCases>(null);
   const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp);
-  const { confirmPassword, email, firstName, lastName, password } = formValues;
+  const [profileImage, setProfileImage] = useState<AddImageInterface>();
+  const { confirmPassword, email, firstName, lastName, password, tempNanoidId } = formValues;
+  const tempNanoid: String = nanoid();
 
   useEffect(() => {
     if (status.isSuccess) {
@@ -40,7 +44,7 @@ export const SignUp: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
+    setFormValues({ ...formValues, [name]: value, tempNanoidId: tempNanoid });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -75,6 +79,8 @@ export const SignUp: React.FC = () => {
       <h3>User Register</h3>
       <form onSubmit={handleSubmit} autoComplete="off">
         <div className="form-input">
+          <label>Add A Profile Image</label>
+          <AddUserProfileImage setProfileImage={setProfileImage} />
           <label>First Name</label>
           <input
             type="text"

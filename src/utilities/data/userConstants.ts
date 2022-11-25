@@ -10,6 +10,7 @@ export const initialState: UiSliceInterface = {
       linkedinUrl: '',
       portfolioUrl: '',
       profilePicture: '',
+      tempNanoidId: '',
       role: '',
       __v: 0,
       _id: '',
@@ -39,6 +40,7 @@ export const emptyUser: UserInterface = {
   profilePicture: '',
   role: '',
   _id: '',
+  tempNanoidId: '',
 };
 
 export const emptySignUp: SignUpInterface = {
@@ -47,4 +49,5 @@ export const emptySignUp: SignUpInterface = {
   firstName: '',
   lastName: '',
   password: '',
+  tempNanoidId: '',
 };
