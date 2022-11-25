@@ -15,7 +15,7 @@ export interface UserInterface {
   profilePicture: string;
   role: string;
   savedProjects?: ProjectInterface[];
-  tempNanoidId: String;
+
   __v?: number;
   _id: string;
 }
@@ -45,7 +45,6 @@ export interface SignUpInterface {
   firstName: string;
   lastName: string;
   password: string;
-  tempNanoidId: String;
 }
 export interface AddImageInterface {
   lastModified: number;

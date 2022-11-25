@@ -8,12 +8,11 @@ const initialState: UiSliceInterface = {
     user: {
       bio: '',
       email: '',
-      firstName: '',
       lastName: '',
+      firstName: '',
       linkedinUrl: '',
       portfolioUrl: '',
       profilePicture: '',
-      tempNanoidId: '',
       role: '',
       __v: 0,
       _id: '',

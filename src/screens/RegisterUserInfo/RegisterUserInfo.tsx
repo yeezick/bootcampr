@@ -1,16 +1,21 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 import { selectAuthUser, updateProfile } from '../../utilities/redux/slices/users/userSlice';
-import { UserInterface } from '../../utilities/types/UserInterface';
+import { AddImageInterface, UserInterface } from '../../utilities/types/UserInterface';
 import { useEffect, useState } from 'react';
 import './RegisterUserInfo.scss';
 import { emptyUser } from '../../utilities/data/userConstants';
+import { createUserImage } from '../../utilities/api/users';
+import AddUserProfileImage from '../SignUp/AddUserProfileImage/AddUserProfileImage';
 
 export const RegisterUserInfo: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authUser = useAppSelector(selectAuthUser);
   const [userForm, setUserForm] = useState<UserInterface>(emptyUser);
+  const [imageFile, setImageName] = useState<string>();
+  const [profileImageFile, setProfileImageFile] = useState<AddImageInterface>();
+
   const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role } = userForm;
 
   useEffect(() => {
@@ -22,6 +27,16 @@ export const RegisterUserInfo: React.FC = () => {
     }
   }, [authUser]);
 
+  useEffect(() => {
+    // const api = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=E53333`;
+    const api = `https://ui-avatars.com/api/?name=zena+Ariel&background=E53333`;
+    const createDefaultImage = async () => {
+      const imageApiName = await fetch(api);
+      setImageName(imageApiName.url);
+    };
+    createDefaultImage();
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserForm({ ...userForm, [name]: value });
@@ -29,6 +44,7 @@ export const RegisterUserInfo: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (profileImageFile) createUserImage(profileImageFile, authUser._id);
     dispatch(updateProfile(userForm));
     navigate(`/users/${authUser._id}`);
   };
@@ -42,13 +58,14 @@ export const RegisterUserInfo: React.FC = () => {
             <img
               src={
                 !profilePicture
-                  ? 'https://pbs.twimg.com/profile_images/1564398871996174336/M-hffw5a_400x400.jpg'
+                  ? `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=E53333`
                   : profilePicture
               }
               alt="photo"
             />
           </div>
           <label>Profile Photo:</label>
+          <AddUserProfileImage setProfileImageFile={setProfileImageFile} />
           <input
             onChange={handleChange}
             type="text"

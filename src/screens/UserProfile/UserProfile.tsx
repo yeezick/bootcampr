@@ -11,6 +11,7 @@ export const UserProfile = () => {
   if (!authUser) {
     return <div>Loading user... or there isn't one.</div>;
   }
+  console.log(authUser);
 
   const routeToEdit = () => {
     navigate(`/users/${authUser._id}/edit`);
@@ -19,6 +20,8 @@ export const UserProfile = () => {
   return (
     <div>
       <h1>first name {authUser.firstName}</h1>
+
+      <img src={authUser.profilePicture} alt="adsf" />
       <h1>last name {authUser.lastName}</h1>
       <button onClick={routeToEdit}>Edit Profile</button>
       <h1>email {authUser.email}</h1>

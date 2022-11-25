@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { api } from './apiConfig';
 
 export const getAllUsers = async () => {
@@ -13,6 +14,7 @@ export const getAllUsers = async () => {
 export const getOneUser = async (id) => {
   try {
     const res = await api.get(`/users/${id}`);
+    console.log(res.data);
     return res.data;
   } catch (error) {
     throw error;
@@ -22,6 +24,9 @@ export const getOneUser = async (id) => {
 export const updateUser = async (id, userUpdate) => {
   try {
     const res = await api.put(`/users/${id}`, userUpdate);
+    console.log('====================================');
+    console.log(res.data);
+    console.log('====================================');
     return res.data;
   } catch (error) {
     throw error;
@@ -87,11 +92,11 @@ export const verify = async () => {
   return false;
 };
 
-export const CreateUserImage = async (tempUUID, file) => {
+export const createUserImage = async (profileImageFile, userId) => {
   const addUserImage = new FormData();
-  addUserImage.append('image', file);
-  addUserImage.append('uuid', tempUUID);
-  await api.post(`'http://localhost:8001/addUserImage`, addUserImage, {
+  addUserImage.append('image', profileImageFile);
+  addUserImage.append('userId', userId);
+  await axios.post(`${process.env.REACT_APP_LOCAL_URL}addUserImage`, addUserImage, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 };
