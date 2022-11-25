@@ -3,19 +3,28 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { emptyUser, emptyUserLinks } from '../../utilities/data/userConstants';
-import { UserInterface, CustomProfileLinkInterface } from '../../utilities/types/UserInterface';
+import { emptyUser } from '../../utilities/data/userConstants';
+import { UserInterface } from '../../utilities/types/UserInterface';
 import { updateUser } from '../../utilities/api/users';
 import './EditProfile.scss';
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
-  const [userForm, updateUserForm] = useState<CustomProfileLinkInterface>(emptyUserLinks);
+  const [userForm, updateUserForm] = useState<UserInterface>(emptyUser);
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role, _id: userId } = userForm;
-  // const inputCustomLinkArr = [{ type: 'text', id: '', value: '' }];
+  const {
+    bio,
+    firstName,
+    lastName,
+    linkedinUrl,
+    portfolioUrl,
+    profilePicture,
+    role,
+    _id: userId,
+    customProfileLinks,
+  } = userForm;
   const [customInputs, setCustomInputs] = useState<any>([]);
 
   useEffect(() => {
@@ -26,7 +35,7 @@ export const EditProfile: React.FC = () => {
     }
   }, [authUser]);
 
-  console.log(authUser);
+  console.log(authUser.customProfileLinks);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -63,8 +72,6 @@ export const EditProfile: React.FC = () => {
       return newCustomInputArr;
     });
   };
-
-  console.log(customInputs);
 
   if (!authUser) {
     return <div>Loading user...</div>;
@@ -116,6 +123,8 @@ export const EditProfile: React.FC = () => {
         <button type="button" onClick={addCustomInput}>
           + Add Custom Link
         </button>
+
+        {}
 
         {customInputs.map((link: any, index: any) => {
           return (
