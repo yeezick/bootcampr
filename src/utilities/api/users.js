@@ -21,12 +21,9 @@ export const getOneUser = async (id) => {
   }
 };
 
-export const updateUser = async (id, userUpdate) => {
+export const updateUser = async (id, userUpdate, imageWasUpdated) => {
   try {
-    const res = await api.put(`/users/${id}`, userUpdate);
-    console.log('====================================');
-    console.log(res.data);
-    console.log('====================================');
+    const res = await api.put(`/users/${id}`, { ...userUpdate, imageWasUpdated });
     return res.data;
   } catch (error) {
     throw error;
@@ -96,7 +93,7 @@ export const createUserImage = async (profileImageFile, userId) => {
   const addUserImage = new FormData();
   addUserImage.append('image', profileImageFile);
   addUserImage.append('userId', userId);
-  await axios.post(`${process.env.REACT_APP_LOCAL_URL}addUserImage`, addUserImage, {
+  return await axios.post(`${process.env.REACT_APP_LOCAL_URL}addUserImage`, addUserImage, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 };

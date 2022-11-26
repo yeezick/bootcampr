@@ -13,7 +13,6 @@ export const RegisterUserInfo: React.FC = () => {
   const dispatch = useAppDispatch();
   const authUser = useAppSelector(selectAuthUser);
   const [userForm, setUserForm] = useState<UserInterface>(emptyUser);
-  const [imageFile, setImageName] = useState<string>();
   const [profileImageFile, setProfileImageFile] = useState<AddImageInterface>();
 
   const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role } = userForm;
@@ -27,24 +26,16 @@ export const RegisterUserInfo: React.FC = () => {
     }
   }, [authUser]);
 
-  useEffect(() => {
-    // const api = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=E53333`;
-    const api = `https://ui-avatars.com/api/?name=zena+Ariel&background=E53333`;
-    const createDefaultImage = async () => {
-      const imageApiName = await fetch(api);
-      setImageName(imageApiName.url);
-    };
-    createDefaultImage();
-  }, []);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserForm({ ...userForm, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (profileImageFile) createUserImage(profileImageFile, authUser._id);
+
+    if (profileImageFile) await createUserImage(profileImageFile, authUser._id);
+
     dispatch(updateProfile(userForm));
     navigate(`/users/${authUser._id}`);
   };
@@ -55,24 +46,10 @@ export const RegisterUserInfo: React.FC = () => {
       <div className="form-container">
         <section className="profile-photo-grid">
           <div className="profile-photo">
-            <img
-              src={
-                !profilePicture
-                  ? `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=E53333`
-                  : profilePicture
-              }
-              alt="photo"
-            />
+            <img src={`https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=random`} alt="photo" />
           </div>
           <label>Profile Photo:</label>
           <AddUserProfileImage setProfileImageFile={setProfileImageFile} />
-          <input
-            onChange={handleChange}
-            type="text"
-            name="profilePicture"
-            placeholder="Profile Photo"
-            value={profilePicture}
-          />
         </section>
 
         <div className="user-info-grid">

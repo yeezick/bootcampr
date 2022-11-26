@@ -8,6 +8,11 @@ const AddUserProfileImage = ({ setProfileImageFile }: UserImageProps) => {
   return (
     <>
       <input onChange={(e: any) => setProfileImageFile(e.target.files[0])} type="file" accept="image/*" />
+      {/* <input
+        onChange={(e: any) => setProfileImageFile(e.target.files[0])}
+        type="file"
+        accept=".jpg, .png, .gif, .webp"
+      /> */}
     </>
   );
 };

@@ -11,7 +11,6 @@ export const Sidebar = () => {
   const { _id: userId, firstName, lastName, profilePicture } = authUser;
   const dispatch = useAppDispatch();
   const visibleSidebar = useAppSelector((state) => state.ui.sidebar.visibleSidebar);
-  const [imageName, setImageName] = useState<string>();
   const handleLogout = () => {
     logOut();
     dispatch(logoutAuthUser());
@@ -21,15 +20,6 @@ export const Sidebar = () => {
   const toggleSidebarHandler = () => {
     dispatch(toggleSidebar());
   };
-
-  useEffect(() => {
-    const api = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=E53333`;
-    const createDefaultImage = async () => {
-      const imageApiName = await fetch(api);
-      setImageName(imageApiName.url);
-    };
-    createDefaultImage();
-  }, []);
 
   return (
     <div className={visibleSidebar ? 'sidebar-container active' : 'hide-sidebar'}>
