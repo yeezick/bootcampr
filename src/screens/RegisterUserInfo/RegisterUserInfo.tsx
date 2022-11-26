@@ -19,7 +19,6 @@ export const RegisterUserInfo: React.FC = () => {
       navigate(`/users/${authUser._id}/edit`);
     }
     if (authUser) {
-      setUserForm({ ...authUser });
       setUserForm((currForm) => {
         return { ...currForm, ...authUser };
       });
