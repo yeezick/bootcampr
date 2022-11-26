@@ -1,16 +1,9 @@
-import { SignUpInterface, UiSliceInterface, UserInterface } from '../types/UserInterface';
+import { CustomUrlInterface, SignUpInterface, UiSliceInterface, UserInterface } from '../types/UserInterface';
 
 export const initialState: UiSliceInterface = {
   auth: {
     user: {
       bio: '',
-      customProfileLinks: [
-        {
-          _id: '',
-          customUrlName: '',
-          customUrlLink: '',
-        },
-      ],
       email: '',
       firstName: '',
       lastName: '',
@@ -38,13 +31,7 @@ export const initialState: UiSliceInterface = {
 
 export const emptyUser: UserInterface = {
   bio: '',
-  customProfileLinks: [
-    {
-      _id: '',
-      customUrlName: '',
-      customUrlLink: '',
-    },
-  ],
+  customProfileLinks: [],
   email: '',
   firstName: '',
   lastName: '',
@@ -53,6 +40,12 @@ export const emptyUser: UserInterface = {
   portfolioUrl: '',
   profilePicture: '',
   role: '',
+  _id: '',
+};
+
+export const emptyUrlLinks: CustomUrlInterface = {
+  customUrlLink: '',
+  customUrlName: '',
   _id: '',
 };
 
