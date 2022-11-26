@@ -15,6 +15,9 @@ export const initialState: UiSliceInterface = {
       _id: '',
     },
   },
+  sidebar: {
+    visibleSidebar: false,
+  },
   status: {
     isAuthenticated: false,
     isLoading: false,
@@ -35,7 +38,7 @@ export const emptyUser: UserInterface = {
   portfolioUrl: '',
   profilePicture: '',
   role: '',
-  _id: ''
+  _id: '',
 };
 
 export const emptySignUp: SignUpInterface = {
@@ -43,5 +46,5 @@ export const emptySignUp: SignUpInterface = {
   email: '',
   firstName: '',
   lastName: '',
-  password: ''
+  password: '',
 };
