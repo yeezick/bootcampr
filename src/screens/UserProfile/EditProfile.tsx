@@ -37,7 +37,7 @@ export const EditProfile: React.FC = () => {
     }
   }, [authUser]);
 
-  console.log(authUser.customProfileLinks);
+  console.log(customProfileLinks);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
