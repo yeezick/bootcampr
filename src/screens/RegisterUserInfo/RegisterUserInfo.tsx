@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 import { selectAuthUser, updateProfile } from '../../utilities/redux/slices/users/userSlice';
 import { UserInterface } from '../../utilities/types/UserInterface';
 import { useEffect, useState } from 'react';
-import './RegisterUserInfo.scss';
 import { emptyUser } from '../../utilities/data/userConstants';
 import './RegisterUserInfo.scss';
 
@@ -19,7 +18,6 @@ export const RegisterUserInfo: React.FC = () => {
       navigate(`/users/${authUser._id}/edit`);
     }
     if (authUser) {
-      setUserForm({ ...authUser });
       setUserForm((currForm) => {
         return { ...currForm, ...authUser };
       });
