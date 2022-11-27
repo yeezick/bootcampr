@@ -1,46 +1,65 @@
-import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
+import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
+import { toggleSidebar } from '../../utilities/redux/slices/users/userSlice';
+import Logo from '../../assets/Logo.svg';
 import './Nav.scss';
 
-export const Nav: React.FC = () => {
-  const [authLinks, setAuthLinks] = useState<boolean>(false);
-  const authUser = useSelector(selectAuthUser);
+export const Nav = () => {
+  const authUser = useAppSelector(selectAuthUser);
+  const { _id: userId } = authUser;
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (authUser) setAuthLinks(true);
-  }, [authUser]);
+  const toggleSidebarHandler = () => {
+    dispatch(toggleSidebar());
+  };
 
   return (
-    <div className="nav">
-      <nav>
+    <nav>
+      <div className="nav-container">
+        {userId !== '' ? (
+          <div className="menu-btn" onClick={toggleSidebarHandler}>
+            <i></i>
+            <i></i>
+            <i></i>
+          </div>
+        ) : null}
+        <div className="logo">
+          <img src={Logo} />
+        </div>
+      </div>
+      <div className="nav-links">
         <div>
-          <Link to="/sign-up">Sign Up</Link>
+          <Link className="link" to="/">
+            Landing Page
+          </Link>
         </div>
         <div>
-          <Link to="/sign-in">Sign In</Link>
+          <Link className="link" to="/projects">
+            Browse Projects
+          </Link>
         </div>
         <div>
-          <Link to="/">Landing Page</Link>
+          <Link className="link" to="/projects/create">
+            Create Project
+          </Link>
         </div>
-        <div>
-          <Link to="/projects">Browse Projects</Link>
+      </div>
+      {userId !== '' ? null : (
+        <div className="auth-btn">
+          <div>
+            <Link className="link sign-up" to="/sign-up">
+              Sign up
+            </Link>
+          </div>
+
+          <div>
+            <Link className="link log-in" to="/sign-in">
+              Log in
+            </Link>
+          </div>
         </div>
-        <div>
-          <Link to="/projects/create">Create Project</Link>
-        </div>
-        {authLinks && (
-          <>
-            <div>
-              <Link to={`/users/${authUser._id}`}>My Profile</Link>
-            </div>
-            <div>
-              <Link to={`/users/${authUser._id}/edit`}>Edit Profile</Link>
-            </div>
-          </>
-        )}
-      </nav>
-    </div>
+      )}
+    </nav>
   );
 };
