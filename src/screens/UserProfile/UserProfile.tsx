@@ -2,16 +2,17 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
+import { useEffect } from 'react';
 
 export const UserProfile = () => {
   const authUser = useSelector(selectAuthUser);
   const navigate = useNavigate();
 
+  useEffect(() => {}, [authUser]);
   // BC-334: should handle this case
   if (!authUser) {
     return <div>Loading user... or there isn't one.</div>;
   }
-  console.log(authUser);
 
   const routeToEdit = () => {
     navigate(`/users/${authUser._id}/edit`);
@@ -20,8 +21,7 @@ export const UserProfile = () => {
   return (
     <div>
       <h1>first name {authUser.firstName}</h1>
-
-      <img src={authUser.profilePicture} alt="adsf" />
+      <img src={`${authUser.profilePicture}time=${Date.now()}`} alt="adsf" key={Date.now()} />
       <h1>last name {authUser.lastName}</h1>
       <button onClick={routeToEdit}>Edit Profile</button>
       <h1>email {authUser.email}</h1>

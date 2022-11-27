@@ -11,6 +11,7 @@ import AddUserProfileImage from '../SignUp/AddUserProfileImage/AddUserProfileIma
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
   const [userForm, updateUserForm] = useState<UserInterface>(authUser);
+  const [profileUrl, setProfileUrl] = useState<string>();
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ export const EditProfile: React.FC = () => {
     const updatedUser = await updateUser(params.id, userForm, imageWasUpdated);
     dispatch(setAuthUser(updatedUser));
     navigate(`/users/${userId}`);
+    window.location.reload();
   };
 
   if (!authUser) {
@@ -38,7 +40,7 @@ export const EditProfile: React.FC = () => {
 
   return (
     <div className="editprofile-screen">
-      <img src={profilePicture} alt="" />
+      <img src={profilePicture} alt="photo" key={Date.now()} />
       <form onSubmit={handleUserUpdate}>
         <label>
           update Profile image
