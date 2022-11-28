@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { emptyUrlLinks, emptyUser } from '../../utilities/data/userConstants';
+import { emptyUrl, emptyUser } from '../../utilities/data/userConstants';
 import { CustomUrlInterface, UserInterface } from '../../utilities/types/UserInterface';
 import { updateUser } from '../../utilities/api/users';
 import './EditProfile.scss';
@@ -11,7 +11,7 @@ import './EditProfile.scss';
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
   const [userForm, updateUserForm] = useState<UserInterface>(emptyUser);
-  const [customUrlForm, setCustomUrlForm] = useState<CustomUrlInterface>(emptyUrlLinks);
+  const [urlForm, updateUrlForm] = useState<CustomUrlInterface>(emptyUrl);
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,22 +26,32 @@ export const EditProfile: React.FC = () => {
     _id: userId,
     customProfileLinks,
   } = userForm;
-  const { customUrlLink, customUrlName } = customUrlForm;
+  const { customUrlLink, customUrlName } = urlForm;
   const [customInputs, setCustomInputs] = useState<any>([]);
+
+  console.log(userForm);
 
   useEffect(() => {
     if (authUser) {
+      updateUrlForm((jjj) => {
+        return {
+          ...jjj,
+          ...authUser,
+        };
+      });
       updateUserForm((currForm) => {
-        return { ...currForm, ...authUser };
+        return {
+          ...currForm,
+          ...authUser,
+        };
       });
     }
   }, [authUser]);
 
-  console.log(customProfileLinks);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    updateUserForm({ ...userForm, [name]: value });
+    console.log(urlForm);
+    updateUserForm({ ...userForm, ...urlForm, [name]: value });
   };
 
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -122,14 +132,14 @@ export const EditProfile: React.FC = () => {
           <input type="text" name="linkedinUrl" value={linkedinUrl} onChange={(event) => handleInputChange(event)} />
         </label>
 
-        {customProfileLinks?.map((url: CustomUrlInterface) => {
+        {customProfileLinks?.map((url: any) => {
           return (
-            <div key={url._id}>
+            <div>
               <label htmlFor="customUrlName">
                 Url Name
                 <input
                   type="text"
-                  value={customUrlName}
+                  defaultValue={url.customUrlName}
                   name="customUrlName"
                   onChange={(event) => handleInputChange(event)}
                 />
@@ -139,7 +149,7 @@ export const EditProfile: React.FC = () => {
                 <input
                   type="text"
                   name="customUrlLink"
-                  value={customUrlLink}
+                  defaultValue={url.customUrlLink}
                   onChange={(event) => handleInputChange(event)}
                 />
               </label>

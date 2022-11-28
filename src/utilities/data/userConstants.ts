@@ -43,10 +43,9 @@ export const emptyUser: UserInterface = {
   _id: '',
 };
 
-export const emptyUrlLinks: CustomUrlInterface = {
+export const emptyUrl: CustomUrlInterface = {
   customUrlLink: '',
   customUrlName: '',
-  _id: '',
 };
 
 export const emptySignUp: SignUpInterface = {
