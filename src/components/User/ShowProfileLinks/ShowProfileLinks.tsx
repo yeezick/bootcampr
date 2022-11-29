@@ -15,15 +15,11 @@ export const CustomLink = ({ customLinks, index }: customLinkProps) => {
   const { customUrlLink, customUrlName, _id } = customLinks;
 
   useEffect(() => {
-    if (authUser) {
-      updateUrlForm((urlForm) => {
-        return {
-          ...urlForm,
-          ...authUser,
-        };
-      });
-    }
-  }, [authUser]);
+    const onLoad = () => {
+      updateUrlForm(customLinks);
+    };
+    onLoad();
+  }, [customLinks]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -35,7 +31,6 @@ export const CustomLink = ({ customLinks, index }: customLinkProps) => {
       <label htmlFor="customUrlName">
         Url Name
         <input
-          key={_id}
           defaultValue={customUrlName}
           type="text"
           name="customUrlName"
@@ -45,7 +40,6 @@ export const CustomLink = ({ customLinks, index }: customLinkProps) => {
       <label htmlFor="customUrlName">
         Url Name
         <input
-          key={_id}
           defaultValue={customUrlLink}
           type="text"
           name="customUrlLink"

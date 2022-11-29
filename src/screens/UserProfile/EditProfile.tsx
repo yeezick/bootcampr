@@ -53,6 +53,12 @@ export const EditProfile: React.FC = (link: any) => {
     navigate(`/users/${userId}`);
   };
 
+  // const updatedProfileLinks = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   var updatedLinks: any = await updatedLinks([...userForm.customProfileLinks]);
+  //   dispatch(setAuthUser(updatedLinks));
+  // };
+
   const addCustomInput = () => {
     setCustomInputs((link: any) => {
       return [
@@ -123,7 +129,7 @@ export const EditProfile: React.FC = (link: any) => {
           <input type="text" name="linkedinUrl" value={linkedinUrl} onChange={(event) => handleInputChange(event)} />
         </label>
 
-        {customProfileLinks?.map((url, index) => {
+        {customProfileLinks?.map((url: any, index: any) => {
           return (
             <>
               <h1>{url.customUrlName}</h1>
