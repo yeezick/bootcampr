@@ -7,6 +7,7 @@ const initialState: UiSliceInterface = {
   auth: {
     user: {
       bio: '',
+      customProfileLinks: [],
       email: '',
       firstName: '',
       lastName: '',
