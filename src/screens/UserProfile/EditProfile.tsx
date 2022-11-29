@@ -7,6 +7,7 @@ import { emptyUser, emptyUrl } from '../../utilities/data/userConstants';
 import { UserInterface, CustomUrlInterface } from '../../utilities/types/UserInterface';
 import { updateUser } from '../../utilities/api/users';
 import './EditProfile.scss';
+import { ShowProfileLinks, CustomLink } from '../../components/User/ShowProfileLinks/ShowProfileLinks';
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
@@ -43,8 +44,6 @@ export const EditProfile: React.FC = () => {
     const { name, value } = e.target;
     updateUserForm({ ...userForm, [name]: value });
   };
-
-  console.log(userForm);
 
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -124,7 +123,7 @@ export const EditProfile: React.FC = () => {
           <input type="text" name="linkedinUrl" value={linkedinUrl} onChange={(event) => handleInputChange(event)} />
         </label>
 
-        {customProfileLinks?.map((url, index) => {
+        {/* {customProfileLinks?.map((url, index) => {
           return (
             <div key={index}>
               <label htmlFor="customUrlName">
@@ -142,14 +141,14 @@ export const EditProfile: React.FC = () => {
                 <input
                   key={url._id}
                   type="text"
-                  name="customUrlLink"
+                  name={url.customUrlName}
                   defaultValue={url.customUrlLink}
                   onChange={(event) => handleInputChange(event)}
                 />
               </label>
             </div>
           );
-        })}
+        })} */}
         {/* <button type="button" onClick={addCustomInput}>
           + Add Custom Link
         </button>
@@ -171,6 +170,8 @@ export const EditProfile: React.FC = () => {
 
         <button type="submit">Update Info</button>
       </form>
+      <CustomLink />
+      <ShowProfileLinks />
     </div>
   );
 };
