@@ -7,9 +7,9 @@ import { emptyUser, emptyUrl } from '../../utilities/data/userConstants';
 import { UserInterface, CustomUrlInterface } from '../../utilities/types/UserInterface';
 import { updateUser } from '../../utilities/api/users';
 import './EditProfile.scss';
-import { ShowProfileLinks, CustomLink } from '../../components/User/ShowProfileLinks/ShowProfileLinks';
+import { CustomLink } from '../../components/User/ShowProfileLinks/ShowProfileLinks';
 
-export const EditProfile: React.FC = () => {
+export const EditProfile: React.FC = (link: any) => {
   const authUser = useSelector(selectAuthUser);
   const [userForm, updateUserForm] = useState<UserInterface>(emptyUser);
   // const [urlForm, updateUrlForm] = useState<CustomUrlInterface>(emptyUrl);
@@ -123,32 +123,14 @@ export const EditProfile: React.FC = () => {
           <input type="text" name="linkedinUrl" value={linkedinUrl} onChange={(event) => handleInputChange(event)} />
         </label>
 
-        {/* {customProfileLinks?.map((url, index) => {
+        {customProfileLinks?.map((url, index) => {
           return (
-            <div key={index}>
-              <label htmlFor="customUrlName">
-                Url Name
-                <input
-                  key={url._id}
-                  type="text"
-                  defaultValue={url.customUrlName}
-                  name="customUrlName"
-                  onChange={(event) => handleInputChange(event)}
-                />
-              </label>
-              <label htmlFor="customUrlLink">
-                Url Link
-                <input
-                  key={url._id}
-                  type="text"
-                  name={url.customUrlName}
-                  defaultValue={url.customUrlLink}
-                  onChange={(event) => handleInputChange(event)}
-                />
-              </label>
-            </div>
+            <>
+              <h1>{url.customUrlName}</h1>
+              <CustomLink index={index} customLinks={url} />
+            </>
           );
-        })} */}
+        })}
         {/* <button type="button" onClick={addCustomInput}>
           + Add Custom Link
         </button>
@@ -170,8 +152,6 @@ export const EditProfile: React.FC = () => {
 
         <button type="submit">Update Info</button>
       </form>
-      <CustomLink />
-      <ShowProfileLinks />
     </div>
   );
 };
