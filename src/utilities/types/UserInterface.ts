@@ -2,7 +2,7 @@ import { ProjectInterface } from './ProjectInterface';
 
 export interface UserInterface {
   bio: string;
-  customProfileLinks: CustomUrlInterface[] | { customUrlName: any; customUrlLink: any }[];
+  customProfileLinks: Array<any>;
   declinedProjects?: ProjectInterface[];
   email: string;
   firstName: string;

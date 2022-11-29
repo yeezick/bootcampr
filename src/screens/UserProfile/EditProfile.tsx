@@ -4,10 +4,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { emptyUser, emptyUrl } from '../../utilities/data/userConstants';
-import { UserInterface, CustomUrlInterface } from '../../utilities/types/UserInterface';
+import { UserInterface } from '../../utilities/types/UserInterface';
 import { updateUser } from '../../utilities/api/users';
 import './EditProfile.scss';
 import { CustomLink } from '../../components/User/ShowProfileLinks/ShowProfileLinks';
+
+interface CustomUrlInterface {
+  _id: string;
+  customUrlLink: string;
+  customUrlName: string;
+}
 
 export const EditProfile: React.FC = (link: any) => {
   const authUser = useSelector(selectAuthUser);
@@ -27,7 +33,6 @@ export const EditProfile: React.FC = (link: any) => {
     _id: userId,
     customProfileLinks,
   } = userForm;
-  const [customInputs, setCustomInputs] = useState<any>([]);
 
   useEffect(() => {
     if (authUser) {
@@ -42,6 +47,13 @@ export const EditProfile: React.FC = (link: any) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    customProfileLinks: [
+      ...customProfileLinks,
+      {
+        customUrlName: customProfileLinks.customUrlName,
+        customUrlLink: customProfileLinks.customUrlLink,
+      },
+    ];
     updateUserForm({ ...userForm, [name]: value });
   };
 
@@ -51,35 +63,6 @@ export const EditProfile: React.FC = (link: any) => {
     const updatedUser = await updateUser(params.id, userForm);
     dispatch(setAuthUser(updatedUser));
     navigate(`/users/${userId}`);
-  };
-
-  // const updatedProfileLinks = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   var updatedLinks: any = await updatedLinks([...userForm.customProfileLinks]);
-  //   dispatch(setAuthUser(updatedLinks));
-  // };
-
-  const addCustomInput = () => {
-    setCustomInputs((link: any) => {
-      return [
-        ...link,
-        {
-          type: 'text',
-          value: '',
-        },
-      ];
-    });
-  };
-
-  const handleCustomInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, id } = e.target;
-    console.log(id);
-    setCustomInputs((link: any) => {
-      const newCustomInputArr = link.slice();
-      newCustomInputArr[id].value = value;
-      console.log(newCustomInputArr[id].value);
-      return newCustomInputArr;
-    });
   };
 
   if (!authUser) {
@@ -137,24 +120,6 @@ export const EditProfile: React.FC = (link: any) => {
             </>
           );
         })}
-        {/* <button type="button" onClick={addCustomInput}>
-          + Add Custom Link
-        </button>
-
-        {customInputs.map((link: any, index: any) => {
-          return (
-            <div key={index}>
-              <label htmlFor="customUrlName">
-                Url Name
-                <input id={index} type={link.type} name="customUrlName" onChange={handleCustomInputChange} required />
-              </label>
-              <label htmlFor="customUrlLink">
-                Url Link
-                <input id={index} type={link.type} name="customUrlLink" onChange={handleCustomInputChange} required />
-              </label>
-            </div>
-          );
-        })} */}
 
         <button type="submit">Update Info</button>
       </form>
