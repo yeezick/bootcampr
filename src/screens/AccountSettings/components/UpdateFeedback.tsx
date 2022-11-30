@@ -1,15 +1,24 @@
 import { UpdateCredentialsFeedbackMessageProps } from '../../../utilities/types/AccountSettingsInterface'
 
-const UpdateFeedback = ({ updateStatus }: UpdateCredentialsFeedbackMessageProps): JSX.Element => {
+export const UpdateFeedback = ({ updateStatus }: UpdateCredentialsFeedbackMessageProps): JSX.Element => {
+
+
+  const renderErrorMessage = () => {
+    switch (updateStatus) {
+      case 'authorized':
+        return <p>✔️ Update Successful</p>
+      case 'unauthorized':
+        return <p>❌ Wrong Password</p>
+      case 'error':
+        return <p>❌ Error, Please try again later</p>
+      default:
+        return null
+    }
+  }
 
   return (
     <div>
-      {updateStatus === 'authorized' && <p>✔️ Update Successful</p>}
-      {updateStatus === 'unauthorized' && <p>❌ Wrong Password</p>}
-      {updateStatus === 'error' && <p>❌ Error, Please try again later</p>}
+      {renderErrorMessage()}
     </div>
   )
 }
-
-
-export default UpdateFeedback;

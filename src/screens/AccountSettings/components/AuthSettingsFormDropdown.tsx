@@ -2,10 +2,9 @@ import { AuthSettingsFormDropdownProps, EmailFormData, PasswordFormData } from '
 import { VALIDATION_HELPERS, validateEmailDropdown, validatePasswordDropdown } from '../helper/validation'
 import { initialEmailFormData, initialPasswordFormData } from '../helper/data'
 import { useEffect, useState } from 'react'
-
-import AuthFormInput from './AuthFormInput'
+import { AuthFormInput } from './AuthFormInput'
 import FormErrors from './FormErrors';
-import UpdateFeedback from './UpdateFeedback'
+import { UpdateFeedback } from './UpdateFeedback'
 import styles from '../css/AuthSettingsFormDropdown.module.css'
 import { useParams } from 'react-router-dom'
 
@@ -23,7 +22,6 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
   const handleUpdateCredentials = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const { fetchAPI } = VALIDATION_HELPERS
-
     const { status }: any = await fetchAPI(emailDropDownActive, authFormData, id)
 
     if (status === 201) return setUpdateStatus("authorized")
@@ -65,7 +63,7 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
         </button>
 
         <FormErrors emailDropDownActive={emailDropDownActive} authFormData={authFormData} />
-        {updateStatus !== 'pending' && < UpdateFeedback updateStatus={updateStatus} />}
+        {updateStatus !== 'pending' && <UpdateFeedback updateStatus={updateStatus} />}
 
       </form>
     </div>

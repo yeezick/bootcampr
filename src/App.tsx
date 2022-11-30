@@ -30,7 +30,7 @@ function App() {
             <Route path="create" element={<CreateProject />} />
             <Route path=":id" element={<ProjectDetails />} />
           </Route>
-          <Route path="/account-settings/:id" element={< AccountSettings />} />
+          <Route path="/account-settings/:id" element={<AccountSettings />} />
         </Routes>
       </Router>
     </Layout>

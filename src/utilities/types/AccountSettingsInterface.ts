@@ -1,7 +1,3 @@
-export interface AccountSettingsProps {
-
-}
-
 export interface UpdateCredentialsFeedbackMessageProps {
   updateStatus: string;
 }

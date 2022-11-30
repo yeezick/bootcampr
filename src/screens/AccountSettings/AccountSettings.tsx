@@ -1,6 +1,5 @@
-import { AccountSettingsProps, DropDownSettings } from '../../utilities/types/AccountSettingsInterface'
+import { DropDownSettings } from '../../utilities/types/AccountSettingsInterface'
 import { initialDropdownState, settings } from './helper/data'
-
 import { DropdownToggleButton } from './components/DropdownToggleButton'
 import styles from './css/AccountSettings.module.css'
 import { useState } from 'react'
@@ -29,7 +28,7 @@ export const AccountSettings = (): JSX.Element => {
               dropdownModes={dropdownModes}
               setDropdownModes={setDropdownModes} />
 
-            {dropdownModes[val as keyof DropDownSettings] && < Component {...props} />}
+            {dropdownModes[val as keyof DropDownSettings] && <Component {...props} />}
 
           </div>
         </div>

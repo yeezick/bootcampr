@@ -1,10 +1,9 @@
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
-
 import { AuthFormInputProps } from '../../../utilities/types/AccountSettingsInterface'
 import styles from '../css/AuthSettingsFormDropdown.module.css'
 import { useState } from 'react'
 
-const AuthFormInput = ({ setAuthFormData, authFormData, field, type }: AuthFormInputProps): JSX.Element => {
+export const AuthFormInput = ({ setAuthFormData, authFormData, field, type }: AuthFormInputProps): JSX.Element => {
   // Constants
   const PasswordInput = type.toLowerCase().includes('password')
 
@@ -31,11 +30,9 @@ const AuthFormInput = ({ setAuthFormData, authFormData, field, type }: AuthFormI
         <span
           className={styles['toggle-hide-password']}
           onClick={handleTogglePassword}>
-          {showPassword ? < BsEyeFill className={styles['pwd-reveal']} /> : <BsEyeSlash className={styles['pwd-reveal-gray']} />}
+          {showPassword ? <BsEyeFill className={styles['pwd-reveal']} /> : <BsEyeSlash className={styles['pwd-reveal-gray']} />}
         </span>
       )}
     </div>
   )
 }
-
-export default AuthFormInput;
