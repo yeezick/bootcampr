@@ -39,13 +39,26 @@ export const SignUp: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
+    setFormValues({
+      ...formValues,
+      [name]: value,
+      profilePicture: createProfileImage(formValues.firstName, formValues.lastName),
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(register(formValues));
   };
+
+  const randomHexCodeColor = () => {
+    const hexCodes = ['442288', '6CA2EA', 'B5D33D', 'EB7D5B', 'FED23F'];
+    return hexCodes[Math.floor(Math.random() * 5)];
+  };
+
+  function createProfileImage(name: string, lastName: string): string {
+    return `https://ui-avatars.com/api/?name=${name}+${lastName}&background=${randomHexCodeColor()}&color=FFFFFF&font-size=0.49`;
+  }
 
   const validateForm = () => {
     if (!passwordsMatch) return true;

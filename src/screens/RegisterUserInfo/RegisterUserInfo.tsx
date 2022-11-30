@@ -13,7 +13,8 @@ export const RegisterUserInfo: React.FC = () => {
   const dispatch = useAppDispatch();
   const authUser = useAppSelector(selectAuthUser);
   const [userForm, setUserForm] = useState<UserInterface>(emptyUser);
-  const [profileImageFile, setProfileImageFile] = useState<AddImageInterface>();
+  const [profileImageFile, setProfileImageFile] = useState<AddImageInterface | null>();
+  const [previewImage, setPreviewImage] = useState();
 
   const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role } = userForm;
 
@@ -45,11 +46,22 @@ export const RegisterUserInfo: React.FC = () => {
       <h1>Hi, {firstName}!</h1>
       <div className="form-container">
         <section className="profile-photo-grid">
-          <div className="profile-photo">
-            <img src={`https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=random`} alt="photo" />
-          </div>
+          {previewImage ? (
+            <div className="profile-photo">
+              <img src={previewImage} alt="photo" />
+            </div>
+          ) : (
+            <div className="profile-photo">
+              <img src={authUser.profilePicture} alt="photo" />
+            </div>
+          )}
           <label>Profile Photo:</label>
-          <AddUserProfileImage setProfileImageFile={setProfileImageFile} />
+          <AddUserProfileImage
+            setProfileImageFile={setProfileImageFile}
+            previewImage={previewImage}
+            setPreviewImage={setPreviewImage}
+            profileImageFile={profileImageFile}
+          />
         </section>
 
         <div className="user-info-grid">

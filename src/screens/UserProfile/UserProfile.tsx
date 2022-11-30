@@ -21,7 +21,7 @@ export const UserProfile = () => {
   return (
     <div>
       <h1>first name {authUser.firstName}</h1>
-      <img src={`${authUser.profilePicture}time=${Date.now()}`} alt="adsf" key={Date.now()} />
+      <img src={authUser.profilePicture} alt={`${authUser.firstName} profile img`} width="110" height="110" />
       <h1>last name {authUser.lastName}</h1>
       <button onClick={routeToEdit}>Edit Profile</button>
       <h1>email {authUser.email}</h1>

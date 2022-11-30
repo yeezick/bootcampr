@@ -47,4 +47,5 @@ export const emptySignUp: SignUpInterface = {
   firstName: '',
   lastName: '',
   password: '',
+  profilePicture: '',
 };

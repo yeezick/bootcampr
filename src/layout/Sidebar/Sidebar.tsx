@@ -31,7 +31,7 @@ export const Sidebar = () => {
 
       <div className="current-user">
         <div className="image">
-          <img src={profilePicture} alt="asdf" />
+          <img src={profilePicture} alt={`${firstName} profile picture`} width="110" height="110" />
         </div>
         <div>
           <p className="user-name">

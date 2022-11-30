@@ -11,11 +11,12 @@ import AddUserProfileImage from '../SignUp/AddUserProfileImage/AddUserProfileIma
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
   const [userForm, updateUserForm] = useState<UserInterface>(authUser);
-  const [profileUrl, setProfileUrl] = useState<string>();
+  const [previewImage, setPreviewImage] = useState();
+
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [profileImageFile, setProfileImageFile] = useState<AddImageInterface>();
+  const [profileImageFile, setProfileImageFile] = useState<AddImageInterface | null>();
 
   const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role, _id: userId } = userForm;
 
@@ -27,11 +28,14 @@ export const EditProfile: React.FC = () => {
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const imageWasUpdated = !!profileImageFile;
-    if (profileImageFile) await createUserImage(profileImageFile, authUser._id);
+    if (profileImageFile) {
+      await createUserImage(profileImageFile, authUser._id);
+      // uncomments
+      // window.location.reload();
+    }
     const updatedUser = await updateUser(params.id, userForm, imageWasUpdated);
     dispatch(setAuthUser(updatedUser));
     navigate(`/users/${userId}`);
-    window.location.reload();
   };
 
   if (!authUser) {
@@ -40,11 +44,20 @@ export const EditProfile: React.FC = () => {
 
   return (
     <div className="editprofile-screen">
-      <img src={profilePicture} alt="photo" key={Date.now()} />
+      {previewImage ? (
+        <img src={previewImage} alt={`${firstName} profile picture`} width="110" height="110" />
+      ) : (
+        <img src={profilePicture} alt={`${firstName} profile picture`} width="110" height="110" />
+      )}
       <form onSubmit={handleUserUpdate}>
         <label>
           update Profile image
-          <AddUserProfileImage setProfileImageFile={setProfileImageFile} />
+          <AddUserProfileImage
+            setProfileImageFile={setProfileImageFile}
+            previewImage={previewImage}
+            setPreviewImage={setPreviewImage}
+            profileImageFile={profileImageFile}
+          />
         </label>
         <label>
           First Name
