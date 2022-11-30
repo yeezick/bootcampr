@@ -58,28 +58,6 @@
   padding: 2rem;
   width: 20rem;
 }
-.user-info-grid h2 {
-  margin: 0;
-  margin-bottom: 2rem;
-  text-align: center;
-}
-.user-info-grid h4 {
-  align-self: flex-start;
-  text-align: left;
-}
-.user-info-grid form {
-  padding: 0 1.5rem 1rem 0.5rem;
-}
-.user-info-grid input {
-  background-color: #f8f8f8;
-  border: 1px solid #415261;
-  border-radius: 2%/19%;
-  font-size: 15px;
-  height: 1.5rem;
-  margin-top: 0.4rem;
-  padding: 0.3rem 0.4rem;
-  width: 100%;
-}
 .user-info-grid button {
   background-color: #cacfd4;
   border: none;
@@ -90,10 +68,32 @@
   height: 2.2rem;
   width: 105.8%;
 }
+.user-info-grid button:active {
+  background-color: #365b7b;
+}
 .user-info-grid button:hover {
   background-color: #4f7fa9;
   color: white;
 }
-.user-info-grid button:active {
-  background-color: #365b7b;
+.user-info-grid form {
+  padding: 0 1.5rem 1rem 0.5rem;
+}
+.user-info-grid h2 {
+  margin: 0;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.user-info-grid h4 {
+  align-self: flex-start;
+  text-align: left;
+}
+.user-info-grid input {
+  background-color: #f8f8f8;
+  border: 1px solid #415261;
+  border-radius: 2%/19%;
+  font-size: 15px;
+  height: 1.5rem;
+  margin-top: 0.4rem;
+  padding: 0.3rem 0.4rem;
+  width: 100%;
 }

@@ -73,6 +73,30 @@ $color-input: rgb(248, 248, 248);
   padding: 2rem;
   width: 20rem;
 
+  button {
+    background-color: $color-btn;
+    border: none;
+    border-radius: 2% / 19%;
+    color: rgb(44, 56, 66);
+    cursor: pointer;
+    font-size: 15px;
+    height: 2.2rem;
+    width: 105.8%;
+    
+    &:active {
+      background-color: $color-btn-active;
+    }
+
+    &:hover {
+      background-color: $color-btn-hover;
+      color: white;
+    }
+  }
+
+  form {
+    padding: 0 1.5rem 1rem 0.5rem;
+  }
+
   h2 {
     margin: 0;
     margin-bottom: 2rem;
@@ -84,31 +108,7 @@ $color-input: rgb(248, 248, 248);
     text-align: left;
   }
 
-  form {
-    padding: 0 1.5rem 1rem 0.5rem;
-  }
-
   input {
     @include input-fields(100%)
-  }
-
-  button {
-    background-color: $color-btn;
-    border: none;
-    border-radius: 2% / 19%;
-    color: rgb(44, 56, 66);
-    cursor: pointer;
-    font-size: 15px;
-    height: 2.2rem;
-    width: 105.8%;
-
-    &:hover {
-      background-color: $color-btn-hover;
-      color: white;
-    }
-
-    &:active {
-      background-color: $color-btn-active;
-    }
   }
 }
