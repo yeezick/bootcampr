@@ -1,5 +1,5 @@
 // Mixins
-@mixin pwd-reveal($opacity) {
+@mixin reveal-icon($opacity) {
   cursor: pointer;
   font-size: 19px;
   opacity: $opacity;
@@ -21,11 +21,11 @@
 }
 
 .pwd-reveal {
-  @include pwd-reveal(1);
+  @include reveal-icon(1);
 }
 
 .pwd-reveal-gray {
-  @include pwd-reveal(0.3);
+  @include reveal-icon(0.3);
 
   &:hover {
     opacity: 1;
