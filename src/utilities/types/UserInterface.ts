@@ -15,7 +15,6 @@ export interface UserInterface {
   profilePicture: string;
   role: string;
   savedProjects?: ProjectInterface[];
-
   __v?: number;
   _id: string;
 }
@@ -55,6 +54,3 @@ export interface AddImageInterface {
   webkitRelativePath: string;
   size: Number;
 }
-// export interface PortfolioProjectInterface {
-
-// }
