@@ -1,10 +1,10 @@
-.auth_form_label {
+.auth-form-label {
   color: grey;
   display: block;
   font-size: .75rem;
 }
 
-.auth_form_input {
+.auth-form-input {
   border-radius: 10px;
   border: none;
   font-size: 15px;
@@ -15,19 +15,19 @@
   width: 100%;
 }
 
-.form_container {
+.form-container {
   border-top: 1px solid rgba(128, 128, 128, 0.5);
   padding: 10px;
   text-align: center;
   width: 100%;
 }
 
-.form_input_container {
+.form-input-container {
   position: relative;
   text-align: left;
 }
 
-.auth_form_submit_button {
+.auth-form-submit-button {
   border: none;
   background-color: black;
   border-radius: 10px;
@@ -40,39 +40,39 @@
   width: 100%;
 }
 
-.auth_form_submit_button:hover {
+.auth-form-submit-button:hover {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-.auth_form_submit_button:disabled {
+.auth-form-submit-button:disabled {
   cursor: default;
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.toggle_hide_password {
+.toggle-hide-password {
   position: absolute;
   right: 10px;
   top: 22px;
 }
 
 
-.pwd_reveal {
+.pwd-reveal {
   cursor: pointer;
   font-size: 19px;
 }
 
-.pwd_reveal_gray {
+.pwd-reveal-gray {
   cursor: pointer;
   font-size: 19px;
   opacity: 0.3;
   transition: all .15s ease-in-out;
 }
 
-.pwd_reveal_gray:hover {
+.pwd-reveal-gray:hover {
   opacity: 1;
 }
 
-.match_error {
+.match-error {
   color: red;
   font-size: .7rem;
 }

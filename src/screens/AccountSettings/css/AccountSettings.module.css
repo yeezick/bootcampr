@@ -1,4 +1,4 @@
-.account_settings_container {
+.account-settings-container {
   align-items: flex-start;
   display: flex;
   flex-wrap: wrap;
@@ -7,7 +7,7 @@
   padding: 10px;
 }
 
-.update_container {
+.update-container {
   background-color: lightgrey;
   border-radius: 10px;
   min-width: 300px;
@@ -16,7 +16,7 @@
 }
 
 .arrow,
-.active_arrow {
+.active-arrow {
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -31,13 +31,13 @@
   -webkit-transform: rotate(90deg);
 }
 
-.active_arrow {
+.active-arrow {
   -moz-transform: rotate(-90deg);
   transform: rotate(-90deg);
   -webkit-transform: rotate(-90deg);
 }
 
-.setting_name {
+.setting-name {
   align-items: center;
   display: flex;
   flex-direction: column;

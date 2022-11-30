@@ -44,7 +44,7 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
 
 
   return (
-    <div className={styles.form_container}>
+    <div className={styles['form-container']}>
       <form onSubmit={handleUpdateCredentials}>
 
         {fields.map((_, i) => (
@@ -60,7 +60,7 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
         <button
           disabled={disableButton}
           type="submit"
-          className={styles.auth_form_submit_button}>
+          className={styles['auth-form-submit-button']}>
           Update
         </button>
 

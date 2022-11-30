@@ -14,13 +14,13 @@ const AuthFormInput = ({ setAuthFormData, authFormData, field, type }: AuthFormI
   // Event Handlers
   const handleTogglePassword = () => setShowPassword(state => !state)
   const handleUpdateFormData = (e: React.ChangeEvent<HTMLInputElement>) => setAuthFormData({ ...authFormData, [type]: e.target.value })
-
+  // styles['auth-form-label']
   return (
-    <div className={styles.form_input_container}>
+    <div className={styles['form-input-container']}>
 
-      <label className={styles.auth_form_label} htmlFor={`${type}_input`}>{field}*</label>
+      <label className={styles['auth-form-label']} htmlFor={`${type}_input`}>{field}*</label>
       <input
-        className={styles.auth_form_input}
+        className={styles['auth-form-input']}
         id={`${type}_input`}
         name={`${type}_input`}
         type={`${showPassword ? 'text' : 'password'}`}
@@ -29,9 +29,9 @@ const AuthFormInput = ({ setAuthFormData, authFormData, field, type }: AuthFormI
 
       {PasswordInput && (
         <span
-          className={styles.toggle_hide_password}
+          className={styles['toggle-hide-password']}
           onClick={handleTogglePassword}>
-          {showPassword ? < BsEyeFill className={styles.pwd_reveal} /> : <BsEyeSlash className={styles.pwd_reveal_gray} />}
+          {showPassword ? < BsEyeFill className={styles['pwd-reveal']} /> : <BsEyeSlash className={styles['pwd-reveal-gray']} />}
         </span>
       )}
     </div>

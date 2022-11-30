@@ -5,7 +5,7 @@ import { DropdownToggleButton } from './components/DropdownToggleButton'
 import styles from './css/AccountSettings.module.css'
 import { useState } from 'react'
 
-export const AccountSettings = ({ }: AccountSettingsProps): JSX.Element => {
+export const AccountSettings = (): JSX.Element => {
   // State Variables
   const [dropdownModes, setDropdownModes] = useState<DropDownSettings>(initialDropdownState) // determines wether the dropdown is open or not
 
@@ -14,12 +14,12 @@ export const AccountSettings = ({ }: AccountSettingsProps): JSX.Element => {
 
   // JSX
   return (
-    <div className={styles.account_settings_container}>
+    <div className={styles['account-settings-container']}> //
 
       {settings.map(({ title, val, Component, props }) => (
 
-        <div key={val} className={styles.update_container}>
-          <div className={styles.setting_name}>
+        <div key={val} className={styles['update-container']}>
+          <div className={styles['setting-name']}>
             <p>Update {title}</p>
 
             <DropdownToggleButton
