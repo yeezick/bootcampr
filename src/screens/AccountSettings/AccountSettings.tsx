@@ -1,48 +1,39 @@
-import { useState } from 'react'
+import { AccountSettingsProps, DropDownSettings } from '../../utilities/types/AccountSettingsInterface'
 import { initialDropdownState, settings } from './helper/data'
-import { DropDownSettings, AccountSettingsProps } from '../../utilities/types/AccountSettingsInterface'
-import { closeDropdown, openDropdown } from './helper/dropdownHelpers'
-import styles from './AccountSettings.module.css'
 
+import { DropdownToggleButton } from './components/DropdownToggleButton'
+import styles from './css/AccountSettings.module.css'
+import { useState } from 'react'
 
 export const AccountSettings = ({ }: AccountSettingsProps): JSX.Element => {
   // State Variables
-  const [dropdownModes, setDropdownModes] = useState<DropDownSettings>(initialDropdownState)
+  const [dropdownModes, setDropdownModes] = useState<DropDownSettings>(initialDropdownState) // determines wether the dropdown is open or not
 
-  // Event Handlers
-  const handleToggleDropdown = (setting: string) => {
-    const tempModes = { ...dropdownModes }
-
-    for (let key in dropdownModes) {
-      const settingWasClickedOn: boolean = key === setting
-      const theDropdownIsAlreadyOpen: boolean = tempModes[key as keyof DropDownSettings] === true
-
-      if (settingWasClickedOn) theDropdownIsAlreadyOpen ? closeDropdown(key, tempModes) : openDropdown(key, tempModes)
-      else closeDropdown(key, tempModes)
-    }
-
-    setDropdownModes(tempModes)
-  }
+  // Constants
+  const dropdownOpen = (val: string) => dropdownModes[val as keyof DropDownSettings]
 
   // JSX
   return (
     <div className={styles.account_settings_container}>
 
       {settings.map(({ title, val, Component, props }) => (
+
         <div key={val} className={styles.update_container}>
           <div className={styles.setting_name}>
             <p>Update {title}</p>
 
-            <button
-              onClick={() => handleToggleDropdown(val)}
-              className={`${dropdownModes[val as keyof DropDownSettings] ? styles.arrow : styles.active_arrow}`}>
-              &#9002;
-            </button>
+            <DropdownToggleButton
+              active={dropdownOpen(val)}
+              setting={val}
+              tempModes={{ ...dropdownModes }}
+              dropdownModes={dropdownModes}
+              setDropdownModes={setDropdownModes} />
 
             {dropdownModes[val as keyof DropDownSettings] && < Component {...props} />}
 
           </div>
         </div>
+
       ))}
 
     </div>

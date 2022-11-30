@@ -2,6 +2,20 @@ export interface AccountSettingsProps {
 
 }
 
+export interface UpdateCredentialsFeedbackMessageProps {
+  updateStatus: string;
+}
+
+export interface ToggleDropdown {
+  setting: string;
+  tempModes: DropDownSettings;
+  dropdownModes: DropDownSettings;
+  setDropdownModes: React.Dispatch<React.SetStateAction<DropDownSettings>>
+}
+
+export interface DropdownToggleButtonProps extends ToggleDropdown {
+  active: boolean;
+}
 export interface AuthSettingsFormDropdownProps {
   fields: string[];
   type: string[];
@@ -25,21 +39,6 @@ export interface PasswordFormData {
 }
 
 export interface FormErrorsProps {
-  VALIDATION_HELPERS: {
-    fetchAPI: () => Promise<any> | { error: string; } |
-    {
-      error: {
-        status: number;
-        message: string;
-      }
-    };
-
-    emailsMatch: (temp: any | EmailFormData) => boolean;
-    passwordsMatch: (temp: any | PasswordFormData) => boolean
-    validEmail: (temp: any | EmailFormData) => boolean
-    emailFieldsFilledOut: (temp: any | EmailFormData) => boolean
-    passwordFieldsFilledOut: (temp: any | PasswordFormData) => boolean
-  }
   emailDropDownActive: boolean
   authFormData: EmailFormData | PasswordFormData
 }

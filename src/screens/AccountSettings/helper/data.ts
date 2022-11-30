@@ -1,4 +1,4 @@
-import AuthSettingsFormDropdown from '../forms/AuthSettingsFormDropdown/AuthSettingsFormDropdown'
+import AuthSettingsFormDropdown from '../components/AuthSettingsFormDropdown'
 import { DropDownSettings } from '../../../utilities/types/AccountSettingsInterface'
 
 // Prop Declarations

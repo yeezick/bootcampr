@@ -1,7 +1,8 @@
-import { AuthFormInputProps } from '../../../../utilities/types/AccountSettingsInterface'
-import { useState } from 'react'
-import styles from './AuthSettingsFormDropdown.module.css'
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
+
+import { AuthFormInputProps } from '../../../utilities/types/AccountSettingsInterface'
+import styles from '../css/AuthSettingsFormDropdown.module.css'
+import { useState } from 'react'
 
 const AuthFormInput = ({ setAuthFormData, authFormData, field, type }: AuthFormInputProps): JSX.Element => {
   // Constants

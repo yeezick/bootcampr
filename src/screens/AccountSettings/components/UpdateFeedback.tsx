@@ -1,8 +1,4 @@
-
-
-interface UpdateCredentialsFeedbackMessageProps {
-  updateStatus: string;
-}
+import { UpdateCredentialsFeedbackMessageProps } from '../../../utilities/types/AccountSettingsInterface'
 
 const UpdateFeedback = ({ updateStatus }: UpdateCredentialsFeedbackMessageProps): JSX.Element => {
 

@@ -1,7 +1,8 @@
 import { FormErrorsProps } from "../../../utilities/types/AccountSettingsInterface";
-import styles from '../forms/AuthSettingsFormDropdown/AuthSettingsFormDropdown.module.css'
+import { VALIDATION_HELPERS } from "../helper/validation";
+import styles from '../css/AuthSettingsFormDropdown.module.css'
 
-const FormErrors = ({ VALIDATION_HELPERS, emailDropDownActive, authFormData }: FormErrorsProps) => {
+const FormErrors = ({ emailDropDownActive, authFormData }: FormErrorsProps) => {
   const { emailsMatch, passwordsMatch, validEmail, emailFieldsFilledOut, passwordFieldsFilledOut } = VALIDATION_HELPERS
 
   return (
