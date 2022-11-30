@@ -8,7 +8,10 @@ import { Layout } from './layout/Layout';
 import { UserProfile } from './screens/UserProfile/UserProfile';
 import { EditProfile } from './screens/UserProfile/EditProfile';
 import { Projects } from './screens/Projects/Projects';
+import { EditProject } from './screens/CreateProject/EditProject';
 import { ProjectDetails } from './screens/Projects/ProjectDetails';
+import { UserProjects } from './screens/UserProjects/UserProjects';
+
 import './App.css';
 
 function App() {
@@ -21,8 +24,10 @@ function App() {
         <Route path="/users/:id" element={<UserProfile />} />
         <Route path="/users/:id/edit" element={<EditProfile />} />
         <Route path="/users/:id/account-setup" element={<RegisterUserInfo />} />
+        <Route path="/users/projects" element={<UserProjects />} />
         <Route path="/projects/create" element={<CreateProject />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/projects/:id/edit" element={<EditProject />} />
         <Route path="/projects/:id" element={<ProjectDetails />} />
       </Routes>
     </Layout>
