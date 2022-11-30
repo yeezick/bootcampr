@@ -50,6 +50,9 @@
   height: 2.2rem;
   width: 105.8%;
 }
+.signup-container button:active {
+  background-color: #365b7b;
+}
 .signup-container button:disabled {
   opacity: 0.3;
   pointer-events: none;
@@ -57,9 +60,6 @@
 .signup-container button:hover {
   background-color: #4f7fa9;
   color: white;
-}
-.signup-container button:active {
-  background-color: #365b7b;
 }
 .signup-container form {
   padding: 2.3rem 1.5rem 1rem 0.5rem;
@@ -87,12 +87,18 @@ h3, h4 {
 .pwd-input {
   margin: 0 0rem 1rem 1rem;
 }
-.pwd-input input {
-  padding: 0.3rem 2rem 0.3rem 0.4rem;
-  width: 84.8%;
-}
 .pwd-input div {
   position: relative;
+}
+.pwd-input input {
+  background-color: #f8f8f8;
+  border: 1px solid #415261;
+  border-radius: 2%/19%;
+  font-size: 15px;
+  height: 1.5rem;
+  margin-top: 0.4rem;
+  padding: 0.3rem 2rem 0.3rem 0.4rem;
+  width: 84.8%;
 }
 
 .form-btn {
