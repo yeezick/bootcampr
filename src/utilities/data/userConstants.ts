@@ -35,6 +35,7 @@ export const emptyUser: UserInterface = {
   firstName: '',
   lastName: '',
   linkedinUrl: '',
+  ownerOfProjects: [],
   portfolioUrl: '',
   profilePicture: '',
   role: '',

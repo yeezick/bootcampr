@@ -5,20 +5,28 @@ import { useDispatch } from 'react-redux';
 import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { AddImageInterface, UserInterface } from '../../utilities/types/UserInterface';
 import { createUserImage, updateUser } from '../../utilities/api/users';
+import { emptyUser } from '../../utilities/data/userConstants';
 import './EditProfile.scss';
 import AddUserProfileImage from '../SignUp/AddUserProfileImage/AddUserProfileImage';
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
-  const [userForm, updateUserForm] = useState<UserInterface>(authUser);
   const [previewImage, setPreviewImage] = useState();
-
+  const [userForm, updateUserForm] = useState<UserInterface>(emptyUser);
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [profileImageFile, setProfileImageFile] = useState<AddImageInterface | null>();
 
   const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role, _id: userId } = userForm;
+
+  useEffect(() => {
+    if (authUser) {
+      updateUserForm((currForm) => {
+        return { ...currForm, ...authUser };
+      });
+    }
+  }, [authUser]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
