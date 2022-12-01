@@ -6,7 +6,7 @@ import { SignIn } from './screens/SignIn/SignIn';
 import { SignUp } from './screens/SignUp/SignUp';
 import { Nav } from './layout/Nav/Nav';
 import { Layout } from './layout/Layout';
-import Dashboard from './screens/Dashboard/Dashboard';
+import { Dashboard } from './screens/Dashboard/Dashboard';
 import { UserProfile } from './screens/UserProfile/UserProfile';
 import { EditProfile } from './screens/UserProfile/EditProfile';
 import { Projects } from './screens/Projects/Projects';
