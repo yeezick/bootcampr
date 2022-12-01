@@ -33,10 +33,10 @@ const AuthSettingsFormDropdown = ({ fields, type }: AuthSettingsFormDropdownProp
 
   // Side Effects
   useEffect(() => {
-    let temp: any = { ...authFormData }
+    let passwordFormDataCopy: any = { ...authFormData } // I was left with no choice :(
 
-    if (emailDropDownActive) validateEmailDropdown(temp, setDisableButton)
-    else validatePasswordDropdown(temp, setDisableButton)
+    if (emailDropDownActive) validateEmailDropdown({ ...authFormData }, setDisableButton)
+    else validatePasswordDropdown(passwordFormDataCopy, setDisableButton)
 
   }, [authFormData])
 

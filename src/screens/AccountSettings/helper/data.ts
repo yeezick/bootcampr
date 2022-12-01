@@ -11,7 +11,6 @@ const passwordSettingsProps = {
   fields: ["Current Password", 'New Password', "Confirm New Password"]
 }
 
-
 // Initialization
 export const initialDropdownState: DropDownSettings = {
   password: false,

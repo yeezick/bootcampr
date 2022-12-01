@@ -13,10 +13,10 @@ export const VALIDATION_HELPERS = {
 }
 
 // Validate Email
-export const validateEmailDropdown = (temp: EmailFormData, setDisableButton: React.Dispatch<React.SetStateAction<boolean>>) => {
+export const validateEmailDropdown = (formDataCopy: EmailFormData | PasswordFormData, setDisableButton: React.Dispatch<React.SetStateAction<boolean>>) => {
   const { emailsMatch, validEmail } = VALIDATION_HELPERS
 
-  if (validEmail(temp) && emailsMatch(temp)) setDisableButton(false)
+  if (validEmail(formDataCopy) && emailsMatch(formDataCopy)) setDisableButton(false)
   else setDisableButton(true)
 }
 
