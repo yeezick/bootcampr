@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
-import { selectAuthUser, updateProfile } from '../../utilities/redux/slices/users/userSlice';
+import { reset, selectAuthUser, uiStatus, updateProfile } from '../../utilities/redux/slices/users/userSlice';
 import { UserInterface } from '../../utilities/types/UserInterface';
 import { useEffect, useState } from 'react';
 import { emptyUser } from '../../utilities/data/userConstants';
@@ -9,6 +9,7 @@ import './RegisterUserInfo.scss';
 export const RegisterUserInfo: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const status = useAppSelector(uiStatus)
   const authUser = useAppSelector(selectAuthUser);
   const [userForm, setUserForm] = useState<UserInterface>(emptyUser);
   const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role } = userForm;
@@ -24,6 +25,13 @@ export const RegisterUserInfo: React.FC = () => {
     }
   }, [authUser]);
 
+  useEffect(() => {
+    if (status.isSuccess) {
+      dispatch(reset());
+      navigate(`/users/${authUser._id}`);
+    }
+  }, [status.isSuccess, dispatch]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserForm({ ...userForm, [name]: value });
@@ -32,7 +40,6 @@ export const RegisterUserInfo: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(updateProfile(userForm));
-    navigate(`/users/${authUser._id}`);
   };
 
   return (
