@@ -19,7 +19,7 @@ const FormErrors = ({ emailDropDownActive, authFormData }: FormErrorsProps) => {
   }
 
   const passwordMatchError = () => {
-    if (emailDropDownActive && !passwordsMatch({ ...authFormData }) && passwordFieldsFilledOut({ ...authFormData })) {
+    if (!emailDropDownActive && !passwordsMatch({ ...authFormData }) && passwordFieldsFilledOut({ ...authFormData })) {
       return <p className={styles['match-error']}>Passwords don't match</p>
     }
   }

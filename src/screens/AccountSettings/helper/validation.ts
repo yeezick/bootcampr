@@ -21,10 +21,15 @@ export const validateEmailDropdown = (formDataCopy: EmailFormData | PasswordForm
 }
 
 // Validate Password
-export const validatePasswordDropdown = (temp: PasswordFormData, setDisableButton: React.Dispatch<React.SetStateAction<boolean>>) => {
+export const validatePasswordDropdown = (passwordFormDataCopy: PasswordFormData | EmailFormData, setDisableButton: React.Dispatch<React.SetStateAction<boolean>>) => {
   const { passwordsMatch } = VALIDATION_HELPERS
-  const fieldsNotFilledOut = temp.newPassword === "" || temp.password === ""
 
-  if (!passwordsMatch(temp) || fieldsNotFilledOut) setDisableButton(true)
+  // Checks to see if user has filled out all the inputs
+  let inputsFilledOut = true;
+  for (let [inputType, inputValue] of Object.entries(passwordFormDataCopy)) {
+    if (inputValue === "") inputsFilledOut = false
+  }
+
+  if (!passwordsMatch(passwordFormDataCopy) || !inputsFilledOut) setDisableButton(true)
   else setDisableButton(false)
 }
