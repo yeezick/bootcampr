@@ -75,7 +75,7 @@ export const logOut = async () => {
   } catch (error) {
     throw error;
   }
-}; 
+};
 
 export const verify = async () => {
   const bootcamprAuthToken = localStorage.getItem('bootcamprAuthToken');
