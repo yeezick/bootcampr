@@ -8,7 +8,7 @@ let baseURL = 'https://';
 // if there is an api_url & an env => stg, prod, or dev
 if (process.env.REACT_APP_API_PIPELINE) {
   baseURL += process.env.REACT_APP_API_PIPELINE;
-  if (process.env.REACT_APP_API_ENV && process.env.REACT_APP_API_ENV !== '') {
+  if (process.env.REACT_APP_API_ENV && process.env.REACT_APP_API_ENV !== 'null') {
     baseURL += process.env.REACT_APP_API_ENV;
   } else {
     /* TODO:  add pr-# from window object
