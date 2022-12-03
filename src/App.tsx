@@ -1,107 +1,37 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
-import "@aws-amplify/ui-react/styles.css";
-import { API } from "aws-amplify";
-import {
-  Button,
-  Flex,
-  Heading,
-  Text,
-  TextField,
-  View,
-  withAuthenticator,
-} from "@aws-amplify/ui-react";
-import { listNotes } from "./graphql/queries";
-import {
-  createNote as createNoteMutation,
-  deleteNote as deleteNoteMutation,
-} from "./graphql/mutations";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { CreateProject } from './screens/CreateProject/CreateProject';
+import { Landing } from './screens/Landing/Landing';
+import { RegisterUserInfo } from './screens/RegisterUserInfo/RegisterUserInfo';
+import { SignIn } from './screens/SignIn/SignIn';
+import { SignUp } from './screens/SignUp/SignUp';
+import { Layout } from './layout/Layout';
+import { UserProfile } from './screens/UserProfile/UserProfile';
+import { EditProfile } from './screens/UserProfile/EditProfile';
+import { Projects } from './screens/Projects/Projects';
+import { EditProject } from './screens/CreateProject/EditProject';
+import { ProjectDetails } from './screens/Projects/ProjectDetails';
+import { UserProjects } from './screens/UserProjects/UserProjects';
 
-const App = ({ signOut }) => {
-  const [notes, setNotes] = useState([]);
+import './App.css';
 
-  useEffect(() => {
-    fetchNotes();
-  }, []);
-
-  async function fetchNotes() {
-    const apiData = await API.graphql({ query: listNotes });
-    const notesFromAPI = apiData.data.listNotes.items;
-    setNotes(notesFromAPI);
-  }
-
-  async function createNote(event) {
-    event.preventDefault();
-    const form = new FormData(event.target);
-    const data = {
-      name: form.get("name"),
-      description: form.get("description"),
-    };
-    await API.graphql({
-      query: createNoteMutation,
-      variables: { input: data },
-    });
-    fetchNotes();
-    event.target.reset();
-  }
-
-  async function deleteNote({ id }) {
-    const newNotes = notes.filter((note) => note.id !== id);
-    setNotes(newNotes);
-    await API.graphql({
-      query: deleteNoteMutation,
-      variables: { input: { id } },
-    });
-  }
-
+function App() {
   return (
-    <View className="App">
-      <Heading level={1}>My Notes App</Heading>
-      <View as="form" margin="3rem 0" onSubmit={createNote}>
-        <Flex direction="row" justifyContent="center">
-          <TextField
-            name="name"
-            placeholder="Note Name"
-            label="Note Name"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <TextField
-            name="description"
-            placeholder="Note Description"
-            label="Note Description"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <Button type="submit" variation="primary">
-            Create Note
-          </Button>
-        </Flex>
-      </View>
-      <Heading level={2}>Current Notes</Heading>
-      <View margin="3rem 0">
-        {notes.map((note) => (
-          <Flex
-            key={note.id || note.name}
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Text as="strong" fontWeight={700}>
-              {note.name}
-            </Text>
-            <Text as="span">{note.description}</Text>
-            <Button variation="link" onClick={() => deleteNote(note)}>
-              Delete note
-            </Button>
-          </Flex>
-        ))}
-      </View>
-      <Button onClick={signOut}>Sign Out</Button>
-    </View>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/users/:id" element={<UserProfile />} />
+        <Route path="/users/:id/edit" element={<EditProfile />} />
+        <Route path="/users/:id/account-setup" element={<RegisterUserInfo />} />
+        <Route path="/users/projects" element={<UserProjects />} />
+        <Route path="/projects/create" element={<CreateProject />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/projects/:id/edit" element={<EditProject />} />
+        <Route path="/projects/:id" element={<ProjectDetails />} />
+      </Routes>
+    </Layout>
   );
-};
+}
 
-export default withAuthenticator(App);
+export default App;
