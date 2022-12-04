@@ -2,14 +2,20 @@ import { EmailFormData, PasswordFormData } from "../../../utilities/types/Accoun
 import { updateUsersEmail, updateUsersPassword } from '../../../utilities/api/users'
 
 const VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; // only allows ab@.
+interface FormDataCopy {
+  newEmail?: string
+  confirmNewEmail?: string
+  newPassword?: string
+  confirmNewPassword?: string
+}
 
 export const VALIDATION_HELPERS = {
   fetchAPI: async (emailDropDownActive: boolean, authFormData: EmailFormData | PasswordFormData, id: string | undefined) => emailDropDownActive ? await updateUsersEmail(authFormData, id) : await updateUsersPassword(authFormData, id),
-  emailsMatch: (formDataCopy: any) => formDataCopy.newEmail === formDataCopy.confirmNewEmail,
-  passwordsMatch: (formDataCopy: any) => formDataCopy.newPassword === formDataCopy.confirmNewPassword,
-  validEmail: (formDataCopy: any) => formDataCopy.newEmail.match(VALID_EMAIL_REGEX),
-  emailFieldsFilledOut: (formDataCopy: any) => formDataCopy.newEmail !== "" && formDataCopy.confirmNewEmail !== "",
-  passwordFieldsFilledOut: (formDataCopy: any) => formDataCopy.newPassword !== "" && formDataCopy.confirmNewPassword !== ""
+  emailsMatch: (formDataCopy: FormDataCopy) => formDataCopy.newEmail === formDataCopy.confirmNewEmail,
+  passwordsMatch: (formDataCopy: FormDataCopy) => formDataCopy.newPassword === formDataCopy.confirmNewPassword,
+  validEmail: (formDataCopy: FormDataCopy) => formDataCopy.newEmail ? formDataCopy.newEmail.match(VALID_EMAIL_REGEX) : false,
+  emailFieldsFilledOut: (formDataCopy: FormDataCopy) => formDataCopy.newEmail !== "" && formDataCopy.confirmNewEmail !== "",
+  passwordFieldsFilledOut: (formDataCopy: FormDataCopy) => formDataCopy.newPassword !== "" && formDataCopy.confirmNewPassword !== ""
 }
 
 // Validate Email
@@ -26,7 +32,7 @@ export const validatePasswordDropdown = (passwordFormDataCopy: PasswordFormData 
 
   // Checks to see if user has filled out all the inputs
   let inputsFilledOut = true;
-  for (let [inputType, inputValue] of Object.entries(passwordFormDataCopy)) {
+  for (let inputValue of Object.values(passwordFormDataCopy)) {
     if (inputValue === "") inputsFilledOut = false
   }
 

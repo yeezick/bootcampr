@@ -23,6 +23,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/users/:id" element={<UserProfile />} />
+        <Route path="/account-settings/:id" element={<AccountSettings />} />
         <Route path="/users/:id/edit" element={<EditProfile />} />
         <Route path="/users/:id/account-setup" element={<RegisterUserInfo />} />
         <Route path="/users/projects" element={<UserProjects />} />
