@@ -54,7 +54,7 @@ export const Nav = () => {
           </Link>
           <div className="image"></div>
           <Link className="link" to="/">
-            <MdArrowDropDown size={30} />
+            <MdArrowDropDown size={25} />
           </Link>
         </div>
       ) : null}
