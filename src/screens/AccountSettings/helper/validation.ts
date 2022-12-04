@@ -5,11 +5,11 @@ const VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[
 
 export const VALIDATION_HELPERS = {
   fetchAPI: async (emailDropDownActive: boolean, authFormData: EmailFormData | PasswordFormData, id: string | undefined) => emailDropDownActive ? await updateUsersEmail(authFormData, id) : await updateUsersPassword(authFormData, id),
-  emailsMatch: (temp: any | EmailFormData) => temp.newEmail === temp.confirmNewEmail,
-  passwordsMatch: (temp: any | PasswordFormData) => temp.newPassword === temp.confirmNewPassword,
-  validEmail: (temp: any | EmailFormData) => temp.newEmail.match(VALID_EMAIL_REGEX),
-  emailFieldsFilledOut: (temp: any | EmailFormData) => temp.newEmail !== "" && temp.confirmNewEmail !== "",
-  passwordFieldsFilledOut: (temp: any | PasswordFormData) => temp.newPassword !== "" && temp.confirmNewPassword !== ""
+  emailsMatch: (formDataCopy: any) => formDataCopy.newEmail === formDataCopy.confirmNewEmail,
+  passwordsMatch: (formDataCopy: any) => formDataCopy.newPassword === formDataCopy.confirmNewPassword,
+  validEmail: (formDataCopy: any) => formDataCopy.newEmail.match(VALID_EMAIL_REGEX),
+  emailFieldsFilledOut: (formDataCopy: any) => formDataCopy.newEmail !== "" && formDataCopy.confirmNewEmail !== "",
+  passwordFieldsFilledOut: (formDataCopy: any) => formDataCopy.newPassword !== "" && formDataCopy.confirmNewPassword !== ""
 }
 
 // Validate Email
