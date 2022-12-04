@@ -1,10 +1,10 @@
 export const emptyProject = {
   duration: '',
-  meeting_cadence: '',
+  meetingCadence: '',
   overview: '',
-  project_owner: '',
+  projectOwner: '',
   status: '',
-  technologies_used: [],
+  technologiesUsed: [],
   title: '',
 };
 

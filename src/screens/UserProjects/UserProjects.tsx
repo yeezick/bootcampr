@@ -44,7 +44,7 @@ export const UserProjects = () => {
             <p>{project.overview}</p>
             <p className="subheading">Industry</p>
             <p className="subheading">Technologies Used</p>
-            <p>{project.technologies_used}</p>
+            <p>{project.technologiesUsed}</p>
           </div>
         ))
       ) : (

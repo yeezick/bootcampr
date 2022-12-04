@@ -23,7 +23,7 @@ export const CreateProject: React.FC = () => {
 
   useEffect(() => {
     if (authUser) {
-      setProjectForm({ ...emptyProject, project_owner: authUser._id });
+      setProjectForm({ ...emptyProject, projectOwner: authUser._id });
     } else {
       navigate('/sign-in');
     }
@@ -66,11 +66,11 @@ export const CreateProject: React.FC = () => {
         <label htmlFor="title">Title</label>
         <input type="text" name="title" onChange={handleProjectInputChange} />
 
-        <label htmlFor="technologies_used">Technologies Used (separate by commas)</label>
+        <label htmlFor="technologiesUsed">Technologies Used (separate by commas)</label>
         <input
           list="technologies"
           type="email"
-          name="technologies_used"
+          name="technologiesUsed"
           autoComplete="off"
           multiple={true}
           onChange={handleProjectInputChange}
@@ -90,8 +90,8 @@ export const CreateProject: React.FC = () => {
           <option value="MUI"></option>
         </datalist>
 
-        <label htmlFor="meeting_cadence">Meeting Cadence</label>
-        <select name="meeting_cadence" onChange={handleProjectInputChange}>
+        <label htmlFor="meetingCadence">Meeting Cadence</label>
+        <select name="meetingCadence" onChange={handleProjectInputChange}>
           <option value="0"></option>
           <option value="Monthly">Monthly</option>
           <option value="Biweekly">Biweekly</option>

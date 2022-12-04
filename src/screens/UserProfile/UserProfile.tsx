@@ -29,11 +29,11 @@ export const UserProfile = () => {
       {authUser.memberOfProjects?.map((projects: ProjectInterface, id: number) => (
         <div key={`userprofile-memberof-${id}`}>
           <h5>title: {projects.title}</h5>
-          <h5>project owner: {JSON.stringify(projects.project_owner)}</h5>
+          <h5>project owner: {JSON.stringify(projects.projectOwner)}</h5>
           <h5>overview: {projects.overview}</h5>
           <h5>duration: {projects.duration}</h5>
-          <h5>meeting cadence: {projects.meeting_cadence}</h5>
-          <h5>technologies used: {projects.technologies_used}</h5>
+          <h5>meeting cadence: {projects.meetingCadence}</h5>
+          <h5>technologies used: {projects.technologiesUsed}</h5>
         </div>
       ))}
     </div>

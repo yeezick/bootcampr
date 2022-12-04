@@ -3,14 +3,23 @@ import { UserInterface } from './UserInterface';
 export interface ProjectInterface {
   createdAt?: string;
   duration: string;
-  meeting_cadence: string;
+  meetingCadence: string;
   overview: string;
-  project_owner: string | UserInterface;
-  roles?: string[];
+  projectOwner: string | UserInterface;
+  roles?: Roles[];
   status: string;
-  technologies_used?: string[];
+  technologiesUsed?: string[];
   title: string;
   updatedAt?: string;
   _id?: string;
   __v?: number;
 }
+
+export interface Roles {
+  interestedApplicants: string[],
+  status: string,
+  title: string,
+  description: string,
+  skills: string,
+  maxHeadcount: number,
+};

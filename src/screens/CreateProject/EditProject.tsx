@@ -13,7 +13,7 @@ export const EditProject = () => {
   const authUser = useAppSelector(selectAuthUser);
   const [fileSelected, setFileSelected] = useState<File>();
   const [projectForm, updateProjectForm] = useState<ProjectInterface>(emptyProject);
-  const { duration, meeting_cadence, overview, technologies_used, title, status } = projectForm;
+  const { duration, meetingCadence, overview, technologiesUsed, title, status } = projectForm;
   const params = useParams();
 
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export const EditProject = () => {
     }
     const fetchProject = async () => {
       const singleProject = await getOneProject(params.id);
-      let projectOwner = await getOneUser(singleProject.project_owner);
+      let projectOwner = await getOneUser(singleProject.projectOwner);
       projectOwner = {
         firstName: projectOwner.firstName,
         lastName: projectOwner.lastName,
@@ -85,14 +85,14 @@ export const EditProject = () => {
         <label htmlFor="title">Title</label>
         <input type="text" name="title" value={title} onChange={handleInputChange} />
 
-        <label htmlFor="technologies_used">Technologies Used (separate by commas)</label>
+        <label htmlFor="technologiesUsed">Technologies Used (separate by commas)</label>
         <input
           list="technologies"
           type="email"
-          name="technologies_used"
+          name="technologiesUsed"
           autoComplete="off"
           multiple={true}
-          value={technologies_used}
+          value={technologiesUsed}
           onChange={handleInputChange}
         />
         <datalist id="technologies">
@@ -110,9 +110,9 @@ export const EditProject = () => {
           <option value="MUI"></option>
         </datalist>
 
-        <label htmlFor="meeting_cadence">Meeting Cadence</label>
-        <select name="meeting_cadence" onChange={handleInputChange} value={meeting_cadence}>
-          <option value="0">{meeting_cadence}</option>
+        <label htmlFor="meetingCadence">Meeting Cadence</label>
+        <select name="meetingCadence" onChange={handleInputChange} value={meetingCadence}>
+          <option value="0">{meetingCadence}</option>
           <option value="Monthly">Monthly</option>
           <option value="Biweekly">Biweekly</option>
           <option value="Weekly">Weekly</option>

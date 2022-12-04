@@ -14,7 +14,7 @@ export const ProjectDetails: React.FC = (): JSX.Element => {
   useEffect(() => {
     const fetchProject = async () => {
       const singleProject = await getOneProject(params.id);
-      let projectOwner = await getOneUser(singleProject.project_owner);
+      let projectOwner = await getOneUser(singleProject.projectOwner);
       projectOwner = {
         firstName: projectOwner.firstName,
         lastName: projectOwner.lastName,
@@ -28,7 +28,7 @@ export const ProjectDetails: React.FC = (): JSX.Element => {
 
   if (!project._id) <h1>Loading project or none found...</h1>;
 
-  const { duration, meeting_cadence, overview, technologies_used, title } = project;
+  const { duration, meetingCadence, overview, technologiesUsed, title } = project;
   const { firstName, lastName, _id: ownerId } = projectOwner;
 
   return (
@@ -37,8 +37,8 @@ export const ProjectDetails: React.FC = (): JSX.Element => {
       <h1>Title: {title}</h1>
       <p>Project Overview: {overview} </p>
       <p>Project Duration: {duration}</p>
-      <p> Meeting Cadence: {meeting_cadence}</p>
-      <p>Project Technologies: {technologies_used}</p>
+      <p> Meeting Cadence: {meetingCadence}</p>
+      <p>Project Technologies: {technologiesUsed}</p>
       {ownerId && (
         <>
           <p>
