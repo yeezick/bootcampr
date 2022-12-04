@@ -3,7 +3,7 @@ import { UserInterface } from './UserInterface';
 export interface ProjectInterface {
   createdAt?: string;
   duration: string;
-  meetingCadence: string;
+  meetingCadence: number;
   overview: string;
   projectOwner: string | UserInterface;
   roles?: Roles[];

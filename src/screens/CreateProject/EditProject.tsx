@@ -110,13 +110,16 @@ export const EditProject = () => {
           <option value="MUI"></option>
         </datalist>
 
-        <label htmlFor="meetingCadence">Meeting Cadence</label>
+        {/* TODO: BC-308: this is actually capable of becoming a number type now */}
+        <label htmlFor="meetingCadence">Meeting Cadence, times per week</label>
         <select name="meetingCadence" onChange={handleInputChange} value={meetingCadence}>
-          <option value="0">{meetingCadence}</option>
-          <option value="Monthly">Monthly</option>
-          <option value="Biweekly">Biweekly</option>
-          <option value="Weekly">Weekly</option>
-          <option value="Daily">Daily</option>
+          <option value={0}>0</option>
+          <option value={1}>1</option>
+          <option value={2}>2</option>
+          <option value={3}>3</option>
+          <option value={4}>4</option>
+          <option value={5}>5</option>
+          <option value={6}>6</option>
         </select>
 
         <label htmlFor="overview">Overview</label>

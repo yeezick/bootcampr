@@ -1,6 +1,6 @@
 export const emptyProject = {
   duration: '',
-  meetingCadence: '',
+  meetingCadence: 0,
   overview: '',
   projectOwner: '',
   status: '',

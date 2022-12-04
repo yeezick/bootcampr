@@ -66,11 +66,11 @@ export const CreateProject: React.FC = () => {
         <label htmlFor="title">Title</label>
         <input type="text" name="title" onChange={handleProjectInputChange} />
 
-        <label htmlFor="technologiesUsed">Technologies Used (separate by commas)</label>
+        <label htmlFor="technologies_used">Technologies Used (separate by commas)</label>
         <input
           list="technologies"
           type="email"
-          name="technologiesUsed"
+          name="technologies_used"
           autoComplete="off"
           multiple={true}
           onChange={handleProjectInputChange}
@@ -92,11 +92,13 @@ export const CreateProject: React.FC = () => {
 
         <label htmlFor="meetingCadence">Meeting Cadence</label>
         <select name="meetingCadence" onChange={handleProjectInputChange}>
-          <option value="0"></option>
-          <option value="Monthly">Monthly</option>
-          <option value="Biweekly">Biweekly</option>
-          <option value="Weekly">Weekly</option>
-          <option value="Daily">Daily</option>
+          <option value={0}>0</option>
+          <option value={1}>1</option>
+          <option value={2}>2</option>
+          <option value={3}>3</option>
+          <option value={4}>4</option>
+          <option value={5}>5</option>
+          <option value={6}>6</option>
         </select>
 
         <label htmlFor="overview">Overview</label>
