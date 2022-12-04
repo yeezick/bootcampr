@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 import { toggleSidebar } from '../../utilities/redux/slices/users/userSlice';
+import { BsBell } from 'react-icons/bs';
+import { MdArrowDropDown } from 'react-icons/md';
 import Logo from '../../assets/Logo.svg';
 import './Nav.scss';
 
@@ -45,6 +47,18 @@ export const Nav = () => {
           </Link>
         </div>
       </div>
+      {userId !== '' ? (
+        <div className="notifications">
+          <Link className="link" to="/">
+            <BsBell size={25} />
+          </Link>
+          <div className="image"></div>
+          <Link className="link" to="/">
+            <MdArrowDropDown size={30} />
+          </Link>
+        </div>
+      ) : null}
+
       {userId !== '' ? null : (
         <div className="auth-btn">
           <div>
