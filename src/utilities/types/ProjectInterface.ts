@@ -6,7 +6,7 @@ export interface ProjectInterface {
   meetingCadence: number;
   overview: string;
   projectOwner: string | UserInterface;
-  roles?: Roles[];
+  roles?: Role[];
   status: string;
   technologiesUsed?: string[];
   title: string;
@@ -15,7 +15,7 @@ export interface ProjectInterface {
   __v?: number;
 }
 
-export interface Roles {
+export interface Role {
   interestedApplicants: string[],
   status: string,
   title: string,
