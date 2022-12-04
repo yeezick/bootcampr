@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 import { toggleSidebar } from '../../utilities/redux/slices/users/userSlice';
 import { BsBell } from 'react-icons/bs';
 import { MdArrowDropDown } from 'react-icons/md';
+import { NotificationSocket } from '../../components/Notifications/NotificationSocket';
 import Logo from '../../assets/Logo.svg';
 import './Nav.scss';
 
@@ -58,6 +59,7 @@ export const Nav = () => {
           </Link>
         </div>
       ) : null}
+      <NotificationSocket />
 
       {userId !== '' ? null : (
         <div className="auth-btn">
