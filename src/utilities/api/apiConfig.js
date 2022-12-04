@@ -1,13 +1,31 @@
 import axios from 'axios';
 
-let baseURL;
-if (process.env.REACT_APP_BACKEND_ENV === 'cloud') {
-  baseURL = process.env.REACT_APP_API_URL;
+let baseURL = 'https://';
+// todo: convert to function
+// todo: can it be simplified?
+// if there is no api_url => default local
+// if there is an api_url but no api_env => fetch env from window (PR-#)
+// if there is an api_url & an env => stg, prod, or dev
+if (process.env.REACT_APP_API_PIPELINE) {
+  baseURL += process.env.REACT_APP_API_PIPELINE;
+  if (process.env.REACT_APP_API_ENV && process.env.REACT_APP_API_ENV !== 'null') {
+    baseURL += process.env.REACT_APP_API_ENV;
+  } else {
+    /* TODO:  add pr-# from window object
+       TODO: won't work since pr-#'s may vary between the repo's
+     let pr = window.location.host;
+     pr = pr.split('.')[1];
+     baseURL += pr;
+    */
+    // defaulting to dev right now
+    //will NOT match well with
+    baseURL += 'br-development';
+  }
+  baseURL += process.env.REACT_APP_API_PROVIDER_DOMAIN;
 } else {
   baseURL = 'http://localhost:8001/';
 }
 
-// export const api = axios.create({ baseURL });
 export const api = axios.create({
   baseURL: baseURL,
 });
@@ -28,8 +46,11 @@ api.interceptors.request.use(
   },
 );
 
-api.interceptors.response.use(response => {
-  return response;
-}, error => {
-  return error.response;
-});
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    return error.response;
+  },
+);

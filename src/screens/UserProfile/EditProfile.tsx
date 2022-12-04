@@ -3,17 +3,24 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
+import { emptyUser } from '../../utilities/data/userConstants';
 import { UserInterface } from '../../utilities/types/UserInterface';
 import { updateUser } from '../../utilities/api/users';
 import './EditProfile.scss';
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
-  const [userForm, updateUserForm] = useState<UserInterface>(authUser);
+  const [userForm, updateUserForm] = useState<UserInterface>(emptyUser);
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role, _id: userId } = userForm;
+
+  useEffect(() => {
+    if (authUser) {
+      updateUserForm((currForm) => { return { ...currForm, ...authUser }})
+    }
+  }, [authUser])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

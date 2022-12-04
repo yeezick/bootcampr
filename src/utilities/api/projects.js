@@ -18,6 +18,15 @@ export const getOneProject = async (id) => {
   }
 };
 
+export const getUserProjects = async (userId) => {
+  try {
+    const res = await api.get(`/users/projects/${userId}`);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const createProject = async (project) => {
   try {
     const res = await api.post('/projects/', project);

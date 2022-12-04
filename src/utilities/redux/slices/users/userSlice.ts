@@ -18,42 +18,39 @@ const initialState: UiSliceInterface = {
       _id: '',
     },
   },
+  sidebar: {
+    visibleSidebar: false,
+  },
   status: {
     isAuthenticated: false,
     isLoading: false,
     isSuccess: false,
     isError: {
       status: false,
-      message: ''
+      message: '',
     },
   },
 };
 
-export const register = createAsyncThunk(
-  'users/signUp',
-  async (user: SignUpInterface, thunkAPI) => {
-    try {
-      return await signUp(user)
-    } catch (error) {
-      return thunkAPI.rejectWithValue('Unable to register!')
-    }
+export const register = createAsyncThunk('users/signUp', async (user: SignUpInterface, thunkAPI) => {
+  try {
+    return await signUp(user);
+  } catch (error) {
+    return thunkAPI.rejectWithValue('Unable to register!');
   }
-)
+});
 
-export const updateProfile = createAsyncThunk(
-  'users/updateUser',
-  async (user: UserInterface, thunkAPI) => {
-    try {
-      const res = await updateUser(user._id, user)
-      if (res) {
-        reset()
-        return res
-      }
-    } catch (error) {
-      return thunkAPI.rejectWithValue('Unable to update user!')
+export const updateProfile = createAsyncThunk('users/updateUser', async (user: UserInterface, thunkAPI) => {
+  try {
+    const res = await updateUser(user._id, user);
+    if (res) {
+      reset();
+      return res;
     }
+  } catch (error) {
+    return thunkAPI.rejectWithValue('Unable to update user!');
   }
-)
+});
 
 const usersSlice = createSlice({
   name: 'ui',
@@ -67,13 +64,16 @@ const usersSlice = createSlice({
       state.auth.user = action.payload;
     },
     updateAuthUser: (state, action: PayloadAction<UserInterface>) => {
-      state.auth.user = action.payload
+      state.auth.user = action.payload;
+    },
+    toggleSidebar: (state) => {
+      state.sidebar.visibleSidebar = !state.sidebar.visibleSidebar;
     },
     reset: (state) => {
       state.status.isLoading = false;
       state.status.isSuccess = false;
       state.status.isError = { status: false };
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -84,7 +84,7 @@ const usersSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.status.isLoading = false;
         state.status.isSuccess = true;
-        state.status.isAuthenticated = true
+        state.status.isAuthenticated = true;
         state.auth.user = action.payload;
       })
       .addCase(register.rejected, (state) => {
@@ -98,17 +98,17 @@ const usersSlice = createSlice({
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.status.isLoading = false;
         state.status.isSuccess = true;
-        state.status.isAuthenticated = true
+        state.status.isAuthenticated = true;
         state.auth.user = action.payload;
       })
       .addCase(updateProfile.rejected, (state) => {
         state.status.isLoading = false;
         state.status.isError = { status: true };
-      })
-  }
+      });
+  },
 });
 
 export const selectAuthUser = (state: RootState) => state.ui.auth.user;
 export const uiStatus = (state: RootState) => state.ui.status;
-export const { setAuthUser, updateAuthUser, reset, logoutAuthUser } = usersSlice.actions;
+export const { setAuthUser, updateAuthUser, reset, logoutAuthUser, toggleSidebar } = usersSlice.actions;
 export default usersSlice.reducer;

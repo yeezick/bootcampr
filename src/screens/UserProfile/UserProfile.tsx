@@ -24,6 +24,7 @@ export const UserProfile = () => {
       <h1>email {authUser.email}</h1>
       <h1>portfolio {authUser?.portfolioUrl}</h1>
       <h1>role {authUser.role}</h1>
+
       <h1>memberOfProjects ...</h1>
       {authUser.memberOfProjects?.map((projects: ProjectInterface, id: number) => (
         <div key={`userprofile-memberof-${id}`}>
