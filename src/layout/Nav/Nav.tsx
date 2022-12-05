@@ -1,14 +1,19 @@
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 import { toggleSidebar } from '../../utilities/redux/slices/users/userSlice';
 import { BsBell } from 'react-icons/bs';
 import { MdArrowDropDown } from 'react-icons/md';
-import { NotificationSocket } from '../../components/Notifications/NotificationSocket';
+import { io } from 'socket.io-client';
+const ENDPOINT = `${process.env.REACT_APP_LOCAL_URL}`;
+const socket = io(ENDPOINT);
 import Logo from '../../assets/Logo.svg';
 import './Nav.scss';
 
 export const Nav = () => {
+  const [notificationCount, setNotificationCount] = useState(0);
+  const [notifications, setNotifications] = useState<string[]>([]);
   const authUser = useAppSelector(selectAuthUser);
   const { _id: userId } = authUser;
   const dispatch = useAppDispatch();
@@ -16,6 +21,16 @@ export const Nav = () => {
   const toggleSidebarHandler = () => {
     dispatch(toggleSidebar());
   };
+
+  useEffect(() => {
+    const handler = (notifications: string) => {
+      setNotifications([...notifications, notifications]);
+    };
+
+    socket.on('changes', handler);
+  }, [notifications]);
+
+  console.log(notifications);
 
   return (
     <nav>
@@ -50,16 +65,22 @@ export const Nav = () => {
       </div>
       {userId !== '' ? (
         <div className="notifications">
-          <Link className="link" to="/">
-            <BsBell size={25} />
-          </Link>
+          <div className="notification-badge">
+            <Link className="link" to="/">
+              <BsBell size={25} />
+            </Link>
+          </div>
+          {notificationCount > 0 && (
+            <div className="notification-count">
+              <span>{notificationCount}</span>
+            </div>
+          )}
           <div className="image"></div>
           <Link className="link" to="/">
             <MdArrowDropDown size={25} />
           </Link>
         </div>
       ) : null}
-      <NotificationSocket />
 
       {userId !== '' ? null : (
         <div className="auth-btn">
