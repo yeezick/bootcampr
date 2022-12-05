@@ -1,11 +1,10 @@
 import React, { FC, useEffect, useRef } from 'react';
-import { AddImageInterface } from '../../../utilities/types/UserInterface';
 
 interface UserImageProps {
-  setProfileImageFile: (arg: AddImageInterface | null) => void;
-  setPreviewImage: (arg: any) => void;
-  previewImage: any;
-  profileImageFile: any;
+  setProfileImageFile: (arg: File | null) => void;
+  setPreviewImage: (arg: string | null) => void;
+  previewImage: string | null;
+  profileImageFile: File | null;
 }
 
 const AddUserProfileImage = ({
@@ -14,13 +13,13 @@ const AddUserProfileImage = ({
   setPreviewImage,
   previewImage,
 }: UserImageProps) => {
-  const fileInputRef: any = useRef();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (profileImageFile) {
       const fileReader = new FileReader();
       fileReader.onloadend = () => {
-        setPreviewImage(fileReader.result);
+        setPreviewImage(fileReader.result as string);
       };
       fileReader.readAsDataURL(profileImageFile);
     } else {
@@ -28,25 +27,28 @@ const AddUserProfileImage = ({
     }
   }, [profileImageFile]);
 
-  const getImageFile = (e: any) => {
+  const getImageFile = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    fileInputRef.current.click();
+    fileInputRef?.current?.click();
   };
 
-  const removeImg = (e: any) => {
+  const removeImg = (e: React.SyntheticEvent) => {
     e.preventDefault();
     setProfileImageFile(null);
   };
 
+  const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    if (file && file.type.substr(0, 5) === 'image') {
+      setProfileImageFile(file);
+    } else {
+      setProfileImageFile(null);
+    }
+  };
+
   return (
     <>
-      <input
-        ref={fileInputRef}
-        onChange={(e: any) => setProfileImageFile(e.target.files[0])}
-        style={{ display: 'none' }}
-        type="file"
-        accept="image/*"
-      />
+      <input ref={fileInputRef} onChange={onImageChange} style={{ display: 'none' }} type="file" accept="image/*" />
       {previewImage ? (
         <button onClick={(e) => removeImg(e)}>remove image</button>
       ) : (

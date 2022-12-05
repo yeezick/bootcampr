@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { AddImageInterface, UserInterface } from '../../utilities/types/UserInterface';
+import { UserInterface } from '../../utilities/types/UserInterface';
 import { createUserImage, updateUser } from '../../utilities/api/users';
 import { emptyUser } from '../../utilities/data/userConstants';
 import './EditProfile.scss';
@@ -11,12 +11,12 @@ import AddUserProfileImage from '../SignUp/AddUserProfileImage/AddUserProfileIma
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
-  const [previewImage, setPreviewImage] = useState();
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [userForm, updateUserForm] = useState<UserInterface>(emptyUser);
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [profileImageFile, setProfileImageFile] = useState<AddImageInterface | null>();
+  const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
 
   const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role, _id: userId } = userForm;
 

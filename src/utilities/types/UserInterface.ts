@@ -47,10 +47,10 @@ export interface SignUpInterface {
   profilePicture: string;
 }
 export interface AddImageInterface {
-  lastModified: number;
-  lastModifiedDate: string;
-  name: string;
-  type: string;
-  webkitRelativePath: string;
-  size: Number;
+  lastModified?: number;
+  lastModifiedDate?: string;
+  name?: string;
+  type?: string;
+  webkitRelativePath?: string;
+  size?: Number;
 }

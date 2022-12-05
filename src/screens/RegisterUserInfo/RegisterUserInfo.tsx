@@ -14,7 +14,7 @@ export const RegisterUserInfo: React.FC = () => {
   const authUser = useAppSelector(selectAuthUser);
   const [userForm, setUserForm] = useState<UserInterface>(emptyUser);
   const [profileImageFile, setProfileImageFile] = useState<AddImageInterface | null>();
-  const [previewImage, setPreviewImage] = useState();
+  const [previewImage, setPreviewImage] = useState<string | undefined>();
 
   const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role } = userForm;
 
