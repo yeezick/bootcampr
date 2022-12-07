@@ -1,0 +1,29 @@
+.verify-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 180px;
+  text-align: center;
+
+  .verify-btn {
+    background-color: #353131;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 700;
+    font-size: 1vw;
+    cursor: pointer;
+    padding: 15px 40px;
+
+    &:hover {
+      background-color: #f29e34;
+      color: black;
+    }
+  }
+
+  .verify-icon {
+    color: rgb(11, 171, 17);
+    font-size: 180px;
+  }
+}
