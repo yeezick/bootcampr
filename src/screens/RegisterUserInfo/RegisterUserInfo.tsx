@@ -13,8 +13,8 @@ export const RegisterUserInfo: React.FC = () => {
   const dispatch = useAppDispatch();
   const authUser = useAppSelector(selectAuthUser);
   const [userForm, setUserForm] = useState<UserInterface>(emptyUser);
-  const [profileImageFile, setProfileImageFile] = useState<AddImageInterface | null>();
-  const [previewImage, setPreviewImage] = useState<string | undefined>();
+  const [profileImageFile, setProfileImageFile] = useState<File | null>();
+  const [previewImage, setPreviewImage] = useState<string | null>();
 
   const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role } = userForm;
 

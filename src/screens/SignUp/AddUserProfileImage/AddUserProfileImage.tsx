@@ -1,10 +1,10 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface UserImageProps {
-  setProfileImageFile: (arg: File | null) => void;
-  setPreviewImage: (arg: string | null) => void;
-  previewImage: string | null;
-  profileImageFile: File | null;
+  setProfileImageFile: (arg: File | null | undefined) => void;
+  setPreviewImage: (arg: string | null | undefined) => void;
+  previewImage: string | null | undefined;
+  profileImageFile: File | null | undefined;
 }
 
 const AddUserProfileImage = ({
