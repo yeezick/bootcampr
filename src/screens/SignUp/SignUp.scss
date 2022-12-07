@@ -10,8 +10,8 @@ $color-input: rgb(248, 248, 248);
   border: 1px solid rgb(65, 82, 97);
   border-radius: 2% / 19%;
   font-size: 15px;
-  height: 1.5rem;
-  margin-top: 0.4rem;
+  height: 24px;
+  margin-top: 6.4px;
   padding: $padding;
   width: $width;
 }
@@ -29,12 +29,12 @@ $color-input: rgb(248, 248, 248);
 
 .pwd-match {
   color: rgb(48, 161, 192);
-  margin-top: 1rem;
+  margin-top: 16px;
 }
 
 .pwd-mismatch {
   color: red;
-  margin-top: 1rem;
+  margin-top: 16px;
 }
 
 .pwd-reveal {
@@ -55,9 +55,9 @@ $color-input: rgb(248, 248, 248);
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  margin-top: 3rem;
-  padding: 2rem;
-  width: 20rem;
+  margin-top: 48px;
+  padding: 32px;
+  width: 320px;
 
   button {
     background-color: $color-btn;
@@ -66,7 +66,7 @@ $color-input: rgb(248, 248, 248);
     color: rgb(44, 56, 66);
     cursor: pointer;
     font-size: 15px;
-    height: 2.2rem;
+    height: 35.2px;
     width: 105.8%;
 
     &:active {
@@ -85,11 +85,11 @@ $color-input: rgb(248, 248, 248);
   }
 
   form {
-    padding: 2.3rem 1.5rem 1rem 0.5rem;
+    padding: 36.8px 24px 16px 8px;
   }
 
   input {
-    @include input-fields(0.3rem 0.4rem, 100%);
+    @include input-fields(4.8px 6.4px, 100%);
   }
 }
 
@@ -99,7 +99,7 @@ h3, h4 {
 }
 
 .form-input {
-  margin: 0 1rem 1rem 1rem;
+  margin: 0 16px 16px 16px;
 }
 
 .pwd-input {
@@ -108,12 +108,12 @@ h3, h4 {
   }
 
   input {
-    @include input-fields(0.3rem 2rem 0.3rem 0.4rem, 84.8%);
+    @include input-fields(4.8px 32px 4.8px 6.4px, 84.8%);
   }
 
-  margin: 0 0rem 1rem 1rem;
+  margin: 0 0 16px 16px;
 }
 
 .form-btn {
-  margin: 1.5rem 1rem 0 1rem;
+  margin: 24px 16px 0 16px;
 }
