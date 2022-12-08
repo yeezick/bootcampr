@@ -1,29 +1,5 @@
-// Variables
-$color-btn: rgb(202, 207, 212);
-$color-btn-active: rgb(54, 91, 123);
-$color-btn-hover: rgb(79, 127, 169);
-$color-input: rgb(248, 248, 248);
-
-// Mixins
-@mixin input-fields($padding, $width) {
-  background-color: $color-input;
-  border: 1px solid rgb(65, 82, 97);
-  border-radius: 2% / 19%;
-  font-size: 15px;
-  height: 24px;
-  margin-top: 6.4px;
-  padding: $padding;
-  width: $width;
-}
-
-@mixin reveal-icon($opacity) {
-  cursor: pointer;
-  font-size: 19px;
-  opacity: $opacity;
-  position: absolute;
-  right: 9px;
-  top: 33px;
-}
+@import '../../scss/variables';
+@import '../../scss/mixins';
 
 /* --------------------------- */
 
@@ -60,28 +36,7 @@ $color-input: rgb(248, 248, 248);
   width: 320px;
 
   button {
-    background-color: $color-btn;
-    border: none;
-    border-radius: 2% / 19%;
-    color: rgb(44, 56, 66);
-    cursor: pointer;
-    font-size: 15px;
-    height: 35.2px;
-    width: 105.8%;
-
-    &:active {
-      background-color: $color-btn-active;
-    }
-
-    &:disabled {
-      opacity: 0.3;
-      pointer-events: none;
-    }
-
-    &:hover {
-      background-color: $color-btn-hover;
-      color: white;
-    }
+    @include form-buttons();
   }
 
   form {

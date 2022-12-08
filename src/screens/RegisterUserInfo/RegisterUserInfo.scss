@@ -1,20 +1,5 @@
-// Variables
-$color-btn: rgb(202, 207, 212);
-$color-btn-active: rgb(54, 91, 123);
-$color-btn-hover: rgb(79, 127, 169);
-$color-input: rgb(248, 248, 248);
-
-// Mixins
-@mixin input-fields($width) {
-  background-color: $color-input;
-  border: 1px solid rgb(65, 82, 97);
-  border-radius: 2% / 19%;
-  font-size: 15px;
-  height: 24px;
-  margin-top: 6.4px;
-  padding: 4.8px 6.4px;
-  width: $width;
-}
+@import '../../scss/variables';
+@import '../../scss/mixins';
 
 /* --------------------------- */
 
@@ -22,6 +7,7 @@ $color-input: rgb(248, 248, 248);
   align-items: center;
   display: flex;
   flex-direction: column;
+  margin-bottom: 64px;
 }
 
 .form-container {
@@ -45,7 +31,7 @@ $color-input: rgb(248, 248, 248);
   }
 
   input {
-    @include input-fields(94%)
+    @include input-fields(4.8px 6.4px, 94%);
   }
 
   label {
@@ -74,23 +60,7 @@ $color-input: rgb(248, 248, 248);
   width: 320px;
 
   button {
-    background-color: $color-btn;
-    border: none;
-    border-radius: 2% / 19%;
-    color: rgb(44, 56, 66);
-    cursor: pointer;
-    font-size: 15px;
-    height: 35.2px;
-    width: 105.8%;
-    
-    &:active {
-      background-color: $color-btn-active;
-    }
-
-    &:hover {
-      background-color: $color-btn-hover;
-      color: white;
-    }
+    @include form-buttons();
   }
 
   form {
@@ -109,6 +79,6 @@ $color-input: rgb(248, 248, 248);
   }
 
   input {
-    @include input-fields(100%)
+    @include input-fields(4.8px 6.4px, 100%);
   }
 }
