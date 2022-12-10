@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAppSelector } from '../../utilities/redux/hooks';
+import { useAppSelector } from '@utilities/redux/hooks';
 import { RiUploadCloudFill } from 'react-icons/ri';
-import { ProjectInterface } from '../../utilities/types/ProjectInterface';
-import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { emptyProject } from '../../utilities/data/projectConstants';
-import { getOneUser } from '../../utilities/api/users';
-import { getOneProject, editProject, deleteProject } from '../../utilities/api/projects';
+import { ProjectInterface } from '@utilities/types';
+import { selectAuthUser } from '@utilities/redux/slices/users/userSlice';
+import { emptyProject } from '@utilities/data/projectConstants';
+import { getOneUser } from '@utilities/api';
+import { getOneProject, editProject, deleteProject } from '@utilities/api';
 import './CreateProject.scss';
 
 export const EditProject = () => {

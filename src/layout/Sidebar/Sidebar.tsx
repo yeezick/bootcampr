@@ -1,9 +1,9 @@
-import { logoutAuthUser, selectAuthUser, toggleSidebar } from '../../utilities/redux/slices/users/userSlice';
 import { Link } from 'react-router-dom';
-import './Sidebar.scss';
 import { AiFillStar } from 'react-icons/ai';
-import { logOut } from '../../utilities/api/users';
-import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
+import { logOut } from '@utilities/api/users';
+import { useAppDispatch, useAppSelector } from '@utilities/redux/hooks';
+import { logoutAuthUser, selectAuthUser, toggleSidebar } from '@utilities/redux/slices/users/userSlice';
+import './Sidebar.scss';
 
 export const Sidebar = () => {
   const authUser = useAppSelector(selectAuthUser);

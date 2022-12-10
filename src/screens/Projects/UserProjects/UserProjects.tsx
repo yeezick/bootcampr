@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { useAppSelector } from '../../utilities/redux/hooks';
-import './UserProjects.scss';
+import { selectAuthUser } from '@utilities/redux/slices/users/userSlice';
+import { useAppSelector } from '@utilities/redux/hooks';
 import { useState, useEffect } from 'react';
-import { getUserProjects } from '../../utilities/api/projects';
-import { ProjectInterface } from '../../utilities/types/ProjectInterface';
+import { getUserProjects } from '@utilities/api';
+import { ProjectInterface } from '@utilities/types';
+import './UserProjects.scss';
 
 export const UserProjects = () => {
   const [projects, setProjects] = useState<ProjectInterface[]>([]);

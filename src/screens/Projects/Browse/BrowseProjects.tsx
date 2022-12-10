@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getAllProjects } from '../../utilities/api/projects';
-import { ProjectInterface } from '../../utilities/types/ProjectInterface';
+import { getAllProjects } from '@utilities/api';
+import { ProjectInterface } from '@utilities/types';
 import './Projects.scss';
 
-export const Projects: React.FC = () => {
+export const BrowseProjects: React.FC = () => {
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
 
   useEffect(() => {

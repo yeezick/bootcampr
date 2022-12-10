@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
-import { toggleSidebar } from '../../utilities/redux/slices/users/userSlice';
-import Logo from '../../assets/Logo.svg';
+import { selectAuthUser } from '@utilities/redux/slices/users/userSlice';
+import { useAppDispatch, useAppSelector } from '@utilities/redux/hooks';
+import { toggleSidebar } from '@utilities/redux/slices/users/userSlice';
+import Logo from '@assets/Logo.svg';
 import './Nav.scss';
 
 export const Nav = () => {

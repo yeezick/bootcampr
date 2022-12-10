@@ -1,16 +1,16 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { CreateProject } from './screens/CreateProject/CreateProject';
-import { Landing } from './screens/Landing/Landing';
-import { RegisterUserInfo } from './screens/RegisterUserInfo/RegisterUserInfo';
-import { SignIn } from './screens/SignIn/SignIn';
-import { SignUp } from './screens/SignUp/SignUp';
-import { Layout } from './layout/Layout';
-import { UserProfile } from './screens/UserProfile/UserProfile';
-import { EditProfile } from './screens/UserProfile/EditProfile';
-import { Projects } from './screens/Projects/Projects';
-import { EditProject } from './screens/CreateProject/EditProject';
-import { ProjectDetails } from './screens/Projects/ProjectDetails';
-import { UserProjects } from './screens/UserProjects/UserProjects';
+import { Layout } from '@layout/Layout';
+import { Landing } from '@screens/Landing/Landing';
+import { CreateProject } from '@screens/Projects';
+import { EditProject } from '@screens/Projects';
+import { BrowseProjects } from '@screens/Projects';
+import { ProjectDetails } from '@screens/Projects';
+import { UserProjects } from '@screens/Projects';
+import { RegisterUserInfo } from '@screens/Auth';
+import { SignIn } from '@screens/Auth';
+import { SignUp } from '@screens/Auth';
+import { UserProfile } from '@screens/UserProfile';
+import { EditProfile } from '@screens/UserProfile';
 
 import './App.css';
 
@@ -26,7 +26,7 @@ function App() {
         <Route path="/users/:id/account-setup" element={<RegisterUserInfo />} />
         <Route path="/users/projects" element={<UserProjects />} />
         <Route path="/projects/create" element={<CreateProject />} />
-        <Route path="/projects" element={<Projects />} />
+        <Route path="/projects" element={<BrowseProjects />} />
         <Route path="/projects/:id/edit" element={<EditProject />} />
         <Route path="/projects/:id" element={<ProjectDetails />} />
       </Routes>

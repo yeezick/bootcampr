@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { emptyUser } from '../../utilities/data/userConstants';
-import { UserInterface } from '../../utilities/types/UserInterface';
-import { updateUser } from '../../utilities/api/users';
+import { selectAuthUser, setAuthUser } from '@utilities/redux/slices/users/userSlice';
+import { emptyUser } from '@utilities/data/userConstants';
+import { UserInterface } from '@utilities/types';
+import { updateUser } from '@utilities/api';
 import './EditProfile.scss';
 
 export const EditProfile: React.FC = () => {
@@ -18,9 +18,11 @@ export const EditProfile: React.FC = () => {
 
   useEffect(() => {
     if (authUser) {
-      updateUserForm((currForm) => { return { ...currForm, ...authUser }})
+      updateUserForm((currForm) => {
+        return { ...currForm, ...authUser };
+      });
     }
-  }, [authUser])
+  }, [authUser]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

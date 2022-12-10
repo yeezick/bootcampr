@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ProjectInterface } from '../../utilities/types/ProjectInterface';
-import { emptyProject, emptyProjectOwner } from '../../utilities/data/projectConstants';
-import { getOneUser } from '../../utilities/api/users';
-import { getOneProject } from '../../utilities/api/projects';
+import { ProjectInterface } from '@utilities/types';
+import { emptyProject, emptyProjectOwner } from '@utilities/data/projectConstants';
+import { getOneUser } from '@utilities/api';
+import { getOneProject } from '@utilities/api';
 
 export const ProjectDetails: React.FC = (): JSX.Element => {
   const [project, setProject] = useState<ProjectInterface>(emptyProject);

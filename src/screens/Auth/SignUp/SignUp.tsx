@@ -1,11 +1,11 @@
-import { register, reset, selectAuthUser, uiStatus } from '../../utilities/redux/slices/users/userSlice';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SignUpInterface } from '../../utilities/types/UserInterface';
-import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
+import { SignUpInterface } from '@utilities/types';
+import { register, reset, selectAuthUser, uiStatus } from '@utilities/redux/slices/users/userSlice';
+import { useAppDispatch, useAppSelector } from '@utilities/redux/hooks';
+import { emptySignUp } from '@utilities/data/userConstants';
 import './SignUp.scss';
-import { emptySignUp } from '../../utilities/data/userConstants';
 
 type PasswordMatchCases = null | boolean;
 

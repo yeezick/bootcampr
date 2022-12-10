@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RiUploadCloudFill } from 'react-icons/ri';
-import { ProjectInterface } from '../../utilities/types/ProjectInterface';
-import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { emptyProject } from '../../utilities/data/projectConstants';
-import { createProject } from '../../utilities/api/projects';
+import { ProjectInterface } from '@utilities/types';
+import { selectAuthUser } from '@utilities/redux/slices/users/userSlice';
+import { emptyProject } from '@utilities/data/projectConstants';
+import { createProject } from '@utilities/api';
 import './CreateProject.scss';
 
 export const CreateProject: React.FC = () => {

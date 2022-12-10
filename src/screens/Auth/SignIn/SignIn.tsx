@@ -1,11 +1,11 @@
-import styles from './SignIn.module.css';
 import { useState, useEffect } from 'react';
-import { signIn } from '../../utilities/api/users.js';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../utilities/redux/store';
-import { setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { useNavigate } from 'react-router-dom';
-import { SignInInterface } from '../../utilities/types/UserInterface';
+import { signIn } from '@utilities/api';
+import { AppDispatch } from '@utilities/redux/store';
+import { setAuthUser } from '@utilities/redux/slices/users/userSlice';
+import { SignInInterface } from '@utilities/types';
+import styles from './SignIn.module.css';
 
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables
