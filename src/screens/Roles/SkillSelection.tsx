@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { SkillSelectionProps } from './PropInterfaces';
 import { allSkills } from '../../utilities/data/projectConstants';
 
-export const SkillSelection = () => {
-  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+export const SkillSelection = ({ selectedSkills, setSelectedSkills }: SkillSelectionProps) => {
   const capitalSelectedSkills: string[] = selectedSkills.map((skill) => skill.toUpperCase());
 
   const handleSkillSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -28,7 +27,7 @@ export const SkillSelection = () => {
         </div>
       )}
 
-      <select required onChange={handleSkillSelection}>
+      <select required value={''} onChange={handleSkillSelection}>
         {allSkills.map((skill, idx) => {
           const upperCaseSkill = skill[0].toUpperCase() + skill.slice(1);
           return (

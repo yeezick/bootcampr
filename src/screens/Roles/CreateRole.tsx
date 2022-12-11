@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { SkillSelection } from './SkillSelection';
+import { CreateRoleProps } from './PropInterfaces';
 import { createNewRole } from '../../utilities/api/roles';
 import { emptyRole } from '../../utilities/data/projectConstants';
 import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 import { handleInputChange } from '../../utilities/helpers/formHandlers';
 import './CreateRole.scss';
 
-export const CreateRole = () => {
+export const CreateRole = ({ updateProjectForm }: CreateRoleProps) => {
   const [newRole, setNewRole] = useState(emptyRole);
-  const [roleType, setRoleType] = useState<string>();
+  const [roleType, setRoleType] = useState<string>('');
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const { description, maxHeadCount, status, title } = newRole;
   const { id: projectId } = useParams();
 
@@ -25,7 +27,10 @@ export const CreateRole = () => {
 
   const submitNewRole = async () => {
     const updatedProject: ProjectInterface = await createNewRole(projectId, newRole, roleType);
+    updateProjectForm(updatedProject);
     setNewRole(emptyRole);
+    setRoleType('');
+    setSelectedSkills([]);
   };
 
   return (
@@ -67,7 +72,7 @@ export const CreateRole = () => {
 
         <label>
           Skills
-          <SkillSelection />
+          <SkillSelection selectedSkills={selectedSkills} setSelectedSkills={setSelectedSkills} />
         </label>
 
         <label>

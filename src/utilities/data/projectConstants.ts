@@ -1,8 +1,13 @@
-export const emptyProject = {
+import { ProjectInterface } from '../types/ProjectInterface';
+export const emptyProject: ProjectInterface = {
   duration: '',
   meeting_cadence: '',
   overview: '',
   project_owner: '',
+  roles: {
+    design: [],
+    engineering: [],
+  },
   status: '',
   technologies_used: [],
   title: '',
@@ -15,7 +20,10 @@ export const emptyProjectOwner = {
 };
 
 export const emptyRole = {
-  // interestedApplicants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  interestedApplicants: {
+    design: [],
+    engineering: [],
+  },
   status: '',
   title: '',
   description: '',

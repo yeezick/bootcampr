@@ -9,6 +9,7 @@ import { getOneUser } from '../../utilities/api/users';
 import { getOneProject, editProject, deleteProject } from '../../utilities/api/projects';
 import './CreateProject.scss';
 import { CreateRole } from '../Roles/CreateRole';
+import { ViewRoles } from '../Roles/ViewRoles';
 
 export const EditProject = () => {
   const authUser = useAppSelector(selectAuthUser);
@@ -16,7 +17,6 @@ export const EditProject = () => {
   const [projectForm, updateProjectForm] = useState<ProjectInterface>(emptyProject);
   const { duration, meeting_cadence, overview, technologies_used, title, status } = projectForm;
   const params = useParams();
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -133,9 +133,8 @@ export const EditProject = () => {
         <label htmlFor="duration">Duration of the project</label>
         <input type="text" name="duration" value={duration} onChange={handleInputChange} />
 
-        <div className="create-role">
-          <CreateRole />
-        </div>
+        <CreateRole updateProjectForm={updateProjectForm} />
+        <ViewRoles roles={projectForm.roles} />
 
         <p>Save project as a draft or publish?</p>
         <div className="radio-container">

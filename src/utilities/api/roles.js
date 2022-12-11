@@ -1,5 +1,5 @@
 import { api } from './apiConfig';
-// interface CreateNewRolesProps {
+// interface CreateNewRolesArgs {
 //   projectId: String,
 //   newRole: RoleInterface,
 //   roleType: string
