@@ -28,12 +28,14 @@ export const Nav = () => {
     // };
     // askUserPermission();
 
-    const handler = (notifications: string) => {
-      setNotifications([...notifications, notifications]);
-    };
+    // const handler = (notifications: string) => {
+    //   setNotifications([...notifications, notifications]);
+    // };
 
-    socket.on('changes', handler);
-  }, [notifications]);
+    socket.on('changes', () => {
+      console.log(socket.connected);
+    });
+  }, []);
 
   console.log(notifications);
 
