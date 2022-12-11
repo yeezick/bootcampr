@@ -1,0 +1,33 @@
+.create-new-role {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: column;  
+    label {
+      display: flex;
+      flex-direction: column;
+      justify-content: column;    
+    }
+  }
+
+  .selected-skills--container {
+    border: 1px solid gray;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    height:fit-content;
+    margin: auto;
+    width: 550px;
+  }
+
+  .selected-skills--single {
+    background-color: lightgray;
+    font-size: 14px;
+    margin: 3px;
+    padding: 2px 2px;
+  }
+}

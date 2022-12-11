@@ -13,3 +13,14 @@ export const emptyProjectOwner = {
   lastName: '',
   _id: '',
 };
+
+export const emptyRole = {
+  // interestedApplicants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  status: '',
+  title: '',
+  description: '',
+  skills: [],
+  maxHeadCount: 1,
+};
+
+export const allSkills = [' ', 'javascript', 'react', 'python', 'vs code', 'figma', 'miro'];
