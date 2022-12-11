@@ -58,7 +58,7 @@ export const CreateRole = () => {
           </div>
         )}
 
-        <select required name="status" onChange={handleSkillSelection}>
+        <select required onChange={handleSkillSelection}>
           {allSkills.map((skill, idx) => {
             const upperCaseSkill = skill[0].toUpperCase() + skill.slice(1);
             return (
