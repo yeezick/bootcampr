@@ -7,7 +7,7 @@ import { BsBell } from 'react-icons/bs';
 import { MdArrowDropDown } from 'react-icons/md';
 import { io } from 'socket.io-client';
 const ENDPOINT = `${process.env.REACT_APP_LOCAL_URL}`;
-const socket = io(ENDPOINT);
+const socket = io(ENDPOINT, { transports: ['websocket'] });
 import Logo from '../../assets/Logo.svg';
 import './Nav.scss';
 
@@ -23,10 +23,11 @@ export const Nav = () => {
   };
 
   useEffect(() => {
-    const askUserPermission = async () => {
-      return await Notification.requestPermission();
-    };
-    askUserPermission();
+    // const askUserPermission = async () => {
+    //   return await Notification.requestPermission();
+    // };
+    // askUserPermission();
+
     const handler = (notifications: string) => {
       setNotifications([...notifications, notifications]);
     };
