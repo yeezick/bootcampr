@@ -4,16 +4,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { emptyUser, emptyUrl } from '../../utilities/data/userConstants';
-import { UserInterface } from '../../utilities/types/UserInterface';
+import { UserInterface, CustomUrlInterface } from '../../utilities/types/UserInterface';
 import { updateUser } from '../../utilities/api/users';
 import './EditProfile.scss';
 import { CustomLink } from '../../components/User/ShowProfileLinks/ShowProfileLinks';
-
-interface CustomUrlInterface {
-  _id: string;
-  customUrlLink: string;
-  customUrlName: string;
-}
 
 export const EditProfile: React.FC = (link: any) => {
   const authUser = useSelector(selectAuthUser);
@@ -47,11 +41,11 @@ export const EditProfile: React.FC = (link: any) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    customProfileLinks: [
+    [
       ...customProfileLinks,
       {
-        customUrlName: customProfileLinks.customUrlName,
-        customUrlLink: customProfileLinks.customUrlLink,
+        // customUrlName: customProfileLinks.customUrlName,
+        // customUrlLink: customProfileLinks.customUrlLink,
       },
     ];
     updateUserForm({ ...userForm, [name]: value });
@@ -112,7 +106,7 @@ export const EditProfile: React.FC = (link: any) => {
           <input type="text" name="linkedinUrl" value={linkedinUrl} onChange={(event) => handleInputChange(event)} />
         </label>
 
-        {customProfileLinks?.map((url: any, index: any) => {
+        {customProfileLinks?.map((url: CustomUrlInterface, index: any) => {
           return (
             <>
               <h1>{url.customUrlName}</h1>

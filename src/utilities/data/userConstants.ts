@@ -4,7 +4,7 @@ export const initialState: UiSliceInterface = {
   auth: {
     user: {
       bio: '',
-      customProfileLinks: [],
+      customProfileLinks: [{ _id: '', customUrlLink: '', customUrlName: '' }],
       email: '',
       firstName: '',
       lastName: '',
@@ -30,9 +30,15 @@ export const initialState: UiSliceInterface = {
   },
 };
 
+export const emptyUrl: CustomUrlInterface = {
+  _id: '',
+  customUrlLink: '',
+  customUrlName: '',
+};
+
 export const emptyUser: UserInterface = {
   bio: '',
-  customProfileLinks: [],
+  customProfileLinks: [emptyUrl],
   email: '',
   firstName: '',
   lastName: '',
@@ -42,12 +48,6 @@ export const emptyUser: UserInterface = {
   profilePicture: '',
   role: '',
   _id: '',
-};
-
-export const emptyUrl: CustomUrlInterface = {
-  _id: '',
-  customUrlLink: '',
-  customUrlName: '',
 };
 
 export const emptySignUp: SignUpInterface = {
