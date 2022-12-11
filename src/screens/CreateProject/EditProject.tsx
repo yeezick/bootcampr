@@ -8,6 +8,7 @@ import { emptyProject } from '../../utilities/data/projectConstants';
 import { getOneUser } from '../../utilities/api/users';
 import { getOneProject, editProject, deleteProject } from '../../utilities/api/projects';
 import './CreateProject.scss';
+import { CreateRole } from '../Roles/CreateRole';
 
 export const EditProject = () => {
   const authUser = useAppSelector(selectAuthUser);
@@ -131,6 +132,10 @@ export const EditProject = () => {
 
         <label htmlFor="duration">Duration of the project</label>
         <input type="text" name="duration" value={duration} onChange={handleInputChange} />
+
+        <div className="create-role">
+          <CreateRole />
+        </div>
 
         <p>Save project as a draft or publish?</p>
         <div className="radio-container">

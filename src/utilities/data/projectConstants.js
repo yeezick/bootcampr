@@ -23,4 +23,4 @@ export const emptyRole = {
   maxHeadCount: 1,
 };
 
-export const allSkills = [' ', 'javascript', 'react', 'python', 'vs code', 'figma', 'miro'];
+export const allSkills = ['Select tools below', 'javascript', 'react', 'python', 'vs code', 'figma', 'miro'];

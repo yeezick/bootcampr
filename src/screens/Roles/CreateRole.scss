@@ -1,9 +1,9 @@
-.create-new-role {
+.new-role--parent {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
 
-  form {
+  .new-role--form {
     display: flex;
     flex-direction: column;
     justify-content: column;  

@@ -133,10 +133,6 @@ export const CreateProject: React.FC = () => {
           />
         </div>
 
-        <div className="create-role">
-          <CreateRole />
-        </div>
-
         <div className="btn-container">
           <button onClick={uploadFile} type="submit">
             Submit

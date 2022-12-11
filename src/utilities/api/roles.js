@@ -11,7 +11,7 @@ export const createNewRole = async (projectId, newRole, roleType) => {
       newRole,
       roleType,
     };
-    const res = await api.get(`/projects/${projectId}/roles`, newRoleBody);
+    const res = await api.post(`/projects/${projectId}/roles`, newRoleBody);
     return res.data;
   } catch (error) {
     throw error;

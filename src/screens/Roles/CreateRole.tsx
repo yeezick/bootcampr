@@ -1,28 +1,35 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { createNewRole } from '../../utilities/api/roles';
 import { allSkills, emptyRole } from '../../utilities/data/projectConstants';
 import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 import './CreateRole.scss';
 
-type Props = {};
-
-export const CreateRole = (props: Props) => {
+export const CreateRole = () => {
   const [newRole, setNewRole] = useState(emptyRole);
-  const [selectedSkills, setSelectedSkills] = useState<String[]>([]);
-  const navigate = useNavigate();
-  const { description, maxHeadCount, skills, status, title } = newRole;
+  const [roleType, setRoleType] = useState<string>();
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  const { description, maxHeadCount, status, title } = newRole;
+  const { id: projectId } = useParams();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setNewRole({ ...newRole, [name]: value });
   };
 
-  const handleNewRoleCreation = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const updatedProject: ProjectInterface = await createNewRole(newRole);
-    console.log(updatedProject);
-    if (updatedProject) navigate(`/projects`);
+  const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+    setRoleType(value);
+  };
+
+  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+    setNewRole({ ...newRole, status: value });
+  };
+
+  const submitNewRole = async () => {
+    const updatedProject: ProjectInterface = await createNewRole(projectId, newRole, roleType);
+    setNewRole(emptyRole);
   };
 
   const handleSkillSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -51,7 +58,7 @@ export const CreateRole = (props: Props) => {
           </div>
         )}
 
-        <select required value={skills} onChange={handleSkillSelection}>
+        <select required name="status" onChange={handleSkillSelection}>
           {allSkills.map((skill, idx) => {
             const upperCaseSkill = skill[0].toUpperCase() + skill.slice(1);
             return (
@@ -66,9 +73,9 @@ export const CreateRole = (props: Props) => {
   };
 
   return (
-    <div className="create-new-role">
+    <div className="new-role--parent">
       <h1>CreateRole</h1>
-      <form onSubmit={handleNewRoleCreation}>
+      <div className="new-role--form">
         <label>
           Title
           <input
@@ -82,10 +89,11 @@ export const CreateRole = (props: Props) => {
         </label>
 
         <label>
-          Status
-          <select value={status} onChange={handleChange}>
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
+          Type of Role:
+          <select required value={roleType} onChange={handleRoleChange}>
+            <option value="">Select a type of role</option>
+            <option value="engineering">Engineering</option>
+            <option value="design">Design</option>
           </select>
         </label>
 
@@ -111,8 +119,19 @@ export const CreateRole = (props: Props) => {
           <input type="number" name="maxHeadCount" onChange={handleChange} value={maxHeadCount} required min={1} />
         </label>
 
-        <button>Create new role</button>
-      </form>
+        <label>
+          Status
+          <select value={status} onChange={handleStatusChange}>
+            <option value="">Draft or Published?</option>
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+          </select>
+        </label>
+
+        <button type="button" onClick={submitNewRole}>
+          Create new role
+        </button>
+      </div>
     </div>
   );
 };
