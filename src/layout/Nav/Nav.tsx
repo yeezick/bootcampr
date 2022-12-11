@@ -23,6 +23,10 @@ export const Nav = () => {
   };
 
   useEffect(() => {
+    const askUserPermission = async () => {
+      return await Notification.requestPermission();
+    };
+    askUserPermission();
     const handler = (notifications: string) => {
       setNotifications([...notifications, notifications]);
     };
