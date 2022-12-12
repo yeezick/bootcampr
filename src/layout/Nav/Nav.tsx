@@ -12,7 +12,7 @@ import Logo from '../../assets/Logo.svg';
 import './Nav.scss';
 
 export const Nav = () => {
-  const [notificationCount, setNotificationCount] = useState(0);
+  const [notificationCount, setNotificationCount] = useState(1);
   const [notifications, setNotifications] = useState<string[]>([]);
   const authUser = useAppSelector(selectAuthUser);
   const { _id: userId } = authUser;
@@ -73,7 +73,7 @@ export const Nav = () => {
       {userId !== '' ? (
         <div className="notifications">
           <div className="notification-badge">
-            <Link className="link" to="/">
+            <Link className="link" to="/notifications">
               <BsBell size={25} />
             </Link>
           </div>

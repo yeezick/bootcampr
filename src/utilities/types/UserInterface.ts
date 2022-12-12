@@ -55,4 +55,5 @@ export interface NotificationsInterface {
   notification: string;
   message: string;
   read: boolean;
+  _id: string;
 }
