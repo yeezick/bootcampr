@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
-import { selectAuthUser, updateProfile } from '../../utilities/redux/slices/users/userSlice';
-import { AddImageInterface, UserInterface } from '../../utilities/types/UserInterface';
+import { reset, selectAuthUser, uiStatus, updateProfile } from '../../utilities/redux/slices/users/userSlice';
+import { UserInterface } from '../../utilities/types/UserInterface';
 import { useEffect, useState } from 'react';
 import { emptyUser } from '../../utilities/data/userConstants';
 import { createUserImage } from '../../utilities/api/users';
@@ -11,6 +11,7 @@ import './RegisterUserInfo.scss';
 export const RegisterUserInfo: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const status = useAppSelector(uiStatus);
   const authUser = useAppSelector(selectAuthUser);
   const [userForm, setUserForm] = useState<UserInterface>(emptyUser);
   const [profileImageFile, setProfileImageFile] = useState<File | null>();
@@ -29,6 +30,13 @@ export const RegisterUserInfo: React.FC = () => {
     }
   }, [authUser]);
 
+  useEffect(() => {
+    if (status.isSuccess) {
+      dispatch(reset());
+      navigate(`/users/${authUser._id}`);
+    }
+  }, [status.isSuccess, dispatch]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserForm({ ...userForm, [name]: value });
@@ -40,7 +48,6 @@ export const RegisterUserInfo: React.FC = () => {
     if (profileImageFile) await createUserImage(profileImageFile, authUser._id);
 
     dispatch(updateProfile(userForm));
-    navigate(`/users/${authUser._id}`);
   };
 
   return (
