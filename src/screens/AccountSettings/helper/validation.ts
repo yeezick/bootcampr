@@ -1,13 +1,7 @@
-import { EmailFormData, PasswordFormData } from "../../../utilities/types/AccountSettingsInterface"
+import { EmailFormData, PasswordFormData, FormDataCopy } from "../../../utilities/types/AccountSettingsInterface"
 import { updateUsersEmail, updateUsersPassword } from '../../../utilities/api/users'
 
 const VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/; // only allows ab@.
-interface FormDataCopy {
-  newEmail?: string
-  confirmNewEmail?: string
-  newPassword?: string
-  confirmNewPassword?: string
-}
 
 export const VALIDATION_HELPERS = {
   fetchAPI: async (emailDropDownActive: boolean, authFormData: EmailFormData | PasswordFormData, id: string | undefined) => emailDropDownActive ? await updateUsersEmail(authFormData, id) : await updateUsersPassword(authFormData, id),

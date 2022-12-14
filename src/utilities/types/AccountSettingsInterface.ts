@@ -2,6 +2,12 @@ export interface UpdateCredentialsFeedbackMessageProps {
   updateStatus: string;
 }
 
+export interface FormDataCopy {
+  newEmail?: string
+  confirmNewEmail?: string
+  newPassword?: string
+  confirmNewPassword?: string
+}
 export interface ToggleDropdown {
   setting: string;
   tempModes: DropDownSettings;
