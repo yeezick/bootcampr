@@ -1,9 +1,9 @@
 .sign_in_container {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   height: calc(100vh - 80px);
+  justify-content: center;
 }
 
 .sign_in_form {
@@ -22,8 +22,8 @@
 }
 
 .input_label {
-  min-width: 200px;
   color: gray;
+  min-width: 200px;
   font-size: .75rem;
 }
 
