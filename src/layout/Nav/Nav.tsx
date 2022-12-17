@@ -44,6 +44,11 @@ export const Nav = () => {
             Create Project
           </Link>
         </div>
+        <div>
+          <Link className="link" to={`/user/UserDashboard/${userId}`}>
+            dashboard
+          </Link>
+        </div>
       </div>
       {userId !== '' ? null : (
         <div className="auth-btn">
