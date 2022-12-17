@@ -11,12 +11,12 @@ import AddUserProfileImage from '../SignUp/AddUserProfileImage/AddUserProfileIma
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [previewImage, setPreviewImage] = useState<string>();
   const [userForm, updateUserForm] = useState<UserInterface>(emptyUser);
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
+  const [profileImageFile, setProfileImageFile] = useState<File>();
 
   const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role, _id: userId } = userForm;
 
