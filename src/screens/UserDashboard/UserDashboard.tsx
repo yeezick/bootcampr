@@ -4,7 +4,7 @@ import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { UsersMemberOfProjects } from './UserMemberOfProjects';
 import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 
-export function UserDashboard({}) {
+export const UserDashboard: React.FC = (): JSX.Element => {
   const authUser = useAppSelector(selectAuthUser);
 
   return (
@@ -21,4 +21,4 @@ export function UserDashboard({}) {
       )}
     </div>
   );
-}
+};

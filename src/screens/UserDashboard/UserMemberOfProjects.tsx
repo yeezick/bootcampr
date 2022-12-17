@@ -5,7 +5,7 @@ type UsersMemberOfProjectsProps = {
   authUserMemberOfProjects: ProjectInterface[] | null;
 };
 
-export function UsersMemberOfProjects({ authUserMemberOfProjects }: UsersMemberOfProjectsProps) {
+export const UsersMemberOfProjects = ({ authUserMemberOfProjects }: UsersMemberOfProjectsProps): JSX.Element => {
   return (
     <div>
       {authUserMemberOfProjects && authUserMemberOfProjects.length !== 0 ? (
@@ -23,4 +23,4 @@ export function UsersMemberOfProjects({ authUserMemberOfProjects }: UsersMemberO
       )}
     </div>
   );
-}
+};
