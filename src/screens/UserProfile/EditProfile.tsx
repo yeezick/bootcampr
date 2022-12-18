@@ -11,7 +11,6 @@ import './EditProfile.scss';
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
   const [userForm, updateUserForm] = useState<UserInterface>(emptyUser);
-  const [fileSelected, setFileSelected] = useState<File>();
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
