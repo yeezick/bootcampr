@@ -36,6 +36,9 @@ export interface UiSliceInterface {
       message?: string;
     };
   };
+  profilePicture?: {
+    profilePicture: string;
+  };
 }
 
 export interface SignUpInterface {

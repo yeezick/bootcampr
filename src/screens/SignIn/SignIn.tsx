@@ -1,6 +1,6 @@
-import styles from './SignIn.module.css';
-import { useState, useEffect } from 'react';
-import { signIn } from '../../utilities/api/users.js';
+import styles from './SignIn.module.css'
+import { useState, useEffect } from "react";
+import { signIn } from '../../utilities/api/users'
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../utilities/redux/store';
 import { setAuthUser } from '../../utilities/redux/slices/users/userSlice';
@@ -35,8 +35,8 @@ const SignIn: React.FC = (): JSX.Element => {
   const handleSubmitForm = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
 
-    const response = await signIn(formData);
-    if (response?.message === 'Invalid email or password') return setInvalidCredentials(true);
+    const response = await signIn(formData)
+    if (response?.message === "Invalid email or password") return setInvalidCredentials(true)
 
     dispatch(setAuthUser(response));
     navigate('/');
