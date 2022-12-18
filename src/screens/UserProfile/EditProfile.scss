@@ -11,16 +11,18 @@
     margin: auto;
 
     .photo-container {
-      background-color: #d9d9d9;
-      border: 1px dashed #000000;
-      height: 129px;
+      background-color: white;
+      border-radius: 100%;
+      height: 100px;
       position: relative;
-      width: 550px;
+      width: 100px;
     }
 
     .photo {
-      left: 190px;
+      left: 26px;
+      bottom: 25px;
       position: absolute;
+      align-items: center;
     }
 
     #photo {

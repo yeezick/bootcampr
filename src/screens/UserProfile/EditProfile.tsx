@@ -77,8 +77,8 @@ export const EditProfile: React.FC = () => {
       <form onSubmit={handleUserUpdate}>
         <div className="photo-container">
           <label htmlFor="photo" className="photo">
-            Upload Image
             <RiUploadCloudFill size={25} />
+            image
           </label>
 
           <input accept="image/*" id="photo" name="photo" type="file" multiple={false} onChange={handleImageChange} />
