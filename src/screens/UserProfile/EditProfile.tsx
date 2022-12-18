@@ -53,9 +53,9 @@ export const EditProfile: React.FC = () => {
   return (
     <div className="editprofile-screen">
       {previewImage ? (
-        <img src={previewImage} alt={`${firstName} profile picture`} width="110" height="110" />
+        <img src={previewImage} alt={` profile picture`} width="110" height="110" />
       ) : (
-        <img src={profilePicture} alt={`${firstName} profile picture`} width="110" height="110" />
+        <img src={profilePicture} alt={` profile picture`} width="110" height="110" />
       )}
       <form onSubmit={handleUserUpdate}>
         <label>
