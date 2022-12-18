@@ -9,7 +9,7 @@ import { UserInterface } from '../../utilities/types/UserInterface';
 import { updateUser } from '../../utilities/api/users';
 import './EditProfile.scss';
 
-export const EditProfile: React.FC = (link: any) => {
+export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
   const [userForm, updateUserForm] = useState<UserInterface>(emptyUser);
   const [fileSelected, setFileSelected] = useState<File>();
@@ -71,8 +71,6 @@ export const EditProfile: React.FC = (link: any) => {
     }
   };
 
-  console.log(fileSelected);
-
   return (
     <div className="editprofile-screen">
       <p className="heading">My Profile</p>
@@ -124,6 +122,13 @@ export const EditProfile: React.FC = (link: any) => {
           Linkedin URL
           <input type="text" name="linkedinUrl" value={linkedinUrl} onChange={(event) => handleInputChange(event)} />
         </label>
+
+        {role === 'Software Engineer' && (
+          <label>
+            Github URL
+            <input type="text" name="githubUrl" value={githubUrl} onChange={(event) => handleInputChange(event)} />
+          </label>
+        )}
 
         <button onClick={uploadFile} type="submit">
           Update Info
