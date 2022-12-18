@@ -53,6 +53,11 @@ export interface SignUpInterface {
   password: string;
 }
 
+
+export interface SignInInterface {
+  email: string
+  password: string
+}
 // export interface PortfolioProjectInterface {
 
 // }

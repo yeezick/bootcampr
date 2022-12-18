@@ -1,0 +1,57 @@
+.sign_in_container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 80px);
+  justify-content: center;
+}
+
+.sign_in_form {
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  display: flex;
+  flex-direction: column;
+  height: 40vmin;
+  justify-content: space-between;
+  min-width: 250px;
+  min-height: 250px;
+  max-width: 500px;
+  max-height: 500px;
+  padding: 20px;
+  text-align: center;
+  width: 40vmin;
+}
+
+.input_label {
+  color: gray;
+  min-width: 200px;
+  font-size: .75rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.flex_column {
+  display: flex;
+  flex-direction: column;
+}
+
+.sign_in_inputs {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 25px;
+}
+
+.input {
+  background-color: rgb(248, 248, 248);
+  height: 35px;
+  padding: 5px;
+}
+
+.error_message {
+  color: red;
+  font-weight: bold;
+  font-size: 1.5rem;
+  letter-spacing: 4px;
+}
