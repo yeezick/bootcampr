@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { RiUploadCloudFill } from 'react-icons/ri';
 import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { emptyUser } from '../../utilities/data/userConstants';
 import { UserInterface } from '../../utilities/types/UserInterface';
@@ -58,31 +57,10 @@ export const EditProfile: React.FC = () => {
     return <div>Loading user...</div>;
   }
 
-  const handleImageChange = function (e: React.ChangeEvent<HTMLInputElement>) {
-    const fileList = e.target.files;
-    if (!fileList) return;
-    setFileSelected(fileList[0]);
-  };
-
-  const uploadFile = function (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
-    if (fileSelected) {
-      const formData = new FormData();
-      formData.append('image', fileSelected, fileSelected.name);
-    }
-  };
-
   return (
     <div className="editprofile-screen">
       <p className="heading">My Profile</p>
       <form onSubmit={handleUserUpdate}>
-        <div className="photo-container">
-          <label htmlFor="photo" className="photo">
-            <RiUploadCloudFill size={25} />
-            image
-          </label>
-
-          <input accept="image/*" id="photo" name="photo" type="file" multiple={false} onChange={handleImageChange} />
-        </div>
         <label>
           Profile Picture
           <input
@@ -130,9 +108,7 @@ export const EditProfile: React.FC = () => {
           </label>
         )}
 
-        <button onClick={uploadFile} type="submit">
-          Update Info
-        </button>
+        <button type="submit">Update Info</button>
       </form>
     </div>
   );

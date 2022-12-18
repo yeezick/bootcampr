@@ -10,25 +10,6 @@
     max-width: 500px;
     margin: auto;
 
-    .photo-container {
-      background-color: white;
-      border-radius: 100%;
-      height: 100px;
-      position: relative;
-      width: 100px;
-    }
-
-    .photo {
-      left: 26px;
-      bottom: 25px;
-      position: absolute;
-      align-items: center;
-    }
-
-    #photo {
-      display: none;
-    }
-
     label {
       display: flex;
       flex-direction: column;
