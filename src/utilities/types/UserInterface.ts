@@ -1,17 +1,11 @@
 import { ProjectInterface } from './ProjectInterface';
 
-export interface CustomUrlInterface {
-  _id: string;
-  customUrlName: string;
-  customUrlLink: string;
-}
-
 export interface UserInterface {
   bio: string;
-  customProfileLinks: CustomUrlInterface[];
   declinedProjects?: ProjectInterface[];
   email: string;
   firstName: string;
+  githubUrl: string;
   interestedProjects?: ProjectInterface[];
   lastName: string;
   linkedinUrl: string;
@@ -53,10 +47,9 @@ export interface SignUpInterface {
   password: string;
 }
 
-
 export interface SignInInterface {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 // export interface PortfolioProjectInterface {
 
