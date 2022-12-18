@@ -30,9 +30,6 @@ const initialState: UiSliceInterface = {
       message: '',
     },
   },
-  profilePicture: {
-    profilePicture: '',
-  },
 };
 
 export const register = createAsyncThunk('users/signUp', async (user: SignUpInterface, thunkAPI) => {
@@ -77,9 +74,6 @@ const usersSlice = createSlice({
       state.status.isSuccess = false;
       state.status.isError = { status: false };
     },
-    profilePicture: (state, action: PayloadAction<any>) => {
-      state.profilePicture?.profilePicture;
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -116,5 +110,5 @@ const usersSlice = createSlice({
 
 export const selectAuthUser = (state: RootState) => state.ui.auth.user;
 export const uiStatus = (state: RootState) => state.ui.status;
-export const { setAuthUser, updateAuthUser, reset, logoutAuthUser, toggleSidebar, profilePicture } = usersSlice.actions;
+export const { setAuthUser, updateAuthUser, reset, logoutAuthUser, toggleSidebar } = usersSlice.actions;
 export default usersSlice.reducer;

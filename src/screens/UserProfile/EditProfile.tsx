@@ -8,6 +8,7 @@ import { createUserImage, updateUser } from '../../utilities/api/users';
 import { emptyUser } from '../../utilities/data/userConstants';
 import './EditProfile.scss';
 import AddUserProfileImage from '../SignUp/AddUserProfileImage/AddUserProfileImage';
+import { PreviewsUserImage } from '../PreviewsUserImage/PreviewsUserImage';
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser);
@@ -52,11 +53,7 @@ export const EditProfile: React.FC = () => {
 
   return (
     <div className="editprofile-screen">
-      {previewImage ? (
-        <img src={previewImage} alt={` profile picture`} width="110" height="110" />
-      ) : (
-        <img src={profilePicture} alt={` profile picture`} width="110" height="110" />
-      )}
+      <PreviewsUserImage previewImage={previewImage} authUser={{ profilePicture: profilePicture }} />
       <form onSubmit={handleUserUpdate}>
         <label>
           update Profile image

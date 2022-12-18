@@ -7,6 +7,7 @@ import { emptyUser } from '../../utilities/data/userConstants';
 import { createUserImage } from '../../utilities/api/users';
 import AddUserProfileImage from '../SignUp/AddUserProfileImage/AddUserProfileImage';
 import './RegisterUserInfo.scss';
+import { PreviewsUserImage } from '../PreviewsUserImage/PreviewsUserImage';
 
 export const RegisterUserInfo: React.FC = () => {
   const navigate = useNavigate();
@@ -55,15 +56,7 @@ export const RegisterUserInfo: React.FC = () => {
       <h1>Hi, {firstName}!</h1>
       <div className="form-container">
         <section className="profile-photo-grid">
-          {previewImage ? (
-            <div className="profile-photo">
-              <img src={previewImage} alt="photo" />
-            </div>
-          ) : (
-            <div className="profile-photo">
-              <img src={authUser.profilePicture} alt="photo" />
-            </div>
-          )}
+          <PreviewsUserImage previewImage={previewImage} authUser={{ profilePicture: profilePicture }} />
           <label>Profile Photo:</label>
           <AddUserProfileImage
             setProfileImageFile={setProfileImageFile}
