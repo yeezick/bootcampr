@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 
 export const UserProfile = () => {
   const authUser = useSelector(selectAuthUser);
   const navigate = useNavigate();
-
+  const { id } = useParams()
   // BC-334: should handle this case
   if (!authUser) {
     return <div>Loading user... or there isn't one.</div>;
@@ -36,6 +36,8 @@ export const UserProfile = () => {
           <h5>technologies used: {projects.technologies_used}</h5>
         </div>
       ))}
+      <h3></h3>
+      <button onClick={() => navigate(`/account-settings/${id}`)}>⚙️</button>
     </div>
   );
 };
