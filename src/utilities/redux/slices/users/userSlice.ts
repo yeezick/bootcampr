@@ -8,8 +8,8 @@ const initialState: UiSliceInterface = {
     user: {
       bio: '',
       email: '',
-      firstName: '',
       lastName: '',
+      firstName: '',
       linkedinUrl: '',
       portfolioUrl: '',
       profilePicture: '',
@@ -42,7 +42,7 @@ export const register = createAsyncThunk('users/signUp', async (user: SignUpInte
 
 export const updateProfile = createAsyncThunk('users/updateUser', async (user: UserInterface, thunkAPI) => {
   try {
-    const res = await updateUser(user._id, user);
+    const res = await updateUser(user._id, user, null);
     if (res) {
       reset();
       return res;

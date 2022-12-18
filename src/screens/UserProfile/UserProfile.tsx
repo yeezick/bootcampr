@@ -2,11 +2,12 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ProjectInterface } from '../../utilities/types/ProjectInterface';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
+import { useEffect } from 'react';
 
 export const UserProfile = () => {
   const authUser = useSelector(selectAuthUser);
   const navigate = useNavigate();
-  const { id } = useParams()
+  const { id } = useParams();
   // BC-334: should handle this case
   if (!authUser) {
     return <div>Loading user... or there isn't one.</div>;
@@ -19,12 +20,12 @@ export const UserProfile = () => {
   return (
     <div>
       <h1>first name {authUser.firstName}</h1>
+      <img src={authUser.profilePicture} alt={`${authUser.firstName} profile img`} width="110" height="110" />
       <h1>last name {authUser.lastName}</h1>
       <button onClick={routeToEdit}>Edit Profile</button>
       <h1>email {authUser.email}</h1>
       <h1>portfolio {authUser?.portfolioUrl}</h1>
       <h1>role {authUser.role}</h1>
-
       <h1>memberOfProjects ...</h1>
       {authUser.memberOfProjects?.map((projects: ProjectInterface, id: number) => (
         <div key={`userprofile-memberof-${id}`}>

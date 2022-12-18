@@ -4,13 +4,13 @@ import './Sidebar.scss';
 import { AiFillStar } from 'react-icons/ai';
 import { logOut } from '../../utilities/api/users';
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
+import { useState, useEffect } from 'react';
 
 export const Sidebar = () => {
   const authUser = useAppSelector(selectAuthUser);
-  const { _id: userId, firstName, lastName } = authUser;
+  const { _id: userId, firstName, lastName, profilePicture } = authUser;
   const dispatch = useAppDispatch();
   const visibleSidebar = useAppSelector((state) => state.ui.sidebar.visibleSidebar);
-
   const handleLogout = () => {
     logOut();
     dispatch(logoutAuthUser());
@@ -30,7 +30,9 @@ export const Sidebar = () => {
       </div>
 
       <div className="current-user">
-        <div className="image"></div>
+        <div className="image">
+          <img src={profilePicture} alt={`${firstName} profile picture`} width="110" height="110" />
+        </div>
         <div>
           <p className="user-name">
             {firstName} {lastName}

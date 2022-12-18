@@ -29,6 +29,7 @@ if (process.env.REACT_APP_API_PIPELINE) {
 export const api = axios.create({
   baseURL: baseURL,
 });
+
 const getToken = () => {
   return new Promise((resolve) => {
     resolve(`Bearer ${localStorage.getItem('token') || null}`);

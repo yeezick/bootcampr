@@ -1,5 +1,7 @@
+import axios from 'axios';
 import { api } from './apiConfig';
 import { PasswordFormData, EmailFormData } from '../types/AccountSettingsInterface';
+import { UserInterface } from '../types/UserInterface';
 
 export const getAllUsers = async () => {
   try {
@@ -14,15 +16,20 @@ export const getAllUsers = async () => {
 export const getOneUser = async (id: any) => {
   try {
     const res = await api.get(`/users/${id}`);
+    console.log(res.data);
     return res.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const updateUser = async (id: any, userUpdate: any) => {
+export const updateUser = async (
+  id: string | undefined,
+  userUpdate: UserInterface,
+  imageWasUpdated: boolean | null,
+) => {
   try {
-    const res = await api.put(`/users/${id}`, userUpdate);
+    const res = await api.put(`/users/${id}`, { ...userUpdate, imageWasUpdated });
     return res.data;
   } catch (error) {
     throw error;
@@ -88,21 +95,29 @@ export const verify = async () => {
   return false;
 };
 
+export const createUserImage = async (profileImageFile: File, userId: string) => {
+  const addUserImage = new FormData();
+  addUserImage.append('image', profileImageFile);
+  addUserImage.append('userId', userId);
+  return await axios.post(`${process.env.REACT_APP_LOCAL_URL}addUserImage`, addUserImage, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+};
 
 export const updateUsersEmail = async (formData: PasswordFormData | EmailFormData, userId: string | undefined) => {
   try {
-    const data = await api.patch(`/update-email/${userId}`, formData)
-    return data
+    const data = await api.patch(`/update-email/${userId}`, formData);
+    return data;
   } catch (error) {
-    return { error: 'Something went wrong' }
+    return { error: 'Something went wrong' };
   }
-}
+};
 
 export const updateUsersPassword = async (formData: PasswordFormData | EmailFormData, userId: string | undefined) => {
   try {
-    const data = await api.patch(`/update-password/${userId}`, formData)
-    return data
+    const data = await api.patch(`/update-password/${userId}`, formData);
+    return data;
   } catch (error) {
-    return { error: { status: 500, message: 'Something went wrong' } }
+    return { error: { status: 500, message: 'Something went wrong' } };
   }
-}
+};

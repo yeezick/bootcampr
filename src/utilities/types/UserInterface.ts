@@ -44,12 +44,20 @@ export interface SignUpInterface {
   firstName: string;
   lastName: string;
   password: string;
+  profilePicture: string;
+}
+export interface AddImageInterface {
+  lastModified?: number;
+  lastModifiedDate?: string;
+  name?: string;
+  type?: string;
+  webkitRelativePath?: string;
+  size?: Number;
 }
 
-
 export interface SignInInterface {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 // export interface PortfolioProjectInterface {
 

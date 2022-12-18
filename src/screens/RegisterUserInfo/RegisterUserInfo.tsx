@@ -4,14 +4,20 @@ import { reset, selectAuthUser, uiStatus, updateProfile } from '../../utilities/
 import { UserInterface } from '../../utilities/types/UserInterface';
 import { useEffect, useState } from 'react';
 import { emptyUser } from '../../utilities/data/userConstants';
+import { createUserImage } from '../../utilities/api/users';
+import AddUserProfileImage from '../SignUp/AddUserProfileImage/AddUserProfileImage';
 import './RegisterUserInfo.scss';
+import { PreviewsUserImage } from '../PreviewsUserImage/PreviewsUserImage';
 
 export const RegisterUserInfo: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const status = useAppSelector(uiStatus)
+  const status = useAppSelector(uiStatus);
   const authUser = useAppSelector(selectAuthUser);
   const [userForm, setUserForm] = useState<UserInterface>(emptyUser);
+  const [profileImageFile, setProfileImageFile] = useState<File>();
+  const [previewImage, setPreviewImage] = useState<string>();
+
   const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role } = userForm;
 
   useEffect(() => {
@@ -37,8 +43,11 @@ export const RegisterUserInfo: React.FC = () => {
     setUserForm({ ...userForm, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (profileImageFile) await createUserImage(profileImageFile, authUser._id);
+
     dispatch(updateProfile(userForm));
   };
 
@@ -47,23 +56,13 @@ export const RegisterUserInfo: React.FC = () => {
       <h1>Hi, {firstName}!</h1>
       <div className="form-container">
         <section className="profile-photo-grid">
-          <div className="profile-photo">
-            <img
-              src={
-                !profilePicture
-                  ? 'https://pbs.twimg.com/profile_images/1564398871996174336/M-hffw5a_400x400.jpg'
-                  : profilePicture
-              }
-              alt="photo"
-            />
-          </div>
+          <PreviewsUserImage previewImage={previewImage} authUser={{ profilePicture: profilePicture }} />
           <label>Profile Photo:</label>
-          <input
-            onChange={handleChange}
-            type="text"
-            name="profilePicture"
-            placeholder="Profile Photo"
-            value={profilePicture}
+          <AddUserProfileImage
+            setProfileImageFile={setProfileImageFile}
+            previewImage={previewImage}
+            setPreviewImage={setPreviewImage}
+            profileImageFile={profileImageFile}
           />
         </section>
 

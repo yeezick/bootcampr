@@ -1,14 +1,13 @@
 import { register, reset, selectAuthUser, uiStatus } from '../../utilities/redux/slices/users/userSlice';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SignUpInterface } from '../../utilities/types/UserInterface';
+import { AddImageInterface, SignUpInterface } from '../../utilities/types/UserInterface';
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
 import './SignUp.scss';
 import { emptySignUp } from '../../utilities/data/userConstants';
 
 type PasswordMatchCases = null | boolean;
-
 export const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -40,13 +39,26 @@ export const SignUp: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
+    setFormValues({
+      ...formValues,
+      [name]: value,
+      profilePicture: createProfileImage(formValues.firstName, formValues.lastName),
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(register(formValues));
   };
+
+  const randomHexCodeColor = () => {
+    const hexCodes = ['442288', '6CA2EA', 'B5D33D', 'EB7D5B', 'FED23F'];
+    return hexCodes[Math.floor(Math.random() * 5)];
+  };
+
+  function createProfileImage(name: string, lastName: string): string {
+    return `https://ui-avatars.com/api/?name=${name}+${lastName}&background=${randomHexCodeColor()}&color=FFFFFF&font-size=0.49`;
+  }
 
   const validateForm = () => {
     if (!passwordsMatch) return true;
