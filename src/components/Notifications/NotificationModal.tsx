@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { useAppSelector, useNotification } from '../../utilities/redux/hooks';
-import { RootState } from '../../utilities/redux/store';
 import { getNotifications, updateStatusNotification, deleteNotification } from '../../utilities/api/users';
 import { NotificationsInterface } from '../../utilities/types/UserInterface';
-import { Snackbar, Alert, SnackbarCloseReason } from '@mui/material';
 
-export const Notifications = () => {
+export const NotificationModal = () => {
   const params = useParams();
   const [notifications, setNotifications] = useState<NotificationsInterface[]>([]);
-  const userNotifications = useAppSelector((state: RootState) => state.notification);
-  const { clearNotification } = useNotification();
 
   useEffect(() => {
     const fetchNotifications = async () => {

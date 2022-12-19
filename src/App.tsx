@@ -11,7 +11,7 @@ import { Projects } from './screens/Projects/Projects';
 import { EditProject } from './screens/CreateProject/EditProject';
 import { ProjectDetails } from './screens/Projects/ProjectDetails';
 import { UserProjects } from './screens/UserProjects/UserProjects';
-import { Notifications } from './components/Notifications/Notifications';
+import { NotificationModal } from './components/Notifications/NotificationModal';
 import './App.css';
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/projects/:id/edit" element={<EditProject />} />
         <Route path="/projects/:id" element={<ProjectDetails />} />
-        <Route path="/notifications" element={<Notifications />} />
+        <Route path="/notifications" element={<NotificationModal />} />
       </Routes>
     </Layout>
   );
