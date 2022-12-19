@@ -11,7 +11,7 @@ export const Landing: React.FC = () => {
   const randomUserLogin = async () => {
     const gettingAllUser = await getAllUsers();
     if (gettingAllUser) {
-      dispatch(setAuthUser(gettingAllUser[0]));
+      dispatch(setAuthUser(gettingAllUser[2]));
       setLoginStatus(true);
     } else {
       setLoginStatus(false);
