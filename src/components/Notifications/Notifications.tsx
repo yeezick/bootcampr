@@ -3,11 +3,13 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../utilities/redux/store';
 import { Snackbar, Alert, SnackbarCloseReason } from '@mui/material';
 
-export const Notification = (): JSX.Element => {
+export const Notifications = (): JSX.Element => {
   const notification = useSelector((state: RootState) => state.notification);
   const { clearNotification } = useNotification();
 
-  const handleClose = (_: unknown, reason?: SnackbarCloseReason) => reason !== 'clickaway' && clearNotification();
+  const handleClose = (_: unknown, reason?: SnackbarCloseReason) => {
+    reason !== 'clickaway' && clearNotification();
+  };
 
   return (
     <Snackbar open={notification.open} autoHideDuration={notification.timeout} onClose={handleClose}>

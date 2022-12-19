@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from './store';
 
 export const useNotification = () => {
   const dispatch = useDispatch();
+
   const displayNotification = (notification: NotificationState) => {
     dispatch(NotificationActions.addNotification(notification));
   };
@@ -11,6 +12,7 @@ export const useNotification = () => {
   const clearNotification = () => {
     dispatch(NotificationActions.clearNotification());
   };
+
   return { displayNotification, clearNotification } as const;
 };
 

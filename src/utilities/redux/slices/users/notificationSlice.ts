@@ -29,4 +29,4 @@ export const NotificationSlice = createSlice({
 });
 
 export const NotificationActions = NotificationSlice.actions;
-export const NotificationReducers = NotificationSlice.reducer;
+export const NotificationReducer = NotificationSlice.reducer;

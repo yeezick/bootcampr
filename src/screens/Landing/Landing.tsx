@@ -3,10 +3,13 @@ import { useDispatch } from 'react-redux';
 import { setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { getAllUsers } from '../../utilities/api/users';
 import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai';
+import { useNotification } from '../../utilities/redux/hooks';
+import { Button } from '@mui/material';
 
 export const Landing: React.FC = () => {
   const [loginStatus, setLoginStatus] = useState<boolean | null>(null);
   const dispatch = useDispatch();
+  const { displayNotification } = useNotification();
 
   const randomUserLogin = async () => {
     const gettingAllUser = await getAllUsers();
@@ -30,6 +33,9 @@ export const Landing: React.FC = () => {
 
   return (
     <div className="">
+      <Button variant="contained" onClick={() => displayNotification({ message: 'This is the default notification' })}>
+        Click
+      </Button>
       <h1> landing screen </h1>
       <h2>
         Login as a random user using the button below <br /> Button is for devs who want to skip auth user flow

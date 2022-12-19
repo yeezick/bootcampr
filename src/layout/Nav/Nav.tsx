@@ -17,7 +17,6 @@ export const Nav = () => {
   const authUser = useAppSelector(selectAuthUser);
   const { _id: userId } = authUser;
   const dispatch = useAppDispatch();
-  const { displayNotification } = useNotification();
 
   const toggleSidebarHandler = () => {
     dispatch(toggleSidebar());
@@ -89,8 +88,6 @@ export const Nav = () => {
           </Link>
         </div>
       ) : null}
-
-      <button onClick={() => displayNotification({ message: 'This is the default notification' })}>Click</button>
 
       {userId !== '' ? null : (
         <div className="auth-btn">
