@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
+import { useAppDispatch, useAppSelector, useNotification } from '../../utilities/redux/hooks';
 import { toggleSidebar } from '../../utilities/redux/slices/users/userSlice';
 import { BsBell } from 'react-icons/bs';
 import { MdArrowDropDown } from 'react-icons/md';
@@ -17,6 +17,7 @@ export const Nav = () => {
   const authUser = useAppSelector(selectAuthUser);
   const { _id: userId } = authUser;
   const dispatch = useAppDispatch();
+  const { displayNotification } = useNotification();
 
   const toggleSidebarHandler = () => {
     dispatch(toggleSidebar());
@@ -88,6 +89,8 @@ export const Nav = () => {
           </Link>
         </div>
       ) : null}
+
+      <button onClick={() => displayNotification({ message: 'This is the default notification' })}>Click</button>
 
       {userId !== '' ? null : (
         <div className="auth-btn">
