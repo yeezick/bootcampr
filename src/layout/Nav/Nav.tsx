@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { useAppDispatch, useAppSelector, useNotification } from '../../utilities/redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
 import { toggleSidebar } from '../../utilities/redux/slices/users/userSlice';
 import { BsBell } from 'react-icons/bs';
 import { MdArrowDropDown } from 'react-icons/md';
-
 import Logo from '../../assets/Logo.svg';
 import './Nav.scss';
 
@@ -18,6 +17,8 @@ export const Nav = () => {
   const toggleSidebarHandler = () => {
     dispatch(toggleSidebar());
   };
+
+  console.log(authUser);
 
   return (
     <nav>
