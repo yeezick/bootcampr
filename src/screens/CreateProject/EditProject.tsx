@@ -79,7 +79,14 @@ export const EditProject = () => {
             <RiUploadCloudFill size={25} />
           </label>
 
-          <input accept="image/*" id="photo" name="photo" type="file" multiple={false} onChange={handleImageChange} />
+          {/* <input
+            accept="image/*"
+            id="photo"
+            name="photo"
+            type="file"
+            multiple={false}
+            onChange={handleImageChange}
+          /> */}
           <p className="alert">* This feature is not built out yet.</p>
         </div>
 
