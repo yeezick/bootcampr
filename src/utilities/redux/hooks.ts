@@ -1,6 +1,7 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { NotificationActions, NotificationState } from './slices/users/notificationSlice';
+import { NotificationActions } from './slices/users/notificationSlice';
 import { AppDispatch, RootState } from './store';
+import { NotificationState } from '../types/NotificationInterface';
 
 export const useNotification = () => {
   const dispatch = useDispatch();

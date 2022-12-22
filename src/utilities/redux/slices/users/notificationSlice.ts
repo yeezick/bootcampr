@@ -1,19 +1,8 @@
 import { AlertColor } from '@mui/material';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export interface NotificationState {
-  open?: boolean;
-  type?: AlertColor;
-  message?: string;
-  timeout?: number | null;
-}
-
-export const notificationInitialState: NotificationState = {
-  open: false,
-  type: 'info',
-  message: '',
-  timeout: 5000,
-};
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { NotificationsInterface } from '../../../types/UserInterface';
+import { notificationInitialState } from '../../../data/notificationConstants';
+import { NotificationState } from '../../../types/NotificationInterface';
 
 export const NotificationSlice = createSlice({
   name: 'notification',
