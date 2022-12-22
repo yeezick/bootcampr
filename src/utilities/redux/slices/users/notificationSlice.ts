@@ -1,14 +1,12 @@
-import { AlertColor } from '@mui/material';
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { NotificationsInterface } from '../../../types/UserInterface';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { notificationInitialState } from '../../../data/notificationConstants';
-import { NotificationState } from '../../../types/NotificationInterface';
+import { NotificationInterface } from '../../../types/NotificationInterface';
 
 export const NotificationSlice = createSlice({
   name: 'notification',
   initialState: notificationInitialState,
   reducers: {
-    addNotification: (_state, action: PayloadAction<NotificationState>) => ({
+    addNotification: (_state, action: PayloadAction<NotificationInterface>) => ({
       ...notificationInitialState,
       ...action.payload,
       open: true,

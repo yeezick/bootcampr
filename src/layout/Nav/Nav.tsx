@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { useAppDispatch, useAppSelector, useNotification } from '../../utilities/redux/hooks';
 import { toggleSidebar } from '../../utilities/redux/slices/users/userSlice';
 import { BsBell } from 'react-icons/bs';
 import { MdArrowDropDown } from 'react-icons/md';
-import { io } from 'socket.io-client';
-const ENDPOINT = `${process.env.REACT_APP_LOCAL_URL}`;
-const socket = io(ENDPOINT, { transports: ['websocket'] });
+
 import Logo from '../../assets/Logo.svg';
 import './Nav.scss';
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(1);
-  const [notifications, setNotifications] = useState<string[]>([]);
   const authUser = useAppSelector(selectAuthUser);
   const { _id: userId } = authUser;
   const dispatch = useAppDispatch();
@@ -21,23 +18,6 @@ export const Nav = () => {
   const toggleSidebarHandler = () => {
     dispatch(toggleSidebar());
   };
-
-  useEffect(() => {
-    // const askUserPermission = async () => {
-    //   return await Notification.requestPermission();
-    // };
-    // askUserPermission();
-
-    // const handler = (notifications: string) => {
-    //   setNotifications([...notifications, notifications]);
-    // };
-
-    socket.on('changes', () => {
-      console.log(socket.connected);
-    });
-  }, []);
-
-  console.log(notifications);
 
   return (
     <nav>

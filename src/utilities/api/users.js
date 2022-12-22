@@ -99,7 +99,7 @@ export const getNotifications = async () => {
 
 export const saveNotification = async (notification) => {
   try {
-    const res = await api.post('/notifications/', notification);
+    const res = await api.post('/notifications', notification);
     return res.data;
   } catch (error) {
     throw error;

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { getNotifications, updateStatusNotification, deleteNotification } from '../../utilities/api/users';
+import { emptyNotification } from '../../utilities/data/notificationConstants';
+import { NotificationState } from '../../utilities/types/NotificationInterface';
 import { NotificationsInterface } from '../../utilities/types/UserInterface';
 
 export const NotificationModal = () => {
   const params = useParams();
-  const [notifications, setNotifications] = useState<NotificationsInterface[]>([]);
+  const [notifications, setNotifications] = useState<NotificationState[]>();
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -22,7 +24,7 @@ export const NotificationModal = () => {
   return (
     <div>
       <ul>
-        {notifications.map((notification) => {
+        {notifications?.map((notification) => {
           return (
             <li key={notification._id}>
               <h3>{notification.notification}</h3>
