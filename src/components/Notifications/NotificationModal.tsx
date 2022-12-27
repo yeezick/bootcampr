@@ -13,30 +13,61 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import Typography from '@mui/material/Typography';
 import { blue } from '@mui/material/colors';
+import { useAppSelector } from '../../utilities/redux/hooks';
+import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 export interface SimpleDialogProps {
   open: boolean;
-  selectedValue: string;
-  onClose: (value: string) => void;
+  selectedValue: string | boolean;
+  onClose: (value: string | boolean) => void;
 }
 
 function SimpleDialog(props: SimpleDialogProps) {
   const { onClose, selectedValue, open } = props;
+  const params = useParams();
+  const authUser = useAppSelector(selectAuthUser);
+  const [notifications, setNotifications] = useState<NotificationState[]>();
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const displayNotifications = await getNotifications();
+      setNotifications(displayNotifications);
+    };
+    fetchNotifications();
+  }, [setNotifications]);
 
   const handleClose = () => {
     onClose(selectedValue);
   };
 
-  const handleListItemClick = (value: string) => {
+  const handleListItemClick = (value: string | boolean) => {
+    console.log(value);
     onClose(value);
+    // setNotifications({ ...notifications, user: authUser._id});
   };
+
+  console.log(selectedValue);
 
   return (
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>Set backup account</DialogTitle>
       <List sx={{ pt: 0 }}>
+        {notifications?.map((notification) => {
+          return (
+            <ListItem key={notification._id}>
+              <h3>{notification.notification}</h3>
+              <ListItemText>{notification.message}</ListItemText>
+              <ListItem button onClick={() => handleListItemClick('addAccount')}>
+                Mark as Read
+              </ListItem>
+              <ListItem button onClick={() => handleListItemClick('addAccount')}>
+                Delete Notification
+              </ListItem>
+            </ListItem>
+          );
+        })}
         {emails.map((email) => (
           <ListItem button onClick={() => handleListItemClick(email)} key={email}>
             <ListItemAvatar>
@@ -57,54 +88,25 @@ function SimpleDialog(props: SimpleDialogProps) {
 }
 
 export const NotificationModal = () => {
-  const params = useParams();
-  const [notifications, setNotifications] = useState<NotificationState[]>();
-  const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState(emails[1]);
+  const [open, setOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(emails[1]);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = (value: string) => {
+  const handleClose = (value: any) => {
     setOpen(false);
     setSelectedValue(value);
   };
 
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      const displayNotifications = await getNotifications();
-      setNotifications(displayNotifications);
-    };
-    fetchNotifications();
-  }, [setNotifications]);
-
-  const handleStatus = async () => {
-    const updateStatus = await updateStatusNotification(params.id);
-  };
-
   return (
     <div>
-      <Typography variant="subtitle1" component="div">
-        Selected: {selectedValue}
-      </Typography>
-      <br />
       <Button variant="outlined" onClick={handleClickOpen}>
         Open simple dialog
       </Button>
-      <ul>
-        <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
-        {notifications?.map((notification) => {
-          return (
-            <li key={notification._id}>
-              <h3>{notification.notification}</h3>
-              <p>{notification.message}</p>
-              <button>Mark as Read</button>
-              <button>Delete Notification</button>
-            </li>
-          );
-        })}
-      </ul>
+
+      <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
     </div>
   );
 };
