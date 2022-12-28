@@ -26,8 +26,6 @@ export const EditProfile: React.FC = () => {
     _id: userId,
   } = userForm;
 
-  console.log(authUser);
-
   useEffect(() => {
     if (authUser) {
       updateUserForm((currForm) => {
