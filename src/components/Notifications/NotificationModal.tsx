@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { getNotifications, updateStatusNotification, deleteNotification } from '../../utilities/api/users';
 import { NotificationState } from '../../utilities/types/NotificationInterface';
+import { BsBell } from 'react-icons/bs';
 import { NotificationsInterface } from '../../utilities/types/UserInterface';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
@@ -15,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import { blue } from '@mui/material/colors';
 import { useAppSelector } from '../../utilities/redux/hooks';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
+import './Notification.scss';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
@@ -102,10 +104,9 @@ export const NotificationModal = () => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open simple dialog
-      </Button>
-
+      <button className="notification-btn" onClick={handleClickOpen}>
+        <BsBell size={25} />
+      </button>
       <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
     </div>
   );

@@ -6,6 +6,7 @@ import { toggleSidebar } from '../../utilities/redux/slices/users/userSlice';
 import { BsBell } from 'react-icons/bs';
 import { MdArrowDropDown } from 'react-icons/md';
 import Logo from '../../assets/Logo.svg';
+import { NotificationModal } from '../../components/Notifications/NotificationModal';
 import './Nav.scss';
 
 export const Nav = () => {
@@ -53,10 +54,8 @@ export const Nav = () => {
       </div>
       {userId !== '' ? (
         <div className="notifications">
-          <div className="notification-badge">
-            <Link className="link" to="/notifications">
-              <BsBell size={25} />
-            </Link>
+          <div className="notification-badge link">
+            <NotificationModal />
           </div>
           {notificationCount > 0 && (
             <div className="notification-count">
