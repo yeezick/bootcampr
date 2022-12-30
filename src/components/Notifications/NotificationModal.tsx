@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 // import { getAllNotifications, updateStatusNotification, deleteNotification } from '../../utilities/api/users';
-import { getAllNotifications } from '../../utilities/api/notifications';
+import { getAllNotifications, markNotificationAsRead } from '../../utilities/api/notifications';
 import { BsBell } from 'react-icons/bs';
 import { emptyNotification } from '../../utilities/data/notificationConstants';
 import Button from '@mui/material/Button';
@@ -33,6 +33,7 @@ function SimpleDialog(props: SimpleDialogProps) {
   const authUser = useAppSelector(selectAuthUser);
   // const [userNotifications, setUserNotifications] = useState<NotificationState[]>();
   const [notifications, setNotifications] = useState<NotificationInterface[]>([]);
+  const [notificationId, setNotificationId] = useState('');
   // const { _id, read, message, type, title, user } = notifications;
 
   useEffect(() => {
@@ -61,13 +62,12 @@ function SimpleDialog(props: SimpleDialogProps) {
   //   });
   // };
 
-  const handleListItemClick = async (value: string | boolean) => {
-    // if ('Read' === value) {
-    //   await updateStatusNotification(_id, notifications);
-    //   console.log(notifications);
-    // }
+  const handleListItemClick = async (value: any) => {
+    await markNotificationAsRead(notificationId);
     onClose(value);
   };
+
+  console.log(notificationId);
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -79,10 +79,14 @@ function SimpleDialog(props: SimpleDialogProps) {
               <h3>{notification.title}</h3>
               <ListItemText>{notification.message}</ListItemText>
               <button
-                name="read"
-                onClick={(e) => {
-                  // handleNotificationStatus(e);
-                  handleListItemClick('Read');
+                onClick={() => {
+                  setNotificationId({
+                    ...notification,
+                    _id: notification._id,
+                    user: authUser._id,
+                    read: true,
+                  });
+                  handleListItemClick(notification._id);
                 }}
               >
                 Mark as Read
@@ -91,20 +95,6 @@ function SimpleDialog(props: SimpleDialogProps) {
             </ListItem>
           );
         })}
-        {emails.map((email) => (
-          <ListItem button onClick={() => handleListItemClick(email)} key={email}>
-            <ListItemAvatar>
-              <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}></Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={email} />
-          </ListItem>
-        ))}
-        <ListItem autoFocus button onClick={() => handleListItemClick('addAccount')}>
-          <ListItemAvatar>
-            <Avatar></Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Add account" />
-        </ListItem>
       </List>
     </Dialog>
   );

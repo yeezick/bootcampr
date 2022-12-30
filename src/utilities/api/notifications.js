@@ -10,27 +10,10 @@ export const getAllNotifications = async (user) => {
   }
 };
 
-export const saveNotification = async (notification) => {
+export const markNotificationAsRead = async (_id) => {
+  console.log(_id);
   try {
-    const res = await api.post('/notifications', notification);
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const updateStatusNotification = async (id, notification) => {
-  try {
-    const res = await api.put(`/notifications/${id}`, notification);
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const deleteNotification = async (id) => {
-  try {
-    const res = await api.delete(`/notifications/${id}`);
+    const res = await api.patch('/notifications', _id);
     return res.data;
   } catch (error) {
     throw error;
