@@ -11,7 +11,6 @@ export const getAllNotifications = async (user) => {
 };
 
 export const markNotificationAsRead = async (_id) => {
-  console.log(_id);
   try {
     const res = await api.patch('/notifications', _id);
     return res.data;

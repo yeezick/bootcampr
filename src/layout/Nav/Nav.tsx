@@ -10,24 +10,20 @@ import { Socket } from '../../components/Notifications/Socket';
 import './Nav.scss';
 
 export const Nav = () => {
-  const [notificationCount, setNotificationCount] = useState(1);
+  const [notificationCount, setNotificationCount] = useState(0);
   const authUser = useAppSelector(selectAuthUser);
   const { _id: userId } = authUser;
   const dispatch = useAppDispatch();
   const { socketConnection } = Socket();
 
   useEffect(() => {
-    let timer: any;
-
     socketConnection?.on('connect', () => {
-      socketConnection.emit('setUserId', userId);
-      console.log(userId);
+      socketConnection.emit('setUserId', authUser._id);
+    });
+    const timer = setInterval(() => {
       socketConnection?.on('notificationsLength', (data: any) => {
         setNotificationCount(data);
       });
-    });
-    timer = setTimeout(() => {
-      socketConnection.emit('getNotificationsLength', userId);
     }, 10000);
     socketConnection?.on('disconnect', () => {});
     return () => {
@@ -41,8 +37,6 @@ export const Nav = () => {
   const toggleSidebarHandler = () => {
     dispatch(toggleSidebar());
   };
-
-  console.log(authUser);
 
   return (
     <nav>

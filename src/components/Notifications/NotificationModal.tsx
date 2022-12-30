@@ -46,14 +46,10 @@ function SimpleDialog(props: SimpleDialogProps) {
     onClose(selectedValue);
   };
 
-  console.log(notifications);
-
   const handleListItemClick = async (value: any) => {
     await markNotificationAsRead(notificationId);
     onClose(value);
   };
-
-  console.log(notificationId);
 
   return (
     <Dialog onClose={handleClose} open={open}>
