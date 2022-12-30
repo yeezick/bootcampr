@@ -31,10 +31,8 @@ function SimpleDialog(props: SimpleDialogProps) {
   const { onClose, selectedValue, open } = props;
   const params = useParams();
   const authUser = useAppSelector(selectAuthUser);
-  // const [userNotifications, setUserNotifications] = useState<NotificationState[]>();
   const [notifications, setNotifications] = useState<NotificationInterface[]>([]);
   const [notificationId, setNotificationId] = useState('');
-  // const { _id, read, message, type, title, user } = notifications;
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -49,18 +47,6 @@ function SimpleDialog(props: SimpleDialogProps) {
   };
 
   console.log(notifications);
-
-  // const handleNotificationStatus = (e: any) => {
-  //   const { name, accessKey, id, title } = e.target;
-  //   setNotifications({
-  //     ...notifications,
-  //     [name]: true,
-  //     user: authUser._id,
-  //     _id: id,
-  //     message: accessKey,
-  //     notification: title,
-  //   });
-  // };
 
   const handleListItemClick = async (value: any) => {
     await markNotificationAsRead(notificationId);
@@ -91,7 +77,7 @@ function SimpleDialog(props: SimpleDialogProps) {
               >
                 Mark as Read
               </button>
-              <ListItem onClick={() => handleListItemClick('Delete')}>Delete Notification</ListItem>
+              <Button onClick={() => handleListItemClick('Delete')}>Delete Notification</Button>
             </ListItem>
           );
         })}

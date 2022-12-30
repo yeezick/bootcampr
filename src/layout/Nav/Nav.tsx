@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks';
@@ -6,6 +6,7 @@ import { toggleSidebar } from '../../utilities/redux/slices/users/userSlice';
 import { MdArrowDropDown } from 'react-icons/md';
 import Logo from '../../assets/Logo.svg';
 import { NotificationModal } from '../../components/Notifications/NotificationModal';
+import { Socket } from '../../components/Notifications/Socket';
 import './Nav.scss';
 
 export const Nav = () => {
@@ -13,6 +14,29 @@ export const Nav = () => {
   const authUser = useAppSelector(selectAuthUser);
   const { _id: userId } = authUser;
   const dispatch = useAppDispatch();
+  const { socketConnection } = Socket();
+
+  useEffect(() => {
+    let timer: any;
+
+    socketConnection?.on('connect', () => {
+      socketConnection.emit('setUserId', userId);
+      console.log(userId);
+      socketConnection?.on('notificationsLength', (data: any) => {
+        setNotificationCount(data);
+      });
+    });
+    timer = setTimeout(() => {
+      socketConnection.emit('getNotificationsLength', userId);
+    }, 10000);
+    socketConnection?.on('disconnect', () => {});
+    return () => {
+      socketConnection?.off('connect');
+      socketConnection?.off('disconnect');
+      socketConnection?.off('notifications');
+      clearTimeout(timer);
+    };
+  }, [userId, socketConnection]);
 
   const toggleSidebarHandler = () => {
     dispatch(toggleSidebar());
