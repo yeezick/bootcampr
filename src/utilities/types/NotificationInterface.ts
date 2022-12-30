@@ -9,8 +9,8 @@ export interface NotificationState {
 
 export interface NotificationInterface {
   message: string;
-  read: boolean;
   title: string;
+  read: boolean;
   type: number;
   user: string;
   _id: string;

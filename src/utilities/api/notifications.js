@@ -1,8 +1,8 @@
 import { api } from './apiConfig';
 
-export const getAllNotifications = async () => {
+export const getAllNotifications = async (user) => {
   try {
-    const res = await api.get('/notifications');
+    const res = await api.get('/notifications', user);
     return res.data;
   } catch (error) {
     console.error(error);

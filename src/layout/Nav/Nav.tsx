@@ -18,6 +18,8 @@ export const Nav = () => {
     dispatch(toggleSidebar());
   };
 
+  console.log(authUser);
+
   return (
     <nav>
       <div className="nav-container">

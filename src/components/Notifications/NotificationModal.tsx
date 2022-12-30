@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 // import { getAllNotifications, updateStatusNotification, deleteNotification } from '../../utilities/api/users';
 import { getAllNotifications } from '../../utilities/api/notifications';
-import { NotificationInterface, NotificationState } from '../../utilities/types/NotificationInterface';
 import { BsBell } from 'react-icons/bs';
 import { emptyNotification } from '../../utilities/data/notificationConstants';
 import Button from '@mui/material/Button';
@@ -18,6 +17,7 @@ import { blue } from '@mui/material/colors';
 import { useAppSelector } from '../../utilities/redux/hooks';
 import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import './Notification.scss';
+import { NotificationInterface } from '../../utilities/types/NotificationInterface';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
@@ -31,23 +31,23 @@ function SimpleDialog(props: SimpleDialogProps) {
   const { onClose, selectedValue, open } = props;
   const params = useParams();
   const authUser = useAppSelector(selectAuthUser);
-  const [userNotifications, setUserNotifications] = useState<NotificationState[]>();
-  const [notifications, setNotifications] = useState<NotificationInterface>(emptyNotification);
-  const { _id, read, message, type, title, user } = notifications;
+  // const [userNotifications, setUserNotifications] = useState<NotificationState[]>();
+  const [notifications, setNotifications] = useState<NotificationInterface[]>([]);
+  // const { _id, read, message, type, title, user } = notifications;
 
   useEffect(() => {
     const fetchNotifications = async () => {
-      const displayNotifications = await getAllNotifications();
-      console.log(displayNotifications);
-      setUserNotifications(displayNotifications);
+      const displayNotifications = await getAllNotifications(authUser._id);
       setNotifications(displayNotifications);
     };
     fetchNotifications();
-  }, [setUserNotifications]);
+  }, [setNotifications]);
 
   const handleClose = () => {
     onClose(selectedValue);
   };
+
+  console.log(notifications);
 
   // const handleNotificationStatus = (e: any) => {
   //   const { name, accessKey, id, title } = e.target;
@@ -73,29 +73,24 @@ function SimpleDialog(props: SimpleDialogProps) {
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>Set backup account</DialogTitle>
       <List sx={{ pt: 0 }}>
-        {/* {userNotifications?.map((notification: any) => {
+        {notifications.map((notification: any) => {
           return (
             <ListItem key={notification._id}>
-              <h3>{notification.notification}</h3>
-              <ListItemText>{notification.message}</ListItemText> */}
-        {/* <button
+              <h3>{notification.title}</h3>
+              <ListItemText>{notification.message}</ListItemText>
+              <button
                 name="read"
-                id={notification._id}
-                accessKey={notification.message}
-                title={notification.notification}
                 onClick={(e) => {
-                  handleNotificationStatus(e);
+                  // handleNotificationStatus(e);
                   handleListItemClick('Read');
                 }}
-              > */}
-        {/* Mark as Read
+              >
+                Mark as Read
               </button>
-              <ListItem button onClick={() => handleListItemClick('Delete')}>
-                Delete Notification
-              </ListItem>
+              <ListItem onClick={() => handleListItemClick('Delete')}>Delete Notification</ListItem>
             </ListItem>
           );
-        })} */}
+        })}
         {emails.map((email) => (
           <ListItem button onClick={() => handleListItemClick(email)} key={email}>
             <ListItemAvatar>
