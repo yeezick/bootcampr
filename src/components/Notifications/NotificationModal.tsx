@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { getNotifications, updateStatusNotification, deleteNotification } from '../../utilities/api/users';
-import { NotificationState } from '../../utilities/types/NotificationInterface';
+// import { getAllNotifications, updateStatusNotification, deleteNotification } from '../../utilities/api/users';
+import { getAllNotifications } from '../../utilities/api/notifications';
+import { NotificationInterface, NotificationState } from '../../utilities/types/NotificationInterface';
 import { BsBell } from 'react-icons/bs';
-import { NotificationsInterface } from '../../utilities/types/UserInterface';
 import { emptyNotification } from '../../utilities/data/notificationConstants';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
@@ -32,14 +32,13 @@ function SimpleDialog(props: SimpleDialogProps) {
   const params = useParams();
   const authUser = useAppSelector(selectAuthUser);
   const [userNotifications, setUserNotifications] = useState<NotificationState[]>();
-  const [notifications, setNotifications] = useState<NotificationState>(emptyNotification);
-  const { _id, read, message, notification, user } = notifications;
-  console.log(_id);
-  console.log(read);
-  console.log(notification);
+  const [notifications, setNotifications] = useState<NotificationInterface>(emptyNotification);
+  const { _id, read, message, type, title, user } = notifications;
+
   useEffect(() => {
     const fetchNotifications = async () => {
-      const displayNotifications = await getNotifications();
+      const displayNotifications = await getAllNotifications();
+      console.log(displayNotifications);
       setUserNotifications(displayNotifications);
       setNotifications(displayNotifications);
     };
@@ -50,23 +49,23 @@ function SimpleDialog(props: SimpleDialogProps) {
     onClose(selectedValue);
   };
 
-  const handleNotificationStatus = (e: any) => {
-    const { name, accessKey, id, title } = e.target;
-    setNotifications({
-      ...notifications,
-      [name]: true,
-      user: authUser._id,
-      _id: id,
-      message: accessKey,
-      notification: title,
-    });
-  };
+  // const handleNotificationStatus = (e: any) => {
+  //   const { name, accessKey, id, title } = e.target;
+  //   setNotifications({
+  //     ...notifications,
+  //     [name]: true,
+  //     user: authUser._id,
+  //     _id: id,
+  //     message: accessKey,
+  //     notification: title,
+  //   });
+  // };
 
   const handleListItemClick = async (value: string | boolean) => {
-    if ('Read' === value) {
-      await updateStatusNotification(_id, notifications);
-      console.log(notifications);
-    }
+    // if ('Read' === value) {
+    //   await updateStatusNotification(_id, notifications);
+    //   console.log(notifications);
+    // }
     onClose(value);
   };
 
@@ -74,12 +73,12 @@ function SimpleDialog(props: SimpleDialogProps) {
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>Set backup account</DialogTitle>
       <List sx={{ pt: 0 }}>
-        {userNotifications?.map((notification: any) => {
+        {/* {userNotifications?.map((notification: any) => {
           return (
             <ListItem key={notification._id}>
               <h3>{notification.notification}</h3>
-              <ListItemText>{notification.message}</ListItemText>
-              <button
+              <ListItemText>{notification.message}</ListItemText> */}
+        {/* <button
                 name="read"
                 id={notification._id}
                 accessKey={notification.message}
@@ -88,15 +87,15 @@ function SimpleDialog(props: SimpleDialogProps) {
                   handleNotificationStatus(e);
                   handleListItemClick('Read');
                 }}
-              >
-                Mark as Read
+              > */}
+        {/* Mark as Read
               </button>
               <ListItem button onClick={() => handleListItemClick('Delete')}>
                 Delete Notification
               </ListItem>
             </ListItem>
           );
-        })}
+        })} */}
         {emails.map((email) => (
           <ListItem button onClick={() => handleListItemClick(email)} key={email}>
             <ListItemAvatar>
