@@ -4,6 +4,7 @@ import { getNotifications, updateStatusNotification, deleteNotification } from '
 import { NotificationState } from '../../utilities/types/NotificationInterface';
 import { BsBell } from 'react-icons/bs';
 import { NotificationsInterface } from '../../utilities/types/UserInterface';
+import { emptyNotification } from '../../utilities/data/notificationConstants';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
@@ -30,41 +31,67 @@ function SimpleDialog(props: SimpleDialogProps) {
   const { onClose, selectedValue, open } = props;
   const params = useParams();
   const authUser = useAppSelector(selectAuthUser);
-  const [notifications, setNotifications] = useState<NotificationState[]>();
-
+  const [userNotifications, setUserNotifications] = useState<NotificationState[]>();
+  const [notifications, setNotifications] = useState<NotificationState>(emptyNotification);
+  const { _id, read, message, notification, user } = notifications;
+  console.log(_id);
+  console.log(read);
+  console.log(notification);
   useEffect(() => {
     const fetchNotifications = async () => {
       const displayNotifications = await getNotifications();
+      setUserNotifications(displayNotifications);
       setNotifications(displayNotifications);
     };
     fetchNotifications();
-  }, [setNotifications]);
+  }, [setUserNotifications]);
 
   const handleClose = () => {
     onClose(selectedValue);
   };
 
-  const handleListItemClick = (value: string | boolean) => {
-    console.log(value);
-    onClose(value);
-    // setNotifications({ ...notifications, user: authUser._id});
+  const handleNotificationStatus = (e: any) => {
+    const { name, accessKey, id, title } = e.target;
+    setNotifications({
+      ...notifications,
+      [name]: true,
+      user: authUser._id,
+      _id: id,
+      message: accessKey,
+      notification: title,
+    });
   };
 
-  console.log(selectedValue);
+  const handleListItemClick = async (value: string | boolean) => {
+    if ('Read' === value) {
+      await updateStatusNotification(_id, notifications);
+      console.log(notifications);
+    }
+    onClose(value);
+  };
 
   return (
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>Set backup account</DialogTitle>
       <List sx={{ pt: 0 }}>
-        {notifications?.map((notification) => {
+        {userNotifications?.map((notification: any) => {
           return (
             <ListItem key={notification._id}>
               <h3>{notification.notification}</h3>
               <ListItemText>{notification.message}</ListItemText>
-              <ListItem button onClick={() => handleListItemClick('addAccount')}>
+              <button
+                name="read"
+                id={notification._id}
+                accessKey={notification.message}
+                title={notification.notification}
+                onClick={(e) => {
+                  handleNotificationStatus(e);
+                  handleListItemClick('Read');
+                }}
+              >
                 Mark as Read
-              </ListItem>
-              <ListItem button onClick={() => handleListItemClick('addAccount')}>
+              </button>
+              <ListItem button onClick={() => handleListItemClick('Delete')}>
                 Delete Notification
               </ListItem>
             </ListItem>

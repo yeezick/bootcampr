@@ -1,3 +1,4 @@
+import { NotificationState } from './NotificationInterface';
 import { ProjectInterface } from './ProjectInterface';
 
 export interface UserInterface {
@@ -10,6 +11,7 @@ export interface UserInterface {
   linkedinUrl: string;
   memberOfProjects?: ProjectInterface[];
   ownerOfProjects?: ProjectInterface[];
+  notifications?: NotificationState[];
   portfolioUrl: string;
   portfolioProjects?: ProjectInterface[];
   profilePicture: string;

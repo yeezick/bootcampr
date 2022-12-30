@@ -11,6 +11,7 @@ const initialState: UiSliceInterface = {
       firstName: '',
       lastName: '',
       linkedinUrl: '',
+      notifications: [],
       portfolioUrl: '',
       profilePicture: '',
       role: '',

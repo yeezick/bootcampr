@@ -18,9 +18,11 @@ export const EditProfile: React.FC = () => {
 
   useEffect(() => {
     if (authUser) {
-      updateUserForm((currForm) => { return { ...currForm, ...authUser }})
+      updateUserForm((currForm) => {
+        return { ...currForm, ...authUser };
+      });
     }
-  }, [authUser])
+  }, [authUser]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
