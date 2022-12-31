@@ -1,32 +1,28 @@
+@import '../../scss/variables';
+@import '../../scss/mixins';
+
+/* --------------------------- */
+
 .pwd-match {
   color: rgb(48, 161, 192);
-  margin-top: 1rem;
+  margin-top: 16px;
 }
 
 .pwd-mismatch {
   color: red;
-  margin-top: 1rem;
+  margin-top: 16px;
 }
 
 .pwd-reveal {
-  cursor: pointer;
-  font-size: 19px;
-  position: absolute;
-  right: 9px;
-  top: 33px;
+  @include reveal-icon(1);
 }
 
 .pwd-reveal-gray {
-  cursor: pointer;
-  font-size: 19px;
-  opacity: 0.3;
-  position: absolute;
-  right: 9px;
-  top: 33px;
-}
+  @include reveal-icon(0.3);
 
-.pwd-reveal-gray:hover {
-  opacity: 1;
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .signup-container {
@@ -35,73 +31,44 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  margin-top: 3rem;
-  padding: 2rem;
-  width: 20rem;
+  margin-top: 48px;
+  padding: 32px;
+  width: 320px;
+
+  button {
+    @include form-buttons();
+  }
+
+  form {
+    padding: 36.8px 24px 16px 8px;
+  }
+
+  input {
+    @include input-fields(4.8px 6.4px, 100%);
+  }
 }
 
-.signup-container button {
-  background-color: rgb(202, 207, 212);
-  border: none;
-  border-radius: 2% / 19%;
-  color: rgb(44, 56, 66);
-  cursor: pointer;
-  font-size: 15px;
-  height: 2.2rem;
-  width: 105.8%;
-}
-
-.signup-container button:disabled {
-  opacity: 0.3;
-  pointer-events: none;
-}
-
-.signup-container button:hover {
-  background-color: rgb(79, 127, 169);
-  color: white;
-}
-
-.signup-container button:active {
-  background-color: rgb(54, 91, 123);
-}
-
-.signup-container form {
-  padding: 2.3rem 1.5rem 1rem 0.5rem;
-}
-
-.signup-container h3, h4 {
+h3, h4 {
   margin: 0;
   text-align: center;
 }
 
-.signup-container input {
-  background-color: rgb(248, 248, 248);
-  border: 1px solid rgb(65, 82, 97);
-  border-radius: 2% / 19%;
-  font-size: 15px;
-  height: 1.5rem;
-  margin-top: 0.4rem;
-  padding: 0.3rem 0.4rem;
-  width: 100%;
-}
-
 .form-input {
-  margin: 0 1rem 1rem 1rem;
+  margin: 0 16px 16px 16px;
 }
 
 .pwd-input {
-  margin: 0 0rem 1rem 1rem;
-}
+  div {
+    position: relative;
+  }
 
-.pwd-input input {
-  padding: 0.3rem 2rem 0.3rem 0.4rem;
-  width: 84.8%;
-}
+  input {
+    @include input-fields(4.8px 32px 4.8px 6.4px, 84.8%);
+  }
 
-.pwd-input div {
-  position: relative;
+  margin: 0 0 16px 16px;
 }
 
 .form-btn {
-  margin: 1.5rem 1rem 0 1rem;
+  margin: 24px 16px 0 16px;
 }

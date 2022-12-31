@@ -30,6 +30,10 @@ nav {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+
+    & .link:hover {
+      color: #f29e34;
+    }
   }
 
   img {
