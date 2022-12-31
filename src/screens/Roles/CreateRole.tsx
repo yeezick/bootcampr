@@ -90,9 +90,9 @@ export const CreateRole = ({ updateProjectForm }: CreateRoleProps) => {
         <label>
           Status
           <select value={status} onChange={handleStatusChange}>
-            <option value="">Draft or Published?</option>
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
+            <option value=""></option>
+            <option value="Draft">Draft</option>
+            <option value="Published">Published</option>
           </select>
         </label>
 
