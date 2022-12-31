@@ -24,46 +24,35 @@ import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import './Notification.scss';
 import { NotificationInterface } from '../../utilities/types/NotificationInterface';
 
-const emails = ['username@gmail.com', 'user02@gmail.com'];
-
 export interface SimpleDialogProps {
   open: boolean;
   selectedValue: string | boolean;
   onClose: (value: string | boolean) => void;
+  notifications: NotificationInterface[];
 }
 
 function SimpleDialog(props: SimpleDialogProps) {
-  const { onClose, selectedValue, open } = props;
+  const { onClose, selectedValue, open, notifications } = props;
   const params = useParams();
   const authUser = useAppSelector(selectAuthUser);
-  const [notifications, setNotifications] = useState<NotificationInterface[]>([]);
   const [notificationId, setNotificationId] = useState<any>();
-  const [deleteNote, setDeleteNote] = useState<any>('63af8fcf4c625f92374af81b');
-
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      const displayNotifications = await getAllNotifications(authUser._id);
-      setNotifications(displayNotifications);
-    };
-    fetchNotifications();
-  }, [setNotifications]);
 
   const handleClose = () => {
     onClose(selectedValue);
   };
 
   const handleListItemClick = async (value: any) => {
-    // if ('Delete' === value) {
-    console.log(authUser._id);
-    await deleteAllNotifications(authUser._id);
-    // }
-    // if ('Read' === value) {
-    //   await markNotificationAsRead(notificationId);
-    // }
+    if ('Delete' === value) {
+      await deleteNotification(notificationId);
+    }
+    if ('Read' === value) {
+      await markNotificationAsRead(notificationId);
+    }
+    if ('Delete-All' === value) {
+      await deleteAllNotifications(authUser._id);
+    }
     onClose(value);
   };
-
-  // console.log(notifications);
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -89,12 +78,8 @@ function SimpleDialog(props: SimpleDialogProps) {
               </button>
               <button
                 onClick={() => {
-                  setNotificationId({
-                    ...notification,
-                    _id: notification._id,
-                    user: authUser._id,
-                  });
-                  handleListItemClick('Read');
+                  setNotificationId(notification._id);
+                  handleListItemClick('Delete');
                 }}
               >
                 Delete Notification
@@ -102,16 +87,33 @@ function SimpleDialog(props: SimpleDialogProps) {
             </ListItem>
           );
         })}
+        <button onClick={() => handleListItemClick('Read-All')}>Mark All As Read</button>
+        <button onClick={() => handleListItemClick('Delete-All')}>Delete All Notifications</button>
       </List>
     </Dialog>
   );
 }
 
 export const NotificationModal = () => {
+  const authUser = useAppSelector(selectAuthUser);
+  const [notifications, setNotifications] = useState<NotificationInterface[]>([]);
   const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(emails[1]);
+  const [selectedValue, setSelectedValue] = useState(true);
 
-  const handleClickOpen = () => {
+  const fetchNotifications = async () => {
+    const displayNotifications = await getAllNotifications(authUser._id);
+    setNotifications(displayNotifications);
+  };
+  useEffect(() => {
+    fetchNotifications();
+
+    if (notifications) {
+      fetchNotifications();
+    }
+  }, [notifications.length]);
+
+  const handleClickOpen = async () => {
+    fetchNotifications();
     setOpen(true);
   };
 
@@ -125,7 +127,7 @@ export const NotificationModal = () => {
       <button className="notification-btn" onClick={handleClickOpen}>
         <BsBell size={25} />
       </button>
-      <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
+      <SimpleDialog notifications={notifications} selectedValue={selectedValue} open={open} onClose={handleClose} />
     </div>
   );
 };

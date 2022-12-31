@@ -23,7 +23,6 @@ export const Nav = () => {
     const timer = setInterval(() => {
       socketConnection?.on('notificationsLength', (data: number) => {
         setNotificationCount(data);
-        console.log('hi');
       });
     }, 10000);
     socketConnection?.on('disconnect', () => {});

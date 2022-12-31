@@ -12,8 +12,7 @@ export const getAllNotifications = async (user) => {
 
 export const deleteNotification = async (_id) => {
   try {
-    console.log(_id);
-    const res = await api.delete('/notifications', _id);
+    const res = await api.delete(`/notifications/${_id}`);
     console.log(res.data);
     return res.data;
   } catch (error) {
@@ -23,8 +22,7 @@ export const deleteNotification = async (_id) => {
 
 export const deleteAllNotifications = async (user) => {
   try {
-    const res = await api.delete('/delete-notifications', user);
-    console.log(user);
+    const res = await api.delete(`/delete-notifications/${user}`);
     console.log(res.data);
     return res.data;
   } catch (error) {
