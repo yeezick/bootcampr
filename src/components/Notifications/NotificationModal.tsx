@@ -69,7 +69,6 @@ function SimpleDialog(props: SimpleDialogProps) {
                 id={notification.read ? 'read' : 'unread'}
               >
                 {!notification.read && <span className="status">unread</span>}
-
                 <h3>{notification.title}</h3>
                 <ListItemText>{notification.message}</ListItemText>
                 <div className="read-delete-btn">
@@ -96,7 +95,6 @@ function SimpleDialog(props: SimpleDialogProps) {
         ) : (
           <p>Notifications empty</p>
         )}
-
         <button onClick={() => handleListItemClick('Delete-All')}>Delete All</button>
       </List>
     </Dialog>
