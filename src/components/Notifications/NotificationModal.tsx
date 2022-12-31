@@ -56,35 +56,48 @@ function SimpleDialog(props: SimpleDialogProps) {
   return (
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>{authUser.firstName}'s Notifications</DialogTitle>
-      <List sx={{ pt: 0 }}>
+      <button className="delete-read-all" onClick={() => handleListItemClick('Read-All')}>
+        Mark All As Read
+      </button>
+      <List sx={{ pt: 0 }} className="notification-wrapper">
         {notifications.length !== 0 ? (
           notifications.map((notification: NotificationInterface) => {
             return (
-              <ListItem key={notification._id}>
+              <ListItem
+                key={notification._id}
+                className="notification-wrapper notifications"
+                id={notification.read ? 'read' : 'unread'}
+              >
+                {!notification.read && <span className="status">unread</span>}
+
                 <h3>{notification.title}</h3>
                 <ListItemText>{notification.message}</ListItemText>
-                <button
-                  onClick={() => {
-                    handleReadNotification({ ...notification, read: true });
-                  }}
-                >
-                  Mark as Read
-                </button>
-                <button
-                  onClick={() => {
-                    handleDeleteNotification(notification._id);
-                  }}
-                >
-                  Delete Notification
-                </button>
+                <div className="read-delete-btn">
+                  <button
+                    className="delete-read-all"
+                    onClick={() => {
+                      handleReadNotification({ ...notification, read: true });
+                    }}
+                  >
+                    Mark Read
+                  </button>
+                  <button
+                    className="delete-read-all"
+                    onClick={() => {
+                      handleDeleteNotification(notification._id);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
               </ListItem>
             );
           })
         ) : (
           <p>Notifications empty</p>
         )}
-        <button onClick={() => handleListItemClick('Read-All')}>Mark All As Read</button>
-        <button onClick={() => handleListItemClick('Delete-All')}>Delete All Notifications</button>
+
+        <button onClick={() => handleListItemClick('Delete-All')}>Delete All</button>
       </List>
     </Dialog>
   );
