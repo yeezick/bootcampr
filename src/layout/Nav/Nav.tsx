@@ -17,21 +17,27 @@ export const Nav = () => {
   const { socketConnection } = Socket();
 
   useEffect(() => {
-    socketConnection?.on('connect', () => {
+    if (socketConnection) {
       socketConnection.emit('setUserId', authUser._id);
-    });
-    const timer = setInterval(() => {
-      socketConnection?.on('notificationsLength', (data: number) => {
-        setNotificationCount(data);
+
+      socketConnection?.on('connect', () => {
+        socketConnection.emit('setUserId', authUser._id);
       });
-    }, 10000);
-    socketConnection?.on('disconnect', () => {});
-    return () => {
-      socketConnection?.off('connect');
-      socketConnection?.off('disconnect');
-      clearTimeout(timer);
-    };
-  }, [userId, socketConnection, setNotificationCount]);
+      const timer = setInterval(() => {
+        socketConnection?.on('notificationsLength', (data: number) => {
+          setNotificationCount(data);
+        });
+      }, 10000);
+      return () => {
+        socketConnection?.off('connect');
+        socketConnection?.off('disconnect');
+        clearTimeout(timer);
+      };
+    }
+    socketConnection?.on('disconnect', () => {
+      socketConnection.emit('User has disconnected');
+    });
+  }, [setNotificationCount, authUser]);
 
   const toggleSidebarHandler = () => {
     dispatch(toggleSidebar());

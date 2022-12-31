@@ -38,8 +38,7 @@ function SimpleDialog(props: SimpleDialogProps) {
     if (deleteOneNotification) fetchNotifications();
   };
 
-  const handleReadNotification = async (value: any) => {
-    console.log(value);
+  const handleReadNotification = async (value: Object) => {
     const markOneNotificationAsRead = await markNotificationAsRead(value);
     if (markOneNotificationAsRead) fetchNotifications();
   };
@@ -103,9 +102,6 @@ export const NotificationModal = () => {
   };
   useEffect(() => {
     fetchNotifications();
-    if (notifications) {
-      fetchNotifications();
-    }
   }, []);
 
   const handleClickOpen = async () => {
@@ -120,6 +116,7 @@ export const NotificationModal = () => {
 
   return (
     <div>
+      <div className="notification-badge link"></div>
       <button className="notification-btn" onClick={handleClickOpen}>
         <BsBell size={25} />
       </button>

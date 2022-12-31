@@ -11,7 +11,7 @@ interface ISocket {
 }
 
 export const Socket = () => {
-  const [socketConnection, setSocketConnection] = useState<ISocket>();
+  const [socketConnection, setSocketConnection] = useState<ISocket | any>();
 
   useEffect(() => {
     const askUserPermission = async () => {
