@@ -19,21 +19,23 @@ import { NotificationInterface } from '../../utilities/types/NotificationInterfa
 
 export interface SimpleDialogProps {
   open: boolean;
-  selectedValue: string | boolean;
-  onClose: (value: string | boolean) => void;
+  selectedValue: boolean;
+  onClose: (value: boolean) => void;
   notifications: NotificationInterface[];
 }
 
 function SimpleDialog(props: SimpleDialogProps) {
   const { onClose, selectedValue, open, notifications } = props;
   const authUser = useAppSelector(selectAuthUser);
-  const [notificationId, setNotificationId] = useState<any>();
+  const [notificationId, setNotificationId] = useState<NotificationInterface | string>();
 
   const handleClose = () => {
     onClose(selectedValue);
   };
 
-  const handleListItemClick = async (value: any) => {
+  useEffect(() => {}, []);
+
+  const handleListItemClick = async (value: string) => {
     if ('Delete' === value) {
       await deleteNotification(notificationId);
     }
@@ -46,7 +48,6 @@ function SimpleDialog(props: SimpleDialogProps) {
     if ('Read-All' === value) {
       await markAllNotificationsAsRead(authUser._id);
     }
-    onClose(value);
   };
 
   return (
@@ -54,7 +55,7 @@ function SimpleDialog(props: SimpleDialogProps) {
       <DialogTitle>{authUser.firstName}'s Notifications</DialogTitle>
       <List sx={{ pt: 0 }}>
         {notifications.length !== 0 ? (
-          notifications.map((notification: any) => {
+          notifications.map((notification: NotificationInterface) => {
             return (
               <ListItem key={notification._id}>
                 <h3>{notification.title}</h3>
@@ -97,7 +98,7 @@ export const NotificationModal = () => {
   const authUser = useAppSelector(selectAuthUser);
   const [notifications, setNotifications] = useState<NotificationInterface[]>([]);
   const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(true);
+  const [selectedValue, setSelectedValue] = useState(false);
 
   const fetchNotifications = async () => {
     const displayNotifications = await getAllNotifications(authUser._id);
@@ -105,7 +106,6 @@ export const NotificationModal = () => {
   };
   useEffect(() => {
     fetchNotifications();
-
     if (notifications) {
       fetchNotifications();
     }
@@ -116,7 +116,7 @@ export const NotificationModal = () => {
     setOpen(true);
   };
 
-  const handleClose = (value: any) => {
+  const handleClose = (value: boolean) => {
     setOpen(false);
     setSelectedValue(value);
   };

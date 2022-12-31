@@ -3,8 +3,15 @@ import { io } from 'socket.io-client';
 const ENDPOINT = `${process.env.REACT_APP_LOCAL_URL}`;
 const socket = io(ENDPOINT, { transports: ['websocket'] });
 
+interface ISocket {
+  name?: string;
+  on?: any;
+  emit?: any;
+  off?: any;
+}
+
 export const Socket = () => {
-  const [socketConnection, setSocketConnection] = useState<any>();
+  const [socketConnection, setSocketConnection] = useState<ISocket>();
 
   useEffect(() => {
     const askUserPermission = async () => {
@@ -13,7 +20,7 @@ export const Socket = () => {
     askUserPermission();
 
     const connection = socket.on('connection', () => {
-      console.log(socket.connected);
+      return socket.connected;
     });
     setSocketConnection(connection);
   }, []);

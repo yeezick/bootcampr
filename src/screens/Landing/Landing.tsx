@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { getAllUsers } from '../../utilities/api/users';
 import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai';
-import { Button } from '@mui/material';
 
 export const Landing: React.FC = () => {
   const [loginStatus, setLoginStatus] = useState<boolean | null>(null);
