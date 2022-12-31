@@ -3,6 +3,10 @@
 
 /* --------------------------- */
 
+.alert-banner-sent {
+  @include alert-banners($alert-info-background, $alert-info-txt-color);
+}
+
 .pwd-match {
   color: rgb(48, 161, 192);
   margin-top: 16px;

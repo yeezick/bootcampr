@@ -79,13 +79,13 @@ const usersSlice = createSlice({
     builder
       // REGISTER
       .addCase(register.pending, (state) => {
-        state.status.isLoading = true;
+        state.status.isLoading = false;
       })
       .addCase(register.fulfilled, (state, action) => {
         state.status.isLoading = false;
         state.status.isSuccess = true;
-        state.status.isAuthenticated = true;
-        state.auth.user = action.payload;
+        state.status.isAuthenticated = false;
+        // state.auth.user = action.payload;
       })
       .addCase(register.rejected, (state) => {
         state.status.isLoading = false;

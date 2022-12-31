@@ -1,3 +1,5 @@
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { setAuthUser, selectAuthUser } from '../redux/slices/users/userSlice';
 import { api } from './apiConfig';
 
 export const getAllUsers = async () => {
@@ -50,7 +52,9 @@ export const signUp = async (credentials) => {
   try {
     const res = await api.post('/sign-up', credentials);
     const { bootcamprAuthToken, user } = res.data;
-    localStorage.setItem('bootcamprAuthToken', bootcamprAuthToken);
+    const localItem = { bootcamprAuthToken: bootcamprAuthToken, userId: user._id };
+    localStorage.setItem('bootcamprAuthToken', JSON.stringify(localItem));
+
     return user;
   } catch (error) {
     throw error;
@@ -60,9 +64,11 @@ export const signUp = async (credentials) => {
 export const signIn = async (credentials) => {
   try {
     const res = await api.post('/sign-in', credentials);
+    if (res.data.invalidCredentials) {
+      return { message: res.data.message };
+    }
     const { bootcamprAuthToken, user } = res.data;
     localStorage.setItem('bootcamprAuthToken', bootcamprAuthToken);
-    // const user = jwtDecode(res.data.bootcamprAuthToken);
     return user;
   } catch (error) {
     throw error;

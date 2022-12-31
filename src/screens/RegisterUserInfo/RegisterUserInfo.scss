@@ -3,6 +3,10 @@
 
 /* --------------------------- */
 
+.alert-banner-verified {
+  @include alert-banners($alert-success-background, $alert-success-txt-color);
+}
+
 .acct-setup-page {
   align-items: center;
   display: flex;

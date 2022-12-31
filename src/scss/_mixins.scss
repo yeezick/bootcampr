@@ -1,3 +1,41 @@
+@mixin alert-banners($background, $txt-color) {
+  align-items: center;
+  background-color: $background;
+  border-radius: 20px;
+  box-shadow: 0 8px 12px -8px rgba(0, 0, 0, 0.7);
+  color: $txt-color;
+  column-gap: 5px;
+  display: flex;
+  justify-content: center;
+  margin: 25px auto;
+  padding: 12px 30px;
+  width: fit-content;
+
+  animation-duration: 0.5s;
+  animation-duration: 0.3s; //running slower to show effect
+  animation-delay: 0.5s;
+  animation-name: animate-slide;
+  animation-timing-function: cubic-bezier(.26,.53,.74,1.48);
+  animation-fill-mode: backwards;
+
+  & { animation-name: animate-slide; }
+    @keyframes animate-slide {
+      0% {
+      opacity: 0;
+      transform: translate(0,-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(0,0);
+      }
+    }
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}
+
 @mixin input-fields($padding, $width) {
   background-color: $color-input;
   border: 1px solid rgb(65, 82, 97);

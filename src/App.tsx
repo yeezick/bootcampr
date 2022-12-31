@@ -14,8 +14,24 @@ import { ProjectDetails } from './screens/Projects/ProjectDetails';
 import { UserProjects } from './screens/UserProjects/UserProjects';
 
 import './App.css';
+import { useEffect } from 'react';
+import { getOneUser, verify } from './utilities/api/users';
+import { useDispatch } from 'react-redux';
+import { setAuthUser, updateAuthUser } from './utilities/redux/slices/users/userSlice';
+import { ExpiredLink } from './screens/ExpiredLink/ExpiredLink';
+
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const persist = async () => {
+      const user = await verify();
+      dispatch(updateAuthUser);
+    };
+    persist();
+  }, []);
+
+
   return (
     <Layout>
       <Routes>
@@ -23,6 +39,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
+        <Route path="/users/:id/expired-link" element={<ExpiredLink />} />
         <Route path="/users/:id" element={<UserProfile />} />
         <Route path="/users/:id/edit" element={<EditProfile />} />
         <Route path="/users/:id/account-setup" element={<RegisterUserInfo />} />
