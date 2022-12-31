@@ -21,18 +21,18 @@ export const Nav = () => {
       socketConnection.emit('setUserId', authUser._id);
     });
     const timer = setInterval(() => {
-      socketConnection?.on('notificationsLength', (data: any) => {
+      socketConnection?.on('notificationsLength', (data: number) => {
         setNotificationCount(data);
+        console.log('hi');
       });
     }, 10000);
     socketConnection?.on('disconnect', () => {});
     return () => {
       socketConnection?.off('connect');
       socketConnection?.off('disconnect');
-      socketConnection?.off('notifications');
       clearTimeout(timer);
     };
-  }, [userId, socketConnection]);
+  }, [userId, socketConnection, setNotificationCount]);
 
   const toggleSidebarHandler = () => {
     dispatch(toggleSidebar());

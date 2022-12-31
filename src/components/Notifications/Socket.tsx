@@ -5,13 +5,14 @@ const socket = io(ENDPOINT, { transports: ['websocket'] });
 
 export const Socket = () => {
   const [socketConnection, setSocketConnection] = useState<any>();
+
   useEffect(() => {
     const askUserPermission = async () => {
       return await Notification.requestPermission();
     };
     askUserPermission();
 
-    const connection = socket.on('changes', () => {
+    const connection = socket.on('connection', () => {
       console.log(socket.connected);
     });
     setSocketConnection(connection);

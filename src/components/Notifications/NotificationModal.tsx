@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 // import { getAllNotifications, updateStatusNotification, deleteNotification } from '../../utilities/api/users';
-import { getAllNotifications, markNotificationAsRead } from '../../utilities/api/notifications';
+import {
+  getAllNotifications,
+  markNotificationAsRead,
+  deleteNotification,
+  deleteAllNotifications,
+} from '../../utilities/api/notifications';
 import { BsBell } from 'react-icons/bs';
 import { emptyNotification } from '../../utilities/data/notificationConstants';
 import Button from '@mui/material/Button';
@@ -32,7 +37,8 @@ function SimpleDialog(props: SimpleDialogProps) {
   const params = useParams();
   const authUser = useAppSelector(selectAuthUser);
   const [notifications, setNotifications] = useState<NotificationInterface[]>([]);
-  const [notificationId, setNotificationId] = useState('');
+  const [notificationId, setNotificationId] = useState<any>();
+  const [deleteNote, setDeleteNote] = useState<any>('63af8fcf4c625f92374af81b');
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -47,9 +53,17 @@ function SimpleDialog(props: SimpleDialogProps) {
   };
 
   const handleListItemClick = async (value: any) => {
-    await markNotificationAsRead(notificationId);
+    // if ('Delete' === value) {
+    console.log(authUser._id);
+    await deleteAllNotifications(authUser._id);
+    // }
+    // if ('Read' === value) {
+    //   await markNotificationAsRead(notificationId);
+    // }
     onClose(value);
   };
+
+  // console.log(notifications);
 
   return (
     <Dialog onClose={handleClose} open={open}>
@@ -68,12 +82,23 @@ function SimpleDialog(props: SimpleDialogProps) {
                     user: authUser._id,
                     read: true,
                   });
-                  handleListItemClick(notification._id);
+                  handleListItemClick('Read');
                 }}
               >
                 Mark as Read
               </button>
-              <Button onClick={() => handleListItemClick('Delete')}>Delete Notification</Button>
+              <button
+                onClick={() => {
+                  setNotificationId({
+                    ...notification,
+                    _id: notification._id,
+                    user: authUser._id,
+                  });
+                  handleListItemClick('Read');
+                }}
+              >
+                Delete Notification
+              </button>
             </ListItem>
           );
         })}
