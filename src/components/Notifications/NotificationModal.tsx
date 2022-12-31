@@ -22,32 +22,36 @@ export interface SimpleDialogProps {
   selectedValue: boolean;
   onClose: (value: boolean) => void;
   notifications: NotificationInterface[];
+  fetchNotifications: () => void;
 }
 
 function SimpleDialog(props: SimpleDialogProps) {
-  const { onClose, selectedValue, open, notifications } = props;
+  const { onClose, selectedValue, open, notifications, fetchNotifications } = props;
   const authUser = useAppSelector(selectAuthUser);
-  const [notificationId, setNotificationId] = useState<NotificationInterface | string>();
 
   const handleClose = () => {
     onClose(selectedValue);
   };
 
-  useEffect(() => {}, []);
+  const handleDeleteNotification = async (value: string) => {
+    const deleteOneNotification = await deleteNotification(value);
+    if (deleteOneNotification) fetchNotifications();
+  };
+
+  const handleReadNotification = async (value: any) => {
+    console.log(value);
+    const markOneNotificationAsRead = await markNotificationAsRead(value);
+    if (markOneNotificationAsRead) fetchNotifications();
+  };
 
   const handleListItemClick = async (value: string) => {
-    if ('Delete' === value) {
-      await deleteNotification(notificationId);
-    }
-    if ('Read' === value) {
-      await markNotificationAsRead(notificationId);
-    }
     if ('Delete-All' === value) {
       await deleteAllNotifications(authUser._id);
     }
     if ('Read-All' === value) {
       await markAllNotificationsAsRead(authUser._id);
     }
+    fetchNotifications();
   };
 
   return (
@@ -62,21 +66,14 @@ function SimpleDialog(props: SimpleDialogProps) {
                 <ListItemText>{notification.message}</ListItemText>
                 <button
                   onClick={() => {
-                    setNotificationId({
-                      ...notification,
-                      _id: notification._id,
-                      user: authUser._id,
-                      read: true,
-                    });
-                    handleListItemClick('Read');
+                    handleReadNotification({ ...notification, read: true });
                   }}
                 >
                   Mark as Read
                 </button>
                 <button
                   onClick={() => {
-                    setNotificationId(notification._id);
-                    handleListItemClick('Delete');
+                    handleDeleteNotification(notification._id);
                   }}
                 >
                   Delete Notification
@@ -109,7 +106,7 @@ export const NotificationModal = () => {
     if (notifications) {
       fetchNotifications();
     }
-  }, [notifications.length]);
+  }, []);
 
   const handleClickOpen = async () => {
     fetchNotifications();
@@ -126,7 +123,13 @@ export const NotificationModal = () => {
       <button className="notification-btn" onClick={handleClickOpen}>
         <BsBell size={25} />
       </button>
-      <SimpleDialog notifications={notifications} selectedValue={selectedValue} open={open} onClose={handleClose} />
+      <SimpleDialog
+        fetchNotifications={fetchNotifications}
+        notifications={notifications}
+        selectedValue={selectedValue}
+        open={open}
+        onClose={handleClose}
+      />
     </div>
   );
 };

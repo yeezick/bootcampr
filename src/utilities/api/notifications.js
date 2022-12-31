@@ -13,6 +13,7 @@ export const getAllNotifications = async (user) => {
 export const deleteNotification = async (_id) => {
   try {
     const res = await api.delete(`/notifications/${_id}`);
+    console.log(res.data);
     return res.data;
   } catch (error) {
     throw error;
