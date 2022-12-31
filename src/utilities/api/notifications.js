@@ -13,7 +13,6 @@ export const getAllNotifications = async (user) => {
 export const deleteNotification = async (_id) => {
   try {
     const res = await api.delete(`/notifications/${_id}`);
-    console.log(res.data);
     return res.data;
   } catch (error) {
     throw error;
@@ -23,17 +22,24 @@ export const deleteNotification = async (_id) => {
 export const deleteAllNotifications = async (user) => {
   try {
     const res = await api.delete(`/delete-notifications/${user}`);
-    console.log(res.data);
     return res.data;
   } catch (error) {
-    console.error(error);
-    return false;
+    throw error;
   }
 };
 
 export const markNotificationAsRead = async (_id) => {
   try {
     const res = await api.patch('/notifications', _id);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const markAllNotificationsAsRead = async (user) => {
+  try {
+    const res = await api.patch(`/all-notifications/${user}`);
     return res.data;
   } catch (error) {
     throw error;
