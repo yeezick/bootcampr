@@ -13,12 +13,8 @@ export const RegisterUserInfo: React.FC = () => {
   const status = useAppSelector(uiStatus);
   const authUser = useAppSelector(selectAuthUser);
   const [userForm, setUserForm] = useState<UserInterface>(emptyUser);
-<<<<<<< HEAD
-  const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role } = userForm;
   const [alertBanner, setAlertBanner] = useState(false)
-=======
   const { bio, firstName, githubUrl, lastName, linkedinUrl, portfolioUrl, profilePicture, role } = userForm;
->>>>>>> development
 
   useEffect(() => {
     if (authUser.role) {
