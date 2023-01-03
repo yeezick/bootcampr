@@ -4,6 +4,7 @@ import { reset, selectAuthUser, uiStatus, updateProfile } from '../../utilities/
 import { UserInterface } from '../../utilities/types/UserInterface';
 import { useEffect, useState } from 'react';
 import { emptyUser } from '../../utilities/data/userConstants';
+import { GoVerified } from 'react-icons/go'
 import './RegisterUserInfo.scss';
 
 export const RegisterUserInfo: React.FC = () => {
@@ -12,6 +13,7 @@ export const RegisterUserInfo: React.FC = () => {
   const status = useAppSelector(uiStatus);
   const authUser = useAppSelector(selectAuthUser);
   const [userForm, setUserForm] = useState<UserInterface>(emptyUser);
+  const [alertBanner, setAlertBanner] = useState(false)
   const { bio, firstName, githubUrl, lastName, linkedinUrl, portfolioUrl, profilePicture, role } = userForm;
 
   useEffect(() => {
@@ -19,9 +21,14 @@ export const RegisterUserInfo: React.FC = () => {
       navigate(`/users/${authUser._id}/edit`);
     }
     if (authUser) {
+      setAlertBanner(true);
       setUserForm((currForm) => {
         return { ...currForm, ...authUser };
       });
+
+      setTimeout(() => {
+        setAlertBanner(false)
+      }, 15000);
     }
   }, [authUser]);
 
@@ -44,6 +51,13 @@ export const RegisterUserInfo: React.FC = () => {
 
   return (
     <div className="acct-setup-page">
+      {alertBanner ? (
+          <div className='alert-banner-verified'>
+            <GoVerified />
+            <p>Your Email Has Been Successfully Verified!</p>
+          </div>
+        ) : ''
+      }
       <h1>Hi, {firstName}!</h1>
       <div className="form-container">
         <section className="profile-photo-grid">

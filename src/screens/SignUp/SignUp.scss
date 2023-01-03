@@ -3,6 +3,14 @@
 
 /* --------------------------- */
 
+.alert-banner-sent {
+  @include alert-banners($alert-info-background, $alert-info-txt-color);
+
+  .banner-icon {
+    font-size: 30px;
+  }
+}
+
 .pwd-match {
   color: rgb(48, 161, 192);
   margin-top: 16px;

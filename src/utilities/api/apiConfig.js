@@ -31,7 +31,7 @@ export const api = axios.create({
 });
 const getToken = () => {
   return new Promise((resolve) => {
-    resolve(`Bearer ${localStorage.getItem('token') || null}`);
+    resolve(`Bearer ${localStorage.getItem('bootcamprAuthToken') || null}`);
   });
 };
 
