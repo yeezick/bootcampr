@@ -32,9 +32,11 @@ const initialState: UiSliceInterface = {
   },
 };
 
-export const register = createAsyncThunk('users/signUp', async (user: SignUpInterface, thunkAPI) => {
+export const register = createAsyncThunk('users/signUp', async (user: SignUpInterface | any, thunkAPI: any) => {
   try {
-    return await signUp(user);
+    const res = await signUp(user);
+    console.log('RES', res)
+    return res
   } catch (error) {
     return thunkAPI.rejectWithValue('Unable to register!');
   }
@@ -88,8 +90,9 @@ const usersSlice = createSlice({
         // state.auth.user = action.payload;
       })
       .addCase(register.rejected, (state) => {
+        console.log('REGISTER', register)
         state.status.isLoading = false;
-        state.status.isError = { status: true };
+        state.status.isError = { status: true, message: register };
       })
       // UPDATE USER
       .addCase(updateProfile.pending, (state) => {

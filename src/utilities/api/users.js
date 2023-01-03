@@ -51,10 +51,10 @@ export const checkEmailAuth = async (email) => {
 export const signUp = async (credentials) => {
   try {
     const res = await api.post('/sign-up', credentials);
-    const { bootcamprAuthToken, user } = res.data;
+    const { bootcamprAuthToken, user, message } = res.data;
+    if (message) return res.data;
     const localItem = { bootcamprAuthToken: bootcamprAuthToken, userId: user._id };
     localStorage.setItem('bootcamprAuthToken', JSON.stringify(localItem));
-
     return user;
   } catch (error) {
     throw error;

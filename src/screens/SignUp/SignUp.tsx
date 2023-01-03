@@ -16,17 +16,17 @@ export const SignUp: React.FC = () => {
   const [passwordsMatch, togglePasswordsMatch] = useState<PasswordMatchCases>(null);
   const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp);
   const { confirmPassword, email, firstName, lastName, password } = formValues;
-  const [alertBanner, setAlertBanner] = useState(false)
+  const [alertBanner, setAlertBanner] = useState<any>({ status: false, txt: '' })
 
   useEffect(() => {
     if (status.isSuccess) {
       dispatch(reset());
       setFormValues(emptySignUp);
-      setAlertBanner(true);
+      setAlertBanner({ status: true });
       togglePasswordsMatch(null);
 
       setTimeout(() => {
-        setAlertBanner(false)
+        setAlertBanner({ status: false })
       }, 10000);
     }
   }, [status.isSuccess, dispatch]);
@@ -48,7 +48,10 @@ export const SignUp: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(register(formValues));
+    const validForm = await dispatch(register(formValues))
+    if (validForm.payload.invalidCredentials) {
+      setAlertBanner({ status: true, txt: validForm.payload.message })
+    }
   };
 
   const validateForm = () => {
@@ -75,10 +78,10 @@ export const SignUp: React.FC = () => {
 
   return (
     <div>
-      {alertBanner ? (
+      {alertBanner.status ? (
           <div className='alert-banner-sent'>
             <FaInfoCircle />
-            <p>A verification link was sent to your email.</p>
+            <p>{alertBanner.txt}</p>
           </div>
         ) : ''
       }
