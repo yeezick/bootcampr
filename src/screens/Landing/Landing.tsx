@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { getAllUsers } from '../../utilities/api/users';
@@ -11,7 +12,7 @@ export const Landing: React.FC = () => {
   const randomUserLogin = async () => {
     const gettingAllUser = await getAllUsers();
     if (gettingAllUser) {
-      dispatch(setAuthUser(gettingAllUser[0]));
+      dispatch(setAuthUser(gettingAllUser[2]));
       setLoginStatus(true);
     } else {
       setLoginStatus(false);
