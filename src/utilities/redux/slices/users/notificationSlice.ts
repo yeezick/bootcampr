@@ -11,7 +11,7 @@ export const NotificationSlice = createSlice({
       ...action.payload,
       open: true,
     }),
-    clearNotification: (state) => ({ ...state, open: false }),
+    clearNotification: (_state) => ({ ..._state, open: false }),
   },
 });
 
