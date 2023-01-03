@@ -54,17 +54,17 @@ nav {
   }
 
   .notification-count {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
     background-color: #f29e34;
-    position: absolute;
-    top: 21px;
-    right: 120px;
-    display: flex;
-    justify-content: center;
+    border-radius: 50%;
     color: #fff;
+    display: flex;
     font-weight: 700;
+    height: 20px;
+    justify-content: center;
+    position: absolute;
+    right: 120px;
+    top: 21px;
+    width: 20px;
   }
 
   .image {
