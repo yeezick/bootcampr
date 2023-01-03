@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { getAllUsers } from '../../utilities/api/users';
