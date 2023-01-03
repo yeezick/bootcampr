@@ -27,7 +27,6 @@ export const EmailVerify = () => {
         navigate(`/users/${userId}/account-setup`)
       } catch (error) {
         console.log(error)
-        console.log('ERROR MSG', error)
         navigate('/sign-up')
       }
     }

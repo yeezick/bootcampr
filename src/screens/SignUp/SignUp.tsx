@@ -24,10 +24,6 @@ export const SignUp: React.FC = () => {
       setFormValues(emptySignUp);
       setAlertBanner({ status: true });
       togglePasswordsMatch(null);
-
-      setTimeout(() => {
-        setAlertBanner({ status: false })
-      }, 10000);
     }
   }, [status.isSuccess, dispatch]);
 
@@ -51,6 +47,9 @@ export const SignUp: React.FC = () => {
     const validForm = await dispatch(register(formValues))
     if (validForm.payload.invalidCredentials) {
       setAlertBanner({ status: true, txt: validForm.payload.message })
+      setTimeout(() => {
+        setAlertBanner({ status: false })
+      }, 20000);
     }
   };
 
@@ -80,8 +79,8 @@ export const SignUp: React.FC = () => {
     <div>
       {alertBanner.status ? (
           <div className='alert-banner-sent'>
-            <FaInfoCircle />
-            <p>{alertBanner.txt}</p>
+            <FaInfoCircle className='banner-icon' />
+            <p dangerouslySetInnerHTML={{ __html: alertBanner.txt }} />
           </div>
         ) : ''
       }

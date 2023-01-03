@@ -12,7 +12,6 @@ export const ExpiredLink = () => {
   const handleNewLink = async (e:any) => {
     e.preventDefault()
     const res:any = await api.post(`/users/${userId}/expired-link`)
-    console.log('expired RES', res)
 
     if (res.status === 200) {
       setAlertBanner({ status: true, txt: res.data.message })

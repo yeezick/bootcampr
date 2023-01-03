@@ -5,6 +5,10 @@
 
 .alert-banner-sent {
   @include alert-banners($alert-info-background, $alert-info-txt-color);
+
+  .banner-icon {
+    font-size: 30px;
+  }
 }
 
 .pwd-match {
