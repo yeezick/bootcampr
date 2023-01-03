@@ -44,10 +44,10 @@ function SimpleDialog(props: SimpleDialogProps) {
   };
 
   const handleListItemClick = async (value: string) => {
-    if ('Delete-All' === value) {
+    if (value === 'Delete-All') {
       await deleteAllNotifications(authUser._id);
     }
-    if ('Read-All' === value) {
+    if (value === 'Read-All') {
       await markAllNotificationsAsRead(authUser._id);
     }
     fetchNotifications();
