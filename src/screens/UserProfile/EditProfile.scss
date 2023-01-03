@@ -1,12 +1,17 @@
 .editprofile-screen {
+  .heading {
+    font-size: 32px;
+    font-weight: 500;
+  }
+
   form {
-    display:flex;
+    display: flex;
     flex-direction: column;
     max-width: 500px;
     margin: auto;
 
     label {
-      display:flex; 
+      display: flex;
       flex-direction: column;
       margin: 5px 0;
 

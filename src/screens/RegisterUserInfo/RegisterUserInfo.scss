@@ -30,7 +30,8 @@
     width: auto;
   }
 
-  input {
+  input,
+  select {
     @include input-fields(4.8px 6.4px, 94%);
   }
 
@@ -70,7 +71,7 @@
   h2 {
     margin: 0;
     margin-bottom: 32px;
-    text-align: center;  
+    text-align: center;
   }
 
   h4 {
