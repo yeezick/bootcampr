@@ -6,6 +6,7 @@ import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/
 import { emptyUser } from '../../utilities/data/userConstants';
 import { UserInterface } from '../../utilities/types/UserInterface';
 import { updateUser } from '../../utilities/api/users';
+import { useNotification } from '../../utilities/redux/hooks';
 import './EditProfile.scss';
 
 export const EditProfile: React.FC = () => {
@@ -25,14 +26,12 @@ export const EditProfile: React.FC = () => {
     role,
     _id: userId,
   } = userForm;
+  const { displayNotification } = useNotification();
 
   useEffect(() => {
     if (authUser) {
       updateUserForm((currForm) => {
-        return {
-          ...currForm,
-          ...authUser,
-        };
+        return { ...currForm, ...authUser };
       });
     }
   }, [authUser]);
@@ -105,7 +104,9 @@ export const EditProfile: React.FC = () => {
           </label>
         )}
 
-        <button type="submit">Update Info</button>
+        <button type="submit" onClick={() => displayNotification({ message: 'User profile successfully updated.' })}>
+          Update Info
+        </button>
       </form>
     </div>
   );

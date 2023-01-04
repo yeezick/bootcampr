@@ -45,13 +45,13 @@ export const EditProject = () => {
   const handleUpdateProject = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const updateProject = await editProject(params.id, projectForm);
-    if (updateProject) navigate(`/users/projects`);
+    if (updateProject) navigate(`/users/projects/${authUser._id}`);
   };
 
   const handleDeleteProject = async (e: React.MouseEvent) => {
     e.preventDefault();
     const deleteOneProject = await deleteProject(params.id);
-    if (deleteOneProject) navigate(`/users/projects`);
+    if (deleteOneProject) navigate(`/users/projects/${authUser._id}`);
   };
 
   const handleImageChange = function (e: React.ChangeEvent<HTMLInputElement>) {
