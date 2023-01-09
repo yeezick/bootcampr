@@ -7,14 +7,14 @@ import './ExpiredLink.scss';
 
 export const ExpiredLink = () => {
   const { id: userId } = useParams()
-  const [alertBanner, setAlertBanner] = useState<any>({ status: false, txt: '' })
+  const [alertBanner, setAlertBanner] = useState<any>({ status: false, text: '' })
 
   const handleNewLink = async (e:any) => {
     e.preventDefault()
     const res:any = await api.post(`/users/${userId}/expired-link`)
 
     if (res.status === 200) {
-      setAlertBanner({ status: true, txt: res.data.message })
+      setAlertBanner({ status: true, text: res.data.message })
 
       setTimeout(() => {
         setAlertBanner({ status: false })
@@ -27,7 +27,7 @@ export const ExpiredLink = () => {
       {alertBanner.status ? (
           <div className='alert-banner-resend'>
             <GoAlert />
-            <p>{alertBanner.txt}</p>
+            <p>{alertBanner.text}</p>
           </div>
         ) : ''
       }

@@ -16,7 +16,7 @@ export const SignUp: React.FC = () => {
   const [passwordsMatch, togglePasswordsMatch] = useState<PasswordMatchCases>(null);
   const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp);
   const { confirmPassword, email, firstName, lastName, password } = formValues;
-  const [alertBanner, setAlertBanner] = useState<any>({ status: false, txt: '' })
+  const [alertBanner, setAlertBanner] = useState<any>({ status: false, text: '' })
 
   useEffect(() => {
     if (status.isSuccess) {
@@ -46,7 +46,7 @@ export const SignUp: React.FC = () => {
     e.preventDefault();
     const validForm = await dispatch(register(formValues))
     if (validForm.payload.invalidCredentials) {
-      setAlertBanner({ status: true, txt: validForm.payload.message })
+      setAlertBanner({ status: true, text: validForm.payload.message })
       setTimeout(() => {
         setAlertBanner({ status: false })
       }, 20000);
@@ -80,7 +80,7 @@ export const SignUp: React.FC = () => {
       {alertBanner.status ? (
           <div className='alert-banner-sent'>
             <FaInfoCircle className='banner-icon' />
-            <p dangerouslySetInnerHTML={{ __html: alertBanner.txt }} />
+            <p>{alertBanner.text}</p>
           </div>
         ) : ''
       }

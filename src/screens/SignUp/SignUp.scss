@@ -4,7 +4,7 @@
 /* --------------------------- */
 
 .alert-banner-sent {
-  @include alert-banners($alert-info-background, $alert-info-txt-color);
+  @include alert-banners($alert-info-background, $alert-info-text-color);
 
   .banner-icon {
     font-size: 30px;

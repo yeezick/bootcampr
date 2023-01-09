@@ -1,9 +1,9 @@
-@mixin alert-banners($background, $txt-color) {
+@mixin alert-banners($background, $text-color) {
   align-items: center;
   background-color: $background;
   border-radius: 20px;
   box-shadow: 0 8px 12px -8px rgba(0, 0, 0, 0.7);
-  color: $txt-color;
+  color: $text-color;
   column-gap: 10px;
   display: flex;
   justify-content: center;

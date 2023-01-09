@@ -13,7 +13,7 @@ const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [formData, setFormData] = useState<SignInInterface>({ email: '', password: '' });
   const [alertBanner, setAlertBanner] = useState<any>({ status: false,
-  txt: '' })
+  text: '' })
 
   // Constants
   const VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -38,7 +38,7 @@ const SignIn: React.FC = (): JSX.Element => {
 
     const response = await signIn(formData);
     if (response?.message) {
-      setAlertBanner({ status: true, txt: response.message })
+      setAlertBanner({ status: true, text: response.message })
 
       setTimeout(() => {
         setAlertBanner({ status: false })
@@ -61,7 +61,7 @@ const SignIn: React.FC = (): JSX.Element => {
         {alertBanner.status ? (
             <div className='alert-banner-sent'>
               <FaInfoCircle />
-              <p dangerouslySetInnerHTML={{ __html: alertBanner.txt }} />
+              <p>{alertBanner.text}</p>
             </div>
           ) : ''
         }
