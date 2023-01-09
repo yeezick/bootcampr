@@ -7,12 +7,13 @@ import { setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { SignInInterface } from '../../utilities/types/UserInterface';
 import { FaInfoCircle } from 'react-icons/fa';
+import { AlertBanners } from '../../utilities/types/AccountSettingsInterface';
 
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [formData, setFormData] = useState<SignInInterface>({ email: '', password: '' });
-  const [alertBanner, setAlertBanner] = useState<any>({ status: false,
+  const [alertBanner, setAlertBanner] = useState<AlertBanners>({ status: false,
   text: '' })
 
   // Constants

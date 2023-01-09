@@ -33,8 +33,5 @@ export const EmailVerify = () => {
     verifyEmail()
   }, [userId, emailToken])
 
-  return (
-    <div>
-    </div>
-  )
+  return null
 };

@@ -56,7 +56,7 @@ export const RegisterUserInfo: React.FC = () => {
             <GoVerified />
             <p>Your Email Has Been Successfully Verified!</p>
           </div>
-        ) : ''
+        ) : null
       }
       <h1>Hi, {firstName}!</h1>
       <div className="form-container">

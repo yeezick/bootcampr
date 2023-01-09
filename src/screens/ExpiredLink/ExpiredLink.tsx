@@ -4,10 +4,11 @@ import { GoAlert } from 'react-icons/go';
 import { TbRefreshAlert } from 'react-icons/tb'
 import { useEffect, useState } from "react";
 import './ExpiredLink.scss';
+import { AlertBanners } from "../../utilities/types/AccountSettingsInterface";
 
 export const ExpiredLink = () => {
   const { id: userId } = useParams()
-  const [alertBanner, setAlertBanner] = useState<any>({ status: false, text: '' })
+  const [alertBanner, setAlertBanner] = useState<AlertBanners>({ status: false, text: '' })
 
   const handleNewLink = async (e:any) => {
     e.preventDefault()

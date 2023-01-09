@@ -6,6 +6,7 @@ import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
 import { FaInfoCircle } from 'react-icons/fa';
 import './SignUp.scss';
 import { emptySignUp } from '../../utilities/data/userConstants';
+import { AlertBanners } from '../../utilities/types/AccountSettingsInterface';
 
 type PasswordMatchCases = null | boolean;
 
@@ -16,7 +17,7 @@ export const SignUp: React.FC = () => {
   const [passwordsMatch, togglePasswordsMatch] = useState<PasswordMatchCases>(null);
   const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp);
   const { confirmPassword, email, firstName, lastName, password } = formValues;
-  const [alertBanner, setAlertBanner] = useState<any>({ status: false, text: '' })
+  const [alertBanner, setAlertBanner] = useState<AlertBanners>({ status: false, text: '' })
 
   useEffect(() => {
     if (status.isSuccess) {

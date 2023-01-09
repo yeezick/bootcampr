@@ -1,8 +1,6 @@
 @import '../../scss/variables';
 @import '../../scss/mixins';
 
-/* --------------------------- */
-
 .alert-banner-resend {
   @include alert-banners($alert-warning-background, $alert-warning-text-color);
 }
