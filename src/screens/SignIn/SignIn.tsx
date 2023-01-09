@@ -64,7 +64,7 @@ const SignIn: React.FC = (): JSX.Element => {
               <FaInfoCircle />
               <p>{alertBanner.text}</p>
             </div>
-          ) : ''
+          ) : null
         }
       </div>
       <div className={styles.sign_in_container}>

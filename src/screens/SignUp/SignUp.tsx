@@ -83,7 +83,7 @@ export const SignUp: React.FC = () => {
             <FaInfoCircle className='banner-icon' />
             <p>{alertBanner.text}</p>
           </div>
-        ) : ''
+        ) : null
       }
       <div className="signup-container">
         <h3>User Register</h3>
