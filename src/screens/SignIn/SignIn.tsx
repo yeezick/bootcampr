@@ -13,8 +13,7 @@ const SignIn: React.FC = (): JSX.Element => {
   // State Variables
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [formData, setFormData] = useState<SignInInterface>({ email: '', password: '' });
-  const [alertBanner, setAlertBanner] = useState<AlertBanners>({ status: false,
-  text: '' })
+  const [alertBanner, setAlertBanner] = useState<AlertBanners>({ status: false, text: '' });
 
   // Constants
   const VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -48,7 +47,8 @@ const SignIn: React.FC = (): JSX.Element => {
     }
 
     dispatch(setAuthUser(response));
-    navigate('/');
+
+    !response.role ? navigate(`/users/${response._id}/account-setup`) : navigate('/');
   };
 
   // Side Effects
