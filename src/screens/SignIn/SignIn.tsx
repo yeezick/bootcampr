@@ -6,14 +6,14 @@ import { AppDispatch } from '../../utilities/redux/store';
 import { setAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SignInInterface } from '../../utilities/types/UserInterface';
-import { FaInfoCircle } from 'react-icons/fa';
+import { GoAlert, GoVerified } from 'react-icons/go';
 import { AlertBanners } from '../../utilities/types/AccountSettingsInterface';
 
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [formData, setFormData] = useState<SignInInterface>({ email: '', password: '' });
-  const [alertBanner, setAlertBanner] = useState<AlertBanners>({ status: false, text: '' });
+  const [alertBanner, setAlertBanner] = useState<AlertBanners>({ status: false, text: '', type: '' });
 
   // Constants
   const VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -24,7 +24,7 @@ const SignIn: React.FC = (): JSX.Element => {
   // Event Handlers
   useEffect(() => {
     if (location.state && location.state.status) {
-      setAlertBanner({ status: true, text: location.state.message })
+      setAlertBanner({ status: true, text: location.state.message, icon: <GoVerified />, type: 'success' })
       setTimeout(() => {
         setAlertBanner({ status: false })
         location.state = { success: false }
@@ -49,11 +49,10 @@ const SignIn: React.FC = (): JSX.Element => {
 
     const response = await signIn(formData);
     if (response?.message) {
-      setAlertBanner({ status: true, text: response.message })
-
+      setAlertBanner({ status: true, text: response.message, icon: <GoAlert />, type: 'warning' })
       setTimeout(() => {
         setAlertBanner({ status: false })
-      }, 10000);
+      }, 12000);
       return
     }
 
@@ -71,8 +70,8 @@ const SignIn: React.FC = (): JSX.Element => {
     <div>
       <div>
         {alertBanner.status ? (
-            <div className={location.state.status ? 'alert-banner-success' : 'alert-banner-sent'}>
-              <FaInfoCircle />
+            <div className={alertBanner.type}>
+              {alertBanner.icon}
               <p>{alertBanner.text}</p>
             </div>
           ) : null

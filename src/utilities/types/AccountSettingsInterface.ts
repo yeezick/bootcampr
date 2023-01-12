@@ -53,6 +53,8 @@ export interface AuthFormInputProps {
 }
 
 export interface AlertBanners {
-  status?: boolean;
+  status: boolean;
   text?: string;
+  icon?: JSX.Element;
+  type?: string;
 }

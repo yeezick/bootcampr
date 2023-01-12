@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom"
 import { api } from "../../utilities/api/apiConfig"
-import { GoAlert } from 'react-icons/go';
+import { FaInfoCircle } from 'react-icons/fa';
 import { TbRefreshAlert } from 'react-icons/tb'
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import './ExpiredLink.scss';
 import { AlertBanners } from "../../utilities/types/AccountSettingsInterface";
 
@@ -15,7 +15,7 @@ export const ExpiredLink = () => {
     const res:any = await api.post(`/users/${userId}/expired-link`)
 
     if (res.status === 200) {
-      setAlertBanner({ status: true, text: res.data.message })
+      setAlertBanner({ status: true, text: res.data.message, icon: <FaInfoCircle />, type: 'info' })
 
       setTimeout(() => {
         setAlertBanner({ status: false })
@@ -26,8 +26,8 @@ export const ExpiredLink = () => {
   return (
     <div>
       {alertBanner.status ? (
-          <div className='alert-banner-resend'>
-            <GoAlert />
+          <div className={alertBanner.type}>
+            {alertBanner.icon}
             <p>{alertBanner.text}</p>
           </div>
         ) : ''

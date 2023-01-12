@@ -1,15 +1,15 @@
 @import '../../scss/variables';
 @import '../../scss/mixins';
 
-.alert-banner-sent {
+.info {
   @include alert-banners($alert-info-background, $alert-info-text-color);
-
-  .banner-icon {
-    font-size: 30px;
-  }
 }
 
-.alert-banner-success {
+.warning {
+  @include alert-banners($alert-warning-background, $alert-warning-text-color);
+}
+
+.success {
   @include alert-banners($alert-success-background, $alert-success-text-color)
 }
 

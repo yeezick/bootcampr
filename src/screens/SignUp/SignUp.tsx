@@ -7,6 +7,7 @@ import { FaInfoCircle } from 'react-icons/fa';
 import './SignUp.scss';
 import { emptySignUp } from '../../utilities/data/userConstants';
 import { AlertBanners } from '../../utilities/types/AccountSettingsInterface';
+import { GoAlert } from 'react-icons/go';
 
 type PasswordMatchCases = null | boolean;
 
@@ -46,12 +47,16 @@ export const SignUp: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const validForm = await dispatch(register(formValues))
-    if (validForm.payload.invalidCredentials) {
-      setAlertBanner({ status: true, text: validForm.payload.message })
-      setTimeout(() => {
-        setAlertBanner({ status: false })
-      }, 20000);
+    const { payload } = validForm
+    
+    if (payload.invalidCredentials && payload.existingAccount) {
+      setAlertBanner({ status: true, text: payload.message, icon: <GoAlert />, type: 'warning' })
+    } else {
+      setAlertBanner({ status: true, text: payload.message, icon: <FaInfoCircle />, type: 'info' })
     }
+    setTimeout(() => {
+      setAlertBanner({ status: false })
+    }, 16000);
   };
 
   const validateForm = () => {
@@ -79,8 +84,8 @@ export const SignUp: React.FC = () => {
   return (
     <div>
       {alertBanner.status ? (
-          <div className='alert-banner-sent'>
-            <FaInfoCircle className='banner-icon' />
+          <div className={alertBanner.type}>
+            {alertBanner.icon}
             <p>{alertBanner.text}</p>
           </div>
         ) : null

@@ -1,10 +1,6 @@
 @import '../../scss/variables';
 @import '../../scss/mixins';
 
-.alert-banner-verified {
-  @include alert-banners($alert-success-background, $alert-success-text-color);
-}
-
 .acct-setup-page {
   align-items: center;
   display: flex;
