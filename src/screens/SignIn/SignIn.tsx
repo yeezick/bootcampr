@@ -4,7 +4,7 @@ import { signIn } from '../../utilities/api/users'
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../utilities/redux/store';
 import { setAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { SignInInterface } from '../../utilities/types/UserInterface';
 import { FaInfoCircle } from 'react-icons/fa';
 import { AlertBanners } from '../../utilities/types/AccountSettingsInterface';
@@ -19,8 +19,19 @@ const SignIn: React.FC = (): JSX.Element => {
   const VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation()
 
   // Event Handlers
+  useEffect(() => {
+    if (location.state && location.state.status) {
+      setAlertBanner({ status: true, text: location.state.message })
+      setTimeout(() => {
+        setAlertBanner({ status: false })
+        location.state = { success: false }
+      }, 8000);
+    }
+  }, [])
+
   const formValidation = (): void => {
     const validEmailAddressProvided = formData.email.match(VALID_EMAIL_REGEX);
     const passwordFieldFilledOut = formData.password !== '';
@@ -60,7 +71,7 @@ const SignIn: React.FC = (): JSX.Element => {
     <div>
       <div>
         {alertBanner.status ? (
-            <div className='alert-banner-sent'>
+            <div className={location.state.status ? 'alert-banner-success' : 'alert-banner-sent'}>
               <FaInfoCircle />
               <p>{alertBanner.text}</p>
             </div>

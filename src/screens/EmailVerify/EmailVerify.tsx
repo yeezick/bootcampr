@@ -15,7 +15,7 @@ export const EmailVerify = () => {
         if (data.isExpired) {
           return navigate(`/users/${userId}/expired-link`)
         }
-        navigate(`/sign-in`)
+        navigate(`/sign-in`, { state: { status: 200, success: true, message: data.msg } })
       } catch (error) {
         console.log(error)
         navigate('/sign-up')

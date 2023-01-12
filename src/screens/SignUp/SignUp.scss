@@ -9,6 +9,10 @@
   }
 }
 
+.alert-banner-success {
+  @include alert-banners($alert-success-background, $alert-success-text-color)
+}
+
 .pwd-match {
   color: rgb(48, 161, 192);
   margin-top: 16px;
