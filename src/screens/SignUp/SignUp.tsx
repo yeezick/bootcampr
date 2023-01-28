@@ -7,14 +7,29 @@ import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
 import './SignUp.scss';
 import { emptySignUp } from '../../utilities/data/userConstants';
 
-type PasswordMatchCases = null | boolean;
+type PasswordMatchCases = null | boolean
+enum InputType {
+  PASSWORD = 'password',
+  TEXT = 'text'
+}
+interface PasswordInput {
+  password: InputType,
+  confirmPassword: InputType
+}
+enum PasswordType {
+  PASSWORD = 'password',
+  CONFIRM = 'confirmPassword'
+}
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const status = useAppSelector(uiStatus);
   const { _id: userId } = useAppSelector(selectAuthUser);
-  const [inputType, setInputType] = useState('password');
+  const [inputTypes, setInputTypes] = useState<PasswordInput>({
+    password: InputType.PASSWORD,
+    confirmPassword: InputType.PASSWORD
+  })
   const [passwordsMatch, togglePasswordsMatch] = useState<PasswordMatchCases>(null);
   const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp);
   const { confirmPassword, email, firstName, lastName, password } = formValues;
@@ -66,9 +81,15 @@ export const SignUp: React.FC = () => {
     }
   };
 
-  const passwordReveal = () => {
-    inputType === 'password' ? setInputType('text') : setInputType('password');
-  };
+  const passwordsReveal = (passwordType: PasswordType) => {
+    inputTypes[passwordType] === InputType.PASSWORD ? setInputTypes({
+      ...inputTypes,
+      [passwordType]: InputType.TEXT
+    }) : setInputTypes({
+      ...inputTypes,
+      [passwordType]: InputType.PASSWORD
+    })
+  }
 
   return (
     <div className="signup-container">
@@ -116,13 +137,13 @@ export const SignUp: React.FC = () => {
         <div className="pwd-input">
           <div>
             <label>Password</label>
-            {inputType === 'password' ? (
-              <BsEyeSlash onClick={passwordReveal} className="pwd-reveal-gray" />
+            {inputTypes.password === InputType.PASSWORD ? (
+              <BsEyeSlash onClick={() => passwordsReveal(PasswordType.PASSWORD)} className="pwd-reveal-gray" />
             ) : (
-              <BsEyeFill onClick={passwordReveal} className="pwd-reveal" />
+              <BsEyeFill onClick={() => passwordsReveal(PasswordType.PASSWORD)} className="pwd-reveal" />
             )}
             <input
-              type={inputType}
+              type={inputTypes.password}
               name="password"
               placeholder="Password"
               onChange={handleChange}
@@ -132,16 +153,23 @@ export const SignUp: React.FC = () => {
           </div>
         </div>
 
-        <div className="form-input">
-          <label>Confirm Password</label>
-          <input
-            type={inputType}
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            onChange={handleChange}
-            value={confirmPassword}
-            autoComplete="off"
-          />
+        <div className="pwd-input">
+          <div>
+            <label>Confirm Password</label>
+            {inputTypes.confirmPassword === InputType.PASSWORD ? (
+              <BsEyeSlash onClick={() => passwordsReveal(PasswordType.CONFIRM)} className="pwd-reveal-gray" />
+            ) : (
+              <BsEyeFill onClick={() => passwordsReveal(PasswordType.CONFIRM)} className="pwd-reveal" />
+            )}
+            <input
+              type={inputTypes.confirmPassword}
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              onChange={handleChange}
+              value={confirmPassword}
+              autoComplete="off"
+            />
+          </div>
         </div>
 
         <div className="form-btn">
