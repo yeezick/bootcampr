@@ -7,19 +7,19 @@ import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
 import './SignUp.scss';
 import { emptySignUp } from '../../utilities/data/userConstants';
 
-type PasswordMatchCases = null | boolean
+type PasswordMatchCases = null | boolean;
 enum InputType {
   PASSWORD = 'password',
   TEXT = 'text'
-}
-interface PasswordInput {
-  password: InputType,
-  confirmPassword: InputType
-}
+};
 enum PasswordType {
   PASSWORD = 'password',
   CONFIRM = 'confirmPassword'
-}
+};
+interface PasswordInput {
+  password: InputType,
+  confirmPassword: InputType
+};
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export const SignUp: React.FC = () => {
   const [inputTypes, setInputTypes] = useState<PasswordInput>({
     password: InputType.PASSWORD,
     confirmPassword: InputType.PASSWORD
-  })
+  });
   const [passwordsMatch, togglePasswordsMatch] = useState<PasswordMatchCases>(null);
   const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp);
   const { confirmPassword, email, firstName, lastName, password } = formValues;
@@ -89,7 +89,7 @@ export const SignUp: React.FC = () => {
       ...inputTypes,
       [passwordType]: InputType.PASSWORD
     })
-  }
+  };
 
   return (
     <div className="signup-container">
