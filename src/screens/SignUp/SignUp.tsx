@@ -82,13 +82,9 @@ export const SignUp: React.FC = () => {
   };
 
   const passwordsReveal = (passwordType: PasswordType) => {
-    inputTypes[passwordType] === InputType.PASSWORD ? setInputTypes({
-      ...inputTypes,
-      [passwordType]: InputType.TEXT
-    }) : setInputTypes({
-      ...inputTypes,
-      [passwordType]: InputType.PASSWORD
-    })
+    inputTypes[passwordType] === InputType.PASSWORD 
+      ? setInputTypes({...inputTypes, [passwordType]: InputType.TEXT}) 
+      : setInputTypes({...inputTypes, [passwordType]: InputType.PASSWORD})
   };
 
   return (
