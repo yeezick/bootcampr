@@ -6,6 +6,7 @@ import { selectAuthUser, setAuthUser } from '../../utilities/redux/slices/users/
 import { emptyUser } from '../../utilities/data/userConstants';
 import { UserInterface } from '../../utilities/types/UserInterface';
 import { updateUser } from '../../utilities/api/users';
+import { useNotification } from '../../utilities/redux/hooks';
 import './EditProfile.scss';
 
 export const EditProfile: React.FC = () => {
@@ -14,13 +15,26 @@ export const EditProfile: React.FC = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { bio, firstName, lastName, linkedinUrl, portfolioUrl, profilePicture, role, _id: userId } = userForm;
+  const {
+    bio,
+    firstName,
+    lastName,
+    linkedinUrl,
+    githubUrl,
+    portfolioUrl,
+    profilePicture,
+    role,
+    _id: userId,
+  } = userForm;
+  const { displayNotification } = useNotification();
 
   useEffect(() => {
     if (authUser) {
-      updateUserForm((currForm) => { return { ...currForm, ...authUser }})
+      updateUserForm((currForm) => {
+        return { ...currForm, ...authUser };
+      });
     }
-  }, [authUser])
+  }, [authUser]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,6 +43,7 @@ export const EditProfile: React.FC = () => {
 
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const updatedUser = await updateUser(params.id, userForm);
     dispatch(setAuthUser(updatedUser));
     navigate(`/users/${userId}`);
@@ -40,6 +55,7 @@ export const EditProfile: React.FC = () => {
 
   return (
     <div className="editprofile-screen">
+      <p className="heading">My Profile</p>
       <form onSubmit={handleUserUpdate}>
         <label>
           Profile Picture
@@ -81,7 +97,16 @@ export const EditProfile: React.FC = () => {
           <input type="text" name="linkedinUrl" value={linkedinUrl} onChange={(event) => handleInputChange(event)} />
         </label>
 
-        <button type="submit">Update Info</button>
+        {role === 'Software Engineer' && (
+          <label>
+            Github URL
+            <input type="text" name="githubUrl" value={githubUrl} onChange={(event) => handleInputChange(event)} />
+          </label>
+        )}
+
+        <button type="submit" onClick={() => displayNotification({ message: 'User profile successfully updated.' })}>
+          Update Info
+        </button>
       </form>
     </div>
   );

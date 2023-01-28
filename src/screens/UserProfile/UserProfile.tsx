@@ -6,7 +6,7 @@ import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 export const UserProfile = () => {
   const authUser = useSelector(selectAuthUser);
   const navigate = useNavigate();
-  const { id } = useParams()
+  const { id } = useParams();
   // BC-334: should handle this case
   if (!authUser) {
     return <div>Loading user... or there isn't one.</div>;
@@ -23,6 +23,7 @@ export const UserProfile = () => {
       <button onClick={routeToEdit}>Edit Profile</button>
       <h1>email {authUser.email}</h1>
       <h1>portfolio {authUser?.portfolioUrl}</h1>
+      {authUser.role === 'Software Engineer' && <p>Github: {authUser.githubUrl}</p>}
       <h1>role {authUser.role}</h1>
 
       <h1>memberOfProjects ...</h1>
