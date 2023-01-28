@@ -133,11 +133,10 @@ export const SignUp: React.FC = () => {
         <div className="pwd-input">
           <div>
             <label>Password</label>
-            {inputTypes.password === InputType.PASSWORD ? (
-              <BsEyeSlash onClick={() => passwordsReveal(PasswordType.PASSWORD)} className="pwd-reveal-gray" />
-            ) : (
-              <BsEyeFill onClick={() => passwordsReveal(PasswordType.PASSWORD)} className="pwd-reveal" />
-            )}
+            {inputTypes.password === InputType.PASSWORD 
+              ? (<BsEyeSlash onClick={() => passwordsReveal(PasswordType.PASSWORD)} className="pwd-reveal-gray" />) 
+              : (<BsEyeFill onClick={() => passwordsReveal(PasswordType.PASSWORD)} className="pwd-reveal" />)
+            }
             <input
               type={inputTypes.password}
               name="password"
@@ -152,11 +151,10 @@ export const SignUp: React.FC = () => {
         <div className="pwd-input">
           <div>
             <label>Confirm Password</label>
-            {inputTypes.confirmPassword === InputType.PASSWORD ? (
-              <BsEyeSlash onClick={() => passwordsReveal(PasswordType.CONFIRM)} className="pwd-reveal-gray" />
-            ) : (
-              <BsEyeFill onClick={() => passwordsReveal(PasswordType.CONFIRM)} className="pwd-reveal" />
-            )}
+            {inputTypes.confirmPassword === InputType.PASSWORD 
+              ? (<BsEyeSlash onClick={() => passwordsReveal(PasswordType.CONFIRM)} className="pwd-reveal-gray" />) 
+              : (<BsEyeFill onClick={() => passwordsReveal(PasswordType.CONFIRM)} className="pwd-reveal" />)
+            }
             <input
               type={inputTypes.confirmPassword}
               name="confirmPassword"
