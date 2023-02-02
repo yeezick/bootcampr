@@ -29,7 +29,7 @@ export const getUserProjects = async (userId) => {
 
 export const createProject = async (project) => {
   try {
-    const res = await api.post('/projects/', project);
+    const res = await api.post('/projects', project);
     return res.data;
   } catch (error) {
     throw error;
