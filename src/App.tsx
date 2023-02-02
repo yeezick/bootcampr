@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Landing } from './screens/Landing/Landing';
 import { RegisterUserInfo } from './screens/RegisterUserInfo/RegisterUserInfo';
@@ -21,11 +22,6 @@ function App() {
         <Route path="/account-settings/:id" element={<AccountSettings />} />
         <Route path="/users/:id/edit" element={<EditProfile />} />
         <Route path="/users/:id/account-setup" element={<RegisterUserInfo />} />
-        <Route path="/users/projects/:userId" element={<UserProjects />} />
-        <Route path="/projects/create" element={<CreateProject />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/projects/:id/edit" element={<EditProject />} />
-        <Route path="/projects/:id" element={<ProjectDetails />} />
         <Route path="/notifications" element={<NotificationModal />} />
       </Routes>
     </Layout>
