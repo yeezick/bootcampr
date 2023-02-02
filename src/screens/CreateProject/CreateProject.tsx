@@ -7,6 +7,7 @@ import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice';
 import { emptyProject } from '../../utilities/data/projectConstants';
 import { createProject } from '../../utilities/api/projects';
 import './CreateProject.scss';
+import { CreateRole } from '../Roles/CreateRole';
 
 export const CreateProject: React.FC = () => {
   const authUser = useSelector(selectAuthUser);

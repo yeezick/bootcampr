@@ -1,0 +1,47 @@
+.new-role--parent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  .new-role--form {
+    display: flex;
+    flex-direction: column;
+    justify-content: column;  
+    label {
+      display: flex;
+      flex-direction: column;
+      justify-content: column;    
+    }
+  }
+
+  .selected-skills--container {
+    border: 1px solid gray;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    height:fit-content;
+    margin: auto;
+    width: 550px;
+  }
+
+  .selected-skills--single {
+    background-color: lightgray;
+    font-size: 14px;
+    margin: 3px;
+    padding: 2px 2px;
+  }
+}
+
+.view-roles {
+  .view-roles--section{
+    border: 1px solid black;
+    margin: 30px;
+    padding: 20px;
+    width: 400px;
+  }
+
+.view-roles--single {
+  border: 1px solid gray;
+  margin: 10px; 
+  padding: 10px;
+}}
