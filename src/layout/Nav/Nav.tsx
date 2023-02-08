@@ -63,6 +63,16 @@ export const Nav = () => {
             Landing Page
           </Link>
         </div>
+        <div>
+          <Link className="link" to="/projects">
+            Browse Projects
+          </Link>
+        </div>
+        <div>
+          <Link className="link" to="/projects/create">
+            Create Project
+          </Link>
+        </div>
       </div>
       {userId !== '' ? (
         <div className="notifications">
