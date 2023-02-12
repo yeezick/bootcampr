@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { signIn } from '@utilities/api';
-import { AppDispatch } from '@utilities/redux/store';
-import { setAuthUser } from '@utilities/redux/slices/users/userSlice';
-import { SignInInterface } from '@utilities/types';
+import { signIn } from 'utilities/api';
+import { AppDispatch } from 'utilities/redux/store';
+import { setAuthUser } from 'utilities/redux/slices/users/userSlice';
+import { SignInInterface } from 'utilities/types';
 import styles from './SignIn.module.css';
 
 const SignIn: React.FC = (): JSX.Element => {

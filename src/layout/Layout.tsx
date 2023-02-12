@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Loader } from '@components/Loader/Loader';
-import { verify } from '@utilities/api';
-import { useAppDispatch, useAppSelector } from '@utilities/redux/hooks';
-import { uiStatus, updateAuthUser } from '@utilities/redux/slices/users/userSlice';
+import { Loader } from 'components/Loader/Loader';
+import { verify } from 'utilities/api';
+import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks';
+import { uiStatus, updateAuthUser } from 'utilities/redux/slices/users/userSlice';
 import { Sidebar } from './';
 import { Nav } from './';
 import './Layout.scss';

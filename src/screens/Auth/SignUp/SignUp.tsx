@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
-import { SignUpInterface } from '@utilities/types';
-import { register, reset, selectAuthUser, uiStatus } from '@utilities/redux/slices/users/userSlice';
-import { useAppDispatch, useAppSelector } from '@utilities/redux/hooks';
-import { emptySignUp } from '@utilities/data/userConstants';
+import { SignUpInterface } from 'utilities/types';
+import { register, reset, selectAuthUser, uiStatus } from 'utilities/redux/slices/users/userSlice';
+import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks';
+import { emptySignUp } from 'utilities/data/userConstants';
 import './SignUp.scss';
 
 type PasswordMatchCases = null | boolean;

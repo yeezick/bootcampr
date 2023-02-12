@@ -20,13 +20,6 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "paths": {
-      "@screens/*": ["screens/*"],
-      "@components/*": ["components/*"],
-      "@layout/*": ["layout/*"],
-      "@utilities/*": ["utilities/*"],
-      "@assets/*": ["assets/*"]
-    }
   },
   "include": [
     "src"
