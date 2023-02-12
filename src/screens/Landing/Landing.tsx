@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { setAuthUser } from '../../utilities/redux/slices/users/userSlice'
+import { getAllUsers } from '../../utilities/api/users'
 import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai'
-import { setAuthUser } from 'utilities/redux/slices/users/userSlice'
-import { getAllUsers } from 'utilities/api'
 
 export const Landing: React.FC = () => {
   const [loginStatus, setLoginStatus] = useState<boolean | null>(null)
@@ -11,7 +11,7 @@ export const Landing: React.FC = () => {
   const randomUserLogin = async () => {
     const gettingAllUser = await getAllUsers()
     if (gettingAllUser) {
-      dispatch(setAuthUser(gettingAllUser[0]))
+      dispatch(setAuthUser(gettingAllUser[2]))
       setLoginStatus(true)
     } else {
       setLoginStatus(false)

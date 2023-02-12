@@ -13,6 +13,7 @@ const initialState: UiSliceInterface = {
       bio: '',
       email: '',
       firstName: '',
+      githubUrl: '',
       lastName: '',
       linkedinUrl: '',
       portfolioUrl: '',

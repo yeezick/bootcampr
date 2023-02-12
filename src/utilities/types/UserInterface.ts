@@ -5,6 +5,7 @@ export interface UserInterface {
   declinedProjects?: ProjectInterface[]
   email: string
   firstName: string
+  githubUrl: string
   interestedProjects?: ProjectInterface[]
   lastName: string
   linkedinUrl: string
@@ -50,6 +51,3 @@ export interface SignInInterface {
   email: string
   password: string
 }
-// export interface PortfolioProjectInterface {
-
-// }
