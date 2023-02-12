@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 // TODO: see if path can be shortened
-import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice'
-import { useAppDispatch, useAppSelector } from '../../utilities/redux/hooks'
-import { toggleSidebar } from '../../utilities/redux/slices/users/userSlice'
+import { selectAuthUser } from 'utilities/redux/slices/users/userSlice'
+import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
+import { toggleSidebar } from 'utilities/redux/slices/users/userSlice'
 import { MdArrowDropDown } from 'react-icons/md'
-import Logo from '../../assets/Logo.svg'
-import { NotificationModal } from '../../components/Notifications/NotificationModal'
-import { Socket } from '../../components/Notifications/Socket'
+import Logo from 'assets/Logo.svg'
+import { NotificationModal } from 'components/Notifications/NotificationModal'
+import { Socket } from 'components/Notifications/Socket'
 import './Nav.scss'
 
 export const Nav = () => {

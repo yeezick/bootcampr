@@ -3,9 +3,9 @@ import {
   SignUpInterface,
   UiSliceInterface,
   UserInterface,
-} from '../../../types/UserInterface'
-import { signUp, updateUser } from '../../../api/users'
-import { RootState } from '../../store'
+} from 'utilities/types/UserInterface'
+import { signUp, updateUser } from 'utilities/api/users'
+import { RootState } from 'utilities/redux/store'
 
 const initialState: UiSliceInterface = {
   auth: {

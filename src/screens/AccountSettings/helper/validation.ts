@@ -2,11 +2,8 @@ import {
   EmailFormData,
   PasswordFormData,
   FormDataCopy,
-} from '../../../utilities/types/AccountSettingsInterface'
-import {
-  updateUsersEmail,
-  updateUsersPassword,
-} from '../../../utilities/api/users'
+} from 'utilities/types/AccountSettingsInterface'
+import { updateUsersEmail, updateUsersPassword } from 'utilities/api/users'
 
 const VALID_EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/ // only allows ab@.

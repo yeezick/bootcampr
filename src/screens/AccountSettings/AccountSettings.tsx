@@ -1,4 +1,4 @@
-import { DropDownSettings } from '../../utilities/types/AccountSettingsInterface'
+import { DropDownSettings } from 'utilities/types/AccountSettingsInterface'
 import { initialDropdownState, settings } from './helper/data'
 import { DropdownToggleButton } from './components/DropdownToggleButton'
 import styles from './css/AccountSettings.module.css'

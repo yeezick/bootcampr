@@ -1,4 +1,4 @@
-import { DropdownToggleButtonProps } from '../../../utilities/types/AccountSettingsInterface'
+import { DropdownToggleButtonProps } from 'utilities/types/AccountSettingsInterface'
 import { handleToggleDropdown } from '../helper/dropdownHelpers'
 import styles from '../css/AccountSettings.module.css'
 

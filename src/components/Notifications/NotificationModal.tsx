@@ -5,17 +5,17 @@ import {
   deleteNotification,
   deleteAllNotifications,
   markAllNotificationsAsRead,
-} from '../../utilities/api/notifications'
+} from 'utilities/api/notifications'
 import { BsBell } from 'react-icons/bs'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import DialogTitle from '@mui/material/DialogTitle'
 import Dialog from '@mui/material/Dialog'
-import { useAppSelector } from '../../utilities/redux/hooks'
-import { selectAuthUser } from '../../utilities/redux/slices/users/userSlice'
+import { useAppSelector } from 'utilities/redux/hooks'
+import { selectAuthUser } from 'utilities/redux/slices/users/userSlice'
 import './Notification.scss'
-import { NotificationInterface } from '../../utilities/types/NotificationInterface'
+import { NotificationInterface } from 'utilities/types/NotificationInterface'
 
 export interface SimpleDialogProps {
   open: boolean

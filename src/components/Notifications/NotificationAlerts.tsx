@@ -1,6 +1,6 @@
-import { useNotification } from '../../utilities/redux/hooks'
+import { useNotification } from 'utilities/redux/hooks'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../utilities/redux/store'
+import { RootState } from 'utilities/redux/store'
 import { Snackbar, Alert, SnackbarCloseReason } from '@mui/material'
 
 export const NotificationAlerts = () => {

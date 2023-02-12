@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { notificationInitialState } from '../../../data/notificationConstants'
-import { NotificationState } from '../../../types/NotificationInterface'
+import { notificationInitialState } from 'utilities/data/notificationConstants'
+import { NotificationState } from 'utilities/types/NotificationInterface'
 
 export const NotificationSlice = createSlice({
   name: 'notification',

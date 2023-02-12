@@ -1,4 +1,4 @@
-import { UpdateCredentialsFeedbackMessageProps } from '../../../utilities/types/AccountSettingsInterface'
+import { UpdateCredentialsFeedbackMessageProps } from 'utilities/types/AccountSettingsInterface'
 
 export const UpdateFeedback = ({
   updateStatus,

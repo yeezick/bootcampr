@@ -5,11 +5,11 @@ import { useDispatch } from 'react-redux'
 import {
   selectAuthUser,
   setAuthUser,
-} from '../../utilities/redux/slices/users/userSlice'
-import { emptyUser } from '../../utilities/data/userConstants'
-import { UserInterface } from '../../utilities/types/UserInterface'
-import { updateUser } from '../../utilities/api/users'
-import { useNotification } from '../../utilities/redux/hooks'
+} from 'utilities/redux/slices/users/userSlice'
+import { emptyUser } from 'utilities/data/userConstants'
+import { UserInterface } from 'utilities/types/UserInterface'
+import { updateUser } from 'utilities/api/users'
+import { useNotification } from 'utilities/redux/hooks'
 import './EditProfile.scss'
 
 export const EditProfile: React.FC = () => {

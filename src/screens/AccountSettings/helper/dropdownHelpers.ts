@@ -1,5 +1,5 @@
-import { DropDownSettings } from '../../../utilities/types/AccountSettingsInterface'
-import { ToggleDropdown } from '../../../utilities/types/AccountSettingsInterface'
+import { DropDownSettings } from 'utilities/types/AccountSettingsInterface'
+import { ToggleDropdown } from 'utilities/types/AccountSettingsInterface'
 
 export const closeDropdown = (key: string, tempModes: DropDownSettings) =>
   (tempModes[key as keyof DropDownSettings] = false)
