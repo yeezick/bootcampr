@@ -1,7 +1,7 @@
-import {useSelector} from 'react-redux'
-import {useNavigate} from 'react-router-dom'
-import {ProjectInterface} from 'utilities/types'
-import {selectAuthUser} from 'utilities/redux/slices/users/userSlice'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { ProjectInterface } from 'utilities/types'
+import { selectAuthUser } from 'utilities/redux/slices/users/userSlice'
 
 export const UserProfile = () => {
   const authUser = useSelector(selectAuthUser)
@@ -36,7 +36,7 @@ export const UserProfile = () => {
             <h5>meeting cadence: {projects.meeting_cadence}</h5>
             <h5>technologies used: {projects.technologies_used}</h5>
           </div>
-        ),
+        )
       )}
     </div>
   )

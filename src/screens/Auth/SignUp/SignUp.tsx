@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react'
-import {useNavigate} from 'react-router-dom'
-import {BsEyeFill, BsEyeSlash} from 'react-icons/bs'
-import {SignUpInterface} from 'utilities/types'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { BsEyeFill, BsEyeSlash } from 'react-icons/bs'
+import { SignUpInterface } from 'utilities/types'
 import {
   register,
   reset,
   selectAuthUser,
   uiStatus,
 } from 'utilities/redux/slices/users/userSlice'
-import {useAppDispatch, useAppSelector} from 'utilities/redux/hooks'
-import {emptySignUp} from 'utilities/data/userConstants'
+import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
+import { emptySignUp } from 'utilities/data/userConstants'
 import './SignUp.scss'
 
 type PasswordMatchCases = null | boolean
@@ -18,12 +18,12 @@ export const SignUp: React.FC = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const status = useAppSelector(uiStatus)
-  const {_id: userId} = useAppSelector(selectAuthUser)
+  const { _id: userId } = useAppSelector(selectAuthUser)
   const [inputType, setInputType] = useState('password')
   const [passwordsMatch, togglePasswordsMatch] =
     useState<PasswordMatchCases>(null)
   const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp)
-  const {confirmPassword, email, firstName, lastName, password} = formValues
+  const { confirmPassword, email, firstName, lastName, password } = formValues
 
   useEffect(() => {
     if (status.isSuccess) {
@@ -45,8 +45,8 @@ export const SignUp: React.FC = () => {
   }, [password, confirmPassword])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target
-    setFormValues({...formValues, [name]: value})
+    const { name, value } = e.target
+    setFormValues({ ...formValues, [name]: value })
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

@@ -1,4 +1,4 @@
-import {UserInterface} from './UserInterface'
+import { UserInterface } from './UserInterface'
 
 export interface ProjectInterface {
   createdAt?: string

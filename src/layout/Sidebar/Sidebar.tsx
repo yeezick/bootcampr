@@ -1,7 +1,7 @@
-import {Link} from 'react-router-dom'
-import {AiFillStar} from 'react-icons/ai'
-import {logOut} from 'utilities/api/users'
-import {useAppDispatch, useAppSelector} from 'utilities/redux/hooks'
+import { Link } from 'react-router-dom'
+import { AiFillStar } from 'react-icons/ai'
+import { logOut } from 'utilities/api/users'
+import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
 import {
   logoutAuthUser,
   selectAuthUser,
@@ -11,10 +11,10 @@ import './Sidebar.scss'
 
 export const Sidebar = () => {
   const authUser = useAppSelector(selectAuthUser)
-  const {_id: userId, firstName, lastName} = authUser
+  const { _id: userId, firstName, lastName } = authUser
   const dispatch = useAppDispatch()
   const visibleSidebar = useAppSelector(
-    state => state.ui.sidebar.visibleSidebar,
+    state => state.ui.sidebar.visibleSidebar
   )
 
   const handleLogout = () => {

@@ -1,4 +1,4 @@
-import {FaSpinner} from 'react-icons/fa'
+import { FaSpinner } from 'react-icons/fa'
 import './Loader.scss'
 
 export const Loader: React.FC = () => {

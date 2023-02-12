@@ -1,13 +1,13 @@
-import {Link} from 'react-router-dom'
-import {selectAuthUser} from 'utilities/redux/slices/users/userSlice'
-import {useAppDispatch, useAppSelector} from 'utilities/redux/hooks'
-import {toggleSidebar} from 'utilities/redux/slices/users/userSlice'
+import { Link } from 'react-router-dom'
+import { selectAuthUser } from 'utilities/redux/slices/users/userSlice'
+import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
+import { toggleSidebar } from 'utilities/redux/slices/users/userSlice'
 import Logo from 'assets/Logo.svg'
 import './Nav.scss'
 
 export const Nav = () => {
   const authUser = useAppSelector(selectAuthUser)
-  const {_id: userId} = authUser
+  const { _id: userId } = authUser
   const dispatch = useAppDispatch()
 
   const toggleSidebarHandler = () => {

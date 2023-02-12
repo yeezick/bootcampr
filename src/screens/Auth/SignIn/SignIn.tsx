@@ -1,10 +1,10 @@
-import {useState, useEffect} from 'react'
-import {useDispatch} from 'react-redux'
-import {useNavigate} from 'react-router-dom'
-import {signIn} from 'utilities/api'
-import {AppDispatch} from 'utilities/redux/store'
-import {setAuthUser} from 'utilities/redux/slices/users/userSlice'
-import {SignInInterface} from 'utilities/types'
+import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { signIn } from 'utilities/api'
+import { AppDispatch } from 'utilities/redux/store'
+import { setAuthUser } from 'utilities/redux/slices/users/userSlice'
+import { SignInInterface } from 'utilities/types'
 import styles from './SignIn.module.css'
 
 const SignIn: React.FC = (): JSX.Element => {
@@ -36,9 +36,9 @@ const SignIn: React.FC = (): JSX.Element => {
   }
 
   const handleFormDataChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    setFormData({...formData, [e.target.name]: e.target.value})
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   const handleSubmitForm = async (e: React.FormEvent): Promise<void> => {
@@ -101,4 +101,4 @@ const SignIn: React.FC = (): JSX.Element => {
   )
 }
 
-export {SignIn}
+export { SignIn }

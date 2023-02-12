@@ -1,12 +1,12 @@
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-import {Layout} from 'layout'
-import {Landing} from 'screens/Landing/Landing'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Layout } from 'layout'
+import { Landing } from 'screens/Landing/Landing'
 // import { ProjectDetails } from 'screens/Projects';
-import {RegisterUserInfo} from 'screens/Auth'
-import {SignIn} from 'screens/Auth'
-import {SignUp} from 'screens/Auth'
-import {UserProfile} from 'screens/UserProfile'
-import {EditProfile} from 'screens/UserProfile'
+import { RegisterUserInfo } from 'screens/Auth'
+import { SignIn } from 'screens/Auth'
+import { SignUp } from 'screens/Auth'
+import { UserProfile } from 'screens/UserProfile'
+import { EditProfile } from 'screens/UserProfile'
 
 import './App.css'
 

@@ -1,12 +1,12 @@
-import {useEffect, useState} from 'react'
-import {useNavigate} from 'react-router-dom'
-import {useAppDispatch, useAppSelector} from 'utilities/redux/hooks'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
 import {
   selectAuthUser,
   updateProfile,
 } from 'utilities/redux/slices/users/userSlice'
-import {UserInterface} from 'utilities/types'
-import {emptyUser} from 'utilities/data/userConstants'
+import { UserInterface } from 'utilities/types'
+import { emptyUser } from 'utilities/data/userConstants'
 import './RegisterUserInfo.scss'
 
 export const RegisterUserInfo: React.FC = () => {
@@ -30,14 +30,14 @@ export const RegisterUserInfo: React.FC = () => {
     }
     if (authUser) {
       setUserForm(currForm => {
-        return {...currForm, ...authUser}
+        return { ...currForm, ...authUser }
       })
     }
   }, [authUser])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target
-    setUserForm({...userForm, [name]: value})
+    const { name, value } = e.target
+    setUserForm({ ...userForm, [name]: value })
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

@@ -1,11 +1,11 @@
-import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import {
   SignUpInterface,
   UiSliceInterface,
   UserInterface,
 } from '../../../types/UserInterface'
-import {signUp, updateUser} from '../../../api/users'
-import {RootState} from '../../store'
+import { signUp, updateUser } from '../../../api/users'
+import { RootState } from '../../store'
 
 const initialState: UiSliceInterface = {
   auth: {
@@ -44,7 +44,7 @@ export const register = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue('Unable to register!')
     }
-  },
+  }
 )
 
 export const updateProfile = createAsyncThunk(
@@ -59,7 +59,7 @@ export const updateProfile = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue('Unable to update user!')
     }
-  },
+  }
 )
 
 const usersSlice = createSlice({
@@ -82,7 +82,7 @@ const usersSlice = createSlice({
     reset: state => {
       state.status.isLoading = false
       state.status.isSuccess = false
-      state.status.isError = {status: false}
+      state.status.isError = { status: false }
     },
   },
   extraReducers: builder => {
@@ -99,7 +99,7 @@ const usersSlice = createSlice({
       })
       .addCase(register.rejected, state => {
         state.status.isLoading = false
-        state.status.isError = {status: true}
+        state.status.isError = { status: true }
       })
       // UPDATE USER
       .addCase(updateProfile.pending, state => {
@@ -113,7 +113,7 @@ const usersSlice = createSlice({
       })
       .addCase(updateProfile.rejected, state => {
         state.status.isLoading = false
-        state.status.isError = {status: true}
+        state.status.isError = { status: true }
       })
   },
 })

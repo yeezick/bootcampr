@@ -1,4 +1,4 @@
-import {api} from './apiConfig'
+import { api } from './apiConfig'
 
 export const getAllUsers = async () => {
   try {
@@ -49,7 +49,7 @@ export const checkEmailAuth = async email => {
 export const signUp = async credentials => {
   try {
     const res = await api.post('/sign-up', credentials)
-    const {bootcamprAuthToken, user} = res.data
+    const { bootcamprAuthToken, user } = res.data
     localStorage.setItem('bootcamprAuthToken', bootcamprAuthToken)
     return user
   } catch (error) {
@@ -60,7 +60,7 @@ export const signUp = async credentials => {
 export const signIn = async credentials => {
   try {
     const res = await api.post('/sign-in', credentials)
-    const {bootcamprAuthToken, user} = res.data
+    const { bootcamprAuthToken, user } = res.data
     localStorage.setItem('bootcamprAuthToken', bootcamprAuthToken)
     // const user = jwtDecode(res.data.bootcamprAuthToken);
     return user
@@ -80,8 +80,8 @@ export const logOut = async () => {
 export const verify = async () => {
   const bootcamprAuthToken = localStorage.getItem('bootcamprAuthToken')
   if (bootcamprAuthToken) {
-    const {data: payload} = await api.get('/verify')
-    const {data: user} = await api.get(`/users/${payload.userID}`)
+    const { data: payload } = await api.get('/verify')
+    const { data: user } = await api.get(`/users/${payload.userID}`)
     return user
   }
   return false
