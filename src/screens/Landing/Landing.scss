@@ -1,0 +1,12 @@
+.landing-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+
+  .header-grid {
+    background-image: url('https://i.postimg.cc/L51km4gF/developer.jpg');
+    background-size: cover;
+    height: 600px;
+    width: 100%;
+  }
+}

@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setAuthUser } from 'utilities/redux/slices/users/userSlice'
-import { getAllUsers } from 'utilities/api/users'
+import { setAuthUser } from '../../utilities/redux/slices/users/userSlice'
+import { getAllUsers } from '../../utilities/api/users'
 import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai'
+import { SignUp } from 'screens/Auth/SignUp/SignUp'
+import './Landing.scss'
 
 export const Landing: React.FC = () => {
   const [loginStatus, setLoginStatus] = useState<boolean | null>(null)
@@ -37,6 +40,7 @@ export const Landing: React.FC = () => {
       </h2>
       <button onClick={randomUserLogin}>Login as random user</button>
       <LoginStatusSymbol />
+      <SignUp />
     </div>
   )
 }
