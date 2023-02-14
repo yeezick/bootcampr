@@ -52,7 +52,12 @@ export const Landing: React.FC = () => {
           <LoginStatusSymbol />
         </div>
       </div>
-      <SignUp />
+      <div className='middle-container'>
+        <img src='https://www.springboard.com/blog/wp-content/uploads/2020/07/what-does-a-software-engineer-do.png' />
+        <>
+          <SignUp />
+        </>
+      </div>
     </div>
   )
 }

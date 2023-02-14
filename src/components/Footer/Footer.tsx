@@ -15,6 +15,7 @@ const Footer: React.FC = () => {
       <Link className='link' to='/sign-in'>
         Alreay have an account? Sign In
       </Link>
+      <p>© 2023 Bootcampr, Inc</p>
     </div>
   )
 }

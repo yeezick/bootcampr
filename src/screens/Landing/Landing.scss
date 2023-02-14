@@ -5,11 +5,11 @@
 
   .header-container {
     align-items: center;
-    background-image: url('https://i.postimg.cc/HLxDkFYk/developer.jpg');
-    background-position: 0 -127px;
+    background-image: url('https://i.postimg.cc/KjZRDzjx/developer.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     display: flex;
+    flex-direction: row;
     height: 100vh;
     justify-content: space-around;
     width: 100%;
@@ -18,28 +18,28 @@
   .header-grid {
     align-items: center;
     background-color: #212530b5;
+    border-radius: 20px;
+    box-shadow: 0 10px 18px -2px rgba(0, 0, 0, 0.7);
     color: white;
     display: flex;
     flex-direction: column;
     height: fit-content;
     margin-top: 53px;
-    padding: 45px 50px;
-    border-radius: 20px;
     max-width: 450px;
-    box-shadow: 0 10px 18px -2px rgba(0, 0, 0, 0.7);
+    padding: 45px 50px;
 
     h1 {
       margin: 0;
     }
 
     a {
-      color: white;
-      text-decoration: none;
       background-color: rgb(73, 71, 126);
-      padding: 15px 80px;
       border-radius: 25px;
+      color: white;
       font-size: 18px;
       font-weight: 600;
+      padding: 15px 80px;
+      text-decoration: none;
 
       &:hover {
         background-color: rgb(98, 95, 158);
@@ -58,6 +58,8 @@
   .developer-grid {
     align-items: center;
     background-color: rgba(102, 73, 16, 0.715);
+    border-radius: 20px;
+    box-shadow: 0 10px 18px -2px rgba(0, 0, 0, 0.7);
     color: white;
     display: flex;
     flex-direction: column;
@@ -65,19 +67,17 @@
     justify-content: space-between;
     margin-top: 53px;
     padding: 50px;
-    border-radius: 20px;
-    box-shadow: 0 10px 18px -2px rgba(0, 0, 0, 0.7);
 
     button {
       background-color: #f29e34;
       border: none;
+      border-radius: 25px;
       color: white;
+      cursor: pointer;
       font-size: 18px;
       font-weight: 600;
-      width: 300px;
       height: 50px;
-      border-radius: 25px;
-      cursor: pointer;
+      width: 300px;
 
       &:hover {
         background-color: #353131;
@@ -86,6 +86,23 @@
       &:active {
         background-color: #1e1c1c;
       }
+    }
+  }
+
+  .middle-container {
+    align-items: center;
+    display: flex;
+    height: 700px;
+    justify-content: space-between;
+    margin-bottom: -70px;
+    width: 100%;
+
+    img {
+      height: 100%;
+    }
+
+    .signup-container {
+      margin: 0 auto;
     }
   }
 }
