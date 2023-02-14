@@ -1,7 +1,7 @@
 .auth-form-label {
   color: grey;
   display: block;
-  font-size: .75rem;
+  font-size: 0.75rem;
 }
 
 .auth-form-input {
@@ -36,7 +36,7 @@
   font-weight: bold;
   height: 25px;
   margin: 10px 0;
-  transition: all .15s ease-in-out;
+  transition: all 0.15s ease-in-out;
   width: 100%;
 }
 
@@ -55,7 +55,6 @@
   top: 22px;
 }
 
-
 .pwd-reveal {
   cursor: pointer;
   font-size: 19px;
@@ -65,7 +64,7 @@
   cursor: pointer;
   font-size: 19px;
   opacity: 0.3;
-  transition: all .15s ease-in-out;
+  transition: all 0.15s ease-in-out;
 }
 
 .pwd-reveal-gray:hover {
@@ -74,5 +73,5 @@
 
 .match-error {
   color: red;
-  font-size: .7rem;
+  font-size: 0.7rem;
 }

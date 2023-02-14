@@ -1,4 +1,8 @@
-import { SignUpInterface, UiSliceInterface, UserInterface } from '../types/UserInterface';
+import {
+  SignUpInterface,
+  UiSliceInterface,
+  UserInterface,
+} from '../types/UserInterface'
 
 export const initialState: UiSliceInterface = {
   auth: {
@@ -28,7 +32,7 @@ export const initialState: UiSliceInterface = {
       message: '',
     },
   },
-};
+}
 
 export const emptyUser: UserInterface = {
   bio: '',
@@ -42,7 +46,7 @@ export const emptyUser: UserInterface = {
   profilePicture: '',
   role: '',
   _id: '',
-};
+}
 
 export const emptySignUp: SignUpInterface = {
   confirmPassword: '',
@@ -50,4 +54,4 @@ export const emptySignUp: SignUpInterface = {
   firstName: '',
   lastName: '',
   password: '',
-};
+}
