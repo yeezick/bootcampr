@@ -32,14 +32,26 @@ export const Landing: React.FC = () => {
   }
 
   return (
-    <div className=''>
-      <h1> landing screen </h1>
-      <h2>
-        Login as a random user using the button below <br /> Button is for devs
-        who want to skip auth user flow
-      </h2>
-      <button onClick={randomUserLogin}>Login as random user</button>
-      <LoginStatusSymbol />
+    <div className='landing-container'>
+      <div className='header-container'>
+        <div className='header-grid'>
+          <h1>Surpass Your Competition In The Tech Job Market</h1>
+          <p>
+            A platform to collaborate on real-world projects! Don't wait to
+            build your development experience.
+          </p>
+          <Link to='/sign-up'>Start Today!</Link>
+        </div>
+        <div className='developer-grid'>
+          <h1> For UX & Developers Only! </h1>
+          <h2>
+            Login as a random user using the button below <br /> Button is for
+            devs who want to skip auth user flow
+          </h2>
+          <button onClick={randomUserLogin}>Login as random user</button>
+          <LoginStatusSymbol />
+        </div>
+      </div>
       <SignUp />
     </div>
   )
