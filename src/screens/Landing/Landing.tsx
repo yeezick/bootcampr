@@ -54,9 +54,9 @@ export const Landing: React.FC = () => {
       </div>
       <div className='middle-container'>
         <img src='https://www.springboard.com/blog/wp-content/uploads/2020/07/what-does-a-software-engineer-do.png' />
-        <>
+        <div className='signup-grid'>
           <SignUp />
-        </>
+        </div>
       </div>
     </div>
   )

@@ -101,8 +101,15 @@
       height: 100%;
     }
 
-    .signup-container {
-      margin: 0 auto;
+    .signup-grid {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      
+      .signup-container {
+        margin: 0;
+      }
     }
   }
 }
