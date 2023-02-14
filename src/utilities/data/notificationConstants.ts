@@ -1,11 +1,14 @@
-import { NotificationInterface, NotificationState } from '../types/NotificationInterface';
+import {
+  NotificationInterface,
+  NotificationState,
+} from '../types/NotificationInterface'
 
 export const notificationInitialState: NotificationState = {
   message: '',
   open: false,
   timeout: 5000,
   type: 'info',
-};
+}
 
 export const emptyNotification: NotificationInterface = {
   message: '',
@@ -14,4 +17,4 @@ export const emptyNotification: NotificationInterface = {
   type: 0,
   user: '',
   _id: '',
-};
+}

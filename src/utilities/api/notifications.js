@@ -1,47 +1,47 @@
-import { api } from './apiConfig';
+import { api } from './apiConfig'
 
-export const getAllNotifications = async (user) => {
+export const getAllNotifications = async user => {
   try {
-    const res = await api.get('/notifications', user);
-    return res.data;
+    const res = await api.get('/notifications', user)
+    return res.data
   } catch (error) {
-    console.error(error);
-    return false;
+    console.error(error)
+    return false
   }
-};
+}
 
-export const deleteNotification = async (_id) => {
+export const deleteNotification = async _id => {
   try {
-    const res = await api.delete(`/notifications/${_id}`);
-    return res.data;
+    const res = await api.delete(`/notifications/${_id}`)
+    return res.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
-export const deleteAllNotifications = async (user) => {
+export const deleteAllNotifications = async user => {
   try {
-    const res = await api.delete(`/delete-notifications/${user}`);
-    return res.data;
+    const res = await api.delete(`/delete-notifications/${user}`)
+    return res.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
-export const markNotificationAsRead = async (_id) => {
+export const markNotificationAsRead = async _id => {
   try {
-    const res = await api.patch('/notifications', _id);
-    return res.data;
+    const res = await api.patch('/notifications', _id)
+    return res.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
-export const markAllNotificationsAsRead = async (user) => {
+export const markAllNotificationsAsRead = async user => {
   try {
-    const res = await api.patch(`/all-notifications/${user}`);
-    return res.data;
+    const res = await api.patch(`/all-notifications/${user}`)
+    return res.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
