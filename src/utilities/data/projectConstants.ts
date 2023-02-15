@@ -6,10 +6,10 @@ export const emptyProject = {
   status: '',
   technologies_used: [],
   title: '',
-};
+}
 
 export const emptyProjectOwner = {
   firstName: '',
   lastName: '',
   _id: '',
-};
+}

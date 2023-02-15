@@ -1,48 +1,46 @@
 import AuthSettingsFormDropdown from '../components/AuthSettingsFormDropdown'
-import { DropDownSettings } from '../../../utilities/types/AccountSettingsInterface'
+import { DropDownSettings } from 'utilities/types/AccountSettingsInterface'
 
 // Prop Declarations
 const emailSettingsProps = {
   type: ['password', 'newEmail', 'confirmNewEmail'],
-  fields: ["Password", 'New Email', "Confirm New Email"]
+  fields: ['Password', 'New Email', 'Confirm New Email'],
 }
 const passwordSettingsProps = {
   type: ['password', 'newPassword', 'confirmNewPassword'],
-  fields: ["Current Password", 'New Password', "Confirm New Password"]
+  fields: ['Current Password', 'New Password', 'Confirm New Password'],
 }
 
 // Initialization
 export const initialDropdownState: DropDownSettings = {
   password: false,
-  email: false
+  email: false,
 }
 
 export const initialPasswordFormData = {
-  password: "",
-  newPassword: "",
-  confirmNewPassword: ""
+  password: '',
+  newPassword: '',
+  confirmNewPassword: '',
 }
 
 export const initialEmailFormData = {
-  password: "",
-  newEmail: "",
-  confirmNewEmail: ""
+  password: '',
+  newEmail: '',
+  confirmNewEmail: '',
 }
 
 // Constants
 export const settings = [
   {
-    title: "Email",
+    title: 'Email',
     val: 'email',
     Component: AuthSettingsFormDropdown,
-    props: { ...emailSettingsProps }
+    props: { ...emailSettingsProps },
   },
   {
-    title: "Password",
+    title: 'Password',
     val: 'password',
     Component: AuthSettingsFormDropdown,
-    props: { ...passwordSettingsProps }
-  }
+    props: { ...passwordSettingsProps },
+  },
 ]
-
-

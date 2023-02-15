@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { notificationInitialState } from '../../../data/notificationConstants';
-import { NotificationState } from '../../../types/NotificationInterface';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { notificationInitialState } from 'utilities/data/notificationConstants'
+import { NotificationState } from 'utilities/types/NotificationInterface'
 
 export const NotificationSlice = createSlice({
   name: 'notification',
@@ -11,9 +11,9 @@ export const NotificationSlice = createSlice({
       ...action.payload,
       open: true,
     }),
-    clearNotification: (_state) => ({ ..._state, open: false }),
+    clearNotification: _state => ({ ..._state, open: false }),
   },
-});
+})
 
-export const NotificationActions = NotificationSlice.actions;
-export const NotificationReducer = NotificationSlice.reducer;
+export const NotificationActions = NotificationSlice.actions
+export const NotificationReducer = NotificationSlice.reducer
