@@ -1,5 +1,5 @@
-@import '../../scss/variables';
-@import '../../scss/mixins';
+@import 'scss/variables';
+@import 'scss/mixins';
 
 .info {
   @include alert-banners($alert-info-background, $alert-info-text-color);

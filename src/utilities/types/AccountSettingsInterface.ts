@@ -1,5 +1,5 @@
 export interface UpdateCredentialsFeedbackMessageProps {
-  updateStatus: string;
+  updateStatus: string
 }
 
 export interface FormDataCopy {
@@ -9,35 +9,35 @@ export interface FormDataCopy {
   confirmNewPassword?: string
 }
 export interface ToggleDropdown {
-  setting: string;
-  tempModes: DropDownSettings;
-  dropdownModes: DropDownSettings;
+  setting: string
+  tempModes: DropDownSettings
+  dropdownModes: DropDownSettings
   setDropdownModes: React.Dispatch<React.SetStateAction<DropDownSettings>>
 }
 
 export interface DropdownToggleButtonProps extends ToggleDropdown {
-  active: boolean;
+  active: boolean
 }
 export interface AuthSettingsFormDropdownProps {
-  fields: string[];
-  type: string[];
+  fields: string[]
+  type: string[]
 }
 
 export interface DropDownSettings {
-  password: boolean;
-  email: boolean;
+  password: boolean
+  email: boolean
 }
 
 export interface EmailFormData {
-  password: string;
-  newEmail: string;
-  confirmNewEmail: string;
+  password: string
+  newEmail: string
+  confirmNewEmail: string
 }
 
 export interface PasswordFormData {
-  password: string;
-  newPassword: string;
-  confirmNewPassword: string;
+  password: string
+  newPassword: string
+  confirmNewPassword: string
 }
 
 export interface FormErrorsProps {
@@ -46,15 +46,17 @@ export interface FormErrorsProps {
 }
 
 export interface AuthFormInputProps {
-  field: string;
-  setAuthFormData: React.Dispatch<React.SetStateAction<EmailFormData | PasswordFormData>>;
-  authFormData: EmailFormData | PasswordFormData;
-  type: string;
+  field: string
+  setAuthFormData: React.Dispatch<
+    React.SetStateAction<EmailFormData | PasswordFormData>
+  >
+  authFormData: EmailFormData | PasswordFormData
+  type: string
 }
 
 export interface AlertBanners {
-  status: boolean;
-  text?: string;
-  icon?: JSX.Element;
-  type?: string;
+  status: boolean
+  text?: string
+  icon?: JSX.Element
+  type?: string
 }
