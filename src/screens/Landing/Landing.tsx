@@ -6,9 +6,12 @@ import { getAllUsers } from 'utilities/api/users'
 import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai'
 import { SignUp } from 'screens/Auth/SignUp/SignUp'
 import './Landing.scss'
+import { useAppSelector } from 'utilities/redux/hooks'
+import { selectAuthUser } from 'utilities/redux/slices/users/userSlice'
 
 export const Landing: React.FC = () => {
   const [loginStatus, setLoginStatus] = useState<boolean | null>(null)
+  const authUser = useAppSelector(selectAuthUser)
   const dispatch = useDispatch()
 
   const randomUserLogin = async () => {
@@ -22,12 +25,10 @@ export const Landing: React.FC = () => {
   }
 
   const LoginStatusSymbol: React.FC = () => {
-    if (loginStatus === true) {
-      return <AiOutlineCheckCircle />
-    } else if (loginStatus === false) {
-      return <AiOutlineStop />
+    if (loginStatus === true && authUser._id) {
+      return <AiOutlineCheckCircle className='logged-in' />
     } else {
-      return <></>
+      return <AiOutlineStop className='logged-out' />
     }
   }
 

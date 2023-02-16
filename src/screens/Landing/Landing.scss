@@ -66,7 +66,7 @@
     height: fit-content;
     justify-content: space-between;
     margin-top: 53px;
-    padding: 50px;
+    padding: 35px 50px 45px 50px;
 
     button {
       background-color: #f29e34;
@@ -86,6 +86,22 @@
       &:active {
         background-color: #1e1c1c;
       }
+    }
+
+    .logged-in, .logged-out {
+      margin-top: 25px;
+      min-height: 25px;
+      min-width: 25px;
+    }
+
+    .logged-in {
+      color: rgb(172, 255, 47);
+      filter: drop-shadow(0 0 4px rgb(172, 255, 47 / 0.4));
+    }
+
+    .logged-out {
+      color: rgb(255, 47, 47);
+      filter: drop-shadow(0 0 3px rgb(255, 47, 47 / 0.4));
     }
   }
 
