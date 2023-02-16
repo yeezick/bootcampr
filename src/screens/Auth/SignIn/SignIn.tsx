@@ -81,7 +81,7 @@ const SignIn: React.FC = (): JSX.Element => {
 
     !response.role
       ? navigate(`/users/${response._id}/account-setup`)
-      : navigate('/')
+      : navigate(`/users/${response._id}`)
   }
 
   // Side Effects
