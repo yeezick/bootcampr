@@ -17,6 +17,7 @@ export const RegisterUserInfo: React.FC = () => {
   const {
     bio,
     firstName,
+    githubUrl,
     lastName,
     linkedinUrl,
     portfolioUrl,
@@ -35,7 +36,9 @@ export const RegisterUserInfo: React.FC = () => {
     }
   }, [authUser])
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target
     setUserForm({ ...userForm, [name]: value })
   }
@@ -109,14 +112,11 @@ export const RegisterUserInfo: React.FC = () => {
 
             <div className='form-input'>
               <label>My Role:</label>
-              <input
-                onChange={handleChange}
-                type='text'
-                name='role'
-                placeholder='My Role'
-                value={role}
-                required
-              />
+              <select name='role' onChange={handleChange}>
+                <option value='0'></option>
+                <option value='UX Designer'>UX Designer</option>
+                <option value='Software Engineer'>Software Engineer</option>
+              </select>
             </div>
 
             <h2>Socials:</h2>
@@ -141,6 +141,19 @@ export const RegisterUserInfo: React.FC = () => {
                 value={portfolioUrl}
               />
             </div>
+
+            {userForm.role === 'Software Engineer' && (
+              <div className='form-input'>
+                <label>Github URL:</label>
+                <input
+                  onChange={handleChange}
+                  type='text'
+                  name='githubUrl'
+                  placeholder='Github URL'
+                  value={githubUrl}
+                />
+              </div>
+            )}
 
             <div className='form-btn'>
               <button type='submit'>Submit Profile</button>
