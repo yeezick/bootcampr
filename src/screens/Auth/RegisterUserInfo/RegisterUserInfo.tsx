@@ -8,6 +8,9 @@ import {
 import { UserInterface } from 'utilities/types'
 import { emptyUser } from 'utilities/data/userConstants'
 import './RegisterUserInfo.scss'
+import PreviewUserImage from '../PreviewUserImage/PreviewUserImage'
+import RegisterUserImage from '../RegisterUserImage/RegisterUserImage'
+import { createUserImage } from 'utilities/api'
 
 export const RegisterUserInfo: React.FC = () => {
   const navigate = useNavigate()
@@ -42,9 +45,10 @@ export const RegisterUserInfo: React.FC = () => {
     setUserForm({ ...userForm, [name]: value })
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(updateProfile(userForm))
+    if (profileImageFile) await createUserImage(profileImageFile, authUser._id)
     navigate(`/users/${authUser._id}`)
   }
 
@@ -53,23 +57,16 @@ export const RegisterUserInfo: React.FC = () => {
       <h1>Hi, {firstName}!</h1>
       <div className='form-container'>
         <section className='profile-photo-grid'>
-          <div className='profile-photo'>
-            <img
-              src={
-                !profilePicture
-                  ? 'https://pbs.twimg.com/profile_images/1564398871996174336/M-hffw5a_400x400.jpg'
-                  : profilePicture
-              }
-              alt='photo'
-            />
-          </div>
+          <PreviewUserImage
+            previewImage={previewImage}
+            authUser={{ profilePicture: profilePicture }}
+          />
           <label>Profile Photo:</label>
-          <input
-            onChange={handleChange}
-            type='text'
-            name='profilePicture'
-            placeholder='Profile Photo'
-            value={profilePicture}
+          <RegisterUserImage
+            setProfileImageFile={setProfileImageFile}
+            previewImage={previewImage}
+            setPreviewImage={setPreviewImage}
+            profileImageFile={profileImageFile}
           />
         </section>
 

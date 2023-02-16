@@ -1,4 +1,5 @@
 import { api } from './apiConfig'
+import axios from 'axios'
 import {
   PasswordFormData,
   EmailFormData,
@@ -113,4 +114,19 @@ export const updateUsersPassword = async (
   } catch (error) {
     return { error: { status: 500, message: 'Something went wrong' } }
   }
+}
+export const createUserImage = async (
+  profileImageFile: File,
+  userId: string
+) => {
+  const addUserImage = new FormData()
+  addUserImage.append('image', profileImageFile)
+  addUserImage.append('userId', userId)
+  return await axios.post(
+    `${process.env.REACT_APP_LOCAL_URL}addUserImage`,
+    addUserImage,
+    {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }
+  )
 }
