@@ -13,6 +13,8 @@ export const RegisterUserInfo: React.FC = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
+  const [profileImageFile, setProfileImageFile] = useState<File>()
+  const [previewImage, setPreviewImage] = useState<string>()
   const [userForm, setUserForm] = useState<UserInterface>(emptyUser)
   const {
     bio,
