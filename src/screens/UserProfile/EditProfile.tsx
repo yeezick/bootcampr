@@ -8,7 +8,7 @@ import {
 } from 'utilities/redux/slices/users/userSlice'
 import { emptyUser } from 'utilities/data/userConstants'
 import { UserInterface } from 'utilities/types/UserInterface'
-import { updateUser } from 'utilities/api/users'
+import { createUserImage, updateUser } from 'utilities/api/users'
 import { useNotification } from 'utilities/redux/hooks'
 import './EditProfile.scss'
 
@@ -18,6 +18,7 @@ export const EditProfile: React.FC = () => {
   const params = useParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [profileImageFile, setProfileImageFile] = useState<File>()
   const {
     bio,
     firstName,
@@ -46,8 +47,14 @@ export const EditProfile: React.FC = () => {
 
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const imageWasUpdated = !!profileImageFile
+    if (profileImageFile) {
+      await createUserImage(profileImageFile, authUser._id)
+      // Waiting on user refresh bug ticket
+      // window.location.reload();
+    }
 
-    const updatedUser = await updateUser(params.id, userForm)
+    const updatedUser = await updateUser(params.id, userForm, imageWasUpdated)
     dispatch(setAuthUser(updatedUser))
     navigate(`/users/${userId}`)
   }

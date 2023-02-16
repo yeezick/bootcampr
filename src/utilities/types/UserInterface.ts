@@ -45,6 +45,7 @@ export interface SignUpInterface {
   firstName: string
   lastName: string
   password: string
+  profilePicture: string
 }
 
 export interface SignInInterface {
