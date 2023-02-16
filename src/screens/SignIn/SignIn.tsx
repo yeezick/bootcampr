@@ -1,81 +1,103 @@
 import styles from './SignIn.module.css'
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react'
 import { signIn } from '../../utilities/api/users'
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../utilities/redux/store';
-import { setAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { SignInInterface } from '../../utilities/types/UserInterface';
-import { GoAlert, GoVerified } from 'react-icons/go';
-import { AlertBanners } from '../../utilities/types/AccountSettingsInterface';
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '../../utilities/redux/store'
+import { setAuthUser } from '../../utilities/redux/slices/users/userSlice'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { SignInInterface } from '../../utilities/types/UserInterface'
+import { GoAlert, GoVerified } from 'react-icons/go'
+import { AlertBanners } from '../../utilities/types/AccountSettingsInterface'
 
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables
-  const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
-  const [formData, setFormData] = useState<SignInInterface>({ email: '', password: '' });
-  const [alertBanner, setAlertBanner] = useState<AlertBanners>({ status: false, text: '', type: '' });
+  const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
+  const [formData, setFormData] = useState<SignInInterface>({
+    email: '',
+    password: '',
+  })
+  const [alertBanner, setAlertBanner] = useState<AlertBanners>({
+    status: false,
+    text: '',
+    type: '',
+  })
 
   // Constants
-  const VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  const dispatch: AppDispatch = useDispatch();
-  const navigate = useNavigate();
+  const VALID_EMAIL_REGEX =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+  const dispatch: AppDispatch = useDispatch()
+  const navigate = useNavigate()
   const location = useLocation()
 
   // Event Handlers
   useEffect(() => {
     if (location.state && location.state.status) {
-      setAlertBanner({ status: true, text: location.state.message, icon: <GoVerified />, type: 'success' })
+      setAlertBanner({
+        status: true,
+        text: location.state.message,
+        icon: <GoVerified />,
+        type: 'success',
+      })
       setTimeout(() => {
         setAlertBanner({ status: false })
         location.state = { success: false }
-      }, 8000);
+      }, 8000)
     }
   }, [])
 
   const formValidation = (): void => {
-    const validEmailAddressProvided = formData.email.match(VALID_EMAIL_REGEX);
-    const passwordFieldFilledOut = formData.password !== '';
+    const validEmailAddressProvided = formData.email.match(VALID_EMAIL_REGEX)
+    const passwordFieldFilledOut = formData.password !== ''
 
-    if (validEmailAddressProvided && passwordFieldFilledOut) setButtonDisabled(false);
-    else setButtonDisabled(true);
-  };
+    if (validEmailAddressProvided && passwordFieldFilledOut)
+      setButtonDisabled(false)
+    else setButtonDisabled(true)
+  }
 
-  const handleFormDataChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleFormDataChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
 
   const handleSubmitForm = async (e: React.FormEvent): Promise<void> => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const response = await signIn(formData);
+    const response = await signIn(formData)
     if (response?.message) {
-      setAlertBanner({ status: true, text: response.message, icon: <GoAlert />, type: 'warning' })
+      setAlertBanner({
+        status: true,
+        text: response.message,
+        icon: <GoAlert />,
+        type: 'warning',
+      })
       setTimeout(() => {
         setAlertBanner({ status: false })
-      }, 12000);
+      }, 12000)
       return
     }
 
-    dispatch(setAuthUser(response));
+    dispatch(setAuthUser(response))
 
-    !response.role ? navigate(`/users/${response._id}/account-setup`) : navigate('/');
-  };
+    !response.role
+      ? navigate(`/users/${response._id}/account-setup`)
+      : navigate('/')
+  }
 
   // Side Effects
   useEffect(() => {
-    formValidation();
-  }, [formData]);
+    formValidation()
+  }, [formData])
 
   return (
     <div>
       <div>
         {alertBanner.status ? (
-            <div className={alertBanner.type}>
-              {alertBanner.icon}
-              <p>{alertBanner.text}</p>
-            </div>
-          ) : null
-        }
+          <div className={alertBanner.type}>
+            {alertBanner.icon}
+            <p>{alertBanner.text}</p>
+          </div>
+        ) : null}
       </div>
       <div className={styles.sign_in_container}>
         <form className={styles.sign_in_form} onSubmit={handleSubmitForm}>
@@ -83,41 +105,41 @@ const SignIn: React.FC = (): JSX.Element => {
             <h3>Sign-In</h3>
 
             <div className={styles.flex_column}>
-              <label className={styles.input_label} htmlFor="email">
+              <label className={styles.input_label} htmlFor='email'>
                 Email
               </label>
               <input
                 className={styles.input}
-                name="email"
-                id="email"
-                type="email"
+                name='email'
+                id='email'
+                type='email'
                 onChange={handleFormDataChange}
                 required
               />
             </div>
 
             <div className={styles.flex_column}>
-              <label className={styles.input_label} htmlFor="password">
+              <label className={styles.input_label} htmlFor='password'>
                 Password
               </label>
               <input
                 className={styles.input}
-                name="password"
-                id="password"
-                type="password"
+                name='password'
+                id='password'
+                type='password'
                 onChange={handleFormDataChange}
                 required
               />
             </div>
           </div>
 
-          <button disabled={buttonDisabled} type="submit">
+          <button disabled={buttonDisabled} type='submit'>
             Go
           </button>
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export { SignIn };
+export { SignIn }
