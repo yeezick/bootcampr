@@ -7,13 +7,13 @@ import { SignIn } from 'screens/Auth'
 import { SignUp } from 'screens/Auth'
 import { UserProfile } from 'screens/UserProfile'
 import { EditProfile } from 'screens/UserProfile'
-import { EmailVerify } from 'screens/EmailVerify/EmailVerify'
+import { EmailVerify } from 'screens/Auth/EmailVerify/EmailVerify'
 import './App.css'
 import { useEffect } from 'react'
 import { verify } from 'utilities/api/users'
 import { useDispatch } from 'react-redux'
 import { updateAuthUser } from 'utilities/redux/slices/users/userSlice'
-import { ExpiredLink } from 'screens/ExpiredLink/ExpiredLink'
+import { ExpiredLink } from 'screens/Auth/ExpiredLink/ExpiredLink'
 
 function App() {
   const dispatch = useDispatch()

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import './EmailVerify.scss'
-import { api } from '../../utilities/api/apiConfig'
+import { api } from 'utilities/api/apiConfig'
 
 export const EmailVerify = () => {
   const navigate = useNavigate()

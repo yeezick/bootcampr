@@ -18,7 +18,9 @@ type PasswordMatchCases = null | boolean
 export const SignUp: React.FC = () => {
   const dispatch = useAppDispatch()
   const status = useAppSelector(uiStatus)
-  const [inputType, setInputType] = useState('password')
+  const [passwordInputType, setPasswordInputType] = useState('password')
+  const [confirmPasswordInputType, setConfirmPasswordInputType] =
+    useState('password')
   const [passwordsMatch, togglePasswordsMatch] =
     useState<PasswordMatchCases>(null)
   const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp)
@@ -96,7 +98,15 @@ export const SignUp: React.FC = () => {
   }
 
   const passwordReveal = () => {
-    inputType === 'password' ? setInputType('text') : setInputType('password')
+    passwordInputType === 'password'
+      ? setPasswordInputType('text')
+      : setPasswordInputType('password')
+  }
+
+  const confirmPasswordReveal = () => {
+    confirmPasswordInputType === 'password'
+      ? setConfirmPasswordInputType('text')
+      : setConfirmPasswordInputType('password')
   }
 
   return (
@@ -152,7 +162,7 @@ export const SignUp: React.FC = () => {
           <div className='pwd-input'>
             <div>
               <label>Password</label>
-              {inputType === 'password' ? (
+              {passwordInputType === 'password' ? (
                 <BsEyeSlash
                   onClick={passwordReveal}
                   className='pwd-reveal-gray'
@@ -161,7 +171,7 @@ export const SignUp: React.FC = () => {
                 <BsEyeFill onClick={passwordReveal} className='pwd-reveal' />
               )}
               <input
-                type={inputType}
+                type={passwordInputType}
                 name='password'
                 placeholder='Password'
                 onChange={handleChange}
@@ -171,16 +181,29 @@ export const SignUp: React.FC = () => {
             </div>
           </div>
 
-          <div className='form-input'>
-            <label>Confirm Password</label>
-            <input
-              type={inputType}
-              name='confirmPassword'
-              placeholder='Confirm Password'
-              onChange={handleChange}
-              value={confirmPassword}
-              autoComplete='off'
-            />
+          <div className='pwd-input'>
+            <div>
+              <label>Confirm Password</label>
+              {confirmPasswordInputType === 'password' ? (
+                <BsEyeSlash
+                  onClick={confirmPasswordReveal}
+                  className='pwd-reveal-gray'
+                />
+              ) : (
+                <BsEyeFill
+                  onClick={confirmPasswordReveal}
+                  className='pwd-reveal'
+                />
+              )}
+              <input
+                type={confirmPasswordInputType}
+                name='confirmPassword'
+                placeholder='Confirm Password'
+                onChange={handleChange}
+                value={confirmPassword}
+                autoComplete='off'
+              />
+            </div>
           </div>
 
           <div className='form-btn'>
