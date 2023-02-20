@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-// TODO: see if path can be shortened
 import { selectAuthUser } from 'utilities/redux/slices/users/userSlice'
 import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
 import { toggleSidebar } from 'utilities/redux/slices/users/userSlice'
