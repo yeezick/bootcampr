@@ -16,4 +16,4 @@ export const NotificationSlice = createSlice({
 })
 
 export const NotificationActions = NotificationSlice.actions
-export const NotificationReducer = NotificationSlice.reducer
+export default NotificationSlice.reducer

@@ -12,7 +12,7 @@ import './App.css'
 import { useEffect } from 'react'
 import { verify } from 'utilities/api/users'
 import { useDispatch } from 'react-redux'
-import { updateAuthUser } from 'utilities/redux/slices/users/userSlice'
+import { updateAuthUser } from 'utilities/redux/slices/userSlice'
 import { ExpiredLink } from 'screens/Auth/ExpiredLink/ExpiredLink'
 
 function App() {
