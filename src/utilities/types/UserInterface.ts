@@ -16,6 +16,7 @@ export interface UserInterface {
   profilePicture: string
   role: string
   savedProjects?: ProjectInterface[]
+  imageWasUpdated?: boolean
   __v?: number
   _id: string
 }

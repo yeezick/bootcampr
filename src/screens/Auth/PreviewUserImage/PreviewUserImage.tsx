@@ -1,5 +1,9 @@
 import React from 'react'
-
+// type PreviewUserImageInterface = {
+//   authUser :
+//   previewImage : string
+// }
+let dia = 'hello'
 const PreviewUserImage = ({ previewImage, authUser }: any) => {
   return (
     <div>

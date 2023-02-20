@@ -11,7 +11,7 @@ import './Sidebar.scss'
 
 export const Sidebar = () => {
   const authUser = useAppSelector(selectAuthUser)
-  const { _id: userId, firstName, lastName } = authUser
+  const { _id: userId, firstName, lastName, profilePicture } = authUser
   const dispatch = useAppDispatch()
   const visibleSidebar = useAppSelector(
     state => state.ui.sidebar.visibleSidebar
@@ -36,9 +36,16 @@ export const Sidebar = () => {
         <i></i>
         <i></i>
       </div>
-
+      {/* src='https://bootcampruserimage.s3.amazonaws.com/63f2b2b0993429db1f2521b4' */}
       <div className='current-user'>
-        <div className='image'></div>
+        <div className='image'>
+          <img
+            src={profilePicture}
+            alt={`${firstName} profile picture`}
+            width='110'
+            height='110'
+          />
+        </div>
         <div>
           <p className='user-name'>
             {firstName} {lastName}

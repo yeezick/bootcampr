@@ -11,6 +11,8 @@ import { UserInterface } from 'utilities/types/UserInterface'
 import { createUserImage, updateUser } from 'utilities/api/users'
 import { useNotification } from 'utilities/redux/hooks'
 import './EditProfile.scss'
+import PreviewUserImage from '../Auth/PreviewUserImage/PreviewUserImage'
+import RegisterUserImage from '../Auth/RegisterUserImage/RegisterUserImage'
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
@@ -19,6 +21,7 @@ export const EditProfile: React.FC = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [profileImageFile, setProfileImageFile] = useState<File>()
+  const [previewImage, setPreviewImage] = useState<string>()
   const {
     bio,
     firstName,
@@ -67,15 +70,19 @@ export const EditProfile: React.FC = () => {
     <div className='editprofile-screen'>
       <p className='heading'>My Profile</p>
       <form onSubmit={handleUserUpdate}>
-        <label>
-          Profile Picture
-          <input
-            type='text'
-            name='profilePicture'
-            value={profilePicture}
-            onChange={event => handleInputChange(event)}
+        <section className='profile-photo-grid'>
+          <PreviewUserImage
+            previewImage={previewImage}
+            authUser={{ profilePicture: profilePicture }}
           />
-        </label>
+          <label>Profile Photo:</label>
+          <RegisterUserImage
+            setProfileImageFile={setProfileImageFile}
+            previewImage={previewImage}
+            setPreviewImage={setPreviewImage}
+            profileImageFile={profileImageFile}
+          />
+        </section>
 
         <label>
           First Name

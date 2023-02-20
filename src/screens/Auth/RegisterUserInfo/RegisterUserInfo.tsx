@@ -47,8 +47,13 @@ export const RegisterUserInfo: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    dispatch(updateProfile(userForm))
-    if (profileImageFile) await createUserImage(profileImageFile, authUser._id)
+    let imageWasUpdated = false
+    if (profileImageFile) {
+      await createUserImage(profileImageFile, authUser._id)
+      imageWasUpdated = true
+    }
+    dispatch(updateProfile({ ...userForm, imageWasUpdated: imageWasUpdated }))
+    console.log({ ...userForm, imageWasUpdated: imageWasUpdated })
     navigate(`/users/${authUser._id}`)
   }
 
