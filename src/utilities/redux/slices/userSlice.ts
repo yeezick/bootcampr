@@ -64,7 +64,7 @@ export const updateProfile = createAsyncThunk(
   }
 )
 
-const usersSlice = createSlice({
+const userSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
@@ -127,5 +127,5 @@ export const {
   reset,
   logoutAuthUser,
   toggleSidebar,
-} = usersSlice.actions
-export default usersSlice.reducer
+} = userSlice.actions
+export default userSlice.reducer

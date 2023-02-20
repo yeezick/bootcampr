@@ -6,7 +6,7 @@ import {
   logoutAuthUser,
   selectAuthUser,
   toggleSidebar,
-} from 'utilities/redux/slices/users/userSlice'
+} from 'utilities/redux/slices/userSlice'
 import './Sidebar.scss'
 
 export const Sidebar = () => {
