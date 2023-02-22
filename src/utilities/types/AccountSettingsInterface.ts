@@ -53,3 +53,10 @@ export interface AuthFormInputProps {
   authFormData: EmailFormData | PasswordFormData
   type: string
 }
+
+export interface AlertBanners {
+  status: boolean
+  text?: string
+  icon?: JSX.Element
+  type?: string
+}

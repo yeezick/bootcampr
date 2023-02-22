@@ -35,7 +35,7 @@ export interface UiSliceInterface {
     isError?: {
       // status + message should not be conditional? if there is an error. Any error should return the status and a message to describe it
       status?: boolean
-      message?: string
+      message?: string | object
     }
   }
 }
@@ -53,3 +53,6 @@ export interface SignInInterface {
   email: string
   password: string
 }
+// export interface PortfolioProjectInterface {
+
+// }
