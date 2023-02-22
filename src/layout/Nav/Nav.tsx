@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-// TODO: see if path can be shortened
+import { Link, useLocation } from 'react-router-dom'
 import { selectAuthUser } from 'utilities/redux/slices/users/userSlice'
 import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
 import { toggleSidebar } from 'utilities/redux/slices/users/userSlice'
@@ -11,6 +10,8 @@ import { Socket } from 'components/Notifications/Socket'
 import './Nav.scss'
 
 export const Nav = () => {
+  const [colored, setColored] = useState(false)
+  const location = useLocation()
   const [notificationCount, setNotificationCount] = useState(0)
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId } = authUser
@@ -44,8 +45,18 @@ export const Nav = () => {
     dispatch(toggleSidebar())
   }
 
+  // Change NavBar color when scrolling
+  const ChangeNavbarColor = () => {
+    window.scrollY >= 100 ? setColored(true) : setColored(false)
+  }
+  window.addEventListener('scroll', ChangeNavbarColor)
+
   return (
-    <nav>
+    <nav
+      className={
+        location.pathname === '/' ? (colored ? 'navbar-colored' : 'navbar') : ''
+      }
+    >
       <div className='nav-container'>
         {userId !== '' ? (
           <div className='menu-btn' onClick={toggleSidebarHandler}>

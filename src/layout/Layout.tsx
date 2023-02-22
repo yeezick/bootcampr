@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Loader } from 'components/Loader/Loader'
-import { verify } from 'utilities/api'
+import { verify } from 'utilities/api/users'
 import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
 import {
   uiStatus,
   updateAuthUser,
 } from 'utilities/redux/slices/users/userSlice'
-import { Sidebar } from './'
-import { Nav } from './'
+import { Sidebar } from './Sidebar/Sidebar'
+import { Nav } from './Nav/Nav'
 import './Layout.scss'
+import Footer from 'components/Footer/Footer'
+import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
 
 type Props = {
   children: React.ReactNode
@@ -35,11 +37,13 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
 
   return (
     <>
+      <ScrollToTop />
       <Nav />
       <Sidebar />
       <div className={visibleSidebar ? 'layout-container active' : ''}>
         <div>{children}</div>
       </div>
+      <Footer />
     </>
   )
 }

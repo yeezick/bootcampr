@@ -1,0 +1,131 @@
+.landing-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+
+  .header-container {
+    align-items: center;
+    background-image: url('https://i.postimg.cc/KjZRDzjx/developer.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  .header-grid {
+    align-items: center;
+    background-color: #212530b5;
+    border-radius: 20px;
+    box-shadow: 0 10px 18px -2px rgba(0, 0, 0, 0.7);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    margin-top: 53px;
+    max-width: 450px;
+    padding: 45px 50px;
+
+    h1 {
+      margin: 0;
+    }
+
+    a {
+      background-color: rgb(73, 71, 126);
+      border-radius: 25px;
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 15px 80px;
+      text-decoration: none;
+
+      &:hover {
+        background-color: rgb(98, 95, 158);
+      }
+
+      &:active {
+        background-color: rgb(49, 48, 87);
+      }
+    }
+
+    & p {
+      font-size: 22px;
+    }
+  }
+
+  .developer-grid {
+    align-items: center;
+    background-color: rgba(102, 73, 16, 0.715);
+    border-radius: 20px;
+    box-shadow: 0 10px 18px -2px rgba(0, 0, 0, 0.7);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    justify-content: space-between;
+    margin-top: 53px;
+    padding: 35px 50px 45px 50px;
+
+    button {
+      background-color: #f29e34;
+      border: none;
+      border-radius: 25px;
+      color: white;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 600;
+      height: 50px;
+      width: 300px;
+
+      &:hover {
+        background-color: #353131;
+      }
+
+      &:active {
+        background-color: #1e1c1c;
+      }
+    }
+
+    .logged-in, .logged-out {
+      margin-top: 25px;
+      min-height: 25px;
+      min-width: 25px;
+    }
+
+    .logged-in {
+      color: rgb(172, 255, 47);
+      filter: drop-shadow(0 0 4px rgb(172, 255, 47 / 0.4));
+    }
+
+    .logged-out {
+      color: rgb(255, 47, 47);
+      filter: drop-shadow(0 0 3px rgb(255, 47, 47 / 0.4));
+    }
+  }
+
+  .middle-container {
+    align-items: center;
+    display: flex;
+    height: 700px;
+    justify-content: space-between;
+    margin-bottom: -70px;
+    width: 100%;
+
+    img {
+      height: 100%;
+    }
+
+    .signup-grid {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      
+      .signup-container {
+        margin: 0;
+      }
+    }
+  }
+}
