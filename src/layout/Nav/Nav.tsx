@@ -70,7 +70,14 @@ export const Nav = () => {
               <span>{notificationCount}</span>
             </div>
           )}
-          <div className='image'></div>
+          <div className='image'>
+            <img
+              src={authUser.profilePicture}
+              alt={`${authUser.firstName} profile picture`}
+              width='50'
+              height='50'
+            />
+          </div>
           <Link className='link' to='/'>
             <MdArrowDropDown size={25} />
           </Link>

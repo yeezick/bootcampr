@@ -1,10 +1,12 @@
 import React from 'react'
-// type PreviewUserImageInterface = {
-//   authUser :
-//   previewImage : string
-// }
-let dia = 'hello'
-const PreviewUserImage = ({ previewImage, authUser }: any) => {
+type PreviewUserImageInterface = {
+  previewImage?: string
+  authUser: { profilePicture: string }
+}
+const PreviewUserImage = ({
+  previewImage,
+  authUser,
+}: PreviewUserImageInterface) => {
   return (
     <div>
       {previewImage ? (
