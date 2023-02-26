@@ -7,6 +7,7 @@
   "moduleDirectories": ["node_modules", "src"],
   "preset": "ts-jest",
   "rootDir": "./",
+  "setupFilesAfterEnv": ["<rootDir>/src/setupTests.ts"],
   "testEnvironment": "jest-environment-jsdom",
   "testMatch": ["**/__tests__/**/*.spec.(tx|tsx|js)"],
   "testTimeout": 30000,

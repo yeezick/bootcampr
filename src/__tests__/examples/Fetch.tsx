@@ -40,11 +40,12 @@ export const Fetch = ({ url }) => {
       .then(response => {
         const { data } = response
         const { greeting } = data
-        dispatch({ type: 'SUCCESS', greeting })
+        dispatch({ type: 'success', greeting })
         setButtonClicked(true)
       })
       .catch(error => {
-        dispatch({ type: 'ERROR', error })
+        dispatch({ type: 'error', error })
+        setButtonClicked(true)
       })
 
   const buttonText = buttonClicked ? 'Ok' : 'Load greeting'
