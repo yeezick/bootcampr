@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { Layout } from 'layout'
 import { Landing } from 'screens/Landing/Landing'
 // import { ProjectDetails } from 'screens/Projects';
@@ -8,19 +8,19 @@ import { SignUp } from 'screens/Auth'
 import { UserProfile } from 'screens/UserProfile'
 import { EditProfile } from 'screens/UserProfile'
 import { EmailVerify } from 'screens/Auth/EmailVerify/EmailVerify'
-import './App.css'
 import { useEffect } from 'react'
 import { verify } from 'utilities/api/users'
 import { useDispatch } from 'react-redux'
 import { updateAuthUser } from 'utilities/redux/slices/userSlice'
 import { ExpiredLink } from 'screens/Auth/ExpiredLink/ExpiredLink'
+import './App.css'
 
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
     const persist = async () => {
       const user = await verify()
-      dispatch(updateAuthUser)
+      dispatch(updateAuthUser(user))
     }
     persist()
   }, [])

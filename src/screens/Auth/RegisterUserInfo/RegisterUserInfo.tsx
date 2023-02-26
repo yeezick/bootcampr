@@ -19,7 +19,6 @@ export const RegisterUserInfo: React.FC = () => {
     linkedinUrl,
     portfolioUrl,
     profilePicture,
-    role,
   } = userForm
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Loader } from 'components/Loader/Loader'
 import { verify } from 'utilities/api'
 import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
