@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { selectAuthUser } from 'utilities/redux/slices/users/userSlice'
+import { selectAuthUser } from 'utilities/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
 import { toggleSidebar } from 'utilities/redux/slices/userSlice'
 import { MdArrowDropDown } from 'react-icons/md'

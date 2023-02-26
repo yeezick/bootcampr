@@ -6,7 +6,7 @@ import { selectAuthUser, setAuthUser } from 'utilities/redux/slices/userSlice'
 import { emptyUser } from 'utilities/data/userConstants'
 import { UserInterface } from 'utilities/types/UserInterface'
 import { updateUser } from 'utilities/api/users'
-import { useNotification } from 'utilities/redux/hooks'
+import { useNotification } from 'utilities/redux/slices/notificationSlice'
 import './EditProfile.scss'
 
 export const EditProfile: React.FC = () => {

@@ -7,7 +7,7 @@ import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai'
 import { SignUp } from 'screens/Auth/SignUp/SignUp'
 import './Landing.scss'
 import { useAppSelector } from 'utilities/redux/hooks'
-import { selectAuthUser } from 'utilities/redux/slices/users/userSlice'
+import { selectAuthUser } from 'utilities/redux/slices/userSlice'
 import { useEffect } from 'react'
 
 export const Landing: React.FC = () => {
