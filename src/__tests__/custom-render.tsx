@@ -2,8 +2,8 @@ import React from 'react'
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import { render, RenderOptions } from '@testing-library/react'
-import notificationReducer from '../utilities/redux/slices/notificationSlice'
-import userReducer from '../utilities/redux/slices/userSlice'
+import notificationReducer from 'utilities/redux/slices/notificationSlice'
+import userReducer from 'utilities/redux/slices/userSlice'
 
 const customRender = (
   ui: React.ReactElement,
