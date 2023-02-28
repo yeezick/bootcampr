@@ -18,8 +18,11 @@ const config: Config = {
     '!**/types/**',
   ],
   coverageDirectory: './coverage',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleDirectories: ['node_modules', 'src'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  moduleNameMapper: {
+    '\\.(scss|css)$': fromRoot('src/__tests__/__mocks__/cssStub.js'),
+  },
   preset: 'ts-jest',
   rootDir: './',
   setupFilesAfterEnv: [fromRoot('src/setupTests.ts')],

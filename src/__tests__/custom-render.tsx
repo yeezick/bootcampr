@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { render, RenderOptions } from '@testing-library/react'
 import notificationReducer from 'utilities/redux/slices/notificationSlice'
 import userReducer from 'utilities/redux/slices/userSlice'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 const customRender = (
   ui: React.ReactElement,
@@ -22,7 +23,11 @@ const customRender = (
       })
 
   const Providers = ({ children }) => {
-    return <Provider store={store}>{children}</Provider>
+    return (
+      <Router>
+        <Provider store={store}>{children}</Provider>
+      </Router>
+    )
   }
 
   return render(ui, { wrapper: Providers, ...options })
