@@ -1,3 +1,5 @@
+import { useAppDispatch, useAppSelector } from '../redux/hooks'
+import { setAuthUser, selectAuthUser } from '../redux/slices/users/userSlice'
 import { api } from './apiConfig'
 import axios from 'axios'
 import {
@@ -54,9 +56,8 @@ export const checkEmailAuth = async (email: any) => {
 export const signUp = async (credentials: any) => {
   try {
     const res = await api.post('/sign-up', credentials)
-    const { bootcamprAuthToken, user } = res.data
-    localStorage.setItem('bootcamprAuthToken', bootcamprAuthToken)
-    return user
+    const { message } = res.data
+    if (message) return res.data
   } catch (error) {
     throw error
   }
@@ -65,9 +66,11 @@ export const signUp = async (credentials: any) => {
 export const signIn = async (credentials: any) => {
   try {
     const res = await api.post('/sign-in', credentials)
+    if (res.data.invalidCredentials) {
+      return { message: res.data.message }
+    }
     const { bootcamprAuthToken, user } = res.data
     localStorage.setItem('bootcamprAuthToken', bootcamprAuthToken)
-    // const user = jwtDecode(res.data.bootcamprAuthToken);
     return user
   } catch (error) {
     throw error
