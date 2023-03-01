@@ -50,14 +50,13 @@ export const EditProfile: React.FC = () => {
 
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const imageWasUpdated = !!profileImageFile
     if (profileImageFile) {
       await createUserImage(profileImageFile, authUser._id)
       // Waiting on user refresh bug ticket
       // window.location.reload();
     }
 
-    const updatedUser = await updateUser(params.id, userForm, imageWasUpdated)
+    const updatedUser = await updateUser(params.id, userForm)
     dispatch(setAuthUser(updatedUser))
     navigate(`/users/${userId}`)
   }

@@ -53,7 +53,7 @@ export const RegisterUserInfo: React.FC = () => {
       imageWasUpdated = true
     }
     dispatch(updateProfile({ ...userForm, imageWasUpdated: imageWasUpdated }))
-    console.log({ ...userForm, imageWasUpdated: imageWasUpdated })
+
     navigate(`/users/${authUser._id}`)
   }
 

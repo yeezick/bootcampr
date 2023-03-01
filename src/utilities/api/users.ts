@@ -24,11 +24,7 @@ export const getOneUser = async (id: any) => {
   }
 }
 
-export const updateUser = async (
-  id: any,
-  userUpdate: any,
-  imageWasUpdated: boolean | null
-) => {
+export const updateUser = async (id: any, userUpdate: any) => {
   try {
     const res = await api.put(`/users/${id}`, userUpdate)
     return res.data

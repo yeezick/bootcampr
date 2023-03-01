@@ -52,7 +52,7 @@ export const updateProfile = createAsyncThunk(
   'users/updateUser',
   async (user: UserInterface, thunkAPI) => {
     try {
-      const res = await updateUser(user._id, user, null)
+      const res = await updateUser(user._id, user)
       if (res) {
         reset()
         return res
