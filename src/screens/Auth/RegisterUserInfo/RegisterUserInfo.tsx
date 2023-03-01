@@ -8,8 +8,8 @@ import {
 import { UserInterface } from 'utilities/types'
 import { emptyUser } from 'utilities/data/userConstants'
 import './RegisterUserInfo.scss'
-import UploadUserImage from '../UploadUserImage/UploadUserImage'
-import RegisterUserImage from '../RegisterUserImage/RegisterUserImage'
+import { UploadUserImage } from 'screens/Auth'
+import { RegisterUserImage } from 'screens/Auth'
 import { createUserImage } from 'utilities/api'
 
 export const RegisterUserInfo: React.FC = () => {

@@ -3,7 +3,7 @@ type UploadUserImageInterface = {
   previewImage?: string
   authUser: { profilePicture: string }
 }
-const UploadUserImage = ({
+export const UploadUserImage = ({
   previewImage,
   authUser,
 }: UploadUserImageInterface) => {
@@ -21,5 +21,3 @@ const UploadUserImage = ({
     </div>
   )
 }
-
-export default UploadUserImage

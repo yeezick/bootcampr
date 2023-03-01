@@ -11,8 +11,8 @@ import { UserInterface } from 'utilities/types/UserInterface'
 import { createUserImage, updateUser } from 'utilities/api/users'
 import { useNotification } from 'utilities/redux/hooks'
 import './EditProfile.scss'
-import UploadUserImage from '../Auth/UploadUserImage/UploadUserImage'
-import RegisterUserImage from '../Auth/RegisterUserImage/RegisterUserImage'
+import { UploadUserImage } from 'screens/Auth'
+import { RegisterUserImage } from 'screens/Auth'
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)

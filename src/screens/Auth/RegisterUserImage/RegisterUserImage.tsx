@@ -6,7 +6,7 @@ interface UserImageProps {
   profileImageFile?: File
 }
 
-const RegisterUserImage = ({
+export const RegisterUserImage = ({
   setProfileImageFile,
   profileImageFile,
   setPreviewImage,
@@ -62,5 +62,3 @@ const RegisterUserImage = ({
     </>
   )
 }
-
-export default RegisterUserImage
