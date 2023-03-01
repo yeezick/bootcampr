@@ -56,6 +56,9 @@ export const SignUp: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    console.log(formValues)
+
     const validForm = await dispatch(register(formValues))
     const { payload } = validForm
 

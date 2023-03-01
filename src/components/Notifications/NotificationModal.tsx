@@ -63,9 +63,9 @@ function SimpleDialog(props: SimpleDialogProps) {
       >
         Mark All As Read
       </button>
-      <List sx={{ pt: 0 }} className='notification-wrapper'>
+      {/* <List sx={{ pt: 0 }} className='notification-wrapper'>
         {notifications.length !== 0 ? (
-          notifications.map((notification: NotificationInterface) => {
+          notifications?.map((notification: NotificationInterface) => {
             return (
               <ListItem
                 key={notification._id}
@@ -102,7 +102,7 @@ function SimpleDialog(props: SimpleDialogProps) {
         <button onClick={() => handleListItemClick('Delete-All')}>
           Delete All
         </button>
-      </List>
+      </List> */}
     </Dialog>
   )
 }
