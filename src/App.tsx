@@ -14,6 +14,7 @@ import { verify } from 'utilities/api/users'
 import { useDispatch } from 'react-redux'
 import { updateAuthUser } from 'utilities/redux/slices/users/userSlice'
 import { ExpiredLink } from 'screens/Auth/ExpiredLink/ExpiredLink'
+import { AllTicket } from 'screens/TicketManager/AllTicket/AllTicket'
 
 function App() {
   const dispatch = useDispatch()
@@ -36,6 +37,7 @@ function App() {
           <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />
+          <Route path='/users/:id/manager' element={<AllTicket />} />
           <Route
             path='/users/:id/account-setup'
             element={<RegisterUserInfo />}
