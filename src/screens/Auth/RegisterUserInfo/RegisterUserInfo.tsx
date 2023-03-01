@@ -8,7 +8,7 @@ import {
 import { UserInterface } from 'utilities/types'
 import { emptyUser } from 'utilities/data/userConstants'
 import './RegisterUserInfo.scss'
-import PreviewUserImage from '../PreviewUserImage/PreviewUserImage'
+import UploadUserImage from '../UploadUserImage/UploadUserImage'
 import RegisterUserImage from '../RegisterUserImage/RegisterUserImage'
 import { createUserImage } from 'utilities/api'
 
@@ -62,7 +62,7 @@ export const RegisterUserInfo: React.FC = () => {
       <h1>Hi, {firstName}!</h1>
       <div className='form-container'>
         <section className='profile-photo-grid'>
-          <PreviewUserImage
+          <UploadUserImage
             previewImage={previewImage}
             authUser={{ profilePicture: profilePicture }}
           />

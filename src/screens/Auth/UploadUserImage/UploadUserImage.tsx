@@ -1,12 +1,12 @@
 import React from 'react'
-type PreviewUserImageInterface = {
+type UploadUserImageInterface = {
   previewImage?: string
   authUser: { profilePicture: string }
 }
-const PreviewUserImage = ({
+const UploadUserImage = ({
   previewImage,
   authUser,
-}: PreviewUserImageInterface) => {
+}: UploadUserImageInterface) => {
   return (
     <div>
       {previewImage ? (
@@ -22,4 +22,4 @@ const PreviewUserImage = ({
   )
 }
 
-export default PreviewUserImage
+export default UploadUserImage

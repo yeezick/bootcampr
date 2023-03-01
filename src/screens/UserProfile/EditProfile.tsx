@@ -11,7 +11,7 @@ import { UserInterface } from 'utilities/types/UserInterface'
 import { createUserImage, updateUser } from 'utilities/api/users'
 import { useNotification } from 'utilities/redux/hooks'
 import './EditProfile.scss'
-import PreviewUserImage from '../Auth/PreviewUserImage/PreviewUserImage'
+import UploadUserImage from '../Auth/UploadUserImage/UploadUserImage'
 import RegisterUserImage from '../Auth/RegisterUserImage/RegisterUserImage'
 
 export const EditProfile: React.FC = () => {
@@ -70,7 +70,7 @@ export const EditProfile: React.FC = () => {
       <p className='heading'>My Profile</p>
       <form onSubmit={handleUserUpdate}>
         <section className='profile-photo-grid'>
-          <PreviewUserImage
+          <UploadUserImage
             previewImage={previewImage}
             authUser={{ profilePicture: profilePicture }}
           />
