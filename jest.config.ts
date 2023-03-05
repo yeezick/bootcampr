@@ -21,7 +21,8 @@ const config: Config = {
   moduleDirectories: ['node_modules', 'src'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
-    '\\.(scss|css)$': fromRoot('src/__tests__/__mocks__/cssStub.js'),
+    '\\.(scss|css|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
+      fromRoot('src/__tests__/__mocks__/cssStub.js'),
   },
   preset: 'ts-jest',
   rootDir: './',
