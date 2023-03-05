@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setAuthUser } from 'utilities/redux/slices/users/userSlice'
+import { setAuthUser } from 'utilities/redux/slices/userSlice'
 import { getAllUsers } from 'utilities/api/users'
 import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai'
 import { SignUp } from 'screens/Auth/SignUp/SignUp'
-import './Landing.scss'
 import { useAppSelector } from 'utilities/redux/hooks'
-import { selectAuthUser } from 'utilities/redux/slices/users/userSlice'
-import { useEffect } from 'react'
+import { selectAuthUser } from 'utilities/redux/slices/userSlice'
+import './Landing.scss'
 
 export const Landing: React.FC = () => {
   const [loginStatus, setLoginStatus] = useState<boolean | null>(null)

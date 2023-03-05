@@ -1,8 +1,4 @@
-import {
-  register,
-  reset,
-  uiStatus,
-} from 'utilities/redux/slices/users/userSlice'
+import { register, reset, uiStatus } from 'utilities/redux/slices/userSlice'
 import React, { useEffect, useState } from 'react'
 import { SignUpInterface } from 'utilities/types/UserInterface'
 import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'

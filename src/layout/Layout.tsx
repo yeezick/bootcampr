@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Loader } from 'components/Loader/Loader'
 import { verify } from 'utilities/api/users'
 import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
-import {
-  uiStatus,
-  updateAuthUser,
-} from 'utilities/redux/slices/users/userSlice'
-import { Sidebar } from './Sidebar/Sidebar'
-import { Nav } from './Nav/Nav'
+import { uiStatus, updateAuthUser } from 'utilities/redux/slices/userSlice'
+import { Sidebar } from './'
+import { Nav } from './'
 import './Layout.scss'
 import Footer from 'components/Footer/Footer'
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop'

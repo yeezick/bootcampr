@@ -14,10 +14,12 @@ export const Socket = () => {
   const [socketConnection, setSocketConnection] = useState<ISocket | any>()
 
   useEffect(() => {
-    const askUserPermission = async () => {
-      return await Notification.requestPermission()
-    }
-    askUserPermission()
+    // Todo: this breaks jest test, is it necessary at all?
+    // todo: may potentially be obsolete once we move away from chrome alerts
+    // const askUserPermission = async () => {
+    //   return await Notification.requestPermission()
+    // }
+    // askUserPermission()
 
     const connection = socket.on('connection', () => {
       return socket.connected

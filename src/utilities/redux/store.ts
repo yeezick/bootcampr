@@ -1,11 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import { NotificationReducer } from './slices/users/notificationSlice'
-import userSlice from './slices/users/userSlice'
+import notificationReducer from './slices/notificationSlice'
+import userReducer from './slices/userSlice'
 
 export const store = configureStore({
   reducer: {
-    ui: userSlice,
-    notification: NotificationReducer,
+    ui: userReducer,
+    notification: notificationReducer,
   },
 })
 

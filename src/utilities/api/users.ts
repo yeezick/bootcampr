@@ -1,5 +1,3 @@
-import { useAppDispatch, useAppSelector } from '../redux/hooks'
-import { setAuthUser, selectAuthUser } from '../redux/slices/users/userSlice'
 import { api } from './apiConfig'
 import {
   PasswordFormData,

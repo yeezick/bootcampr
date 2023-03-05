@@ -6,7 +6,7 @@ export const getAllNotifications = async user => {
     return res.data
   } catch (error) {
     console.error(error)
-    return false
+    throw error
   }
 }
 
