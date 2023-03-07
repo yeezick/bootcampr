@@ -7,7 +7,7 @@ describe('Landing page', () => {
     render(<Landing />)
     const buttonToStartToday = screen.getByText(/start today!/i)
     await userEvent.click(buttonToStartToday)
-    screen.debug()
+    // expect browser url to end in /sign-up
     expect(true).toBe(true)
   })
 
