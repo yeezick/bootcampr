@@ -1,16 +1,18 @@
+import { Card, Button } from '@mui/material'
+
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import Modal from 'react-modal'
-import Autocomplete from '@mui/material/Autocomplete'
-import TextField from '@mui/material/TextField'
 import MultipleAssignees from './MultipleAssignees'
 const customStyles = {
   content: {
     top: '50%',
+    width: '40rem',
+    height: '25rem',
     left: '50%',
     right: 'auto',
     bottom: 'auto',
-    marginRight: '-50%',
+    marginRight: '50%',
     transform: 'translate(-50%, -50%)',
   },
 }
@@ -19,27 +21,24 @@ const customStyles = {
 
 export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
   Modal.setAppElement('#root')
-  const [addTicket, setAddTicket] = useState('')
+  const [addTicketForm, setAddTicketForm] = useState('')
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [assignees, setAssignees] = useState<any>({})
+  const [assignees, setAssignees] = useState<any>([])
 
-  function openModal() {
-    setIsOpen(true)
-  }
-
-  function closeModal() {
-    setIsOpen(false)
-  }
+  const openModal = () => setIsOpen(true)
+  const closeModal = () => setIsOpen(false)
+  const onChange = (e: any) => {}
 
   const addTickets = () => {
     const info = {
       id: Date.now(),
-      issueDetails: addTicket,
+      issueDetails: addTicketForm,
       type: 'new',
       assignees: [...assignees],
     }
     setFakeApi({ ...fakeApiData, new: [...fakeApiData.new, info] })
   }
+
   return (
     <div>
       <button onClick={openModal}>Create a ticket</button>
@@ -49,12 +48,39 @@ export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
         style={customStyles}
         contentLabel='Example Modal'
       >
-        <button onClick={closeModal}>close</button>
-        <h1>Create a ticket</h1>
-        <MultipleAssignees setAssignees={setAssignees} />
         <div>
-          <input type='text' onChange={e => setAddTicket(e.target.value)} />
-          <button onClick={() => addTickets()}> add a ticket </button>
+          <h1>Create a ticket</h1>
+          <MultipleAssignees
+            setAssignees={setAssignees}
+            assignees={assignees}
+          />
+          <div>
+            <input type='text' placeholder='title' />
+            <input type='text' placeholder='description' />
+            <input
+              type='text'
+              onChange={e => setAddTicketForm(e.target.value)}
+            />
+            <Button
+              color='primary'
+              disabled={false}
+              size='small'
+              variant='outlined'
+              // size="12px"
+              onClick={() => addTickets()}
+            >
+              Add a ticket
+            </Button>
+            <Button
+              color='error'
+              disabled={false}
+              size='small'
+              variant='outlined'
+              onClick={closeModal}
+            >
+              close
+            </Button>
+          </div>
         </div>
       </Modal>
     </div>

@@ -12,7 +12,7 @@ const customStyles = {
     transform: 'translate(-50%, -50%)',
   },
 }
-const TicketDetail = ({ fake }: any) => {
+const TicketDetail = ({ fake, fakeApiData, setFakeApi, sectionName }: any) => {
   Modal.setAppElement('#root')
   const [addTicket, setAddTicket] = useState('')
   let subtitle: any
@@ -30,6 +30,13 @@ const TicketDetail = ({ fake }: any) => {
   function closeModal() {
     setIsOpen(false)
   }
+  function deleteTicket(id: any) {
+    const test = fakeApiData[sectionName].filter(
+      (ticket: any) => ticket.id !== id
+    )
+    setFakeApi({ ...fakeApiData, [sectionName]: [...test] })
+    closeModal()
+  }
   return (
     <div>
       <button onClick={openModal}> Ticket Detail</button>
@@ -44,6 +51,7 @@ const TicketDetail = ({ fake }: any) => {
         <h1>Ticket Detail</h1>
         <div>{fake?.id}</div>
         <div>{fake?.issueDetails}</div>
+        <button onClick={() => deleteTicket(fake?.id)}>Delete</button>
       </Modal>
     </div>
   )
