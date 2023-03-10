@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux'
 import { setAuthUser } from 'utilities/redux/slices/userSlice'
 import { getAllUsers } from 'utilities/api/users'
 import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai'
-import { SignUp } from 'screens/Auth/SignUp/SignUp'
 import { useAppSelector } from 'utilities/redux/hooks'
 import { selectAuthUser } from 'utilities/redux/slices/userSlice'
 import './Landing.scss'
@@ -55,12 +54,6 @@ export const Landing: React.FC = () => {
           </h2>
           <button onClick={randomUserLogin}>Login as random user</button>
           <LoginStatusSymbol />
-        </div>
-      </div>
-      <div className='middle-container'>
-        <img src='https://www.springboard.com/blog/wp-content/uploads/2020/07/what-does-a-software-engineer-do.png' />
-        <div className='signup-grid'>
-          <SignUp />
         </div>
       </div>
     </div>

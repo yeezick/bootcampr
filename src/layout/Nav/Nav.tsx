@@ -71,7 +71,8 @@ export const Nav = () => {
           </Link>
         </div>
       </div>
-      {userId !== '' ? (
+
+      {userId && (
         <div className='notifications'>
           <div className='notification-badge link'>
             <NotificationModal />
@@ -86,9 +87,9 @@ export const Nav = () => {
             <MdArrowDropDown size={25} />
           </Link>
         </div>
-      ) : null}
+      )}
 
-      {userId !== '' ? null : (
+      {userId && (
         <div className='auth-btn'>
           <div>
             <Link className='link sign-up' to='/sign-up'>

@@ -6,7 +6,7 @@ import { uiStatus, updateAuthUser } from 'utilities/redux/slices/userSlice'
 import { Sidebar } from './'
 import { Nav } from './'
 import './Layout.scss'
-import Footer from 'components/Footer/Footer'
+import { Footer } from 'layout/Footer/Footer'
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
 
 type Props = {

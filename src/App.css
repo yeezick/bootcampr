@@ -1,4 +1,9 @@
+body {
+  background-color: #353131;
+}
+
 .App {
+  height: 100vh;
   text-align: center;
 }
 
