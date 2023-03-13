@@ -50,7 +50,7 @@ const TicketDetail = ({ fake, fakeApiData, setFakeApi, sectionName }: any) => {
         <button onClick={closeModal}>close</button>
         <h1>Ticket Detail</h1>
         <div>{fake?.id}</div>
-        <div>{fake?.issueDetails}</div>
+        <div>{fake?.title}</div>
         <button onClick={() => deleteTicket(fake?.id)}>Delete</button>
       </Modal>
     </div>

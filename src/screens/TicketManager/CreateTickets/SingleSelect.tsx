@@ -1,7 +1,7 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import React from 'react'
 
-function SingleSelect({}) {
+function SingleSelect({ editForm, handleEditChange }: any) {
   const [age, setAge] = React.useState('')
 
   return (
@@ -12,6 +12,10 @@ function SingleSelect({}) {
           labelId='demo-simple-select-label'
           id='demo-simple-select'
           label='Status'
+          name='type'
+          defaultValue='To Do'
+          value={editForm.type}
+          onChange={handleEditChange}
         >
           <MenuItem value={10}>To Do</MenuItem>
           <MenuItem value={20}>In Progress</MenuItem>

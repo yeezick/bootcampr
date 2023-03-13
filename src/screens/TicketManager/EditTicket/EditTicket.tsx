@@ -23,6 +23,7 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
   const [addTicket, setAddTicket] = useState('')
   const [modalIsOpen, setIsOpen] = useState(false)
   const [assignees, setAssignees] = useState<any>([])
+  const [editForm, setEditFrom] = useState(fake)
   Modal.setAppElement('#root')
 
   function openModal() {
@@ -38,16 +39,20 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
 
     const info = {
       id: Date.now(),
-      issueDetails: addTicket,
+      title: addTicket,
       type: 'new',
       assignees: [...assignees],
     }
     setFakeApi({ ...fakeApiData, new: [...fakeApiData.new, info] })
   }
   const handleEditChange = (e: any) => {
-    console.log(fake)
+    e.preventDefault()
+    // console.log(fake)
+    // setEditFrom(e.target.value)
+    setEditFrom({ ...editForm, [e.target.name]: e.target.value })
+    console.log(editForm)
 
-    console.log(e.target.value)
+    // console.log(e.target.value)
   }
   return (
     <div>
@@ -67,16 +72,11 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
                 sx={{ width: '100%', 'padding-bottom': '20px' }}
                 type='text'
                 label='Title'
+                name='title'
                 id='outlined-basic'
                 variant='outlined'
-                value={fake.issueDetails}
+                value={editForm.title}
                 onChange={handleEditChange}
-              />
-              <TextField
-                sx={{ width: '100%' }}
-                id='outlined-basic'
-                label='Outlined'
-                variant='outlined'
               />
             </Box>
 
@@ -88,9 +88,15 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
                 label='Description'
                 variant='outlined'
                 multiline
+                name='description'
                 InputProps={{ rows: 4.5 }}
+                value={editForm.description}
+                onChange={handleEditChange}
               />
-              <SingleSelect />
+              <SingleSelect
+                handleEditChange={handleEditChange}
+                editForm={editForm}
+              />
               <MultipleAssignees
                 setAssignees={setAssignees}
                 assignees={assignees}

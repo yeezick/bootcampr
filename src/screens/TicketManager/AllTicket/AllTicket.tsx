@@ -68,7 +68,7 @@ export const AllTicket = () => {
                 key={fake.id}
               >
                 <h1>{fake.id}</h1>
-                <h1>{fake.issueDetails}</h1>
+                <h1>{fake.title}</h1>
                 <TicketDetail
                   fake={fake}
                   fakeApiData={fakeApiData}

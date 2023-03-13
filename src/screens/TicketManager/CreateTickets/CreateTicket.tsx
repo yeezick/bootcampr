@@ -35,7 +35,7 @@ export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
   const addTickets = () => {
     const info = {
       id: Date.now(),
-      issueDetails: addTicketForm,
+      title: addTicketForm,
       type: 'new',
       assignees: [...assignees],
     }
