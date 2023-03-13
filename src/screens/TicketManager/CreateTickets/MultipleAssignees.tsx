@@ -35,9 +35,8 @@ function MultipleAssignees({ setAssignees, assignees }: any) {
           {option.title}
         </li>
       )}
-      style={{ width: 500 }}
       renderInput={params => (
-        <TextField {...params} label='ssignees' placeholder='Assignees' />
+        <TextField {...params} label='Assignees' placeholder='Assignees' />
       )}
     />
   )

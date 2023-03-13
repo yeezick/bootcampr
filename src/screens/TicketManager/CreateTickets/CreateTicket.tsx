@@ -1,9 +1,12 @@
-import { Card, Button } from '@mui/material'
+import { Card, Button, Box } from '@mui/material'
 
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import Modal from 'react-modal'
 import MultipleAssignees from './MultipleAssignees'
+import TextField from '@mui/material/TextField'
+import SingleSelect from './SingleSelect'
+import { border } from '@mui/system'
 const customStyles = {
   content: {
     top: '50%',
@@ -50,18 +53,44 @@ export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
       >
         <div>
           <h1>Create a ticket</h1>
-          <MultipleAssignees
-            setAssignees={setAssignees}
-            assignees={assignees}
-          />
-          <div>
-            <input type='text' placeholder='title' />
-            <input type='text' placeholder='description' />
-            <input
-              type='text'
-              onChange={e => setAddTicketForm(e.target.value)}
-            />
+
+          <Box sx={{ display: 'flex', gap: '30px' }}>
+            <Box sx={{ width: '50%' }}>
+              <TextField
+                sx={{ width: '100%', 'padding-bottom': '20px' }}
+                type='text'
+                label='Title'
+                id='outlined-basic'
+                variant='outlined'
+              />
+              <TextField
+                sx={{ width: '100%' }}
+                id='outlined-basic'
+                label='Outlined'
+                variant='outlined'
+              />
+            </Box>
+
+            <Box sx={{ width: '50%' }}>
+              <TextField
+                sx={{ width: '100%', 'padding-bottom': '20px' }}
+                type='text'
+                id='outlined-basic'
+                label='Description'
+                variant='outlined'
+                multiline
+                InputProps={{ rows: 4.5 }}
+              />
+              <SingleSelect />
+              <MultipleAssignees
+                setAssignees={setAssignees}
+                assignees={assignees}
+              />
+            </Box>
+          </Box>
+          <Box>
             <Button
+              sx={{ 'margin-right': '10px' }}
               color='primary'
               disabled={false}
               size='small'
@@ -72,6 +101,7 @@ export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
               Add a ticket
             </Button>
             <Button
+              sx={{ 'margin-right': '10px' }}
               color='error'
               disabled={false}
               size='small'
@@ -80,7 +110,7 @@ export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
             >
               close
             </Button>
-          </div>
+          </Box>
         </div>
       </Modal>
     </div>
