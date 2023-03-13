@@ -45,7 +45,7 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
     }
     setFakeApi({ ...fakeApiData, new: [...fakeApiData.new, info] })
   }
-  const handleEditChange = (e: any) => {
+  const handleOnChange = (e: any) => {
     e.preventDefault()
     // console.log(fake)
     // setEditFrom(e.target.value)
@@ -76,7 +76,7 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
                 id='outlined-basic'
                 variant='outlined'
                 value={editForm.title}
-                onChange={handleEditChange}
+                onChange={handleOnChange}
               />
             </Box>
 
@@ -91,10 +91,10 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
                 name='description'
                 InputProps={{ rows: 4.5 }}
                 value={editForm.description}
-                onChange={handleEditChange}
+                onChange={handleOnChange}
               />
               <SingleSelect
-                handleEditChange={handleEditChange}
+                handleOnChange={handleOnChange}
                 editForm={editForm}
               />
               <MultipleAssignees

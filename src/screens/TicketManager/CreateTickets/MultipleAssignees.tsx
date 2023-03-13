@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField'
 import { Checkbox } from '@mui/material'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
-function MultipleAssignees({ setAssignees, assignees }: any) {
+function MultipleAssignees({ setAssignees, handleOnChange }: any) {
   const userInTheProjects = [
     { title: 'koffi', id: 123, image: 'image' },
     { title: 'zena', id: 234, image: 'image' },
@@ -23,7 +23,9 @@ function MultipleAssignees({ setAssignees, assignees }: any) {
       options={userData}
       disableCloseOnSelect
       getOptionLabel={(option: any) => option.title}
-      onChange={(event, newValue) => setAssignees(newValue)}
+      onChange={(event, newValue) => {
+        setAssignees(newValue)
+      }}
       renderOption={(props, option, { selected }) => (
         <li {...props}>
           <Checkbox

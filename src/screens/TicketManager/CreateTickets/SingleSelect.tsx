@@ -1,9 +1,7 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import React from 'react'
 
-function SingleSelect({ editForm, handleEditChange }: any) {
-  const [age, setAge] = React.useState('')
-
+function SingleSelect({ gettingStatus, setGettingStatus }: any) {
   return (
     <Box sx={{ minWidth: 10 }}>
       <FormControl fullWidth sx={{ width: '100%', 'padding-bottom': '20px' }}>
@@ -14,13 +12,13 @@ function SingleSelect({ editForm, handleEditChange }: any) {
           label='Status'
           name='type'
           defaultValue='To Do'
-          value={editForm.type}
-          onChange={handleEditChange}
+          // value={editForm?.type}
+          onChange={(e, val: any) => setGettingStatus(val.props.value)}
         >
-          <MenuItem value={10}>To Do</MenuItem>
-          <MenuItem value={20}>In Progress</MenuItem>
-          <MenuItem value={30}>Under Review</MenuItem>
-          <MenuItem value={40}>Completed </MenuItem>
+          <MenuItem value={'To Do'}>To Do</MenuItem>
+          <MenuItem value={'In Progress'}>In Progress</MenuItem>
+          <MenuItem value={'Under Review'}>Under Review</MenuItem>
+          <MenuItem value={'Completed'}>Completed </MenuItem>
         </Select>
       </FormControl>
     </Box>

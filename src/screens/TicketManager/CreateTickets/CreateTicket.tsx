@@ -1,12 +1,11 @@
-import { Card, Button, Box } from '@mui/material'
+import { Button, Box, FormControl } from '@mui/material'
 
-import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
+import { useState } from 'react'
 import Modal from 'react-modal'
 import MultipleAssignees from './MultipleAssignees'
 import TextField from '@mui/material/TextField'
 import SingleSelect from './SingleSelect'
-import { border } from '@mui/system'
+
 const customStyles = {
   content: {
     top: '50%',
@@ -20,26 +19,43 @@ const customStyles = {
   },
 }
 
-// Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
-
 export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
   Modal.setAppElement('#root')
-  const [addTicketForm, setAddTicketForm] = useState('')
+  const [addTicketForm, setAddTicketForm] = useState<any>({
+    id: '',
+    title: '',
+    description: '',
+  })
   const [modalIsOpen, setIsOpen] = useState(false)
   const [assignees, setAssignees] = useState<any>([])
+  const [gettingStatus, setGettingStatus] = useState<any>('')
 
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
-  const onChange = (e: any) => {}
+
+  function handleOnChange(e: any) {
+    e.preventDefault()
+
+    setAddTicketForm({
+      ...addTicketForm,
+      [e.target.name]: e.target.value,
+    })
+    console.log(addTicketForm)
+  }
 
   const addTickets = () => {
     const info = {
       id: Date.now(),
       title: addTicketForm,
-      type: 'new',
+      type: 'Completed',
       assignees: [...assignees],
     }
-    setFakeApi({ ...fakeApiData, new: [...fakeApiData.new, info] })
+
+    console.log(fakeApiData)
+    setFakeApi({
+      ...fakeApiData,
+      ['Completed']: [...fakeApiData.Completed, info],
+    })
   }
 
   return (
@@ -54,63 +70,70 @@ export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
         <div>
           <h1>Create a ticket</h1>
 
-          <Box sx={{ display: 'flex', gap: '30px' }}>
-            <Box sx={{ width: '50%' }}>
-              <TextField
-                sx={{ width: '100%', 'padding-bottom': '20px' }}
-                type='text'
-                label='Title'
-                id='outlined-basic'
-                variant='outlined'
-              />
-              <TextField
-                sx={{ width: '100%' }}
-                id='outlined-basic'
-                label='Outlined'
-                variant='outlined'
-              />
-            </Box>
+          <FormControl>
+            <Box sx={{ display: 'flex', gap: '30px' }}>
+              <Box sx={{ width: '50%' }}>
+                <TextField
+                  sx={{ width: '100%', 'padding-bottom': '20px' }}
+                  type='text'
+                  label='Title'
+                  id='outlined-basic'
+                  variant='outlined'
+                  name='title'
+                  value={addTicketForm.title}
+                  onChange={e => handleOnChange(e)}
+                />
+              </Box>
 
-            <Box sx={{ width: '50%' }}>
-              <TextField
-                sx={{ width: '100%', 'padding-bottom': '20px' }}
-                type='text'
-                id='outlined-basic'
-                label='Description'
-                variant='outlined'
-                multiline
-                InputProps={{ rows: 4.5 }}
-              />
-              <SingleSelect />
-              <MultipleAssignees
-                setAssignees={setAssignees}
-                assignees={assignees}
-              />
+              <Box sx={{ width: '50%' }}>
+                <TextField
+                  sx={{ width: '100%', 'padding-bottom': '20px' }}
+                  type='text'
+                  id='outlined-basic'
+                  label='Description'
+                  variant='outlined'
+                  multiline
+                  name='description'
+                  value={addTicketForm.description}
+                  onChange={e => handleOnChange(e)}
+                  InputProps={{ rows: 4.5 }}
+                />
+                <SingleSelect
+                  onChange={handleOnChange}
+                  gettingStatus={gettingStatus}
+                  setGettingStatus={setGettingStatus}
+                />
+                <MultipleAssignees
+                  setAssignees={setAssignees}
+                  assignees={assignees}
+                  handleOnChange={handleOnChange}
+                />
+              </Box>
             </Box>
-          </Box>
-          <Box>
-            <Button
-              sx={{ 'margin-right': '10px' }}
-              color='primary'
-              disabled={false}
-              size='small'
-              variant='outlined'
-              // size="12px"
-              onClick={() => addTickets()}
-            >
-              Add a ticket
-            </Button>
-            <Button
-              sx={{ 'margin-right': '10px' }}
-              color='error'
-              disabled={false}
-              size='small'
-              variant='outlined'
-              onClick={closeModal}
-            >
-              close
-            </Button>
-          </Box>
+            <Box>
+              <Button
+                sx={{ 'margin-right': '10px' }}
+                color='primary'
+                disabled={false}
+                size='small'
+                variant='outlined'
+                // size="12px"
+                onClick={() => addTickets()}
+              >
+                Add a ticket
+              </Button>
+              <Button
+                sx={{ 'margin-right': '10px' }}
+                color='error'
+                disabled={false}
+                size='small'
+                variant='outlined'
+                onClick={closeModal}
+              >
+                close
+              </Button>
+            </Box>
+          </FormControl>
         </div>
       </Modal>
     </div>
