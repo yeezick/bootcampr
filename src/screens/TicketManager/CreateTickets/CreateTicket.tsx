@@ -40,8 +40,8 @@ export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
       ...addTicketForm,
       [e.target.name]: e.target.value,
     })
-    console.log(addTicketForm)
   }
+  console.log(addTicketForm)
 
   const addTickets = () => {
     const info = {
