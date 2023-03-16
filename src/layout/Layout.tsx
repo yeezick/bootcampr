@@ -38,7 +38,7 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
       <Nav />
       <Sidebar />
       <div className={visibleSidebar ? 'layout-container active' : ''}>
-        <div>{children}</div>
+        <div className='main-content-container'>{children}</div>
       </div>
       <Footer />
     </>
