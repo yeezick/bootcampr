@@ -3,3 +3,7 @@
   transition: all 0.1s;
   width: calc(100% - 272px);
 }
+
+.main-content-container {
+  min-height: calc(100vh - 250px);
+}
