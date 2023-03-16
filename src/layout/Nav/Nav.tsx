@@ -4,8 +4,10 @@ import { selectAuthUser } from 'utilities/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
 import { toggleSidebar } from 'utilities/redux/slices/userSlice'
 import { MdArrowDropDown } from 'react-icons/md'
+import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
 import { NotificationModal } from 'components/Notifications/NotificationModal'
+import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
 import { Socket } from 'components/Notifications/Socket'
 import './Nav.scss'
 
@@ -73,6 +75,10 @@ export const Nav = () => {
       </div>
       {userId !== '' ? (
         <div className='notifications'>
+          <div className='messages-icon'>
+            <BsFillChatLeftTextFill size={23} />
+            <ChatDialogMain />
+          </div>
           <div className='notification-badge link'>
             <NotificationModal />
           </div>

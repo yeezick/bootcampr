@@ -1,0 +1,16 @@
+.chat-dialog-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 8px 17px -6px rgba(0, 0, 0, 0.7);
+  height: 380px;
+  position: fixed;
+  width: 280px;
+  top: 90px;
+  z-index: 999999;
+
+  .chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

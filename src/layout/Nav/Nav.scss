@@ -69,6 +69,21 @@ nav {
   .notifications {
     align-items: center;
     display: flex;
+
+    .messages-icon {
+      align-items: center;
+      background-color: #ecebeb;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      height: 50px;
+      justify-content: center;
+      width: 50px;
+
+      &:hover {
+        background-color: #d0d0d0;
+      }
+    }
   }
 
   .notification-count {
