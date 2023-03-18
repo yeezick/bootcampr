@@ -89,7 +89,7 @@ export const Nav = () => {
         </div>
       )}
 
-      {userId && (
+      {!userId && (
         <div className='auth-btn'>
           <div>
             <Link className='link sign-up' to='/sign-up'>

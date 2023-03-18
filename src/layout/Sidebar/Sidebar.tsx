@@ -28,9 +28,7 @@ export const Sidebar = () => {
   }
 
   return (
-    <div
-      className={visibleSidebar ? 'sidebar-container active' : 'hide-sidebar'}
-    >
+    <div className={visibleSidebar ? 'sidebar-container' : 'hide-sidebar'}>
       <div className='menu-btn' onClick={toggleSidebarHandler}>
         <i></i>
         <i></i>

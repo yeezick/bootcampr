@@ -1,7 +1,11 @@
-.layout-container.active {
-  margin: 50px 272px;
-  transition: all 0.1s;
-  width: calc(100% - 272px);
+.layout-container {
+  margin-top: 73px;
+  padding-top: 20px;
+
+  .active {
+    transition: all 0.1s;
+    // width: calc(100% - 272px);    
+  }
 }
 
 .main-content-container {

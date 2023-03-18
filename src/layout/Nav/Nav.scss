@@ -22,8 +22,12 @@ nav {
   display: flex;
   height: 53px;
   justify-content: space-between;
+  left: 0;
   padding: 20px;
-  position: relative;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: 0.2s;  
   z-index: 1;
 
   .menu-btn {

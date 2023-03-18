@@ -33,14 +33,14 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
   }
 
   return (
-    <>
+    <div className='layout-container'>
       <ScrollToTop />
       <Nav />
       <Sidebar />
-      <div className={visibleSidebar ? 'layout-container active' : ''}>
+      <div className={`layout-children ${visibleSidebar && 'active'}`}>
         <div className='main-content-container'>{children}</div>
       </div>
       <Footer />
-    </>
+    </div>
   )
 }
