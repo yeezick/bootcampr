@@ -59,11 +59,25 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
       }
     })
     console.log(removeFromData)
-    const addToNewData = fakeApiData[status].filter((newStatus: any) => {
-      if (newStatus.id !== id) {
-        console.log('im not here yet')
-        console.log(newStatus)
-      }
+    // const addToNewData = fakeApiData[status].map((newStatus: any) => {
+    //   if (newStatus.id !== id) {
+    //     console.log('im not here yet')
+    //     console.log(newStatus)
+    //   }
+    // })
+    const addToNewData = [
+      ...fakeApiData[status],
+      {
+        ...editTicketForm,
+        assignees: assignees.length ? assignees : [...fake.assignees],
+      },
+    ]
+    console.log(addToNewData)
+
+    setFakeApi({
+      ...fakeApiData,
+      [fake.status]: [...removeFromData],
+      [status]: [...addToNewData],
     })
   }
 
