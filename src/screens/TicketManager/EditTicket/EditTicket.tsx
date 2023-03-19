@@ -23,7 +23,7 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
   const [addTicket, setAddTicket] = useState('')
   const [modalIsOpen, setIsOpen] = useState(false)
   const [assignees, setAssignees] = useState<any>([])
-  const [editForm, setEditFrom] = useState(fake)
+  const [editTicketForm, setEditTicketForm] = useState(fake)
   Modal.setAppElement('#root')
 
   function openModal() {
@@ -34,25 +34,25 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
     setIsOpen(false)
   }
 
-  const editTicket = () => {
-    console.log(fakeApiData)
-
-    const info = {
-      id: Date.now(),
-      title: addTicket,
-      type: 'new',
-      assignees: [...assignees],
-    }
-    setFakeApi({ ...fakeApiData, new: [...fakeApiData.new, info] })
-  }
   const handleOnChange = (e: any) => {
     e.preventDefault()
-    // console.log(fake)
-    // setEditFrom(e.target.value)
-    setEditFrom({ ...editForm, [e.target.name]: e.target.value })
-    console.log(editForm)
+    setEditTicketForm({
+      ...editTicketForm,
+      [e.target.name]: e.target.value,
+      id: Date.now(),
+    })
 
     // console.log(e.target.value)
+  }
+  const submitEditTicket = () => {
+    const { status = 'To Do' } = editTicketForm
+    setFakeApi({
+      ...fakeApiData,
+      [status]: [
+        ...fakeApiData[status],
+        { ...editTicketForm, assignees: [...assignees] },
+      ],
+    })
   }
   return (
     <div>
@@ -75,7 +75,7 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
                 name='title'
                 id='outlined-basic'
                 variant='outlined'
-                value={editForm.title}
+                value={editTicketForm.title}
                 onChange={handleOnChange}
               />
             </Box>
@@ -90,12 +90,12 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
                 multiline
                 name='description'
                 InputProps={{ rows: 4.5 }}
-                value={editForm.description}
+                value={editTicketForm.description}
                 onChange={handleOnChange}
               />
               <SingleSelect
                 handleOnChange={handleOnChange}
-                editForm={editForm}
+                editForm={editTicketForm}
               />
               <MultipleAssignees
                 setAssignees={setAssignees}
@@ -111,7 +111,7 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
               size='small'
               variant='outlined'
               // size="12px"
-              onClick={() => editTicket()}
+              onClick={() => submitEditTicket()}
             >
               Add a ticket
             </Button>

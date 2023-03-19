@@ -9,8 +9,8 @@ function SingleSelect({ handleOnChange }: any) {
         <Select
           labelId='demo-simple-select-label'
           id='demo-simple-select'
-          label='Status'
-          name='Status'
+          label='status'
+          name='status'
           defaultValue='To Do'
           // value={editForm?.type}
           onChange={(e, value: any) => {

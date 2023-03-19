@@ -39,11 +39,11 @@ export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
   }
 
   const addTickets = () => {
-    const { Status = 'To Do' } = addTicketForm
+    const { status = 'To Do' } = addTicketForm
     setFakeApi({
       ...fakeApiData,
-      [Status]: [
-        ...fakeApiData[Status],
+      [status]: [
+        ...fakeApiData[status],
         { ...addTicketForm, assignees: [...assignees] },
       ],
     })
