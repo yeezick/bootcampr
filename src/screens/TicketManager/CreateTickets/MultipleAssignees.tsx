@@ -20,17 +20,11 @@ function MultipleAssignees({
 
   const icon = <CheckBoxOutlineBlankIcon fontSize='small' />
   const checkedIcon = <CheckBoxIcon fontSize='small' />
-
-  const filteredAssignees = editTicketForm.assignees.filter(
-    (assignee: any, index: any, self: any) =>
-      index === self.findIndex((a: any) => a.id === assignee.id)
-  )
-
   const mergedUsers = [
-    ...filteredAssignees,
+    ...editTicketForm.assignees,
     ...userInTheProjects.filter(
       (user, index, self) =>
-        !filteredAssignees.find((a: any) => a.id === user.id)
+        !editTicketForm.assignees.find((a: any) => a.id === user.id)
     ),
   ]
   const [userData] = React.useState<any>(mergedUsers)
@@ -42,7 +36,7 @@ function MultipleAssignees({
       options={userData}
       disableCloseOnSelect
       getOptionLabel={(option: any) => option.title}
-      defaultValue={filteredAssignees}
+      defaultValue={editTicketForm.assignees}
       onChange={(event, newValue) => {
         setAssignees(newValue)
       }}
