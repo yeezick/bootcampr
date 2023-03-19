@@ -1,7 +1,7 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import React from 'react'
 
-function SingleSelect({ handleOnChange }: any) {
+function SingleSelect({ handleOnChange, editTicketForm = null }: any) {
   return (
     <Box sx={{ minWidth: 10 }}>
       <FormControl fullWidth sx={{ width: '100%', paddingBottom: '20px' }}>
@@ -11,8 +11,8 @@ function SingleSelect({ handleOnChange }: any) {
           id='demo-simple-select'
           label='status'
           name='status'
-          defaultValue='To Do'
-          // value={editForm?.type}
+          defaultValue={editTicketForm.status}
+          value={editTicketForm.status}
           onChange={(e, value: any) => {
             handleOnChange(e)
           }}

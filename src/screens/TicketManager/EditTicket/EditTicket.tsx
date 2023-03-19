@@ -5,6 +5,7 @@ import MultipleAssignees from '../CreateTickets/MultipleAssignees'
 
 import TextField from '@mui/material/TextField'
 import SingleSelect from '../CreateTickets/SingleSelect'
+import { isGeneratorFunction } from 'util/types'
 
 const customStyles = {
   content: {
@@ -24,6 +25,7 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [assignees, setAssignees] = useState<any>([])
   const [editTicketForm, setEditTicketForm] = useState(fake)
+  const [editedTicket, setEditedTicket] = useState([])
   Modal.setAppElement('#root')
 
   function openModal() {
@@ -39,21 +41,31 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
     setEditTicketForm({
       ...editTicketForm,
       [e.target.name]: e.target.value,
-      id: Date.now(),
     })
-
-    // console.log(e.target.value)
   }
+
   const submitEditTicket = () => {
-    const { status = 'To Do' } = editTicketForm
+    const { status, id } = editTicketForm
+
+    console.log(editTicketForm)
+
+    const editData = fakeApiData[status]?.map((data: any) => {
+      if (String(data.id) === String(id)) {
+        data = editTicketForm
+        console.log(data)
+      }
+      return data
+    })
+    console.log(editData)
+
+    setEditedTicket(editData)
+    // setEditedTicket(editedTicket)
     setFakeApi({
       ...fakeApiData,
-      [status]: [
-        ...fakeApiData[status],
-        { ...editTicketForm, assignees: [...assignees] },
-      ],
+      [status]: [...editData],
     })
   }
+  // console.log(fakeApiData)
   return (
     <div>
       <button onClick={openModal}>Edit a ticket</button>
@@ -95,17 +107,18 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
               />
               <SingleSelect
                 handleOnChange={handleOnChange}
-                editForm={editTicketForm}
+                editTicketForm={editTicketForm}
               />
               <MultipleAssignees
                 setAssignees={setAssignees}
                 assignees={assignees}
+                editTicketForm={editTicketForm}
               />
             </Box>
           </Box>
           <Box>
             <Button
-              sx={{ 'margin-right': '10px' }}
+              sx={{ marginRight: '10px' }}
               color='primary'
               disabled={false}
               size='small'
@@ -116,7 +129,7 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
               Add a ticket
             </Button>
             <Button
-              sx={{ 'margin-right': '10px' }}
+              sx={{ marginRight: '10px' }}
               color='error'
               disabled={false}
               size='small'

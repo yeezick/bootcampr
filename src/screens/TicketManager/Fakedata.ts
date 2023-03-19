@@ -3,7 +3,7 @@ export const FakeData = {
     {
       id: 1,
       title: 'test1',
-      type: 'To Do',
+      status: 'To Do',
       description: 'lorem ispsom',
       assignees: [
         { title: 'Reina', id: 456, image: 'image' },
@@ -13,7 +13,7 @@ export const FakeData = {
     {
       id: 2,
       title: 'test2',
-      type: 'To Do',
+      status: 'To Do',
       description: 'lorem ispsom',
       assignees: [
         { title: 'Reina', id: 456, image: 'image' },
@@ -23,7 +23,7 @@ export const FakeData = {
     {
       id: 3,
       title: 'test3',
-      type: 'To Do',
+      status: 'To Do',
       description: 'lorem ispsom',
       assignees: [
         { title: 'Reina', id: 456, image: 'image' },
@@ -35,7 +35,7 @@ export const FakeData = {
     {
       id: 4,
       title: 'test4',
-      type: 'In progress',
+      status: 'In progress',
       description: 'lorem ispsom',
       assignees: [
         { title: 'Reina', id: 456, image: 'image' },
@@ -45,7 +45,7 @@ export const FakeData = {
     {
       id: 5,
       title: 'test5',
-      type: 'In progress',
+      status: 'In progress',
       description: 'lorem ispsom',
       assignees: [
         { title: 'Reina', id: 456, image: 'image' },
@@ -55,7 +55,7 @@ export const FakeData = {
     {
       id: 6,
       title: 'test6',
-      type: 'In progress',
+      status: 'In progress',
       description: 'lorem ispsom',
       assignees: [
         { title: 'Reina', id: 456, image: 'image' },
@@ -68,7 +68,7 @@ export const FakeData = {
     {
       id: 7,
       title: 'test7',
-      type: 'Under Review',
+      status: 'Under Review',
       description: 'lorem ispsom',
       assignees: [
         { title: 'Reina', id: 456, image: 'image' },
@@ -78,7 +78,7 @@ export const FakeData = {
     {
       id: 8,
       title: 'test8',
-      type: 'Under Review',
+      status: 'Under Review',
       description: 'lorem ispsom',
       assignees: [
         { title: 'Reina', id: 456, image: 'image' },
@@ -88,7 +88,7 @@ export const FakeData = {
     {
       id: 9,
       title: 'test9',
-      type: 'Under Review',
+      status: 'Under Review',
       description: 'lorem ispsom',
       assignees: [
         { title: 'Reina', id: 456, image: 'image' },
@@ -100,7 +100,7 @@ export const FakeData = {
     {
       id: 10,
       title: 'test10',
-      type: 'Completed',
+      status: 'Completed',
       description: 'lorem ispsom',
       assignees: [
         { title: 'Reina', id: 456, image: 'image' },
@@ -110,7 +110,7 @@ export const FakeData = {
     {
       id: 11,
       title: 'test11',
-      type: 'Completed',
+      status: 'Completed',
       description: 'lorem ispsom',
       assignees: [
         { title: 'Reina', id: 456, image: 'image' },
@@ -120,7 +120,7 @@ export const FakeData = {
     {
       id: 12,
       title: 'test12',
-      type: 'Completed',
+      status: 'Completed',
       description: 'lorem ispsom',
       assignees: [
         { title: 'Reina', id: 456, image: 'image' },

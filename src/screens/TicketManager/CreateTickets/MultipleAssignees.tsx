@@ -5,7 +5,11 @@ import TextField from '@mui/material/TextField'
 import { Checkbox } from '@mui/material'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
-function MultipleAssignees({ setAssignees, handleOnChange }: any) {
+function MultipleAssignees({
+  setAssignees,
+  handleOnChange,
+  editTicketForm,
+}: any) {
   const userInTheProjects = [
     { title: 'koffi', id: 123, image: 'image' },
     { title: 'zena', id: 234, image: 'image' },
@@ -14,9 +18,23 @@ function MultipleAssignees({ setAssignees, handleOnChange }: any) {
     { title: 'Jason', id: 567, image: 'image' },
   ]
 
-  const [userData] = React.useState<any>(userInTheProjects)
   const icon = <CheckBoxOutlineBlankIcon fontSize='small' />
   const checkedIcon = <CheckBoxIcon fontSize='small' />
+
+  const filteredAssignees = editTicketForm.assignees.filter(
+    (assignee: any, index: any, self: any) =>
+      index === self.findIndex((a: any) => a.id === assignee.id)
+  )
+
+  const mergedUsers = [
+    ...filteredAssignees,
+    ...userInTheProjects.filter(
+      (user, index, self) =>
+        !filteredAssignees.find((a: any) => a.id === user.id)
+    ),
+  ]
+  const [userData] = React.useState<any>(mergedUsers)
+
   return (
     <Autocomplete
       multiple
@@ -24,6 +42,7 @@ function MultipleAssignees({ setAssignees, handleOnChange }: any) {
       options={userData}
       disableCloseOnSelect
       getOptionLabel={(option: any) => option.title}
+      defaultValue={filteredAssignees}
       onChange={(event, newValue) => {
         setAssignees(newValue)
       }}
