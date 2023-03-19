@@ -65,13 +65,10 @@ h3, h4 {
 
 .form-input {
   margin: 0 16px 16px 16px;
+  position: relative;
 }
 
 .pwd-input {
-  div {
-    position: relative;
-  }
-
   input {
     @include input-fields(4.8px 32px 4.8px 6.4px, 84.8%);
   }

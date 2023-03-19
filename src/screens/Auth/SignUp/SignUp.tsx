@@ -1,13 +1,13 @@
 import { register, reset, uiStatus } from 'utilities/redux/slices/userSlice'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { SignUpInterface } from 'utilities/types/UserInterface'
 import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
-import { BsEyeFill, BsEyeSlash } from 'react-icons/bs'
 import { FaInfoCircle } from 'react-icons/fa'
 import './SignUp.scss'
 import { emptySignUp } from 'utilities/data/userConstants'
 import { AlertBanners } from 'utilities/types/AccountSettingsInterface'
 import { GoAlert } from 'react-icons/go'
+import { Input } from 'components/Input/Input'
 
 type PasswordMatchCases = null | boolean
 
@@ -25,6 +25,12 @@ export const SignUp: React.FC = () => {
     status: false,
     text: '',
   })
+
+  const confirmPasswordRef = useRef(null)
+  const emailRef = useRef(null)
+  const firstNameRef = useRef(null)
+  const lastNameRef = useRef(null)
+  const passwordRef = useRef(null)
 
   useEffect(() => {
     if (status.isSuccess) {
@@ -93,18 +99,6 @@ export const SignUp: React.FC = () => {
     }
   }
 
-  const passwordReveal = () => {
-    passwordInputType === 'password'
-      ? setPasswordInputType('text')
-      : setPasswordInputType('password')
-  }
-
-  const confirmPasswordReveal = () => {
-    confirmPasswordInputType === 'password'
-      ? setConfirmPasswordInputType('text')
-      : setConfirmPasswordInputType('password')
-  }
-
   return (
     <div>
       {alertBanner.status ? (
@@ -113,94 +107,77 @@ export const SignUp: React.FC = () => {
           <p>{alertBanner.text}</p>
         </div>
       ) : null}
+
       <div className='signup-container'>
         <h3>User Register</h3>
         <form onSubmit={handleSubmit} autoComplete='off'>
-          <div className='form-input'>
-            <label>First Name</label>
-            <input
-              type='text'
-              name='firstName'
-              placeholder='First Name'
-              onChange={handleChange}
-              value={firstName}
-              autoComplete='off'
-              required
-            />
-          </div>
+          <Input
+            autoComplete='off'
+            inputRef={firstNameRef}
+            label='First Name'
+            name='firstName'
+            onChange={handleChange}
+            placeholder='First Name'
+            required
+            type='text'
+            value={firstName}
+          />
 
-          <div className='form-input'>
-            <label>Last Name</label>
-            <input
-              type='text'
-              name='lastName'
-              placeholder='Last Name'
-              onChange={handleChange}
-              value={lastName}
-              autoComplete='off'
-              required
-            />
-          </div>
+          <Input
+            autoComplete='off'
+            inputRef={lastNameRef}
+            label='Last Name'
+            name='lastName'
+            onChange={handleChange}
+            placeholder='Last Name'
+            required
+            type='text'
+            value={lastName}
+          />
 
-          <div className='form-input'>
-            <label>Email</label>
-            <input
-              type='email'
-              name='email'
-              placeholder='Email'
-              onChange={handleChange}
-              value={email}
-              autoComplete='off'
-              required
-            />
-          </div>
+          <Input
+            autoComplete='off'
+            inputRef={emailRef}
+            label='Email'
+            name='email'
+            onChange={handleChange}
+            placeholder='Email'
+            required
+            type='email'
+            value={email}
+          />
 
-          <div className='pwd-input'>
-            <div>
-              <label>Password</label>
-              {passwordInputType === 'password' ? (
-                <BsEyeSlash
-                  onClick={passwordReveal}
-                  className='pwd-reveal-gray'
-                />
-              ) : (
-                <BsEyeFill onClick={passwordReveal} className='pwd-reveal' />
-              )}
-              <input
-                type={passwordInputType}
-                name='password'
-                placeholder='Password'
-                onChange={handleChange}
-                value={password}
-                autoComplete='off'
-              />
-            </div>
-          </div>
+          <Input
+            autoComplete='off'
+            inputRef={passwordRef}
+            label='Password'
+            name='password'
+            onChange={handleChange}
+            passwordProps={{
+              setInputType: setPasswordInputType,
+              inputType: passwordInputType,
+            }}
+            placeholder='Password'
+            required
+            type={passwordInputType}
+            value={password}
+          />
 
-          <div className='pwd-input'>
-            <div>
-              <label>Confirm Password</label>
-              {confirmPasswordInputType === 'password' ? (
-                <BsEyeSlash
-                  onClick={confirmPasswordReveal}
-                  className='pwd-reveal-gray'
-                />
-              ) : (
-                <BsEyeFill
-                  onClick={confirmPasswordReveal}
-                  className='pwd-reveal'
-                />
-              )}
-              <input
-                type={confirmPasswordInputType}
-                name='confirmPassword'
-                placeholder='Confirm Password'
-                onChange={handleChange}
-                value={confirmPassword}
-                autoComplete='off'
-              />
-            </div>
-          </div>
+          <Input
+            autoComplete='off'
+            inputRef={confirmPasswordRef}
+            label='Confirm Password'
+            name='confirmPassword'
+            onChange={handleChange}
+            passwordProps={{
+              setInputType: setConfirmPasswordInputType,
+              inputType: confirmPasswordInputType,
+            }}
+            placeholder='Confirm Password'
+            required
+            type={confirmPasswordInputType}
+            value={confirmPassword}
+          />
 
           <div className='form-btn'>
             <button type='submit' disabled={validateForm()}>
