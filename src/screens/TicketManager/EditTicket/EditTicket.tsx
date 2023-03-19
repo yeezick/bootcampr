@@ -5,7 +5,6 @@ import MultipleAssignees from '../CreateTickets/MultipleAssignees'
 
 import TextField from '@mui/material/TextField'
 import SingleSelect from '../CreateTickets/SingleSelect'
-import { isGeneratorFunction } from 'util/types'
 
 const customStyles = {
   content: {
@@ -21,11 +20,10 @@ const customStyles = {
 }
 
 const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
-  const [addTicket, setAddTicket] = useState('')
   const [modalIsOpen, setIsOpen] = useState(false)
   const [assignees, setAssignees] = useState<any>([])
   const [editTicketForm, setEditTicketForm] = useState(fake)
-  const [editedTicket, setEditedTicket] = useState([])
+
   Modal.setAppElement('#root')
 
   function openModal() {
@@ -46,26 +44,48 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
 
   const submitEditTicket = () => {
     const { status, id } = editTicketForm
+    if (fake.status === status) return ticketStatusHasNotChange()
+    if (fake.status != status) return ticketStatusChange()
+  }
+  //if the ticket status has change then i want to know where it first came from then remove
+  // from that array
+  // then insert to the new array
 
-    console.log(editTicketForm)
+  const ticketStatusChange = () => {
+    const { status, id } = editTicketForm
+    const removeFromData = fakeApiData[fake.status].filter((newStatus: any) => {
+      if (newStatus.id !== id) {
+        return newStatus
+      }
+    })
+    console.log(removeFromData)
+    const addToNewData = fakeApiData[status].filter((newStatus: any) => {
+      if (newStatus.id !== id) {
+        console.log('im not here yet')
+        console.log(newStatus)
+      }
+    })
+  }
 
-    const editData = fakeApiData[status]?.map((data: any) => {
-      if (String(data.id) === String(id)) {
-        data = editTicketForm
-        console.log(data)
+  const ticketStatusHasNotChange = () => {
+    const editData = fakeApiData[fake.status]?.map((data: any) => {
+      if (String(data.id) === String(fake.id)) {
+        data = {
+          ...editTicketForm,
+          assignees: assignees.length ? assignees : [...data.assignees],
+        }
       }
       return data
     })
+    console.log([fake])
     console.log(editData)
 
-    setEditedTicket(editData)
-    // setEditedTicket(editedTicket)
     setFakeApi({
       ...fakeApiData,
-      [status]: [...editData],
+      [fake.status]: [...editData],
     })
   }
-  // console.log(fakeApiData)
+
   return (
     <div>
       <button onClick={openModal}>Edit a ticket</button>

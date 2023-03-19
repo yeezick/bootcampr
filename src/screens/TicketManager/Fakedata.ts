@@ -16,7 +16,7 @@ export const FakeData = {
       status: 'To Do',
       description: 'lorem ispsom',
       assignees: [
-        { title: 'Reina', id: 456, image: 'image' },
+        { title: 'koffi', id: 123, image: 'image' },
         { title: 'Jason', id: 567, image: 'image' },
       ],
     },
