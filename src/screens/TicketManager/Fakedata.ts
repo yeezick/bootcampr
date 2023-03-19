@@ -31,11 +31,11 @@ export const FakeData = {
       ],
     },
   ],
-  'in progress': [
+  'In progress': [
     {
       id: 4,
       title: 'test4',
-      type: 'in progress',
+      type: 'In progress',
       description: 'lorem ispsom',
       assignees: [
         { title: 'Reina', id: 456, image: 'image' },
@@ -45,7 +45,7 @@ export const FakeData = {
     {
       id: 5,
       title: 'test5',
-      type: 'in progress',
+      type: 'In progress',
       description: 'lorem ispsom',
       assignees: [
         { title: 'Reina', id: 456, image: 'image' },
@@ -55,7 +55,7 @@ export const FakeData = {
     {
       id: 6,
       title: 'test6',
-      type: 'in progress',
+      type: 'In progress',
       description: 'lorem ispsom',
       assignees: [
         { title: 'Reina', id: 456, image: 'image' },

@@ -13,6 +13,7 @@ function MultipleAssignees({ setAssignees, handleOnChange }: any) {
     { title: 'Reina', id: 456, image: 'image' },
     { title: 'Jason', id: 567, image: 'image' },
   ]
+
   const [userData] = React.useState<any>(userInTheProjects)
   const icon = <CheckBoxOutlineBlankIcon fontSize='small' />
   const checkedIcon = <CheckBoxIcon fontSize='small' />

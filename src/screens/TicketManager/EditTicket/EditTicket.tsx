@@ -69,7 +69,7 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
           <Box sx={{ display: 'flex', gap: '30px' }}>
             <Box sx={{ width: '50%' }}>
               <TextField
-                sx={{ width: '100%', 'padding-bottom': '20px' }}
+                sx={{ width: '100%', paddingBottom: '20px' }}
                 type='text'
                 label='Title'
                 name='title'
@@ -82,7 +82,7 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
 
             <Box sx={{ width: '50%' }}>
               <TextField
-                sx={{ width: '100%', 'padding-bottom': '20px' }}
+                sx={{ width: '100%', paddingBottom: '20px' }}
                 type='text'
                 id='outlined-basic'
                 label='Description'
