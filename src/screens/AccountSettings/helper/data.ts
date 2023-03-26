@@ -1,5 +1,5 @@
 import AuthSettingsFormDropdown from '../components/AuthSettingsFormDropdown'
-import { DropDownSettings } from 'utilities/types/AccountSettingsInterface'
+import { DropDownSettings } from 'interfaces/AccountSettingsInterface'
 
 // Prop Declarations
 const emailSettingsProps = {

@@ -3,7 +3,7 @@ import {
   SignUpInterface,
   UiSliceInterface,
   UserInterface,
-} from 'utilities/types/UserInterface'
+} from 'interfaces/UserInterface'
 import { signUp, updateUser } from 'utilities/api/users'
 import { RootState } from 'utilities/redux/store'
 

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ProjectInterface } from 'utilities/types/ProjectInterface'
+import { ProjectInterface } from 'interfaces/ProjectInterface'
 import { selectAuthUser } from 'utilities/redux/slices/userSlice'
 
 export const UserProfile = () => {

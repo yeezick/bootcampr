@@ -5,9 +5,9 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from 'utilities/redux/store'
 import { setAuthUser } from 'utilities/redux/slices/userSlice'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { SignInInterface } from 'utilities/types/UserInterface'
+import { SignInInterface } from 'interfaces/UserInterface'
 import { GoAlert, GoVerified } from 'react-icons/go'
-import { AlertBanners } from 'utilities/types/AccountSettingsInterface'
+import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables

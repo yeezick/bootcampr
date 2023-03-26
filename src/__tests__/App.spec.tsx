@@ -1,5 +1,5 @@
 import userEvent from '@testing-library/user-event'
-import { act, render, screen } from '__tests__/custom-render'
+import { act, render, screen, waitFor } from '__tests__/custom-render'
 import App from 'App'
 
 /**
@@ -9,16 +9,19 @@ import App from 'App'
  * but should be tested from App.tsx with mocked screens to route to.
  */
 
+window.scrollTo = jest.fn()
+
 describe('Navbar interactions', () => {
   // Not actually done
   test('User can sign up from the landing page', async () => {
-    // Wrapped in Act because useEffect triggers state update / rerender
-    await act(() => render(<App />))
+    render(<App />)
     // User can click on all navbar links
     // Expect each click to navigate user to the right page
-    expect(
-      screen.getByText(/surpass your competition in the tech job market/i)
-    ).toBeInTheDocument()
+    await waitFor(() =>
+      expect(
+        screen.getByText(/surpass your competition in the tech job market/i)
+      ).toBeInTheDocument()
+    )
   })
 })
 

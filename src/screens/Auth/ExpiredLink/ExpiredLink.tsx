@@ -4,7 +4,7 @@ import { FaInfoCircle } from 'react-icons/fa'
 import { TbRefreshAlert } from 'react-icons/tb'
 import { useState } from 'react'
 import './ExpiredLink.scss'
-import { AlertBanners } from 'utilities/types/AccountSettingsInterface'
+import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 
 export const ExpiredLink = () => {
   const { id: userId } = useParams()

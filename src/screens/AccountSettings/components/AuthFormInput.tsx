@@ -1,5 +1,5 @@
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs'
-import { AuthFormInputProps } from 'utilities/types/AccountSettingsInterface'
+import { AuthFormInputProps } from 'interfaces/AccountSettingsInterface'
 import styles from '../css/AuthSettingsFormDropdown.module.css'
 import { useState } from 'react'
 

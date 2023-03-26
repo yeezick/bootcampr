@@ -1,13 +1,13 @@
-import { register, reset, uiStatus } from 'utilities/redux/slices/userSlice'
 import React, { useEffect, useRef, useState } from 'react'
-import { SignUpInterface } from 'utilities/types/UserInterface'
-import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
 import { FaInfoCircle } from 'react-icons/fa'
-import './SignUp.scss'
-import { emptySignUp } from 'utilities/data/userConstants'
-import { AlertBanners } from 'utilities/types/AccountSettingsInterface'
 import { GoAlert } from 'react-icons/go'
-import { Input } from 'components/Input/Input'
+import { register, reset, uiStatus } from 'utilities/redux/slices/userSlice'
+import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
+import { SignUpInterface } from 'interfaces/UserInterface'
+import { AlertBanners } from 'interfaces/AccountSettingsInterface'
+import { emptySignUp } from 'utilities/data/userConstants'
+import { Email, Text, Password } from 'components/Inputs'
+import './SignUp.scss'
 
 type PasswordMatchCases = null | boolean
 
@@ -111,44 +111,36 @@ export const SignUp: React.FC = () => {
       <div className='signup-container'>
         <h3>User Register</h3>
         <form onSubmit={handleSubmit} autoComplete='off'>
-          <Input
-            autoComplete='off'
+          <Text
             inputRef={firstNameRef}
             label='First Name'
             name='firstName'
             onChange={handleChange}
-            placeholder='First Name'
             required
-            type='text'
             value={firstName}
           />
 
-          <Input
-            autoComplete='off'
+          <Text
             inputRef={lastNameRef}
             label='Last Name'
             name='lastName'
             onChange={handleChange}
-            placeholder='Last Name'
             required
-            type='text'
             value={lastName}
           />
 
-          <Input
-            autoComplete='off'
+          <Email
             inputRef={emailRef}
             label='Email'
             name='email'
             onChange={handleChange}
-            placeholder='Email'
             required
-            type='email'
             value={email}
           />
 
-          <Input
-            autoComplete='off'
+          {/* Need to remove type from passwords, should look into moving all
+              password logic into its component.  */}
+          <Password
             inputRef={passwordRef}
             label='Password'
             name='password'
@@ -157,14 +149,12 @@ export const SignUp: React.FC = () => {
               setInputType: setPasswordInputType,
               inputType: passwordInputType,
             }}
-            placeholder='Password'
             required
             type={passwordInputType}
             value={password}
           />
 
-          <Input
-            autoComplete='off'
+          <Password
             inputRef={confirmPasswordRef}
             label='Confirm Password'
             name='confirmPassword'
@@ -173,7 +163,6 @@ export const SignUp: React.FC = () => {
               setInputType: setConfirmPasswordInputType,
               inputType: confirmPasswordInputType,
             }}
-            placeholder='Confirm Password'
             required
             type={confirmPasswordInputType}
             value={confirmPassword}

@@ -15,7 +15,7 @@ import Dialog from '@mui/material/Dialog'
 import { useAppSelector } from 'utilities/redux/hooks'
 import { selectAuthUser } from 'utilities/redux/slices/userSlice'
 import './Notification.scss'
-import { NotificationInterface } from 'utilities/types/NotificationInterface'
+import { NotificationInterface } from 'interfaces/NotificationInterface'
 
 export const NotificationModal = () => {
   const authUser = useAppSelector(selectAuthUser)

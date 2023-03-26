@@ -2,7 +2,7 @@ import {
   EmailFormData,
   PasswordFormData,
   FormDataCopy,
-} from 'utilities/types/AccountSettingsInterface'
+} from 'interfaces/AccountSettingsInterface'
 import { updateUsersEmail, updateUsersPassword } from 'utilities/api/users'
 
 const VALID_EMAIL_REGEX =
