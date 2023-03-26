@@ -9,6 +9,7 @@ describe('Landing page', () => {
     render(<Landing />)
     const buttonToStartToday = screen.getByText(/start today!/i)
     await userEvent.click(buttonToStartToday)
+    // Assert: refer to comments above
     screen.debug()
     expect(true).toBe(true)
   })
