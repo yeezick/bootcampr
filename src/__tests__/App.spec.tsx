@@ -1,4 +1,3 @@
-import userEvent from '@testing-library/user-event'
 import { act, render, screen, waitFor } from '__tests__/custom-render'
 import App from 'App'
 
