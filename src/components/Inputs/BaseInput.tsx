@@ -1,33 +1,20 @@
 import { InputProps } from 'interfaces/components/Input'
 import 'screens/Auth/SignUp/SignUp.scss'
 
-export const BaseInput = ({
-  autoComplete,
-  helperText,
-  inputRef,
-  label,
-  name,
-  onChange,
-  placeholder,
-  required,
-  type,
-  value,
-}: InputProps) => {
+export const BaseInput = (props: InputProps) => {
+  const { autoComplete, helperText, label, name, pattern, placeholder } = props
   const inputLabelProps = { helperText, label, name }
+  const baseInputProps = {
+    ...props,
+    autoComplete: autoComplete ? autoComplete : 'off',
+    placeholder: placeholder ? placeholder : '',
+    pattern: pattern ? pattern : '',
+  }
+
   return (
     <div className='form-input'>
       {label && <InputLabel {...inputLabelProps} />}
-      <input
-        autoComplete={autoComplete ? autoComplete : 'off'}
-        id={name}
-        name={name}
-        onChange={onChange}
-        placeholder={placeholder ? placeholder : ''}
-        ref={inputRef}
-        required={required}
-        type={type}
-        value={value}
-      />
+      <input {...baseInputProps} />
     </div>
   )
 }

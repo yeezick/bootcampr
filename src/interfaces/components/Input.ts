@@ -5,6 +5,7 @@ export interface InputProps {
   label: string
   name: string
   onChange: React.ChangeEventHandler<HTMLInputElement>
+  pattern?: string
   placeholder?: string
   required?: boolean
   type: string

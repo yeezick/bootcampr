@@ -9,10 +9,17 @@ interface PasswordInterface extends InputProps {
 }
 
 export const Password = (props: PasswordInterface) => {
+  // Minimum eight characters, at least one uppercase letter, one lowercase letter and one number:
+  const passwordRegex = '^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{8,}$'
+  const baseInputProps = {
+    ...props,
+    pattern: passwordRegex,
+  }
+
   return (
     <div>
       <VisiblePasswordIcon {...props} />
-      <BaseInput {...props} />
+      <BaseInput {...baseInputProps} />
     </div>
   )
 }

@@ -130,6 +130,7 @@ export const SignUp: React.FC = () => {
           />
 
           <Email
+            helperText='(ex. jeanine@bootcampr.io)'
             inputRef={emailRef}
             label='Email'
             name='email'
@@ -141,6 +142,7 @@ export const SignUp: React.FC = () => {
           {/* Need to remove type from passwords, should look into moving all
               password logic into its component.  */}
           <Password
+            helperText='(Min 8 characters, 1 upper, 1 lower, 1 symbol)'
             inputRef={passwordRef}
             label='Password'
             name='password'
@@ -154,7 +156,7 @@ export const SignUp: React.FC = () => {
 
           <Password
             inputRef={confirmPasswordRef}
-            label='Confirm Password'
+            label='Re-enter Password'
             name='confirmPassword'
             onChange={handleChange}
             setInputType={setConfirmPasswordInputType}
