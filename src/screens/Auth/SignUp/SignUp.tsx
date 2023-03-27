@@ -145,10 +145,8 @@ export const SignUp: React.FC = () => {
             label='Password'
             name='password'
             onChange={handleChange}
-            passwordProps={{
-              setInputType: setPasswordInputType,
-              inputType: passwordInputType,
-            }}
+            setInputType={setPasswordInputType}
+            inputType={passwordInputType}
             required
             type={passwordInputType}
             value={password}
@@ -159,10 +157,8 @@ export const SignUp: React.FC = () => {
             label='Confirm Password'
             name='confirmPassword'
             onChange={handleChange}
-            passwordProps={{
-              setInputType: setConfirmPasswordInputType,
-              inputType: confirmPasswordInputType,
-            }}
+            setInputType={setConfirmPasswordInputType}
+            inputType={confirmPasswordInputType}
             required
             type={confirmPasswordInputType}
             value={confirmPassword}

@@ -1,20 +1,17 @@
 import { BaseInput } from './BaseInput'
-import { InputProps } from 'interfaces/components/Input'
+import { InputWidget } from 'interfaces/components/Input'
 
 // Not the same widget as textarea
 // Create new file for text area & remove this comment when needed
-type TextInputInterface = Omit<InputProps, 'type'>
 
-export const Text = (props: TextInputInterface) => {
-  const { label, name } = props
+export const Text = (props: InputWidget) => {
   const baseInputProps = {
     ...props,
     type: 'text',
   }
 
   return (
-    <div className='form-input'>
-      <label htmlFor={name}>{label}</label>
+    <div>
       <BaseInput {...baseInputProps} />
     </div>
   )
