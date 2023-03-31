@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
 import { AiFillStar } from 'react-icons/ai'
-import { logOut } from 'utilities/api/users'
-import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
+import { logOut } from 'utils/api/users'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   logoutAuthUser,
   selectAuthUser,
   toggleSidebar,
-} from 'utilities/redux/slices/userSlice'
+} from 'utils/redux/slices/userSlice'
 import './Sidebar.scss'
 
 export const Sidebar = () => {

@@ -3,8 +3,8 @@ import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import { render, RenderOptions } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import notificationReducer from 'utilities/redux/slices/notificationSlice'
-import userReducer from 'utilities/redux/slices/userSlice'
+import notificationReducer from 'utils/redux/slices/notificationSlice'
+import userReducer from 'utils/redux/slices/userSlice'
 import { BrowserRouter as Router } from 'react-router-dom'
 
 const customRender = (

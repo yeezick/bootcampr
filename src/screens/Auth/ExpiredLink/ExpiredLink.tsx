@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { api } from 'utilities/api/apiConfig'
+import { api } from 'utils/api/apiConfig'
 import { FaInfoCircle } from 'react-icons/fa'
 import { TbRefreshAlert } from 'react-icons/tb'
 import { useState } from 'react'

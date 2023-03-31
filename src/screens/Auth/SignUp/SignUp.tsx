@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FaInfoCircle } from 'react-icons/fa'
 import { GoAlert } from 'react-icons/go'
-import { register, reset, uiStatus } from 'utilities/redux/slices/userSlice'
-import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
+import { register, reset, uiStatus } from 'utils/redux/slices/userSlice'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { SignUpInterface } from 'interfaces/UserInterface'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
-import { emptySignUp } from 'utilities/data/userConstants'
+import { emptySignUp } from 'utils/data/userConstants'
 import { Email, Text, Password } from 'components/Inputs'
 import './SignUp.scss'
 
@@ -144,11 +144,12 @@ export const SignUp: React.FC = () => {
           <Password
             helperText='(Min 8 characters, 1 upper, 1 lower, 1 symbol)'
             inputRef={passwordRef}
+            inputType={passwordInputType}
             label='Password'
             name='password'
             onChange={handleChange}
+            setFormValues={setFormValues}
             setInputType={setPasswordInputType}
-            inputType={passwordInputType}
             required
             type={passwordInputType}
             value={password}
@@ -156,11 +157,12 @@ export const SignUp: React.FC = () => {
 
           <Password
             inputRef={confirmPasswordRef}
+            inputType={confirmPasswordInputType}
             label='Re-enter Password'
             name='confirmPassword'
             onChange={handleChange}
+            setFormValues={setFormValues}
             setInputType={setConfirmPasswordInputType}
-            inputType={confirmPasswordInputType}
             required
             type={confirmPasswordInputType}
             value={confirmPassword}

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setAuthUser } from 'utilities/redux/slices/userSlice'
-import { getAllUsers } from 'utilities/api/users'
+import { setAuthUser } from 'utils/redux/slices/userSlice'
+import { getAllUsers } from 'utils/api/users'
 import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai'
-import { useAppSelector } from 'utilities/redux/hooks'
-import { selectAuthUser } from 'utilities/redux/slices/userSlice'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import './Landing.scss'
 
 export const Landing: React.FC = () => {

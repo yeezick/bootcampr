@@ -5,15 +5,15 @@ import {
   deleteNotification,
   deleteAllNotifications,
   markAllNotificationsAsRead,
-} from 'utilities/api/notifications'
+} from 'utils/api/notifications'
 import { BsBell } from 'react-icons/bs'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import DialogTitle from '@mui/material/DialogTitle'
 import Dialog from '@mui/material/Dialog'
-import { useAppSelector } from 'utilities/redux/hooks'
-import { selectAuthUser } from 'utilities/redux/slices/userSlice'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import './Notification.scss'
 import { NotificationInterface } from 'interfaces/NotificationInterface'
 
