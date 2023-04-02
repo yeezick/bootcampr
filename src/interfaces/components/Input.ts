@@ -1,5 +1,5 @@
 import { SignUpInterface } from 'interfaces/UserInterface'
-export interface ErrorInterface {
+export interface PasswordErrors {
   length?: string
   uppercase?: string
   lowercase?: string
@@ -9,5 +9,7 @@ export interface ErrorInterface {
 export interface PasswordInputProps {
   formValues: SignUpInterface
   password: string
+  passwordErrors: object
+  setPasswordErrors: React.Dispatch<React.SetStateAction<PasswordErrors>>
   setFormValues: React.Dispatch<React.SetStateAction<SignUpInterface>>
 }

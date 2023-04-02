@@ -15,13 +15,17 @@ export const EmailVerify = () => {
     const verifyEmail = async () => {
       try {
         const { data } = await api.get(`/${userId}/verify/${emailToken}`)
+        const { bootcamprNewToken, user } = data
         if (data.isExpired) {
           return replaceUrl(`/users/${userId}/expired-link`)
         }
 
-        const { bootcamprNewToken, user } = data
-        localStorage.setItem('bootcamprAuthToken', bootcamprNewToken)
-        dispatch(updateAuthUser(user))
+        if (bootcamprNewToken && user._id) {
+          localStorage.setItem('bootcamprAuthToken', bootcamprNewToken)
+          dispatch(updateAuthUser(user))
+        } else {
+          throw Error('Verification request missing user object or token')
+        }
 
         if (user.onboarded === false) {
           replaceUrl('/users/onboarding')

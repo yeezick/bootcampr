@@ -8,7 +8,7 @@ import {
   IconButton,
 } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { ErrorInterface, PasswordInputProps } from 'interfaces/components/Input'
+import { PasswordInputProps } from 'interfaces/components/Input'
 import { handleFormInputChange } from 'utils/helpers/stateHelpers'
 
 export const PasswordInputs = (props: PasswordInputProps) => {
@@ -30,10 +30,11 @@ export const PasswordInputs = (props: PasswordInputProps) => {
 export const Password = ({
   formValues,
   name,
+  passwordErrors,
   setFormValues,
+  setPasswordErrors,
   setPasswordMatch,
 }) => {
-  const [errors, setErrors] = useState<ErrorInterface>({})
   const [inputType, setInputType] = useState('password')
   const inputId = 'password'
 
@@ -42,13 +43,13 @@ export const Password = ({
     handleFormInputChange(e, setFormValues)
 
     if (value.length === 0) {
-      setErrors({})
+      setPasswordErrors({})
     } else if (value.length < 8 && value.length >= 1) {
-      setErrors({
+      setPasswordErrors({
         length: 'Password must be at least 8 characters',
       })
     } else {
-      setErrors({
+      setPasswordErrors({
         uppercase:
           !/[A-Z]/.test(value) &&
           'Password must have at least one uppercase letter',
@@ -101,7 +102,7 @@ export const Password = ({
             </InputAdornment>
           }
         />
-        <PasswordValidations errors={errors} />
+        <PasswordValidations errors={passwordErrors} />
       </FormControl>
     </div>
   )

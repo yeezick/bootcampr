@@ -4,16 +4,19 @@ import { GoAlert } from 'react-icons/go'
 import { register, reset, uiStatus } from 'utils/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { SignUpInterface } from 'interfaces/UserInterface'
+import { PasswordErrors } from 'interfaces/components/Input'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { emptySignUp } from 'utils/data/userConstants'
 import { Email, Text, PasswordInputs } from 'components/Inputs'
 import './SignUp.scss'
-
+import { Checkbox, FormControlLabel } from '@mui/material'
 export const SignUp: React.FC = () => {
   const dispatch = useAppDispatch()
   const status = useAppSelector(uiStatus)
-  const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp)
   const [disabledForm, setDisabledForm] = useState(true)
+  const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp)
+  const [isAccepted, setIsAccepted] = useState(false)
+  const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>({})
   const [alertBanner, setAlertBanner] = useState<AlertBanners>({
     status: false,
     text: '',
@@ -32,22 +35,26 @@ export const SignUp: React.FC = () => {
     const validateForm = () => {
       const { confirmPassword, password } = formValues
       const emptyForm = Object.values(formValues).some(value => value === '')
+      const passwordHasErrors = Object.values(passwordErrors).some(
+        error => error === true || typeof error === 'string'
+      )
       const passwordsMatch = () => {
-        if (confirmPassword === '' || password === '') {
+        if (confirmPassword === '' || password === '' || passwordHasErrors) {
           return false
         } else if (confirmPassword !== password) {
           return false
         }
         return true
       }
-      if (emptyForm === false && passwordsMatch()) {
+
+      if (emptyForm === false && isAccepted && passwordsMatch()) {
         return setDisabledForm(false)
       } else {
         return setDisabledForm(true)
       }
     }
     validateForm()
-  }, [formValues])
+  }, [formValues, isAccepted, passwordErrors])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -104,7 +111,14 @@ export const SignUp: React.FC = () => {
           <PasswordInputs
             formValues={formValues}
             password={password}
+            passwordErrors={passwordErrors}
+            setPasswordErrors={setPasswordErrors}
             setFormValues={setFormValues}
+          />
+
+          <AcceptTermsCheckbox
+            isAccepted={isAccepted}
+            setIsAccepted={setIsAccepted}
           />
 
           <div className='form-btn'>
@@ -114,6 +128,31 @@ export const SignUp: React.FC = () => {
           </div>
         </form>
       </div>
+    </div>
+  )
+}
+
+const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
+  const handleCheckbox = e => setIsAccepted(e.target.checked)
+  const checkboxStyles = {
+    '& .MuiFormControlLabel-root': {
+      display: 'flex',
+    },
+    '& .MuiCheckbox-root': {
+      backgroundColor: '',
+      alignSelf: 'flex-start',
+    },
+  }
+
+  return (
+    <div>
+      <FormControlLabel
+        sx={checkboxStyles}
+        control={<Checkbox checked={isAccepted} onChange={handleCheckbox} />}
+        label={`I agree to receive email notification(s). We will only send 
+        emails with important information, like project start dates.
+        We will not sell your information!`}
+      />
     </div>
   )
 }
