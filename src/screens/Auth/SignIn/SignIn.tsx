@@ -30,6 +30,8 @@ const SignIn: React.FC = (): JSX.Element => {
   const location = useLocation()
 
   // Event Handlers
+  // This is no longer being used from <EmailVerify />
+  // Retaining logic only as an example for future use case
   useEffect(() => {
     if (location.state && location.state.status) {
       setAlertBanner({

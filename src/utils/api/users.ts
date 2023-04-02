@@ -2,7 +2,7 @@ import { api } from './apiConfig'
 import {
   PasswordFormData,
   EmailFormData,
-} from '../../interfaces/AccountSettingsInterface'
+} from 'interfaces/AccountSettingsInterface'
 
 export const getAllUsers = async () => {
   try {
