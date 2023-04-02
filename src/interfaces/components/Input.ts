@@ -1,22 +1,13 @@
-export interface InputProps {
-  autoComplete?: string
-  customInputProps?: any
-  helperText?: string
-  inputRef?: React.MutableRefObject<any>
-  label: string
-  name: string
-  onChange: React.ChangeEventHandler<HTMLInputElement>
-  pattern?: string
-  placeholder?: string
-  required?: boolean
-  type: string
-  validationMessages?: ValidationMessage[]
-  value: string
+import { SignUpInterface } from 'interfaces/UserInterface'
+export interface ErrorInterface {
+  length?: string
+  uppercase?: string
+  lowercase?: string
+  number?: string
 }
 
-export type ValidationMessage = {
-  isError: boolean
-  text: string
+export interface PasswordInputProps {
+  formValues: SignUpInterface
+  password: string
+  setFormValues: React.Dispatch<React.SetStateAction<SignUpInterface>>
 }
-
-export type InputWidget = Omit<InputProps, 'type'>

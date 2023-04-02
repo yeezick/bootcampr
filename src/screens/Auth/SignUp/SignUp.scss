@@ -45,17 +45,17 @@
   padding: 32px;
   width: 320px;
 
-  button {
-    @include form-buttons();
-  }
+  // button {
+  //   @include form-buttons();
+  // }
 
   form {
     padding: 36.8px 24px 16px 8px;
   }
 
-  input {
-    @include input-fields(4.8px 6.4px, 100%);
-  }
+  // input {
+  //   @include input-fields(4.8px 6.4px, 100%);
+  // }
 }
 
 h3, h4 {

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaInfoCircle } from 'react-icons/fa'
 import { GoAlert } from 'react-icons/go'
 import { register, reset, uiStatus } from 'utils/redux/slices/userSlice'
@@ -6,55 +6,48 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { SignUpInterface } from 'interfaces/UserInterface'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { emptySignUp } from 'utils/data/userConstants'
-import { Email, Text, Password } from 'components/Inputs'
+import { Email, Text, PasswordInputs } from 'components/Inputs'
 import './SignUp.scss'
-
-type PasswordMatchCases = null | boolean
 
 export const SignUp: React.FC = () => {
   const dispatch = useAppDispatch()
   const status = useAppSelector(uiStatus)
-  const [passwordInputType, setPasswordInputType] = useState('password')
-  const [confirmPasswordInputType, setConfirmPasswordInputType] =
-    useState('password')
-  const [passwordsMatch, togglePasswordsMatch] =
-    useState<PasswordMatchCases>(null)
   const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp)
-  const { confirmPassword, email, firstName, lastName, password } = formValues
+  const [disabledForm, setDisabledForm] = useState(true)
   const [alertBanner, setAlertBanner] = useState<AlertBanners>({
     status: false,
     text: '',
   })
-
-  const confirmPasswordRef = useRef(null)
-  const emailRef = useRef(null)
-  const firstNameRef = useRef(null)
-  const lastNameRef = useRef(null)
-  const passwordRef = useRef(null)
+  const { password } = formValues
 
   useEffect(() => {
     if (status.isSuccess) {
       dispatch(reset())
       setFormValues(emptySignUp)
       setAlertBanner({ status: true })
-      togglePasswordsMatch(null)
     }
   }, [status.isSuccess, dispatch])
 
   useEffect(() => {
-    if (password.length === 0 || confirmPassword.length === 0) {
-      togglePasswordsMatch(null)
-    } else if (password !== confirmPassword) {
-      togglePasswordsMatch(false)
-    } else {
-      togglePasswordsMatch(true)
+    const validateForm = () => {
+      const { confirmPassword, password } = formValues
+      const emptyForm = Object.values(formValues).some(value => value === '')
+      const passwordsMatch = () => {
+        if (confirmPassword === '' || password === '') {
+          return false
+        } else if (confirmPassword !== password) {
+          return false
+        }
+        return true
+      }
+      if (emptyForm === false && passwordsMatch()) {
+        return setDisabledForm(false)
+      } else {
+        return setDisabledForm(true)
+      }
     }
-  }, [password, confirmPassword])
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormValues({ ...formValues, [name]: value })
-  }
+    validateForm()
+  }, [formValues])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -81,24 +74,6 @@ export const SignUp: React.FC = () => {
     }, 16000)
   }
 
-  const validateForm = () => {
-    if (!passwordsMatch) return true
-    for (const value of Object.values(formValues)) {
-      if (!value) return true
-    }
-  }
-
-  const PasswordMatchStatus: React.FC | null = () => {
-    switch (passwordsMatch) {
-      case true:
-        return <h4 className='pwd-match'>Passwords match!</h4>
-      case false:
-        return <h4 className='pwd-mismatch'>Passwords do not match</h4>
-      default:
-        return null
-    }
-  }
-
   return (
     <div>
       {alertBanner.status ? (
@@ -112,69 +87,32 @@ export const SignUp: React.FC = () => {
         <h3>User Register</h3>
         <form onSubmit={handleSubmit} autoComplete='off'>
           <Text
-            inputRef={firstNameRef}
             label='First Name'
             name='firstName'
-            onChange={handleChange}
             required
-            value={firstName}
+            setFormValues={setFormValues}
           />
 
           <Text
-            inputRef={lastNameRef}
             label='Last Name'
             name='lastName'
-            onChange={handleChange}
             required
-            value={lastName}
-          />
-
-          <Email
-            helperText='(ex. jeanine@bootcampr.io)'
-            inputRef={emailRef}
-            label='Email'
-            name='email'
-            onChange={handleChange}
-            required
-            value={email}
-          />
-
-          {/* Need to remove type from passwords, should look into moving all
-              password logic into its component.  */}
-          <Password
-            helperText='(Min 8 characters, 1 upper, 1 lower, 1 symbol)'
-            inputRef={passwordRef}
-            inputType={passwordInputType}
-            label='Password'
-            name='password'
-            onChange={handleChange}
             setFormValues={setFormValues}
-            setInputType={setPasswordInputType}
-            required
-            type={passwordInputType}
-            value={password}
           />
 
-          <Password
-            inputRef={confirmPasswordRef}
-            inputType={confirmPasswordInputType}
-            label='Re-enter Password'
-            name='confirmPassword'
-            onChange={handleChange}
+          <Email setFormValues={setFormValues} />
+          <PasswordInputs
+            formValues={formValues}
+            password={password}
             setFormValues={setFormValues}
-            setInputType={setConfirmPasswordInputType}
-            required
-            type={confirmPasswordInputType}
-            value={confirmPassword}
           />
 
           <div className='form-btn'>
-            <button type='submit' disabled={validateForm()}>
+            <button type='submit' disabled={disabledForm}>
               Create Account
             </button>
           </div>
         </form>
-        <PasswordMatchStatus />
       </div>
     </div>
   )

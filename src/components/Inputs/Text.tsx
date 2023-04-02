@@ -1,18 +1,21 @@
-import { BaseInput } from './BaseInput'
-import { InputWidget } from 'interfaces/components/Input'
+import { FormControl, InputLabel, Input } from '@mui/material'
+import { handleFormInputChange } from 'utils/helpers/stateHelpers'
 
-// Not the same widget as textarea
-// Create new file for text area & remove this comment when needed
-
-export const Text = (props: InputWidget) => {
-  const baseInputProps = {
-    ...props,
-    type: 'text',
+export const Text = ({ label, name, setFormValues, required }) => {
+  const handleTextChange = e => {
+    handleFormInputChange(e, setFormValues)
   }
-
   return (
-    <div>
-      <BaseInput {...baseInputProps} />
+    <div className={`signup-input-${name}`}>
+      <FormControl variant='standard'>
+        <InputLabel htmlFor={name}>{label}</InputLabel>
+        <Input
+          id={name}
+          name={name}
+          onChange={handleTextChange}
+          required={required}
+        />
+      </FormControl>
     </div>
   )
 }
