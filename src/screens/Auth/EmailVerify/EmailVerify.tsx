@@ -9,13 +9,14 @@ export const EmailVerify = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { id: userId, token: emailToken } = useParams()
+  const replaceUrl = path => navigate(path, { replace: true })
 
   useEffect(() => {
     const verifyEmail = async () => {
       try {
         const { data } = await api.get(`/${userId}/verify/${emailToken}`)
         if (data.isExpired) {
-          return navigate(`/users/${userId}/expired-link`)
+          return replaceUrl(`/users/${userId}/expired-link`)
         }
 
         const { bootcamprNewToken, user } = data
@@ -23,13 +24,16 @@ export const EmailVerify = () => {
         dispatch(updateAuthUser(user))
 
         if (user.onboarded === false) {
-          navigate('/users/onboarding')
+          replaceUrl('/users/onboarding')
           return
+        } else {
+          // Might be good to replace with user profile
+          replaceUrl('/')
         }
       } catch (error) {
         console.log(error)
         // Todo: route user to sign-up with error message state
-        navigate('/sign-up')
+        replaceUrl('/sign-up')
       }
     }
     verifyEmail()
