@@ -1,7 +1,7 @@
 import {
   NotificationInterface,
   NotificationState,
-} from '../../interfaces/NotificationInterface'
+} from 'interfaces/NotificationInterface'
 
 export const notificationInitialState: NotificationState = {
   message: '',

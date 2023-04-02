@@ -2,7 +2,7 @@ import {
   SignUpInterface,
   UiSliceInterface,
   UserInterface,
-} from '../../interfaces/UserInterface'
+} from 'interfaces/UserInterface'
 
 export const initialState: UiSliceInterface = {
   auth: {
