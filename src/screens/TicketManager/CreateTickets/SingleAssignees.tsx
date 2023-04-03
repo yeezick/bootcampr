@@ -8,11 +8,12 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material'
-function SingleAssignees({ handleOnChange, fakeDataDetail }: any) {
-  console.log(fakeDataDetail)
-
-  const [assignees, setAssignees] = useState(fakeDataDetail?.assignees.title)
-
+function SingleAssignees({
+  handleOnChange,
+  fakeDataDetail,
+  assignees,
+  setAssignees,
+}: any) {
   const [assigneesData] = useState([
     { title: 'Reina', id: 456, image: 'image' },
     { title: 'Koffi', id: 123, image: 'image' },
@@ -21,9 +22,13 @@ function SingleAssignees({ handleOnChange, fakeDataDetail }: any) {
   ])
 
   const handleChange = (event: SelectChangeEvent) => {
-    console.log(event)
-
-    setAssignees(event.target.value as string)
+    const findTheUser = assigneesData.find(
+      user => event.target.value === String(user.id)
+    )
+    setAssignees({
+      value: event.target.value as string,
+      user: findTheUser,
+    })
   }
 
   return (
@@ -35,7 +40,7 @@ function SingleAssignees({ handleOnChange, fakeDataDetail }: any) {
           id='demo-simple-select'
           onChange={handleChange}
           defaultValue={fakeDataDetail.assignees.id}
-          name={assignees}
+          name={String(assignees.value)}
         >
           {assigneesData.map(assignees => (
             <MenuItem key={assignees.id} value={String(assignees.id)}>

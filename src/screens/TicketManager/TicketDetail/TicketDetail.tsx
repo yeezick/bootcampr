@@ -25,14 +25,40 @@ const TicketDetail = ({
   sectionName,
 }: any) => {
   Modal.setAppElement('#root')
-  const [assignees, setAssignees] = useState<any>([])
+  const [assignees, setAssignees] = useState<any>(
+    fakeDataDetail?.assignees.title
+  )
 
   const [modalIsOpen, setIsOpen] = useState(false)
+  const [ticketStatus, setTicketStatus] = useState<any>()
   const tittleRef: any = useRef(null)
+  const dateRef: any = useRef(null)
   const linkRef: any = useRef(null)
   const descriptionRef: any = useRef(null)
+  const statusRef: any = useRef(null)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
+  const saveChanges = () => {
+    const updateText = {
+      assignees: assignees.user ?? fakeDataDetail.assignees,
+      date: dateRef.current.value,
+      description: descriptionRef.current.textContent,
+      id: fakeDataDetail.id,
+      link: linkRef.current.textContent,
+      status: ticketStatus ?? fakeDataDetail.status,
+      title: tittleRef.current.textContent,
+    }
+
+    const { status, id } = fakeDataDetail
+    if (ticketStatus === status) return ticketStatusHasNotChange()
+    if (ticketStatus != status) return ticketStatusChange()
+  }
+
+  const ticketStatusChange = () => {}
+  const ticketStatusHasNotChange = () => {}
+  const handleEditChange = (e: any) => {
+    setTicketStatus(e.target.value)
+  }
 
   const deleteTicket = (id: any) => {
     const deletedTicket = allFakeData[sectionName].filter(
@@ -40,18 +66,6 @@ const TicketDetail = ({
     )
     setFakeApi({ ...allFakeData, [sectionName]: [...deletedTicket] })
     closeModal()
-  }
-
-  const saveChanges = (id: any) => {}
-
-  const handleEditChange = (e: any) => {}
-
-  const formatDate = () => {
-    const today = new Date()
-    const year = today.getFullYear()
-    const month = String(today.getMonth() + 1).padStart(2, '0')
-    const day = String(today.getDate()).padStart(2, '0')
-    return `${year}-${month}-${day}`
   }
 
   return (
@@ -111,6 +125,7 @@ const TicketDetail = ({
 
           <Box sx={{ width: '50%' }}>
             <SingleSelect
+              statusRef={statusRef}
               handleOnChange={handleEditChange}
               fakeDataDetail={fakeDataDetail}
             />
@@ -121,8 +136,9 @@ const TicketDetail = ({
             />
             <input
               type='date'
-              value={fakeDataDetail.date}
-              onChange={e => handleEditChange(e)}
+              name='date'
+              ref={dateRef}
+              defaultValue={fakeDataDetail.date}
             />
           </Box>
         </Box>
@@ -143,7 +159,7 @@ const TicketDetail = ({
           disabled={false}
           size='small'
           variant='outlined'
-          onClick={() => saveChanges(fakeDataDetail?.id)}
+          onClick={() => saveChanges()}
         >
           Save Changes
         </Button>
