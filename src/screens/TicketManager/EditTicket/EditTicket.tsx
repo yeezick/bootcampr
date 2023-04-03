@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Card, Button, Box } from '@mui/material'
 import Modal from 'react-modal'
-import MultipleAssignees from '../CreateTickets/MultipleAssignees'
+import MultipleAssignees from '../CreateTickets/SingleAssignees'
 
 import TextField from '@mui/material/TextField'
 import SingleSelect from '../CreateTickets/SingleSelect'
@@ -47,37 +47,23 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
     if (fake.status === status) return ticketStatusHasNotChange()
     if (fake.status != status) return ticketStatusChange()
   }
-  //if the ticket status has change then i want to know where it first came from then remove
-  // from that array
-  // then insert to the new array
 
   const ticketStatusChange = () => {
     const { status, id } = editTicketForm
-    const removeFromData = fakeApiData[fake.status].filter((newStatus: any) => {
-      if (newStatus.id !== id) {
-        return newStatus
-      }
-    })
-    console.log(removeFromData)
-    // const addToNewData = fakeApiData[status].map((newStatus: any) => {
-    //   if (newStatus.id !== id) {
-    //     console.log('im not here yet')
-    //     console.log(newStatus)
-    //   }
-    // })
-    const addToNewData = [
+    const removeFromSection = fakeApiData[fake.status].filter(
+      (newStatus: any) => newStatus.id !== id
+    )
+    const addToNewSection = [
       ...fakeApiData[status],
       {
         ...editTicketForm,
         assignees: assignees.length ? assignees : [...fake.assignees],
       },
     ]
-    console.log(addToNewData)
-
     setFakeApi({
       ...fakeApiData,
-      [fake.status]: [...removeFromData],
-      [status]: [...addToNewData],
+      [fake.status]: [...removeFromSection],
+      [status]: [...addToNewSection],
     })
   }
 
@@ -139,14 +125,10 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
                 value={editTicketForm.description}
                 onChange={handleOnChange}
               />
-              <SingleSelect
-                handleOnChange={handleOnChange}
-                editTicketForm={editTicketForm}
-              />
+              <SingleSelect handleOnChange={handleOnChange} />
               <MultipleAssignees
                 setAssignees={setAssignees}
                 assignees={assignees}
-                editTicketForm={editTicketForm}
               />
             </Box>
           </Box>
@@ -160,7 +142,7 @@ const EditTicket = ({ setFakeApi, fakeApiData, sectionName, fake }: any) => {
               // size="12px"
               onClick={() => submitEditTicket()}
             >
-              Add a ticket
+              Edit a ticket
             </Button>
             <Button
               sx={{ marginRight: '10px' }}

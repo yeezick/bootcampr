@@ -58,30 +58,30 @@ export const AllTicket = () => {
             <h1>{sectionName}</h1>
           </div>
           <div className='content'>
-            {fakeApiData[sectionName].map((fake: any) => (
+            {fakeApiData[sectionName].map((fakeData: any) => (
               <div
                 className='data'
                 draggable='true'
-                onDragStart={e => dragHasStarted(e, sectionName, fake.id)}
+                onDragStart={e => dragHasStarted(e, sectionName, fakeData.id)}
                 onDragEnter={e => handleDragEnter(e)}
-                id={fake.id}
-                key={fake.id}
+                id={fakeData.id}
+                key={fakeData.id}
               >
-                <h1>{fake.id}</h1>
-                <h1>{fake.title}</h1>
+                <h1>{fakeData.id}</h1>
+                <h1>{fakeData.title}</h1>
                 <TicketDetail
-                  fake={fake}
+                  fakeData={fakeData}
                   fakeApiData={fakeApiData}
                   setFakeApi={setFakeApi}
                   sectionName={sectionName}
                 />
 
-                <EditTicket
+                {/* <EditTicket
                   setFakeApi={setFakeApi}
                   fakeApiData={fakeApiData}
                   sectionName={sectionName}
                   fake={fake}
-                />
+                /> */}
               </div>
             ))}
           </div>

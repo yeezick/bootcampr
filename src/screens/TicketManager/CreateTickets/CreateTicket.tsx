@@ -2,7 +2,7 @@ import { Button, Box, FormControl } from '@mui/material'
 
 import { useState } from 'react'
 import Modal from 'react-modal'
-import MultipleAssignees from './MultipleAssignees'
+import MultipleAssignees from './SingleAssignees'
 import TextField from '@mui/material/TextField'
 import SingleSelect from './SingleSelect'
 

@@ -5,30 +5,21 @@ export const FakeData = {
       title: 'test1',
       status: 'To Do',
       description: 'lorem ispsom',
-      assignees: [
-        { title: 'Reina', id: 456, image: 'image' },
-        { title: 'Jason', id: 567, image: 'image' },
-      ],
+      assignees: { title: 'Hector', id: 33, image: 'image' },
     },
     {
       id: 2,
       title: 'test2',
       status: 'To Do',
       description: 'lorem ispsom',
-      assignees: [
-        { title: 'koffi', id: 123, image: 'image' },
-        { title: 'Jason', id: 567, image: 'image' },
-      ],
+      assignees: { title: 'koffi', id: 123, image: 'image' },
     },
     {
       id: 3,
       title: 'test3',
       status: 'To Do',
       description: 'lorem ispsom',
-      assignees: [
-        { title: 'Reina', id: 456, image: 'image' },
-        { title: 'Jason', id: 567, image: 'image' },
-      ],
+      assignees: { title: 'Reina', id: 456, image: 'image' },
     },
   ],
   'In progress': [
@@ -37,30 +28,21 @@ export const FakeData = {
       title: 'test4',
       status: 'In progress',
       description: 'lorem ispsom',
-      assignees: [
-        { title: 'Reina', id: 456, image: 'image' },
-        { title: 'Jason', id: 567, image: 'image' },
-      ],
+      assignees: { title: 'koffi', id: 123, image: 'image' },
     },
     {
       id: 5,
       title: 'test5',
       status: 'In progress',
       description: 'lorem ispsom',
-      assignees: [
-        { title: 'Reina', id: 456, image: 'image' },
-        { title: 'Jason', id: 567, image: 'image' },
-      ],
+      assignees: { title: 'koffi', id: 123, image: 'image' },
     },
     {
       id: 6,
       title: 'test6',
       status: 'In progress',
       description: 'lorem ispsom',
-      assignees: [
-        { title: 'Reina', id: 456, image: 'image' },
-        { title: 'Jason', id: 567, image: 'image' },
-      ],
+      assignees: { title: 'koffi', id: 123, image: 'image' },
     },
   ],
 
@@ -70,30 +52,21 @@ export const FakeData = {
       title: 'test7',
       status: 'Under Review',
       description: 'lorem ispsom',
-      assignees: [
-        { title: 'Reina', id: 456, image: 'image' },
-        { title: 'Jason', id: 567, image: 'image' },
-      ],
+      assignees: { title: 'koffi', id: 123, image: 'image' },
     },
     {
       id: 8,
       title: 'test8',
       status: 'Under Review',
       description: 'lorem ispsom',
-      assignees: [
-        { title: 'Reina', id: 456, image: 'image' },
-        { title: 'Jason', id: 567, image: 'image' },
-      ],
+      assignees: { title: 'koffi', id: 123, image: 'image' },
     },
     {
       id: 9,
       title: 'test9',
       status: 'Under Review',
       description: 'lorem ispsom',
-      assignees: [
-        { title: 'Reina', id: 456, image: 'image' },
-        { title: 'Jason', id: 567, image: 'image' },
-      ],
+      assignees: { title: 'koffi', id: 123, image: 'image' },
     },
   ],
   Completed: [
@@ -102,30 +75,21 @@ export const FakeData = {
       title: 'test10',
       status: 'Completed',
       description: 'lorem ispsom',
-      assignees: [
-        { title: 'Reina', id: 456, image: 'image' },
-        { title: 'Jason', id: 567, image: 'image' },
-      ],
+      assignees: { title: 'koffi', id: 123, image: 'image' },
     },
     {
       id: 11,
       title: 'test11',
       status: 'Completed',
       description: 'lorem ispsom',
-      assignees: [
-        { title: 'Reina', id: 456, image: 'image' },
-        { title: 'Jason', id: 567, image: 'image' },
-      ],
+      assignees: { title: 'koffi', id: 123, image: 'image' },
     },
     {
       id: 12,
       title: 'test12',
       status: 'Completed',
       description: 'lorem ispsom',
-      assignees: [
-        { title: 'Reina', id: 456, image: 'image' },
-        { title: 'Jason', id: 567, image: 'image' },
-      ],
+      assignees: { title: 'koffi', id: 123, image: 'image' },
     },
   ],
 }

@@ -11,8 +11,8 @@ function SingleSelect({ handleOnChange, editTicketForm = null }: any) {
           id='demo-simple-select'
           label='status'
           name='status'
-          defaultValue={editTicketForm.status}
-          value={editTicketForm.status}
+          defaultValue={editTicketForm ? editTicketForm.status : 'To Do'}
+          value={editTicketForm ? editTicketForm.status : 'To Do'}
           onChange={(e, value: any) => {
             handleOnChange(e)
           }}
