@@ -6,6 +6,8 @@ export const FakeData = {
       status: 'To Do',
       description: 'lorem ispsom',
       assignees: { title: 'Hector', id: 33, image: 'image' },
+      date: '2017-06-01',
+      link: 'koffiarielhessou.com',
     },
     {
       id: 2,
@@ -13,6 +15,8 @@ export const FakeData = {
       status: 'To Do',
       description: 'lorem ispsom',
       assignees: { title: 'koffi', id: 123, image: 'image' },
+      date: '2017-06-01',
+      link: 'koffiarielhessou.com',
     },
     {
       id: 3,
@@ -20,6 +24,8 @@ export const FakeData = {
       status: 'To Do',
       description: 'lorem ispsom',
       assignees: { title: 'Reina', id: 456, image: 'image' },
+      date: '2017-06-01',
+      link: 'koffiarielhessou.com',
     },
   ],
   'In progress': [
@@ -29,6 +35,8 @@ export const FakeData = {
       status: 'In progress',
       description: 'lorem ispsom',
       assignees: { title: 'koffi', id: 123, image: 'image' },
+      date: '2017-06-01',
+      link: 'koffiarielhessou.com',
     },
     {
       id: 5,
@@ -36,6 +44,8 @@ export const FakeData = {
       status: 'In progress',
       description: 'lorem ispsom',
       assignees: { title: 'koffi', id: 123, image: 'image' },
+      date: '2017-06-01',
+      link: 'koffiarielhessou.com',
     },
     {
       id: 6,
@@ -43,6 +53,8 @@ export const FakeData = {
       status: 'In progress',
       description: 'lorem ispsom',
       assignees: { title: 'koffi', id: 123, image: 'image' },
+      date: '2017-06-01',
+      link: 'koffiarielhessou.com',
     },
   ],
 
@@ -53,6 +65,8 @@ export const FakeData = {
       status: 'Under Review',
       description: 'lorem ispsom',
       assignees: { title: 'koffi', id: 123, image: 'image' },
+      date: '2017-06-01',
+      link: 'koffiarielhessou.com',
     },
     {
       id: 8,
@@ -60,6 +74,8 @@ export const FakeData = {
       status: 'Under Review',
       description: 'lorem ispsom',
       assignees: { title: 'koffi', id: 123, image: 'image' },
+      date: '2017-06-01',
+      link: 'koffiarielhessou.com',
     },
     {
       id: 9,
@@ -67,6 +83,8 @@ export const FakeData = {
       status: 'Under Review',
       description: 'lorem ispsom',
       assignees: { title: 'koffi', id: 123, image: 'image' },
+      date: '2017-06-01',
+      link: 'koffiarielhessou.com',
     },
   ],
   Completed: [
@@ -76,6 +94,8 @@ export const FakeData = {
       status: 'Completed',
       description: 'lorem ispsom',
       assignees: { title: 'koffi', id: 123, image: 'image' },
+      date: '2017-06-01',
+      link: 'koffiarielhessou.com',
     },
     {
       id: 11,
@@ -83,6 +103,8 @@ export const FakeData = {
       status: 'Completed',
       description: 'lorem ispsom',
       assignees: { title: 'koffi', id: 123, image: 'image' },
+      date: '2017-06-01',
+      link: 'koffiarielhessou.com',
     },
     {
       id: 12,
@@ -90,6 +112,8 @@ export const FakeData = {
       status: 'Completed',
       description: 'lorem ispsom',
       assignees: { title: 'koffi', id: 123, image: 'image' },
+      date: '2017-06-01',
+      link: 'koffiarielhessou.com',
     },
   ],
 }

@@ -8,8 +8,10 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material'
-function SingleAssignees({ handleOnChange, editTicketForm }: any) {
-  const [assignees, setAssignees] = useState(editTicketForm.assignees.title)
+function SingleAssignees({ handleOnChange, fakeDataDetail }: any) {
+  console.log(fakeDataDetail)
+
+  const [assignees, setAssignees] = useState(fakeDataDetail?.assignees.title)
 
   const [assigneesData] = useState([
     { title: 'Reina', id: 456, image: 'image' },
@@ -32,7 +34,7 @@ function SingleAssignees({ handleOnChange, editTicketForm }: any) {
           labelId='demo-simple-select-label'
           id='demo-simple-select'
           onChange={handleChange}
-          defaultValue={editTicketForm.assignees.id}
+          defaultValue={fakeDataDetail.assignees.id}
           name={assignees}
         >
           {assigneesData.map(assignees => (

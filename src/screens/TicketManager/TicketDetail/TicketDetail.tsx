@@ -19,8 +19,8 @@ const customStyles = {
   },
 }
 const TicketDetail = ({
-  fakeData,
-  fakeApiData,
+  fakeDataDetail,
+  allFakeData,
   setFakeApi,
   sectionName,
 }: any) => {
@@ -29,26 +29,22 @@ const TicketDetail = ({
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const tittleRef: any = useRef(null)
+  const linkRef: any = useRef(null)
   const descriptionRef: any = useRef(null)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
 
   const deleteTicket = (id: any) => {
-    const deletedTicket = fakeApiData[sectionName].filter(
+    const deletedTicket = allFakeData[sectionName].filter(
       (ticket: any) => ticket.id !== id
     )
-    setFakeApi({ ...fakeApiData, [sectionName]: [...deletedTicket] })
+    setFakeApi({ ...allFakeData, [sectionName]: [...deletedTicket] })
     closeModal()
   }
 
-  const saveChanges = (id: any) => {
-    console.log(tittleRef.current.textContent)
-    console.log(descriptionRef.current.textContent)
-  }
+  const saveChanges = (id: any) => {}
 
-  const handleEditChange = (e: any) => {
-    console.log(e)
-  }
+  const handleEditChange = (e: any) => {}
 
   const formatDate = () => {
     const today = new Date()
@@ -86,7 +82,7 @@ const TicketDetail = ({
                 ref={tittleRef}
                 suppressContentEditableWarning={true}
               >
-                {fakeData.title}
+                {fakeDataDetail.title}
               </p>
             </blockquote>
             <h3>description</h3>
@@ -97,7 +93,7 @@ const TicketDetail = ({
                 ref={descriptionRef}
                 suppressContentEditableWarning={true}
               >
-                {fakeData.description}
+                {fakeDataDetail.description}
               </p>
             </blockquote>
             <h3>Link</h3>
@@ -105,10 +101,10 @@ const TicketDetail = ({
             <blockquote>
               <p
                 contentEditable='true'
-                ref={descriptionRef}
+                ref={linkRef}
                 suppressContentEditableWarning={true}
               >
-                {fakeData.description}
+                {fakeDataDetail.link}
               </p>
             </blockquote>
           </Box>
@@ -116,16 +112,16 @@ const TicketDetail = ({
           <Box sx={{ width: '50%' }}>
             <SingleSelect
               handleOnChange={handleEditChange}
-              editTicketForm={fakeData}
+              fakeDataDetail={fakeDataDetail}
             />
             <SingleAssignees
               setAssignees={setAssignees}
               assignees={assignees}
-              editTicketForm={fakeData}
+              fakeDataDetail={fakeDataDetail}
             />
             <input
               type='date'
-              value={formatDate()}
+              value={fakeDataDetail.date}
               onChange={e => handleEditChange(e)}
             />
           </Box>
@@ -137,7 +133,7 @@ const TicketDetail = ({
           disabled={false}
           size='small'
           variant='outlined'
-          onClick={() => deleteTicket(fakeData?.id)}
+          onClick={() => deleteTicket(fakeDataDetail?.id)}
         >
           Delete
         </Button>
@@ -147,7 +143,7 @@ const TicketDetail = ({
           disabled={false}
           size='small'
           variant='outlined'
-          onClick={() => saveChanges(fakeData?.id)}
+          onClick={() => saveChanges(fakeDataDetail?.id)}
         >
           Save Changes
         </Button>
