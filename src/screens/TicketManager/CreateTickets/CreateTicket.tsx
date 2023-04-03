@@ -2,7 +2,7 @@ import { Button, Box, FormControl } from '@mui/material'
 
 import { useState } from 'react'
 import Modal from 'react-modal'
-import MultipleAssignees from './SingleAssignees'
+import SingleAssignees from './SingleAssignees'
 import TextField from '@mui/material/TextField'
 import SingleSelect from './SingleSelect'
 
@@ -23,14 +23,13 @@ export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
   Modal.setAppElement('#root')
   const [addTicketForm, setAddTicketForm] = useState<any>({})
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [assignees, setAssignees] = useState<any>([])
+  const [assignees, setAssignees] = useState<any>()
 
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
 
   function handleOnChange(e: any) {
     e.preventDefault()
-
     setAddTicketForm({
       ...addTicketForm,
       [e.target.name]: e.target.value,
@@ -40,13 +39,17 @@ export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
 
   const addTickets = () => {
     const { status = 'To Do' } = addTicketForm
+    console.log(assignees)
+
     setFakeApi({
       ...fakeApiData,
       [status]: [
         ...fakeApiData[status],
-        { ...addTicketForm, assignees: [...assignees] },
+        { ...addTicketForm, assignees: assignees },
       ],
     })
+
+    closeModal()
   }
 
   return (
@@ -73,6 +76,15 @@ export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
                   name='title'
                   onChange={e => handleOnChange(e)}
                 />
+                <TextField
+                  sx={{ width: '100%', paddingBottom: '20px' }}
+                  type='text'
+                  label='link'
+                  id='outlined-basic'
+                  variant='outlined'
+                  name='link'
+                  onChange={e => handleOnChange(e)}
+                />
               </Box>
 
               <Box sx={{ width: '50%' }}>
@@ -88,7 +100,7 @@ export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
                   InputProps={{ rows: 4.5 }}
                 />
                 <SingleSelect handleOnChange={handleOnChange} />
-                <MultipleAssignees
+                <SingleAssignees
                   setAssignees={setAssignees}
                   assignees={assignees}
                   handleOnChange={handleOnChange}

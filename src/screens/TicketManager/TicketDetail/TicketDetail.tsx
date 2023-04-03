@@ -25,12 +25,14 @@ const TicketDetail = ({
   sectionName,
 }: any) => {
   Modal.setAppElement('#root')
-  const [assignees, setAssignees] = useState<any>(
-    fakeDataDetail?.assignees.title
-  )
+  const [assignees, setAssignees] = useState<any>({
+    user: {},
+    value: fakeDataDetail?.assignees.title,
+  })
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [ticketStatus, setTicketStatus] = useState<any>()
+  const [editTicketForm, setEditTicketForm] = useState<any>()
   const tittleRef: any = useRef(null)
   const dateRef: any = useRef(null)
   const linkRef: any = useRef(null)
@@ -38,6 +40,7 @@ const TicketDetail = ({
   const statusRef: any = useRef(null)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
+
   const saveChanges = () => {
     const updateText = {
       assignees: assignees.user ?? fakeDataDetail.assignees,
@@ -50,12 +53,51 @@ const TicketDetail = ({
     }
 
     const { status, id } = fakeDataDetail
-    if (ticketStatus === status) return ticketStatusHasNotChange()
-    if (ticketStatus != status) return ticketStatusChange()
+    console.log(status)
+    console.log(ticketStatus, status)
+
+    if ((ticketStatus ?? fakeDataDetail.status) === status)
+      return ticketStatusHasNotChange(updateText)
+    if ((ticketStatus ?? fakeDataDetail.status) != status)
+      return ticketStatusChange(updateText)
   }
 
-  const ticketStatusChange = () => {}
-  const ticketStatusHasNotChange = () => {}
+  const ticketStatusHasNotChange = (updateText: any) => {
+    const editData = allFakeData[fakeDataDetail.status]?.map((data: any) => {
+      if (String(data.id) === String(fakeDataDetail.id)) {
+        data = {
+          ...updateText,
+        }
+      }
+      return data
+    })
+
+    setFakeApi({
+      ...allFakeData,
+      [fakeDataDetail.status]: [...editData],
+    })
+    closeModal()
+  }
+
+  const ticketStatusChange = (updateText: any) => {
+    const { status, id } = updateText
+    const removeFromSection = allFakeData[fakeDataDetail.status].filter(
+      (newStatus: any) => newStatus.id !== id
+    )
+    const addToNewSection = [
+      ...allFakeData[status],
+      {
+        ...updateText,
+      },
+    ]
+    setFakeApi({
+      ...allFakeData,
+      [fakeDataDetail.status]: [...removeFromSection],
+      [status]: [...addToNewSection],
+    })
+    closeModal()
+  }
+
   const handleEditChange = (e: any) => {
     setTicketStatus(e.target.value)
   }

@@ -11,8 +11,8 @@ import {
 function SingleAssignees({
   handleOnChange,
   fakeDataDetail,
-  assignees,
-  setAssignees,
+  assignees = null,
+  setAssignees = null,
 }: any) {
   const [assigneesData] = useState([
     { title: 'Reina', id: 456, image: 'image' },
@@ -30,6 +30,7 @@ function SingleAssignees({
       user: findTheUser,
     })
   }
+  console.log(assignees)
 
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -39,8 +40,8 @@ function SingleAssignees({
           labelId='demo-simple-select-label'
           id='demo-simple-select'
           onChange={handleChange}
-          defaultValue={fakeDataDetail.assignees.id}
-          name={String(assignees.value)}
+          defaultValue={fakeDataDetail?.assignees?.id ?? '123'}
+          name={String(assignees?.value ?? assigneesData[0].id)}
         >
           {assigneesData.map(assignees => (
             <MenuItem key={assignees.id} value={String(assignees.id)}>
