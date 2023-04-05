@@ -3,29 +3,44 @@ import { FakeData } from '../Fakedata'
 import './ticketManger.css'
 import { CreateTicket } from '../CreateTickets/CreateTicket'
 import TicketDetail from '../TicketDetail/TicketDetail'
-import EditTicket from '../EditTicket/EditTicket'
+
 export const AllTicket = () => {
-  const [fakeApiData, setFakeApi] = useState<any>(FakeData)
+  const [getAllTicket, setGetAllTicket] = useState<any>(FakeData)
   const [activeItem, setActiveItem] = useState(null)
 
   const dragDropped = (e: any, targetCategory: any) => {
     e.preventDefault()
     const id = e.dataTransfer.getData('id')
     const sourceCategory: any = activeItem
-    const item: any = fakeApiData[sourceCategory].find(
+    // console.log({ sourceCategory, targetCategory, item })
+
+    const item: any = getAllTicket[sourceCategory].find(
       (item: any) => item.id.toString() === id
     )
     if (sourceCategory !== targetCategory && item) {
-      setFakeApi((prevState: any) => {
-        const newState = { ...prevState }
-        newState[sourceCategory] = prevState[sourceCategory].filter(
-          (item: any) => item.id.toString() !== id
-        )
-        newState[targetCategory] = [...prevState[targetCategory], item]
-        return newState
-      })
+      ticketStatusChange({ sourceCategory, targetCategory, item, id })
     }
     setActiveItem(null)
+  }
+
+  const ticketStatusChange = ({
+    sourceCategory,
+    targetCategory,
+    item,
+    id,
+  }: any) => {
+    const removeFromSection = getAllTicket[sourceCategory].filter(
+      (newStatus: any) => newStatus.id !== Number(id)
+    )
+    const addToNewSection = [
+      ...getAllTicket[targetCategory],
+      { ...item, status: targetCategory },
+    ]
+    setGetAllTicket({
+      ...getAllTicket,
+      [sourceCategory]: [...removeFromSection],
+      [targetCategory]: [...addToNewSection],
+    })
   }
 
   const draggingOver = (e: any) => {
@@ -44,38 +59,41 @@ export const AllTicket = () => {
   return (
     <div className='App'>
       <>
-        <CreateTicket setFakeApi={setFakeApi} fakeApiData={fakeApiData} />
+        <CreateTicket
+          setGetAllTicket={setGetAllTicket}
+          getAllTicket={getAllTicket}
+        />
       </>
-      {Object.keys(fakeApiData).map((sectionName, i) => (
+      {Object.keys(getAllTicket).map((ticketsStatus, i) => (
         <div
           className='container'
-          onDrop={e => dragDropped(e, sectionName)}
+          onDrop={e => dragDropped(e, ticketsStatus)}
           // droppable='true'
           key={i}
           onDragOver={e => draggingOver(e)}
         >
           <div>
-            <h1>{sectionName}</h1>
+            <h1>{ticketsStatus}</h1>
           </div>
           <div className='content'>
-            {fakeApiData[sectionName].map((fakeDataDetail: any) => (
+            {getAllTicket[ticketsStatus].map((ticketDetail: any) => (
               <div
                 className='data'
                 draggable='true'
                 onDragStart={e =>
-                  dragHasStarted(e, sectionName, fakeDataDetail.id)
+                  dragHasStarted(e, ticketsStatus, ticketDetail.id)
                 }
                 onDragEnter={e => handleDragEnter(e)}
-                id={fakeDataDetail.id}
-                key={fakeDataDetail.id}
+                id={ticketDetail.id}
+                key={ticketDetail.id}
               >
-                <h1>{fakeDataDetail.id}</h1>
-                <h1>{fakeDataDetail.title}</h1>
+                <h1>{ticketDetail.id}</h1>
+                <h1>{ticketDetail.title}</h1>
                 <TicketDetail
-                  fakeDataDetail={fakeDataDetail}
-                  allFakeData={fakeApiData}
-                  setFakeApi={setFakeApi}
-                  sectionName={sectionName}
+                  ticketDetail={ticketDetail}
+                  getAllTicket={getAllTicket}
+                  setGetAllTicket={setGetAllTicket}
+                  ticketsStatus={ticketsStatus}
                 />
 
                 {/* <EditTicket

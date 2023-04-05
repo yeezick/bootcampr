@@ -19,52 +19,46 @@ const customStyles = {
   },
 }
 const TicketDetail = ({
-  fakeDataDetail,
-  allFakeData,
-  setFakeApi,
-  sectionName,
+  ticketDetail,
+  getAllTicket,
+  setGetAllTicket,
+  ticketsStatus,
 }: any) => {
   Modal.setAppElement('#root')
   const [assignees, setAssignees] = useState<any>({
-    user: {},
-    value: fakeDataDetail?.assignees.title,
+    value: ticketDetail?.assignees.title,
+    user: '',
   })
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [ticketStatus, setTicketStatus] = useState<any>()
-  const [editTicketForm, setEditTicketForm] = useState<any>()
   const tittleRef: any = useRef(null)
   const dateRef: any = useRef(null)
   const linkRef: any = useRef(null)
   const descriptionRef: any = useRef(null)
-  const statusRef: any = useRef(null)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
 
   const saveChanges = () => {
     const updateText = {
-      assignees: assignees.user ?? fakeDataDetail.assignees,
+      assignees: assignees.user ?? ticketDetail.assignees,
       date: dateRef.current.value,
       description: descriptionRef.current.textContent,
-      id: fakeDataDetail.id,
+      id: ticketDetail.id,
       link: linkRef.current.textContent,
-      status: ticketStatus ?? fakeDataDetail.status,
+      status: ticketStatus ?? ticketDetail.status,
       title: tittleRef.current.textContent,
     }
-
-    const { status, id } = fakeDataDetail
-    console.log(status)
-    console.log(ticketStatus, status)
-
-    if ((ticketStatus ?? fakeDataDetail.status) === status)
+    const { status, id } = ticketDetail
+    if ((ticketStatus ?? ticketDetail.status) === status)
       return ticketStatusHasNotChange(updateText)
-    if ((ticketStatus ?? fakeDataDetail.status) != status)
+    if ((ticketStatus ?? ticketDetail.status) != status)
       return ticketStatusChange(updateText)
   }
 
   const ticketStatusHasNotChange = (updateText: any) => {
-    const editData = allFakeData[fakeDataDetail.status]?.map((data: any) => {
-      if (String(data.id) === String(fakeDataDetail.id)) {
+    const editData = getAllTicket[ticketDetail.status]?.map((data: any) => {
+      if (String(data.id) === String(ticketDetail.id)) {
         data = {
           ...updateText,
         }
@@ -72,27 +66,27 @@ const TicketDetail = ({
       return data
     })
 
-    setFakeApi({
-      ...allFakeData,
-      [fakeDataDetail.status]: [...editData],
+    setGetAllTicket({
+      ...getAllTicket,
+      [ticketDetail.status]: [...editData],
     })
     closeModal()
   }
 
   const ticketStatusChange = (updateText: any) => {
     const { status, id } = updateText
-    const removeFromSection = allFakeData[fakeDataDetail.status].filter(
+    const removeFromSection = getAllTicket[ticketDetail.status].filter(
       (newStatus: any) => newStatus.id !== id
     )
     const addToNewSection = [
-      ...allFakeData[status],
+      ...getAllTicket[status],
       {
         ...updateText,
       },
     ]
-    setFakeApi({
-      ...allFakeData,
-      [fakeDataDetail.status]: [...removeFromSection],
+    setGetAllTicket({
+      ...getAllTicket,
+      [ticketDetail.status]: [...removeFromSection],
       [status]: [...addToNewSection],
     })
     closeModal()
@@ -103,10 +97,10 @@ const TicketDetail = ({
   }
 
   const deleteTicket = (id: any) => {
-    const deletedTicket = allFakeData[sectionName].filter(
+    const deletedTicket = getAllTicket[ticketsStatus].filter(
       (ticket: any) => ticket.id !== id
     )
-    setFakeApi({ ...allFakeData, [sectionName]: [...deletedTicket] })
+    setGetAllTicket({ ...getAllTicket, [ticketsStatus]: [...deletedTicket] })
     closeModal()
   }
 
@@ -138,7 +132,7 @@ const TicketDetail = ({
                 ref={tittleRef}
                 suppressContentEditableWarning={true}
               >
-                {fakeDataDetail.title}
+                {ticketDetail.title}
               </p>
             </blockquote>
             <h3>description</h3>
@@ -149,7 +143,7 @@ const TicketDetail = ({
                 ref={descriptionRef}
                 suppressContentEditableWarning={true}
               >
-                {fakeDataDetail.description}
+                {ticketDetail.description}
               </p>
             </blockquote>
             <h3>Link</h3>
@@ -160,38 +154,37 @@ const TicketDetail = ({
                 ref={linkRef}
                 suppressContentEditableWarning={true}
               >
-                {fakeDataDetail.link}
+                {ticketDetail.link}
               </p>
             </blockquote>
           </Box>
 
           <Box sx={{ width: '50%' }}>
             <SingleSelect
-              statusRef={statusRef}
               handleOnChange={handleEditChange}
-              fakeDataDetail={fakeDataDetail}
+              ticketDetail={ticketDetail}
             />
             <SingleAssignees
               setAssignees={setAssignees}
               assignees={assignees}
-              fakeDataDetail={fakeDataDetail}
+              ticketDetail={ticketDetail}
             />
             <input
               type='date'
               name='date'
               ref={dateRef}
-              defaultValue={fakeDataDetail.date}
+              defaultValue={ticketDetail.date}
             />
           </Box>
         </Box>
-        <Box></Box>
+
         <Button
           sx={{ marginRight: '10px' }}
           color='error'
           disabled={false}
           size='small'
           variant='outlined'
-          onClick={() => deleteTicket(fakeDataDetail?.id)}
+          onClick={() => deleteTicket(ticketDetail?.id)}
         >
           Delete
         </Button>

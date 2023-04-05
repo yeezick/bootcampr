@@ -19,7 +19,7 @@ const customStyles = {
   },
 }
 
-export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
+export const CreateTicket = ({ setGetAllTicket, getAllTicket }: any) => {
   Modal.setAppElement('#root')
   const [addTicketForm, setAddTicketForm] = useState<any>({})
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -40,15 +40,15 @@ export const CreateTicket = ({ setFakeApi, fakeApiData }: any) => {
   const addTickets = () => {
     const { status = 'To Do' } = addTicketForm
     console.log(assignees)
+    console.log(addTicketForm)
 
-    setFakeApi({
-      ...fakeApiData,
+    setGetAllTicket({
+      ...getAllTicket,
       [status]: [
-        ...fakeApiData[status],
-        { ...addTicketForm, assignees: assignees },
+        ...getAllTicket[status],
+        { ...addTicketForm, assignees: assignees.user },
       ],
     })
-
     closeModal()
   }
 

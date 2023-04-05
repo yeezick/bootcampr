@@ -10,9 +10,9 @@ import {
 } from '@mui/material'
 function SingleAssignees({
   handleOnChange,
-  fakeDataDetail,
-  assignees = null,
-  setAssignees = null,
+  ticketDetail = null,
+  assignees,
+  setAssignees,
 }: any) {
   const [assigneesData] = useState([
     { title: 'Reina', id: 456, image: 'image' },
@@ -30,7 +30,6 @@ function SingleAssignees({
       user: findTheUser,
     })
   }
-  console.log(assignees)
 
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -40,8 +39,7 @@ function SingleAssignees({
           labelId='demo-simple-select-label'
           id='demo-simple-select'
           onChange={handleChange}
-          defaultValue={fakeDataDetail?.assignees?.id ?? '123'}
-          name={String(assignees?.value ?? assigneesData[0].id)}
+          defaultValue={ticketDetail?.assignees.id ?? '256'}
         >
           {assigneesData.map(assignees => (
             <MenuItem key={assignees.id} value={String(assignees.id)}>
