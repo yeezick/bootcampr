@@ -85,6 +85,11 @@ export const CreateTicket = ({ setGetAllTicket, getAllTicket }: any) => {
                   name='link'
                   onChange={e => handleOnChange(e)}
                 />
+                <input
+                  type='date'
+                  name='date'
+                  onChange={e => handleOnChange(e)}
+                />
               </Box>
 
               <Box sx={{ width: '50%' }}>
