@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux'
 import { updateAuthUser } from 'utilities/redux/slices/userSlice'
 import { ExpiredLink } from 'screens/Auth/ExpiredLink/ExpiredLink'
 import './App.css'
+import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 
 function App() {
   const dispatch = useDispatch()
@@ -40,6 +41,7 @@ function App() {
             path='/users/:id/account-setup'
             element={<RegisterUserInfo />}
           />
+          <Route path='/availability' element={<AvailabilityDemoScreen />} />
           {/* <Route path="/projects/:id" element={<ProjectDetails />} /> */}
         </Routes>
       </Layout>

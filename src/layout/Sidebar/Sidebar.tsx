@@ -53,6 +53,9 @@ export const Sidebar = () => {
         <Link className='link' to={`/users/${userId}`}>
           <AiFillStar size={18} viewBox={'0 0 1024 900'} /> My Profile
         </Link>
+        <Link className='link' to={'/availability'}>
+          Availability Demo
+        </Link>
         <Link className='link' to={`/`} onClick={handleLogout}>
           <AiFillStar size={18} /> Sign Out
         </Link>
