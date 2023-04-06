@@ -2,14 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import {
-  selectAuthUser,
-  setAuthUser,
-} from 'utilities/redux/slices/users/userSlice'
+import { selectAuthUser, setAuthUser } from 'utilities/redux/slices/userSlice'
 import { emptyUser } from 'utilities/data/userConstants'
 import { UserInterface } from 'utilities/types/UserInterface'
 import { createUserImage, updateUser } from 'utilities/api/users'
-import { useNotification } from 'utilities/redux/hooks'
+import { useNotification } from 'utilities/redux/slices/notificationSlice'
 import './EditProfile.scss'
 import { UploadUserImage } from 'screens/Auth'
 import { RegisterUserImage } from 'screens/Auth'
