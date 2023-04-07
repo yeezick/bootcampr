@@ -7,20 +7,10 @@ import {
   ContentCopyOutlined,
 } from '@mui/icons-material'
 import './Availability.scss'
-
-// enum Weekdays {
-//   sunday = 'SUN',
-//   monday = 'MON',
-// }
-
-enum Timezones {
-  MST = 'Mountain Time - US & Canada',
-}
-
-const weekdays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+import { Timezones, weekdays } from './utils/data'
 
 export const Availability: React.FC = (): JSX.Element => {
-  const [timezone, setTimezone] = useState(Timezones.MST)
+  const [timezone, setTimezone] = useState(Timezones.ET)
   // const [sundayAvailability, setSundayAvailability] = useState(false)
   // STATE:
   // - each day:
@@ -56,7 +46,9 @@ const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
         variant='standard'
         onChange={e => setTimezone(e.target.value)}
       >
-        <MenuItem value={Timezones.MST}>Mountain Time - US & Canada</MenuItem>
+        {Object.keys(Timezones).map(zone => (
+          <MenuItem value={Timezones[zone]}>{Timezones[zone]}</MenuItem>
+        ))}
       </Select>
     </div>
   )
