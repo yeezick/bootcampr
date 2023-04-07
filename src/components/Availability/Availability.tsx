@@ -3,11 +3,10 @@ import { Checkbox, MenuItem, Select } from '@mui/material'
 import { ExpandMoreRounded } from '@mui/icons-material'
 import './Availability.scss'
 
-enum Weekdays {
-  sunday = 'SUN',
-  monday = 'MON',
-}
-console.log(Weekdays.sunday)
+// enum Weekdays {
+//   sunday = 'SUN',
+//   monday = 'MON',
+// }
 
 enum Timezones {
   MST = 'Mountain Time - US & Canada',
@@ -17,6 +16,7 @@ const weekdays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
 export const Availability: React.FC = (): JSX.Element => {
   const [timezone, setTimezone] = useState(Timezones.MST)
+  // const [sundayAvailability, setSundayAvailability] = useState(false)
   // STATE:
   // - each day:
   return (
@@ -63,10 +63,31 @@ const TimeZoneInput = () => {
 }
 
 const DayAvailabilityInputBanner = ({ day }) => {
+  const [days, setDays] = useState({
+    ['SUN']: false,
+    ['MON']: false,
+    ['TUE']: false,
+    ['WED']: false,
+    ['THU']: false,
+    ['FRI']: false,
+    ['SAT']: false,
+  })
+
+  const handleChange = e => {
+    console.log(e.target.name)
+    console.log(days)
+    setDays({
+      ...days,
+      [e.target.name]: !days[e.target.name],
+    })
+  }
+
   return (
     <div>
       <div className='day-availability-input-banner'>
         <Checkbox
+          name={day}
+          onChange={e => handleChange(e)}
           sx={{
             color: '#022888',
             '&.Mui-checked': {
@@ -75,8 +96,8 @@ const DayAvailabilityInputBanner = ({ day }) => {
           }}
         />
         <h2>{day}</h2>
-        {/* //checkbox // DAY // Unavailable OR... */}
-        <TimeSlotInput />
+        {days[day] ? <TimeSlotInput /> : <h2>Unavailable</h2>}
+
         {/* // Add Timeslot Icon // Copy Availability Icon */}
       </div>
       <hr />
@@ -86,10 +107,41 @@ const DayAvailabilityInputBanner = ({ day }) => {
 
 const TimeSlotInput = () => {
   return (
-    <div>
-      {/* // Start time input // - // End time input // Delete Icon */}
+    <div className='timeslot-input'>
+      <Select
+        size='small'
+        defaultValue='9:00 AM'
+        inputProps={{ sx: { padding: '10px 15px !important' } }}
+        sx={{
+          padding: '0 !important',
+          fontSize: '14px',
+          '& .MuiSvgIcon-root': { display: 'none' },
+          backgroundColor: '#fefefe',
+          '.MuiOutlinedInput-notchedOutline': { border: 0 },
+        }}
+      >
+        <MenuItem value={'9:00 AM'}>9:00 AM</MenuItem>
+        <MenuItem value={'9:30 AM'}>9:30 AM</MenuItem>
+      </Select>
+      <p>--</p>
+      <Select
+        size='small'
+        defaultValue='5:00 PM'
+        inputProps={{ sx: { padding: '10px 15px !important' } }}
+        sx={{
+          fontSize: '14px',
+          '& .MuiSvgIcon-root': { display: 'none' },
+          backgroundColor: '#fefefe',
+          '.MuiOutlinedInput-notchedOutline': { border: 0 },
+        }}
+      >
+        <MenuItem value={'9:00 AM'}>9:00 AM</MenuItem>
+        <MenuItem value={'9:30 AM'}>9:30 AM</MenuItem>
+        <MenuItem value={'5:00 PM'}>5:00 PM</MenuItem>
+      </Select>
       <SingleHourDropdownInput />
       <SingleHourDropdownInput />
+      {/* trash icon */}
     </div>
   )
 }

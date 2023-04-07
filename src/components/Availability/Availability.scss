@@ -3,7 +3,7 @@
     border-radius: 5px;
     margin: 30px auto;
     padding: 20px;
-    width: 650px;
+    width: 600px;
 
     h2 {
         font-size: 14px;
@@ -16,6 +16,7 @@
 
     p {
         margin-top: 30px;
+        font-size: 15px;
     }
 
     .timezone-input-container {
@@ -35,6 +36,22 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        margin: 20px 0px;
+        margin: 23px 0px;
+
+        h2 {
+            width: 70px;
+        }
+
+        .timeslot-input {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            p {
+                margin: 0 10px;
+                font-weight: 600;
+                letter-spacing: -3px;
+            }
+        }
     }
 }
