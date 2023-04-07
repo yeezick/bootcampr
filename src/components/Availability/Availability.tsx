@@ -7,7 +7,7 @@ import {
   ContentCopyOutlined,
 } from '@mui/icons-material'
 import './Availability.scss'
-import { Timezones, weekdays } from './utils/data'
+import { Timezones, timeOptions, weekdays } from './utils/data'
 
 export const Availability: React.FC = (): JSX.Element => {
   const [timezone, setTimezone] = useState(Timezones.ET)
@@ -56,7 +56,10 @@ const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
 
 const DayAvailabilityInputBanner = ({ day }) => {
   const [days, setDays] = useState({
-    ['SUN']: false,
+    ['SUN']: {
+      available: false,
+      availability: {},
+    },
     ['MON']: false,
     ['TUE']: false,
     ['WED']: false,
@@ -68,7 +71,9 @@ const DayAvailabilityInputBanner = ({ day }) => {
   const handleChange = e => {
     setDays({
       ...days,
-      [e.target.name]: !days[e.target.name],
+      [e.target.name]: {
+        available: !days[e.target.name].available,
+      },
     })
   }
 
@@ -87,13 +92,12 @@ const DayAvailabilityInputBanner = ({ day }) => {
             }}
           />
           <h2>{day}</h2>
-          {days[day] ? <TimeSlotInput /> : <h2>Unavailable</h2>}
+          {days[day]['available'] ? <TimeSlotInput /> : <h2>Unavailable</h2>}
         </div>
         <div className='right-banner'>
           <AddRounded />
           <ContentCopyOutlined />
         </div>
-        {/* // Add Timeslot Icon // Copy Availability Icon */}
       </div>
       <hr />
     </div>
@@ -115,8 +119,9 @@ const TimeSlotInput = () => {
           '.MuiOutlinedInput-notchedOutline': { border: 0 },
         }}
       >
-        <MenuItem value={'9:00 AM'}>9:00 AM</MenuItem>
-        <MenuItem value={'9:30 AM'}>9:30 AM</MenuItem>
+        {timeOptions.map(time => (
+          <MenuItem value={time}>{time}</MenuItem>
+        ))}
       </Select>
       <p>--</p>
       <Select
@@ -130,9 +135,9 @@ const TimeSlotInput = () => {
           '.MuiOutlinedInput-notchedOutline': { border: 0 },
         }}
       >
-        <MenuItem value={'9:00 AM'}>9:00 AM</MenuItem>
-        <MenuItem value={'9:30 AM'}>9:30 AM</MenuItem>
-        <MenuItem value={'5:00 PM'}>5:00 PM</MenuItem>
+        {timeOptions.map(time => (
+          <MenuItem value={time}>{time}</MenuItem>
+        ))}
       </Select>
       <DeleteOutline className='icon' />
     </div>
