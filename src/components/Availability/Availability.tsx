@@ -7,13 +7,16 @@ import {
   ContentCopyOutlined,
 } from '@mui/icons-material'
 import './Availability.scss'
-import { Timezones, timeOptions, weekdays } from './utils/data'
+import {
+  defaultAvailability,
+  Timezones,
+  timeOptions,
+  weekdays,
+} from './utils/data'
 
 export const Availability: React.FC = (): JSX.Element => {
   const [timezone, setTimezone] = useState(Timezones.ET)
-  // const [sundayAvailability, setSundayAvailability] = useState(false)
-  // STATE:
-  // - each day:
+
   return (
     <div className='availability-container'>
       <TimeZoneInputBanner timezone={timezone} setTimezone={setTimezone} />
@@ -38,9 +41,7 @@ const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
         sx={{
           color: '#022888',
           fontSize: '12px',
-          '& .MuiSvgIcon-root': {
-            color: '#022888',
-          },
+          '& .MuiSvgIcon-root': { color: '#022888' },
         }}
         value={timezone}
         variant='standard'
@@ -55,24 +56,15 @@ const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
 }
 
 const DayAvailabilityInputBanner = ({ day }) => {
-  const [days, setDays] = useState({
-    ['SUN']: {
-      available: false,
-      availability: {},
-    },
-    ['MON']: false,
-    ['TUE']: false,
-    ['WED']: false,
-    ['THU']: false,
-    ['FRI']: false,
-    ['SAT']: false,
-  })
+  const [days, setDays] = useState(defaultAvailability)
 
   const handleChange = e => {
+    // consolidate availability function before storing
     setDays({
       ...days,
       [e.target.name]: {
         available: !days[e.target.name].available,
+        availability: [...days[e.target.name].availability, ['test']],
       },
     })
   }
@@ -84,15 +76,14 @@ const DayAvailabilityInputBanner = ({ day }) => {
           <Checkbox
             name={day}
             onChange={e => handleChange(e)}
-            sx={{
-              color: '#022888',
-              '&.Mui-checked': {
-                color: '#022888',
-              },
-            }}
+            sx={{ color: '#022888', '&.Mui-checked': { color: '#022888' } }}
           />
           <h2>{day}</h2>
-          {days[day]['available'] ? <TimeSlotInput /> : <h2>Unavailable</h2>}
+          {days[day]['available'] ? (
+            <TimeSlotInput day={day} />
+          ) : (
+            <h2>Unavailable</h2>
+          )}
         </div>
         <div className='right-banner'>
           <AddRounded />
@@ -104,10 +95,13 @@ const DayAvailabilityInputBanner = ({ day }) => {
   )
 }
 
-const TimeSlotInput = () => {
+const TimeSlotInput = ({ day }) => {
   return (
     <div className='timeslot-input'>
+      {/* Make a new custom component for these that takes in arguments like day, start/end, to keep this clean */}
       <Select
+        name={`${day}-start`}
+        onChange={e => console.log(e.target.name)}
         size='small'
         defaultValue='9:00 AM'
         inputProps={{ sx: { padding: '8px 13px !important' } }}
@@ -125,6 +119,8 @@ const TimeSlotInput = () => {
       </Select>
       <p>--</p>
       <Select
+        name={`${day},end`}
+        onChange={e => console.log(e.target.name)}
         size='small'
         defaultValue='5:00 PM'
         inputProps={{ sx: { padding: '8px 13px !important' } }}

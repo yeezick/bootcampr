@@ -7,6 +7,37 @@ export enum Timezones {
   PT = 'Pacific Time - US & Canada',
 }
 
+export const defaultAvailability = {
+  ['SUN']: {
+    available: false,
+    availability: [['9:00 AM', '5:00 PM']],
+  },
+  ['MON']: {
+    available: false,
+    availability: [['9:00 AM', '5:00 PM']],
+  },
+  ['TUE']: {
+    available: false,
+    availability: [['9:00 AM', '5:00 PM']],
+  },
+  ['WED']: {
+    available: false,
+    availability: [['9:00 AM', '5:00 PM']],
+  },
+  ['THU']: {
+    available: false,
+    availability: [['9:00 AM', '5:00 PM']],
+  },
+  ['FRI']: {
+    available: false,
+    availability: [['9:00 AM', '5:00 PM']],
+  },
+  ['SAT']: {
+    available: false,
+    availability: [['9:00 AM', '5:00 PM']],
+  },
+}
+
 export const defaultSingleDayAvailability = {
   '6:00 AM': 'no',
   '6:30 AM': 'no',
