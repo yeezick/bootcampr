@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import { Checkbox, MenuItem, Select } from '@mui/material'
-import { ExpandMoreRounded } from '@mui/icons-material'
+import {
+  ExpandMoreRounded,
+  DeleteOutline,
+  AddRounded,
+  ContentCopyOutlined,
+} from '@mui/icons-material'
 import './Availability.scss'
 
 // enum Weekdays {
@@ -53,13 +58,8 @@ const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
       >
         <MenuItem value={Timezones.MST}>Mountain Time - US & Canada</MenuItem>
       </Select>
-      <TimeZoneInput />
     </div>
   )
-}
-
-const TimeZoneInput = () => {
-  return <div></div>
 }
 
 const DayAvailabilityInputBanner = ({ day }) => {
@@ -74,8 +74,6 @@ const DayAvailabilityInputBanner = ({ day }) => {
   })
 
   const handleChange = e => {
-    console.log(e.target.name)
-    console.log(days)
     setDays({
       ...days,
       [e.target.name]: !days[e.target.name],
@@ -85,19 +83,24 @@ const DayAvailabilityInputBanner = ({ day }) => {
   return (
     <div>
       <div className='day-availability-input-banner'>
-        <Checkbox
-          name={day}
-          onChange={e => handleChange(e)}
-          sx={{
-            color: '#022888',
-            '&.Mui-checked': {
+        <div className='left-banner'>
+          <Checkbox
+            name={day}
+            onChange={e => handleChange(e)}
+            sx={{
               color: '#022888',
-            },
-          }}
-        />
-        <h2>{day}</h2>
-        {days[day] ? <TimeSlotInput /> : <h2>Unavailable</h2>}
-
+              '&.Mui-checked': {
+                color: '#022888',
+              },
+            }}
+          />
+          <h2>{day}</h2>
+          {days[day] ? <TimeSlotInput /> : <h2>Unavailable</h2>}
+        </div>
+        <div className='right-banner'>
+          <AddRounded />
+          <ContentCopyOutlined />
+        </div>
         {/* // Add Timeslot Icon // Copy Availability Icon */}
       </div>
       <hr />
@@ -111,7 +114,7 @@ const TimeSlotInput = () => {
       <Select
         size='small'
         defaultValue='9:00 AM'
-        inputProps={{ sx: { padding: '10px 15px !important' } }}
+        inputProps={{ sx: { padding: '8px 13px !important' } }}
         sx={{
           padding: '0 !important',
           fontSize: '14px',
@@ -127,7 +130,7 @@ const TimeSlotInput = () => {
       <Select
         size='small'
         defaultValue='5:00 PM'
-        inputProps={{ sx: { padding: '10px 15px !important' } }}
+        inputProps={{ sx: { padding: '8px 13px !important' } }}
         sx={{
           fontSize: '14px',
           '& .MuiSvgIcon-root': { display: 'none' },
@@ -139,13 +142,7 @@ const TimeSlotInput = () => {
         <MenuItem value={'9:30 AM'}>9:30 AM</MenuItem>
         <MenuItem value={'5:00 PM'}>5:00 PM</MenuItem>
       </Select>
-      <SingleHourDropdownInput />
-      <SingleHourDropdownInput />
-      {/* trash icon */}
+      <DeleteOutline className='icon' />
     </div>
   )
-}
-
-const SingleHourDropdownInput = () => {
-  return <div>{/* // input // dropdown */}</div>
 }

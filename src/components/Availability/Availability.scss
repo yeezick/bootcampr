@@ -2,8 +2,8 @@
     background-color: #f5f5f5;
     border-radius: 5px;
     margin: 30px auto;
-    padding: 20px;
-    width: 600px;
+    padding: 15px 45px 35px 25px;
+    width: 550px;
 
     h2 {
         font-size: 14px;
@@ -34,12 +34,24 @@
 
     .day-availability-input-banner {
         display: flex;
+        justify-content: space-between;
         flex-direction: row;
         align-items: center;
         margin: 23px 0px;
+        margin-left: -10px;
 
         h2 {
             width: 70px;
+        }
+
+        .left-banner {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .right-banner > * {
+            margin-left: 5px;
         }
 
         .timeslot-input {
@@ -51,6 +63,10 @@
                 margin: 0 10px;
                 font-weight: 600;
                 letter-spacing: -3px;
+            }
+
+            .icon {
+                margin: 0 10px;
             }
         }
     }
