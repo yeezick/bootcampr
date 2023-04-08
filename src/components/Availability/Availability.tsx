@@ -132,8 +132,8 @@ const DayAvailabilityInputBanner = ({ day }) => {
 // const consolidateAvailability = (availability: string[][], eventTarget) => {
 // }
 
-const subOptions = (startTime, isStart) => {
-  const index = timeOptions.indexOf(startTime)
+const subOptions = (startTime, isStart, idx) => {
+  const index = idx === 0 ? 0 : timeOptions.indexOf(startTime)
   return isStart ? timeOptions.slice(index) : timeOptions.slice(index + 1)
 }
 
@@ -192,7 +192,7 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
               width: '87px',
             }}
           >
-            {subOptions(slot[0], true).map(time => (
+            {subOptions(slot[0], true, idx).map(time => (
               <MenuItem value={time}>{time}</MenuItem>
             ))}
           </Select>
@@ -212,7 +212,7 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
               width: '87px',
             }}
           >
-            {subOptions(slot[0], false).map(time => (
+            {subOptions(slot[0], false, idx).map(time => (
               <MenuItem value={time}>{time}</MenuItem>
             ))}
           </Select>
