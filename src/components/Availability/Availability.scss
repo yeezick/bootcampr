@@ -1,7 +1,7 @@
 .availability-container {
     background-color: #f5f5f5;
     border-radius: 5px;
-    margin: 30px auto;
+    margin: 50px;
     padding: 15px 45px 35px 25px;
     width: 550px;
 
@@ -36,33 +36,38 @@
         display: flex;
         justify-content: space-between;
         flex-direction: row;
-        align-items: flex-start;
+        align-items: center;
         margin: 23px 0px;
         margin-left: -10px;
 
         h2 {
             width: 70px;
-            margin-top: 14px;
         }
 
         .left-banner {
             display: flex;
             flex-direction: row;
-            align-items: flex-start;
+            align-items: center;
+
+            .timeslots-container {
+                display: flex;
+                flex-direction: column;
+                row-gap: 15px;
+            }
         }
 
         .right-banner > * {
-            margin-left: 5px;
+            margin: 8px 5px 0 5px;
         }
 
         .timeslot-input {
             display: flex;
             flex-direction: row;
             align-items: center;
-            margin: 10px 0;
+            // margin: 10px 0;
 
             p {
-                margin: 0 10px;
+                margin: 0 15px 0 12px;
                 font-weight: 600;
                 letter-spacing: -3px;
             }

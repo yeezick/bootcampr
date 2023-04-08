@@ -101,6 +101,7 @@ const DayAvailabilityInputBanner = ({ day }) => {
             name={day}
             onChange={e => handleCheck(e)}
             sx={{ color: '#022888', '&.Mui-checked': { color: '#022888' } }}
+            checked={days[day].available}
           />
           <h2>{day}</h2>
           {days[day]['available'] ? (
@@ -155,20 +156,31 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
   }
 
   const handleDelete = (day, idx) => {
-    const oldAvailability = days[day].availability
-    const newAvailalability = oldAvailability
-    newAvailalability.splice(idx, 1)
-    setDays({
-      ...days,
-      [day]: {
-        available: days[day].available,
-        availability: newAvailalability,
-      },
-    })
+    // NOTE: if there is only one slot, don't delete it and just set the unavailable tag
+    if (days[day].availability.length <= 1) {
+      setDays({
+        ...days,
+        [day]: {
+          available: false,
+          availability: [['9:00 AM', '5:00 PM']],
+        },
+      })
+    } else {
+      const oldAvailability = days[day].availability
+      const newAvailalability = oldAvailability
+      newAvailalability.splice(idx, 1)
+      setDays({
+        ...days,
+        [day]: {
+          available: days[day].available,
+          availability: newAvailalability,
+        },
+      })
+    }
   }
 
   return (
-    <div>
+    <div className='timeslots-container'>
       {slots.map((slot, idx) => (
         <div className='timeslot-input'>
           {/* Make a new custom component for these that takes in arguments like day, start/end, to keep this clean */}
@@ -186,6 +198,22 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
               backgroundColor: '#fefefe',
               '.MuiOutlinedInput-notchedOutline': { border: 0 },
               width: '87px',
+              fieldset: {
+                border: 'none !important',
+                outline: 'none !important',
+              },
+              elevation: '0',
+            }}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  maxHeight: 160,
+                  boxShadow: 0,
+                  width: 130,
+                  marginLeft: 2.5,
+                  marginTop: 0.5,
+                },
+              },
             }}
           >
             {subOptions(slot[0], true, idx).map(time => (
@@ -206,6 +234,21 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
               backgroundColor: '#fefefe',
               '.MuiOutlinedInput-notchedOutline': { border: 0 },
               width: '87px',
+              fieldset: {
+                border: 'none !important',
+                outline: 'none !important',
+              },
+            }}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  maxHeight: 200,
+                  boxShadow: 0,
+                  width: 130,
+                  marginLeft: 2.5,
+                  marginTop: 0.5,
+                },
+              },
             }}
           >
             {subOptions(slot[0], false, idx).map(time => (
