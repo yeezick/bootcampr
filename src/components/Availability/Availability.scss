@@ -47,13 +47,33 @@
         .left-banner {
             display: flex;
             flex-direction: row;
-            align-items: center;
+            // align-items: center;
+            width: 100%;
+
+            h2 {
+                align-self: center;
+            }
+
+            .check-day {
+                display: flex;
+                height: 20px;
+                margin-top: 5px;
+
+                h2 {
+                    margin-top: 3px;
+                }
+            }
 
             .timeslots-container {
                 display: flex;
                 flex-direction: column;
                 row-gap: 15px;
+                width: 100%;
             }
+        }
+
+        .right-banner {
+            display: flex;
         }
 
         .right-banner > * {
@@ -64,6 +84,8 @@
             display: flex;
             flex-direction: row;
             align-items: center;
+            justify-content: space-between;
+            width: 100%;
             // margin: 10px 0;
 
             p {
@@ -74,6 +96,10 @@
 
             .icon {
                 margin: 0 10px;
+            }
+
+            .left-banner {
+                align-items: center;
             }
         }
     }

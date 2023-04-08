@@ -79,31 +79,19 @@ const DayAvailabilityInputBanner = ({ day }) => {
     })
   }
 
-  const handleAddSlot = (e, day) => {
-    const availability = days[day].availability
-    const nextSlot = getNextTimeslotRange(availability)
-    console.log(nextSlot)
-
-    setDays({
-      ...days,
-      [day]: {
-        availability: [...days[day].availability, nextSlot],
-        available: days[day].available,
-      },
-    })
-  }
-
   return (
     <div>
       <div className='day-availability-input-banner'>
         <div className='left-banner'>
-          <Checkbox
-            name={day}
-            onChange={e => handleCheck(e)}
-            sx={{ color: '#022888', '&.Mui-checked': { color: '#022888' } }}
-            checked={days[day].available}
-          />
-          <h2>{day}</h2>
+          <div className='check-day'>
+            <Checkbox
+              name={day}
+              onChange={e => handleCheck(e)}
+              sx={{ color: '#022888', '&.Mui-checked': { color: '#022888' } }}
+              checked={days[day].available}
+            />
+            <h2>{day}</h2>
+          </div>
           {days[day]['available'] ? (
             <TimeSlotInput
               day={day}
@@ -114,10 +102,6 @@ const DayAvailabilityInputBanner = ({ day }) => {
           ) : (
             <h2>Unavailable</h2>
           )}
-        </div>
-        <div className='right-banner'>
-          <AddRounded onClick={e => handleAddSlot(e, day)} />
-          <ContentCopyOutlined />
         </div>
       </div>
       <hr />
@@ -179,86 +163,106 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
     }
   }
 
+  const handleAddSlot = (e, day) => {
+    const availability = days[day].availability
+    const nextSlot = getNextTimeslotRange(availability)
+    console.log(nextSlot)
+
+    setDays({
+      ...days,
+      [day]: {
+        availability: [...days[day].availability, nextSlot],
+        available: days[day].available,
+      },
+    })
+  }
+
   return (
     <div className='timeslots-container'>
       {slots.map((slot, idx) => (
         <div className='timeslot-input'>
           {/* Make a new custom component for these that takes in arguments like day, start/end, to keep this clean */}
-          <Select
-            name={`${day}-${idx}-start`}
-            onChange={e => handleTimeChange(e)}
-            size='small'
-            defaultValue={slot[0]}
-            value={days[day].availability[idx][0]}
-            inputProps={{ sx: { padding: '8px 13px !important' } }}
-            sx={{
-              padding: '0 !important',
-              fontSize: '14px',
-              '& .MuiSvgIcon-root': { display: 'none' },
-              backgroundColor: '#fefefe',
-              '.MuiOutlinedInput-notchedOutline': { border: 0 },
-              width: '87px',
-              fieldset: {
-                border: 'none !important',
-                outline: 'none !important',
-              },
-              elevation: '0',
-            }}
-            MenuProps={{
-              PaperProps: {
-                sx: {
-                  maxHeight: 160,
-                  boxShadow: 0,
-                  width: 130,
-                  marginLeft: 2.5,
-                  marginTop: 0.5,
+          <div className='left-banner'>
+            <Select
+              name={`${day}-${idx}-start`}
+              onChange={e => handleTimeChange(e)}
+              size='small'
+              defaultValue={slot[0]}
+              value={days[day].availability[idx][0]}
+              inputProps={{ sx: { padding: '8px 13px !important' } }}
+              sx={{
+                padding: '0 !important',
+                fontSize: '14px',
+                '& .MuiSvgIcon-root': { display: 'none' },
+                backgroundColor: '#fefefe',
+                '.MuiOutlinedInput-notchedOutline': { border: 0 },
+                width: '87px',
+                fieldset: {
+                  border: 'none !important',
+                  outline: 'none !important',
                 },
-              },
-            }}
-          >
-            {subOptions(slot[0], true, idx).map(time => (
-              <MenuItem value={time}>{time}</MenuItem>
-            ))}
-          </Select>
-          <p>--</p>
-          <Select
-            name={`${day}-${idx}-end`}
-            onChange={e => handleTimeChange(e)}
-            size='small'
-            defaultValue={days[day].availability[idx][1]}
-            value={days[day].availability[idx][1]}
-            inputProps={{ sx: { padding: '8px 13px !important' } }}
-            sx={{
-              fontSize: '14px',
-              '& .MuiSvgIcon-root': { display: 'none' },
-              backgroundColor: '#fefefe',
-              '.MuiOutlinedInput-notchedOutline': { border: 0 },
-              width: '87px',
-              fieldset: {
-                border: 'none !important',
-                outline: 'none !important',
-              },
-            }}
-            MenuProps={{
-              PaperProps: {
-                sx: {
-                  maxHeight: 200,
-                  boxShadow: 0,
-                  width: 130,
-                  marginLeft: 2.5,
-                  marginTop: 0.5,
+                elevation: '0',
+              }}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    maxHeight: 160,
+                    boxShadow: 0,
+                    width: 130,
+                    marginLeft: 2.5,
+                    marginTop: 0.5,
+                  },
                 },
-              },
-            }}
-          >
-            {subOptions(slot[0], false, idx).map(time => (
-              <MenuItem value={time}>{time}</MenuItem>
-            ))}
-          </Select>
-          <DeleteOutline
-            className='icon'
-            onClick={() => handleDelete(day, idx)}
-          />
+              }}
+            >
+              {subOptions(slot[0], true, idx).map(time => (
+                <MenuItem value={time}>{time}</MenuItem>
+              ))}
+            </Select>
+            <p>--</p>
+            <Select
+              name={`${day}-${idx}-end`}
+              onChange={e => handleTimeChange(e)}
+              size='small'
+              defaultValue={days[day].availability[idx][1]}
+              value={days[day].availability[idx][1]}
+              inputProps={{ sx: { padding: '8px 13px !important' } }}
+              sx={{
+                fontSize: '14px',
+                '& .MuiSvgIcon-root': { display: 'none' },
+                backgroundColor: '#fefefe',
+                '.MuiOutlinedInput-notchedOutline': { border: 0 },
+                width: '87px',
+                fieldset: {
+                  border: 'none !important',
+                  outline: 'none !important',
+                },
+              }}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    maxHeight: 200,
+                    boxShadow: 0,
+                    width: 130,
+                    marginLeft: 2.5,
+                    marginTop: 0.5,
+                  },
+                },
+              }}
+            >
+              {subOptions(slot[0], false, idx).map(time => (
+                <MenuItem value={time}>{time}</MenuItem>
+              ))}
+            </Select>
+            <DeleteOutline
+              className='icon'
+              onClick={() => handleDelete(day, idx)}
+            />
+          </div>
+          <div className='right-banner'>
+            <AddRounded onClick={e => handleAddSlot(e, day)} />
+            <ContentCopyOutlined />
+          </div>
         </div>
       ))}
     </div>
