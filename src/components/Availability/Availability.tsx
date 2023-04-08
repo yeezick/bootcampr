@@ -7,12 +7,7 @@ import {
   ContentCopyOutlined,
 } from '@mui/icons-material'
 import './Availability.scss'
-import {
-  defaultAvailability,
-  Timezones,
-  timeOptions,
-  // weekdays,
-} from './utils/data'
+import { defaultAvailability, Timezones, timeOptions } from './utils/data'
 
 export const Availability: React.FC = (): JSX.Element => {
   const [timezone, setTimezone] = useState(Timezones.ET)
@@ -139,8 +134,9 @@ const subOptions = (startTime, isStart, idx) => {
 
 const TimeSlotInput = ({ day, days, setDays, slots }) => {
   const handleTimeChange = e => {
-    // update availability arrays for day
-    // trigger a
+    // add a check that the partner time is before or after
+    // new time, depending on start or end
+    // auto adjust if needed
     const context = e.target.name.split('-')
     const day = context[0]
     const frame = Number(context[1])
