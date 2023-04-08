@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { notificationInitialState } from 'utilities/data/notificationConstants'
-import { NotificationState } from 'utilities/types/NotificationInterface'
+import { notificationInitialState } from 'utils/data/notificationConstants'
+import { NotificationState } from 'interfaces/NotificationInterface'
 
 export const NotificationSlice = createSlice({
   name: 'notification',

@@ -1,4 +1,4 @@
-import { FormErrorsProps } from 'utilities/types/AccountSettingsInterface'
+import { FormErrorsProps } from 'interfaces/AccountSettingsInterface'
 import { VALIDATION_HELPERS } from '../helper/validation'
 import styles from '../css/AuthSettingsFormDropdown.module.css'
 

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import { Loader } from 'components/Loader/Loader'
-import { verify } from 'utilities/api/users'
-import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
-import { uiStatus, updateAuthUser } from 'utilities/redux/slices/userSlice'
+import { verify } from 'utils/api/users'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { uiStatus, updateAuthUser } from 'utils/redux/slices/userSlice'
 import { Sidebar } from './'
 import { Nav } from './'
 import './Layout.scss'
-import Footer from 'components/Footer/Footer'
+import { Footer } from 'layout/Footer/Footer'
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
 
 type Props = {
@@ -33,14 +33,14 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
   }
 
   return (
-    <>
+    <div className='layout-container'>
       <ScrollToTop />
       <Nav />
       <Sidebar />
-      <div className={visibleSidebar ? 'layout-container active' : ''}>
+      <div className={`layout-children ${visibleSidebar && 'active'}`}>
         <div className='main-content-container'>{children}</div>
       </div>
       <Footer />
-    </>
+    </div>
   )
 }
