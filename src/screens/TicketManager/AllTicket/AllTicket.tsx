@@ -8,17 +8,17 @@ import {
   ticketInterface,
   TicketStatusChangeParams,
 } from '../../../utilities/types/TicketInterFace'
+
 type TicketStatusType = keyof ticketInterface
+
 export const AllTicket = () => {
   const [getAllTicket, setGetAllTicket] = useState<ticketInterface>(FakeData)
-  const [activeItem, setActiveItem] = useState<keyof ticketInterface | null>(
-    null
-  )
+  const [activeItem, setActiveItem] = useState<TicketStatusType | null>(null)
 
   const dragDropped = (e: any, targetCategory: TicketStatusType | string) => {
     e.preventDefault()
     const id = e.dataTransfer.getData('id')
-    const sourceCategory: keyof ticketInterface | null = activeItem
+    const sourceCategory: TicketStatusType | null = activeItem
 
     const item: TaskInterface | undefined = getAllTicket[
       sourceCategory as TicketStatusType
@@ -39,7 +39,6 @@ export const AllTicket = () => {
     const removeFromSection: TaskInterface[] | undefined = getAllTicket[
       sourceCategory as TicketStatusType
     ].filter((newStatus: TaskInterface) => newStatus.id !== id)
-
     const addToNewSection = [
       ...getAllTicket[targetCategory as TicketStatusType],
       { ...item, status: targetCategory },
@@ -47,7 +46,7 @@ export const AllTicket = () => {
 
     setGetAllTicket({
       ...getAllTicket,
-      [sourceCategory as keyof ticketInterface]: [
+      [sourceCategory as TicketStatusType]: [
         ...(removeFromSection as TaskInterface[]),
       ],
       [targetCategory]: [...addToNewSection],
@@ -59,7 +58,12 @@ export const AllTicket = () => {
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) =>
     e.preventDefault()
 
-  const dragHasStarted = (e: any, itemType: any, dataId: any) => {
+  const dragHasStarted = (
+    e: React.DragEvent<HTMLDivElement>,
+    itemType: string | TicketStatusType,
+    dataId: string
+  ) => {
+    console.log(itemType)
     e.dataTransfer.setData('id', dataId)
     setActiveItem(itemType)
   }
