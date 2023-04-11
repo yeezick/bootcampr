@@ -22,7 +22,7 @@ export interface ticketInterface {
 
 export interface TicketStatusChangeParams {
   sourceCategory: keyof ticketInterface | null
-  targetCategory: keyof ticketInterface
+  targetCategory: keyof ticketInterface | string
   item: TaskInterface
   id: string
 }

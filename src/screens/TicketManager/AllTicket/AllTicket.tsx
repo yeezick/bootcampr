@@ -8,23 +8,22 @@ import {
   ticketInterface,
   TicketStatusChangeParams,
 } from '../../../utilities/types/TicketInterFace'
-
+type TicketStatusType = keyof ticketInterface
 export const AllTicket = () => {
   const [getAllTicket, setGetAllTicket] = useState<ticketInterface>(FakeData)
   const [activeItem, setActiveItem] = useState<keyof ticketInterface | null>(
     null
   )
 
-  const dragDropped = (e: any, targetCategory: any) => {
+  const dragDropped = (e: any, targetCategory: TicketStatusType | string) => {
     e.preventDefault()
     const id = e.dataTransfer.getData('id')
     const sourceCategory: keyof ticketInterface | null = activeItem
 
-    const item: TaskInterface | undefined = sourceCategory
-      ? getAllTicket[sourceCategory]?.find(
-          (item: any) => item.id.toString() === id
-        )
-      : undefined
+    const item: TaskInterface | undefined = getAllTicket[
+      sourceCategory as TicketStatusType
+    ]?.find((item: TaskInterface) => item.id.toString() === id)
+
     if (sourceCategory !== targetCategory && item) {
       ticketStatusChange({ sourceCategory, targetCategory, item, id })
     }
@@ -37,36 +36,32 @@ export const AllTicket = () => {
     item,
     id,
   }: TicketStatusChangeParams) => {
-    const removeFromSection: TaskInterface[] | undefined = sourceCategory
-      ? getAllTicket[sourceCategory].filter(
-          (newStatus: any) => newStatus.id !== Number(id)
-        )
-      : undefined
+    const removeFromSection: TaskInterface[] | undefined = getAllTicket[
+      sourceCategory as TicketStatusType
+    ].filter((newStatus: TaskInterface) => newStatus.id !== id)
 
     const addToNewSection = [
-      ...getAllTicket[targetCategory],
+      ...getAllTicket[targetCategory as TicketStatusType],
       { ...item, status: targetCategory },
     ]
+
     setGetAllTicket({
       ...getAllTicket,
-      ...(sourceCategory !== null
-        ? { [sourceCategory]: removeFromSection }
-        : {}),
+      [sourceCategory as keyof ticketInterface]: [
+        ...(removeFromSection as TaskInterface[]),
+      ],
       [targetCategory]: [...addToNewSection],
     })
   }
 
-  const draggingOver = (e: any) => {
+  const draggingOver = (e: React.DragEvent<HTMLDivElement>) =>
     e.preventDefault()
-  }
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) =>
+    e.preventDefault()
 
   const dragHasStarted = (e: any, itemType: any, dataId: any) => {
     e.dataTransfer.setData('id', dataId)
     setActiveItem(itemType)
-  }
-
-  const handleDragEnter = (e: any) => {
-    e.preventDefault()
   }
 
   return (
@@ -77,46 +72,48 @@ export const AllTicket = () => {
           getAllTicket={getAllTicket}
         />
       </>
-      {Object.keys(getAllTicket).map((ticketsStatus, i) => (
+      {Object.keys(getAllTicket).map((ticketsStatus: string, i) => (
         <div
           className='container'
           onDrop={e => dragDropped(e, ticketsStatus)}
           // droppable='true'
           key={i}
-          onDragOver={e => draggingOver(e)}
+          onDragOver={(e: React.DragEvent<HTMLDivElement>) => draggingOver(e)}
         >
           <div>
             <h1>{ticketsStatus}</h1>
           </div>
           <div className='content'>
-            {getAllTicket[ticketsStatus].map((ticketDetail: any) => (
-              <div
-                className='data'
-                draggable='true'
-                onDragStart={e =>
-                  dragHasStarted(e, ticketsStatus, ticketDetail.id)
-                }
-                onDragEnter={e => handleDragEnter(e)}
-                id={ticketDetail.id}
-                key={ticketDetail.id}
-              >
-                <h1>{ticketDetail.id}</h1>
-                <h1>{ticketDetail.title}</h1>
-                <TicketDetail
-                  ticketDetail={ticketDetail}
-                  getAllTicket={getAllTicket}
-                  setGetAllTicket={setGetAllTicket}
-                  ticketsStatus={ticketsStatus}
-                />
+            {getAllTicket[ticketsStatus as keyof ticketInterface].map(
+              (ticketDetail: TaskInterface) => (
+                <div
+                  className='data'
+                  draggable='true'
+                  onDragStart={e =>
+                    dragHasStarted(e, ticketsStatus, ticketDetail.id)
+                  }
+                  onDragEnter={e => handleDragEnter(e)}
+                  id={ticketDetail.id}
+                  key={ticketDetail.id}
+                >
+                  <h1>{ticketDetail.id}</h1>
+                  <h1>{ticketDetail.title}</h1>
+                  <TicketDetail
+                    ticketDetail={ticketDetail}
+                    getAllTicket={getAllTicket}
+                    setGetAllTicket={setGetAllTicket}
+                    ticketsStatus={ticketsStatus}
+                  />
 
-                {/* <EditTicket
+                  {/* <EditTicket
                   setFakeApi={setFakeApi}
                   fakeApiData={fakeApiData}
                   sectionName={sectionName}
                   fake={fake}
                 /> */}
-              </div>
-            ))}
+                </div>
+              )
+            )}
           </div>
         </div>
       ))}
