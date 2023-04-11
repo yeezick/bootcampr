@@ -15,8 +15,6 @@ import { useDispatch } from 'react-redux'
 import { updateAuthUser } from 'utilities/redux/slices/users/userSlice'
 import { ExpiredLink } from 'screens/Auth/ExpiredLink/ExpiredLink'
 import { AllTicket } from 'screens/TicketManager/AllTicket/AllTicket'
-import { ProjectBuilder } from './builder/ProjectBuilder'
-import { HomeScreen } from './screens/HomeScreen/HomeScreen'
 import { selectAuthUser } from 'utilities/redux/slices/users/userSlice'
 import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
 
@@ -31,16 +29,11 @@ function App() {
     }
     persist()
   }, [])
-  console.log(authUser)
 
   return (
     <>
       <Layout>
         <Routes>
-          <Route
-            path='/'
-            element={authUser._id ? <HomeScreen /> : <Landing />}
-          />
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
@@ -52,7 +45,6 @@ function App() {
             path='/users/:id/account-setup'
             element={<RegisterUserInfo />}
           />
-          <Route path='/projects/*' element={<ProjectBuilder />} />
         </Routes>
       </Layout>
     </>

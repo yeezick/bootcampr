@@ -1,7 +1,8 @@
-export const FakeData = {
+import { ticketInterface } from '../../utilities/types/TicketInterFace'
+export const FakeData: ticketInterface = {
   'To Do': [
     {
-      id: 1,
+      id: '1',
       title: 'test1',
       status: 'To Do',
       description: 'lorem ispsom',
@@ -10,7 +11,7 @@ export const FakeData = {
       link: 'koffiarielhessou.com',
     },
     {
-      id: 2,
+      id: '2',
       title: 'test2',
       status: 'To Do',
       description: 'lorem ispsom',
@@ -19,7 +20,7 @@ export const FakeData = {
       link: 'koffiarielhessou.com',
     },
     {
-      id: 3,
+      id: '3',
       title: 'test3',
       status: 'To Do',
       description: 'lorem ispsom',
@@ -30,7 +31,7 @@ export const FakeData = {
   ],
   'In progress': [
     {
-      id: 4,
+      id: '4',
       title: 'test4',
       status: 'In progress',
       description: 'lorem ispsom',
@@ -39,7 +40,7 @@ export const FakeData = {
       link: 'koffiarielhessou.com',
     },
     {
-      id: 5,
+      id: '5',
       title: 'test5',
       status: 'In progress',
       description: 'lorem ispsom',
@@ -48,7 +49,7 @@ export const FakeData = {
       link: 'koffiarielhessou.com',
     },
     {
-      id: 6,
+      id: '6',
       title: 'test6',
       status: 'In progress',
       description: 'lorem ispsom',
@@ -60,7 +61,7 @@ export const FakeData = {
 
   'Under Review': [
     {
-      id: 7,
+      id: '7',
       title: 'test7',
       status: 'Under Review',
       description: 'lorem ispsom',
@@ -69,7 +70,7 @@ export const FakeData = {
       link: 'koffiarielhessou.com',
     },
     {
-      id: 8,
+      id: '8',
       title: 'test8',
       status: 'Under Review',
       description: 'lorem ispsom',
@@ -78,7 +79,7 @@ export const FakeData = {
       link: 'koffiarielhessou.com',
     },
     {
-      id: 9,
+      id: '9',
       title: 'test9',
       status: 'Under Review',
       description: 'lorem ispsom',
@@ -89,7 +90,7 @@ export const FakeData = {
   ],
   Completed: [
     {
-      id: 10,
+      id: '10',
       title: 'test10',
       status: 'Completed',
       description: 'lorem ispsom',
@@ -98,7 +99,7 @@ export const FakeData = {
       link: 'koffiarielhessou.com',
     },
     {
-      id: 11,
+      id: '11',
       title: 'test11',
       status: 'Completed',
       description: 'lorem ispsom',
@@ -107,7 +108,7 @@ export const FakeData = {
       link: 'koffiarielhessou.com',
     },
     {
-      id: 12,
+      id: '12',
       title: 'test12',
       status: 'Completed',
       description: 'lorem ispsom',

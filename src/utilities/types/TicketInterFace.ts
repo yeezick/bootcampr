@@ -1,10 +1,28 @@
 import { UserInterface } from './UserInterface'
-export interface ticketInterface {
-  ticket: {
-    id: string
+
+export interface TaskInterface {
+  id: string
+  title: string
+  status: string
+  description: string
+  assignees: {
     title: string
-    type: string
-    description: string
-    assignees?: []
+    id: number
+    image: string
   }
+  date: string
+  link: string
+}
+export interface ticketInterface {
+  'To Do': TaskInterface[]
+  'In progress': TaskInterface[]
+  'Under Review': TaskInterface[]
+  Completed: TaskInterface[]
+}
+
+export interface TicketStatusChangeParams {
+  sourceCategory: keyof ticketInterface | null
+  targetCategory: keyof ticketInterface
+  item: TaskInterface
+  id: string
 }

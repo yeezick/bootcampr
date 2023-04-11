@@ -3,20 +3,28 @@ import { FakeData } from '../Fakedata'
 import './ticketManger.css'
 import { CreateTicket } from '../CreateTickets/CreateTicket'
 import TicketDetail from '../TicketDetail/TicketDetail'
+import {
+  TaskInterface,
+  ticketInterface,
+  TicketStatusChangeParams,
+} from '../../../utilities/types/TicketInterFace'
 
 export const AllTicket = () => {
-  const [getAllTicket, setGetAllTicket] = useState<any>(FakeData)
-  const [activeItem, setActiveItem] = useState(null)
+  const [getAllTicket, setGetAllTicket] = useState<ticketInterface>(FakeData)
+  const [activeItem, setActiveItem] = useState<keyof ticketInterface | null>(
+    null
+  )
 
   const dragDropped = (e: any, targetCategory: any) => {
     e.preventDefault()
     const id = e.dataTransfer.getData('id')
-    const sourceCategory: any = activeItem
-    // console.log({ sourceCategory, targetCategory, item })
+    const sourceCategory: keyof ticketInterface | null = activeItem
 
-    const item: any = getAllTicket[sourceCategory].find(
-      (item: any) => item.id.toString() === id
-    )
+    const item: TaskInterface | undefined = sourceCategory
+      ? getAllTicket[sourceCategory]?.find(
+          (item: any) => item.id.toString() === id
+        )
+      : undefined
     if (sourceCategory !== targetCategory && item) {
       ticketStatusChange({ sourceCategory, targetCategory, item, id })
     }
@@ -28,17 +36,22 @@ export const AllTicket = () => {
     targetCategory,
     item,
     id,
-  }: any) => {
-    const removeFromSection = getAllTicket[sourceCategory].filter(
-      (newStatus: any) => newStatus.id !== Number(id)
-    )
+  }: TicketStatusChangeParams) => {
+    const removeFromSection: TaskInterface[] | undefined = sourceCategory
+      ? getAllTicket[sourceCategory].filter(
+          (newStatus: any) => newStatus.id !== Number(id)
+        )
+      : undefined
+
     const addToNewSection = [
       ...getAllTicket[targetCategory],
       { ...item, status: targetCategory },
     ]
     setGetAllTicket({
       ...getAllTicket,
-      [sourceCategory]: [...removeFromSection],
+      ...(sourceCategory !== null
+        ? { [sourceCategory]: removeFromSection }
+        : {}),
       [targetCategory]: [...addToNewSection],
     })
   }
