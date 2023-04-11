@@ -60,10 +60,9 @@ export const AllTicket = () => {
 
   const dragHasStarted = (
     e: React.DragEvent<HTMLDivElement>,
-    itemType: string | TicketStatusType,
+    itemType: TicketStatusType | null,
     dataId: string
   ) => {
-    console.log(itemType)
     e.dataTransfer.setData('id', dataId)
     setActiveItem(itemType)
   }
@@ -80,7 +79,6 @@ export const AllTicket = () => {
         <div
           className='container'
           onDrop={e => dragDropped(e, ticketsStatus)}
-          // droppable='true'
           key={i}
           onDragOver={(e: React.DragEvent<HTMLDivElement>) => draggingOver(e)}
         >
@@ -88,13 +86,17 @@ export const AllTicket = () => {
             <h1>{ticketsStatus}</h1>
           </div>
           <div className='content'>
-            {getAllTicket[ticketsStatus as keyof ticketInterface].map(
+            {getAllTicket[ticketsStatus as TicketStatusType].map(
               (ticketDetail: TaskInterface) => (
                 <div
                   className='data'
                   draggable='true'
                   onDragStart={e =>
-                    dragHasStarted(e, ticketsStatus, ticketDetail.id)
+                    dragHasStarted(
+                      e,
+                      ticketsStatus as TicketStatusType,
+                      ticketDetail.id
+                    )
                   }
                   onDragEnter={e => handleDragEnter(e)}
                   id={ticketDetail.id}
