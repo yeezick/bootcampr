@@ -39,6 +39,7 @@
         align-items: center;
         margin: 23px 0px;
         margin-left: -10px;
+        min-height: 45px;
 
         h2 {
             width: 70px;
@@ -47,21 +48,20 @@
         .left-banner {
             display: flex;
             flex-direction: row;
-            // align-items: center;
+            align-items: flex-start;
             width: 100%;
+            height: fit-content;
 
             h2 {
                 align-self: center;
             }
 
+
             .check-day {
                 display: flex;
-                height: 20px;
-                margin-top: 5px;
-
-                h2 {
-                    margin-top: 3px;
-                }
+                align-self: flex-start;
+                // height: 20px;
+                // margin-top: 5px;
             }
 
             .timeslots-container {
@@ -69,6 +69,7 @@
                 flex-direction: column;
                 row-gap: 15px;
                 width: 100%;
+
             }
         }
 
@@ -88,7 +89,7 @@
             width: 100%;
             // margin: 10px 0;
 
-            p {
+            h4 {
                 margin: 0 15px 0 12px;
                 font-weight: 600;
                 letter-spacing: -3px;

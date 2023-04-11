@@ -8,6 +8,8 @@ import {
 } from '@mui/icons-material'
 import './Availability.scss'
 import { defaultAvailability, Timezones, timeOptions } from './utils/data'
+import { HoverMessage } from './utils/components/HoverMessage'
+import { CopyTimesModal } from './utils/components/CopyTimesModal'
 
 export const Availability: React.FC = (): JSX.Element => {
   const [timezone, setTimezone] = useState(Timezones.ET)
@@ -80,7 +82,7 @@ const DayAvailabilityInputBanner = ({ day }) => {
   }
 
   return (
-    <div>
+    <div className='banner-with-hr'>
       <div className='day-availability-input-banner'>
         <div className='left-banner'>
           <div className='check-day'>
@@ -118,6 +120,22 @@ const subOptions = (startTime, isStart, idx) => {
 }
 
 const TimeSlotInput = ({ day, days, setDays, slots }) => {
+  const defaultHoverState = {
+    SUN: false,
+    MON: false,
+    TUE: false,
+    WED: false,
+    THU: false,
+    FRI: false,
+    SAT: false,
+  }
+  const [hover, setHover] = useState(defaultHoverState)
+  const [clipboard, setClipboard] = useState({
+    timeslot: null,
+    from: null,
+    to: null,
+  })
+
   const handleTimeChange = e => {
     // add a check that the partner time is before or after
     // new time, depending on start or end
@@ -136,11 +154,9 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
         availability: newAvailability,
       },
     })
-    console.log(days)
   }
 
   const handleDelete = (day, idx) => {
-    // NOTE: if there is only one slot, don't delete it and just set the unavailable tag
     if (days[day].availability.length <= 1) {
       setDays({
         ...days,
@@ -166,7 +182,11 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
   const handleAddSlot = (e, day) => {
     const availability = days[day].availability
     const nextSlot = getNextTimeslotRange(availability)
-    console.log(nextSlot)
+
+    setHover({
+      ...hover,
+      [day]: false,
+    })
 
     setDays({
       ...days,
@@ -175,6 +195,27 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
         available: days[day].available,
       },
     })
+  }
+
+  const renderHoverText = day => {
+    setHover({
+      ...hover,
+      [day]: !hover[day],
+    })
+  }
+
+  const handleCopy = (day, idx) => {
+    console.log('handle copy')
+    console.log(day)
+    console.log(idx)
+    console.log(days[day].availability[idx])
+    const timeslot = days[day].availability[idx]
+    setClipboard({
+      timeslot,
+      from: day,
+      to: null,
+    })
+    console.log(clipboard)
   }
 
   return (
@@ -219,7 +260,7 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
                 <MenuItem value={time}>{time}</MenuItem>
               ))}
             </Select>
-            <p>--</p>
+            <h4>--</h4>
             <Select
               name={`${day}-${idx}-end`}
               onChange={e => handleTimeChange(e)}
@@ -260,8 +301,21 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
             />
           </div>
           <div className='right-banner'>
-            <AddRounded onClick={e => handleAddSlot(e, day)} />
-            <ContentCopyOutlined />
+            {days[day].availability.length - 1 === idx && (
+              <div>
+                <AddRounded
+                  onMouseEnter={() => renderHoverText(day)}
+                  onMouseOut={() => renderHoverText(day)}
+                  onClick={e => handleAddSlot(e, day)}
+                />
+
+                {hover[day] && (
+                  <HoverMessage text={`New time period for ${day}`} />
+                )}
+              </div>
+            )}
+            <ContentCopyOutlined onClick={() => handleCopy(day, idx)} />
+            <CopyTimesModal day={day} />
           </div>
         </div>
       ))}

@@ -1,11 +1,17 @@
 .hover-message {
     background-color: #313335;
     border-radius: 5px;
-    padding: 12px 11px;
+    padding: 10px;
     color: white;
     font-size: 14px;
+    letter-spacing: 2px;
+    position: fixed;
+    transform: translate(-210px, -50px);
+    z-index: 2;
+    min-width: fit-content;
 
     p {
         margin: 0;
+        letter-spacing: 1px;
     }
 }
