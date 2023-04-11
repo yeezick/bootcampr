@@ -1,10 +1,12 @@
-import React, { useState, useRef, LegacyRef } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useState, useRef } from 'react'
 import Modal from 'react-modal'
 import { Button, Box } from '@mui/material'
 import SingleAssignees from '../CreateTickets/SingleAssignees'
 import SingleSelect from '../CreateTickets/SingleSelect'
-import TextField from '@mui/material/TextField'
+import {
+  TicketDetailInterface,
+  TicketStatusType,
+} from 'utilities/types/TicketInterFace'
 
 const customStyles = {
   content: {
@@ -23,7 +25,7 @@ const TicketDetail = ({
   getAllTicket,
   setGetAllTicket,
   ticketsStatus,
-}: any) => {
+}: TicketDetailInterface) => {
   Modal.setAppElement('#root')
   const [assignees, setAssignees] = useState<any>({
     value: ticketDetail?.assignees.title,
@@ -49,7 +51,7 @@ const TicketDetail = ({
       status: ticketStatus ?? ticketDetail.status,
       title: tittleRef.current.textContent,
     }
-    const { status, id } = ticketDetail
+    const { status } = ticketDetail
     if ((ticketStatus ?? ticketDetail.status) === status)
       return ticketStatusHasNotChange(updateText)
     if ((ticketStatus ?? ticketDetail.status) != status)
@@ -57,14 +59,16 @@ const TicketDetail = ({
   }
 
   const ticketStatusHasNotChange = (updateText: any) => {
-    const editData = getAllTicket[ticketDetail.status]?.map((data: any) => {
-      if (String(data.id) === String(ticketDetail.id)) {
-        data = {
-          ...updateText,
+    const editData = getAllTicket[ticketDetail.status as TicketStatusType]?.map(
+      (data: any) => {
+        if (String(data.id) === String(ticketDetail.id)) {
+          data = {
+            ...updateText,
+          }
         }
+        return data
       }
-      return data
-    })
+    )
 
     setGetAllTicket({
       ...getAllTicket,
@@ -75,20 +79,23 @@ const TicketDetail = ({
 
   const ticketStatusChange = (updateText: any) => {
     const { status, id } = updateText
-    const removeFromSection = getAllTicket[ticketDetail.status].filter(
-      (newStatus: any) => newStatus.id !== id
-    )
+
+    const removeFromSection = getAllTicket[
+      ticketDetail.status as TicketStatusType
+    ].filter((newStatus: any) => newStatus.id !== id)
     const addToNewSection = [
-      ...getAllTicket[status],
+      ...getAllTicket[status as TicketStatusType],
       {
         ...updateText,
       },
     ]
+
     setGetAllTicket({
       ...getAllTicket,
       [ticketDetail.status]: [...removeFromSection],
       [status]: [...addToNewSection],
     })
+
     closeModal()
   }
 
@@ -97,9 +104,9 @@ const TicketDetail = ({
   }
 
   const deleteTicket = (id: any) => {
-    const deletedTicket = getAllTicket[ticketsStatus].filter(
-      (ticket: any) => ticket.id !== id
-    )
+    const deletedTicket = getAllTicket[
+      ticketsStatus as TicketStatusType
+    ].filter((ticket: any) => ticket.id !== id)
     setGetAllTicket({ ...getAllTicket, [ticketsStatus]: [...deletedTicket] })
     closeModal()
   }

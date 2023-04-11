@@ -7,9 +7,8 @@ import {
   TaskInterface,
   ticketInterface,
   TicketStatusChangeParams,
+  TicketStatusType,
 } from '../../../utilities/types/TicketInterFace'
-
-type TicketStatusType = keyof ticketInterface
 
 export const AllTicket = () => {
   const [getAllTicket, setGetAllTicket] = useState<ticketInterface>(FakeData)
