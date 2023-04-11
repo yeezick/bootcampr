@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, MutableRefObject } from 'react'
 import Modal from 'react-modal'
 import { Button, Box } from '@mui/material'
 import SingleAssignees from '../CreateTickets/SingleAssignees'
 import SingleSelect from '../CreateTickets/SingleSelect'
+import { TaskInterface } from '../../../utilities/types/TicketInterFace'
 import {
   TicketDetailInterface,
   TicketStatusType,
@@ -33,23 +34,26 @@ const TicketDetail = ({
   })
 
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [ticketStatus, setTicketStatus] = useState<any>()
-  const tittleRef: any = useRef(null)
-  const dateRef: any = useRef(null)
-  const linkRef: any = useRef(null)
-  const descriptionRef: any = useRef(null)
+  const [ticketStatus, setTicketStatus] = useState<string>()
+
+  const tittleRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
+  const dateRef: MutableRefObject<HTMLInputElement | null> = useRef(null)
+  const linkRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
+
+  const descriptionRef: MutableRefObject<HTMLParagraphElement | null> =
+    useRef(null)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
 
   const saveChanges = () => {
-    const updateText = {
+    const updateText: TaskInterface = {
       assignees: assignees.user ?? ticketDetail.assignees,
-      date: dateRef.current.value,
-      description: descriptionRef.current.textContent,
+      date: dateRef.current?.value,
+      description: descriptionRef.current?.textContent,
       id: ticketDetail.id,
-      link: linkRef.current.textContent,
+      link: linkRef.current?.textContent,
       status: ticketStatus ?? ticketDetail.status,
-      title: tittleRef.current.textContent,
+      title: tittleRef.current?.textContent,
     }
     const { status } = ticketDetail
     if ((ticketStatus ?? ticketDetail.status) === status)
@@ -58,10 +62,10 @@ const TicketDetail = ({
       return ticketStatusChange(updateText)
   }
 
-  const ticketStatusHasNotChange = (updateText: any) => {
+  const ticketStatusHasNotChange = (updateText: TaskInterface) => {
     const editData = getAllTicket[ticketDetail.status as TicketStatusType]?.map(
-      (data: any) => {
-        if (String(data.id) === String(ticketDetail.id)) {
+      (data: TaskInterface) => {
+        if (data.id === ticketDetail.id) {
           data = {
             ...updateText,
           }
@@ -77,12 +81,13 @@ const TicketDetail = ({
     closeModal()
   }
 
-  const ticketStatusChange = (updateText: any) => {
+  const ticketStatusChange = (updateText: TaskInterface) => {
     const { status, id } = updateText
 
     const removeFromSection = getAllTicket[
       ticketDetail.status as TicketStatusType
-    ].filter((newStatus: any) => newStatus.id !== id)
+    ].filter((newStatus: TaskInterface) => newStatus.id !== id)
+
     const addToNewSection = [
       ...getAllTicket[status as TicketStatusType],
       {
@@ -99,14 +104,14 @@ const TicketDetail = ({
     closeModal()
   }
 
-  const handleEditChange = (e: any) => {
+  const handleEditChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTicketStatus(e.target.value)
   }
 
-  const deleteTicket = (id: any) => {
+  const deleteTicket = (id: string) => {
     const deletedTicket = getAllTicket[
       ticketsStatus as TicketStatusType
-    ].filter((ticket: any) => ticket.id !== id)
+    ].filter((ticket: TaskInterface) => ticket.id !== id)
     setGetAllTicket({ ...getAllTicket, [ticketsStatus]: [...deletedTicket] })
     closeModal()
   }

@@ -2,16 +2,16 @@ import { UserInterface } from './UserInterface'
 
 export interface TaskInterface {
   id: string
-  title: string
+  title?: string | null
   status: string
-  description: string
+  description?: string | null
   assignees: {
     title: string
     id: number
     image: string
   }
-  date: string
-  link: string
+  date?: string
+  link?: string | null
 }
 export interface ticketInterface {
   'To Do': TaskInterface[]
