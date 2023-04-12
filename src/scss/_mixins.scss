@@ -82,7 +82,8 @@
   cursor: pointer;
   font-size: 19px;
   opacity: $opacity;
-  position: absolute;
-  right: 9px;
-  top: 33px;
+  position:relative;
+  left: 260px;
+  top: 75px;
+  z-index: 1;
 }

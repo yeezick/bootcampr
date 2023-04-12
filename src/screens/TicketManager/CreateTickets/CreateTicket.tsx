@@ -5,11 +5,11 @@ import Modal from 'react-modal'
 import SingleAssignees from './SingleAssignees'
 import TextField from '@mui/material/TextField'
 import SingleSelect from './SingleSelect'
-import { TaskInterface } from '../../../utilities/types/TicketInterFace'
 import {
   createTicketInterface,
+  TaskInterface,
   TicketStatusType,
-} from 'utilities/types/TicketInterFace'
+} from '../../../interfaces/TicketInterFace'
 
 const customStyles = {
   content: {
@@ -46,9 +46,10 @@ export const CreateTicket = ({
   }
 
   const addTickets = () => {
+    const status = addTicketForm?.status ?? 'To Do'
     setGetAllTicket({
       ...getAllTicket,
-      [addTicketForm?.status ?? 'To Do']: [
+      [status]: [
         ...getAllTicket[status as TicketStatusType],
         { ...addTicketForm, assignees: assignees.user },
       ],

@@ -4,11 +4,11 @@ import './ticketManger.css'
 import { CreateTicket } from '../CreateTickets/CreateTicket'
 import TicketDetail from '../TicketDetail/TicketDetail'
 import {
-  TaskInterface,
   ticketInterface,
-  TicketStatusChangeParams,
   TicketStatusType,
-} from '../../../utilities/types/TicketInterFace'
+  TaskInterface,
+  TicketStatusChangeParams,
+} from '../../../interfaces/TicketInterFace'
 
 export const AllTicket = () => {
   const [getAllTicket, setGetAllTicket] = useState<ticketInterface>(FakeData)

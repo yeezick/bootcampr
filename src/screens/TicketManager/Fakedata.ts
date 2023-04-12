@@ -1,4 +1,4 @@
-import { ticketInterface } from '../../utilities/types/TicketInterFace'
+import { ticketInterface } from '../../interfaces/TicketInterFace'
 export const FakeData: ticketInterface = {
   'To Do': [
     {

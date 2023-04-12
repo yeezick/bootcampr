@@ -1,13 +1,13 @@
 import styles from './SignIn.module.css'
 import { useState, useEffect } from 'react'
-import { signIn } from 'utilities/api/users'
+import { signIn } from 'utils/api/users'
 import { useDispatch } from 'react-redux'
-import { AppDispatch } from 'utilities/redux/store'
-import { setAuthUser } from 'utilities/redux/slices/users/userSlice'
+import { AppDispatch } from 'utils/redux/store'
+import { setAuthUser } from 'utils/redux/slices/userSlice'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { SignInInterface } from 'utilities/types/UserInterface'
+import { SignInInterface } from 'interfaces/UserInterface'
 import { GoAlert, GoVerified } from 'react-icons/go'
-import { AlertBanners } from 'utilities/types/AccountSettingsInterface'
+import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables
@@ -30,6 +30,8 @@ const SignIn: React.FC = (): JSX.Element => {
   const location = useLocation()
 
   // Event Handlers
+  // This is no longer being used from <EmailVerify />
+  // Retaining logic only as an example for future use case
   useEffect(() => {
     if (location.state && location.state.status) {
       setAlertBanner({

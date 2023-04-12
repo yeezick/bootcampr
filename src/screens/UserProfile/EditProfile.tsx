@@ -2,14 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import {
-  selectAuthUser,
-  setAuthUser,
-} from 'utilities/redux/slices/users/userSlice'
-import { emptyUser } from 'utilities/data/userConstants'
-import { UserInterface } from 'utilities/types/UserInterface'
-import { updateUser } from 'utilities/api/users'
-import { useNotification } from 'utilities/redux/hooks'
+import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
+import { emptyUser } from 'utils/data/userConstants'
+import { UserInterface } from 'interfaces/UserInterface'
+import { updateUser } from 'utils/api/users'
+import { useNotification } from 'utils/redux/slices/notificationSlice'
 import './EditProfile.scss'
 
 export const EditProfile: React.FC = () => {

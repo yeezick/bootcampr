@@ -3,11 +3,11 @@ import Modal from 'react-modal'
 import { Button, Box } from '@mui/material'
 import SingleAssignees from '../CreateTickets/SingleAssignees'
 import SingleSelect from '../CreateTickets/SingleSelect'
-import { TaskInterface } from '../../../utilities/types/TicketInterFace'
 import {
+  TaskInterface,
   TicketDetailInterface,
   TicketStatusType,
-} from 'utilities/types/TicketInterFace'
+} from '../../../interfaces/TicketInterFace'
 
 const customStyles = {
   content: {
