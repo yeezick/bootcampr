@@ -1,11 +1,11 @@
 import { UserInterface } from './UserInterface'
 
 export interface TaskInterface {
-  id: string
+  id?: string
   title?: string | null
-  status: string
+  status?: string
   description?: string | null
-  assignees: {
+  assignees?: {
     title: string
     id: number
     image: string
@@ -33,4 +33,9 @@ export interface TicketDetailInterface {
   getAllTicket: ticketInterface
   setGetAllTicket: any
   ticketsStatus: TicketStatusType | string
+}
+
+export interface createTicketInterface {
+  getAllTicket: ticketInterface
+  setGetAllTicket: any
 }

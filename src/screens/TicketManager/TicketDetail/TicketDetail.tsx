@@ -29,7 +29,7 @@ const TicketDetail = ({
 }: TicketDetailInterface) => {
   Modal.setAppElement('#root')
   const [assignees, setAssignees] = useState<any>({
-    value: ticketDetail?.assignees.title,
+    value: ticketDetail?.assignees?.title,
     user: '',
   })
 
@@ -76,7 +76,7 @@ const TicketDetail = ({
 
     setGetAllTicket({
       ...getAllTicket,
-      [ticketDetail.status]: [...editData],
+      [ticketDetail.status as TicketStatusType]: [...editData],
     })
     closeModal()
   }
@@ -97,8 +97,8 @@ const TicketDetail = ({
 
     setGetAllTicket({
       ...getAllTicket,
-      [ticketDetail.status]: [...removeFromSection],
-      [status]: [...addToNewSection],
+      [ticketDetail.status as TicketStatusType]: [...removeFromSection],
+      [status as TicketStatusType]: [...addToNewSection],
     })
 
     closeModal()
@@ -196,7 +196,7 @@ const TicketDetail = ({
           disabled={false}
           size='small'
           variant='outlined'
-          onClick={() => deleteTicket(ticketDetail?.id)}
+          onClick={() => deleteTicket(ticketDetail?.id as string)}
         >
           Delete
         </Button>

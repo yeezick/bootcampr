@@ -21,7 +21,7 @@ export const AllTicket = () => {
 
     const item: TaskInterface | undefined = getAllTicket[
       sourceCategory as TicketStatusType
-    ]?.find((item: TaskInterface) => item.id.toString() === id)
+    ]?.find((item: TaskInterface) => item.id?.toString() === id)
 
     if (sourceCategory !== targetCategory && item) {
       ticketStatusChange({ sourceCategory, targetCategory, item, id })
@@ -54,6 +54,7 @@ export const AllTicket = () => {
 
   const draggingOver = (e: React.DragEvent<HTMLDivElement>) =>
     e.preventDefault()
+
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) =>
     e.preventDefault()
 
@@ -94,7 +95,7 @@ export const AllTicket = () => {
                     dragHasStarted(
                       e,
                       ticketsStatus as TicketStatusType,
-                      ticketDetail.id
+                      ticketDetail.id as string
                     )
                   }
                   onDragEnter={e => handleDragEnter(e)}

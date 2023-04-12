@@ -12,7 +12,7 @@ function SingleSelect({ handleOnChange, ticketDetail = null }: any) {
           label='status'
           name='status'
           defaultValue={ticketDetail?.status ?? 'To Do'}
-          onChange={(e, value: any) => {
+          onChange={(e, value) => {
             handleOnChange(e)
           }}
         >

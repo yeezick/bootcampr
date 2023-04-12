@@ -5,6 +5,11 @@ import Modal from 'react-modal'
 import SingleAssignees from './SingleAssignees'
 import TextField from '@mui/material/TextField'
 import SingleSelect from './SingleSelect'
+import { TaskInterface } from '../../../utilities/types/TicketInterFace'
+import {
+  createTicketInterface,
+  TicketStatusType,
+} from 'utilities/types/TicketInterFace'
 
 const customStyles = {
   content: {
@@ -19,33 +24,32 @@ const customStyles = {
   },
 }
 
-export const CreateTicket = ({ setGetAllTicket, getAllTicket }: any) => {
+export const CreateTicket = ({
+  setGetAllTicket,
+  getAllTicket,
+}: createTicketInterface) => {
   Modal.setAppElement('#root')
-  const [addTicketForm, setAddTicketForm] = useState<any>({})
+  const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()
   const [modalIsOpen, setIsOpen] = useState(false)
   const [assignees, setAssignees] = useState<any>()
 
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
 
-  function handleOnChange(e: any) {
+  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault()
     setAddTicketForm({
       ...addTicketForm,
       [e.target.name]: e.target.value,
-      id: Date.now(),
+      id: Date.now().toString(),
     })
   }
 
   const addTickets = () => {
-    const { status = 'To Do' } = addTicketForm
-    console.log(assignees)
-    console.log(addTicketForm)
-
     setGetAllTicket({
       ...getAllTicket,
-      [status]: [
-        ...getAllTicket[status],
+      [addTicketForm?.status ?? 'To Do']: [
+        ...getAllTicket[status as TicketStatusType],
         { ...addTicketForm, assignees: assignees.user },
       ],
     })
@@ -74,7 +78,9 @@ export const CreateTicket = ({ setGetAllTicket, getAllTicket }: any) => {
                   id='outlined-basic'
                   variant='outlined'
                   name='title'
-                  onChange={e => handleOnChange(e)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleOnChange(e)
+                  }
                 />
                 <TextField
                   sx={{ width: '100%', paddingBottom: '20px' }}
@@ -83,12 +89,16 @@ export const CreateTicket = ({ setGetAllTicket, getAllTicket }: any) => {
                   id='outlined-basic'
                   variant='outlined'
                   name='link'
-                  onChange={e => handleOnChange(e)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleOnChange(e)
+                  }
                 />
                 <input
                   type='date'
                   name='date'
-                  onChange={e => handleOnChange(e)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleOnChange(e)
+                  }
                 />
               </Box>
 
@@ -101,7 +111,9 @@ export const CreateTicket = ({ setGetAllTicket, getAllTicket }: any) => {
                   variant='outlined'
                   multiline
                   name='description'
-                  onChange={e => handleOnChange(e)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleOnChange(e)
+                  }
                   InputProps={{ rows: 4.5 }}
                 />
                 <SingleSelect handleOnChange={handleOnChange} />

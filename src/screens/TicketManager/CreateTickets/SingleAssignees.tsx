@@ -8,6 +8,7 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material'
+
 function SingleAssignees({
   handleOnChange,
   ticketDetail = null,
@@ -20,6 +21,7 @@ function SingleAssignees({
     { title: 'Hector', id: 33, image: 'image' },
     { title: 'Zena', id: 1213, image: 'image' },
   ])
+  const [ticketDetailAssignee] = useState(ticketDetail?.assignees.id)
 
   const handleChange = (event: SelectChangeEvent) => {
     const findTheUser = assigneesData.find(
@@ -39,7 +41,7 @@ function SingleAssignees({
           labelId='demo-simple-select-label'
           id='demo-simple-select'
           onChange={handleChange}
-          defaultValue={ticketDetail?.assignees.id ?? '256'}
+          defaultValue={ticketDetailAssignee ?? '256'}
         >
           {assigneesData.map(assignees => (
             <MenuItem key={assignees.id} value={String(assignees.id)}>
