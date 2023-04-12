@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Card, Button, Box } from '@mui/material'
+import { Button, Box } from '@mui/material'
 import Modal from 'react-modal'
 import MultipleAssignees from '../CreateTickets/SingleAssignees'
 
