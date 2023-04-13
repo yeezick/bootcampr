@@ -26,6 +26,7 @@ export const EditProfile: React.FC = () => {
     role,
     _id: userId,
   } = userForm
+
   const { displayNotification } = useNotification()
 
   useEffect(() => {
