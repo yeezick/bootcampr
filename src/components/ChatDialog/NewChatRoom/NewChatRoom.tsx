@@ -1,0 +1,83 @@
+import { useState, useEffect } from 'react'
+import { members } from './DummyMembers'
+import { IoMdCloseCircleOutline } from 'react-icons/io'
+import './NewChatRoom.scss'
+
+// will be removed when project data and functionality is incorporated
+type Member = {
+  _id: string
+  firstName: string
+  lastName: string
+  role: string
+  profilePicture: string
+}
+
+export const NewChatRoom = () => {
+  const [engineers, setEngineers] = useState([])
+  const [designers, setDesigners] = useState([])
+  const [projectMembers, setProjectMembers] = useState<Member[]>([])
+  const [selectedMembers, setSelectedMembers] = useState<Member[]>([])
+
+  useEffect(() => {
+    setEngineers(members.engineers)
+    setDesigners(members.designers)
+
+    setProjectMembers([...designers, ...engineers])
+  }, [designers, engineers])
+
+  const handleMemberClick = (member: Member) => {
+    selectedMembers.includes(member)
+      ? setSelectedMembers(
+          selectedMembers.filter(mem => mem._id !== member._id)
+        )
+      : setSelectedMembers([...selectedMembers, member])
+  }
+
+  return (
+    <div className='new-chat-room-container'>
+      <section>
+        <div className='to-container'>
+          <p>To:</p>
+          <div className='to-member-grid'>
+            {selectedMembers.map(member => (
+              <div key={member._id} className='member-bar'>
+                <p>
+                  {member.firstName} {member.lastName}
+                </p>
+                <IoMdCloseCircleOutline
+                  onClick={() => handleMemberClick(member)}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+        <p>Invite members from your ongoing projects</p>
+        <h3>Theme Park Project</h3>
+        <div className='members-container'>
+          {projectMembers.map(member => (
+            <div
+              className={
+                selectedMembers.includes(member)
+                  ? 'member-selected'
+                  : 'member-grid'
+              }
+              key={member._id}
+              onClick={() => handleMemberClick(member)}
+            >
+              <div className='avatar-grid'>
+                <img src={member.profilePicture} alt='avatar' />
+              </div>
+              <div className='member-info-grid'>
+                <h5>
+                  {member.firstName} {member.lastName}
+                </h5>
+                <p>{member.role}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+      <button disabled={selectedMembers.length === 0}>Create a Room</button>
+    </div>
+  )
+}

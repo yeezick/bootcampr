@@ -2,15 +2,36 @@
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 8px 17px -6px rgba(0, 0, 0, 0.7);
-  height: 380px;
+  cursor: default;
+  height: 450px;
+  padding: 0 20px;
   position: fixed;
-  width: 280px;
   top: 90px;
+  width: 260px;
   z-index: 999999;
 
   .chat-header {
+    align-items: center;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+
+    .back-arrow {
+      align-items: center;
+      column-gap: 5px;
+      display: flex;
+      margin-left: -10px;
+    }
+  }
+
+  svg {
+    cursor: pointer;
+
+    &:hover {
+      color: #f29e34;
+    }
+  }
+
+  p {
+    text-align: center;
   }
 }
