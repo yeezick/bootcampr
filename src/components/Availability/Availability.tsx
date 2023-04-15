@@ -8,8 +8,6 @@ import {
 } from '@mui/icons-material'
 import './Availability.scss'
 import { defaultAvailability, Timezones, timeOptions } from './utils/data'
-// import { HoverMessage } from './utils/components/HoverMessage'
-import { CopyTimesModal } from './utils/components/CopyTimesModal'
 
 export const Availability: React.FC = (): JSX.Element => {
   const [timezone, setTimezone] = useState(Timezones.ET)
@@ -56,18 +54,6 @@ const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
   )
 }
 
-const getNextTimeslotRange = availability => {
-  const lastAvailableTime = availability[availability.length - 1][1]
-  const index = timeOptions.indexOf(lastAvailableTime)
-  const start = timeOptions[index + 1]
-  const end = timeOptions[index + 2]
-  if (['11:00 PM', '11:30 PM'].includes(lastAvailableTime)) {
-    return [timeOptions[0], timeOptions[1]]
-  } else {
-    return [start, end]
-  }
-}
-
 const DayAvailabilityInputBanner = ({ day }) => {
   const [days, setDays] = useState(defaultAvailability)
 
@@ -111,39 +97,13 @@ const DayAvailabilityInputBanner = ({ day }) => {
   )
 }
 
-// const consolidateAvailability = (availability: string[][], eventTarget) => {
-// }
-
 const subOptions = (startTime, isStart, idx) => {
   const index = idx === 0 ? 0 : timeOptions.indexOf(startTime)
   return isStart ? timeOptions.slice(index) : timeOptions.slice(index + 1)
 }
 
 const TimeSlotInput = ({ day, days, setDays, slots }) => {
-  const [displayCopyModal, toggleDisplayCopyModal] = useState([false])
-  const defaultHoverState = {
-    SUN: [false],
-    MON: [false],
-    TUE: [false],
-    WED: [false],
-    THU: [false],
-    FRI: [false],
-    SAT: [false],
-  }
-  const [hover, setHover] = useState({
-    addTime: defaultHoverState,
-    copyTime: defaultHoverState,
-  })
-  const [clipboard, setClipboard] = useState({
-    timeslot: null,
-    from: null,
-    to: null,
-  })
-
   const handleTimeChange = e => {
-    // add a check that the partner time is before or after
-    // new time, depending on start or end
-    // auto adjust if needed
     const context = e.target.name.split('-')
     const day = context[0]
     const frame = Number(context[1])
@@ -158,90 +118,6 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
         availability: newAvailability,
       },
     })
-  }
-
-  const handleDelete = (day, idx) => {
-    if (days[day].availability.length <= 1) {
-      setDays({
-        ...days,
-        [day]: {
-          available: false,
-          availability: [['9:00 AM', '5:00 PM']],
-        },
-      })
-    } else {
-      const oldAvailability = days[day].availability
-      const newAvailalability = oldAvailability
-      newAvailalability.splice(idx, 1)
-      setDays({
-        ...days,
-        [day]: {
-          available: days[day].available,
-          availability: newAvailalability,
-        },
-      })
-    }
-  }
-
-  const handleAddSlot = (e, day) => {
-    const availability = days[day].availability
-    const nextSlot = getNextTimeslotRange(availability)
-
-    setHover({
-      ...hover,
-      [day]: false,
-    })
-
-    setDays({
-      ...days,
-      [day]: {
-        availability: [...days[day].availability, nextSlot],
-        available: days[day].available,
-      },
-    })
-  }
-
-  const renderHoverText = (hoverType, day, idx) => {
-    console.log(hover)
-    const newHover = hover[hoverType][day]
-    const index = hoverType === 'addTime' ? 0 : idx
-    newHover[index] = !hover[hoverType][day][index]
-    console.log(newHover)
-    console.log({
-      ...hover,
-      [hoverType]: {
-        ...hover[hoverType],
-        [day]: newHover,
-      },
-    })
-    setHover({
-      ...hover,
-      addTime: {
-        ...hover['addTime'],
-        [day]: newHover,
-      },
-    })
-  }
-
-  const handleCopy = (day, idx) => {
-    console.log(idx)
-
-    console.log(displayCopyModal)
-    console.log(displayCopyModal[idx])
-    const newDisplay = displayCopyModal
-    newDisplay[idx] = !displayCopyModal[idx]
-    toggleDisplayCopyModal(newDisplay)
-    console.log('handle copy')
-    console.log(day)
-    console.log(idx)
-    console.log(days[day].availability[idx])
-    const timeslot = days[day].availability[idx]
-    setClipboard({
-      timeslot,
-      from: day,
-      to: null,
-    })
-    console.log(clipboard)
   }
 
   return (
@@ -323,33 +199,59 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
             </Select>
             <DeleteOutline
               className='icon'
-              onClick={() => handleDelete(day, idx)}
+              onClick={() =>
+                console.log(
+                  `Delete placeholder for ${day}, timeslot ${idx + 1}`
+                )
+              }
             />
           </div>
           <div className='right-banner'>
             {days[day].availability.length - 1 === idx && (
               <div>
                 <AddRounded
-                  onMouseEnter={() => renderHoverText('addTime', day, idx)}
-                  onMouseOut={() => renderHoverText('addTime', day, idx)}
-                  onClick={e => handleAddSlot(e, day)}
+                  onMouseEnter={() =>
+                    console.log(
+                      `Show Hover Message placeholder for ${day} timeslot ${
+                        idx + 1
+                      }: add timeslot`
+                    )
+                  }
+                  onMouseOut={() =>
+                    console.log(
+                      `Hide Hover Message placeholder for ${day} timeslot ${
+                        idx + 1
+                      }`
+                    )
+                  }
+                  onClick={e =>
+                    console.log(`Add timeslot placeholder for ${day}`)
+                  }
                 />
-
-                {/* {hover.addTime[day][0] && (
-                  <HoverMessage text={`New time period for ${day}`} />
-                )} */}
               </div>
             )}
             {/* this has to move to a div bc the icon is weird */}
             <ContentCopyOutlined
-              onMouseEnter={() => renderHoverText('copyTime', day, idx)}
-              onMouseOut={() => renderHoverText('copyTime', day, idx)}
-              onClick={() => handleCopy(day, idx)}
+              onMouseEnter={() =>
+                console.log(
+                  `Show Hover Message placeholder for ${day} timeslot ${
+                    idx + 1
+                  }: copy timeslot`
+                )
+              }
+              onMouseOut={() =>
+                console.log(
+                  `Hide Hover Message placeholder for ${day} timeslot ${
+                    idx + 1
+                  }: copy timeslot`
+                )
+              }
+              onClick={e =>
+                console.log(
+                  `Copy timeslot placeholder for ${day} timeslot: ${idx + 1}`
+                )
+              }
             />
-            {/* {hover.copyTime[day][idx] && (
-              <HoverMessage text={`Copy times for ${day}`} />
-            )} */}
-            {displayCopyModal[idx] && <CopyTimesModal day={day} />}
           </div>
         </div>
       ))}
