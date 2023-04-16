@@ -17,13 +17,9 @@ export const Availability: React.FC = (): JSX.Element => {
       <TimeZoneInputBanner timezone={timezone} setTimezone={setTimezone} />
       <p>Set weekly availability</p>
       <hr />
-      <DayAvailabilityInputBanner day='SUN' />
-      <DayAvailabilityInputBanner day='MON' />
-      <DayAvailabilityInputBanner day='TUE' />
-      <DayAvailabilityInputBanner day='WED' />
-      <DayAvailabilityInputBanner day='THU' />
-      <DayAvailabilityInputBanner day='FRI' />
-      <DayAvailabilityInputBanner day='SAT' />
+      {['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'].map(day => (
+        <DayAvailabilityInputBanner day={day} />
+      ))}
     </div>
   )
 }
@@ -32,7 +28,6 @@ const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
   return (
     <div className='timezone-input-container'>
       <h2>Time zone</h2>
-      {/* TODO: define this select component elsewhere? */}
       <Select
         defaultValue={timezone}
         disableUnderline
@@ -68,7 +63,7 @@ const DayAvailabilityInputBanner = ({ day }) => {
   }
 
   return (
-    <div className='banner-with-hr'>
+    <div>
       <div className='day-availability-input-banner'>
         <div className='left-banner'>
           <div className='check-day'>
@@ -97,6 +92,7 @@ const DayAvailabilityInputBanner = ({ day }) => {
   )
 }
 
+//
 const subOptions = (startTime, isStart, idx) => {
   const index = idx === 0 ? 0 : timeOptions.indexOf(startTime)
   return isStart ? timeOptions.slice(index) : timeOptions.slice(index + 1)
@@ -124,7 +120,7 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
     <div className='timeslots-container'>
       {slots.map((slot, idx) => (
         <div className='timeslot-input'>
-          {/* Make a new custom component for these that takes in arguments like day, start/end, to keep this clean */}
+          {/* TODO: Make a new reusable component - takes in args like day, start/end, to keep this clean */}
           <div className='left-banner'>
             <Select
               name={`${day}-${idx}-start`}
@@ -230,7 +226,7 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
                 />
               </div>
             )}
-            {/* this has to move to a div bc the icon is weird */}
+            {/* this has to move to a div bc the icon onMouse is weird */}
             <ContentCopyOutlined
               onMouseEnter={() =>
                 console.log(
