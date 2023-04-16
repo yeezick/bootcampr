@@ -4,7 +4,7 @@ import App from './App'
 import { BrowserRouter as Router } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
 import { Provider } from 'react-redux'
-import { store } from './utilities/redux/store'
+import { store } from './utils/redux/store'
 import { NotificationAlerts } from './components/Notifications/NotificationAlerts'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)

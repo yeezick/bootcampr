@@ -1,40 +1,22 @@
 import { Routes, Route } from 'react-router-dom'
-import { Layout } from 'layout'
-import { Landing } from 'screens/Landing/Landing'
-// import { ProjectDetails } from 'screens/Projects';
-import { RegisterUserInfo } from 'screens/Auth'
-import { SignIn } from 'screens/Auth'
-import { SignUp } from 'screens/Auth'
-import { UserProfile } from 'screens/UserProfile'
-import { EditProfile } from 'screens/UserProfile'
-import { EmailVerify } from 'screens/Auth/EmailVerify/EmailVerify'
-import { useEffect } from 'react'
-import { verify } from 'utilities/api/users'
-import { useDispatch } from 'react-redux'
-import { updateAuthUser } from 'utilities/redux/slices/userSlice'
-import { ExpiredLink } from 'screens/Auth/ExpiredLink/ExpiredLink'
+import { Layout } from './layout/Layout'
+import { SignIn, SignUp } from './screens/Auth'
+import { EmailVerify, ExpiredLink } from './screens/Auth'
+import { EditProfile, UserProfile } from './screens/UserProfile'
+import { Onboarding } from './screens/Onboarding/Onboarding'
 import './App.css'
-import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
+import { AvailabilityDemoScreen } from './screens/TempFeatures/Availability'
+import { AllTicket } from './screens/TicketManager/AllTicket/AllTicket'
+import React from 'react'
+import { RegisterUserInfo } from './screens/Auth'
 
 function App() {
-  const dispatch = useDispatch()
-  useEffect(() => {
-    const persist = async () => {
-      const user = await verify()
-      dispatch(updateAuthUser(user))
-    }
-    persist()
-  }, [])
-
   return (
     <>
       <Layout>
         <Routes>
-          <Route path='/' element={<Landing />} />
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/sign-in' element={<SignIn />} />
-          <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
-          <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />
           <Route
@@ -43,6 +25,10 @@ function App() {
           />
           <Route path='/availability' element={<AvailabilityDemoScreen />} />
           {/* <Route path="/projects/:id" element={<ProjectDetails />} /> */}
+          <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
+          <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
+          <Route path='/users/onboarding' element={<Onboarding />} />
+          <Route path='/users/:id/manager' element={<AllTicket />} />
         </Routes>
       </Layout>
     </>

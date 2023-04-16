@@ -1,57 +1,64 @@
-import { register, reset, uiStatus } from 'utilities/redux/slices/userSlice'
 import React, { useEffect, useState } from 'react'
-import { SignUpInterface } from 'utilities/types/UserInterface'
-import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
-import { BsEyeFill, BsEyeSlash } from 'react-icons/bs'
 import { FaInfoCircle } from 'react-icons/fa'
-import './SignUp.scss'
-import { emptySignUp } from 'utilities/data/userConstants'
-import { AlertBanners } from 'utilities/types/AccountSettingsInterface'
 import { GoAlert } from 'react-icons/go'
-
-type PasswordMatchCases = null | boolean
-
+import { register, reset, uiStatus } from 'utils/redux/slices/userSlice'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { SignUpInterface } from 'interfaces/UserInterface'
+import { PasswordErrors } from 'interfaces/components/Input'
+import { AlertBanners } from 'interfaces/AccountSettingsInterface'
+import { emptySignUp } from 'utils/data/userConstants'
+import { Email, Text, PasswordInputs } from 'components/Inputs'
+import './SignUp.scss'
+import { Checkbox, FormControlLabel } from '@mui/material'
 export const SignUp: React.FC = () => {
   const dispatch = useAppDispatch()
   const status = useAppSelector(uiStatus)
-  const [passwordInputType, setPasswordInputType] = useState('password')
-  const [confirmPasswordInputType, setConfirmPasswordInputType] =
-    useState('password')
-  const [passwordsMatch, togglePasswordsMatch] =
-    useState<PasswordMatchCases>(null)
+  const [disabledForm, setDisabledForm] = useState(true)
   const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp)
-  const { confirmPassword, email, firstName, lastName, password } = formValues
+  const [isAccepted, setIsAccepted] = useState(false)
+  const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>({})
   const [alertBanner, setAlertBanner] = useState<AlertBanners>({
     status: false,
     text: '',
   })
+  const { password } = formValues
 
   useEffect(() => {
     if (status.isSuccess) {
       dispatch(reset())
       setFormValues(emptySignUp)
       setAlertBanner({ status: true })
-      togglePasswordsMatch(null)
     }
   }, [status.isSuccess, dispatch])
 
   useEffect(() => {
-    if (password.length === 0 || confirmPassword.length === 0) {
-      togglePasswordsMatch(null)
-    } else if (password !== confirmPassword) {
-      togglePasswordsMatch(false)
-    } else {
-      togglePasswordsMatch(true)
-    }
-  }, [password, confirmPassword])
+    const validateForm = () => {
+      const { confirmPassword, password } = formValues
+      const emptyForm = Object.values(formValues).some(value => value === '')
+      const passwordHasErrors = Object.values(passwordErrors).some(
+        error => error === true || typeof error === 'string'
+      )
+      const passwordsMatch = () => {
+        if (confirmPassword === '' || password === '' || passwordHasErrors) {
+          return false
+        } else if (confirmPassword !== password) {
+          return false
+        }
+        return true
+      }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormValues({ ...formValues, [name]: value })
-  }
+      if (emptyForm === false && isAccepted && passwordsMatch()) {
+        return setDisabledForm(false)
+      } else {
+        return setDisabledForm(true)
+      }
+    }
+    validateForm()
+  }, [formValues, isAccepted, passwordErrors])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
     const validForm = await dispatch(register(formValues))
     const { payload } = validForm
 
@@ -75,36 +82,6 @@ export const SignUp: React.FC = () => {
     }, 16000)
   }
 
-  const validateForm = () => {
-    if (!passwordsMatch) return true
-    for (const value of Object.values(formValues)) {
-      if (!value) return true
-    }
-  }
-
-  const PasswordMatchStatus: React.FC | null = () => {
-    switch (passwordsMatch) {
-      case true:
-        return <h4 className='pwd-match'>Passwords match!</h4>
-      case false:
-        return <h4 className='pwd-mismatch'>Passwords do not match</h4>
-      default:
-        return null
-    }
-  }
-
-  const passwordReveal = () => {
-    passwordInputType === 'password'
-      ? setPasswordInputType('text')
-      : setPasswordInputType('password')
-  }
-
-  const confirmPasswordReveal = () => {
-    confirmPasswordInputType === 'password'
-      ? setConfirmPasswordInputType('text')
-      : setConfirmPasswordInputType('password')
-  }
-
   return (
     <div>
       {alertBanner.status ? (
@@ -113,103 +90,70 @@ export const SignUp: React.FC = () => {
           <p>{alertBanner.text}</p>
         </div>
       ) : null}
+
       <div className='signup-container'>
         <h3>User Register</h3>
         <form onSubmit={handleSubmit} autoComplete='off'>
-          <div className='form-input'>
-            <label>First Name</label>
-            <input
-              type='text'
-              name='firstName'
-              placeholder='First Name'
-              onChange={handleChange}
-              value={firstName}
-              autoComplete='off'
-              required
-            />
-          </div>
+          <Text
+            label='First Name'
+            name='firstName'
+            required
+            setFormValues={setFormValues}
+          />
 
-          <div className='form-input'>
-            <label>Last Name</label>
-            <input
-              type='text'
-              name='lastName'
-              placeholder='Last Name'
-              onChange={handleChange}
-              value={lastName}
-              autoComplete='off'
-              required
-            />
-          </div>
+          <Text
+            label='Last Name'
+            name='lastName'
+            required
+            setFormValues={setFormValues}
+          />
 
-          <div className='form-input'>
-            <label>Email</label>
-            <input
-              type='email'
-              name='email'
-              placeholder='Email'
-              onChange={handleChange}
-              value={email}
-              autoComplete='off'
-              required
-            />
-          </div>
+          <Email setFormValues={setFormValues} />
+          <PasswordInputs
+            formValues={formValues}
+            password={password}
+            passwordErrors={passwordErrors}
+            setPasswordErrors={setPasswordErrors}
+            setFormValues={setFormValues}
+          />
 
-          <div className='pwd-input'>
-            <div>
-              <label>Password</label>
-              {passwordInputType === 'password' ? (
-                <BsEyeSlash
-                  onClick={passwordReveal}
-                  className='pwd-reveal-gray'
-                />
-              ) : (
-                <BsEyeFill onClick={passwordReveal} className='pwd-reveal' />
-              )}
-              <input
-                type={passwordInputType}
-                name='password'
-                placeholder='Password'
-                onChange={handleChange}
-                value={password}
-                autoComplete='off'
-              />
-            </div>
-          </div>
-
-          <div className='pwd-input'>
-            <div>
-              <label>Confirm Password</label>
-              {confirmPasswordInputType === 'password' ? (
-                <BsEyeSlash
-                  onClick={confirmPasswordReveal}
-                  className='pwd-reveal-gray'
-                />
-              ) : (
-                <BsEyeFill
-                  onClick={confirmPasswordReveal}
-                  className='pwd-reveal'
-                />
-              )}
-              <input
-                type={confirmPasswordInputType}
-                name='confirmPassword'
-                placeholder='Confirm Password'
-                onChange={handleChange}
-                value={confirmPassword}
-                autoComplete='off'
-              />
-            </div>
-          </div>
+          <AcceptTermsCheckbox
+            isAccepted={isAccepted}
+            setIsAccepted={setIsAccepted}
+          />
 
           <div className='form-btn'>
-            <button type='submit' disabled={validateForm()}>
+            <button type='submit' disabled={disabledForm}>
               Create Account
             </button>
           </div>
         </form>
-        <PasswordMatchStatus />
       </div>
+    </div>
+  )
+}
+
+const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
+  const handleCheckbox = e => setIsAccepted(e.target.checked)
+  const checkboxStyles = {
+    '& .MuiFormControlLabel-root': {
+      display: 'flex',
+    },
+    '& .MuiCheckbox-root': {
+      backgroundColor: '',
+      alignSelf: 'flex-start',
+    },
+  }
+
+  return (
+    <div>
+      <FormControlLabel
+        sx={checkboxStyles}
+        control={<Checkbox checked={isAccepted} onChange={handleCheckbox} />}
+        label={`I agree to receive email notification(s). We will only send 
+        emails with important information, like project start dates.
+        We will not sell your information!`}
+      />
     </div>
   )
 }

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { selectAuthUser } from 'utilities/redux/slices/userSlice'
-import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
-import { toggleSidebar } from 'utilities/redux/slices/userSlice'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { toggleSidebar } from 'utils/redux/slices/userSlice'
 import { MdArrowDropDown } from 'react-icons/md'
 import Logo from 'assets/Logo.svg'
 import { NotificationModal } from 'components/Notifications/NotificationModal'
@@ -71,7 +71,8 @@ export const Nav = () => {
           </Link>
         </div>
       </div>
-      {userId !== '' ? (
+
+      {userId && (
         <div className='notifications'>
           <div className='notification-badge link'>
             <NotificationModal />
@@ -86,9 +87,9 @@ export const Nav = () => {
             <MdArrowDropDown size={25} />
           </Link>
         </div>
-      ) : null}
+      )}
 
-      {userId !== '' ? null : (
+      {!userId && (
         <div className='auth-btn'>
           <div>
             <Link className='link sign-up' to='/sign-up'>

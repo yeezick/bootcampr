@@ -104,28 +104,4 @@
       filter: drop-shadow(0 0 3px rgb(255, 47, 47 / 0.4));
     }
   }
-
-  .middle-container {
-    align-items: center;
-    display: flex;
-    height: 700px;
-    justify-content: space-between;
-    margin-bottom: -70px;
-    width: 100%;
-
-    img {
-      height: 100%;
-    }
-
-    .signup-grid {
-      align-items: center;
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      
-      .signup-container {
-        margin: 0;
-      }
-    }
-  }
 }
