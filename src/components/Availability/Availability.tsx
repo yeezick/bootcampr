@@ -8,6 +8,7 @@ import {
 } from '@mui/icons-material'
 import './Availability.scss'
 import { defaultAvailability, Timezones, timeOptions } from './utils/data'
+import { weekdaysMap } from './utils/data'
 
 export const Availability: React.FC = (): JSX.Element => {
   const [timezone, setTimezone] = useState(Timezones.ET)
@@ -17,7 +18,7 @@ export const Availability: React.FC = (): JSX.Element => {
       <TimeZoneInputBanner timezone={timezone} setTimezone={setTimezone} />
       <p>Set weekly availability</p>
       <hr />
-      {['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'].map(day => (
+      {Object.keys(weekdaysMap).map(day => (
         <DayAvailabilityInputBanner day={day} />
       ))}
     </div>

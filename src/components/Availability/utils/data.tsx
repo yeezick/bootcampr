@@ -1,4 +1,12 @@
-export const weekdays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+export const weekdaysMap = {
+  SUN: 'Sunday',
+  MON: 'Monday',
+  TUE: 'Tuesday',
+  WED: 'Wednesday',
+  THU: 'Thursday',
+  FRI: 'Friday',
+  SAT: 'Saturday',
+}
 
 export enum Timezones {
   ET = 'Eastern Time - US & Canada',
