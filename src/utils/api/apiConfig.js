@@ -26,7 +26,7 @@ if (process.env.REACT_APP_API_PIPELINE) {
   }
   baseURL += process.env.REACT_APP_API_PROVIDER_DOMAIN
 } else {
-  baseURL = 'http://localhost:8001/'
+  baseURL = 'http://localhost:8080/'
 }
 
 export const api = axios.create({
