@@ -93,7 +93,6 @@ const DayAvailabilityInputBanner = ({ day }) => {
   )
 }
 
-//
 const subOptions = (startTime, isStart, idx) => {
   const index = idx === 0 ? 0 : timeOptions.indexOf(startTime)
   return isStart ? timeOptions.slice(index) : timeOptions.slice(index + 1)
@@ -105,9 +104,9 @@ const TimeSlotInput = ({ day, days, setDays, slots }) => {
     const day = context[0]
     const frame = Number(context[1])
     const index = context[2] === 'start' ? 0 : 1
-    const oldAvailability = days[day].availability
-    const newAvailability = oldAvailability
+    let newAvailability = days[day].availability
     newAvailability[frame][index] = e.target.value
+
     setDays({
       ...days,
       [day]: {
