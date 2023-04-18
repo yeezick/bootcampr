@@ -15,7 +15,7 @@ export enum Timezones {
   PT = 'Pacific Time - US & Canada',
 }
 
-export const defaultAvailability = {
+export const defaultAvailabilityForm = {
   ['SUN']: {
     available: false,
     availability: [['9:00 AM', '5:00 PM']],
