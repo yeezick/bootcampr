@@ -17,6 +17,7 @@ export const NewChatRoom = () => {
   const [designers, setDesigners] = useState([])
   const [projectMembers, setProjectMembers] = useState<Member[]>([])
   const [selectedMembers, setSelectedMembers] = useState<Member[]>([])
+  const [allMembersSelected, setAllMembersSelected] = useState(false)
 
   useEffect(() => {
     setEngineers(members.engineers)
@@ -25,12 +26,24 @@ export const NewChatRoom = () => {
     setProjectMembers([...designers, ...engineers])
   }, [designers, engineers])
 
+  useEffect(() => {
+    selectedMembers.length === projectMembers.length
+      ? setAllMembersSelected(true)
+      : setAllMembersSelected(false)
+  }, [selectedMembers, projectMembers])
+
   const handleMemberClick = (member: Member) => {
     selectedMembers.includes(member)
       ? setSelectedMembers(
           selectedMembers.filter(mem => mem._id !== member._id)
         )
       : setSelectedMembers([...selectedMembers, member])
+  }
+
+  const selectAllClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.checked
+      ? setSelectedMembers(projectMembers)
+      : setSelectedMembers([])
   }
 
   return (
@@ -52,7 +65,13 @@ export const NewChatRoom = () => {
           </div>
         </div>
         <p>Invite members from your ongoing projects</p>
-        <h3>Theme Park Project</h3>
+        <input
+          type='checkbox'
+          id='select-all-check'
+          checked={allMembersSelected}
+          onChange={e => selectAllClick(e)}
+        />
+        <label>Select All</label>
         <div className='members-container'>
           {projectMembers.map(member => (
             <div

@@ -8,12 +8,14 @@ import { Nav } from './'
 import './Layout.scss'
 import Footer from 'components/Footer/Footer'
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
+import { useLocation } from 'react-router-dom'
 
 type Props = {
   children: React.ReactNode
 }
 
 export const Layout: React.FC<Props> = ({ children }: Props) => {
+  const location = useLocation()
   const dispatch = useAppDispatch()
   const status = useAppSelector(uiStatus)
   const visibleSidebar = useAppSelector(
@@ -26,7 +28,7 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
       if (authUser) dispatch(updateAuthUser(authUser))
     }
     verifyUser()
-  }, [])
+  }, [dispatch])
 
   if (status.isLoading) {
     return <Loader />
@@ -38,7 +40,15 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
       <Nav />
       <Sidebar />
       <div className={visibleSidebar ? 'layout-container active' : ''}>
-        <div className='main-content-container'>{children}</div>
+        <div
+          className={
+            location.pathname !== '/'
+              ? 'main-content-container'
+              : 'landing-main-content-container'
+          }
+        >
+          {children}
+        </div>
       </div>
       <Footer />
     </>

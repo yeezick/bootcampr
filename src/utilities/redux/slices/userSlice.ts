@@ -87,6 +87,9 @@ const userSlice = createSlice({
     toggleSidebar: state => {
       state.sidebar.visibleSidebar = !state.sidebar.visibleSidebar
     },
+    toggleSidebarClose: state => {
+      state.sidebar.visibleSidebar = false
+    },
     toggleChat: state => {
       state.chat.visibleChat = !state.chat.visibleChat
     },
@@ -153,6 +156,7 @@ export const {
   reset,
   logoutAuthUser,
   toggleSidebar,
+  toggleSidebarClose,
   toggleChat,
   toggleChatClose,
   setCurrentConversation,

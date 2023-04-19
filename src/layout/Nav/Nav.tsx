@@ -1,8 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { selectAuthUser } from 'utilities/redux/slices/userSlice'
+import {
+  selectAuthUser,
+  toggleChatClose,
+  toggleSidebar,
+  toggleSidebarClose,
+} from 'utilities/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
-import { toggleSidebar } from 'utilities/redux/slices/userSlice'
 import { MdArrowDropDown } from 'react-icons/md'
 import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
@@ -45,6 +49,12 @@ export const Nav = () => {
       socketConnection.emit('User has disconnected')
     })
   }, [setNotificationCount, authUser, socketConnection])
+
+  useEffect(() => {
+    // Close chat dialog and sidebar when URL path changes
+    dispatch(toggleChatClose())
+    dispatch(toggleSidebarClose())
+  }, [dispatch, location])
 
   const toggleSidebarHandler = () => {
     dispatch(toggleSidebar())

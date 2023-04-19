@@ -12,11 +12,15 @@ export const Conversations = ({ handleConversationClick }) => {
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const [threads, setThreads] = useState([])
+  const defaultImg =
+    'https://i.postimg.cc/bN6vcwc9/Screen-Shot-2023-04-18-at-10-32-05-PM.png'
 
   useEffect(() => {
     const getThreads = async () => {
       const res = await getAllConversations(authUser._id)
-      setThreads(res)
+      if (res) {
+        setThreads(res)
+      }
     }
     getThreads()
   }, [authUser._id])
@@ -86,7 +90,10 @@ export const Conversations = ({ handleConversationClick }) => {
           )}
         </div>
       ) : (
-        <p>You have no conversations</p>
+        <div className='no-results'>
+          <img src={defaultImg} alt='no data' />
+          <p>Don't be shy! Start a conversation</p>
+        </div>
       )}
     </div>
   )

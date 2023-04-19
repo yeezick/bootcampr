@@ -88,4 +88,22 @@
       }
     }
   }
+
+  .no-results {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 350px;
+    justify-content: center;
+
+    img {
+      height: 150px;
+      padding: 0;
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 22.4px;
+    }
+  }
 }
