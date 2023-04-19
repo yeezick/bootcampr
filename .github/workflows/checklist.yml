@@ -10,6 +10,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Contextual QA Checklists
-          uses: wyozi/contextual-qa-checklist-action@1.2
+        uses: wyozi/contextual-qa-checklist-action@1.2
         with:
           gh-token: ${{ secrets.GITHUB_TOKEN }}
