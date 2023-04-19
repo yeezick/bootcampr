@@ -9,6 +9,7 @@ import './App.css'
 import { AllTicket } from './screens/TicketManager/AllTicket/AllTicket'
 import HomePage from 'screens/HomePage/HomePage'
 import CreateProject from 'screens/CreateProject/CreateProject'
+import ProjectDetails from 'screens/ProjectDetails/ProjectDetails'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/CreateProject' element={<CreateProject />} />
+          <Route path='/project/:id' element={<ProjectDetails />} />
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/users/:id' element={<UserProfile />} />
