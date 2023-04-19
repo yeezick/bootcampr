@@ -1,0 +1,8 @@
+paths:
+  "*.ts":
+    - Does all code use proper formatting and casing?
+    - No repeated logic?
+    - Is code legible? no confusing conditionals, etc.
+    - No 'dead code'? (commented out code, console.logs, etc.)
+  "CHECKLIST.yml":
+    - Testing...
