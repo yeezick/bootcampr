@@ -10,8 +10,8 @@ import {
   TicketStatusChangeParams,
 } from '../../../interfaces/TicketInterFace'
 
-export const AllTicket = () => {
-  const [getAllTicket, setGetAllTicket] = useState<ticketInterface>(FakeData)
+export const AllTicket = ({ getAllTicket, setGetAllTicket }: any) => {
+  // const [getAllTicket, setGetAllTicket] = useState<ticketInterface>(FakeData)
   const [activeItem, setActiveItem] = useState<TicketStatusType | null>(null)
 
   const dragDropped = (e: any, targetCategory: TicketStatusType | string) => {
