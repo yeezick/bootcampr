@@ -26,7 +26,7 @@ function App() {
           <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
           <Route path='/users/onboarding' element={<Onboarding />} />
-          <Route path='/users/:id/manager' element={<AllTicket />} />
+          {/* <Route path='/users/:id/manager' element={<AllTicket />} /> */}
         </Routes>
       </Layout>
     </>

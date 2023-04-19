@@ -10,18 +10,25 @@ import {
   TicketStatusChangeParams,
 } from '../../../interfaces/TicketInterFace'
 
-export const AllTicket = ({ getAllTicket, setGetAllTicket }: any) => {
-  // const [getAllTicket, setGetAllTicket] = useState<ticketInterface>(FakeData)
+export const AllTicket = ({
+  projectTracker,
+  projectDetail,
+  setProjectDetails,
+}: any) => {
+  const [getAllTicket, setGetAllTicket] = useState<any>(
+    projectTracker?.projectTracker
+  )
+
   const [activeItem, setActiveItem] = useState<TicketStatusType | null>(null)
 
   const dragDropped = (e: any, targetCategory: TicketStatusType | string) => {
     e.preventDefault()
     const id = e.dataTransfer.getData('id')
-    const sourceCategory: TicketStatusType | null = activeItem
+    const sourceCategory: any = concatenatedString(activeItem)
 
     const item: TaskInterface | undefined = getAllTicket[
       sourceCategory as TicketStatusType
-    ]?.find((item: TaskInterface) => item.id?.toString() === id)
+    ]?.find((item: any) => item._id?.toString() === id)
 
     if (sourceCategory !== targetCategory && item) {
       ticketStatusChange({ sourceCategory, targetCategory, item, id })
@@ -37,7 +44,7 @@ export const AllTicket = ({ getAllTicket, setGetAllTicket }: any) => {
   }: TicketStatusChangeParams) => {
     const removeFromSection: TaskInterface[] | undefined = getAllTicket[
       sourceCategory as TicketStatusType
-    ].filter((newStatus: TaskInterface) => newStatus.id !== id)
+    ].filter((newStatus: any) => newStatus._id !== id)
     const addToNewSection = [
       ...getAllTicket[targetCategory as TicketStatusType],
       { ...item, status: targetCategory },
@@ -50,6 +57,7 @@ export const AllTicket = ({ getAllTicket, setGetAllTicket }: any) => {
       ],
       [targetCategory]: [...addToNewSection],
     })
+    console.log(getAllTicket)
   }
 
   const draggingOver = (e: React.DragEvent<HTMLDivElement>) =>
@@ -66,6 +74,10 @@ export const AllTicket = ({ getAllTicket, setGetAllTicket }: any) => {
     e.dataTransfer.setData('id', dataId)
     setActiveItem(itemType)
   }
+  const concatenatedString = statusString => statusString.replace(/\s+/g, '')
+
+  const splitCamelCaseToWords = (str: string) =>
+    str.split(/(?=[A-Z])/).join(' ')
 
   return (
     <div className='App'>
@@ -75,27 +87,27 @@ export const AllTicket = ({ getAllTicket, setGetAllTicket }: any) => {
           getAllTicket={getAllTicket}
         />
       </>
-      {Object.keys(getAllTicket).map((ticketsStatus: string, i) => (
+      {Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
         <div
           className='container'
-          onDrop={e => dragDropped(e, ticketsStatus)}
+          onDrop={e => dragDropped(e, concatenatedString(ticketsStatus))}
           key={i}
           onDragOver={(e: React.DragEvent<HTMLDivElement>) => draggingOver(e)}
         >
           <div>
-            <h1>{ticketsStatus}</h1>
+            <h1>{splitCamelCaseToWords(ticketsStatus)}</h1>
           </div>
           <div className='content'>
-            {getAllTicket[ticketsStatus as TicketStatusType].map(
-              (ticketDetail: TaskInterface) => (
+            {getAllTicket[ticketsStatus as TicketStatusType]?.map(
+              (ticketDetail: any) => (
                 <div
                   className='data'
                   draggable='true'
                   onDragStart={e =>
                     dragHasStarted(
                       e,
-                      ticketsStatus as TicketStatusType,
-                      ticketDetail.id as string
+                      splitCamelCaseToWords(ticketsStatus) as TicketStatusType,
+                      ticketDetail._id as string
                     )
                   }
                   onDragEnter={e => handleDragEnter(e)}
@@ -103,13 +115,14 @@ export const AllTicket = ({ getAllTicket, setGetAllTicket }: any) => {
                   key={ticketDetail.id}
                 >
                   <h1>{ticketDetail.id}</h1>
-                  <h1>{ticketDetail.title}</h1>
-                  <TicketDetail
+                  <h1>{ticketDetail.status}</h1>
+                  <h1>{ticketDetail.description}</h1>
+                  {/* <TicketDetail
                     ticketDetail={ticketDetail}
                     getAllTicket={getAllTicket}
                     setGetAllTicket={setGetAllTicket}
                     ticketsStatus={ticketsStatus}
-                  />
+                  /> */}
 
                   {/* <EditTicket
                   setFakeApi={setFakeApi}

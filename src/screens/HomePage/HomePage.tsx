@@ -4,7 +4,6 @@ import { getAllProjects } from '../../utils/api/projects'
 
 function HomePage({}) {
   const [getAllProjectsData, setGetAllProjectsData] = useState<any>()
-  console.log(getAllProjectsData)
 
   useEffect(() => {
     const projects = async () => {
