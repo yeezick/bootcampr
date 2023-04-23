@@ -1,85 +1,10 @@
-import { useState } from 'react'
-import { Checkbox, MenuItem, Select } from '@mui/material'
+import { MenuItem, Select } from '@mui/material'
 import {
-  ExpandMoreRounded,
   DeleteOutline,
   AddRounded,
   ContentCopyOutlined,
 } from '@mui/icons-material'
-import { defaultAvailabilityForm, Timezones, timeOptions } from '../utils/data'
-
-export const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
-  return (
-    <div className='timezone-input-container'>
-      <h2>Time zone</h2>
-      <Select
-        defaultValue={timezone}
-        disableUnderline
-        IconComponent={ExpandMoreRounded}
-        sx={{
-          color: '#022888',
-          fontSize: '12px',
-          '& .MuiSvgIcon-root': { color: '#022888' },
-        }}
-        value={timezone}
-        variant='standard'
-        onChange={e => setTimezone(e.target.value)}
-      >
-        {Object.keys(Timezones).map(zone => (
-          <MenuItem value={Timezones[zone]}>{Timezones[zone]}</MenuItem>
-        ))}
-      </Select>
-    </div>
-  )
-}
-
-export const DayAvailabilityInputBanner = ({ day }) => {
-  const [days, setDays] = useState(defaultAvailabilityForm)
-
-  const handleCheck = e => {
-    setDays({
-      ...days,
-      [e.target.name]: {
-        available: !days[e.target.name].available,
-        availability: [...days[e.target.name].availability],
-      },
-    })
-  }
-
-  return (
-    <div>
-      <div className='day-availability-input-banner'>
-        <div className='left-banner'>
-          <div className='check-day'>
-            <Checkbox
-              name={day}
-              onChange={e => handleCheck(e)}
-              sx={{ color: '#022888', '&.Mui-checked': { color: '#022888' } }}
-              checked={days[day].available}
-            />
-            <h2>{day}</h2>
-          </div>
-          {days[day]['available'] ? (
-            <TimeSlotInput
-              day={day}
-              days={days}
-              setDays={setDays}
-              slots={days[day].availability}
-            />
-          ) : (
-            <h2>Unavailable</h2>
-          )}
-        </div>
-      </div>
-      <hr />
-    </div>
-  )
-}
-
-export const subOptions = (startTime, isStart, idx) => {
-  const index = idx === 0 ? 0 : timeOptions.indexOf(startTime)
-  return isStart ? timeOptions.slice(index) : timeOptions.slice(index + 1)
-}
+import { subOptions } from '../utils/helpers'
 
 export const TimeSlotInput = ({ day, days, setDays, slots }) => {
   const handleTimeChange = e => {
