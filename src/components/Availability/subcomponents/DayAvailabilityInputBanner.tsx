@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Checkbox } from '@mui/material'
-import { defaultAvailabilityForm } from '../utils/data'
 import { TimeSlotInput } from './TimeslotInput'
+import { defaultAvailabilityForm } from '../utils/data'
 
 export const DayAvailabilityInputBanner = ({ day }) => {
   const [days, setDays] = useState(defaultAvailabilityForm)
