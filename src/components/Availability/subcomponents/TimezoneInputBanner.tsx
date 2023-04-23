@@ -20,7 +20,9 @@ export const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
         onChange={e => setTimezone(e.target.value)}
       >
         {Object.keys(Timezones).map(zone => (
-          <MenuItem value={Timezones[zone]}>{Timezones[zone]}</MenuItem>
+          <MenuItem key={zone} value={Timezones[zone]}>
+            {Timezones[zone]}
+          </MenuItem>
         ))}
       </Select>
     </div>

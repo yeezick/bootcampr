@@ -13,7 +13,7 @@ export const Availability: React.FC = (): JSX.Element => {
       <p>Set weekly availability</p>
       <hr />
       {Object.keys(weekdaysMap).map(day => (
-        <DayAvailabilityInputBanner day={day} />
+        <DayAvailabilityInputBanner key={`${day}-banner`} day={day} />
       ))}
     </div>
   )

@@ -7,11 +7,15 @@ export const DayAvailabilityInputBanner = ({ day }) => {
   const [days, setDays] = useState(defaultAvailabilityForm)
 
   const handleCheck = e => {
+    const available = !days[e.target.name].available
+    const availability = [...days[e.target.name].availability]
+    const dayToChange = e.target.name
+
     setDays({
       ...days,
-      [e.target.name]: {
-        available: !days[e.target.name].available,
-        availability: [...days[e.target.name].availability],
+      [dayToChange]: {
+        available,
+        availability,
       },
     })
   }
