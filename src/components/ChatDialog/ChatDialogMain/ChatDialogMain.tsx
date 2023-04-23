@@ -11,26 +11,18 @@ import { NewChatRoom } from '../NewChatRoom/NewChatRoom'
 
 export const ChatDialogMain = () => {
   const dispatch = useAppDispatch()
-  const [showMessages, toggleShowMessages] = useState(false)
-  const [showChats, toggleShowChats] = useState(true)
-  // const [chatHeader, setChatHeader] = useState('')
-  const [showNewChat, toggleShowNewChat] = useState(false)
+  const [chatScreen, setChatScreen] = useState<string>('main')
 
   const handleConversationClick = () => {
-    toggleShowChats(false)
-    toggleShowMessages(true)
-    // setChatHeader('Messages')
+    setChatScreen('messages')
   }
 
   const handleBackArrow = () => {
-    toggleShowChats(true)
-    toggleShowMessages(false)
-    toggleShowNewChat(false)
+    setChatScreen('main')
   }
 
   const handleComposeMessage = () => {
-    toggleShowChats(false)
-    toggleShowNewChat(true)
+    setChatScreen('composeNewChat')
   }
 
   const closeChatBox = () => {
@@ -40,37 +32,81 @@ export const ChatDialogMain = () => {
   return (
     <div className='chat-dialog-container'>
       <section className='chat-header'>
-        {!showMessages && !showNewChat ? (
-          <h1>Chats</h1>
-        ) : (
-          <div className='back-arrow'>
-            <FiArrowLeft size={23} onClick={() => handleBackArrow()} />
-            {!showMessages ? <h1>New Chat Room</h1> : <h1>Messages</h1>}
-          </div>
-        )}
-        <div>
-          {!showMessages && showChats ? (
-            <HiOutlinePencilAlt
-              size={22}
-              onClick={() => handleComposeMessage()}
-            />
-          ) : (
-            ''
-          )}
-          <IoMdClose size={22} onClick={() => closeChatBox()} />
-        </div>
+        <ChatTitle chatScreen={chatScreen} handleBackArrow={handleBackArrow} />
+        <ChatHeaderActions
+          chatScreen={chatScreen}
+          handleComposeMessage={handleComposeMessage}
+          closeChatBox={closeChatBox}
+        />
       </section>
-      {showNewChat ? (
-        <NewChatRoom />
-      ) : (
-        <>
-          {!showMessages && showChats ? (
-            <Conversations handleConversationClick={handleConversationClick} />
-          ) : (
-            <Messages />
-          )}
-        </>
-      )}
+      <section className='chat-body'>
+        <ChatBody
+          chatScreen={chatScreen}
+          handleConversationClick={handleConversationClick}
+        />
+      </section>
     </div>
   )
+}
+
+const ChatTitle = ({ chatScreen, handleBackArrow }) => {
+  if (chatScreen === 'main') {
+    return (
+      <div className='chat-header'>
+        <h1> Chats</h1>
+      </div>
+    )
+  }
+
+  if (chatScreen === 'composeNewChat') {
+    return (
+      <div className='back-arrow'>
+        <FiArrowLeft size={23} onClick={handleBackArrow} />
+        <h1>New Chat Room</h1>
+      </div>
+    )
+  }
+
+  if (chatScreen) {
+    return (
+      <div className='back-arrow'>
+        <FiArrowLeft size={23} onClick={handleBackArrow} />
+        <h1>Messages</h1>
+      </div>
+    )
+  }
+}
+
+const ChatHeaderActions = ({
+  chatScreen,
+  handleComposeMessage,
+  closeChatBox,
+}) => {
+  if (chatScreen === 'main') {
+    return (
+      <div className='main-icons'>
+        <HiOutlinePencilAlt size={22} onClick={handleComposeMessage} />
+        <IoMdClose size={22} onClick={closeChatBox} />
+      </div>
+    )
+  } else
+    return (
+      <div className='main-icons'>
+        <IoMdClose size={22} onClick={closeChatBox} />
+      </div>
+    )
+}
+
+const ChatBody = ({ chatScreen, handleConversationClick }) => {
+  if (chatScreen === 'main') {
+    return <Conversations handleConversationClick={handleConversationClick} />
+  }
+
+  if (chatScreen === 'messages') {
+    return <Messages />
+  }
+
+  if (chatScreen === 'composeNewChat') {
+    return <NewChatRoom />
+  }
 }
