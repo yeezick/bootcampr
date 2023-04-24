@@ -7,8 +7,8 @@ import { SelectChangeEvent } from '@mui/material/Select'
 
 import {
   TaskInterface,
-  TicketDetailInterface,
   KeyOfTicketStatusType,
+  TicketDetailPropsInterface,
 } from '../../../interfaces/TicketInterFace'
 
 const customStyles = {
@@ -29,10 +29,9 @@ const TicketDetail = ({
   setGetAllTicket,
   ticketsStatus,
   splitCamelCaseToWords,
-}: // }: TicketDetailInterface) => {
-any) => {
+}: TicketDetailPropsInterface) => {
   Modal.setAppElement('#root')
-  const [assignees, setAssignees] = useState<any>({
+  const [assignees, setAssignees] = useState({
     value: ticketDetail?.assignees?.title,
     user: '',
   })
@@ -62,7 +61,7 @@ any) => {
     const { status } = ticketDetail
     if ((ticketStatus ?? ticketDetail.status) === status)
       return ticketStatusHasNotChange(updateText)
-    if ((ticketStatus ?? ticketDetail.status) != status)
+    if ((ticketStatus ?? ticketDetail.status) !== status)
       return ticketStatusChange(updateText)
   }
 

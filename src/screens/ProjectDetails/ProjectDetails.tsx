@@ -26,13 +26,7 @@ const ProjectDetails = ({}) => {
     <div>
       <h1>{projectDetail?.title}</h1>
       <h1>{projectDetail?.duration}</h1>
-      {projectDetail ? (
-        <AllTicket
-          projectTracker={projectDetail}
-          projectDetail={projectDetail}
-          setProjectDetails={setProjectDetails}
-        />
-      ) : null}
+      {projectDetail ? <AllTicket projectTracker={projectDetail} /> : null}
     </div>
   )
 }

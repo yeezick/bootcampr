@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-
-import './ticketManger.css'
+import { useParams } from 'react-router-dom'
 import { CreateTicket } from '../CreateTickets/CreateTicket'
 import TicketDetail from '../TicketDetail/TicketDetail'
+import { ticketStatusChangedApi } from 'utils/api'
+import './ticketManger.css'
+
 import {
   TicketInterface,
   KeyOfTicketStatusType,
@@ -10,10 +12,8 @@ import {
   TicketStatusChangeParams,
   TicketStatusChangeFunc,
 } from '../../../interfaces/TicketInterFace'
-import { ticketStatusChangedApi } from 'utils/api'
-import { useParams } from 'react-router-dom'
 
-export const AllTicket = ({ projectTracker }: any) => {
+export const AllTicket = ({ projectTracker }) => {
   const { id } = useParams()
 
   const [getAllTicket, setGetAllTicket] = useState(
@@ -48,8 +48,6 @@ export const AllTicket = ({ projectTracker }: any) => {
     item,
     ticketId,
   }: TicketStatusChangeFunc) => {
-    console.log(item)
-
     const removeFromSection: TaskInterface[] | undefined = getAllTicket[
       sourceCategory as KeyOfTicketStatusType
     ].filter((newStatus: TicketInterface) => newStatus._id !== ticketId)

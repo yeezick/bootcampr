@@ -55,3 +55,10 @@ export interface TicketStatusChangeFunc {
   item?: TicketInterface
   ticketId?: string
 }
+export interface TicketDetailPropsInterface {
+  ticketDetail?: any
+  getAllTicket?: TicketInterface[]
+  setGetAllTicket?: any
+  ticketsStatus?: KeyOfTicketStatusType | string
+  splitCamelCaseToWords?: (str: string) => string
+}
