@@ -10,11 +10,7 @@ export const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
         defaultValue={timezone}
         disableUnderline
         IconComponent={ExpandMoreRounded}
-        sx={{
-          color: '#022888',
-          fontSize: '12px',
-          '& .MuiSvgIcon-root': { color: '#022888' },
-        }}
+        sx={tzSelectSx}
         value={timezone}
         variant='standard'
         onChange={e => setTimezone(e.target.value)}
@@ -27,4 +23,10 @@ export const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
       </Select>
     </div>
   )
+}
+
+const tzSelectSx = {
+  color: '#022888',
+  fontSize: '12px',
+  '& .MuiSvgIcon-root': { color: '#022888' },
 }

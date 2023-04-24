@@ -27,7 +27,7 @@ export const DayAvailabilityInputBanner = ({ day }) => {
             <Checkbox
               name={day}
               onChange={handleCheck}
-              sx={{ color: '#022888', '&.Mui-checked': { color: '#022888' } }}
+              sx={checkBoxStyle}
               checked={days[day].available}
             />
             <h2>{day}</h2>
@@ -47,4 +47,9 @@ export const DayAvailabilityInputBanner = ({ day }) => {
       <hr />
     </div>
   )
+}
+
+const checkBoxStyle = {
+  color: '#022888',
+  '&.Mui-checked': { color: '#022888' },
 }
