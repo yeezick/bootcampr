@@ -1,20 +1,21 @@
+import { ProjectInterface } from 'interfaces'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AllTicket } from 'screens/TicketManager/AllTicket/AllTicket'
 import { getOneProject } from 'utils/api'
 
-function ProjectDetails(props) {
+const ProjectDetails = ({}) => {
   const { id } = useParams()
 
-  const [projectDetail, setProjectDetails] = useState<any>(null)
+  const [projectDetail, setProjectDetails] = useState<ProjectInterface | null>(
+    null
+  )
   console.log(projectDetail)
 
   useEffect(() => {
     const getProject = async () => {
       try {
         const project = await getOneProject(id)
-        console.log(project)
-
         setProjectDetails(project)
       } catch (error) {
         console.error('Failed to fetch project details:', error)

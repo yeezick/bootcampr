@@ -14,10 +14,15 @@ export interface TaskInterface {
   link?: string | null
 }
 export interface TicketInterface {
-  'To Do': TaskInterface[]
-  'In progress': TaskInterface[]
-  'Under Review': TaskInterface[]
-  Completed: TaskInterface[]
+  assignees?: UserInterface
+  createAt?: string
+  description?: string
+  projectId?: string
+  status?: string
+  title?: string
+  updatedAt?: string
+  _v?: number
+  _id?: string
 }
 
 export interface TicketStatusChangeParams {

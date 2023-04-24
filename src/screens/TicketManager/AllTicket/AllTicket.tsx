@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FakeData } from '../Fakedata'
+
 import './ticketManger.css'
 import { CreateTicket } from '../CreateTickets/CreateTicket'
 import TicketDetail from '../TicketDetail/TicketDetail'

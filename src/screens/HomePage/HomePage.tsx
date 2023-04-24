@@ -2,8 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getAllProjects } from '../../utils/api/projects'
 
+import { ProjectInterface } from 'interfaces'
+
 function HomePage({}) {
-  const [getAllProjectsData, setGetAllProjectsData] = useState<any>()
+  const [getAllProjectsData, setGetAllProjectsData] = useState<
+    ProjectInterface[] | null
+  >()
+  console.log(getAllProjectsData)
 
   useEffect(() => {
     const projects = async () => {
