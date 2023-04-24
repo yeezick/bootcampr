@@ -4,12 +4,7 @@ import { subOptions } from '../utils/helpers'
 export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
   const index = isStart ? 0 : 1
 
-  const handleTimeChange = e => {
-    const context = e.target.name.split('-')
-    const day = context[0]
-    const frame = Number(context[1])
-    const index = context[2]
-
+  const handleTimeChange = (day, frame, index, e) => {
     let newAvailability = days[day].availability
     newAvailability[frame][index] = e.target.value
 
@@ -27,8 +22,7 @@ export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
       defaultValue={slot[index]}
       inputProps={{ sx: { padding: '8px 13px !important' } }}
       MenuProps={menuPropsSX}
-      name={`${day}-${idx}-${index}`}
-      onChange={e => handleTimeChange(e)}
+      onChange={e => handleTimeChange(day, idx, index, e)}
       size='small'
       sx={selectSX}
       value={days[day].availability[idx][index]}
