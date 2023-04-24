@@ -6,14 +6,13 @@ import { defaultAvailabilityForm } from '../utils/data'
 export const DayAvailabilityInputBanner = ({ day }) => {
   const [days, setDays] = useState(defaultAvailabilityForm)
 
-  const handleCheck = e => {
-    const available = !days[e.target.name].available
-    const availability = [...days[e.target.name].availability]
-    const dayToChange = e.target.name
+  const handleCheck = () => {
+    const available = !days[day].available
+    const availability = [...days[day].availability]
 
     setDays({
       ...days,
-      [dayToChange]: {
+      [day]: {
         available,
         availability,
       },
@@ -27,7 +26,7 @@ export const DayAvailabilityInputBanner = ({ day }) => {
           <div className='check-day'>
             <Checkbox
               name={day}
-              onChange={e => handleCheck(e)}
+              onChange={handleCheck}
               sx={{ color: '#022888', '&.Mui-checked': { color: '#022888' } }}
               checked={days[day].available}
             />
