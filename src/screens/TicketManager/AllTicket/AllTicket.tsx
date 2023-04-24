@@ -16,7 +16,7 @@ import { useParams } from 'react-router-dom'
 export const AllTicket = ({ projectTracker }: any) => {
   const { id } = useParams()
 
-  const [getAllTicket, setGetAllTicket] = useState<any>(
+  const [getAllTicket, setGetAllTicket] = useState(
     projectTracker?.projectTracker
   )
 
@@ -24,14 +24,17 @@ export const AllTicket = ({ projectTracker }: any) => {
     null
   )
 
-  const dragDropped = (e: any, targetCategory: KeyOfTicketStatusType) => {
+  const dragDropped = (
+    e: React.DragEvent,
+    targetCategory: KeyOfTicketStatusType
+  ) => {
     e.preventDefault()
     const ticketId = e.dataTransfer.getData('id')
-    const sourceCategory: any = concatenatedString(activeItem)
+    const sourceCategory: KeyOfTicketStatusType = concatenatedString(activeItem)
 
     const item: TicketInterface | undefined = getAllTicket[
       sourceCategory as KeyOfTicketStatusType
-    ]?.find((item: any) => item._id?.toString() === ticketId)
+    ]?.find(item => item._id?.toString() === ticketId)
 
     if (sourceCategory !== targetCategory && item) {
       ticketStatusChange({ sourceCategory, targetCategory, item, ticketId })
@@ -49,7 +52,7 @@ export const AllTicket = ({ projectTracker }: any) => {
 
     const removeFromSection: TaskInterface[] | undefined = getAllTicket[
       sourceCategory as KeyOfTicketStatusType
-    ].filter((newStatus: any) => newStatus._id !== ticketId)
+    ].filter((newStatus: TicketInterface) => newStatus._id !== ticketId)
     const addToNewSection = [
       ...getAllTicket[targetCategory as KeyOfTicketStatusType],
       { ...item, status: targetCategory },
@@ -101,7 +104,9 @@ export const AllTicket = ({ projectTracker }: any) => {
       {Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
         <div
           className='container'
-          onDrop={e => dragDropped(e, concatenatedString(ticketsStatus))}
+          onDrop={e =>
+            dragDropped(e, concatenatedString(ticketsStatus as string))
+          }
           key={i}
           onDragOver={(e: React.DragEvent<HTMLDivElement>) => draggingOver(e)}
         >
@@ -110,7 +115,7 @@ export const AllTicket = ({ projectTracker }: any) => {
           </div>
           <div className='content'>
             {getAllTicket[ticketsStatus as KeyOfTicketStatusType]?.map(
-              (ticketDetail: any) => (
+              (ticketDetail: TicketInterface) => (
                 <div
                   className='data'
                   draggable='true'
@@ -127,7 +132,6 @@ export const AllTicket = ({ projectTracker }: any) => {
                   id={ticketDetail._id}
                   key={ticketDetail._id}
                 >
-                  <h1>{ticketDetail.id}</h1>
                   <h1>{ticketDetail.status}</h1>
                   <h1>{ticketDetail.description}</h1>
                   <TicketDetail
