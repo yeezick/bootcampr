@@ -6,10 +6,10 @@ import { defaultAvailabilityForm } from '../utils/data'
 export const DayAvailabilityInputBanner = ({ day }) => {
   const [days, setDays] = useState(defaultAvailabilityForm)
 
-  const handleCheck = e => {
+  const handleCheck = () => {
     const available = !days[e.target.name].available
     const availability = [...days[e.target.name].availability]
-    const dayToChange = e.target.name
+    const dayToChange = day
 
     setDays({
       ...days,
