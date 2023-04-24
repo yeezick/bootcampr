@@ -103,7 +103,14 @@ export const updateUsersEmail = async (
     return { error: 'Something went wrong' }
   }
 }
-
+export const ticketStatusChangedApi = async (ticketData: any) => {
+  try {
+    const data = await api.put(`/ticketStatusChanged`, ticketData)
+    return data
+  } catch (error) {
+    return { error: { status: 500, message: 'Something went wrong' } }
+  }
+}
 export const updateUsersPassword = async (
   formData: PasswordFormData | EmailFormData,
   userId: string | undefined

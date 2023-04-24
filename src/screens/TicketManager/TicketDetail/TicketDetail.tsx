@@ -3,6 +3,8 @@ import Modal from 'react-modal'
 import { Button, Box } from '@mui/material'
 import SingleAssignees from '../CreateTickets/SingleAssignees'
 import SingleSelect from '../CreateTickets/SingleSelect'
+import { SelectChangeEvent } from '@mui/material/Select'
+
 import {
   TaskInterface,
   TicketDetailInterface,
@@ -26,7 +28,9 @@ const TicketDetail = ({
   getAllTicket,
   setGetAllTicket,
   ticketsStatus,
-}: TicketDetailInterface) => {
+  splitCamelCaseToWords,
+}: // }: TicketDetailInterface) => {
+any) => {
   Modal.setAppElement('#root')
   const [assignees, setAssignees] = useState<any>({
     value: ticketDetail?.assignees?.title,
@@ -104,7 +108,7 @@ const TicketDetail = ({
     closeModal()
   }
 
-  const handleEditChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleEditChange = (e: SelectChangeEvent) => {
     setTicketStatus(e.target.value)
   }
 
@@ -175,6 +179,7 @@ const TicketDetail = ({
             <SingleSelect
               handleOnChange={handleEditChange}
               ticketDetail={ticketDetail}
+              splitCamelCaseToWords={splitCamelCaseToWords}
             />
             <SingleAssignees
               setAssignees={setAssignees}

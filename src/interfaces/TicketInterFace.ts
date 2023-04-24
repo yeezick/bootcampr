@@ -13,7 +13,7 @@ export interface TaskInterface {
   date?: string
   link?: string | null
 }
-export interface ticketInterface {
+export interface TicketInterface {
   'To Do': TaskInterface[]
   'In progress': TaskInterface[]
   'Under Review': TaskInterface[]
@@ -21,21 +21,21 @@ export interface ticketInterface {
 }
 
 export interface TicketStatusChangeParams {
-  sourceCategory: keyof ticketInterface | null
-  targetCategory: keyof ticketInterface | string
+  sourceCategory: keyof TicketInterface | null
+  targetCategory: keyof TicketInterface | string
   item: TaskInterface
   id: string
 }
 
-export type TicketStatusType = keyof ticketInterface
+export type TicketStatusType = keyof TicketInterface
 export interface TicketDetailInterface {
   ticketDetail: TaskInterface
-  getAllTicket: ticketInterface
+  getAllTicket: TicketInterface
   setGetAllTicket: any
   ticketsStatus: TicketStatusType | string
 }
 
 export interface createTicketInterface {
-  getAllTicket: ticketInterface
+  getAllTicket: TicketInterface
   setGetAllTicket: any
 }

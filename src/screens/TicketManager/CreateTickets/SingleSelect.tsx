@@ -1,7 +1,16 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-import React from 'react'
+import { SelectChangeEvent } from '@mui/material/Select'
 
-function SingleSelect({ handleOnChange, ticketDetail = null }: any) {
+type SingleSelectProps = {
+  handleOnChange?: (e: SelectChangeEvent) => void
+  ticketDetail?: any | null
+  splitCamelCaseToWords?: (str: string) => string
+}
+function SingleSelect({
+  handleOnChange,
+  ticketDetail = null,
+  splitCamelCaseToWords,
+}: SingleSelectProps) {
   return (
     <Box sx={{ minWidth: 10 }}>
       <FormControl fullWidth sx={{ width: '100%', paddingBottom: '20px' }}>
@@ -11,15 +20,15 @@ function SingleSelect({ handleOnChange, ticketDetail = null }: any) {
           id='demo-simple-select'
           label='status'
           name='status'
-          defaultValue={ticketDetail?.status ?? 'To Do'}
+          defaultValue={splitCamelCaseToWords(ticketDetail?.status) ?? 'To Do'}
           onChange={(e, value) => {
             handleOnChange(e)
           }}
         >
-          <MenuItem value={'To Do'}>To Do</MenuItem>
-          <MenuItem value={'In progress'}>In progress</MenuItem>
-          <MenuItem value={'Under Review'}>Under Review</MenuItem>
-          <MenuItem value={'Completed'}>Completed </MenuItem>
+          <MenuItem value={'to Do'}>To Do</MenuItem>
+          <MenuItem value={'in Progress'}>In progress</MenuItem>
+          <MenuItem value={'under Review'}>Under Review</MenuItem>
+          <MenuItem value={'completed'}>Completed </MenuItem>
         </Select>
       </FormControl>
     </Box>

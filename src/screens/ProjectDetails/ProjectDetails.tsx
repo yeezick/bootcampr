@@ -13,25 +13,27 @@ function ProjectDetails(props) {
     const getProject = async () => {
       try {
         const project = await getOneProject(id)
+        console.log(project)
+
         setProjectDetails(project)
       } catch (error) {
         console.error('Failed to fetch project details:', error)
       }
     }
     getProject()
-  }, [])
+  }, [id])
 
   return (
     <div>
       <h1>{projectDetail?.title}</h1>
       <h1>{projectDetail?.duration}</h1>
-      {projectDetail && (
+      {projectDetail ? (
         <AllTicket
           projectTracker={projectDetail}
           projectDetail={projectDetail}
           setProjectDetails={setProjectDetails}
         />
-      )}
+      ) : null}
     </div>
   )
 }

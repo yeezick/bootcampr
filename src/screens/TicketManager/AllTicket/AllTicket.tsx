@@ -4,17 +4,21 @@ import './ticketManger.css'
 import { CreateTicket } from '../CreateTickets/CreateTicket'
 import TicketDetail from '../TicketDetail/TicketDetail'
 import {
-  ticketInterface,
+  TicketInterface,
   TicketStatusType,
   TaskInterface,
   TicketStatusChangeParams,
 } from '../../../interfaces/TicketInterFace'
+import { ticketStatusChangedApi } from 'utils/api'
+import { useParams } from 'react-router-dom'
 
 export const AllTicket = ({
   projectTracker,
   projectDetail,
   setProjectDetails,
 }: any) => {
+  const { id } = useParams()
+
   const [getAllTicket, setGetAllTicket] = useState<any>(
     projectTracker?.projectTracker
   )
@@ -23,15 +27,15 @@ export const AllTicket = ({
 
   const dragDropped = (e: any, targetCategory: TicketStatusType | string) => {
     e.preventDefault()
-    const id = e.dataTransfer.getData('id')
+    const ticketId = e.dataTransfer.getData('id')
     const sourceCategory: any = concatenatedString(activeItem)
 
     const item: TaskInterface | undefined = getAllTicket[
       sourceCategory as TicketStatusType
-    ]?.find((item: any) => item._id?.toString() === id)
+    ]?.find((item: any) => item._id?.toString() === ticketId)
 
     if (sourceCategory !== targetCategory && item) {
-      ticketStatusChange({ sourceCategory, targetCategory, item, id })
+      ticketStatusChange({ sourceCategory, targetCategory, item, ticketId })
     }
     setActiveItem(null)
   }
@@ -40,11 +44,11 @@ export const AllTicket = ({
     sourceCategory,
     targetCategory,
     item,
-    id,
-  }: TicketStatusChangeParams) => {
+    ticketId,
+  }: any) => {
     const removeFromSection: TaskInterface[] | undefined = getAllTicket[
       sourceCategory as TicketStatusType
-    ].filter((newStatus: any) => newStatus._id !== id)
+    ].filter((newStatus: any) => newStatus._id !== ticketId)
     const addToNewSection = [
       ...getAllTicket[targetCategory as TicketStatusType],
       { ...item, status: targetCategory },
@@ -57,7 +61,13 @@ export const AllTicket = ({
       ],
       [targetCategory]: [...addToNewSection],
     })
-    console.log(getAllTicket)
+
+    ticketStatusChangedApi({
+      projectId: id,
+      newStatus: targetCategory,
+      ticketID: ticketId,
+      oldStatus: sourceCategory,
+    })
   }
 
   const draggingOver = (e: React.DragEvent<HTMLDivElement>) =>
@@ -117,12 +127,13 @@ export const AllTicket = ({
                   <h1>{ticketDetail.id}</h1>
                   <h1>{ticketDetail.status}</h1>
                   <h1>{ticketDetail.description}</h1>
-                  {/* <TicketDetail
+                  <TicketDetail
                     ticketDetail={ticketDetail}
                     getAllTicket={getAllTicket}
                     setGetAllTicket={setGetAllTicket}
                     ticketsStatus={ticketsStatus}
-                  /> */}
+                    splitCamelCaseToWords={splitCamelCaseToWords}
+                  />
 
                   {/* <EditTicket
                   setFakeApi={setFakeApi}
