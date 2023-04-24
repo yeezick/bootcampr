@@ -1,5 +1,5 @@
 import { MenuItem, Select } from '@mui/material'
-import { subOptions } from '../utils/helpers'
+import { timeOptions } from '../utils/data'
 
 export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
   const index = isStart ? 0 : 1
@@ -13,6 +13,8 @@ export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
     let newAvailability = days[day].availability
     newAvailability[frame][index] = e.target.value
 
+    consolidateAvailability(days[day].availability)
+
     setDays({
       ...days,
       [day]: {
@@ -20,6 +22,18 @@ export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
         availability: newAvailability,
       },
     })
+  }
+
+  const consolidateAvailability = availability => {
+    // don't manipulate availability directly
+    for (let i = 1; i < availability.length; i++) {
+      const timeA = availability[i][0]
+      const timeB = availability[i - 1][1]
+      if (timeOptions.indexOf(timeA) < timeOptions.indexOf(timeB)) {
+        availability[i - 1] = [availability[i - 1][0], availability[i][1]]
+        availability.splice(i, 1)
+      }
+    }
   }
 
   return (
@@ -33,7 +47,7 @@ export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
       sx={selectSX}
       value={days[day].availability[idx][index]}
     >
-      {subOptions(slot[0], isStart, idx).map(time => (
+      {timeOptions.map(time => (
         <MenuItem key={`option-${time}`} value={time}>
           {time}
         </MenuItem>
