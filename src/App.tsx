@@ -7,12 +7,14 @@ import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import './App.css'
 import { AllTicket } from './screens/TicketManager/AllTicket/AllTicket'
+import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 
 function App() {
   return (
     <>
       <Layout>
         <Routes>
+          <Route path='/' element={<Landing />} />
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/users/:id' element={<UserProfile />} />
@@ -21,6 +23,7 @@ function App() {
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
           <Route path='/users/onboarding' element={<Onboarding />} />
           <Route path='/users/:id/manager' element={<AllTicket />} />
+          <Route path='/availability' element={<AvailabilityDemoScreen />} />
         </Routes>
       </Layout>
     </>
