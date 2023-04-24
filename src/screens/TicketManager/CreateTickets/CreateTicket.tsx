@@ -8,7 +8,7 @@ import SingleSelect from './SingleSelect'
 import {
   createTicketInterface,
   TaskInterface,
-  TicketStatusType,
+  KeyOfTicketStatusType,
 } from '../../../interfaces/TicketInterFace'
 
 const customStyles = {
@@ -50,7 +50,7 @@ export const CreateTicket = ({
     setGetAllTicket({
       ...getAllTicket,
       [status]: [
-        ...getAllTicket[status as TicketStatusType],
+        ...getAllTicket[status as any],
         { ...addTicketForm, assignees: assignees.user },
       ],
     })

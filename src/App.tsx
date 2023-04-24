@@ -6,7 +6,6 @@ import { Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import './App.css'
-import { AllTicket } from './screens/TicketManager/AllTicket/AllTicket'
 import HomePage from 'screens/HomePage/HomePage'
 import CreateProject from 'screens/CreateProject/CreateProject'
 import ProjectDetails from 'screens/ProjectDetails/ProjectDetails'
@@ -26,7 +25,6 @@ function App() {
           <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
           <Route path='/users/onboarding' element={<Onboarding />} />
-          {/* <Route path='/users/:id/manager' element={<AllTicket />} /> */}
         </Routes>
       </Layout>
     </>

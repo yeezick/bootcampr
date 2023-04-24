@@ -6,12 +6,10 @@ import { getOneProject } from 'utils/api'
 
 const ProjectDetails = ({}) => {
   const { id } = useParams()
-
   const [projectDetail, setProjectDetails] = useState<ProjectInterface | null>(
     null
   )
   console.log(projectDetail)
-
   useEffect(() => {
     const getProject = async () => {
       try {

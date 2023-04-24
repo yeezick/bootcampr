@@ -32,15 +32,26 @@ export interface TicketStatusChangeParams {
   id: string
 }
 
-export type TicketStatusType = keyof TicketInterface
+export type KeyOfTicketStatusType = keyof TicketInterface
 export interface TicketDetailInterface {
   ticketDetail: TaskInterface
   getAllTicket: TicketInterface
   setGetAllTicket: any
-  ticketsStatus: TicketStatusType | string
+  ticketsStatus: KeyOfTicketStatusType | string
 }
 
 export interface createTicketInterface {
   getAllTicket: TicketInterface
   setGetAllTicket: any
+}
+export interface AllTicket {
+  projectTracker?: any
+  projectDetail?: any
+  setProjectDetails?: any
+}
+export interface TicketStatusChangeFunc {
+  sourceCategory?: KeyOfTicketStatusType
+  targetCategory?: KeyOfTicketStatusType
+  item?: TicketInterface
+  ticketId?: string
 }

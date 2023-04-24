@@ -5,33 +5,32 @@ import { CreateTicket } from '../CreateTickets/CreateTicket'
 import TicketDetail from '../TicketDetail/TicketDetail'
 import {
   TicketInterface,
-  TicketStatusType,
+  KeyOfTicketStatusType,
   TaskInterface,
   TicketStatusChangeParams,
+  TicketStatusChangeFunc,
 } from '../../../interfaces/TicketInterFace'
 import { ticketStatusChangedApi } from 'utils/api'
 import { useParams } from 'react-router-dom'
 
-export const AllTicket = ({
-  projectTracker,
-  projectDetail,
-  setProjectDetails,
-}: any) => {
+export const AllTicket = ({ projectTracker }: any) => {
   const { id } = useParams()
 
   const [getAllTicket, setGetAllTicket] = useState<any>(
     projectTracker?.projectTracker
   )
 
-  const [activeItem, setActiveItem] = useState<TicketStatusType | null>(null)
+  const [activeItem, setActiveItem] = useState<KeyOfTicketStatusType | null>(
+    null
+  )
 
-  const dragDropped = (e: any, targetCategory: TicketStatusType | string) => {
+  const dragDropped = (e: any, targetCategory: KeyOfTicketStatusType) => {
     e.preventDefault()
     const ticketId = e.dataTransfer.getData('id')
     const sourceCategory: any = concatenatedString(activeItem)
 
-    const item: TaskInterface | undefined = getAllTicket[
-      sourceCategory as TicketStatusType
+    const item: TicketInterface | undefined = getAllTicket[
+      sourceCategory as KeyOfTicketStatusType
     ]?.find((item: any) => item._id?.toString() === ticketId)
 
     if (sourceCategory !== targetCategory && item) {
@@ -45,18 +44,20 @@ export const AllTicket = ({
     targetCategory,
     item,
     ticketId,
-  }: any) => {
+  }: TicketStatusChangeFunc) => {
+    console.log(item)
+
     const removeFromSection: TaskInterface[] | undefined = getAllTicket[
-      sourceCategory as TicketStatusType
+      sourceCategory as KeyOfTicketStatusType
     ].filter((newStatus: any) => newStatus._id !== ticketId)
     const addToNewSection = [
-      ...getAllTicket[targetCategory as TicketStatusType],
+      ...getAllTicket[targetCategory as KeyOfTicketStatusType],
       { ...item, status: targetCategory },
     ]
 
     setGetAllTicket({
       ...getAllTicket,
-      [sourceCategory as TicketStatusType]: [
+      [sourceCategory as KeyOfTicketStatusType]: [
         ...(removeFromSection as TaskInterface[]),
       ],
       [targetCategory]: [...addToNewSection],
@@ -78,7 +79,7 @@ export const AllTicket = ({
 
   const dragHasStarted = (
     e: React.DragEvent<HTMLDivElement>,
-    itemType: TicketStatusType | null,
+    itemType: KeyOfTicketStatusType | null,
     dataId: string
   ) => {
     e.dataTransfer.setData('id', dataId)
@@ -108,7 +109,7 @@ export const AllTicket = ({
             <h1>{splitCamelCaseToWords(ticketsStatus)}</h1>
           </div>
           <div className='content'>
-            {getAllTicket[ticketsStatus as TicketStatusType]?.map(
+            {getAllTicket[ticketsStatus as KeyOfTicketStatusType]?.map(
               (ticketDetail: any) => (
                 <div
                   className='data'
@@ -116,13 +117,15 @@ export const AllTicket = ({
                   onDragStart={e =>
                     dragHasStarted(
                       e,
-                      splitCamelCaseToWords(ticketsStatus) as TicketStatusType,
+                      splitCamelCaseToWords(
+                        ticketsStatus
+                      ) as KeyOfTicketStatusType,
                       ticketDetail._id as string
                     )
                   }
                   onDragEnter={e => handleDragEnter(e)}
-                  id={ticketDetail.id}
-                  key={ticketDetail.id}
+                  id={ticketDetail._id}
+                  key={ticketDetail._id}
                 >
                   <h1>{ticketDetail.id}</h1>
                   <h1>{ticketDetail.status}</h1>

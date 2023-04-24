@@ -8,7 +8,7 @@ import { SelectChangeEvent } from '@mui/material/Select'
 import {
   TaskInterface,
   TicketDetailInterface,
-  TicketStatusType,
+  KeyOfTicketStatusType,
 } from '../../../interfaces/TicketInterFace'
 
 const customStyles = {
@@ -67,20 +67,20 @@ any) => {
   }
 
   const ticketStatusHasNotChange = (updateText: TaskInterface) => {
-    const editData = getAllTicket[ticketDetail.status as TicketStatusType]?.map(
-      (data: TaskInterface) => {
-        if (data.id === ticketDetail.id) {
-          data = {
-            ...updateText,
-          }
+    const editData = getAllTicket[
+      ticketDetail.status as KeyOfTicketStatusType
+    ]?.map((data: TaskInterface) => {
+      if (data.id === ticketDetail.id) {
+        data = {
+          ...updateText,
         }
-        return data
       }
-    )
+      return data
+    })
 
     setGetAllTicket({
       ...getAllTicket,
-      [ticketDetail.status as TicketStatusType]: [...editData],
+      [ticketDetail.status as KeyOfTicketStatusType]: [...editData],
     })
     closeModal()
   }
@@ -89,11 +89,11 @@ any) => {
     const { status, id } = updateText
 
     const removeFromSection = getAllTicket[
-      ticketDetail.status as TicketStatusType
+      ticketDetail.status as KeyOfTicketStatusType
     ].filter((newStatus: TaskInterface) => newStatus.id !== id)
 
     const addToNewSection = [
-      ...getAllTicket[status as TicketStatusType],
+      ...getAllTicket[status as KeyOfTicketStatusType],
       {
         ...updateText,
       },
@@ -101,8 +101,8 @@ any) => {
 
     setGetAllTicket({
       ...getAllTicket,
-      [ticketDetail.status as TicketStatusType]: [...removeFromSection],
-      [status as TicketStatusType]: [...addToNewSection],
+      [ticketDetail.status as KeyOfTicketStatusType]: [...removeFromSection],
+      [status as KeyOfTicketStatusType]: [...addToNewSection],
     })
 
     closeModal()
@@ -114,7 +114,7 @@ any) => {
 
   const deleteTicket = (id: string) => {
     const deletedTicket = getAllTicket[
-      ticketsStatus as TicketStatusType
+      ticketsStatus as KeyOfTicketStatusType
     ].filter((ticket: TaskInterface) => ticket.id !== id)
     setGetAllTicket({ ...getAllTicket, [ticketsStatus]: [...deletedTicket] })
     closeModal()

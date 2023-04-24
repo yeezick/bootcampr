@@ -21,10 +21,10 @@ function HomePage({}) {
     <div>
       <Link to='/CreateProject'> CreateProject</Link>
       {getAllProjectsData?.map(project => (
-        <React.Fragment key={project._id}>
+        <div key={project._id}>
           <h1>getAllProjectsData</h1>
           <Link to={`/project/${project._id}`}>project details</Link>
-        </React.Fragment>
+        </div>
       ))}
     </div>
   )
