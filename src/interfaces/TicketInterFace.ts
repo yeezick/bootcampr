@@ -46,6 +46,7 @@ export interface createTicketInterface {
   setGetAllTicket?: any
   splitCamelCaseToWords?: (str: string) => string
   ticketsStatus?: string
+  concatenatedString?: (str: string) => string
 }
 export interface AllTicket {
   projectTracker?: any

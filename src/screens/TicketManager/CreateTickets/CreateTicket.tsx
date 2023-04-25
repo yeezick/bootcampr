@@ -27,7 +27,7 @@ const customStyles = {
 export const CreateTicket = ({
   setGetAllTicket,
   getAllTicket,
-  splitCamelCaseToWords,
+  concatenatedString,
   ticketsStatus,
 }: createTicketInterface) => {
   Modal.setAppElement('#root')
@@ -48,13 +48,15 @@ export const CreateTicket = ({
   }
 
   const addTickets = () => {
-    const status = addTicketForm?.status ?? 'To Do'
+    const status = addTicketForm?.status ?? 'to Do'
+    const newStatus = concatenatedString(status)
+    console.log(newStatus)
+
+    console.log(getAllTicket)
+
     setGetAllTicket({
       ...getAllTicket,
-      [status]: [
-        ...getAllTicket[status as any],
-        { ...addTicketForm, assignees: assignees.user },
-      ],
+      [newStatus]: [...getAllTicket[newStatus as any], { ...addTicketForm }],
     })
     closeModal()
   }
@@ -121,7 +123,6 @@ export const CreateTicket = ({
                 />
                 <SingleSelect
                   handleOnChange={handleOnChange}
-                  splitCamelCaseToWords={splitCamelCaseToWords}
                   ticketsStatus={ticketsStatus}
                 />
                 <SingleAssignees

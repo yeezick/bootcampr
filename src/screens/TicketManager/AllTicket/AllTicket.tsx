@@ -110,7 +110,7 @@ export const AllTicket = ({ projectTracker }) => {
               setGetAllTicket={setGetAllTicket}
               getAllTicket={getAllTicket}
               ticketsStatus={splitCamelCaseToWords(ticketsStatus)}
-              splitCamelCaseToWords={splitCamelCaseToWords}
+              concatenatedString={concatenatedString}
             />
           </div>
           <div className='content'>
