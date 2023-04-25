@@ -107,6 +107,7 @@ export const AllTicket = ({ projectTracker }) => {
           </div>
           <div>
             <CreateTicket
+              projectId={id}
               setGetAllTicket={setGetAllTicket}
               getAllTicket={getAllTicket}
               ticketsStatus={splitCamelCaseToWords(ticketsStatus)}

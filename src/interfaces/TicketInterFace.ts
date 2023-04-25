@@ -10,6 +10,7 @@ export interface TaskInterface {
     id: number
     image: string
   }
+  projectId?: string
   date?: string
   link?: string | null
   _id?: string
@@ -47,6 +48,7 @@ export interface createTicketInterface {
   splitCamelCaseToWords?: (str: string) => string
   ticketsStatus?: string
   concatenatedString?: (str: string) => string
+  projectId?: string
 }
 export interface AllTicket {
   projectTracker?: any

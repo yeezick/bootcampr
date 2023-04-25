@@ -10,6 +10,7 @@ import {
   TaskInterface,
   KeyOfTicketStatusType,
 } from '../../../interfaces/TicketInterFace'
+import { createTicketApi } from 'utils/api/tickets'
 
 const customStyles = {
   content: {
@@ -29,11 +30,13 @@ export const CreateTicket = ({
   getAllTicket,
   concatenatedString,
   ticketsStatus,
+  projectId,
 }: createTicketInterface) => {
   Modal.setAppElement('#root')
   const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()
   const [modalIsOpen, setIsOpen] = useState(false)
   const [assignees, setAssignees] = useState<any>()
+  const [isBeingCreated, setIsBeingCreated] = useState<boolean>(false)
 
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
@@ -43,21 +46,27 @@ export const CreateTicket = ({
     setAddTicketForm({
       ...addTicketForm,
       [e.target.name]: e.target.value,
-      id: Date.now().toString(),
+      projectId: projectId,
     })
   }
 
-  const addTickets = () => {
-    const status = addTicketForm?.status ?? 'to Do'
+  const addTickets = async () => {
+    setIsBeingCreated(true)
+    const status = addTicketForm?.status ?? ticketsStatus
     const newStatus = concatenatedString(status)
-    console.log(newStatus)
 
-    console.log(getAllTicket)
+    const createdTicket = await createTicketApi({
+      ...addTicketForm,
+      status: newStatus,
+    })
 
+    console.log(createdTicket)
     setGetAllTicket({
       ...getAllTicket,
-      [newStatus]: [...getAllTicket[newStatus as any], { ...addTicketForm }],
+      [newStatus]: [...getAllTicket[newStatus as any], { ...createdTicket }],
     })
+    setIsBeingCreated(false)
+
     closeModal()
   }
 
@@ -72,90 +81,93 @@ export const CreateTicket = ({
       >
         <div>
           <h1>Create a ticket</h1>
+          {isBeingCreated ? (
+            <h1>Creating...</h1>
+          ) : (
+            <FormControl>
+              <Box sx={{ display: 'flex', gap: '30px' }}>
+                <Box sx={{ width: '50%' }}>
+                  <TextField
+                    sx={{ width: '100%', paddingBottom: '20px' }}
+                    type='text'
+                    label='Title'
+                    id='outlined-basic'
+                    variant='outlined'
+                    name='title'
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      handleOnChange(e)
+                    }
+                  />
+                  <TextField
+                    sx={{ width: '100%', paddingBottom: '20px' }}
+                    type='text'
+                    label='link'
+                    id='outlined-basic'
+                    variant='outlined'
+                    name='link'
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      handleOnChange(e)
+                    }
+                  />
+                  <input
+                    type='date'
+                    name='date'
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      handleOnChange(e)
+                    }
+                  />
+                </Box>
 
-          <FormControl>
-            <Box sx={{ display: 'flex', gap: '30px' }}>
-              <Box sx={{ width: '50%' }}>
-                <TextField
-                  sx={{ width: '100%', paddingBottom: '20px' }}
-                  type='text'
-                  label='Title'
-                  id='outlined-basic'
-                  variant='outlined'
-                  name='title'
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleOnChange(e)
-                  }
-                />
-                <TextField
-                  sx={{ width: '100%', paddingBottom: '20px' }}
-                  type='text'
-                  label='link'
-                  id='outlined-basic'
-                  variant='outlined'
-                  name='link'
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleOnChange(e)
-                  }
-                />
-                <input
-                  type='date'
-                  name='date'
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleOnChange(e)
-                  }
-                />
+                <Box sx={{ width: '50%' }}>
+                  <TextField
+                    sx={{ width: '100%', paddingBottom: '20px' }}
+                    type='text'
+                    id='outlined-basic'
+                    label='Description'
+                    variant='outlined'
+                    multiline
+                    name='description'
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      handleOnChange(e)
+                    }
+                    InputProps={{ rows: 4.5 }}
+                  />
+                  <SingleSelect
+                    handleOnChange={handleOnChange}
+                    ticketsStatus={ticketsStatus}
+                  />
+                  <SingleAssignees
+                    setAssignees={setAssignees}
+                    assignees={assignees}
+                    handleOnChange={handleOnChange}
+                  />
+                </Box>
               </Box>
-
-              <Box sx={{ width: '50%' }}>
-                <TextField
-                  sx={{ width: '100%', paddingBottom: '20px' }}
-                  type='text'
-                  id='outlined-basic'
-                  label='Description'
+              <Box>
+                <Button
+                  sx={{ marginRight: '10px' }}
+                  color='primary'
+                  disabled={false}
+                  size='small'
                   variant='outlined'
-                  multiline
-                  name='description'
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleOnChange(e)
-                  }
-                  InputProps={{ rows: 4.5 }}
-                />
-                <SingleSelect
-                  handleOnChange={handleOnChange}
-                  ticketsStatus={ticketsStatus}
-                />
-                <SingleAssignees
-                  setAssignees={setAssignees}
-                  assignees={assignees}
-                  handleOnChange={handleOnChange}
-                />
+                  // size="12px"
+                  onClick={() => addTickets()}
+                >
+                  Add a ticket
+                </Button>
+                <Button
+                  sx={{ marginRight: '10px' }}
+                  color='error'
+                  disabled={false}
+                  size='small'
+                  variant='outlined'
+                  onClick={closeModal}
+                >
+                  close
+                </Button>
               </Box>
-            </Box>
-            <Box>
-              <Button
-                sx={{ marginRight: '10px' }}
-                color='primary'
-                disabled={false}
-                size='small'
-                variant='outlined'
-                // size="12px"
-                onClick={() => addTickets()}
-              >
-                Add a ticket
-              </Button>
-              <Button
-                sx={{ marginRight: '10px' }}
-                color='error'
-                disabled={false}
-                size='small'
-                variant='outlined'
-                onClick={closeModal}
-              >
-                close
-              </Button>
-            </Box>
-          </FormControl>
+            </FormControl>
+          )}
         </div>
       </Modal>
     </div>
