@@ -93,12 +93,6 @@ export const AllTicket = ({ projectTracker }) => {
 
   return (
     <div className='App'>
-      <>
-        <CreateTicket
-          setGetAllTicket={setGetAllTicket}
-          getAllTicket={getAllTicket}
-        />
-      </>
       {Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
         <div
           className='container'
@@ -110,6 +104,14 @@ export const AllTicket = ({ projectTracker }) => {
         >
           <div>
             <h1>{splitCamelCaseToWords(ticketsStatus)}</h1>
+          </div>
+          <div>
+            <CreateTicket
+              setGetAllTicket={setGetAllTicket}
+              getAllTicket={getAllTicket}
+              ticketsStatus={splitCamelCaseToWords(ticketsStatus)}
+              splitCamelCaseToWords={splitCamelCaseToWords}
+            />
           </div>
           <div className='content'>
             {getAllTicket[ticketsStatus as KeyOfTicketStatusType]?.map(
@@ -131,6 +133,7 @@ export const AllTicket = ({ projectTracker }) => {
                   key={ticketDetail._id}
                 >
                   <h1>{ticketDetail.status}</h1>
+
                   <h1>{ticketDetail.description}</h1>
                   <TicketDetail
                     ticketDetail={ticketDetail}

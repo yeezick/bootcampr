@@ -7,9 +7,13 @@ import { SelectChangeEvent } from '@mui/material/Select'
 
 import {
   TaskInterface,
-  KeyOfTicketStatusType,
   TicketDetailPropsInterface,
 } from '../../../interfaces/TicketInterFace'
+
+import {
+  ticketStatusChange,
+  ticketStatusHasNotChange,
+} from './TicketDetailFunctions'
 
 const customStyles = {
   content: {
@@ -23,6 +27,7 @@ const customStyles = {
     transform: 'translate(-50%, -50%)',
   },
 }
+
 const TicketDetail = ({
   ticketDetail,
   getAllTicket,
@@ -50,69 +55,38 @@ const TicketDetail = ({
   const closeModal = () => setIsOpen(false)
 
   const saveChanges = () => {
+    const { status } = ticketDetail
     const updateText: TaskInterface = {
       assignees: assignees.user ?? ticketDetail.assignees,
       date: dateRef.current?.value,
       description: descriptionRef.current?.textContent,
       _id: ticketDetail._id,
       link: linkRef.current?.textContent,
-      status: ticketStatus ?? ticketDetail.status,
+      status: ticketStatus ?? status,
       title: tittleRef.current?.textContent,
     }
-    const { status } = ticketDetail
-    if ((ticketStatus ?? ticketDetail.status) === status)
-      return ticketStatusHasNotChange(updateText)
-    if ((ticketStatus ?? ticketDetail.status) !== status)
-      return ticketStatusChange(updateText)
+
+    if ((ticketStatus ?? status) === status)
+      return ticketStatusHasNotChange({
+        updateText,
+        getAllTicket,
+        ticketDetail,
+        closeModal,
+        setGetAllTicket,
+      })
+    if ((ticketStatus ?? status) !== status)
+      return ticketStatusChange({
+        updateText,
+        getAllTicket,
+        ticketDetail,
+        closeModal,
+        setGetAllTicket,
+        concatenatedString,
+      })
   }
 
-  const ticketStatusHasNotChange = (updateText: TaskInterface) => {
-    const editData = getAllTicket[
-      ticketDetail.status as KeyOfTicketStatusType
-    ]?.map((data: TaskInterface) => {
-      if (data._id === ticketDetail._id) {
-        data = {
-          ...updateText,
-        }
-      }
-      return data
-    })
-
-    setGetAllTicket({
-      ...getAllTicket,
-      [ticketDetail.status]: [...editData],
-    })
-    closeModal()
-  }
-
-  const ticketStatusChange = (updateText: TaskInterface) => {
-    const { status, _id } = updateText
-    const updatedStatus = concatenatedString(status)
-
-    const removeFromSection = getAllTicket[
-      ticketDetail.status as KeyOfTicketStatusType
-    ]?.filter((newStatus: TaskInterface) => newStatus._id !== _id)
-
-    const addToNewSection = [
-      ...getAllTicket[updatedStatus as KeyOfTicketStatusType],
-      {
-        ...updateText,
-      },
-    ]
-
-    setGetAllTicket({
-      ...getAllTicket,
-      [ticketDetail.status]: [...removeFromSection],
-      [updatedStatus]: [...addToNewSection],
-    })
-
-    closeModal()
-  }
-  console.log(getAllTicket)
-
-  const handleEditChange = (e: SelectChangeEvent) => {
+  const handleEditChange = (e: SelectChangeEvent) =>
     setTicketStatus(e.target.value)
-  }
 
   const deleteTicket = async (ticketId: string) => {
     const deletedTicket = getAllTicket[ticketsStatus].filter(

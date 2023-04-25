@@ -27,6 +27,8 @@ const customStyles = {
 export const CreateTicket = ({
   setGetAllTicket,
   getAllTicket,
+  splitCamelCaseToWords,
+  ticketsStatus,
 }: createTicketInterface) => {
   Modal.setAppElement('#root')
   const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()
@@ -117,7 +119,11 @@ export const CreateTicket = ({
                   }
                   InputProps={{ rows: 4.5 }}
                 />
-                <SingleSelect handleOnChange={handleOnChange} />
+                <SingleSelect
+                  handleOnChange={handleOnChange}
+                  splitCamelCaseToWords={splitCamelCaseToWords}
+                  ticketsStatus={ticketsStatus}
+                />
                 <SingleAssignees
                   setAssignees={setAssignees}
                   assignees={assignees}

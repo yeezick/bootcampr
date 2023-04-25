@@ -5,11 +5,13 @@ type SingleSelectProps = {
   handleOnChange?: (e: SelectChangeEvent) => void
   ticketDetail?: any | null
   splitCamelCaseToWords?: (str: string) => string
+  ticketsStatus?: string
 }
 function SingleSelect({
   handleOnChange,
   ticketDetail = null,
   splitCamelCaseToWords,
+  ticketsStatus,
 }: SingleSelectProps) {
   return (
     <Box sx={{ minWidth: 10 }}>
@@ -20,7 +22,11 @@ function SingleSelect({
           id='demo-simple-select'
           label='status'
           name='status'
-          defaultValue={splitCamelCaseToWords(ticketDetail?.status) ?? 'To Do'}
+          defaultValue={
+            ticketDetail
+              ? splitCamelCaseToWords(ticketDetail?.status)
+              : ticketsStatus
+          }
           onChange={(e, value) => {
             handleOnChange(e)
           }}

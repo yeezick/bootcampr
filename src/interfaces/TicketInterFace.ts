@@ -42,8 +42,10 @@ export interface TicketDetailInterface {
 }
 
 export interface createTicketInterface {
-  getAllTicket: TicketInterface
-  setGetAllTicket: any
+  getAllTicket?: TicketInterface
+  setGetAllTicket?: any
+  splitCamelCaseToWords?: (str: string) => string
+  ticketsStatus?: string
 }
 export interface AllTicket {
   projectTracker?: any
