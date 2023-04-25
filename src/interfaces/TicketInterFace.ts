@@ -12,6 +12,7 @@ export interface TaskInterface {
   }
   date?: string
   link?: string | null
+  _id?: string
 }
 export interface TicketInterface {
   assignees?: UserInterface
@@ -61,4 +62,5 @@ export interface TicketDetailPropsInterface {
   setGetAllTicket?: any
   ticketsStatus?: KeyOfTicketStatusType | string
   splitCamelCaseToWords?: (str: string) => string
+  concatenatedString?: (str: string) => string
 }

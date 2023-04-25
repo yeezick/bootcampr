@@ -9,7 +9,7 @@ const ProjectDetails = ({}) => {
   const [projectDetail, setProjectDetails] = useState<ProjectInterface | null>(
     null
   )
-  console.log(projectDetail)
+
   useEffect(() => {
     const getProject = async () => {
       try {

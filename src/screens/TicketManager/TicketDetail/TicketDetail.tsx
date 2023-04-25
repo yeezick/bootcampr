@@ -29,6 +29,7 @@ const TicketDetail = ({
   setGetAllTicket,
   ticketsStatus,
   splitCamelCaseToWords,
+  concatenatedString,
 }: TicketDetailPropsInterface) => {
   Modal.setAppElement('#root')
   const [assignees, setAssignees] = useState({
@@ -53,7 +54,7 @@ const TicketDetail = ({
       assignees: assignees.user ?? ticketDetail.assignees,
       date: dateRef.current?.value,
       description: descriptionRef.current?.textContent,
-      id: ticketDetail.id,
+      id: ticketDetail._id,
       link: linkRef.current?.textContent,
       status: ticketStatus ?? ticketDetail.status,
       title: tittleRef.current?.textContent,
@@ -69,7 +70,7 @@ const TicketDetail = ({
     const editData = getAllTicket[
       ticketDetail.status as KeyOfTicketStatusType
     ]?.map((data: TaskInterface) => {
-      if (data.id === ticketDetail.id) {
+      if (data._id === ticketDetail._id) {
         data = {
           ...updateText,
         }
@@ -79,20 +80,21 @@ const TicketDetail = ({
 
     setGetAllTicket({
       ...getAllTicket,
-      [ticketDetail.status as KeyOfTicketStatusType]: [...editData],
+      [ticketDetail.status]: [...editData],
     })
     closeModal()
   }
 
   const ticketStatusChange = (updateText: TaskInterface) => {
     const { status, id } = updateText
+    const updatedStatus = concatenatedString(status)
 
     const removeFromSection = getAllTicket[
       ticketDetail.status as KeyOfTicketStatusType
-    ].filter((newStatus: TaskInterface) => newStatus.id !== id)
+    ]?.filter((newStatus: TaskInterface) => newStatus._id !== id)
 
     const addToNewSection = [
-      ...getAllTicket[status as KeyOfTicketStatusType],
+      ...getAllTicket[updatedStatus as KeyOfTicketStatusType],
       {
         ...updateText,
       },
@@ -100,8 +102,8 @@ const TicketDetail = ({
 
     setGetAllTicket({
       ...getAllTicket,
-      [ticketDetail.status as KeyOfTicketStatusType]: [...removeFromSection],
-      [status as KeyOfTicketStatusType]: [...addToNewSection],
+      [ticketDetail.status]: [...removeFromSection],
+      [updatedStatus]: [...addToNewSection],
     })
 
     closeModal()
@@ -111,10 +113,10 @@ const TicketDetail = ({
     setTicketStatus(e.target.value)
   }
 
-  const deleteTicket = (id: string) => {
-    const deletedTicket = getAllTicket[
-      ticketsStatus as KeyOfTicketStatusType
-    ].filter((ticket: TaskInterface) => ticket.id !== id)
+  const deleteTicket = async (ticketId: string) => {
+    const deletedTicket = getAllTicket[ticketsStatus].filter(
+      (ticket: TaskInterface) => ticket._id !== ticketId
+    )
     setGetAllTicket({ ...getAllTicket, [ticketsStatus]: [...deletedTicket] })
     closeModal()
   }
@@ -200,7 +202,7 @@ const TicketDetail = ({
           disabled={false}
           size='small'
           variant='outlined'
-          onClick={() => deleteTicket(ticketDetail?.id as string)}
+          onClick={() => deleteTicket(ticketDetail?.id)}
         >
           Delete
         </Button>

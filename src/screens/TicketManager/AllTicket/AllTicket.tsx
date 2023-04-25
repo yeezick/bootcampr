@@ -138,6 +138,7 @@ export const AllTicket = ({ projectTracker }) => {
                     setGetAllTicket={setGetAllTicket}
                     ticketsStatus={ticketsStatus}
                     splitCamelCaseToWords={splitCamelCaseToWords}
+                    concatenatedString={concatenatedString}
                   />
 
                   {/* <EditTicket
