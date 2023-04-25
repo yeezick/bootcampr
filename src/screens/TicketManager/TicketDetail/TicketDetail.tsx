@@ -54,7 +54,7 @@ const TicketDetail = ({
       assignees: assignees.user ?? ticketDetail.assignees,
       date: dateRef.current?.value,
       description: descriptionRef.current?.textContent,
-      id: ticketDetail._id,
+      _id: ticketDetail._id,
       link: linkRef.current?.textContent,
       status: ticketStatus ?? ticketDetail.status,
       title: tittleRef.current?.textContent,
@@ -86,12 +86,12 @@ const TicketDetail = ({
   }
 
   const ticketStatusChange = (updateText: TaskInterface) => {
-    const { status, id } = updateText
+    const { status, _id } = updateText
     const updatedStatus = concatenatedString(status)
 
     const removeFromSection = getAllTicket[
       ticketDetail.status as KeyOfTicketStatusType
-    ]?.filter((newStatus: TaskInterface) => newStatus._id !== id)
+    ]?.filter((newStatus: TaskInterface) => newStatus._id !== _id)
 
     const addToNewSection = [
       ...getAllTicket[updatedStatus as KeyOfTicketStatusType],
@@ -108,6 +108,7 @@ const TicketDetail = ({
 
     closeModal()
   }
+  console.log(getAllTicket)
 
   const handleEditChange = (e: SelectChangeEvent) => {
     setTicketStatus(e.target.value)
