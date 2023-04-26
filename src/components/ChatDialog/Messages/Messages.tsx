@@ -7,7 +7,7 @@ import {
   selectConversation,
 } from 'utilities/redux/slices/userSlice'
 import './Messages.scss'
-import { formatTimestamp } from '../../../utilities/functions/utilityFunctions'
+import { formatTimestamp } from 'utilities/functions/utilityFunctions'
 
 export const Messages = () => {
   const authUser = useAppSelector(selectAuthUser)
@@ -51,37 +51,14 @@ export const Messages = () => {
               }`}
               onClick={() => handleTimestampClick(message)}
             >
-              {!isSender && (
-                <div className='recipient-grid'>
-                  <div className='recipient-avatar'>
-                    <img src={message.sender.profilePicture} alt='avatar' />
-                  </div>
-                  <div className={`message ${messageClasses}`}>
-                    <div className='message-text'>
-                      <p>{message.text}</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {isSender && (
-                <div className={`message ${messageClasses}`}>
-                  <div className='message-text'>
-                    <p>{message.text}</p>
-                  </div>
-                </div>
-              )}
-              {showTimestamp && selectedMessage === message && (
-                <div className={`message-details ${detailsClasses}`}>
-                  <div className='message-timestamp'>
-                    <p>
-                      <span style={{ fontWeight: '800' }}>
-                        {message.status}
-                      </span>{' '}
-                      - {formatTimestamp(message.timestamp)}
-                    </p>
-                  </div>
-                </div>
-              )}
+              <MessageDisplay
+                isSender={isSender}
+                messageClasses={messageClasses}
+                detailsClasses={detailsClasses}
+                message={message}
+                showTimestamp={showTimestamp}
+                selectedMessage={selectedMessage}
+              />
             </div>
           )
         })}
@@ -92,4 +69,50 @@ export const Messages = () => {
       </div>
     </div>
   )
+}
+
+const MessageDisplay = ({
+  isSender,
+  messageClasses,
+  detailsClasses,
+  message,
+  showTimestamp,
+  selectedMessage,
+}) => {
+  if (!isSender) {
+    return (
+      <div className='recipient-grid'>
+        <div className='recipient-avatar'>
+          <img src={message.sender.profilePicture} alt='avatar' />
+        </div>
+        <div className={`message ${messageClasses}`}>
+          <div className='message-text'>
+            <p>{message.text}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (isSender) {
+    return (
+      <>
+        <div className={`message ${messageClasses}`}>
+          <div className='message-text'>
+            <p>{message.text}</p>
+          </div>
+        </div>
+        {showTimestamp && selectedMessage === message && (
+          <div className={`message-details ${detailsClasses}`}>
+            <div className='message-timestamp'>
+              <p>
+                <span style={{ fontWeight: '800' }}>{message.status}</span> -{' '}
+                {formatTimestamp(message.timestamp)}
+              </p>
+            </div>
+          </div>
+        )}
+      </>
+    )
+  }
 }

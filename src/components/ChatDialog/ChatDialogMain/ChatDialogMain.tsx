@@ -6,7 +6,7 @@ import { Conversations } from '../Conversations/Conversations'
 import { toggleChatClose } from 'utilities/redux/slices/userSlice'
 import { Messages } from '../Messages/Messages'
 import { useState } from 'react'
-import { useAppDispatch } from '../../../utilities/redux/hooks'
+import { useAppDispatch } from 'utilities/redux/hooks'
 import { NewChatRoom } from '../NewChatRoom/NewChatRoom'
 
 export const ChatDialogMain = () => {
