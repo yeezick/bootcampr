@@ -9,6 +9,7 @@ import './App.css'
 import HomePage from 'screens/HomePage/HomePage'
 import CreateProject from 'screens/CreateProject/CreateProject'
 import ProjectDetails from 'screens/ProjectDetails/ProjectDetails'
+import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path='/' element={<HomePage />} />
           <Route path='/CreateProject' element={<CreateProject />} />
           <Route path='/project/:id' element={<ProjectDetails />} />
+          <Route path='/' element={<Landing />} />
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/users/:id' element={<UserProfile />} />
@@ -25,6 +27,7 @@ function App() {
           <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
           <Route path='/users/onboarding' element={<Onboarding />} />
+          <Route path='/availability' element={<AvailabilityDemoScreen />} />
         </Routes>
       </Layout>
     </>
