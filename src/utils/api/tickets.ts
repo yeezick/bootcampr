@@ -5,9 +5,17 @@ export const createTicketApi = async ticketBody => {
   return ticketData.data
 }
 
-export const ticketStatusChangedApi = async (ticketData: any) => {
+export const ticketStatusChangedApi = async ticketData => {
   try {
     const data = await api.put(`/ticketStatusChanged`, ticketData)
+    return data
+  } catch (error) {
+    return { error: { status: 500, message: 'Something went wrong' } }
+  }
+}
+export const ticketDraggedToNewSectionApi = async ticketData => {
+  try {
+    const data = await api.put(`/ticketDraggedToNewSection`, ticketData)
     return data
   } catch (error) {
     return { error: { status: 500, message: 'Something went wrong' } }
@@ -16,14 +24,14 @@ export const ticketStatusChangedApi = async (ticketData: any) => {
 
 export const ticketStatusHasNotChangedApi = async (ticketData: any) => {
   try {
-    const data = await api.put(`/ticketStatusHasNotChanged`, ticketData)
-    return data
+    const updatedData = await api.put(`/ticketStatusHasNotChanged`, ticketData)
+    return updatedData.data
   } catch (error) {
     return { error: { status: 500, message: 'Something went wrong' } }
   }
 }
 
-export const deleteTicket = async (ticketId: string) => {
-  // await api.delete(`/tickets/${ticketId}`)
+export const deleteTicketApi = async ticketData => {
+  await api.post(`/deleteTicket`, ticketData)
 }
 export const getOneTicketById = async () => {}

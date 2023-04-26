@@ -5,11 +5,13 @@ export interface TaskInterface {
   title?: string | null
   status?: string
   description?: string | null
-  assignees?: {
-    title: string
-    id: number
-    image: string
-  }
+  assignees?:
+    | {
+        title: string
+        id: number
+        image: string
+      }
+    | string
   projectId?: string
   date?: string
   link?: string | null
@@ -22,6 +24,8 @@ export interface TicketInterface {
   projectId?: string
   status?: string
   title?: string
+  dueDate?: string
+  link?: string
   updatedAt?: string
   ticketOwner?: UserInterface | string
   _v?: number
@@ -39,23 +43,19 @@ export type KeyOfTicketStatusType = keyof TicketInterface
 export interface TicketDetailInterface {
   ticketDetail: TaskInterface
   getAllTicket: TicketInterface
-  setGetAllTicket: any
+  setGetAllTicket: React.Dispatch<React.SetStateAction<TicketInterface[]>>
   ticketsStatus: KeyOfTicketStatusType | string
 }
 
 export interface createTicketInterface {
   getAllTicket?: TicketInterface
-  setGetAllTicket?: any
+  setGetAllTicket?: React.Dispatch<React.SetStateAction<TicketInterface>>
   splitCamelCaseToWords?: (str: string) => string
   ticketsStatus?: string
   concatenatedString?: (str: string) => string
   projectId?: string
 }
-export interface AllTicket {
-  projectTracker?: any
-  projectDetail?: any
-  setProjectDetails?: any
-}
+
 export interface TicketStatusChangeFunc {
   sourceCategory?: KeyOfTicketStatusType
   targetCategory?: KeyOfTicketStatusType
@@ -63,9 +63,9 @@ export interface TicketStatusChangeFunc {
   ticketId?: string
 }
 export interface TicketDetailPropsInterface {
-  ticketDetail?: any
+  ticketDetail?: TicketInterface
   getAllTicket?: TicketInterface[]
-  setGetAllTicket?: any
+  setGetAllTicket?: React.Dispatch<React.SetStateAction<TicketInterface[]>>
   ticketsStatus?: KeyOfTicketStatusType | string
   splitCamelCaseToWords?: (str: string) => string
   concatenatedString?: (str: string) => string

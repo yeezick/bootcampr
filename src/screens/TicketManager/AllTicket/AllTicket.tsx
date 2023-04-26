@@ -9,10 +9,9 @@ import {
   TicketInterface,
   KeyOfTicketStatusType,
   TaskInterface,
-  TicketStatusChangeParams,
   TicketStatusChangeFunc,
 } from '../../../interfaces/TicketInterFace'
-import { ticketStatusChangedApi } from 'utils/api/tickets'
+import { ticketDraggedToNewSectionApi } from 'utils/api/tickets'
 
 export const AllTicket = ({ projectTracker }) => {
   const { id } = useParams()
@@ -65,10 +64,10 @@ export const AllTicket = ({ projectTracker }) => {
       [targetCategory]: [...addToNewSection],
     })
 
-    ticketStatusChangedApi({
+    ticketDraggedToNewSectionApi({
       projectId: id,
       newStatus: targetCategory,
-      ticketID: ticketId,
+      ticketId: ticketId,
       oldStatus: sourceCategory,
     })
   }
@@ -89,8 +88,8 @@ export const AllTicket = ({ projectTracker }) => {
   }
   const concatenatedString = statusString => statusString.replace(/\s+/g, '')
 
-  const splitCamelCaseToWords = (str: string) =>
-    str.split(/(?=[A-Z])/).join(' ')
+  const splitCamelCaseToWords = statusString =>
+    statusString?.split(/(?=[A-Z])/).join(' ')
 
   return (
     <div className='App'>
@@ -145,13 +144,6 @@ export const AllTicket = ({ projectTracker }) => {
                     splitCamelCaseToWords={splitCamelCaseToWords}
                     concatenatedString={concatenatedString}
                   />
-
-                  {/* <EditTicket
-                  setFakeApi={setFakeApi}
-                  fakeApiData={fakeApiData}
-                  sectionName={sectionName}
-                  fake={fake}
-                /> */}
                 </div>
               )
             )}

@@ -17,24 +17,15 @@ export const ticketStatusHasNotChange = async ({
   setIsBeingEdited,
 }) => {
   setIsBeingEdited(true)
-
-  const editData = getAllTicket[
-    ticketDetail.status as KeyOfTicketStatusType
-  ]?.map((data: TaskInterface) => {
-    if (data._id === ticketDetail._id) {
-      data = {
-        ...updateText,
-      }
-    }
-    return data
-  })
   const apiData = await ticketStatusHasNotChangedApi({
     ...updateText,
     ticketId: ticketDetail._id,
+    projectId: ticketDetail.projectId,
   })
+
   setGetAllTicket({
     ...getAllTicket,
-    [ticketDetail.status]: [...(apiData as any)],
+    [ticketDetail.status]: [{ ...apiData }],
   })
   setIsBeingEdited(false)
 
@@ -76,8 +67,9 @@ export const ticketStatusChange = async ({
   await ticketStatusChangedApi({
     projectId: ticketDetail.projectId,
     newStatus: updatedStatus,
-    ticketID: _id,
+    ticketId: _id,
     oldStatus: ticketDetail.status,
+    ...updateText,
   })
   setIsBeingEdited(false)
 

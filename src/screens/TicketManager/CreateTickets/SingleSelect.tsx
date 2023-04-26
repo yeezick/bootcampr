@@ -1,9 +1,10 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import { SelectChangeEvent } from '@mui/material/Select'
+import { TicketInterface } from 'interfaces/TicketInterFace'
 
 type SingleSelectProps = {
   handleOnChange?: (e: SelectChangeEvent) => void
-  ticketDetail?: any | null
+  ticketDetail?: TicketInterface | null
   splitCamelCaseToWords?: (str: string) => string
   ticketsStatus?: string
 }

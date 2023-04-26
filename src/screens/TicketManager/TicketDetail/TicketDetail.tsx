@@ -14,6 +14,9 @@ import {
   ticketStatusChange,
   ticketStatusHasNotChange,
 } from './TicketDetailFunctions'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { useAppSelector } from 'utils/redux/hooks'
+import { deleteTicketApi } from 'utils/api/tickets'
 
 const customStyles = {
   content: {
@@ -37,11 +40,12 @@ const TicketDetail = ({
   concatenatedString,
 }: TicketDetailPropsInterface) => {
   Modal.setAppElement('#root')
-  const [assignees, setAssignees] = useState({
-    value: ticketDetail?.assignees?.title,
-    user: '',
-  })
-
+  // this needs to be added once the creating a project is done
+  // const [assignees, setAssignees] = useState({
+  //   value: ticketDetail?.assignees?.title,
+  //   user: '',
+  // })
+  const authUser = useAppSelector(selectAuthUser)
   const [modalIsOpen, setIsOpen] = useState(false)
   const [ticketStatus, setTicketStatus] = useState<string>()
   const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false)
@@ -58,7 +62,7 @@ const TicketDetail = ({
   const saveChanges = () => {
     const { status } = ticketDetail
     const updateText: TaskInterface = {
-      assignees: assignees.user ?? ticketDetail.assignees,
+      assignees: /* assignees.user ?? ticketDetail.assignees*/ authUser._id,
       date: dateRef.current?.value,
       description: descriptionRef.current?.textContent,
       _id: ticketDetail._id,
@@ -92,13 +96,22 @@ const TicketDetail = ({
     setTicketStatus(e.target.value)
 
   const deleteTicket = async (ticketId: string) => {
+    setIsBeingEdited(true)
+
     const deletedTicket = getAllTicket[ticketsStatus].filter(
       (ticket: TaskInterface) => ticket._id !== ticketId
     )
+    await deleteTicketApi({
+      ticketId,
+      ticketsStatus,
+      projectId: ticketDetail.projectId,
+    })
     setGetAllTicket({ ...getAllTicket, [ticketsStatus]: [...deletedTicket] })
+    setIsBeingEdited(false)
+
     closeModal()
   }
-
+  // oldStatus, ticketId, projectId
   return (
     <div>
       <button onClick={openModal}> Ticket Detail</button>
@@ -185,7 +198,7 @@ const TicketDetail = ({
               disabled={false}
               size='small'
               variant='outlined'
-              onClick={() => deleteTicket(ticketDetail?.id)}
+              onClick={() => deleteTicket(ticketDetail?._id)}
             >
               Delete
             </Button>
