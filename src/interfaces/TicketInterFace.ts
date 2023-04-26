@@ -16,13 +16,14 @@ export interface TaskInterface {
   _id?: string
 }
 export interface TicketInterface {
-  assignees?: UserInterface
+  assignees?: UserInterface | string
   createAt?: string
   description?: string
   projectId?: string
   status?: string
   title?: string
   updatedAt?: string
+  ticketOwner?: UserInterface | string
   _v?: number
   _id?: string
 }

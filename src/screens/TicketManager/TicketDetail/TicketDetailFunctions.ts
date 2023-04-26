@@ -1,17 +1,23 @@
-import { ticketStatusChangedApi } from 'utils/api'
+import {
+  ticketStatusChangedApi,
+  ticketStatusHasNotChangedApi,
+} from 'utils/api/tickets'
 
 import {
   TaskInterface,
   KeyOfTicketStatusType,
 } from '../../../interfaces/TicketInterFace'
 
-export const ticketStatusHasNotChange = ({
+export const ticketStatusHasNotChange = async ({
   updateText,
   getAllTicket,
   ticketDetail,
   closeModal,
   setGetAllTicket,
+  setIsBeingEdited,
 }) => {
+  setIsBeingEdited(true)
+
   const editData = getAllTicket[
     ticketDetail.status as KeyOfTicketStatusType
   ]?.map((data: TaskInterface) => {
@@ -22,22 +28,30 @@ export const ticketStatusHasNotChange = ({
     }
     return data
   })
-
+  const apiData = await ticketStatusHasNotChangedApi({
+    ...updateText,
+    ticketId: ticketDetail._id,
+  })
   setGetAllTicket({
     ...getAllTicket,
-    [ticketDetail.status]: [...editData],
+    [ticketDetail.status]: [...(apiData as any)],
   })
+  setIsBeingEdited(false)
+
   closeModal()
 }
 
-export const ticketStatusChange = ({
+export const ticketStatusChange = async ({
   updateText,
   getAllTicket,
   ticketDetail,
   closeModal,
   setGetAllTicket,
   concatenatedString,
+  setIsBeingEdited,
 }) => {
+  setIsBeingEdited(true)
+
   const { status, _id } = updateText
   const updatedStatus = concatenatedString(status)
 
@@ -59,11 +73,13 @@ export const ticketStatusChange = ({
     [updatedStatus]: [...addToNewSection],
   })
 
-  ticketStatusChangedApi({
+  await ticketStatusChangedApi({
     projectId: ticketDetail.projectId,
     newStatus: updatedStatus,
     ticketID: _id,
     oldStatus: ticketDetail.status,
   })
+  setIsBeingEdited(false)
+
   closeModal()
 }

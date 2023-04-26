@@ -11,6 +11,8 @@ import {
   KeyOfTicketStatusType,
 } from '../../../interfaces/TicketInterFace'
 import { createTicketApi } from 'utils/api/tickets'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
 const customStyles = {
   content: {
@@ -37,7 +39,7 @@ export const CreateTicket = ({
   const [modalIsOpen, setIsOpen] = useState(false)
   const [assignees, setAssignees] = useState<any>()
   const [isBeingCreated, setIsBeingCreated] = useState<boolean>(false)
-
+  const authUser = useAppSelector(selectAuthUser)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
 
@@ -46,7 +48,6 @@ export const CreateTicket = ({
     setAddTicketForm({
       ...addTicketForm,
       [e.target.name]: e.target.value,
-      projectId: projectId,
     })
   }
 
@@ -57,13 +58,18 @@ export const CreateTicket = ({
 
     const createdTicket = await createTicketApi({
       ...addTicketForm,
+      projectId: projectId,
       status: newStatus,
+      createdBy: authUser._id,
     })
 
     console.log(createdTicket)
     setGetAllTicket({
       ...getAllTicket,
-      [newStatus]: [...getAllTicket[newStatus as any], { ...createdTicket }],
+      [newStatus]: [
+        ...getAllTicket[newStatus as any],
+        { ...createdTicket, createdBy: authUser._id },
+      ],
     })
     setIsBeingCreated(false)
 
@@ -109,13 +115,15 @@ export const CreateTicket = ({
                       handleOnChange(e)
                     }
                   />
+
                   <input
                     type='date'
-                    name='date'
+                    name='dueDate'
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleOnChange(e)
                     }
                   />
+                  <p>createdBy:{authUser?.firstName}</p>
                 </Box>
 
                 <Box sx={{ width: '50%' }}>
@@ -136,11 +144,12 @@ export const CreateTicket = ({
                     handleOnChange={handleOnChange}
                     ticketsStatus={ticketsStatus}
                   />
-                  <SingleAssignees
+                  {/* for assignees we need the project to have users in a specific project */}
+                  {/* <SingleAssignees
                     setAssignees={setAssignees}
                     assignees={assignees}
                     handleOnChange={handleOnChange}
-                  />
+                  /> */}
                 </Box>
               </Box>
               <Box>

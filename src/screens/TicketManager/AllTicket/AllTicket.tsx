@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { CreateTicket } from '../CreateTickets/CreateTicket'
 import TicketDetail from '../TicketDetail/TicketDetail'
-import { ticketStatusChangedApi } from 'utils/api'
+
 import './ticketManger.css'
 
 import {
@@ -12,6 +12,7 @@ import {
   TicketStatusChangeParams,
   TicketStatusChangeFunc,
 } from '../../../interfaces/TicketInterFace'
+import { ticketStatusChangedApi } from 'utils/api/tickets'
 
 export const AllTicket = ({ projectTracker }) => {
   const { id } = useParams()

@@ -44,6 +44,7 @@ const TicketDetail = ({
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [ticketStatus, setTicketStatus] = useState<string>()
+  const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false)
 
   const tittleRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
   const dateRef: MutableRefObject<HTMLInputElement | null> = useRef(null)
@@ -73,6 +74,7 @@ const TicketDetail = ({
         ticketDetail,
         closeModal,
         setGetAllTicket,
+        setIsBeingEdited,
       })
     if ((ticketStatus ?? status) !== status)
       return ticketStatusChange({
@@ -82,6 +84,7 @@ const TicketDetail = ({
         closeModal,
         setGetAllTicket,
         concatenatedString,
+        setIsBeingEdited,
       })
   }
 
@@ -105,92 +108,99 @@ const TicketDetail = ({
         style={customStyles}
         contentLabel='Example Modal'
       >
-        <Button
-          sx={{ marginRight: '10px' }}
-          color='error'
-          disabled={false}
-          size='small'
-          variant='outlined'
-          onClick={closeModal}
-        >
-          close
-        </Button>
-        <Box sx={{ display: 'flex', gap: '30px' }}>
-          <Box sx={{ width: '50%' }}>
-            <h3>Title</h3>
-            <blockquote>
-              <p
-                contentEditable='true'
-                ref={tittleRef}
-                suppressContentEditableWarning={true}
-              >
-                {ticketDetail.title}
-              </p>
-            </blockquote>
-            <h3>description</h3>
+        {isBeingEdited ? (
+          <h1>Saving changes...</h1>
+        ) : (
+          <>
+            <Button
+              sx={{ marginRight: '10px' }}
+              color='error'
+              disabled={false}
+              size='small'
+              variant='outlined'
+              onClick={closeModal}
+            >
+              close
+            </Button>
+            <Box sx={{ display: 'flex', gap: '30px' }}>
+              <Box sx={{ width: '50%' }}>
+                <h3>Title</h3>
+                <blockquote>
+                  <p
+                    contentEditable='true'
+                    ref={tittleRef}
+                    suppressContentEditableWarning={true}
+                  >
+                    {ticketDetail.title}
+                  </p>
+                </blockquote>
+                <h3>description</h3>
 
-            <blockquote>
-              <p
-                contentEditable='true'
-                ref={descriptionRef}
-                suppressContentEditableWarning={true}
-              >
-                {ticketDetail.description}
-              </p>
-            </blockquote>
-            <h3>Link</h3>
+                <blockquote>
+                  <p
+                    contentEditable='true'
+                    ref={descriptionRef}
+                    suppressContentEditableWarning={true}
+                  >
+                    {ticketDetail.description}
+                  </p>
+                </blockquote>
+                <h3>Link</h3>
 
-            <blockquote>
-              <p
-                contentEditable='true'
-                ref={linkRef}
-                suppressContentEditableWarning={true}
-              >
-                {ticketDetail.link}
-              </p>
-            </blockquote>
-          </Box>
+                <blockquote>
+                  <p
+                    contentEditable='true'
+                    ref={linkRef}
+                    suppressContentEditableWarning={true}
+                  >
+                    {ticketDetail.link}
+                  </p>
+                </blockquote>
+              </Box>
 
-          <Box sx={{ width: '50%' }}>
-            <SingleSelect
-              handleOnChange={handleEditChange}
-              ticketDetail={ticketDetail}
-              splitCamelCaseToWords={splitCamelCaseToWords}
-            />
-            <SingleAssignees
-              setAssignees={setAssignees}
-              assignees={assignees}
-              ticketDetail={ticketDetail}
-            />
-            <input
-              type='date'
-              name='date'
-              ref={dateRef}
-              defaultValue={ticketDetail.date}
-            />
-          </Box>
-        </Box>
+              <Box sx={{ width: '50%' }}>
+                <SingleSelect
+                  handleOnChange={handleEditChange}
+                  ticketDetail={ticketDetail}
+                  splitCamelCaseToWords={splitCamelCaseToWords}
+                />
+                {/* for assignees we need the project to have users in a specific project */}
 
-        <Button
-          sx={{ marginRight: '10px' }}
-          color='error'
-          disabled={false}
-          size='small'
-          variant='outlined'
-          onClick={() => deleteTicket(ticketDetail?.id)}
-        >
-          Delete
-        </Button>
-        <Button
-          sx={{ marginRight: '10px' }}
-          color='success'
-          disabled={false}
-          size='small'
-          variant='outlined'
-          onClick={() => saveChanges()}
-        >
-          Save Changes
-        </Button>
+                {/* <SingleAssignees
+                  setAssignees={setAssignees}
+                  assignees={assignees}
+                  ticketDetail={ticketDetail}
+                /> */}
+                <input
+                  type='date'
+                  name='date'
+                  ref={dateRef}
+                  defaultValue={ticketDetail.dueDate}
+                />
+              </Box>
+            </Box>
+            <Button
+              sx={{ marginRight: '10px' }}
+              color='error'
+              disabled={false}
+              size='small'
+              variant='outlined'
+              onClick={() => deleteTicket(ticketDetail?.id)}
+            >
+              Delete
+            </Button>
+            <Button
+              sx={{ marginRight: '10px' }}
+              color='success'
+              disabled={false}
+              size='small'
+              variant='outlined'
+              onClick={() => saveChanges()}
+            >
+              Save Changes
+            </Button>
+          </>
+        )}
       </Modal>
     </div>
   )
