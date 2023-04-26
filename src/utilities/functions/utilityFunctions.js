@@ -4,10 +4,10 @@ export const formatTimestamp = timestamp => {
   const month = date.getMonth() + 1
   const day = ('0' + date.getDate()).slice(-2)
   let hours = date.getHours()
-  const minutes = ('0' + date.getMinutes()).slice(-2)
-  const ampm = hours >= 12 ? 'PM' : 'AM'
   hours = hours % 12
   hours = hours ? hours : 12
+  const minutes = ('0' + date.getMinutes()).slice(-2)
+  const ampm = hours >= 12 ? 'PM' : 'AM'
   const formattedTime = `${hours}:${minutes} ${ampm}`
   return `${month}/${day}/${year}, ${formattedTime}`
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { MdOutlineSearch } from 'react-icons/md'
 import './Conversations.scss'
-import { getAllConversations } from '../../../utilities/api/chat'
+import { getAllConversations } from 'utilities/api/chat'
 import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
 import {
   selectAuthUser,

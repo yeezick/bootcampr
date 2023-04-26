@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { members } from './DummyMembers'
 import { IoMdCloseCircleOutline } from 'react-icons/io'
+import { members } from './DummyMembers'
 import './NewChatRoom.scss'
 
 // will be removed when project data and functionality is incorporated

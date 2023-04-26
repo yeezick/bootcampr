@@ -6,8 +6,8 @@ import {
   selectAuthUser,
   selectConversation,
 } from 'utilities/redux/slices/userSlice'
-import './Messages.scss'
 import { formatTimestamp } from 'utilities/functions/utilityFunctions'
+import './Messages.scss'
 
 export const Messages = () => {
   const authUser = useAppSelector(selectAuthUser)
