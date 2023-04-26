@@ -49,54 +49,73 @@ export const NewChatRoom = () => {
   return (
     <div className='new-chat-room-container'>
       <section>
-        <div className='to-container'>
-          <p>To:</p>
-          <div className='to-member-grid'>
-            {selectedMembers.map(member => (
-              <div key={member._id} className='member-bar'>
-                <p>
-                  {member.firstName} {member.lastName}
-                </p>
-                <IoMdCloseCircleOutline
-                  onClick={() => handleMemberClick(member)}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+        <ChatRoomRecipients
+          handleMemberClick={handleMemberClick}
+          selectedMembers={selectedMembers}
+        />
         <p>Invite members from your ongoing projects</p>
         <input
           type='checkbox'
           id='select-all-check'
           checked={allMembersSelected}
-          onChange={e => selectAllClick(e)}
+          onChange={selectAllClick}
         />
         <label>Select All</label>
-        <div className='members-container'>
-          {projectMembers.map(member => (
-            <div
-              className={
-                selectedMembers.includes(member)
-                  ? 'member-selected'
-                  : 'member-grid'
-              }
-              key={member._id}
-              onClick={() => handleMemberClick(member)}
-            >
-              <div className='avatar-grid'>
-                <img src={member.profilePicture} alt='avatar' />
-              </div>
-              <div className='member-info-grid'>
-                <h5>
-                  {member.firstName} {member.lastName}
-                </h5>
-                <p>{member.role}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <AllProjectMembers
+          projectMembers={projectMembers}
+          selectedMembers={selectedMembers}
+          handleMemberClick={handleMemberClick}
+        />
       </section>
       <button disabled={selectedMembers.length === 0}>Create a Room</button>
+    </div>
+  )
+}
+
+const ChatRoomRecipients = ({ selectedMembers, handleMemberClick }) => {
+  return (
+    <div className='to-container'>
+      <p>To:</p>
+      <div className='to-member-grid'>
+        {selectedMembers.map(member => (
+          <div key={member._id} className='member-bar'>
+            <p>
+              {member.firstName} {member.lastName}
+            </p>
+            <IoMdCloseCircleOutline onClick={() => handleMemberClick(member)} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+const AllProjectMembers = ({
+  projectMembers,
+  selectedMembers,
+  handleMemberClick,
+}) => {
+  return (
+    <div className='members-container'>
+      {projectMembers.map(member => (
+        <div
+          className={
+            selectedMembers.includes(member) ? 'member-selected' : 'member-grid'
+          }
+          key={member._id}
+          onClick={() => handleMemberClick(member)}
+        >
+          <div className='avatar-grid'>
+            <img src={member.profilePicture} alt='avatar' />
+          </div>
+          <div className='member-info-grid'>
+            <h5>
+              {member.firstName} {member.lastName}
+            </h5>
+            <p>{member.role}</p>
+          </div>
+        </div>
+      ))}
     </div>
   )
 }
