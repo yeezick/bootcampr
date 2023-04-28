@@ -1,4 +1,3 @@
-import React from 'react'
 import { Paginator } from 'components/Paginator/Paginator'
 
 export const Onboarding = () => {
@@ -21,11 +20,10 @@ export const Onboarding = () => {
   ]
   return (
     <div>
-      <h1> Onboarding</h1>
       <Paginator
         exitRoute='/'
         orderedPages={orderedPages}
-        paginatorId='Onboarding'
+        pageTitle='Onboarding'
       />
     </div>
   )

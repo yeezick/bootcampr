@@ -14,7 +14,7 @@ import {
 import { NavigationState, PageRouter } from 'interfaces/components/Paginator'
 import './paginator.scss'
 
-export const Paginator = ({ exitRoute, orderedPages, paginatorId }) => {
+export const Paginator = ({ exitRoute, orderedPages, pageTitle }) => {
   const [currentPage, setCurrentPage] = useState(initialCurrentPage)
   const [pageRouter, setPageRouter] = useState<PageRouter>(initialPageRouter)
 
@@ -35,7 +35,7 @@ export const Paginator = ({ exitRoute, orderedPages, paginatorId }) => {
         allPages,
         currentPageId: pageRouter.currentPageId,
         exitRoute,
-        paginatorId,
+        paginatorId: convertTitleToId(pageTitle),
       }
     }
 
@@ -65,22 +65,22 @@ export const Paginator = ({ exitRoute, orderedPages, paginatorId }) => {
 
   return (
     <div className='paginator'>
-      <h2>{convertTitleToId(paginatorId)}</h2>
+      <h2>{pageTitle}</h2>
       <PageBar
         currentPageId={currentPage.id}
         handlePageNavigation={handlePageNavigation}
-        pageRouter={pageRouter}
+        allPages={pageRouter.allPages}
       />
     </div>
   )
 }
 
-const PageBar = ({ currentPageId, handlePageNavigation, pageRouter }) => {
+const PageBar = ({ currentPageId, handlePageNavigation, allPages }) => {
   return (
     <div className='page-bar'>
-      {Object.keys(pageRouter.allPages).map(pageTitle => (
+      {Object.keys(allPages).map(pageTitle => (
         <PageBarItem
-          title={pageTitle}
+          page={allPages[pageTitle]}
           handlePageNavigation={handlePageNavigation}
           currentPageId={currentPageId}
         />
@@ -89,13 +89,15 @@ const PageBar = ({ currentPageId, handlePageNavigation, pageRouter }) => {
   )
 }
 
-const PageBarItem = ({ title, currentPageId, handlePageNavigation }) => {
-  const isCurrentPage = title === currentPageId
+const PageBarItem = ({ page, currentPageId, handlePageNavigation }) => {
+  const { title } = page
+  const pageId = convertTitleToId(title)
+  const isCurrentPage = pageId === currentPageId
   const classNames = `page-bar-item ${isCurrentPage && 'current-page'}`
   return (
     <div
       className={classNames}
-      onClick={() => handlePageNavigation('specific', title)}
+      onClick={() => handlePageNavigation('specific', pageId)}
     >
       {title}
     </div>
