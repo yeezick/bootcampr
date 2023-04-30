@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import {
+  Availability,
   SignUpInterface,
   UiSliceInterface,
   UserInterface,
@@ -80,6 +81,9 @@ const userSlice = createSlice({
     updateAuthUser: (state, action: PayloadAction<UserInterface>) => {
       state.auth.user = action.payload
     },
+    setUserAvailability: (state, action: PayloadAction<Availability>) => {
+      state.auth.user.availability = action.payload
+    },
     toggleSidebar: state => {
       state.sidebar.visibleSidebar = !state.sidebar.visibleSidebar
     },
@@ -126,6 +130,7 @@ export const uiStatus = (state: RootState) => state.ui.status
 export const {
   setAuthUser,
   updateAuthUser,
+  setUserAvailability,
   reset,
   logoutAuthUser,
   toggleSidebar,

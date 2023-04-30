@@ -1,15 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Checkbox } from '@mui/material'
 import { TimeSlotInput } from './TimeslotInput'
 import { defaultAvailabilityForm } from '../utils/data'
+import { useSelector } from 'react-redux'
+import { useAppSelector } from 'utils/redux/hooks'
+import { useDispatch } from 'react-redux'
+import { setUserAvailability } from 'utils/redux/slices/userSlice'
 
 export const DayAvailabilityInputBanner = ({ day }) => {
   const [days, setDays] = useState(defaultAvailabilityForm)
+  //   make a sep. namespace for avail?
+  const testAvail = useAppSelector(state => state.ui.auth.user.availability)
+  const dispatch = useDispatch()
 
-  const handleCheck = () => {
+  const handleCheck = e => {
     const available = !days[e.target.name].available
     const availability = [...days[e.target.name].availability]
     const dayToChange = day
+
+    console.log(testAvail)
 
     setDays({
       ...days,
@@ -18,6 +27,13 @@ export const DayAvailabilityInputBanner = ({ day }) => {
         availability,
       },
     })
+    // dispatch(setUserAvailability({
+    //     ...days,
+    //     [dayToChange]: {
+    //       available,
+    //       availability,
+    //     },
+    //   }))
   }
 
   return (
@@ -27,7 +43,7 @@ export const DayAvailabilityInputBanner = ({ day }) => {
           <div className='check-day'>
             <Checkbox
               name={day}
-              onChange={e => handleCheck(e)}
+              onChange={handleCheck}
               sx={{ color: '#022888', '&.Mui-checked': { color: '#022888' } }}
               checked={days[day].available}
             />

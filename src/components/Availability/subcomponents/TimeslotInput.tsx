@@ -8,8 +8,12 @@ import { timeOptions } from '../utils/data'
 import { Checkbox } from '@mui/material'
 import { useState } from 'react'
 import './CopyTimesModal.scss'
+import { useDispatch } from 'react-redux'
+import { setUserAvailability } from 'utils/redux/slices/userSlice'
 
 export const TimeSlotInput = ({ day, days, setDays, slots }) => {
+  const dispatch = useDispatch()
+  const [displayModal, toggleDisplayModal] = useState(false)
   const handleHover = (idx, display, action) => {
     console.log(
       `Add hover placeholder for ${day}, timeslot ${
@@ -63,8 +67,39 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
     })
   }
 
-  const copyTimeSlot = (day, idx) => {}
+  const renderCopyTimesModal = (day, idx) => {
+    console.log(days)
+    console.log(days[day].availability[idx])
+    toggleDisplayModal(!displayModal)
+  }
 
+  const copyTimes = (checked, day, idx, setDays) => {
+    // console.log(days)
+    // console.log(days[day].availability[idx])
+    // console.log(checked)
+    const daysToPasteTo = Object.keys(checked).filter(
+      day => day != 'EVRY' && checked[day]
+    )
+    console.log(daysToPasteTo)
+    const copiedTimeslot = [days[day].availability[idx]]
+    console.log(copiedTimeslot)
+    const newAvail = {}
+    daysToPasteTo.forEach(day => {
+      newAvail[day] = {
+        available: true,
+        availability: days[day].availability.concat(copiedTimeslot),
+      }
+    })
+    console.log(newAvail)
+    // dispatch(setUserAvailability({...days, ...newAvail}))
+    setDays({
+      ...days,
+      ...newAvail,
+    })
+    console.log(days)
+  }
+
+  // Don't abstract to this degree
   const handleIconClick = (icon, day, idx) => {
     console.log(`clicked on ${icon}, for ${day}, index: ${idx}`)
     switch (icon) {
@@ -75,7 +110,7 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
         deleteTimeSlot(day, idx)
         break
       case 'copy':
-        copyTimeSlot(day, idx)
+        renderCopyTimesModal(day, idx)
         break
       default:
         break
@@ -120,7 +155,14 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
               </div>
             )}
             <div className='hover-icon'>
-              <CopyTimesModal day={day} />
+              {displayModal && idx === 0 && (
+                <CopyTimesModal
+                  day={day}
+                  idx={idx}
+                  copyTimes={copyTimes}
+                  setDays={setDays}
+                />
+              )}
               <ContentCopyOutlined
                 onMouseEnter={() => handleHover(idx, 'show', 'copy')}
                 onMouseOut={() => handleHover(idx, 'hide', 'copy')}
@@ -134,7 +176,7 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
   )
 }
 
-export const CopyTimesModal = ({ day }) => {
+export const CopyTimesModal = ({ day, idx, copyTimes, setDays }) => {
   const [checked, setChecked] = useState({
     EVRY: false,
     SUN: false,
@@ -171,6 +213,9 @@ export const CopyTimesModal = ({ day }) => {
           setChecked={setChecked}
         />
       ))}
+      <button onClick={() => copyTimes(checked, day, idx, setDays)}>
+        Apply
+      </button>
     </div>
   )
 }
