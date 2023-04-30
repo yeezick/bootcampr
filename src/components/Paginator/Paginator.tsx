@@ -17,6 +17,7 @@ import './paginator.scss'
 export const Paginator = ({ exitRoute, orderedPages, pageTitle }) => {
   const [currentPage, setCurrentPage] = useState(initialCurrentPage)
   const [pageRouter, setPageRouter] = useState<PageRouter>(initialPageRouter)
+  const { component: CurrentPageComponent } = currentPage
 
   useEffect(() => {
     const buildPageRouter = (): PageRouter => {
@@ -27,7 +28,6 @@ export const Paginator = ({ exitRoute, orderedPages, pageTitle }) => {
         const newPageId = convertTitleToId(newPage.title)
         let nextPage = orderedPages[i + 1]
         let previousPage = orderedPages[i - 1]
-
         allPages[newPageId] = buildPage(newPage, nextPage, previousPage)
       }
 
@@ -71,6 +71,7 @@ export const Paginator = ({ exitRoute, orderedPages, pageTitle }) => {
         handlePageNavigation={handlePageNavigation}
         allPages={pageRouter.allPages}
       />
+      <article className='current-page-wrapper'>{CurrentPageComponent}</article>
     </div>
   )
 }

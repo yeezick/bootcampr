@@ -6,7 +6,6 @@ export const initialCurrentPage = {
     previous: null,
   },
   title: 'One',
-  props: null,
 }
 
 export const initialPageRouter = {
@@ -22,7 +21,6 @@ export const initialPageRouter = {
         previous: null,
       },
       title: 'One',
-      props: null,
     },
     two: {
       component: null,
@@ -32,7 +30,6 @@ export const initialPageRouter = {
         previous: 'one',
       },
       title: 'Two',
-      props: null,
     },
     three: {
       component: null,
@@ -42,7 +39,6 @@ export const initialPageRouter = {
         previous: 'two',
       },
       title: 'Three',
-      props: null,
     },
   },
 }

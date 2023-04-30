@@ -6,14 +6,13 @@ export interface NavigationState {
 }
 
 export interface PageItem {
-  component: React.ReactElement
+  component: React.ComponentType
   id: string
   location: {
     next: string | null
     previous: string | null
   }
   title: string
-  props: object
 }
 
 export interface PageRouter {
