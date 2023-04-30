@@ -5,6 +5,7 @@ import { EmailVerify, ExpiredLink } from 'screens/Auth'
 import { Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
+import { PaginatorExample } from 'components/Paginator/Examples/PaginatorExample'
 import './App.css'
 
 function App() {
@@ -19,7 +20,9 @@ function App() {
           <Route path='/users/:id/edit' element={<EditProfile />} />
           <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
-          <Route path='/users/onboarding' element={<Onboarding />} />
+          <Route path='/:userId/onboarding' element={<Onboarding />} />
+          {/* Todo: Remove once onboarding flow is complete */}
+          <Route path='/paginator-example' element={<PaginatorExample />} />
         </Routes>
       </Layout>
     </>
