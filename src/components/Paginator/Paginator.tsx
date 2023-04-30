@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import {
   buildPage,
   convertTitleToId,
@@ -103,14 +102,15 @@ const PageBar = ({ currentPageId, handlePageNavigation, allPages }) => {
 }
 
 const PageBarItem = ({ page, currentPageId, handlePageNavigation }) => {
-  const { title } = page
+  const { completed, title } = page
   const pageId = convertTitleToId(title)
-  const isCurrentPage = pageId === currentPageId
-  const classNames = `page-bar-item ${isCurrentPage && 'current-page-bar-item'}`
+  const filledBar = pageId === currentPageId || completed
+  const classNames = `page-bar-item ${filledBar && 'filled-page-bar-item'}`
   return (
     <div
       className={classNames}
       onClick={() => handlePageNavigation('specific', pageId)}
+      key={currentPageId}
     >
       {title}
     </div>

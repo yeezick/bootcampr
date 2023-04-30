@@ -1,4 +1,5 @@
 export const initialCurrentPage = {
+  completed: true,
   component: null,
   id: 'one',
   location: {
@@ -14,6 +15,7 @@ export const initialPageRouter = {
   paginatorId: 'Onboarding',
   allPages: {
     one: {
+      completed: false,
       component: null,
       id: 'one',
       location: {
@@ -23,6 +25,7 @@ export const initialPageRouter = {
       title: 'One',
     },
     two: {
+      completed: false,
       component: null,
       id: 'two',
       location: {
@@ -32,6 +35,7 @@ export const initialPageRouter = {
       title: 'Two',
     },
     three: {
+      completed: false,
       component: null,
       id: 'three',
       location: {

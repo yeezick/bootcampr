@@ -46,7 +46,7 @@ export const handlePreviousPage = (pageHandlers, pageProps) => {
 
 export const handleNextPage = (pageHandlers, pageProps) => {
   const { setCurrentPage, setPageRouter } = pageHandlers
-  const { currentPage, navigate, pageRouter } = pageProps
+  const { currentPage, pageRouter } = pageProps
   const nextPageId = currentPage.location.next
   const nextPage = pageRouter.allPages[nextPageId]
 
@@ -60,8 +60,22 @@ export const handleNextPage = (pageHandlers, pageProps) => {
     return // should throw error and should never be the case
   }
 
-  setCurrentPage(nextPage)
-  setPageRouter({ ...pageRouter, currentPageId: nextPageId })
+  // Todo: this just assigns the current page as completed before movin next
+  //  how do i clean this up?
+  const updatedPageRouter = {
+    ...pageRouter,
+    allPages: {
+      ...pageRouter.allPages,
+      [currentPage.id]: {
+        ...pageRouter.allPages[currentPage.id],
+        completed: true,
+      },
+    },
+    currentPageId: nextPageId,
+  }
+
+  setCurrentPage({ ...nextPage })
+  setPageRouter(updatedPageRouter)
 }
 
 /**
