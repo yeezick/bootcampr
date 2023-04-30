@@ -6,7 +6,7 @@ export interface NavigationState {
 }
 
 export interface PageItem {
-  component: React.ComponentType
+  component: JSX.Element
   id: string
   location: {
     next: string | null

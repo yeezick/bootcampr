@@ -11,11 +11,15 @@ import {
   initialCurrentPage,
   initialPageRouter,
 } from '__tests__/__mocks__/components/paginator'
-import { NavigationState, PageRouter } from 'interfaces/components/Paginator'
+import {
+  NavigationState,
+  PageItem,
+  PageRouter,
+} from 'interfaces/components/Paginator'
 import './paginator.scss'
 
 export const Paginator = ({ exitRoute, orderedPages, pageTitle }) => {
-  const [currentPage, setCurrentPage] = useState(initialCurrentPage)
+  const [currentPage, setCurrentPage] = useState<PageItem>(initialCurrentPage)
   const [pageRouter, setPageRouter] = useState<PageRouter>(initialPageRouter)
   const { component: CurrentPageComponent } = currentPage
 
@@ -29,6 +33,7 @@ export const Paginator = ({ exitRoute, orderedPages, pageTitle }) => {
         let nextPage = orderedPages[i + 1]
         let previousPage = orderedPages[i - 1]
         allPages[newPageId] = buildPage(newPage, nextPage, previousPage)
+        if (i === 0) setCurrentPage(allPages[newPageId]) // if this is the first page, set it as the current
       }
 
       return {
@@ -43,10 +48,10 @@ export const Paginator = ({ exitRoute, orderedPages, pageTitle }) => {
     setPageRouter(updatedPageRouter)
   }, [orderedPages])
 
-  /**
-   *  @param type Str - [next, previous, specific]
-   */
-  const handlePageNavigation = (type, specificPageId?) => {
+  const handlePageNavigation = (
+    type: 'next' | 'previous' | 'specific',
+    specificPageId?
+  ) => {
     const pageHandlers = { setCurrentPage, setPageRouter }
     let pageProps: NavigationState = { currentPage, pageRouter }
     if (type === 'next') {
@@ -94,7 +99,7 @@ const PageBarItem = ({ page, currentPageId, handlePageNavigation }) => {
   const { title } = page
   const pageId = convertTitleToId(title)
   const isCurrentPage = pageId === currentPageId
-  const classNames = `page-bar-item ${isCurrentPage && 'current-page'}`
+  const classNames = `page-bar-item ${isCurrentPage && 'current-page-bar-item'}`
   return (
     <div
       className={classNames}

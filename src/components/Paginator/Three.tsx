@@ -2,7 +2,7 @@ import React from 'react'
 
 export const Three = ({ backgroundColor }) => {
   return (
-    <div style={{ backgroundColor, width: '500px', height: '500px' }}>
+    <div style={{ backgroundColor }}>
       <h1>Three</h1>
     </div>
   )
