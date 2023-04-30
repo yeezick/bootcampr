@@ -108,11 +108,12 @@ const PageBarItem = ({ page, currentPageId, handlePageNavigation }) => {
   const classNames = `page-bar-item ${filledBar && 'filled-page-bar-item'}`
   return (
     <div
-      className={classNames}
+      className='page-bar-item-wrapper'
       onClick={() => handlePageNavigation('specific', pageId)}
       key={currentPageId}
     >
-      {title}
+      <div className={classNames}></div>
+      <span>{title}</span>
     </div>
   )
 }

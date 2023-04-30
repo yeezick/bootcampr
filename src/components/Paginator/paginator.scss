@@ -1,7 +1,32 @@
 .filled-page-bar-item {
-  background-color: red ;
+  background-color: black ;
 }
 
+
+.page-bar {
+  display: flex;
+  flex-direction: row; 
+  justify-content: space-evenly;
+}
+
+.page-bar-item-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .page-bar-item {
+    border-radius: 25px;
+    height: 6px;
+    margin-bottom: 4px;
+    width: 150px
+  }
+
+  span {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
 .current-page-wrapper {
 width: 100%;
 height: 100%
