@@ -1,7 +1,7 @@
 import { Paginator } from 'components/Paginator/Paginator'
-import { One } from '../../components/Paginator/Examples/One'
-import { Two } from '../../components/Paginator/Examples/Two'
-import { Three } from '../../components/Paginator/Examples/Three'
+import { One } from 'components/Paginator/Examples/One'
+import { Two } from 'components/Paginator/Examples/Two'
+import { Three } from 'components/Paginator/Examples/Three'
 
 export const Onboarding = () => {
   // Todo: replace with proper components for onboarding

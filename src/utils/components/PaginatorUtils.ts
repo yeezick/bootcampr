@@ -51,7 +51,7 @@ export const handleNextPage = (pageHandlers, pageProps) => {
   const nextPage = pageRouter.allPages[nextPageId]
 
   if (!nextPageId) {
-    redirect(pageRouter.exitRoute)
+    window.location.href = '/'
     return
   }
 
@@ -88,15 +88,8 @@ export const addLocationsToPage = (nextPage, previousPage) => {
   }
 }
 
-export const buildPage = (
-  newPage,
-  nextPage,
-  previousPage,
-  newPageProps?
-): PageItem => {
+export const buildPage = (newPage, nextPage, previousPage): PageItem => {
   const newPageId = convertTitleToId(newPage.title)
-  if (!nextPage) nextPage = null
-  if (!previousPage) previousPage = null
 
   newPage = {
     ...newPage,

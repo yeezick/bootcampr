@@ -17,6 +17,7 @@ export interface PageItem {
   title: string
   props?: object
 }
+
 interface CurrentPageProps {
   handlePageNavigation: (
     type: 'next' | 'previous' | 'specific',
@@ -24,6 +25,7 @@ interface CurrentPageProps {
   ) => void
   [key: string]: any // allow for any other dynamic prop
 }
+
 export interface PageRouter {
   allPages: { [index: string]: PageItem }
   currentPageId: string
