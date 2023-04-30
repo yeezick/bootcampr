@@ -1,4 +1,5 @@
 import { PageItem } from 'interfaces/components/Paginator'
+import { redirect } from 'react-router-dom'
 
 /**
  *  Navigation Handlers
@@ -50,7 +51,7 @@ export const handleNextPage = (pageHandlers, pageProps) => {
   const nextPage = pageRouter.allPages[nextPageId]
 
   if (!nextPageId) {
-    navigate(pageRouter.exitRoute)
+    redirect(pageRouter.exitRoute)
     return
   }
 
@@ -66,7 +67,6 @@ export const handleNextPage = (pageHandlers, pageProps) => {
 /**
  * Helper Functions
  */
-
 export const addLocationsToPage = (nextPage, previousPage) => {
   return {
     next: nextPage ? convertTitleToId(nextPage.title) : null,
@@ -74,7 +74,12 @@ export const addLocationsToPage = (nextPage, previousPage) => {
   }
 }
 
-export const buildPage = (newPage, nextPage, previousPage): PageItem => {
+export const buildPage = (
+  newPage,
+  nextPage,
+  previousPage,
+  newPageProps?
+): PageItem => {
   const newPageId = convertTitleToId(newPage.title)
   if (!nextPage) nextPage = null
   if (!previousPage) previousPage = null

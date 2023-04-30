@@ -1,9 +1,8 @@
-import React from 'react'
-
-export const One = ({ backgroundColor }) => {
+export const One = ({ backgroundColor, handlePageNavigation }) => {
   return (
-    <div style={{ backgroundColor }}>
+    <div style={{ backgroundColor: backgroundColor }}>
       <h1>ONE</h1>
+      <button onClick={() => handlePageNavigation('next')}>Next</button>
     </div>
   )
 }

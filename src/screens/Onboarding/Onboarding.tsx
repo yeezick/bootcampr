@@ -6,16 +6,19 @@ import { Three } from '../../components/Paginator/Three'
 export const Onboarding = () => {
   const orderedPages = [
     {
-      component: <One backgroundColor={'red'} />,
+      component: One,
       title: 'One',
+      props: { backgroundColor: 'red' },
     },
     {
-      component: <Two backgroundColor={'green'} />,
+      component: Two,
       title: 'Two',
+      props: { backgroundColor: 'yellow' },
     },
     {
-      component: <Three backgroundColor={'blue'} />,
+      component: Three,
       title: 'Three Word Title',
+      props: { backgroundColor: 'green' },
     },
   ]
   return (
