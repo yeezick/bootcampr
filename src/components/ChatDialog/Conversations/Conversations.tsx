@@ -21,7 +21,6 @@ export const Conversations = ({ handleConversationClick }) => {
       const res = await getAllConversations(authUser._id)
       if (res) {
         setThreads(res)
-        console.log('results: ', res)
         res.length > 0
           ? setListResults('conversations')
           : setListResults('noConversations')
@@ -30,16 +29,18 @@ export const Conversations = ({ handleConversationClick }) => {
     getThreads()
   }, [authUser._id])
 
-  const handleConvoClick = async (_id: string, participants: any) => {
+  const handleConvoClick = async (chatId: string, participants: any) => {
     participants.length > 2
       ? dispatch(
           setCurrentConversation({
-            _id,
+            _id: chatId,
             isGroup: true,
             participants,
           })
         )
-      : dispatch(setCurrentConversation({ _id, isGroup: false, participants }))
+      : dispatch(
+          setCurrentConversation({ _id: chatId, isGroup: false, participants })
+        )
 
     await handleConversationClick()
   }
@@ -76,15 +77,21 @@ const ConversationsList = ({
     return (
       <div className='conversations-list'>
         {threads.map(
-          ({ _id, participants, groupName, groupPhoto, lastMessage }) => (
+          ({
+            _id: chatId,
+            participants,
+            groupName,
+            groupPhoto,
+            lastMessage,
+          }) => (
             <div
               className='conversation-grid'
-              key={_id}
-              onClick={() => handleConvoClick(_id, participants)}
+              key={chatId}
+              onClick={() => handleConvoClick(chatId, participants)}
             >
               <ConversationThumbnail
                 authUser={authUser}
-                _id={_id}
+                chatId={chatId}
                 groupPhoto={groupPhoto}
                 groupName={groupName}
                 participants={participants}
@@ -109,7 +116,7 @@ const ConversationsList = ({
 
 const ConversationThumbnail = ({
   authUser,
-  _id,
+  chatId,
   groupPhoto,
   groupName,
   participants,
@@ -119,7 +126,7 @@ const ConversationThumbnail = ({
     return (
       <>
         <div className='avatar-grid'>
-          <img src={groupPhoto} alt='avatar' key={_id} />
+          <img src={groupPhoto} alt='avatar' key={chatId} />
         </div>
         <div className='thread-details-grid'>
           <h5>
@@ -143,7 +150,7 @@ const ConversationThumbnail = ({
     return (
       <>
         <div className='avatar-grid'>
-          <img src={participants[1].profilePicture} alt='avatar' key={_id} />
+          <img src={participants[1].profilePicture} alt='avatar' key={chatId} />
         </div>
         <div className='thread-details-grid'>
           <h5>

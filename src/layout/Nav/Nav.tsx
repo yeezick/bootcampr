@@ -97,7 +97,7 @@ export const Nav = () => {
               className='chat-icon'
               onClick={() => toggleChatBox()}
             />
-            {visibleChat ? <ChatDialogMain /> : ''}
+            {visibleChat && <ChatDialogMain />}
           </div>
           <div className='notification-badge link'>
             <NotificationModal />
