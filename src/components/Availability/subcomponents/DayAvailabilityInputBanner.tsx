@@ -5,20 +5,30 @@ import { defaultAvailabilityForm } from '../utils/data'
 import { useSelector } from 'react-redux'
 import { useAppSelector } from 'utils/redux/hooks'
 import { useDispatch } from 'react-redux'
-import { setUserAvailability } from 'utils/redux/slices/userSlice'
+import {
+  getUserAvailability,
+  setUserAvailability,
+} from 'utils/redux/slices/userSlice'
+import { consolidateAvailability } from './SelectTimeInput'
 
 export const DayAvailabilityInputBanner = ({ day }) => {
-  const [days, setDays] = useState(defaultAvailabilityForm)
+  let userAvailability = useSelector(getUserAvailability)
+  const availabilityForm = consolidateAvailability(userAvailability)
+  const [days, setDays] = useState(availabilityForm)
   //   make a sep. namespace for avail?
-  const testAvail = useAppSelector(state => state.ui.auth.user.availability)
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    console.log('days')
+    console.log(days)
+    console.log('DayAvailabilityInputBanner - user availability')
+    console.log(userAvailability)
+  }, [days])
 
   const handleCheck = e => {
     const available = !days[e.target.name].available
     const availability = [...days[e.target.name].availability]
     const dayToChange = day
-
-    console.log(testAvail)
 
     setDays({
       ...days,

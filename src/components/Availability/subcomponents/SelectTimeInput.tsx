@@ -1,6 +1,23 @@
 import { MenuItem, Select } from '@mui/material'
 import { timeOptions } from '../utils/data'
 
+export const consolidateAvailability = availability => {
+  const newAvailability = availability
+  // don't manipulate availability directly
+  for (let i = 1; i < availability.length; i++) {
+    const timeA = newAvailability[i][0]
+    const timeB = newAvailability[i - 1][1]
+    if (timeOptions.indexOf(timeA) <= timeOptions.indexOf(timeB)) {
+      newAvailability[i - 1] = [
+        newAvailability[i - 1][0],
+        newAvailability[i][1],
+      ]
+      newAvailability.splice(i, 1)
+    }
+  }
+  return newAvailability
+}
+
 export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
   const index = isStart ? 0 : 1
 
@@ -13,7 +30,7 @@ export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
     let newAvailability = days[day].availability
     newAvailability[frame][index] = e.target.value
 
-    consolidateAvailability(days[day].availability)
+    newAvailability = consolidateAvailability(days[day].availability)
 
     setDays({
       ...days,
