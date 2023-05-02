@@ -1,13 +1,13 @@
-import './ChatDialogMain.scss'
 import { HiOutlinePencilAlt } from 'react-icons/hi'
 import { IoMdClose } from 'react-icons/io'
 import { FiArrowLeft } from 'react-icons/fi'
-import { Conversations } from '../Conversations/Conversations'
+import { Conversations } from 'components/ChatDialog/Conversations/Conversations'
 import { toggleChatClose } from 'utilities/redux/slices/userSlice'
-import { Messages } from '../Messages/Messages'
+import { Messages } from 'components/ChatDialog/Messages/Messages'
 import { useState } from 'react'
 import { useAppDispatch } from 'utilities/redux/hooks'
-import { NewChatRoom } from '../NewChatRoom/NewChatRoom'
+import { NewChatRoom } from 'components/ChatDialog/NewChatRoom/NewChatRoom'
+import './ChatDialogMain.scss'
 
 export const ChatDialogMain = () => {
   const dispatch = useAppDispatch()

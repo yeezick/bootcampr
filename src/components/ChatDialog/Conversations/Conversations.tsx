@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { MdOutlineSearch } from 'react-icons/md'
-import './Conversations.scss'
 import { getAllConversations } from 'utilities/api/chat'
 import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
 import {
   selectAuthUser,
   setCurrentConversation,
 } from 'utilities/redux/slices/userSlice'
+import './Conversations.scss'
 
 export const Conversations = ({ handleConversationClick }) => {
   const dispatch = useAppDispatch()
