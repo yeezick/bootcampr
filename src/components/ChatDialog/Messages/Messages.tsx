@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { BsPaperclip } from 'react-icons/bs'
-import { getAllGroupMessages, getAllPrivateMessages } from 'utilities/api/chat'
-import { useAppSelector } from 'utilities/redux/hooks'
+import { getAllGroupMessages, getAllPrivateMessages } from 'utils/api/chat'
+import { useAppSelector } from 'utils/redux/hooks'
 import {
   selectAuthUser,
   selectConversation,
-} from 'utilities/redux/slices/userSlice'
-import { formatTimestamp } from 'utilities/functions/utilityFunctions'
+} from 'utils/redux/slices/userSlice'
+import { formatTimestamp } from 'utils/functions/utilityFunctions'
 import './Messages.scss'
 
 export const Messages = () => {

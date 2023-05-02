@@ -5,8 +5,8 @@ import {
   toggleChatClose,
   toggleSidebar,
   toggleSidebarClose,
-} from 'utilities/redux/slices/userSlice'
-import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
+} from 'utils/redux/slices/userSlice'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { MdArrowDropDown } from 'react-icons/md'
 import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
@@ -14,7 +14,7 @@ import { NotificationModal } from 'components/Notifications/NotificationModal'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
 import { Socket } from 'components/Notifications/Socket'
 import './Nav.scss'
-import { chatStatus, toggleChat } from '../../utilities/redux/slices/userSlice'
+import { chatStatus, toggleChat } from 'utils/redux/slices/userSlice'
 
 export const Nav = () => {
   const [colored, setColored] = useState(false)
@@ -89,7 +89,8 @@ export const Nav = () => {
           </Link>
         </div>
       </div>
-      {userId !== '' ? (
+
+      {userId && (
         <div className='notifications'>
           <div className='messages-icon' ref={chatRef}>
             <BsFillChatLeftTextFill
@@ -112,9 +113,9 @@ export const Nav = () => {
             <MdArrowDropDown size={25} />
           </Link>
         </div>
-      ) : null}
+      )}
 
-      {userId !== '' ? null : (
+      {!userId && (
         <div className='auth-btn'>
           <div>
             <Link className='link sign-up' to='/sign-up'>

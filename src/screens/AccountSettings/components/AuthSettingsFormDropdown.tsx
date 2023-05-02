@@ -2,7 +2,7 @@ import {
   AuthSettingsFormDropdownProps,
   EmailFormData,
   PasswordFormData,
-} from 'utilities/types/AccountSettingsInterface'
+} from 'interfaces/AccountSettingsInterface'
 import {
   VALIDATION_HELPERS,
   validateEmailDropdown,
