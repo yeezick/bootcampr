@@ -8,12 +8,12 @@ type SingleSelectProps = {
   splitCamelCaseToWords?: (str: string) => string
   ticketsStatus?: string
 }
-function SingleSelect({
+const SingleSelect = ({
   handleOnChange,
   ticketDetail = null,
   splitCamelCaseToWords,
   ticketsStatus,
-}: SingleSelectProps) {
+}: SingleSelectProps) => {
   return (
     <Box sx={{ minWidth: 10 }}>
       <FormControl fullWidth sx={{ width: '100%', paddingBottom: '20px' }}>

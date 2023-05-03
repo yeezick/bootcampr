@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getAllProjects } from '../../utils/api/projects'
-
 import { ProjectInterface } from 'interfaces'
 
-function HomePage({}) {
+const ProjectPage = ({}) => {
   const [getAllProjectsData, setGetAllProjectsData] = useState<
     ProjectInterface[] | null
   >()
-  console.log(getAllProjectsData)
 
   useEffect(() => {
     const projects = async () => {
@@ -30,4 +28,4 @@ function HomePage({}) {
   )
 }
 
-export default HomePage
+export default ProjectPage

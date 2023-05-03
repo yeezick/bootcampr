@@ -10,7 +10,7 @@ export const ticketStatusChangedApi = async ticketData => {
     const data = await api.put(`/ticketStatusChanged`, ticketData)
     return data
   } catch (error) {
-    return { error: { status: 500, message: 'Something went wrong' } }
+    return { error: { status: 500, message: 'ticket status failed to change' } }
   }
 }
 export const ticketDraggedToNewSectionApi = async ticketData => {
@@ -18,7 +18,7 @@ export const ticketDraggedToNewSectionApi = async ticketData => {
     const data = await api.put(`/ticketDraggedToNewSection`, ticketData)
     return data
   } catch (error) {
-    return { error: { status: 500, message: 'Something went wrong' } }
+    return { error: { status: 500, message: 'ticket status failed to change' } }
   }
 }
 
@@ -27,7 +27,7 @@ export const ticketStatusHasNotChangedApi = async (ticketData: any) => {
     const updatedData = await api.put(`/ticketStatusHasNotChanged`, ticketData)
     return updatedData.data
   } catch (error) {
-    return { error: { status: 500, message: 'Something went wrong' } }
+    return { error: { status: 500, message: 'ticket status failed to change' } }
   }
 }
 

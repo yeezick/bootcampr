@@ -66,10 +66,7 @@ export const CreateTicket = ({
 
     setGetAllTicket({
       ...getAllTicket,
-      [newStatus]: [
-        ...getAllTicket[newStatus],
-        { ...createdTicket, createdBy: authUser._id },
-      ],
+      [newStatus]: [...getAllTicket[newStatus], { ...createdTicket }],
     })
     setIsBeingCreated(false)
 
@@ -144,12 +141,6 @@ export const CreateTicket = ({
                     handleOnChange={handleOnChange}
                     ticketsStatus={ticketsStatus}
                   />
-                  {/* for assignees we need the project to have users in a specific project */}
-                  {/* <SingleAssignees
-                    setAssignees={setAssignees}
-                    assignees={assignees}
-                    handleOnChange={handleOnChange}
-                  /> */}
                 </Box>
               </Box>
               <Box>

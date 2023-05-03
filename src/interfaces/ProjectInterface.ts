@@ -2,25 +2,23 @@ import { TicketInterface } from './TicketInterFace'
 import { UserInterface } from './UserInterface'
 
 export interface ProjectInterface {
+  _v: number
   createAt?: string
-
-  meetingCadence?: number
   duration?: string
+  _id?: string
+  meetingCadence?: number
   overview: string
-  projectOwner?: UserInterface
-  roles?: {
-    engineer?: any
+  projectTracker?: {
+    completed?: TicketInterface[]
+    inProgress?: TicketInterface[]
+    toDo?: TicketInterface[]
+    underReview?: TicketInterface[]
+  }
+  projectOwner?: {
     design?: any
+    engineer?: any
   }
   status?: string
-  tools?: string[]
   title?: string
-  projectTracker?: {
-    toDo?: TicketInterface[]
-    inProgress?: TicketInterface[]
-    underReview?: TicketInterface[]
-    completed?: TicketInterface[]
-  }
-  __v: 16
-  _id?: string
+  tools?: string[]
 }

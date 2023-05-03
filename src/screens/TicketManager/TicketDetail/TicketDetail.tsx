@@ -62,7 +62,7 @@ const TicketDetail = ({
   const saveChanges = () => {
     const { status } = ticketDetail
     const updateText: TaskInterface = {
-      assignees: /* assignees.user ?? ticketDetail.assignees*/ authUser._id,
+      assignees: authUser._id /* assignees.user ?? ticketDetail.assignees*/,
       date: dateRef.current?.value,
       description: descriptionRef.current?.textContent,
       _id: ticketDetail._id,

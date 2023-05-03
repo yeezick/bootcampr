@@ -6,7 +6,7 @@ import { Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import './App.css'
-import HomePage from 'screens/HomePage/HomePage'
+import ProjectPage from 'screens/ProjectPage/ProjectPage'
 import CreateProject from 'screens/CreateProject/CreateProject'
 import ProjectDetails from 'screens/ProjectDetails/ProjectDetails'
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
@@ -16,7 +16,7 @@ function App() {
     <>
       <Layout>
         <Routes>
-          <Route path='/' element={<HomePage />} />
+          <Route path='/ProjectPage' element={<ProjectPage />} />
           <Route path='/CreateProject' element={<CreateProject />} />
           <Route path='/project/:id' element={<ProjectDetails />} />
           <Route path='/' element={<Landing />} />

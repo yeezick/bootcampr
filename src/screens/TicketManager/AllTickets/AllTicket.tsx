@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { CreateTicket } from '../CreateTickets/CreateTicket'
 import TicketDetail from '../TicketDetail/TicketDetail'
-
-import './ticketManger.css'
+import './ticketManger.scss'
 
 import {
   TicketInterface,
@@ -13,7 +12,7 @@ import {
 } from '../../../interfaces/TicketInterFace'
 import { ticketDraggedToNewSectionApi } from 'utils/api/tickets'
 
-export const AllTicket = ({ projectTracker }) => {
+export const AllTickets = ({ projectTracker }) => {
   const { id } = useParams()
 
   const [getAllTicket, setGetAllTicket] = useState(
@@ -92,7 +91,7 @@ export const AllTicket = ({ projectTracker }) => {
     statusString?.split(/(?=[A-Z])/).join(' ')
 
   return (
-    <div className='App'>
+    <div className='AllTickets'>
       {Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
         <div
           className='container'
@@ -100,7 +99,7 @@ export const AllTicket = ({ projectTracker }) => {
             dragDropped(e, concatenatedString(ticketsStatus as string))
           }
           key={i}
-          onDragOver={(e: React.DragEvent<HTMLDivElement>) => draggingOver(e)}
+          onDragOver={draggingOver}
         >
           <div>
             <h1>{splitCamelCaseToWords(ticketsStatus)}</h1>

@@ -1,7 +1,7 @@
 import { ProjectInterface } from 'interfaces'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { AllTicket } from 'screens/TicketManager/AllTicket/AllTicket'
+import { AllTickets } from 'screens/TicketManager/AllTickets/AllTicket'
 import { getOneProject } from 'utils/api'
 
 const ProjectDetails = ({}) => {
@@ -26,7 +26,7 @@ const ProjectDetails = ({}) => {
     <div>
       <h1>{projectDetail?.title}</h1>
       <h1>{projectDetail?.duration}</h1>
-      {projectDetail ? <AllTicket projectTracker={projectDetail} /> : null}
+      {projectDetail && <AllTickets projectTracker={projectDetail} />}
     </div>
   )
 }
