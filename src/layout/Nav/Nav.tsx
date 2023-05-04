@@ -7,6 +7,7 @@ import { MdArrowDropDown } from 'react-icons/md'
 import Logo from 'assets/Logo.svg'
 import { NotificationModal } from 'components/Notifications/NotificationModal'
 import { Socket } from 'components/Notifications/Socket'
+import Avatar from 'components/Avatar/Avatar'
 import './Nav.scss'
 
 export const Nav = () => {
@@ -81,7 +82,7 @@ export const Nav = () => {
               <span>{notificationCount}</span>
             </div>
           )}
-          <div className='image'></div>
+          <Avatar />
           <Link className='link' to='/'>
             <MdArrowDropDown size={25} />
           </Link>

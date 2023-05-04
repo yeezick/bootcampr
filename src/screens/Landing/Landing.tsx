@@ -12,6 +12,7 @@ import './Landing.scss'
 export const Landing: React.FC = () => {
   const [loginStatus, setLoginStatus] = useState<boolean | null>(null)
   const authUser = useAppSelector(selectAuthUser)
+
   const dispatch = useDispatch()
 
   const randomUserLogin = async () => {

@@ -1,12 +1,8 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import notificationReducer from './slices/notificationSlice'
-import userReducer from './slices/userSlice'
+import rootReducer from './reducer/rootReducer'
 
 export const store = configureStore({
-  reducer: {
-    ui: userReducer,
-    notification: notificationReducer,
-  },
+  reducer: rootReducer,
 })
 
 export type AppDispatch = typeof store.dispatch

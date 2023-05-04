@@ -1,0 +1,54 @@
+.change-btn {
+  color: #470d91 !important;
+  border-color: #470d91 !important;
+  text-transform: none !important;
+  font-size: 16px !important;
+}
+
+.close-btn {
+  cursor: pointer;
+  padding-right: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.crop-container {
+  justify-content: center;
+}
+
+.crop-btn {
+  color: #470d91 !important;
+  padding-bottom: 20px !important;
+  text-transform: none !important;
+  font-size: 15px !important;
+
+  .MuiSvgIcon-root {
+    color: #470d91;
+    font-size: 25px !important;
+  }
+}
+
+.file-input {
+  display: none;
+}
+
+.save-btn {
+  color: #470d91 !important;
+  background-color: #fa9413 !important;
+  text-transform: none !important;
+  font-size: 16px !important;
+}
+
+.slider {
+  color: #470d91 !important;
+}
+
+.title {
+  text-align: center; 
+  font-size: 24px !important;
+  font-weight: 600 !important;
+}
