@@ -14,8 +14,9 @@ import { setUserAvailability } from 'utils/redux/slices/userSlice'
 export const TimeSlotInput = ({ day, days, setDays, slots }) => {
   const dispatch = useDispatch()
   const [displayModal, toggleDisplayModal] = useState({
-    0: true,
+    0: false,
   })
+  const [display, toggleDisplay] = useState(true)
   const handleHover = (idx, display, action) => {
     console.log(
       `Add hover placeholder for ${day}, timeslot ${
@@ -24,10 +25,19 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
     )
   }
 
+  const getDisplay = idx => {
+    console.log('get display')
+    console.log(displayModal[idx])
+    console.log(displayModal)
+    return displayModal[idx]
+  }
+
   useEffect(() => {
+    console.log('display modal changed')
     console.log('huh')
     dispatch(setUserAvailability(days))
-  }, [days])
+    toggleDisplay(true)
+  }, [days, displayModal])
 
   const getNextTimeslot = currentTime => {
     const index = timeOptions.indexOf(currentTime)
@@ -73,15 +83,18 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
   }
 
   const renderCopyTimesModal = (day, idx) => {
+    console.log('render copy times modal')
     console.log(displayModal)
     const newState = displayModal
     newState[idx] = !displayModal[idx]
+    console.log('new state')
     console.log(newState)
+
     toggleDisplayModal({
       ...displayModal,
-      [idx]: !displayModal[idx],
+      ...newState,
     })
-    console.log(displayModal[idx])
+    console.log(displayModal)
   }
 
   const copyTimes = (checked, day, idx, setDays) => {
@@ -162,7 +175,7 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
               </div>
             )}
             <div className='hover-icon'>
-              {displayModal && (
+              {getDisplay(idx) && (
                 <CopyTimesModal
                   days={days}
                   day={day}
