@@ -26,7 +26,8 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
 
   useEffect(() => {
     console.log('huh')
-  }, [])
+    dispatch(setUserAvailability(days))
+  }, [days])
 
   const getNextTimeslot = currentTime => {
     const index = timeOptions.indexOf(currentTime)
@@ -43,7 +44,7 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
     } else {
       newAvailability = {
         available: true,
-        availability: days[day].availability,
+        availability: [...days[day].availability],
       }
       newAvailability.availability.splice(idx, 1)
     }
@@ -58,7 +59,7 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
 
   const addTimeSlot = (day, idx) => {
     const nextTimeslot = getNextTimeslot(days[day].availability[idx][1])
-    const newAvailability = days[day].availability
+    const newAvailability = [...days[day].availability]
     newAvailability.push(nextTimeslot)
 
     console.log(newAvailability)
@@ -103,10 +104,6 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
       ...days,
       ...newAvail,
     })
-    dispatch(setUserAvailability(days))
-    console.log(days)
-
-    console.log(newAvail)
   }
 
   // Don't abstract to this degree
@@ -261,12 +258,6 @@ const CopyTimesOption = ({ day, selectedDay, checked, setChecked }) => {
         [day.slice(0, 3)]: !checked[day.slice(0, 3)],
       })
     }
-    console.log(day)
-    console.log('selected day')
-    console.log(selectedDay)
-    console.log(checked)
-    console.log(e.target)
-    console.log(checked[selectedDay])
   }
   return (
     <div className='copy-times-option'>
