@@ -2,20 +2,15 @@ import { MenuItem, Select } from '@mui/material'
 import { timeOptions } from '../utils/data'
 
 export const consolidateAvailability = availability => {
-  const newAvailability = availability
-  // don't manipulate availability directly
   for (let i = 1; i < availability.length; i++) {
-    const timeA = newAvailability[i][0]
-    const timeB = newAvailability[i - 1][1]
+    const timeA = availability[i][0]
+    const timeB = availability[i - 1][1]
     if (timeOptions.indexOf(timeA) <= timeOptions.indexOf(timeB)) {
-      newAvailability[i - 1] = [
-        newAvailability[i - 1][0],
-        newAvailability[i][1],
-      ]
-      newAvailability.splice(i, 1)
+      availability[i - 1] = [availability[i - 1][0], availability[i][1]]
+      availability.splice(i, 1)
     }
   }
-  return newAvailability
+  return availability
 }
 
 export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
@@ -26,11 +21,16 @@ export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
     const day = context[0]
     const frame = Number(context[1])
     const index = context[2]
+    console.log('day-frame-index')
+    console.log(context)
 
-    let newAvailability = days[day].availability
-    newAvailability[frame][index] = e.target.value
+    const newTime = [...days[day].availability[frame]]
+    newTime[index] = e.target.value
 
-    newAvailability = consolidateAvailability(days[day].availability)
+    let newAvailability = [...days[day].availability]
+    newAvailability[frame] = newTime
+
+    newAvailability = consolidateAvailability(newAvailability)
 
     setDays({
       ...days,
@@ -39,18 +39,6 @@ export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
         availability: newAvailability,
       },
     })
-  }
-
-  const consolidateAvailability = availability => {
-    // don't manipulate availability directly
-    for (let i = 1; i < availability.length; i++) {
-      const timeA = availability[i][0]
-      const timeB = availability[i - 1][1]
-      if (timeOptions.indexOf(timeA) <= timeOptions.indexOf(timeB)) {
-        availability[i - 1] = [availability[i - 1][0], availability[i][1]]
-        availability.splice(i, 1)
-      }
-    }
   }
 
   return (

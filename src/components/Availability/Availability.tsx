@@ -7,16 +7,16 @@ import { useSelector } from 'react-redux'
 import { getUserAvailability } from 'utils/redux/slices/userSlice'
 
 export const Availability: React.FC = (): JSX.Element => {
+  let userAvailability = useSelector(getUserAvailability)
+  // const availabilityForm = consolidateAvailability(userAvailability)
+  const [days, setDays] = useState(userAvailability)
   const [timezone, setTimezone] = useState(Timezones.ET)
-  const userAvailability = useSelector(getUserAvailability)
-  const [availability, setAvailability] = useState(userAvailability)
+  // const [availability, setAvailability] = useState(userAvailability)
 
   useEffect(() => {
-    console.log('user availability')
-    console.log(userAvailability)
-    console.log('availability')
-    console.log(availability)
-  }, [availability])
+    console.log('new user availability')
+    setDays(userAvailability)
+  }, [userAvailability])
 
   return (
     <div className='availability-container'>
@@ -24,7 +24,12 @@ export const Availability: React.FC = (): JSX.Element => {
       <p>Set weekly availability</p>
       <hr />
       {Object.keys(weekdaysMap).map(day => (
-        <DayAvailabilityInputBanner key={`${day}-banner`} day={day} />
+        <DayAvailabilityInputBanner
+          key={`${day}-banner`}
+          day={day}
+          days={days}
+          setDays={setDays}
+        />
       ))}
     </div>
   )

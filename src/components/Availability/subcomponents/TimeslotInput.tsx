@@ -6,14 +6,16 @@ import {
 import { SelectTimeInput } from './SelectTimeInput'
 import { timeOptions } from '../utils/data'
 import { Checkbox } from '@mui/material'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './CopyTimesModal.scss'
 import { useDispatch } from 'react-redux'
 import { setUserAvailability } from 'utils/redux/slices/userSlice'
 
 export const TimeSlotInput = ({ day, days, setDays, slots }) => {
   const dispatch = useDispatch()
-  const [displayModal, toggleDisplayModal] = useState(false)
+  const [displayModal, toggleDisplayModal] = useState({
+    0: true,
+  })
   const handleHover = (idx, display, action) => {
     console.log(
       `Add hover placeholder for ${day}, timeslot ${
@@ -22,13 +24,16 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
     )
   }
 
+  useEffect(() => {
+    console.log('huh')
+  }, [])
+
   const getNextTimeslot = currentTime => {
     const index = timeOptions.indexOf(currentTime)
     return [timeOptions[index + 1], timeOptions[index + 2]]
   }
 
   const deleteTimeSlot = (day, idx) => {
-    console.log(idx)
     let newAvailability
     if (days[day].availability.length === 1) {
       newAvailability = {
@@ -42,9 +47,6 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
       }
       newAvailability.availability.splice(idx, 1)
     }
-    console.log(`delete timeslot for ${day} ${idx}`)
-
-    console.log(newAvailability)
 
     setDays({
       ...days,
@@ -56,27 +58,34 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
 
   const addTimeSlot = (day, idx) => {
     const nextTimeslot = getNextTimeslot(days[day].availability[idx][1])
-    days[day].availability.push(nextTimeslot)
+    const newAvailability = days[day].availability
+    newAvailability.push(nextTimeslot)
 
+    console.log(newAvailability)
     setDays({
       ...days,
       [day]: {
         available: days[day].available,
-        availability: days[day].availability,
+        availability: newAvailability,
       },
     })
   }
 
   const renderCopyTimesModal = (day, idx) => {
-    console.log(days)
-    console.log(days[day].availability[idx])
-    toggleDisplayModal(!displayModal)
+    console.log(displayModal)
+    const newState = displayModal
+    newState[idx] = !displayModal[idx]
+    console.log(newState)
+    toggleDisplayModal({
+      ...displayModal,
+      [idx]: !displayModal[idx],
+    })
+    console.log(displayModal[idx])
   }
 
   const copyTimes = (checked, day, idx, setDays) => {
-    // console.log(days)
-    // console.log(days[day].availability[idx])
-    // console.log(checked)
+    console.log("Let's copy these times!")
+
     const daysToPasteTo = Object.keys(checked).filter(
       day => day != 'EVRY' && checked[day]
     )
@@ -90,13 +99,14 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
         availability: days[day].availability.concat(copiedTimeslot),
       }
     })
-    console.log(newAvail)
-    // dispatch(setUserAvailability({...days, ...newAvail}))
     setDays({
       ...days,
       ...newAvail,
     })
+    dispatch(setUserAvailability(days))
     console.log(days)
+
+    console.log(newAvail)
   }
 
   // Don't abstract to this degree
@@ -119,7 +129,7 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
 
   return (
     <div className='timeslots-container'>
-      {slots.map((slot, idx) => (
+      {days[day].availability.map((slot, idx) => (
         <div key={`${slot}-${idx}`} className='timeslot-input'>
           <div className='left-banner'>
             <SelectTimeInput
@@ -155,8 +165,9 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
               </div>
             )}
             <div className='hover-icon'>
-              {displayModal && idx === 0 && (
+              {displayModal && (
                 <CopyTimesModal
+                  days={days}
                   day={day}
                   idx={idx}
                   copyTimes={copyTimes}
@@ -176,7 +187,8 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
   )
 }
 
-export const CopyTimesModal = ({ day, idx, copyTimes, setDays }) => {
+export const CopyTimesModal = ({ days, day, idx, copyTimes, setDays }) => {
+  const timeString = `${days[day].availability[idx][0]} - ${days[day].availability[idx][1]}`
   const [checked, setChecked] = useState({
     EVRY: false,
     SUN: false,
@@ -189,7 +201,9 @@ export const CopyTimesModal = ({ day, idx, copyTimes, setDays }) => {
   })
   return (
     <div className='copy-times-modal'>
-      <p>Copy available times to:</p>
+      <p>
+        Copy <strong>{timeString}</strong> to:
+      </p>
       <CopyTimesOption
         day='EVERY DAY'
         selectedDay={day}

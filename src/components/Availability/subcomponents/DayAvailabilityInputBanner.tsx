@@ -11,19 +11,17 @@ import {
 } from 'utils/redux/slices/userSlice'
 import { consolidateAvailability } from './SelectTimeInput'
 
-export const DayAvailabilityInputBanner = ({ day }) => {
-  let userAvailability = useSelector(getUserAvailability)
-  const availabilityForm = consolidateAvailability(userAvailability)
-  const [days, setDays] = useState(availabilityForm)
+export const DayAvailabilityInputBanner = ({ day, days, setDays }) => {
+  // let userAvailability = useSelector(getUserAvailability)
+  // const availabilityForm = consolidateAvailability(userAvailability)
+  // const [days, setDays] = useState(availabilityForm)
   //   make a sep. namespace for avail?
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    console.log('days')
-    console.log(days)
-    console.log('DayAvailabilityInputBanner - user availability')
-    console.log(userAvailability)
-  }, [days])
+  // useEffect(() => {
+  //   console.log('new user availability')
+  //   setDays(userAvailability)
+  // }, [userAvailability])
 
   const handleCheck = e => {
     const available = !days[e.target.name].available
@@ -37,13 +35,7 @@ export const DayAvailabilityInputBanner = ({ day }) => {
         availability,
       },
     })
-    // dispatch(setUserAvailability({
-    //     ...days,
-    //     [dayToChange]: {
-    //       available,
-    //       availability,
-    //     },
-    //   }))
+    dispatch(setUserAvailability(days))
   }
 
   return (
