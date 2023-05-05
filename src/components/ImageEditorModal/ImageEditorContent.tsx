@@ -46,16 +46,7 @@ const ImageEditorContent: React.FC<ImageEditorContentProps> = ({
   }
 
   return (
-    <DialogContent
-      className='content'
-      dividers
-      sx={{
-        background: '#000',
-        position: 'relative',
-        height: 400,
-        width: 'auto',
-      }}
-    >
+    <DialogContent className='image-modal__dialog-content' dividers>
       <FileInput
         onFileChange={handleFileInputChange}
         fileInputRef={fileInputRef}
@@ -73,15 +64,7 @@ const ImageEditorContent: React.FC<ImageEditorContentProps> = ({
           showGrid={false}
         />
       ) : (
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100%',
-            width: '100%',
-          }}
-        >
+        <Box className='image-modal__empty-avatar'>
           <Avatar clickable={false} />
         </Box>
       )}

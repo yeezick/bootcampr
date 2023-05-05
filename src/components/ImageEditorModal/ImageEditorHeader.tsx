@@ -13,10 +13,10 @@ const ImageEditorHeader: React.FC<ImageEditorHeaderProps> = ({
   handleClose,
 }) => {
   return (
-    <Box className='container'>
+    <Box className='image-modal__header'>
       <div></div>
-      <DialogTitle className='title'>Edit photo</DialogTitle>
-      <CloseIcon className='close-btn' onClick={handleClose} />
+      <DialogTitle className='image-modal__title'>Edit photo</DialogTitle>
+      <CloseIcon className='image-modal__close-btn' onClick={handleClose} />
     </Box>
   )
 }

@@ -16,9 +16,9 @@ import {
   DialogContent,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import DeleteIcon from '@mui/icons-material/Delete'
+import DeleteIcon from '@mui/icons-material/DeleteOutline'
 import EditIcon from '../../assets/Icons/edit.png'
-import CameraAltIcon from '@mui/icons-material/CameraAlt'
+import CameraAltIcon from '@mui/icons-material/CameraAltOutlined'
 import './ProfilePreviewImage.scss'
 
 /**
@@ -52,6 +52,11 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
    */
   const closeImageEditor = () => {
     setIsImageEditorOpen(false)
+  }
+
+  const handleOpenFileInput = () => {
+    fileInputRef.current?.click()
+    console.log('Change Photo button clicked')
   }
 
   /**
@@ -94,37 +99,26 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
         fileInputRef={fileInputRef}
       />
       <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
-        <Box className='container'>
+        <Box className='profile-preview__header'>
           <div></div>
-          <DialogTitle className='title'>Profile photo</DialogTitle>
-          <CloseIcon className='close-btn' onClick={handleEditorModalClose} />
+          <DialogTitle className='profile-preview__title'>
+            Profile photo
+          </DialogTitle>
+          <CloseIcon
+            className='profile-preview__close-btn'
+            onClick={handleEditorModalClose}
+          />
         </Box>
-        <div className='image-modal'>
-          <DialogContent
-            dividers
-            sx={{
-              background: '#000',
-              position: 'relative',
-              height: 400,
-              width: 'auto',
-            }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100%',
-                width: '100%',
-              }}
-            >
+        <div className='profile-preview__content'>
+          <DialogContent dividers className='profile-preview__dialog-content'>
+            <Box className='profile-preview__content-box'>
               {/* Render uploaded image if available */}
               {Boolean(uploadedImage) ? (
                 <>
                   <img
                     src={uploadedImage as string}
                     alt='Profile'
-                    className='profile-image'
+                    className='profile-preview__profile-image'
                   />
                   {console.log('Image is uploaded:', uploadedImage)}
                 </>
@@ -137,40 +131,42 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
               )}
             </Box>
           </DialogContent>
-          <DialogActions sx={{ flexDirection: 'column', mx: 3, my: 2 }}>
-            <Box sx={{ width: '100%', mb: 1 }}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-evenly',
-                  flexWrap: 'wrap',
-                }}
-              >
+          <DialogActions className='profile-preview__actions'>
+            <Box className='profile-preview__action-box'>
+              <Box className='profile-preview__edit-box'>
                 <Button
                   variant='outlined'
-                  className='edit-btn'
-                  startIcon={
-                    <img src={EditIcon} className='edit-icon' alt='editIcon' />
-                  }
+                  className='profile-preview__edit-btn'
                   onClick={openImageEditor}
                 >
-                  Edit
+                  <div className='profile-preview__btn-container'>
+                    <img
+                      src={EditIcon}
+                      className='profile-preview__edit-icon'
+                      alt='editIcon'
+                    />
+                    Edit
+                  </div>
                 </Button>
                 <Button
                   variant='outlined'
-                  className='add-btn'
-                  startIcon={<CameraAltIcon />}
-                  onClick={() => fileInputRef.current?.click()}
+                  className='profile-preview__add-btn'
+                  onClick={handleOpenFileInput}
                 >
-                  Add photo
+                  <div className='profile-preview__btn-container'>
+                    <CameraAltIcon className='profile-preview__add-icon' />
+                    Add photo
+                  </div>
                 </Button>
                 <Button
                   variant='outlined'
-                  className='delete-btn'
-                  startIcon={<DeleteIcon />}
+                  className='profile-preview__delete-btn'
                   onClick={handleDiscardChanges}
                 >
-                  Delete
+                  <div className='profile-preview__btn-container'>
+                    <DeleteIcon className='profile-preview__delete-icon' />
+                    Delete
+                  </div>
                 </Button>
               </Box>
             </Box>

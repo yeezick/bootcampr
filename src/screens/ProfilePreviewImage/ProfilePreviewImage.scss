@@ -1,35 +1,79 @@
-.edit-btn{
-    color: #470d91 !important;
-    border: none !important;
-    text-transform: none !important;
-    font-size: 16px !important;
-}
+@import '../../DesignUtils/mixins.scss';
 
-.edit-icon{
-    color: #470d91 !important;
-    width: 20px;
-    height: 20px;
-}
-
-.add-btn{
-    color: #470d91 !important;
-    border: none !important;
-    text-transform: none !important;
-    font-size: 16px !important;
-}
-
-.delete-btn{
-    color: #470d91 !important;
-    border: none !important;
-    text-transform: none !important;
-    font-size: 16px !important;
-}
-
-.profile-image {
-    max-width: 250px !important;
-    max-height: 250px !important;
-    object-fit: contain;
-    margin: auto;
-    border-radius: 100%;
-    border: 4px solid #8048c8;
+.profile-preview {
+  &__actions,
+  &__action-box {
+    margin: 1rem 1.5rem !important;
   }
+
+  &__action-box {
+    @include action-box;
+  }
+
+  &__actions {
+    flex-direction: column !important;
+  }
+
+  &__add-btn,
+  &__delete-btn,
+  &__edit-btn {
+    @include button;
+  }
+
+  &__btn-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__close-btn {
+    cursor: pointer;
+    padding-right: 20px;
+  }
+
+  &__content-box {
+    align-items: center !important;
+    display: flex !important;
+    height: 100% !important;
+    justify-content: center !important;
+    width: 100% !important;
+  }
+
+  &__dialog-content {
+    @include dialog-content;
+  }
+
+  &__edit-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  &__edit-icon,
+  &__add-icon,
+  &__delete-icon {
+    @include icon;
+  }
+
+  &__header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__profile-image {
+    border: 4px solid #8048c8;
+    border-radius: 100%;
+    margin: auto;
+    max-height: 250px !important;
+    max-width: 250px !important;
+    object-fit: contain;
+  }
+
+  &__title {
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    text-align: center;
+  }
+}

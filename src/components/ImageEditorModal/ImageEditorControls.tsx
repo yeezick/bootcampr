@@ -40,11 +40,11 @@ const ImageEditorControls: React.FC<ImageEditorControlsProps> = ({
   }
 
   return (
-    <Box sx={{ width: '100%', mb: 1 }}>
-      <Box>
+    <Box className='image-modal__action-box'>
+      <Box className='image-modal__crop-box'>
         <Button
           variant='text'
-          className='crop-btn'
+          className='image-modal__crop-btn'
           startIcon={<CropIcon />}
           size='small'
         >
@@ -52,7 +52,7 @@ const ImageEditorControls: React.FC<ImageEditorControlsProps> = ({
         </Button>
         <Typography>Zoom: {zoomPercent(zoom)}</Typography>
         <Slider
-          className='slider'
+          className='image-modal__slider'
           valueLabelDisplay='auto'
           valueLabelFormat={zoomPercent}
           min={1}
@@ -62,30 +62,21 @@ const ImageEditorControls: React.FC<ImageEditorControlsProps> = ({
           onChange={zoomChange}
         />
       </Box>
-      <Box
-        className='crop-container'
-        sx={{
-          display: 'flex',
-          gap: 2,
-          flexWrap: 'wrap',
-        }}
-      ></Box>
+      <Box className='image-modal__crop-container'></Box>
       <FileInput onFileChange={handleUpload} fileInputRef={fileInputRef} />
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-evenly',
-          flexWrap: 'wrap',
-        }}
-      >
+      <Box className='image-modal__button-box'>
         <Button
           variant='outlined'
-          className='change-btn'
+          className='image-modal__change-btn'
           onClick={handleOpenFileInput}
         >
           Change photo
         </Button>
-        <Button variant='contained' className='save-btn' onClick={handleSave}>
+        <Button
+          variant='contained'
+          className='image-modal__save-btn'
+          onClick={handleSave}
+        >
           Save photo
         </Button>
       </Box>

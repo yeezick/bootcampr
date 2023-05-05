@@ -95,7 +95,7 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
   return (
     <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
       <ImageEditorHeader handleClose={handleClose} />
-      <div className='image-modal'>
+      <div className='image-modal__content'>
         <ImageEditorContent
           uploadedImage={uploadedImage}
           crop={crop}
@@ -104,10 +104,7 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
           setCropArea={setCropArea}
           setZoom={setZoom}
         />
-        <DialogActions
-          className='actions'
-          sx={{ flexDirection: 'column', mx: 3, my: 2 }}
-        >
+        <DialogActions className='image-modal__actions'>
           <ImageEditorControls
             fileInputRef={fileInputRef}
             handleUpload={handleUpload}
