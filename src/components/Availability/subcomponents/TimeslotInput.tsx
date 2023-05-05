@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react'
 import './CopyTimesModal.scss'
 import { useDispatch } from 'react-redux'
 import { setUserAvailability } from 'utils/redux/slices/userSlice'
+import { consolidateAvailability } from './SelectTimeInput'
 
 export const TimeSlotInput = ({ day, days, setDays, slots }) => {
   const dispatch = useDispatch()
@@ -139,7 +140,7 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
 
   return (
     <div className='timeslots-container'>
-      {days[day].availability.map((slot, idx) => (
+      {consolidateAvailability(days[day].availability).map((slot, idx) => (
         <div key={`${slot}-${idx}`} className='timeslot-input'>
           <div className='left-banner'>
             <SelectTimeInput

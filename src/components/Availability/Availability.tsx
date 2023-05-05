@@ -5,6 +5,7 @@ import { DayAvailabilityInputBanner } from './subcomponents/DayAvailabilityInput
 import { TimeZoneInputBanner } from './subcomponents/TimezoneInputBanner'
 import { useSelector } from 'react-redux'
 import { getUserAvailability } from 'utils/redux/slices/userSlice'
+import { consolidateAvailability } from './subcomponents/SelectTimeInput'
 
 export const Availability: React.FC = (): JSX.Element => {
   let userAvailability = useSelector(getUserAvailability)
@@ -15,6 +16,8 @@ export const Availability: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     console.log('new user availability')
+    console.log(userAvailability)
+    console.log(consolidateAvailability(userAvailability))
     setDays(userAvailability)
   }, [userAvailability])
 
