@@ -1,12 +1,14 @@
-.layout-container {
-  margin-top: 73px;
-  padding-top: 20px;
-
-  .active {
-    transition: all 0.1s;
-  }
+.layout-container.active {
+  margin: 50px 272px;
+  transition: all 0.1s;
+  width: calc(100% - 272px);
 }
 
 .main-content-container {
+  padding-top: 93px;
+  min-height: calc(100vh - 250px);
+}
+
+.landing-main-content-container {
   min-height: calc(100vh - 250px);
 }
