@@ -16,15 +16,25 @@ export const DayAvailabilityInputBanner = ({ day, days, setDays }) => {
   const dispatch = useDispatch()
 
   const handleCheck = e => {
+    // default should NOT be 9-5
+    // bc using copy paste time, then auto populates 9-5 as well as the copied time
+    // default should be an empty array
+    // if check to available, and array is empty, add 9-5
+    // if array is not empty, maintain array state
     const available = !days[e.target.name].available
+    const newAvailability =
+      days[e.target.name].availability.length > 0
+        ? days[e.target.name].availability
+        : [['9:00 AM', '5:00 PM']]
     const availability = [...days[e.target.name].availability]
+    // this is redundant?
     const dayToChange = day
 
     setDays({
       ...days,
       [dayToChange]: {
         available,
-        availability,
+        availability: newAvailability,
       },
     })
     // dispatch(setUserAvailability(days))
