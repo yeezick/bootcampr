@@ -1,13 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import {
+  selectAuthUser,
+  toggleChatClose,
+  toggleSidebar,
+  toggleSidebarClose,
+} from 'utils/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { toggleSidebar } from 'utils/redux/slices/userSlice'
 import { MdArrowDropDown } from 'react-icons/md'
+import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
 import { NotificationModal } from 'components/Notifications/NotificationModal'
+import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
 import { Socket } from 'components/Notifications/Socket'
 import './Nav.scss'
+import { chatStatus, toggleChat } from 'utils/redux/slices/userSlice'
 
 export const Nav = () => {
   const [colored, setColored] = useState(false)
@@ -17,6 +24,8 @@ export const Nav = () => {
   const { _id: userId } = authUser
   const dispatch = useAppDispatch()
   const { socketConnection } = Socket()
+  const visibleChat = useAppSelector(chatStatus)
+  const chatRef = useRef(null)
 
   useEffect(() => {
     if (socketConnection) {
@@ -39,13 +48,22 @@ export const Nav = () => {
     socketConnection?.on('disconnect', () => {
       socketConnection.emit('User has disconnected')
     })
-  }, [setNotificationCount, authUser])
+  }, [setNotificationCount, authUser, socketConnection])
+
+  useEffect(() => {
+    // Close chat dialog and sidebar when URL path changes
+    dispatch(toggleChatClose())
+    dispatch(toggleSidebarClose())
+  }, [dispatch, location])
 
   const toggleSidebarHandler = () => {
     dispatch(toggleSidebar())
   }
 
-  // Change NavBar color when scrolling
+  const toggleChatBox = () => {
+    dispatch(toggleChat())
+  }
+
   const ChangeNavbarColor = () => {
     window.scrollY >= 100 ? setColored(true) : setColored(false)
   }
@@ -67,13 +85,21 @@ export const Nav = () => {
         ) : null}
         <div className='logo'>
           <Link to='/'>
-            <img src={Logo} />
+            <img src={Logo} alt='logo' />
           </Link>
         </div>
       </div>
 
       {userId && (
         <div className='notifications'>
+          <div className='messages-icon' ref={chatRef}>
+            <BsFillChatLeftTextFill
+              size={23}
+              className='chat-icon'
+              onClick={() => toggleChatBox()}
+            />
+            {visibleChat && <ChatDialogMain />}
+          </div>
           <div className='notification-badge link'>
             <NotificationModal />
           </div>
