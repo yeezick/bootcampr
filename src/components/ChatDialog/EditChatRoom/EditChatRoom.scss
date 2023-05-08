@@ -1,0 +1,137 @@
+.edit-chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 415px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 0 -15px;
+  padding: 0 15px;
+  row-gap: 35px;
+
+  &::-webkit-scrollbar {
+    background-color: #f5f5f500;
+    height: 8px;
+    width: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    opacity: 1;
+  }
+
+  h5 {
+    font-size: 15px;
+    font-weight: 400;
+    margin: 0;
+    text-align: left;
+  }
+
+  .group-photo-container {
+    align-items: center;
+    display: flex;
+    padding-top: 30px;
+    justify-content: center;
+    position: relative;
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      grid-gap: 1px;
+      border-radius: 50%;
+      height: 100px;
+      width: 100px;
+      overflow: hidden;
+      align-content: center;
+
+      .merged-grid {
+        grid-row: span 2;
+      }
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        padding: 0;
+      }
+
+      .camera-icon {
+        align-items: center;
+        background-color: #ecebeb;
+        display: flex;
+        border-radius: 50%;
+        height: 32px;
+        justify-content: center;
+        position: absolute;
+        right: 77px;
+        top: 97px;
+        width: 32px;
+      }
+    }
+  }
+
+  .room-info-grid {
+    input {
+      background-color: #ecebeb;
+      border: none;
+      border-radius: 4px;
+      height: 34px;
+      margin-top: 5px;
+      padding: 0 15px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+
+  .members-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: -8px;
+    margin-top: 5px;
+    // row-gap: px;
+
+    .members-list {
+      align-items: center;
+      column-gap: 8px;
+      display: flex;
+      padding: 8px 0 8px 8px;
+
+      .avatar-grid {
+        align-items: center;
+        background-color: #f6bf79;
+        border-radius: 50%;
+        display: flex;
+        height: 32px;
+        justify-content: center;
+        overflow: hidden;
+        width: 32px;
+
+        img {
+          height: 32px;
+          padding: 0;
+        }
+      }
+
+      p {
+        font-size: 14px;
+        margin: 0;
+      }
+    }
+
+    .members-list.new-member:hover {
+      background-color: #faeedf;
+      border-radius: 5px;
+      cursor: pointer;
+
+      svg:hover {
+        color: black;
+      }
+    }
+  }
+}

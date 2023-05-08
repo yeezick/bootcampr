@@ -30,7 +30,7 @@ export const NotificationModal = () => {
     setNotifications(displayNotifications)
   }
   useEffect(() => {
-    fetchNotifications()
+    // fetchNotifications()
   }, [fetchNotifications])
 
   const handleClickOpen = async () => {

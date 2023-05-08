@@ -19,6 +19,7 @@ export const Conversations = ({ handleConversationClick }) => {
   useEffect(() => {
     const getThreads = async () => {
       const res = await getAllConversations(authUser._id)
+      console.log('all threads:', res)
       if (res) {
         setThreads(res)
         res.length > 0
@@ -29,17 +30,27 @@ export const Conversations = ({ handleConversationClick }) => {
     getThreads()
   }, [authUser._id])
 
-  const handleConvoClick = async (chatId: string, participants: any) => {
+  const handleConvoClick = async (
+    chatId: string,
+    participants: any,
+    groupName: string
+  ) => {
     participants.length > 2
       ? dispatch(
           setCurrentConversation({
             _id: chatId,
             isGroup: true,
             participants,
+            displayName: groupName,
           })
         )
       : dispatch(
-          setCurrentConversation({ _id: chatId, isGroup: false, participants })
+          setCurrentConversation({
+            _id: chatId,
+            isGroup: false,
+            participants,
+            displayName: `${participants[1].firstName} ${participants[1].lastName}`,
+          })
         )
 
     await handleConversationClick()
@@ -87,7 +98,7 @@ const ConversationsList = ({
             <div
               className='conversation-grid'
               key={chatId}
-              onClick={() => handleConvoClick(chatId, participants)}
+              onClick={() => handleConvoClick(chatId, participants, groupName)}
             >
               <ConversationThumbnail
                 authUser={authUser}
@@ -130,17 +141,11 @@ const ConversationThumbnail = ({
         </div>
         <div className='thread-details-grid'>
           <h5>
-            {groupName} ({participants.length})
+            {groupName.length > 28
+              ? `${groupName.slice(0, 28)}...`
+              : groupName || 'Group Chat'}
           </h5>
-          <p>
-            {lastMessage.sender._id === authUser._id
-              ? 'You'
-              : lastMessage.sender.firstName}
-            :{' '}
-            {lastMessage.text.length > 28
-              ? `${lastMessage.text.slice(0, 28)}...`
-              : lastMessage.text || 'Media message'}
-          </p>
+          <LastMessageText lastMessage={lastMessage} authUser={authUser} />
         </div>
       </>
     )
@@ -156,17 +161,27 @@ const ConversationThumbnail = ({
           <h5>
             {participants[1].firstName} {participants[1].lastName}
           </h5>
-          <p>
-            {lastMessage.sender._id === authUser._id
-              ? 'You'
-              : lastMessage.sender.firstName}
-            :{' '}
-            {lastMessage.text.length > 28
-              ? `${lastMessage.text.slice(0, 28)}...`
-              : lastMessage.text || 'Media message'}
-          </p>
+          <LastMessageText lastMessage={lastMessage} authUser={authUser} />
         </div>
       </>
     )
+  }
+}
+
+const LastMessageText = ({ lastMessage, authUser }) => {
+  if (lastMessage) {
+    return (
+      <p>
+        {lastMessage.sender._id === authUser._id
+          ? 'You'
+          : lastMessage.sender.firstName}
+        :{' '}
+        {lastMessage.text.length > 26
+          ? `${lastMessage.text.slice(0, 26)}...`
+          : lastMessage.text || 'Media message'}
+      </p>
+    )
+  } else {
+    return <p>No messages...</p>
   }
 }

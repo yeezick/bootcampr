@@ -3,7 +3,7 @@
   border-radius: 8px;
   box-shadow: 0 8px 17px -6px rgba(0, 0, 0, 0.7);
   cursor: default;
-  height: 450px;
+  height: 470px;
   padding: 0 20px;
   position: fixed;
   top: 90px;
@@ -11,22 +11,51 @@
   z-index: 999999;
   right: 173px;
 
-  .chat-header {
+  .chat-header-main,
+  .chat-header-messages {
     align-items: center;
     display: flex;
     justify-content: space-between;
+    margin: 0 -13px 0 -3px;
 
     .back-arrow {
       align-items: center;
       column-gap: 5px;
       display: flex;
       margin-left: -10px;
+
+      .group-link {
+        cursor: pointer;
+
+        &:hover {
+          color: #f29e34;
+          text-decoration: underline;
+        }
+      }
+
+      h5 {
+        font-size: 14px;
+        font-weight: 400;
+        margin: 11px 0;
+      }
     }
 
     .main-icons {
       align-items: center;
       column-gap: 8px;
       display: flex;
+    }
+  }
+
+  .chat-header-messages {
+    margin: 0 -20px;
+    padding: 8px 7px 8px 17px;
+    border-bottom: 1px solid #86888a;
+
+    .back-arrow {
+      h5 {
+        margin: 0;
+      }
     }
   }
 

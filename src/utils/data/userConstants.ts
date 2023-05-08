@@ -1,5 +1,6 @@
 import {
   Availability,
+  ChatMessageInterface,
   SignUpInterface,
   UiSliceInterface,
   UserInterface,
@@ -61,6 +62,7 @@ export const initialState: UiSliceInterface = {
     _id: '',
     isGroup: false,
     participants: [],
+    displayName: '',
   },
   status: {
     isAuthenticated: false,
@@ -94,4 +96,8 @@ export const emptySignUp: SignUpInterface = {
   firstName: '',
   lastName: '',
   password: '',
+}
+
+export const emptyChatText: ChatMessageInterface = {
+  text: '',
 }

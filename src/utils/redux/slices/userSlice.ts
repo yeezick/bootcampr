@@ -33,6 +33,7 @@ const initialState: UiSliceInterface = {
     _id: '',
     isGroup: false,
     participants: [],
+    displayName: '',
   },
   status: {
     isAuthenticated: false,
@@ -104,11 +105,13 @@ const userSlice = createSlice({
         _id: string
         isGroup: boolean
         participants: any
+        displayName?: string
       }>
     ) => {
       state.chat._id = action.payload._id
       state.chat.isGroup = action.payload.isGroup
       state.chat.participants = action.payload.participants
+      state.chat.displayName = action.payload.displayName
     },
     reset: state => {
       state.status.isLoading = false

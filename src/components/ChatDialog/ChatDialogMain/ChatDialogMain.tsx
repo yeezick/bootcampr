@@ -2,23 +2,30 @@ import { HiOutlinePencilAlt } from 'react-icons/hi'
 import { IoMdClose } from 'react-icons/io'
 import { FiArrowLeft } from 'react-icons/fi'
 import { Conversations } from 'components/ChatDialog/Conversations/Conversations'
-import { toggleChatClose } from 'utils/redux/slices/userSlice'
+import {
+  selectConversation,
+  toggleChatClose,
+} from 'utils/redux/slices/userSlice'
 import { Messages } from 'components/ChatDialog/Messages/Messages'
 import { useState } from 'react'
-import { useAppDispatch } from 'utils/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { NewChatRoom } from 'components/ChatDialog/NewChatRoom/NewChatRoom'
+import { EditChatRoom } from 'components/ChatDialog/EditChatRoom/EditChatRoom'
 import './ChatDialogMain.scss'
 
 export const ChatDialogMain = () => {
   const dispatch = useAppDispatch()
   const [chatScreen, setChatScreen] = useState<string>('main')
+  const currentConversation = useAppSelector(selectConversation)
 
   const handleConversationClick = () => {
     setChatScreen('messages')
   }
 
   const handleBackArrow = () => {
-    setChatScreen('main')
+    chatScreen === 'editChatRoom'
+      ? setChatScreen('messages')
+      : setChatScreen('main')
   }
 
   const handleComposeMessage = () => {
@@ -31,8 +38,19 @@ export const ChatDialogMain = () => {
 
   return (
     <div className='chat-dialog-container'>
-      <section className='chat-header'>
-        <ChatTitle chatScreen={chatScreen} handleBackArrow={handleBackArrow} />
+      <section
+        className={
+          chatScreen === 'messages'
+            ? 'chat-header-messages'
+            : 'chat-header-main'
+        }
+      >
+        <ChatTitle
+          chatScreen={chatScreen}
+          handleBackArrow={handleBackArrow}
+          setChatScreen={setChatScreen}
+          currentConversation={currentConversation}
+        />
         <ChatHeaderActions
           chatScreen={chatScreen}
           handleComposeMessage={handleComposeMessage}
@@ -49,29 +67,50 @@ export const ChatDialogMain = () => {
   )
 }
 
-const ChatTitle = ({ chatScreen, handleBackArrow }) => {
+const ChatTitle = ({
+  chatScreen,
+  handleBackArrow,
+  setChatScreen,
+  currentConversation,
+}) => {
   if (chatScreen === 'main') {
-    return (
-      <div className='chat-header'>
-        <h1> Chats</h1>
-      </div>
-    )
+    return <h1> Chats</h1>
   }
 
   if (chatScreen === 'composeNewChat') {
     return (
       <div className='back-arrow'>
         <FiArrowLeft size={23} onClick={handleBackArrow} />
-        <h1>New Chat Room</h1>
+        <h5>New Chat Room</h5>
       </div>
     )
   }
 
-  if (chatScreen) {
+  if (chatScreen === 'editChatRoom') {
     return (
       <div className='back-arrow'>
         <FiArrowLeft size={23} onClick={handleBackArrow} />
-        <h1>Messages</h1>
+        <h5>Edit Chat Room</h5>
+      </div>
+    )
+  }
+
+  if (chatScreen === 'messages') {
+    return (
+      <div className='back-arrow'>
+        <FiArrowLeft size={23} onClick={handleBackArrow} />
+        {currentConversation.isGroup ? (
+          <h5
+            onClick={() => setChatScreen('editChatRoom')}
+            className='group-link'
+          >
+            {currentConversation.displayName.length > 28
+              ? `${currentConversation.displayName.slice(0, 28)}...`
+              : currentConversation.displayName || 'Group Chat'}
+          </h5>
+        ) : (
+          <h5>{currentConversation.displayName}</h5>
+        )}
       </div>
     )
   }
@@ -108,5 +147,9 @@ const ChatBody = ({ chatScreen, handleConversationClick }) => {
 
   if (chatScreen === 'composeNewChat') {
     return <NewChatRoom />
+  }
+
+  if (chatScreen === 'editChatRoom') {
+    return <EditChatRoom />
   }
 }

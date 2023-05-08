@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
 import { IoMdCloseCircleOutline } from 'react-icons/io'
+import { createGroupChatRoom, createPrivateChatRoom } from 'utils/api/chat'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { members } from './DummyMembers'
 import './NewChatRoom.scss'
 
@@ -8,11 +11,13 @@ type Member = {
   _id: string
   firstName: string
   lastName: string
+  email: string
   role: string
   profilePicture: string
 }
 
 export const NewChatRoom = () => {
+  const authUser = useAppSelector(selectAuthUser)
   const [engineers, setEngineers] = useState([])
   const [designers, setDesigners] = useState([])
   const [projectMembers, setProjectMembers] = useState<Member[]>([])
@@ -46,6 +51,21 @@ export const NewChatRoom = () => {
       : setSelectedMembers([])
   }
 
+  const handleSubmitNewChatRoom = async () => {
+    if (selectedMembers.length > 1) {
+      const participants = selectedMembers.map(member => member._id)
+
+      const participantsNames = selectedMembers
+        .map(member => `${member.firstName} ${member.lastName}`)
+        .join(', ')
+      await createGroupChatRoom(authUser._id, participants, participantsNames)
+      console.log('group chat participants:', participants)
+    } else {
+      const recipientEmail = selectedMembers[0].email
+      await createPrivateChatRoom(authUser._id, recipientEmail)
+    }
+  }
+  console.log('selected members:', selectedMembers)
   return (
     <div className='new-chat-room-container'>
       <section>
@@ -53,21 +73,26 @@ export const NewChatRoom = () => {
           handleMemberClick={handleMemberClick}
           selectedMembers={selectedMembers}
         />
-        <p>Invite members from your ongoing projects</p>
+        <p>Invite members from your project</p>
         <input
           type='checkbox'
           id='select-all-check'
           checked={allMembersSelected}
           onChange={selectAllClick}
         />
-        <label>Select All</label>
+        <label>Invite all members</label>
         <AllProjectMembers
           projectMembers={projectMembers}
           selectedMembers={selectedMembers}
           handleMemberClick={handleMemberClick}
         />
       </section>
-      <button disabled={selectedMembers.length === 0}>Create a Room</button>
+      <button
+        disabled={selectedMembers.length === 0}
+        onClick={handleSubmitNewChatRoom}
+      >
+        Create a Room
+      </button>
     </div>
   )
 }

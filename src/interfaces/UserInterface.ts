@@ -33,6 +33,7 @@ export interface UiSliceInterface {
     _id: string
     isGroup: boolean
     participants: []
+    displayName?: string
   }
   status: {
     isAuthenticated: boolean
@@ -129,4 +130,8 @@ export interface Availability {
     available: boolean
     availability: TimeOption[][]
   }
+}
+
+export interface ChatMessageInterface {
+  text: string
 }
