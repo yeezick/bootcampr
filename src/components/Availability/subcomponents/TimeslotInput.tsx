@@ -4,13 +4,18 @@ import {
   ContentCopyOutlined,
 } from '@mui/icons-material'
 import { SelectTimeInput } from './SelectTimeInput'
-import { timeOptions } from '../utils/data'
 import { Checkbox } from '@mui/material'
 import { useState, useEffect } from 'react'
 import './CopyTimesModal.scss'
 import { useDispatch } from 'react-redux'
 import { setUserAvailability } from 'utils/redux/slices/userSlice'
-import { consolidateAvailability } from './SelectTimeInput'
+import {
+  consolidateAvailability,
+  deleteTimeSlot,
+  addTimeSlot,
+  renderCopyTimesModal,
+  copyTimes,
+} from '../utils/helpers'
 
 export const TimeSlotInput = ({ day, days, setDays, slots }) => {
   const dispatch = useDispatch()
@@ -27,116 +32,13 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
   }
 
   const getDisplay = idx => {
-    console.log('get display')
-    console.log(displayModal[idx])
-    console.log(displayModal)
     return displayModal[idx]
   }
 
   useEffect(() => {
-    console.log('display modal changed')
-    console.log('huh')
     dispatch(setUserAvailability(days))
     toggleDisplay(true)
   }, [days, displayModal])
-
-  const getNextTimeslot = currentTime => {
-    const index = timeOptions.indexOf(currentTime)
-    return [timeOptions[index + 1], timeOptions[index + 2]]
-  }
-
-  const deleteTimeSlot = (day, idx) => {
-    let newAvailability
-    if (days[day].availability.length === 1) {
-      newAvailability = {
-        available: false,
-        availability: [['9:00 AM', '5:00 PM']],
-      }
-    } else {
-      newAvailability = {
-        available: true,
-        availability: [...days[day].availability],
-      }
-      newAvailability.availability.splice(idx, 1)
-    }
-
-    setDays({
-      ...days,
-      [day]: {
-        ...newAvailability,
-      },
-    })
-  }
-
-  const addTimeSlot = (day, idx) => {
-    const nextTimeslot = getNextTimeslot(days[day].availability[idx][1])
-    const newAvailability = [...days[day].availability]
-    newAvailability.push(nextTimeslot)
-
-    console.log(newAvailability)
-    setDays({
-      ...days,
-      [day]: {
-        available: days[day].available,
-        availability: newAvailability,
-      },
-    })
-  }
-
-  const renderCopyTimesModal = (day, idx) => {
-    console.log('render copy times modal')
-    console.log(displayModal)
-    const newState = displayModal
-    newState[idx] = !displayModal[idx]
-    console.log('new state')
-    console.log(newState)
-
-    toggleDisplayModal({
-      ...displayModal,
-      ...newState,
-    })
-    console.log(displayModal)
-  }
-
-  const copyTimes = (checked, day, idx, setDays) => {
-    console.log("Let's copy these times!")
-
-    const daysToPasteTo = Object.keys(checked).filter(
-      day => day != 'EVRY' && checked[day]
-    )
-    console.log(daysToPasteTo)
-    const copiedTimeslot = [days[day].availability[idx]]
-    console.log(copiedTimeslot)
-    const newAvail = {}
-    daysToPasteTo.forEach(day => {
-      newAvail[day] = {
-        available: true,
-        availability: days[day].availability.concat(copiedTimeslot),
-      }
-    })
-    setDays({
-      ...days,
-      ...newAvail,
-    })
-  }
-
-  // Don't abstract to this degree
-  const handleIconClick = (icon, day, idx) => {
-    console.log(`clicked on ${icon}, for ${day}, index: ${idx}`)
-    switch (icon) {
-      case 'add':
-        addTimeSlot(day, idx)
-        break
-      case 'delete':
-        deleteTimeSlot(day, idx)
-        break
-      case 'copy':
-        renderCopyTimesModal(day, idx)
-        break
-      default:
-        break
-    }
-  }
 
   return (
     <div className='timeslots-container'>
@@ -162,7 +64,7 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
             />
             <DeleteOutline
               className='icon'
-              onClick={() => handleIconClick('delete', day, idx)}
+              onClick={() => deleteTimeSlot(day, days, setDays, idx)}
             />
           </div>
           <div className='right-banner'>
@@ -171,7 +73,7 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
                 <AddRounded
                   onMouseEnter={() => handleHover(idx, 'show', 'add')}
                   onMouseOut={() => handleHover(idx, 'hide', 'add')}
-                  onClick={() => handleIconClick('add', day, idx)}
+                  onClick={() => addTimeSlot(day, days, setDays, idx)}
                 />
               </div>
             )}
@@ -188,7 +90,9 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
               <ContentCopyOutlined
                 onMouseEnter={() => handleHover(idx, 'show', 'copy')}
                 onMouseOut={() => handleHover(idx, 'hide', 'copy')}
-                onClick={() => handleIconClick('copy', day, idx)}
+                onClick={() =>
+                  renderCopyTimesModal(day, idx, displayModal, toggleDisplay)
+                }
               />
             </div>
           </div>
@@ -230,7 +134,6 @@ export const CopyTimesModal = ({ days, day, idx, copyTimes, setDays }) => {
         'FRIDAY',
         'SATURDAY',
       ].map(shortday => (
-        // render code directly to better handle state
         <CopyTimesOption
           day={shortday}
           selectedDay={day}
@@ -238,7 +141,7 @@ export const CopyTimesModal = ({ days, day, idx, copyTimes, setDays }) => {
           setChecked={setChecked}
         />
       ))}
-      <button onClick={() => copyTimes(checked, day, idx, setDays)}>
+      <button onClick={() => copyTimes(checked, day, days, idx, setDays)}>
         Apply
       </button>
     </div>
@@ -251,7 +154,6 @@ const CopyTimesOption = ({ day, selectedDay, checked, setChecked }) => {
 
   const handleChange = e => {
     if (day === 'EVERY DAY') {
-      console.log('day = ' + day)
       const toggle = !checked.EVRY
       setChecked({
         ...{
