@@ -6,6 +6,7 @@ export const consolidateAvailability = availability => {
     const timeA = availability[i][0]
     const timeB = availability[i - 1][1]
     if (timeOptions.indexOf(timeA) <= timeOptions.indexOf(timeB)) {
+      // check if the later of the two times is also greater
       availability[i - 1] = [availability[i - 1][0], availability[i][1]]
       availability.splice(i, 1)
     }
