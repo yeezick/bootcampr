@@ -28,6 +28,12 @@ export interface UiSliceInterface {
   sidebar: {
     visibleSidebar: boolean
   }
+  chat: {
+    visibleChat: boolean
+    _id: string
+    isGroup: boolean
+    participants: []
+  }
   status: {
     isAuthenticated: boolean
     isLoading?: boolean

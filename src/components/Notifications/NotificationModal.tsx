@@ -31,7 +31,7 @@ export const NotificationModal = () => {
   }
   useEffect(() => {
     fetchNotifications()
-  }, [])
+  }, [fetchNotifications])
 
   const handleClickOpen = async () => {
     fetchNotifications()

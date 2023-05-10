@@ -7,7 +7,7 @@ export const Footer: React.FC = () => {
   return (
     <div className='footer-container'>
       <Link className='link' to='/'>
-        <img src={Logo} />
+        <img src={Logo} alt='logo' />
       </Link>
       <Link className='link' to='/sign-up'>
         Register Today!
