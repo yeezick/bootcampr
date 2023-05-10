@@ -1,4 +1,3 @@
-// import { useRef } from "react";
 import { Box, Button, Slider, Typography } from '@mui/material'
 import CropIcon from '@mui/icons-material/Crop'
 import { ImageEditorControlsProps } from 'utilities/types/ProfileImageInterfaces'
@@ -7,7 +6,6 @@ import './ImageEditorModal.scss'
 
 /**
  * ImageEditorControls component displays the controls for the image editor modal.
- * @param {Object} props - Properties passed to the component.
  * @param {Object} fileInputRef - Ref to the file input element.
  * @param {number} zoom - Current zoom level.
  * @param {Function} setZoom - Function to update the zoom level.

@@ -1,4 +1,4 @@
-import { useCallback, useState, useRef, useEffect } from 'react'
+import { useCallback, useState, useRef } from 'react'
 import { ImageEditorModalProps } from 'utilities/types/ProfileImageInterfaces'
 import { Dialog, DialogActions } from '@mui/material'
 import { createUserImage, saveCroppedImage } from './ImageEditorModalUtils'
@@ -11,7 +11,6 @@ import './ImageEditorModal.scss'
 
 /**
  * ImageEditorModal component allows the user to edit, crop, and save images.
- * @param {Object} props - Properties passed to the component.
  * @param {boolean} open - Indicates if the dialog is open.
  * @param {Function} onClose - Function to call when the dialog is closed.
  * @param {string} uploadedImage - The uploaded image in base64 format.
@@ -73,10 +72,8 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
                 '643c361cbbc6a57bfbeb0b57'
               )
 
-              // Call the onSaveClick prop after saving the image
               onSaveClick(croppedImageURL)
 
-              // Close the modal after saving the image
               handleClose()
             } catch (error) {
               console.log('Failed to generate cropped image URL:', error)
@@ -86,11 +83,6 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
       )
     }
   }, [uploadedImage, cropArea, zoom, handleClose, onSaveClick])
-
-  useEffect(() => {
-    if (open && !uploadedImage) {
-    }
-  }, [open, uploadedImage])
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>

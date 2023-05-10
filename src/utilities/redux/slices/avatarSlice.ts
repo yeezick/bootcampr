@@ -1,9 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AvatarState } from 'utilities/types/ProfileImageInterfaces'
 
-/**
- * Initial state for the avatar slice.
- */
 const initialState: AvatarState = {
   imageUrl: null,
 }

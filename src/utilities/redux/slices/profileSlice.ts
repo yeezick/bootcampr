@@ -1,9 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ProfileState } from 'utilities/types/ProfileImageInterfaces'
 
-/**
- * Initial state for the profile slice.
- */
 const initialState: ProfileState = {
   uploadedImage: null,
 }

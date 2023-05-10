@@ -5,7 +5,6 @@ import './ImageEditorModal.scss'
 
 /**
  * ImageEditorHeader component displays the header of the image editor modal.
- * @param {Object} props - Properties passed to the component.
  * @param {Function} handleClose - Function to call when the close button is clicked.
  * @returns {JSX.Element} - ImageEditorHeader component.
  */

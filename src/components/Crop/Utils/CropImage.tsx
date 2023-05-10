@@ -86,12 +86,10 @@ export default async function getCroppedImg(
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
 
-  // If the canvas context is not available, return null
   if (!ctx) {
     return null
   }
 
-  // Get the rotation in radians
   const rotRad = getRadianAngle(rotation)
 
   // Calculate the bounding box of the rotated image

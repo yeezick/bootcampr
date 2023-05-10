@@ -9,7 +9,6 @@ import './ImageEditorModal.scss'
 
 /**
  * ImageEditorContent component displays the image editing content.
- * @param {Object} props - Properties passed to the component.
  * @param {string} uploadedImage - The uploaded image in base64 format.
  * @param {Object} crop - The crop position of the image.
  * @param {number} zoom - The zoom level of the image.

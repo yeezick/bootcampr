@@ -1,6 +1,3 @@
-/**
- * Imports required dependencies and combines reducers into a single rootReducer.
- */
 import { combineReducers } from '@reduxjs/toolkit'
 import avatarReducer from '../slices/avatarSlice'
 import notificationReducer from '../slices/notificationSlice'
@@ -17,12 +14,6 @@ const rootReducer = combineReducers({
   notification: notificationReducer,
 })
 
-/**
- * RootState type is defined as the return type of rootReducer.
- */
 export type RootState = ReturnType<typeof rootReducer>
 
-/**
- * Exports the rootReducer.
- */
 export default rootReducer

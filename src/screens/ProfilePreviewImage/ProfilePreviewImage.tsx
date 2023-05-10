@@ -23,7 +23,6 @@ import './ProfilePreviewImage.scss'
 
 /**
  * ProfilePreviewImage component displays a preview of the profile image, allowing the user to add, edit, or delete the image.
- * @param {Object} props - Properties passed to the component.
  * @param {boolean} open - Indicates if the dialog is open.
  * @param {Function} onClose - Function to call when the dialog is closed.
  * @param {string} uploadedImage - The uploaded image in base64 format.
@@ -40,16 +39,10 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
   const dispatch = useDispatch()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  /**
-   * Opens the image editor modal.
-   */
   const openImageEditor = () => {
     setIsImageEditorOpen(true)
   }
 
-  /**
-   * Closes the image editor modal.
-   */
   const closeImageEditor = () => {
     setIsImageEditorOpen(false)
   }

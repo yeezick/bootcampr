@@ -28,23 +28,14 @@ const Avatar: React.FC<AvatarProps> = ({
 
   const imageUrl = propImageUrl ?? reduxImageUrl
 
-  /**
-   * Opens the modal.
-   */
   const openModal = () => {
     setIsModalOpen(true)
   }
 
-  /**
-   * Closes the modal.
-   */
   const closeModal = () => {
     setIsModalOpen(false)
   }
 
-  /**
-   * Dispatches the action to remove the uploaded image.
-   */
   const handleDeleteImage = () => {
     dispatch(removeUploadedImage())
   }
