@@ -8,6 +8,7 @@
 }
 
 .navbar {
+  background-color: #35313100;
   left: 0;
   position: fixed;
   right: 0;
@@ -26,7 +27,6 @@ nav {
   position: fixed;
   right: 0;
   top: 0;
-  transition: 0.2s;  
   z-index: 1;
 
   .menu-btn {
@@ -72,6 +72,23 @@ nav {
   .notifications {
     align-items: center;
     display: flex;
+
+    .messages-icon {
+      align-items: center;
+      background-color: #ecebeb;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+
+      .chat-icon {
+        cursor: pointer;
+        padding: 13.5px;
+      }
+
+      &:hover {
+        background-color: #d0d0d0;
+      }
+    }
   }
 
   .notification-count {
