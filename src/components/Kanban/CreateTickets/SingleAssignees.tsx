@@ -9,12 +9,12 @@ import {
   SelectChangeEvent,
 } from '@mui/material'
 
-function SingleAssignees({
+export const SingleAssignees = ({
   handleOnChange,
   ticketDetail = null,
   assignees,
   setAssignees,
-}: any) {
+}: any) => {
   const [assigneesData] = useState([
     { title: 'Reina', id: 456, image: 'image' },
     { title: 'Koffi', id: 123, image: 'image' },
@@ -53,4 +53,3 @@ function SingleAssignees({
     </Box>
   )
 }
-export default SingleAssignees

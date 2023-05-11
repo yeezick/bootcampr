@@ -6,9 +6,9 @@ import { Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import './App.css'
-import ProjectPage from 'screens/ProjectPage/ProjectPage'
-import CreateProject from 'screens/CreateProject/CreateProject'
-import ProjectDetails from 'screens/ProjectDetails/ProjectDetails'
+import ProjectPage from 'screens/Project/ProjectPage'
+import CreateProject from 'screens/Project/CreateProject'
+import ProjectDetails from 'screens/Project/ProjectDetails'
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 
 function App() {

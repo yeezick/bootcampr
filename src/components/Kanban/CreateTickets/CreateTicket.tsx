@@ -2,14 +2,13 @@ import { Button, Box, FormControl } from '@mui/material'
 
 import { useState } from 'react'
 import Modal from 'react-modal'
-import SingleAssignees from './SingleAssignees'
 import TextField from '@mui/material/TextField'
-import SingleSelect from './SingleSelect'
+import { SingleSelect } from './SingleSelect'
+
 import {
   createTicketInterface,
   TaskInterface,
-  KeyOfTicketStatusType,
-} from '../../../interfaces/TicketInterFace'
+} from 'interfaces/TicketInterFace'
 import { createTicketApi } from 'utils/api/tickets'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'

@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { createProject } from 'utils/api'
 
-const CreateProject = ({}) => {
+const CreateProject = () => {
   const [inputChange, setInputChange] = useState('')
-  const handleFormInputChange = () => {}
   const handleSubmit = async () => {
     const createdProject = {
       projectOwner: '',

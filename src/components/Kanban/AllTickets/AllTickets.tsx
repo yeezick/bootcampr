@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { CreateTicket } from '../CreateTickets/CreateTicket'
-import TicketDetail from '../TicketDetail/TicketDetail'
-import './ticketManger.scss'
+import { CreateTicket } from 'components/Kanban/CreateTickets/CreateTicket'
+import { TicketDetail } from 'components/Kanban/TicketDetail/TicketDetail'
 
 import {
   TicketInterface,
   KeyOfTicketStatusType,
   TaskInterface,
   TicketStatusChangeFunc,
-} from '../../../interfaces/TicketInterFace'
+} from 'interfaces/TicketInterFace'
 import { ticketDraggedToNewSectionApi } from 'utils/api/tickets'
+import './Ticket.scss'
 
 export const AllTickets = ({ projectTracker }) => {
   const { id } = useParams()

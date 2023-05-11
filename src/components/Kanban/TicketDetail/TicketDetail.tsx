@@ -1,8 +1,8 @@
 import React, { useState, useRef, MutableRefObject } from 'react'
 import Modal from 'react-modal'
 import { Button, Box } from '@mui/material'
-import SingleAssignees from '../CreateTickets/SingleAssignees'
-import SingleSelect from '../CreateTickets/SingleSelect'
+import { SingleAssignees } from '../CreateTickets/SingleAssignees'
+import { SingleSelect } from '../CreateTickets/SingleSelect'
 import { SelectChangeEvent } from '@mui/material/Select'
 
 import {
@@ -31,7 +31,7 @@ const customStyles = {
   },
 }
 
-const TicketDetail = ({
+export const TicketDetail = ({
   ticketDetail,
   getAllTicket,
   setGetAllTicket,
@@ -40,11 +40,6 @@ const TicketDetail = ({
   concatenatedString,
 }: TicketDetailPropsInterface) => {
   Modal.setAppElement('#root')
-  // this needs to be added once the creating a project is done
-  // const [assignees, setAssignees] = useState({
-  //   value: ticketDetail?.assignees?.title,
-  //   user: '',
-  // })
   const authUser = useAppSelector(selectAuthUser)
   const [modalIsOpen, setIsOpen] = useState(false)
   const [ticketStatus, setTicketStatus] = useState<string>()
@@ -62,7 +57,7 @@ const TicketDetail = ({
   const saveChanges = () => {
     const { status } = ticketDetail
     const updateText: TaskInterface = {
-      assignees: authUser._id /* assignees.user ?? ticketDetail.assignees*/,
+      assignees: authUser._id,
       date: dateRef.current?.value,
       description: descriptionRef.current?.textContent,
       _id: ticketDetail._id,
@@ -218,5 +213,3 @@ const TicketDetail = ({
     </div>
   )
 }
-
-export default TicketDetail

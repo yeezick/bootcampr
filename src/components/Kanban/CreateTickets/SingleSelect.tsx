@@ -8,7 +8,7 @@ type SingleSelectProps = {
   splitCamelCaseToWords?: (str: string) => string
   ticketsStatus?: string
 }
-const SingleSelect = ({
+export const SingleSelect = ({
   handleOnChange,
   ticketDetail = null,
   splitCamelCaseToWords,
@@ -41,5 +41,3 @@ const SingleSelect = ({
     </Box>
   )
 }
-
-export default SingleSelect
