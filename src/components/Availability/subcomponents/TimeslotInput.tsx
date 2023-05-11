@@ -60,11 +60,9 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
           </div>
           <div className='right-banner'>
             {days[day].availability.length - 1 === idx && (
-              <>
-                <AddRounded
-                  onClick={() => addTimeSlot(day, days, setDays, idx)}
-                />
-              </>
+              <AddRounded
+                onClick={() => addTimeSlot(day, days, setDays, idx)}
+              />
             )}
             <div className='hover-icon'>
               {getDisplay(idx) && (
@@ -101,6 +99,7 @@ export const CopyTimesModal = ({ days, day, idx, copyTimes, setDays }) => {
     FRI: false,
     SAT: false,
   })
+
   return (
     <div className='copy-times-modal'>
       <p>

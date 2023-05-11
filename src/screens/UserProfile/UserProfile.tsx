@@ -11,12 +11,6 @@ export const UserProfile = () => {
   if (!authUser) {
     return <div>Loading user... or there isn't one.</div>
   }
-  console.log('User Profile log:')
-  if (authUser.availability) {
-    console.log(authUser.availability)
-    const toParse = JSON.stringify(authUser.availability)
-    console.log(JSON.parse(toParse))
-  }
 
   const routeToEdit = () => {
     navigate(`/users/${authUser._id}/edit`)
@@ -33,7 +27,6 @@ export const UserProfile = () => {
         <p>Github: {authUser.githubUrl}</p>
       )}
       <h1>role {authUser.role}</h1>
-      <h1>availability:</h1>
 
       <h1>memberOfProjects ...</h1>
       {authUser.memberOfProjects?.map(

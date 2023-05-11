@@ -10,7 +10,7 @@ export const DayAvailabilityInputBanner = ({ day, days, setDays }) => {
           <div className='check-day'>
             <Checkbox
               name={day}
-              onChange={e => handleCheck(day, days, setDays)}
+              onChange={() => handleCheck(day, days, setDays)}
               sx={{ color: '#022888', '&.Mui-checked': { color: '#022888' } }}
               checked={days[day].available}
             />

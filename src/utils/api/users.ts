@@ -16,7 +16,6 @@ export const getAllUsers = async () => {
 
 export const getOneUser = async (id: any) => {
   try {
-    console.log('getting one user')
     const res = await api.get(`/users/${id}`)
     res.data.availability = {
       SUN: JSON.parse(res.data.availability.SUN),
@@ -27,7 +26,6 @@ export const getOneUser = async (id: any) => {
       FRI: JSON.parse(res.data.availability.SUN),
       SAT: JSON.parse(res.data.availability.SUN),
     }
-    console.log(res)
     return res.data
   } catch (error) {
     throw error

@@ -1,6 +1,6 @@
 import { MenuItem, Select } from '@mui/material'
 import { timeOptions } from '../utils/data'
-import { consolidateAvailability, handleTimeChange } from '../utils/helpers'
+import { handleTimeChange } from '../utils/helpers'
 
 export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
   const index = isStart ? 0 : 1
