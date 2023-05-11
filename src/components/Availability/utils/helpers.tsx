@@ -29,6 +29,7 @@ export const consolidateAvailability = availability => {
  *
  * Takes either a start or end time of a time slot and updates availability
  * state to match new time input
+ *
  * @param e event object - contains day, frame, index and input value
  * @param days availability state
  * @param setDays availability state setter
@@ -55,11 +56,22 @@ export const handleTimeChange = (e, days, setDays) => {
   })
 }
 
-export const handleCheck = (e, day, days, setDays) => {
-  const available = !days[e.target.name].available
+/**
+ * HANDLE AVAILBILITY CHECK BOX (SINGLE DAY)
+ *
+ * Handles when a single day check box is checked or unchecked
+ * unchecked => checked - add and display default availability, or user availability if it exists
+ * checked => unchecked - hide time slot, render 'Unavailable' and maintain user availability state under hood
+ *
+ * @param day selected day
+ * @param days availability state
+ * @param setDays availability state setter
+ */
+export const handleCheck = (day, days, setDays) => {
+  const available = !days[day].available
   const newAvailability =
-    days[e.target.name].availability.length > 0
-      ? days[e.target.name].availability
+    days[day].availability.length > 0
+      ? days[day].availability
       : [['9:00 AM', '5:00 PM']]
 
   setDays({
@@ -71,25 +83,40 @@ export const handleCheck = (e, day, days, setDays) => {
   })
 }
 
+/**
+ * GET NEXT TIMESLOT
+ *
+ * Gets whatever next time slot is
+ * eg. if current time is 6:00 PM, next time slot would be 6:30 PM
+ * Used especially for Add time slot function to determine starting time for new slot
+ *
+ * @param currentTime string, time option ('9:00 AM', '12:30 PM', '7:00 PM')
+ * @returns
+ */
 export const getNextTimeslot = currentTime => {
   const index = timeOptions.indexOf(currentTime)
   return [timeOptions[index + 1], timeOptions[index + 2]]
 }
 
+/**
+ * DELETE TIME SLOT
+ *
+ * Handler to delete a timeslot from user availability state
+ * Sets display to Unavailable if single remaining timeslot is deleted
+ *
+ * @param day
+ * @param days
+ * @param setDays
+ * @param idx
+ */
 export const deleteTimeSlot = (day, days, setDays, idx) => {
   let newAvailability
-  if (days[day].availability.length === 1) {
-    newAvailability = {
-      available: false,
-      availability: [['9:00 AM', '5:00 PM']],
-    }
-  } else {
-    newAvailability = {
-      available: true,
-      availability: [...days[day].availability],
-    }
-    newAvailability.availability.splice(idx, 1)
+
+  newAvailability = {
+    available: days[day].availability.length > 1 ? true : false,
+    availability: [...days[day].availability],
   }
+  newAvailability.availability.splice(idx, 1)
 
   setDays({
     ...days,
@@ -99,9 +126,22 @@ export const deleteTimeSlot = (day, days, setDays, idx) => {
   })
 }
 
+/**
+ * ADD TIME SLOT
+ *
+ * Add a new availability time slot, which starts 30 minutes after previous slot end time
+ * and whose default end time is 30 minutes after start time
+ *
+ * @param day
+ * @param days
+ * @param setDays
+ * @param idx
+ */
 export const addTimeSlot = (day, days, setDays, idx) => {
-  const nextTimeslot = getNextTimeslot(days[day].availability[idx][1])
+  const currentTimeslot = days[day].availability[idx][1]
+  const nextTimeslot = getNextTimeslot(currentTimeslot)
   const newAvailability = [...days[day].availability]
+
   newAvailability.push(nextTimeslot)
 
   setDays({
@@ -113,12 +153,16 @@ export const addTimeSlot = (day, days, setDays, idx) => {
   })
 }
 
-export const renderCopyTimesModal = (
-  day,
-  idx,
-  displayModal,
-  toggleDisplayModal
-) => {
+/**
+ * RENDER COPY TIMES MODAL
+ *
+ * Toggles the copy times modal display display state to render or not
+ *
+ * @param idx - idx of which display modal (by day + timeslot)
+ * @param displayModal
+ * @param toggleDisplayModal
+ */
+export const renderCopyTimesModal = (idx, displayModal, toggleDisplayModal) => {
   const newState = displayModal
   newState[idx] = !displayModal[idx]
 

@@ -22,14 +22,6 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
   const [displayModal, toggleDisplayModal] = useState({
     0: false,
   })
-  const [display, toggleDisplay] = useState(true)
-  const handleHover = (idx, display, action) => {
-    console.log(
-      `Add hover placeholder for ${day}, timeslot ${
-        idx + 1
-      }, display: ${display}, action: ${action}`
-    )
-  }
 
   const getDisplay = idx => {
     return displayModal[idx]
@@ -37,8 +29,7 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
 
   useEffect(() => {
     dispatch(setUserAvailability(days))
-    toggleDisplay(true)
-  }, [days, displayModal])
+  }, [days])
 
   return (
     <div className='timeslots-container'>
@@ -69,13 +60,11 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
           </div>
           <div className='right-banner'>
             {days[day].availability.length - 1 === idx && (
-              <div className='hover-icon'>
+              <>
                 <AddRounded
-                  onMouseEnter={() => handleHover(idx, 'show', 'add')}
-                  onMouseOut={() => handleHover(idx, 'hide', 'add')}
                   onClick={() => addTimeSlot(day, days, setDays, idx)}
                 />
-              </div>
+              </>
             )}
             <div className='hover-icon'>
               {getDisplay(idx) && (
@@ -88,10 +77,8 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
                 />
               )}
               <ContentCopyOutlined
-                onMouseEnter={() => handleHover(idx, 'show', 'copy')}
-                onMouseOut={() => handleHover(idx, 'hide', 'copy')}
                 onClick={() =>
-                  renderCopyTimesModal(day, idx, displayModal, toggleDisplay)
+                  renderCopyTimesModal(idx, displayModal, toggleDisplayModal)
                 }
               />
             </div>
@@ -141,7 +128,10 @@ export const CopyTimesModal = ({ days, day, idx, copyTimes, setDays }) => {
           setChecked={setChecked}
         />
       ))}
-      <button onClick={() => copyTimes(checked, day, days, idx, setDays)}>
+      <button
+        className='apply'
+        onClick={() => copyTimes(checked, day, days, idx, setDays)}
+      >
         Apply
       </button>
     </div>
