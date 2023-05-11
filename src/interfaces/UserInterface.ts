@@ -1,4 +1,4 @@
-import { ProjectInterface } from './ProjectInterface'
+import { ProjectInterface } from 'interfaces'
 
 export interface UserInterface {
   availability: Availability

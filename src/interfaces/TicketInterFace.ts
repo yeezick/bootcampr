@@ -1,10 +1,6 @@
-import { UserInterface } from './UserInterface'
+import { UserInterface } from 'interfaces'
 
 export interface TaskInterface {
-  id?: string
-  title?: string | null
-  status?: string
-  description?: string | null
   assignees?:
     | {
         title: string
@@ -12,11 +8,16 @@ export interface TaskInterface {
         image: string
       }
     | string
-  projectId?: string
   date?: string
-  link?: string | null
+  description?: string | null
   _id?: string
+  id?: string
+  link?: string | null
+  projectId?: string
+  status?: string
+  title?: string | null
 }
+
 export interface TicketInterface {
   assignees?: UserInterface | string
   createAt?: string
@@ -33,40 +34,40 @@ export interface TicketInterface {
 }
 
 export interface TicketStatusChangeParams {
+  id: string
+  item: TaskInterface
   sourceCategory: keyof TicketInterface | null
   targetCategory: keyof TicketInterface | string
-  item: TaskInterface
-  id: string
 }
 
 export type KeyOfTicketStatusType = keyof TicketInterface
 export interface TicketDetailInterface {
-  ticketDetail: TaskInterface
   getAllTicket: TicketInterface
   setGetAllTicket: React.Dispatch<React.SetStateAction<TicketInterface[]>>
+  ticketDetail: TaskInterface
   ticketsStatus: KeyOfTicketStatusType | string
 }
 
 export interface createTicketInterface {
+  concatenatedString?: (str: string) => string
   getAllTicket?: TicketInterface
+  projectId?: string
   setGetAllTicket?: React.Dispatch<React.SetStateAction<TicketInterface>>
   splitCamelCaseToWords?: (str: string) => string
   ticketsStatus?: string
-  concatenatedString?: (str: string) => string
-  projectId?: string
 }
 
 export interface TicketStatusChangeFunc {
+  item?: TicketInterface
   sourceCategory?: KeyOfTicketStatusType
   targetCategory?: KeyOfTicketStatusType
-  item?: TicketInterface
   ticketId?: string
 }
 export interface TicketDetailPropsInterface {
-  ticketDetail?: TicketInterface
+  concatenatedString?: (str: string) => string
   getAllTicket?: TicketInterface[]
   setGetAllTicket?: React.Dispatch<React.SetStateAction<TicketInterface[]>>
-  ticketsStatus?: KeyOfTicketStatusType | string
   splitCamelCaseToWords?: (str: string) => string
-  concatenatedString?: (str: string) => string
+  ticketDetail?: TicketInterface
+  ticketsStatus?: KeyOfTicketStatusType | string
 }

@@ -1,5 +1,4 @@
-import { TicketInterface } from './TicketInterFace'
-import { UserInterface } from './UserInterface'
+import { TicketInterface } from 'interfaces'
 
 export interface ProjectInterface {
   _v: number
