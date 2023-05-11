@@ -12,6 +12,7 @@ import {
 import { createTicketApi } from 'utils/api/tickets'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import '../Ticket.scss'
 
 const customStyles = {
   content: {
@@ -87,10 +88,10 @@ export const CreateTicket = ({
             <h1>Creating...</h1>
           ) : (
             <FormControl>
-              <Box sx={{ display: 'flex', gap: '30px' }}>
+              <Box className='createTicketBox'>
                 <Box sx={{ width: '50%' }}>
                   <TextField
-                    sx={{ width: '100%', paddingBottom: '20px' }}
+                    className='textFieldStyle'
                     type='text'
                     label='Title'
                     id='outlined-basic'
@@ -101,7 +102,7 @@ export const CreateTicket = ({
                     }
                   />
                   <TextField
-                    sx={{ width: '100%', paddingBottom: '20px' }}
+                    className='textFieldStyle'
                     type='text'
                     label='link'
                     id='outlined-basic'
@@ -111,7 +112,6 @@ export const CreateTicket = ({
                       handleOnChange(e)
                     }
                   />
-
                   <input
                     type='date'
                     name='dueDate'
@@ -121,10 +121,9 @@ export const CreateTicket = ({
                   />
                   <p>createdBy:{authUser?.firstName}</p>
                 </Box>
-
                 <Box sx={{ width: '50%' }}>
                   <TextField
-                    sx={{ width: '100%', paddingBottom: '20px' }}
+                    className='textFieldStyle'
                     type='text'
                     id='outlined-basic'
                     label='Description'

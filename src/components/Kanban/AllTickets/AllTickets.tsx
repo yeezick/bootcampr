@@ -10,7 +10,7 @@ import {
   TicketStatusChangeFunc,
 } from 'interfaces/TicketInterFace'
 import { ticketDraggedToNewSectionApi } from 'utils/api/tickets'
-import './Ticket.scss'
+import '../Ticket.scss'
 
 export const AllTickets = ({ projectTracker }) => {
   const { id } = useParams()
@@ -128,7 +128,7 @@ export const AllTickets = ({ projectTracker }) => {
                       ticketDetail._id as string
                     )
                   }
-                  onDragEnter={e => handleDragEnter(e)}
+                  onDragEnter={handleDragEnter}
                   id={ticketDetail._id}
                   key={ticketDetail._id}
                 >

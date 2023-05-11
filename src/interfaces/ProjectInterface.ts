@@ -1,7 +1,7 @@
 import { TicketInterface } from 'interfaces'
 
 export interface ProjectInterface {
-  _v: number
+  _v?: number
   createAt?: string
   duration?: string
   _id?: string
@@ -13,7 +13,7 @@ export interface ProjectInterface {
     toDo?: TicketInterface[]
     underReview?: TicketInterface[]
   }
-  projectOwner?: {
+  members?: {
     design?: any
     engineer?: any
   }

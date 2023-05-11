@@ -1,13 +1,7 @@
 import { UserInterface } from 'interfaces'
 
 export interface TaskInterface {
-  assignees?:
-    | {
-        title: string
-        id: number
-        image: string
-      }
-    | string
+  assignees?: UserInterface | string
   date?: string
   description?: string | null
   _id?: string

@@ -18,7 +18,12 @@ export const ticketDraggedToNewSectionApi = async ticketData => {
     const data = await api.put(`/ticketDraggedToNewSection`, ticketData)
     return data
   } catch (error) {
-    return { error: { status: 500, message: 'ticket status failed to change' } }
+    return {
+      error: {
+        status: 500,
+        message: 'ticket status failed to change to new section',
+      },
+    }
   }
 }
 

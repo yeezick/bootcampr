@@ -33,7 +33,7 @@ export const UserProfile = () => {
         (projects: ProjectInterface, id: number) => (
           <div key={`userprofile-memberof-${id}`}>
             <h5>title: {projects.title}</h5>
-            <h5>project owner: {JSON.stringify(projects.projectOwner)}</h5>
+            <h5>project owner: {JSON.stringify(projects.members)}</h5>
             <h5>overview: {projects.overview}</h5>
             <h5>duration: {projects.duration}</h5>
             <h5>meeting cadence: {projects.meetingCadence}</h5>

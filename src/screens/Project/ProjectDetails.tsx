@@ -26,7 +26,7 @@ const ProjectDetails = ({}) => {
     <div>
       <h1>{projectDetail?.title}</h1>
       <h1>{projectDetail?.duration}</h1>
-      {projectDetail ? <AllTickets projectTracker={projectDetail} /> : null}
+      {projectDetail && <AllTickets projectTracker={projectDetail} />}
     </div>
   )
 }
