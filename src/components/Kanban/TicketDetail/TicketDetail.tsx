@@ -1,11 +1,9 @@
-import React, { useState, useRef, MutableRefObject } from 'react'
+import { useState, useRef, MutableRefObject } from 'react'
 import Modal from 'react-modal'
 import { Button, Box } from '@mui/material'
-import { SelectStatus } from '../CreateTickets/SelectStatus'
+import { SelectStatus } from 'components/Kanban'
 import { SelectChangeEvent } from '@mui/material/Select'
-
 import { TaskInterface, TicketDetailPropsInterface } from 'interfaces'
-
 import {
   ticketStatusChange,
   ticketStatusHasNotChange,

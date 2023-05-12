@@ -3,7 +3,7 @@ import { Button, Box, FormControl } from '@mui/material'
 import { useState } from 'react'
 import Modal from 'react-modal'
 import TextField from '@mui/material/TextField'
-import { SelectStatus } from './SelectStatus'
+import { SelectStatus } from 'components/Kanban'
 
 import {
   createTicketInterface,
