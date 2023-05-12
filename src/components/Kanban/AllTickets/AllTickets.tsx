@@ -8,7 +8,7 @@ import {
   KeyOfTicketStatusType,
   TaskInterface,
   TicketStatusChangeFunc,
-} from 'interfaces/TicketInterFace'
+} from 'interfaces'
 import { ticketDraggedToNewSectionApi } from 'utils/api/tickets'
 import '../Ticket.scss'
 

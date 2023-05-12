@@ -3,10 +3,7 @@ import {
   ticketStatusHasNotChangedApi,
 } from 'utils/api/tickets'
 
-import {
-  TaskInterface,
-  KeyOfTicketStatusType,
-} from '../../../interfaces/TicketInterFace'
+import { TaskInterface, KeyOfTicketStatusType } from 'interfaces'
 
 export const ticketStatusHasNotChange = async ({
   updateText,

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { getAllProjects } from 'utils/api'
 import { ProjectInterface } from 'interfaces'
 
-const ProjectPage = ({}) => {
+const ProjectPage = () => {
   const [getAllProjectsData, setGetAllProjectsData] = useState<
     ProjectInterface[] | null
   >()

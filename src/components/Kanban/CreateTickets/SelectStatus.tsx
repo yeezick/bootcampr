@@ -2,18 +2,18 @@ import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import { SelectChangeEvent } from '@mui/material/Select'
 import { TicketInterface } from 'interfaces/TicketInterFace'
 
-type SingleSelectProps = {
+type SelectStatusProps = {
   handleOnChange?: (e: SelectChangeEvent) => void
   ticketDetail?: TicketInterface | null
   splitCamelCaseToWords?: (str: string) => string
   ticketsStatus?: string
 }
-export const SingleSelect = ({
+export const SelectStatus = ({
   handleOnChange,
   ticketDetail = null,
   splitCamelCaseToWords,
   ticketsStatus,
-}: SingleSelectProps) => {
+}: SelectStatusProps) => {
   return (
     <Box sx={{ minWidth: 10 }}>
       <FormControl fullWidth sx={{ width: '100%', paddingBottom: '20px' }}>
@@ -28,9 +28,7 @@ export const SingleSelect = ({
               ? splitCamelCaseToWords(ticketDetail?.status)
               : ticketsStatus
           }
-          onChange={(e, value) => {
-            handleOnChange(e)
-          }}
+          onChange={handleOnChange}
         >
           <MenuItem value={'to Do'}>To Do</MenuItem>
           <MenuItem value={'in Progress'}>In progress</MenuItem>

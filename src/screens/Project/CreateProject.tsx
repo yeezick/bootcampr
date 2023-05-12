@@ -18,7 +18,7 @@ const CreateProject = () => {
         value={inputChange}
         onChange={e => setInputChange(e.target.value)}
       />
-      <button onClick={() => handleSubmit()}>Create</button>
+      <button onClick={handleSubmit}>Create</button>
     </div>
   )
 }

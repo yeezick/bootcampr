@@ -3,7 +3,7 @@ import { Button, Box, FormControl } from '@mui/material'
 import { useState } from 'react'
 import Modal from 'react-modal'
 import TextField from '@mui/material/TextField'
-import { SingleSelect } from './SingleSelect'
+import { SelectStatus } from './SelectStatus'
 
 import {
   createTicketInterface,
@@ -97,9 +97,7 @@ export const CreateTicket = ({
                     id='outlined-basic'
                     variant='outlined'
                     name='title'
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleOnChange(e)
-                    }
+                    onChange={handleOnChange}
                   />
                   <TextField
                     className='textFieldStyle'
@@ -108,17 +106,9 @@ export const CreateTicket = ({
                     id='outlined-basic'
                     variant='outlined'
                     name='link'
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleOnChange(e)
-                    }
+                    onChange={handleOnChange}
                   />
-                  <input
-                    type='date'
-                    name='dueDate'
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleOnChange(e)
-                    }
-                  />
+                  <input type='date' name='dueDate' onChange={handleOnChange} />
                   <p>createdBy:{authUser?.firstName}</p>
                 </Box>
                 <Box sx={{ width: '50%' }}>
@@ -130,12 +120,10 @@ export const CreateTicket = ({
                     variant='outlined'
                     multiline
                     name='description'
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleOnChange(e)
-                    }
+                    onChange={handleOnChange}
                     InputProps={{ rows: 4.5 }}
                   />
-                  <SingleSelect
+                  <SelectStatus
                     handleOnChange={handleOnChange}
                     ticketsStatus={ticketsStatus}
                   />

@@ -1,14 +1,10 @@
 import React, { useState, useRef, MutableRefObject } from 'react'
 import Modal from 'react-modal'
 import { Button, Box } from '@mui/material'
-import { SingleAssignees } from '../CreateTickets/SingleAssignees'
-import { SingleSelect } from '../CreateTickets/SingleSelect'
+import { SelectStatus } from '../CreateTickets/SelectStatus'
 import { SelectChangeEvent } from '@mui/material/Select'
 
-import {
-  TaskInterface,
-  TicketDetailPropsInterface,
-} from '../../../interfaces/TicketInterFace'
+import { TaskInterface, TicketDetailPropsInterface } from 'interfaces'
 
 import {
   ticketStatusChange,
@@ -106,7 +102,6 @@ export const TicketDetail = ({
 
     closeModal()
   }
-  // oldStatus, ticketId, projectId
   return (
     <div>
       <button onClick={openModal}> Ticket Detail</button>
@@ -167,18 +162,11 @@ export const TicketDetail = ({
               </Box>
 
               <Box sx={{ width: '50%' }}>
-                <SingleSelect
+                <SelectStatus
                   handleOnChange={handleEditChange}
                   ticketDetail={ticketDetail}
                   splitCamelCaseToWords={splitCamelCaseToWords}
                 />
-                {/* for assignees we need the project to have users in a specific project */}
-
-                {/* <SingleAssignees
-                  setAssignees={setAssignees}
-                  assignees={assignees}
-                  ticketDetail={ticketDetail}
-                /> */}
                 <input
                   type='date'
                   name='date'
