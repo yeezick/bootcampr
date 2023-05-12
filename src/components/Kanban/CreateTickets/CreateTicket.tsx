@@ -37,8 +37,6 @@ export const CreateTicket = ({
   Modal.setAppElement('#root')
   const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()
   const [modalIsOpen, setIsOpen] = useState(false)
-  // needs to be added once the project creating is done
-  // const [assignees, setAssignees] = useState<any>()
   const [isBeingCreated, setIsBeingCreated] = useState<boolean>(false)
   const authUser = useAppSelector(selectAuthUser)
   const openModal = () => setIsOpen(true)
@@ -136,7 +134,6 @@ export const CreateTicket = ({
                   disabled={false}
                   size='small'
                   variant='outlined'
-                  // size="12px"
                   onClick={() => addTickets()}
                 >
                   Add a ticket
