@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { CreateTicket } from 'components/Kanban/CreateTickets/CreateTicket'
-import { TicketDetail } from 'components/Kanban/TicketDetail/TicketDetail'
+import { CreateTicket } from 'components/Kanban'
+import { TicketDetail } from 'components/Kanban'
 
 import {
   TicketInterface,
@@ -9,7 +9,7 @@ import {
   TaskInterface,
   TicketStatusChangeFunc,
 } from 'interfaces'
-import { ticketDraggedToNewSectionApi } from 'utils/api/tickets'
+import { updateTicketInformationAndStatus } from 'utils/api/tickets'
 import '../Ticket.scss'
 
 export const AllTickets = ({ projectTracker }) => {
@@ -63,7 +63,7 @@ export const AllTickets = ({ projectTracker }) => {
       [targetCategory]: [...addToNewSection],
     })
 
-    ticketDraggedToNewSectionApi({
+    updateTicketInformationAndStatus({
       projectId: id,
       newStatus: targetCategory,
       ticketId: ticketId,

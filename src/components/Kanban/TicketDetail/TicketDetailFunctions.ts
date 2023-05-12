@@ -1,7 +1,4 @@
-import {
-  ticketStatusChangedApi,
-  ticketStatusHasNotChangedApi,
-} from 'utils/api/tickets'
+import { updateTicketInformationAndStatus } from 'utils/api/tickets'
 
 import { TaskInterface, KeyOfTicketStatusType } from 'interfaces'
 
@@ -14,7 +11,7 @@ export const ticketStatusHasNotChange = async ({
   setIsBeingEdited,
 }) => {
   setIsBeingEdited(true)
-  const apiData = await ticketStatusHasNotChangedApi({
+  const apiData = await updateTicketInformationAndStatus({
     ...updateText,
     ticketId: ticketDetail._id,
     projectId: ticketDetail.projectId,
@@ -61,7 +58,7 @@ export const ticketStatusChange = async ({
     [updatedStatus]: [...addToNewSection],
   })
 
-  await ticketStatusChangedApi({
+  await updateTicketInformationAndStatus({
     projectId: ticketDetail.projectId,
     newStatus: updatedStatus,
     ticketId: _id,

@@ -1,10 +1,12 @@
-import { ProjectInterface } from 'interfaces'
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { AllTickets } from 'components/Kanban/AllTickets/AllTickets'
+import { ProjectInterface } from 'interfaces'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+// import { AllTickets } from 'components/Kanban/AllTickets/AllTickets'
+
 import { getOneProject } from 'utils/api'
 
-const ProjectDetails = ({}) => {
+const ProjectDetails = () => {
   const { id } = useParams()
   const [projectDetail, setProjectDetails] = useState<ProjectInterface | null>(
     null
