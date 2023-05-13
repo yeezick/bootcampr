@@ -6,6 +6,7 @@ import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { AllProjects, CreateProject, ProjectDetails } from 'screens/Project'
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
+import { Calendar } from 'components/Calendar/Calendar'
 import './App.css'
 
 function App() {
@@ -14,17 +15,21 @@ function App() {
       <Layout>
         <Routes>
           <Route path='/' element={<Landing />} />
-          <Route path='/AllProjects' element={<AllProjects />} />
-          <Route path='/CreateProject' element={<CreateProject />} />
-          <Route path='/project/:id' element={<ProjectDetails />} />
+          {/* Auth */}
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/sign-in' element={<SignIn />} />
-          <Route path='/users/:id' element={<UserProfile />} />
-          <Route path='/users/:id/edit' element={<EditProfile />} />
           <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
-          <Route path='/users/onboarding' element={<Onboarding />} />
+          {/* User */}
           <Route path='/availability' element={<AvailabilityDemoScreen />} />
+          <Route path='/users/onboarding' element={<Onboarding />} />
+          <Route path='/users/:id' element={<UserProfile />} />
+          <Route path='/users/:id/edit' element={<EditProfile />} />
+          {/* Project */}
+          <Route path='/all-projects' element={<AllProjects />} />
+          <Route path='/create-project' element={<CreateProject />} />
+          <Route path='/project/:id' element={<ProjectDetails />} />
+          <Route path='/project/:id/calendar' element={<Calendar />} />
         </Routes>
       </Layout>
     </>

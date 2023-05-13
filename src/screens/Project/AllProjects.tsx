@@ -17,7 +17,7 @@ export const AllProjects = () => {
 
   return (
     <div>
-      <Link to='/CreateProject'> CreateProject</Link>
+      <Link to='/create-project'> Create Project</Link>
       {getAllProjectsData?.map(project => (
         <div key={project._id}>
           <h1>getAllProjectsData</h1>
