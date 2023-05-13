@@ -1,25 +1,22 @@
 import { Routes, Route } from 'react-router-dom'
 import { Layout } from 'layout'
-import { SignIn, SignUp } from 'screens/Auth'
-import { EmailVerify, ExpiredLink } from 'screens/Auth'
+import { EmailVerify, ExpiredLink, SignIn, SignUp } from 'screens/Auth'
 import { Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
-import './App.css'
-import ProjectPage from 'screens/Project/ProjectPage'
-import CreateProject from 'screens/Project/CreateProject'
-import ProjectDetails from 'screens/Project/ProjectDetails'
+import { AllProjects, CreateProject, ProjectDetails } from 'screens/Project'
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
+import './App.css'
 
 function App() {
   return (
     <>
       <Layout>
         <Routes>
-          <Route path='/ProjectPage' element={<ProjectPage />} />
+          <Route path='/' element={<Landing />} />
+          <Route path='/AllProjects' element={<AllProjects />} />
           <Route path='/CreateProject' element={<CreateProject />} />
           <Route path='/project/:id' element={<ProjectDetails />} />
-          <Route path='/' element={<Landing />} />
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/users/:id' element={<UserProfile />} />

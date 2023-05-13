@@ -1,12 +1,10 @@
-import { AllTickets } from 'components/Kanban/AllTickets/AllTickets'
+import { AllTickets } from 'components/Kanban'
 import { ProjectInterface } from 'interfaces'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-// import { AllTickets } from 'components/Kanban/AllTickets/AllTickets'
-
 import { getOneProject } from 'utils/api'
 
-const ProjectDetails = () => {
+export const ProjectDetails = () => {
   const { id } = useParams()
   const [projectDetail, setProjectDetails] = useState<ProjectInterface | null>(
     null
@@ -32,5 +30,3 @@ const ProjectDetails = () => {
     </div>
   )
 }
-
-export default ProjectDetails

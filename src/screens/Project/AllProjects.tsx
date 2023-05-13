@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getAllProjects } from 'utils/api'
 import { ProjectInterface } from 'interfaces'
 
-const ProjectPage = () => {
-  const [getAllProjectsData, setGetAllProjectsData] = useState<
-    ProjectInterface[] | null
-  >()
+export const AllProjects = () => {
+  const [getAllProjectsData, setGetAllProjectsData] =
+    useState<ProjectInterface[]>()
 
   useEffect(() => {
     const projects = async () => {
@@ -15,6 +14,7 @@ const ProjectPage = () => {
     }
     projects()
   }, [])
+
   return (
     <div>
       <Link to='/CreateProject'> CreateProject</Link>
@@ -27,5 +27,3 @@ const ProjectPage = () => {
     </div>
   )
 }
-
-export default ProjectPage
