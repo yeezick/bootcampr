@@ -9,7 +9,7 @@ export const CalendarHeader = ({ toggleMeetingModal }) => {
       </div>
       <div className='header-button'>
         <PurpleButon onClick={toggleMeetingModal} variant='contained'>
-          Create Meeting
+          + Create Meeting
         </PurpleButon>
       </div>
     </div>

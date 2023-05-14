@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { CalendarHeader, CalendarTabs, MeetingModal } from './'
-import './Calendar.scss'
+import { CalendarHeader, CalendarTabs, MeetingModal } from 'components/Calendar'
+import 'components/Calendar/Calendar.scss'
 
 export const Calendar = () => {
   const [visibleMeeting, toggleVisibleMeeting] = useState(false)

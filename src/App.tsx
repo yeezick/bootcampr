@@ -7,7 +7,7 @@ import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { PaginatorExample } from 'components/Paginator/Examples/PaginatorExample'
 import { AllProjects, CreateProject, ProjectDetails } from 'screens/Project'
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
-import { Calendar } from 'components/Calendar/Calendar'
+import { Calendar } from 'screens/Project/Calendar'
 import './App.css'
 
 function App() {

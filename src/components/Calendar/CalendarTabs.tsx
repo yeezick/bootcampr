@@ -1,12 +1,21 @@
-import * as React from 'react'
-import PropTypes from 'prop-types'
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
+import { useState } from 'react'
+import { Box, Tabs, Tab } from '@mui/material'
+import { Availability } from 'components/Availability/Availability'
+
+// If components need props, create this object inside CalendarTabs instead
+const allTabs = [
+  {
+    label: 'Calendar',
+    component: <>Calendar</>,
+  },
+  {
+    label: 'My Availability',
+    component: <Availability />,
+  },
+]
 
 //todo: complete copy-paste from MUI, revisit!!!!
-function TabPanel(props) {
+const TabContent = props => {
   const { activeTab, children, index } = props
 
   return (
@@ -21,22 +30,11 @@ function TabPanel(props) {
 }
 
 export const CalendarTabs = () => {
-  const [activeTab, setActiveTab] = React.useState(0)
+  const [activeTab, setActiveTab] = useState(0)
 
   const handleChange = (event, newValue) => {
     setActiveTab(newValue)
   }
-
-  const allTabs = [
-    {
-      label: 'Calendar',
-      component: <>Calendar</>,
-    },
-    {
-      label: 'Availability',
-      component: <>Availability</>,
-    },
-  ]
 
   return (
     <Box sx={{ width: '100%' }} className='calendar-body'>
@@ -48,9 +46,9 @@ export const CalendarTabs = () => {
         </Tabs>
       </Box>
       {allTabs.map((tab, index) => (
-        <TabPanel activeTab={activeTab} index={index}>
+        <TabContent activeTab={activeTab} index={index}>
           {tab.component}
-        </TabPanel>
+        </TabContent>
       ))}
     </Box>
   )
