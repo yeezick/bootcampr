@@ -24,10 +24,10 @@ function App() {
           {/* User */}
           <Route path='/availability' element={<AvailabilityDemoScreen />} />
           <Route path='/onboarding/:userId' element={<Onboarding />} />
-          {/* Todo: Remove once onboarding flow is complete */}
-          <Route path='/paginator-example' element={<PaginatorExample />} />
           <Route path='/users/:id' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />
+          {/* Todo: Remove once onboarding flow is complete */}
+          <Route path='/paginator-example' element={<PaginatorExample />} />
           {/* Project */}
           <Route path='/all-projects' element={<AllProjects />} />
           <Route path='/create-project' element={<CreateProject />} />
