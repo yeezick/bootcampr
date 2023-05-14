@@ -1,5 +1,5 @@
 import { PageItem } from 'interfaces/components/Paginator'
-import { redirect } from 'react-router-dom'
+import { produce } from 'immer'
 
 /**
  *  Navigation Handlers
@@ -31,17 +31,12 @@ export const handlePreviousPage = (pageHandlers, pageProps) => {
   const { pageRouter, currentPage } = pageProps
   const previousPageId = currentPage.location.previous
   const previousPage = pageRouter.allPages[previousPageId]
-
-  if (!previousPageId || !previousPage) {
-    // should honestly just disable the previous button
-    // user should not have the option to go back on the first node
-    console.log(`ERROR -- no previous page id: ${previousPageId}`)
-    console.log(`ERROR -- no previous page: ${previousPage}`)
-    return
-  }
+  const updatedPageRouter = produce(draft => {
+    draft.currentPageId = previousPageId
+  })
 
   setCurrentPage(previousPage)
-  setPageRouter({ ...pageRouter, currentPageId: previousPageId })
+  setPageRouter(updatedPageRouter)
 }
 
 export const handleNextPage = (pageHandlers, pageProps) => {
@@ -55,24 +50,10 @@ export const handleNextPage = (pageHandlers, pageProps) => {
     return
   }
 
-  if (!nextPage) {
-    console.log(`ERROR -- next node doesnt exist: ${nextPageId}`)
-    return // should throw error and should never be the case
-  }
-
-  // Todo: this just assigns the current page as completed before movin next
-  //  how do i clean this up?
-  const updatedPageRouter = {
-    ...pageRouter,
-    allPages: {
-      ...pageRouter.allPages,
-      [currentPage.id]: {
-        ...pageRouter.allPages[currentPage.id],
-        completed: true,
-      },
-    },
-    currentPageId: nextPageId,
-  }
+  const updatedPageRouter = produce(draft => {
+    draft.allPages[currentPage.id].completed = true
+    draft.currentPageId = nextPageId
+  })
 
   setCurrentPage({ ...nextPage })
   setPageRouter(updatedPageRouter)
