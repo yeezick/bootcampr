@@ -7,7 +7,9 @@ import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { PaginatorExample } from 'components/Paginator/Examples/PaginatorExample'
 import './App.css'
-import { AllTicket } from './screens/TicketManager/AllTicket/AllTicket'
+import ProjectPage from 'screens/Project/ProjectPage'
+import CreateProject from 'screens/Project/CreateProject'
+import ProjectDetails from 'screens/Project/ProjectDetails'
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 
 function App() {
@@ -15,6 +17,9 @@ function App() {
     <>
       <Layout>
         <Routes>
+          <Route path='/ProjectPage' element={<ProjectPage />} />
+          <Route path='/CreateProject' element={<CreateProject />} />
+          <Route path='/project/:id' element={<ProjectDetails />} />
           <Route path='/' element={<Landing />} />
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/sign-in' element={<SignIn />} />
@@ -22,9 +27,8 @@ function App() {
           <Route path='/users/:id/edit' element={<EditProfile />} />
           <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
-          <Route path='/users/:id/manager' element={<AllTicket />} />
           <Route path='/availability' element={<AvailabilityDemoScreen />} />
-          <Route path='/:userId/onboarding' element={<Onboarding />} />
+          <Route path='/onboarding/:userId' element={<Onboarding />} />
           {/* Todo: Remove once onboarding flow is complete */}
           <Route path='/paginator-example' element={<PaginatorExample />} />
         </Routes>
