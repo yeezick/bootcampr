@@ -7,67 +7,51 @@ import Box from '@mui/material/Box'
 
 //todo: complete copy-paste from MUI, revisit!!!!
 function TabPanel(props) {
-  const { children, value, index, ...other } = props
+  const { activeTab, children, index } = props
 
   return (
     <div
       role='tabpanel'
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
+      hidden={activeTab !== index}
+      key={`calendar-tab-${index}`}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {activeTab === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   )
 }
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-}
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  }
-}
-
 export const CalendarTabs = () => {
-  const [value, setValue] = React.useState(0)
+  const [activeTab, setActiveTab] = React.useState(0)
 
   const handleChange = (event, newValue) => {
-    setValue(newValue)
+    setActiveTab(newValue)
   }
 
+  const allTabs = [
+    {
+      label: 'Calendar',
+      component: <>Calendar</>,
+    },
+    {
+      label: 'Availability',
+      component: <>Availability</>,
+    },
+  ]
+
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%' }} className='calendar-body'>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label='basic tabs example'
-        >
-          <Tab label='Item One' {...a11yProps(0)} />
-          <Tab label='Item Two' {...a11yProps(1)} />
-          <Tab label='Item Three' {...a11yProps(2)} />
+        <Tabs value={activeTab} onChange={handleChange}>
+          {allTabs.map(tab => (
+            <Tab label={tab.label} />
+          ))}
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
-        Item One
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
+      {allTabs.map((tab, index) => (
+        <TabPanel activeTab={activeTab} index={index}>
+          {tab.component}
+        </TabPanel>
+      ))}
     </Box>
   )
 }
