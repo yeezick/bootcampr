@@ -1,6 +1,6 @@
 import { Box, DialogTitle } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import { ImageEditorHeaderProps } from 'utilities/types/ProfileImageInterfaces'
+import { ImageEditorHeaderProps } from '../../interfaces/ProfileImageInterfaces'
 import './ImageEditorModal.scss'
 
 /**

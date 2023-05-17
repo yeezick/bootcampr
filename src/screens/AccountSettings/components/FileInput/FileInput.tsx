@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react'
-import { FileInputProps } from 'utilities/types/ProfileImageInterfaces'
+import { FileInputProps } from '../../../../interfaces/ProfileImageInterfaces'
 import loadImage from 'blueimp-load-image'
 import './FileInput.scss'
 

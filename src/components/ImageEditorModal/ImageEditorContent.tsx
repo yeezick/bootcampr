@@ -3,8 +3,8 @@ import Cropper from 'react-easy-crop'
 import Avatar from 'components/Avatar/Avatar'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
 import { Box, DialogContent } from '@mui/material'
-import { ImageEditorContentProps } from 'utilities/types/ProfileImageInterfaces'
-import { setUploadedImage } from 'utilities/redux/slices/profileSlice'
+import { ImageEditorContentProps } from '../../interfaces/ProfileImageInterfaces'
+import { setUploadedImage } from 'utils/redux/slices/profileSlice'
 import './ImageEditorModal.scss'
 
 /**

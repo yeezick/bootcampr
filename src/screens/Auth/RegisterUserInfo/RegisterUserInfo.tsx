@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from 'utilities/redux/hooks'
-import { selectAuthUser, updateProfile } from 'utilities/redux/slices/userSlice'
-import { UserInterface } from 'utilities/types'
-import { emptyUser } from 'utilities/data/userConstants'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser, updateProfile } from 'utils/redux/slices/userSlice'
+import { UserInterface } from 'interfaces'
+import { emptyUser } from 'utils/data/userConstants'
 import './RegisterUserInfo.scss'
 
 export const RegisterUserInfo: React.FC = () => {
@@ -57,7 +57,7 @@ export const RegisterUserInfo: React.FC = () => {
                   ? 'https://pbs.twimg.com/profile_images/1564398871996174336/M-hffw5a_400x400.jpg'
                   : profilePicture
               }
-              alt='photo'
+              alt='profile'
             />
           </div>
           <label>Profile Photo:</label>

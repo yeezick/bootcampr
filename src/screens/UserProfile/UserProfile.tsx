@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ProjectInterface } from 'utilities/types/ProjectInterface'
-import { selectAuthUser } from 'utilities/redux/slices/userSlice'
+import { ProjectInterface } from 'interfaces/ProjectInterface'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
 export const UserProfile = () => {
   const authUser = useSelector(selectAuthUser)
@@ -33,11 +33,10 @@ export const UserProfile = () => {
         (projects: ProjectInterface, id: number) => (
           <div key={`userprofile-memberof-${id}`}>
             <h5>title: {projects.title}</h5>
-            <h5>project owner: {JSON.stringify(projects.project_owner)}</h5>
+            <h5>project owner: {JSON.stringify(projects.members)}</h5>
             <h5>overview: {projects.overview}</h5>
             <h5>duration: {projects.duration}</h5>
-            <h5>meeting cadence: {projects.meeting_cadence}</h5>
-            <h5>technologies used: {projects.technologies_used}</h5>
+            <h5>meeting cadence: {projects.meetingCadence}</h5>
           </div>
         )
       )}

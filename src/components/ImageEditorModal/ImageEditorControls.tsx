@@ -1,6 +1,6 @@
 import { Box, Button, Slider, Typography } from '@mui/material'
 import CropIcon from '@mui/icons-material/Crop'
-import { ImageEditorControlsProps } from 'utilities/types/ProfileImageInterfaces'
+import { ImageEditorControlsProps } from '../../interfaces/ProfileImageInterfaces'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
 import './ImageEditorModal.scss'
 

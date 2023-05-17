@@ -5,5 +5,10 @@
 }
 
 .main-content-container {
+  padding-top: 93px;
+  min-height: calc(100vh - 250px);
+}
+
+.landing-main-content-container {
   min-height: calc(100vh - 250px);
 }

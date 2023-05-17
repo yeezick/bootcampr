@@ -1,5 +1,5 @@
 import { useCallback, useState, useRef } from 'react'
-import { ImageEditorModalProps } from 'utilities/types/ProfileImageInterfaces'
+import { ImageEditorModalProps } from '../../interfaces/ProfileImageInterfaces'
 import { Dialog, DialogActions } from '@mui/material'
 import { createUserImage, saveCroppedImage } from './ImageEditorModalUtils'
 import ImageEditorHeader from './ImageEditorHeader'
@@ -53,7 +53,7 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
     setCrop({ x: 0, y: 0 })
     setCropArea({ x: 0, y: 0, width: 100, height: 100 })
     setZoom(1)
-  }, [onClose])
+  }, [onClose, setUploadedImage])
 
   /**
    * Generates a cropped image URL, creates an image file from the URL, sends the file to the server, and then closes the modal.

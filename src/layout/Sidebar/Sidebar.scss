@@ -2,10 +2,10 @@
   display: none;
 }
 
-.sidebar-container.active {
+.sidebar-container {
   background: #ffffff;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
-  height: 100vh;
+  height: 100%;
   left: 0;
   position: fixed;
   top: 0;
