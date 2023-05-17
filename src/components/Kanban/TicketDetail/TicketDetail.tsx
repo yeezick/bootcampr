@@ -1,5 +1,6 @@
 import { useState, useRef, MutableRefObject } from 'react'
-import Modal from 'react-modal'
+// import Modal from 'react-modal'
+import Modal from '@mui/material/Modal'
 import { Button, Box } from '@mui/material'
 import { SelectStatus } from 'components/Kanban'
 import { SelectChangeEvent } from '@mui/material/Select'
@@ -12,17 +13,16 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 import { deleteTicketApi } from 'utils/api/tickets'
 
-const customStyles = {
-  content: {
-    top: '50%',
-    width: '40rem',
-    height: '25rem',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '50%',
-    transform: 'translate(-50%, -50%)',
-  },
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
 }
 
 export const TicketDetail = ({
@@ -33,7 +33,7 @@ export const TicketDetail = ({
   splitCamelCaseToWords,
   concatenatedString,
 }: TicketDetailPropsInterface) => {
-  Modal.setAppElement('#root')
+  // Modal.setAppElement('#root')
   const authUser = useAppSelector(selectAuthUser)
   const [modalIsOpen, setIsOpen] = useState(false)
   const [ticketStatus, setTicketStatus] = useState<string>()
@@ -104,10 +104,12 @@ export const TicketDetail = ({
     <div>
       <button onClick={openModal}> Ticket Detail</button>
       <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel='Example Modal'
+        // isOpen={modalIsOpen}
+        // onRequestClose={closeModal}
+        open={modalIsOpen}
+        onClose={closeModal}
+        // style={customStyles}
+        // contentLabel='Example Modal'
       >
         {isBeingEdited ? (
           <h1>Saving changes...</h1>
@@ -123,76 +125,78 @@ export const TicketDetail = ({
             >
               close
             </Button>
-            <Box sx={{ display: 'flex', gap: '30px' }}>
-              <Box sx={{ width: '50%' }}>
-                <h3>Title</h3>
-                <blockquote>
-                  <p
-                    contentEditable='true'
-                    ref={tittleRef}
-                    suppressContentEditableWarning={true}
-                  >
-                    {ticketDetail.title}
-                  </p>
-                </blockquote>
-                <h3>description</h3>
+            <Box>
+              <Box sx={{ display: 'flex', gap: '30px', ...style }}>
+                <Box sx={{ width: '50%' }}>
+                  <h3>Title</h3>
+                  <blockquote>
+                    <p
+                      contentEditable='true'
+                      ref={tittleRef}
+                      suppressContentEditableWarning={true}
+                    >
+                      {ticketDetail.title}
+                    </p>
+                  </blockquote>
+                  <h3>description</h3>
 
-                <blockquote>
-                  <p
-                    contentEditable='true'
-                    ref={descriptionRef}
-                    suppressContentEditableWarning={true}
-                  >
-                    {ticketDetail.description}
-                  </p>
-                </blockquote>
-                <h3>Link</h3>
+                  <blockquote>
+                    <p
+                      contentEditable='true'
+                      ref={descriptionRef}
+                      suppressContentEditableWarning={true}
+                    >
+                      {ticketDetail.description}
+                    </p>
+                  </blockquote>
+                  <h3>Link</h3>
 
-                <blockquote>
-                  <p
-                    contentEditable='true'
-                    ref={linkRef}
-                    suppressContentEditableWarning={true}
-                  >
-                    {ticketDetail.link}
-                  </p>
-                </blockquote>
+                  <blockquote>
+                    <p
+                      contentEditable='true'
+                      ref={linkRef}
+                      suppressContentEditableWarning={true}
+                    >
+                      {ticketDetail.link}
+                    </p>
+                  </blockquote>
+                </Box>
+
+                <Box sx={{ width: '50%' }}>
+                  <SelectStatus
+                    handleOnChange={handleEditChange}
+                    ticketDetail={ticketDetail}
+                    splitCamelCaseToWords={splitCamelCaseToWords}
+                  />
+                  <input
+                    type='date'
+                    name='date'
+                    ref={dateRef}
+                    defaultValue={ticketDetail.dueDate}
+                  />
+                </Box>
               </Box>
-
-              <Box sx={{ width: '50%' }}>
-                <SelectStatus
-                  handleOnChange={handleEditChange}
-                  ticketDetail={ticketDetail}
-                  splitCamelCaseToWords={splitCamelCaseToWords}
-                />
-                <input
-                  type='date'
-                  name='date'
-                  ref={dateRef}
-                  defaultValue={ticketDetail.dueDate}
-                />
-              </Box>
+              <Button
+                sx={{ marginRight: '10px' }}
+                color='error'
+                disabled={false}
+                size='small'
+                variant='outlined'
+                onClick={() => deleteTicket(ticketDetail?._id)}
+              >
+                Delete
+              </Button>
+              <Button
+                sx={{ marginRight: '10px' }}
+                color='success'
+                disabled={false}
+                size='small'
+                variant='outlined'
+                onClick={() => saveChanges()}
+              >
+                Save Changes
+              </Button>
             </Box>
-            <Button
-              sx={{ marginRight: '10px' }}
-              color='error'
-              disabled={false}
-              size='small'
-              variant='outlined'
-              onClick={() => deleteTicket(ticketDetail?._id)}
-            >
-              Delete
-            </Button>
-            <Button
-              sx={{ marginRight: '10px' }}
-              color='success'
-              disabled={false}
-              size='small'
-              variant='outlined'
-              onClick={() => saveChanges()}
-            >
-              Save Changes
-            </Button>
           </>
         )}
       </Modal>
