@@ -3,8 +3,7 @@ import { One } from 'components/Paginator/Examples/One'
 import { Two } from 'components/Paginator/Examples/Two'
 import { Three } from 'components/Paginator/Examples/Three'
 
-export const Onboarding = () => {
-  // Todo: replace with proper components for onboarding
+export const PaginatorExample = () => {
   const orderedPages = [
     {
       component: One,
@@ -27,7 +26,7 @@ export const Onboarding = () => {
       <Paginator
         exitRoute='/'
         orderedPages={orderedPages}
-        pageTitle='Onboarding'
+        pageTitle='Paginator Example'
       />
     </div>
   )
