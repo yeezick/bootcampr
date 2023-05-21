@@ -10,6 +10,7 @@ import { emptySignUp } from 'utils/data/userConstants'
 import { Email, Text, PasswordInputs } from 'components/Inputs'
 import './SignUp.scss'
 import { Checkbox, FormControlLabel } from '@mui/material'
+
 export const SignUp: React.FC = () => {
   const dispatch = useAppDispatch()
   const status = useAppSelector(uiStatus)
@@ -84,15 +85,14 @@ export const SignUp: React.FC = () => {
 
   return (
     <div>
-      {alertBanner.status ? (
+      {alertBanner.status && (
         <div className={alertBanner.type}>
           {alertBanner.icon}
           <p>{alertBanner.text}</p>
         </div>
-      ) : null}
+      )}
 
       <div className='signup-container'>
-        <h3>User Register</h3>
         <form onSubmit={handleSubmit} autoComplete='off'>
           <Text
             label='First Name'
@@ -146,7 +146,7 @@ const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
   }
 
   return (
-    <div>
+    <div id='signup-agreement'>
       <FormControlLabel
         sx={checkboxStyles}
         control={<Checkbox checked={isAccepted} onChange={handleCheckbox} />}

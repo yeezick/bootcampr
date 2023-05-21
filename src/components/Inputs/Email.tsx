@@ -5,6 +5,7 @@ import { handleFormInputChange } from 'utils/helpers/stateHelpers'
 export const Email = ({ setFormValues }) => {
   const [error, setError] = useState(false)
   const inputId = 'email'
+  const sampleEmail = ' (ex. jeanine@bootcampr.io)'
 
   const validateEmail = email => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
@@ -22,9 +23,7 @@ export const Email = ({ setFormValues }) => {
       <FormControl variant='standard'>
         <InputLabel htmlFor={inputId}>
           Email
-          <span className='password-label-helper'>
-            (ex. jeanine@bootcampr.io)
-          </span>
+          <span className='password-label-helper'>{sampleEmail}</span>
         </InputLabel>
         <Input
           id={inputId}

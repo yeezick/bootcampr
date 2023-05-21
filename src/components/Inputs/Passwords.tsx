@@ -78,13 +78,7 @@ export const Password = ({
   return (
     <div className='password'>
       <FormControl variant='standard'>
-        <InputLabel htmlFor={inputId}>
-          Password
-          {/* needs to be applied a different way, does not look right */}
-          <span className='password-label-helper'>
-            (Min 8 characters, 1 upper, 1 lower, 1 symbol)
-          </span>
-        </InputLabel>
+        <InputLabel htmlFor={inputId}>Password</InputLabel>
         <Input
           id={inputId}
           name={name}

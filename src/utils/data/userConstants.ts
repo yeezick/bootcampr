@@ -6,31 +6,31 @@ import {
 } from 'interfaces/UserInterface'
 
 export const defaultAvailability: Availability = {
-  ['SUN']: {
+  SUN: {
     available: false,
     availability: [['9:00 AM', '5:00 PM']],
   },
-  ['MON']: {
+  MON: {
     available: false,
     availability: [['9:00 AM', '5:00 PM']],
   },
-  ['TUE']: {
+  TUE: {
     available: false,
     availability: [['9:00 AM', '5:00 PM']],
   },
-  ['WED']: {
+  WED: {
     available: false,
     availability: [['9:00 AM', '5:00 PM']],
   },
-  ['THU']: {
+  THU: {
     available: false,
     availability: [['9:00 AM', '5:00 PM']],
   },
-  ['FRI']: {
+  FRI: {
     available: false,
     availability: [['9:00 AM', '5:00 PM']],
   },
-  ['SAT']: {
+  SAT: {
     available: false,
     availability: [['9:00 AM', '5:00 PM']],
   },
