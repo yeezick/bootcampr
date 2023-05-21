@@ -171,7 +171,7 @@ const CopyTimesOption = ({ day, selectedDay, checked, setChecked }) => {
       <Checkbox
         disabled={isDisabled}
         checked={checked[day.slice(0, 3)]}
-        onChange={e => handleChange(e)}
+        onChange={handleChange}
         name={day}
         sx={{ color: '#022888', '&.Mui-checked': { color: '#022888' } }}
       />
