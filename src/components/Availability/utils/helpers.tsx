@@ -89,13 +89,16 @@ export const handleCheck = (day, days, setDays) => {
  * Gets whatever next time slot is
  * eg. if current time is 6:00 PM, next time slot would be 6:30 PM
  * Used especially for Add time slot function to determine starting time for new slot
+ * safety if index = null / undefined -> return default 9-5 timeslot
  *
  * @param currentTime string, time option ('9:00 AM', '12:30 PM', '7:00 PM')
  * @returns
  */
 export const getNextTimeslot = currentTime => {
   const index = timeOptions.indexOf(currentTime)
-  return [timeOptions[index + 1], timeOptions[index + 2]]
+  return index
+    ? [timeOptions[index + 1], timeOptions[index + 2]]
+    : ['9:00 PM', '5:00 PM']
 }
 
 /**
