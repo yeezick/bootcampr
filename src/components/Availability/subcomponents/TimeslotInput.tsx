@@ -100,6 +100,16 @@ export const CopyTimesModal = ({ days, day, idx, copyTimes, setDays }) => {
     SAT: false,
   })
 
+  const uppercaseWeekdayNames = [
+    'SUNDAY',
+    'MONDAY',
+    'TUESDAY',
+    'WEDNESDAY',
+    'THURSDAY',
+    'FRIDAY',
+    'SATURDAY',
+  ]
+
   return (
     <div className='copy-times-modal'>
       <p>
@@ -111,17 +121,9 @@ export const CopyTimesModal = ({ days, day, idx, copyTimes, setDays }) => {
         checked={checked}
         setChecked={setChecked}
       />
-      {[
-        'SUNDAY',
-        'MONDAY',
-        'TUESDAY',
-        'WEDNESDAY',
-        'THURSDAY',
-        'FRIDAY',
-        'SATURDAY',
-      ].map(shortday => (
+      {uppercaseWeekdayNames.map(uppercaseWeekdayName => (
         <CopyTimesOption
-          day={shortday}
+          day={uppercaseWeekdayName}
           selectedDay={day}
           checked={checked}
           setChecked={setChecked}
