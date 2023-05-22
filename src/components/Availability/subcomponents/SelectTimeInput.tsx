@@ -1,33 +1,22 @@
 import { MenuItem, Select } from '@mui/material'
-import { subOptions } from '../utils/helpers'
+import { timeOptions } from '../utils/data'
+import { handleTimeChange } from '../utils/helpers'
 
 export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
   const index = isStart ? 0 : 1
-
-  const handleTimeChange = e => {
-    let newAvailability = days[day].availability
-    newAvailability[idx][index] = e.target.value
-
-    setDays({
-      ...days,
-      [day]: {
-        available: days[day].available,
-        availability: newAvailability,
-      },
-    })
-  }
 
   return (
     <Select
       defaultValue={slot[index]}
       inputProps={{ sx: { padding: '8px 13px !important' } }}
       MenuProps={menuPropsSX}
-      onChange={handleTimeChange}
+      name={`${day}-${idx}-${index}`}
+      onChange={e => handleTimeChange(e, days, setDays)}
       size='small'
       sx={selectSX}
       value={days[day].availability[idx][index]}
     >
-      {subOptions(slot[0], isStart, idx).map(time => (
+      {timeOptions.map(time => (
         <MenuItem key={`option-${time}`} value={time}>
           {time}
         </MenuItem>
