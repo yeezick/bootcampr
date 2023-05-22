@@ -2,7 +2,6 @@ import { combineReducers, Reducer } from 'redux'
 import avatarReducer from '../slices/avatarSlice'
 import notificationReducer from '../slices/notificationSlice'
 import userReducer from '../slices/userSlice'
-import profileReducer from '../slices/profileSlice'
 
 export type RootState = {
   avatar: ReturnType<typeof avatarReducer>
@@ -16,7 +15,6 @@ export type RootState = {
  */
 const rootReducer: Reducer<RootState> = combineReducers({
   avatar: avatarReducer,
-  profile: profileReducer,
   ui: userReducer,
   notification: notificationReducer,
 })

@@ -52,7 +52,3 @@ export interface FileInputProps {
 export interface AvatarState {
   imageUrl: string | null
 }
-
-export interface ProfileState {
-  uploadedImage: string | null
-}

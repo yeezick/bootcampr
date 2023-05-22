@@ -6,6 +6,8 @@ import ImageEditorHeader from './ImageEditorHeader'
 import ImageEditorControls from './ImageEditorControls'
 import ImageEditorContent from './ImageEditorContent'
 import { Area, Point } from 'react-easy-crop/types'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import getCroppedImg from 'components/Crop/Utils/CropImage'
 import './ImageEditorModal.scss'
 
@@ -35,6 +37,8 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
   })
   const [zoom, setZoom] = useState<number>(1)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const authUser = useAppSelector(selectAuthUser)
 
   /**
    * Sets the uploaded image URL.
@@ -67,10 +71,7 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
           if (croppedImageURL) {
             try {
               const croppedImageFile = await saveCroppedImage(croppedImageURL)
-              await createUserImage(
-                croppedImageFile,
-                '643c361cbbc6a57bfbeb0b57'
-              )
+              await createUserImage(croppedImageFile, authUser._id)
 
               onSaveClick(croppedImageURL)
 
@@ -82,7 +83,7 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
         }
       )
     }
-  }, [uploadedImage, cropArea, zoom, handleClose, onSaveClick])
+  }, [uploadedImage, cropArea, zoom, handleClose, onSaveClick, authUser._id])
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>

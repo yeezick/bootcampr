@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'utils/redux/store'
-import { AvatarProps } from '../../interfaces/ProfileImageInterfaces'
-import { removeUploadedImage } from 'utils/redux/slices/profileSlice'
+import { AvatarProps } from 'interfaces/ProfileImageInterfaces'
+import { removeUploadedImage } from 'utils/redux/slices/userSlice'
 import ProfilePreviewImage from 'screens/ProfilePreviewImage/ProfilePreviewImage'
 import PersonIcon from '@mui/icons-material/Person'
 import './Avatar.scss'
@@ -22,7 +22,7 @@ const Avatar: React.FC<AvatarProps> = ({
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const reduxImageUrl = useSelector((state: RootState) => state.avatar.imageUrl)
   const uploadedImage = useSelector(
-    (state: RootState) => state.profile.uploadedImage
+    (state: RootState) => state.ui.auth.user.profilePicture
   )
   const dispatch = useDispatch()
 

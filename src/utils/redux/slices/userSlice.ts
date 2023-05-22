@@ -19,7 +19,7 @@ const initialState: UiSliceInterface = {
       lastName: '',
       linkedinUrl: '',
       portfolioUrl: '',
-      profilePicture: '',
+      profilePicture: null,
       role: '',
       __v: 0,
       _id: '',
@@ -115,6 +115,12 @@ const userSlice = createSlice({
       state.status.isSuccess = false
       state.status.isError = { status: false }
     },
+    setUploadedImage: (state, action: PayloadAction<string>) => {
+      state.auth.user.profilePicture = action.payload
+    },
+    removeUploadedImage: state => {
+      state.auth.user.profilePicture = null
+    },
   },
   extraReducers: builder => {
     builder
@@ -162,5 +168,7 @@ export const {
   toggleChat,
   toggleChatClose,
   setCurrentConversation,
+  setUploadedImage,
+  removeUploadedImage,
 } = userSlice.actions
 export default userSlice.reducer

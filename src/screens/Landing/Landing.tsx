@@ -6,6 +6,7 @@ import { getAllUsers } from 'utils/api/users'
 import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { getRandomInt } from 'screens/AccountSettings/helper/data'
 import './Landing.scss'
 
 export const Landing: React.FC = () => {
@@ -15,11 +16,22 @@ export const Landing: React.FC = () => {
   const dispatch = useDispatch()
 
   const randomUserLogin = async () => {
-    const gettingAllUser = await getAllUsers()
-    if (gettingAllUser) {
-      dispatch(setAuthUser(gettingAllUser[2]))
-      setLoginStatus(true)
-    } else {
+    if (authUser._id) {
+      console.log('User already logged in')
+      return
+    }
+
+    try {
+      const gettingAllUser = await getAllUsers()
+      if (gettingAllUser && gettingAllUser.length > 0) {
+        const randomUser = gettingAllUser[getRandomInt(gettingAllUser.length)]
+        dispatch(setAuthUser(randomUser))
+        setLoginStatus(true)
+      } else {
+        setLoginStatus(false)
+      }
+    } catch (err) {
+      console.log('Unable to set random user:', err)
       setLoginStatus(false)
     }
   }

@@ -1,8 +1,11 @@
 import { useCallback, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'utils/redux/store'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { setImageUrl } from 'utils/redux/slices/avatarSlice'
-import { setUploadedImage } from 'utils/redux/slices/profileSlice'
+import { setUploadedImage } from 'utils/redux/slices/userSlice'
+import { updateUserImage, deleteUserImage } from '../../utils/api/services'
 import ImageEditorModal from 'components/ImageEditorModal/ImageEditorModal'
 import { ProfilePreviewImageProps } from '../../interfaces/ProfileImageInterfaces'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
@@ -39,6 +42,8 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
   const dispatch = useDispatch()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const authUser = useAppSelector(selectAuthUser)
+
   const openImageEditor = () => {
     setIsImageEditorOpen(true)
   }
@@ -60,6 +65,13 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
     dispatch(setImageUrl(image))
     closeImageEditor()
     console.log('Uploaded image:', image)
+
+    // Send request to update user's profile image in the database
+    // try and catch recommended
+    const userId = authUser._id
+    updateUserImage(userId, image)
+      .then(() => console.log('Image updated successfully'))
+      .catch(err => console.log('Failed to update image:', err))
   }
 
   /**
@@ -73,13 +85,25 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
   /**
    * Handles discarding changes made to the image.
    */
-  const handleDiscardChanges = () => {
+  const handleDiscardChanges = async () => {
     if (uploadedImage) {
       URL.revokeObjectURL(uploadedImage)
     }
-    dispatch(setUploadedImage(null))
-    dispatch(setImageUrl(null))
+
     console.log('Delete button clicked')
+
+    //Send request to delete user's profile image from the database
+    const userId = authUser._id
+    try {
+      const res = await deleteUserImage(userId) // results in error or results in success
+      if (res && res.data && res.data.success === true) {
+        dispatch(setUploadedImage(null))
+        dispatch(setImageUrl(null))
+      }
+    } catch (err) {
+      console.error(err)
+      // tell user that image failed to delete
+    }
   }
 
   return (
