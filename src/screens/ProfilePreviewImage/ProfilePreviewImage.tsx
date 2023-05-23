@@ -139,12 +139,13 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
                   />
                   {console.log('Image is uploaded:', uploadedImage)}
                 </>
-              ) : Boolean(imageUrl) ? (
-                // Render avatar component with imageUrl if available
-                <Avatar imageUrl={imageUrl} clickable={false} />
               ) : (
-                // Render default avatar component if no imageUrl available
-                <Avatar clickable={false} />
+                // If uploadedImage is not available, use Avatar
+                <Avatar
+                  uploadedImage={uploadedImage}
+                  imageUrl={imageUrl}
+                  clickable={false}
+                />
               )}
             </Box>
           </DialogContent>

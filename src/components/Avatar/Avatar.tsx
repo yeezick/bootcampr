@@ -10,23 +10,25 @@ import './Avatar.scss'
 
 /**
  * Avatar component to display a user's avatar image.
- * @param {Object} props - Properties passed to the component.
  * @param {string} imageUrl - The URL of the avatar image.
  * @param {boolean} [clickable=true] - Indicates if the avatar is clickable.
  * @returns {JSX.Element} - Avatar component.
  */
 const Avatar: React.FC<AvatarProps> = ({
   imageUrl: propImageUrl,
+  uploadedImage: propUploadedImage,
   clickable = true,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const reduxImageUrl = useSelector((state: RootState) => state.avatar.imageUrl)
-  const uploadedImage = useSelector(
+  const reduxUploadedImage = useSelector(
     (state: RootState) => state.ui.auth.user.profilePicture
   )
-  const dispatch = useDispatch()
 
   const imageUrl = propImageUrl ?? reduxImageUrl
+  const uploadedImage = propUploadedImage ?? reduxUploadedImage
+
+  const dispatch = useDispatch()
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -51,11 +53,13 @@ const Avatar: React.FC<AvatarProps> = ({
     personIconSvg
   )}`
 
+  const imageSource = uploadedImage || imageUrl || personIconUrl
+
   return (
     <>
       <img
         className={clickable ? 'avatar-img' : 'non-clickable'}
-        src={imageUrl || personIconUrl}
+        src={imageSource}
         alt='avatar'
         onClick={clickable ? openModal : undefined}
       />

@@ -3,6 +3,7 @@ import { Area, Point } from 'react-easy-crop/types'
 
 export interface AvatarProps {
   imageUrl?: string | null
+  uploadedImage?: string | null
   clickable?: boolean | undefined
 }
 
