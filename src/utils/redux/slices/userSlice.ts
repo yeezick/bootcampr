@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import {
-  Availability,
   SignUpInterface,
   UiSliceInterface,
   UserInterface,
@@ -20,7 +19,7 @@ const initialState: UiSliceInterface = {
       lastName: '',
       linkedinUrl: '',
       portfolioUrl: '',
-      profilePicture: '',
+      profilePicture: null,
       role: '',
       __v: 0,
       _id: '',
@@ -87,9 +86,6 @@ const userSlice = createSlice({
     updateAuthUser: (state, action: PayloadAction<UserInterface>) => {
       state.auth.user = action.payload
     },
-    setUserAvailability: (state, action: PayloadAction<Availability>) => {
-      state.auth.user.availability = action.payload
-    },
     toggleSidebar: state => {
       state.sidebar.visibleSidebar = !state.sidebar.visibleSidebar
     },
@@ -118,6 +114,12 @@ const userSlice = createSlice({
       state.status.isLoading = false
       state.status.isSuccess = false
       state.status.isError = { status: false }
+    },
+    setUploadedImage: (state, action: PayloadAction<string>) => {
+      state.auth.user.profilePicture = action.payload
+    },
+    removeUploadedImage: state => {
+      state.auth.user.profilePicture = null
     },
   },
   extraReducers: builder => {
@@ -153,15 +155,12 @@ const userSlice = createSlice({
 })
 
 export const selectAuthUser = (state: RootState) => state.ui.auth.user
-export const getUserAvailability = (state: RootState) =>
-  state.ui.auth.user.availability
 export const chatStatus = (state: RootState) => state.ui.chat.visibleChat
 export const selectConversation = (state: RootState) => state.ui.chat
 export const uiStatus = (state: RootState) => state.ui.status
 export const {
   setAuthUser,
   updateAuthUser,
-  setUserAvailability,
   reset,
   logoutAuthUser,
   toggleSidebar,
@@ -169,5 +168,7 @@ export const {
   toggleChat,
   toggleChatClose,
   setCurrentConversation,
+  setUploadedImage,
+  removeUploadedImage,
 } = userSlice.actions
 export default userSlice.reducer

@@ -13,6 +13,7 @@ import Logo from 'assets/Logo.svg'
 import { NotificationModal } from 'components/Notifications/NotificationModal'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
 import { Socket } from 'components/Notifications/Socket'
+import Avatar from 'components/Avatar/Avatar'
 import './Nav.scss'
 import { chatStatus, toggleChat } from 'utils/redux/slices/userSlice'
 
@@ -108,7 +109,7 @@ export const Nav = () => {
               <span>{notificationCount}</span>
             </div>
           )}
-          <div className='image'></div>
+          <Avatar />
           <Link className='link' to='/'>
             <MdArrowDropDown size={25} />
           </Link>

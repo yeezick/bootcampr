@@ -1,0 +1,28 @@
+.avatar-img,
+.non-clickable {
+  background-color: #c4c4c4;
+  border-radius: 100%;
+  cursor: pointer;
+  height: 75px;
+  margin: auto;
+  object-fit: cover;
+  width: 75px;
+}
+
+.non-clickable {
+  border: 4px solid #8048c8;
+  cursor: default;
+}
+
+.notifications .avatar-img,
+.non-clickable {
+  height: 50px;
+  padding-left: 0;
+  width: 50px;
+}
+
+.image-modal .avatar-img,
+.non-clickable {
+  height: 250px;
+  width: 250px;
+}
