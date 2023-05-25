@@ -36,8 +36,8 @@ export const SignUp: React.FC = () => {
     const validateForm = () => {
       const { confirmPassword, password } = formValues
       const emptyForm = Object.values(formValues).some(value => value === '')
-      const passwordHasErrors = Object.values(passwordErrors).some(
-        error => error === true || typeof error === 'string'
+      const passwordHasErrors = Object.values(passwordErrors).some(error =>
+        ['neutral', 'criteria-not-met'].includes(error)
       )
       const passwordsMatch = () => {
         if (confirmPassword === '' || password === '' || passwordHasErrors) {
@@ -107,7 +107,6 @@ export const SignUp: React.FC = () => {
             required
             setFormValues={setFormValues}
           />
-
           <Email setFormValues={setFormValues} />
           <PasswordInputs
             formValues={formValues}

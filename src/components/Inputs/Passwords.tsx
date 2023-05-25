@@ -37,26 +37,33 @@ export const Password = ({
 }) => {
   const [inputType, setInputType] = useState('password')
   const inputId = 'password'
+  const passwordErrorMessages = {
+    uppercase: '1 uppercase',
+    lowercase: '1 lowercase',
+    number: '1 number',
+    length: 'Minimum 8 characters',
+  }
 
   const handlePasswordChange = e => {
     const { value } = e.target
     handleFormInputChange(e, setFormValues)
 
     if (value.length === 0) {
-      setPasswordErrors({})
-    } else if (value.length < 8 && value.length >= 1) {
       setPasswordErrors({
-        length: 'Password must be at least 8 characters',
+        length: 'neutral',
+        uppercase: 'neutral',
+        lowercase: 'neutral',
+        number: 'neutral',
       })
     } else {
       setPasswordErrors({
-        uppercase:
-          !/[A-Z]/.test(value) &&
-          'Password must have at least one uppercase letter',
-        lowercase:
-          !/[a-z]/.test(value) &&
-          'Password must have at least one lowercase letter',
-        number: !/\d/.test(value) && 'Password must have at least one number',
+        length:
+          value.length < 8 && value.length >= 1
+            ? 'criteria-not-met'
+            : 'criteria-met',
+        uppercase: /[A-Z]/.test(value) ? 'criteria-met' : 'criteria-not-met',
+        lowercase: /[a-z]/.test(value) ? 'criteria-met' : 'criteria-not-met',
+        number: /\d/.test(value) ? 'criteria-met' : 'criteria-not-met',
       })
     }
 
@@ -67,10 +74,14 @@ export const Password = ({
     const { length, lowercase, number, uppercase } = errors
     return (
       <div className='password-errors'>
-        {length && <FormHelperText error={true}>{length}</FormHelperText>}
-        {uppercase && <FormHelperText error={true}>{uppercase}</FormHelperText>}
-        {lowercase && <FormHelperText error={true}>{lowercase}</FormHelperText>}
-        {number && <FormHelperText error={true}>{number}</FormHelperText>}
+        {Object.keys(passwordErrorMessages).map(key => (
+          <>
+            <PasswordCriteria
+              criteria={passwordErrorMessages[key]}
+              errorState={passwordErrors[key]}
+            />
+          </>
+        ))}
       </div>
     )
   }
@@ -78,24 +89,23 @@ export const Password = ({
   return (
     <div className='password'>
       <FormControl variant='standard'>
-        <InputLabel htmlFor={inputId}>Password</InputLabel>
-        <Input
-          id={inputId}
-          name={name}
-          required
-          onChange={handlePasswordChange}
-          type={inputType}
-          endAdornment={
-            <InputAdornment position='end'>
-              <IconButton
-                aria-label='toggle password visibility'
-                onClick={() => toggleVisiblity(inputType, setInputType)}
-              >
-                {inputType === 'password' ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
+        <label htmlFor={inputId}>Password</label>
+        <div className='adorned-input'>
+          <input
+            id={inputId}
+            name={name}
+            required
+            onChange={handlePasswordChange}
+            type={inputType}
+          />
+          <IconButton
+            className='eyecon'
+            aria-label='toggle password visibility'
+            onClick={() => toggleVisiblity(inputType, setInputType)}
+          >
+            {inputType === 'password' ? <Visibility /> : <VisibilityOff />}
+          </IconButton>
+        </div>
         <PasswordValidations errors={passwordErrors} />
       </FormControl>
     </div>
@@ -121,24 +131,23 @@ export const ConfirmPassword = ({
   return (
     <div className='confirm-password'>
       <FormControl variant='standard'>
-        <InputLabel htmlFor={inputId}>Re-enter password</InputLabel>
-        <Input
-          id={inputId}
-          name={name}
-          onChange={handleConfirmPassword}
-          required
-          type={inputType}
-          endAdornment={
-            <InputAdornment position='end'>
-              <IconButton
-                aria-label='toggle password visibility'
-                onClick={() => toggleVisiblity(inputType, setInputType)}
-              >
-                {inputType === 'password' ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
+        <label htmlFor={inputId}>Re-enter password</label>
+        <div className='adorned-input'>
+          <input
+            id={inputId}
+            name={name}
+            onChange={handleConfirmPassword}
+            required
+            type={inputType}
+          />
+          <IconButton
+            className='eyecon'
+            aria-label='toggle password visibility'
+            onClick={() => toggleVisiblity(inputType, setInputType)}
+          >
+            {inputType === 'password' ? <Visibility /> : <VisibilityOff />}
+          </IconButton>
+        </div>
         <PasswordMatchError matchStatus={passwordMatch} />
       </FormControl>
     </div>
@@ -150,9 +159,13 @@ const PasswordMatchError = ({ matchStatus }) => {
   if (matchStatus === null) {
     return
   } else if (matchStatus) {
-    return <FormHelperText>Passwords match!</FormHelperText>
+    return <p className='password-criteria criteria-met'>Passwords match!</p>
   } else {
-    return <FormHelperText error={true}>Passwords do not match.</FormHelperText>
+    return (
+      <p className='password-criteria criteria-not-met'>
+        Passwords do not match.
+      </p>
+    )
   }
 }
 
@@ -173,4 +186,14 @@ const handlePasswordMatching = (
   } else {
     setPasswordMatch(false)
   }
+}
+
+const PasswordCriteria = ({ criteria, errorState = 'neutral' }) => {
+  return (
+    <div className='password-criteria'>
+      {/* change v to checkmark and inline display */}
+      {errorState === 'criteria-met' && <p>v .</p>}
+      <p className={errorState}>{criteria}</p>
+    </div>
+  )
 }

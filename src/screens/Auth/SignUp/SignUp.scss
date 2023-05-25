@@ -52,9 +52,41 @@
     padding: 36.8px 24px 16px 8px;
   }
 
+  form input {
+    margin: 5px 0 15px 0;
+    background-color: rgb(241, 241, 241);
+    border-radius: 5px;
+    border-style: none;
+    height: 38px;
+    padding: 0 10px;
+    font-size: 16px;
+    width: 400px;
+  }
+
+
+
+  form input:focus {
+    border-style: none;
+    outline: none;
+  }
+
+  .form-label {
+    // margin-top: 10px;
+    
+    // color: black;
+    // position: relative;
+    // top: 38px;
+    // left: 5px;
+    // z-index: 1;
+  }
+
   // input {
   //   @include input-fields(4.8px 6.4px, 100%);
   // }
+}
+
+.adorned-input {
+  display: flex;
 }
 
 h3, h4 {
@@ -62,10 +94,10 @@ h3, h4 {
   text-align: center;
 }
 
-.form-input {
-  margin: 0 16px 16px 16px;
-  position: relative;
-}
+// .form-input {
+//   // margin: 15px 0;
+//   // position: relative;
+// }
 
 .pwd-input {
   input {
@@ -75,18 +107,55 @@ h3, h4 {
   margin: 0 0 16px 16px;
 }
 
+.eyecon {
+  position: relative;
+  right: 55px;
+  bottom: 5px;
+}
+
 .form-btn {
   margin: 24px 16px 0 16px;
 }
 
-#firstName, #lastName, #email {
-  width: 400px;
-}
+// #firstName, #lastName, #email, #password, #confirmPassword {
+//   background-color: rgb(241, 241, 241);
+//   border-radius: 5px;
+//   // border-style: none;
+//   height: 33px;
+//   width: 400px;
+//   margin: 0;
+// }
 
-#password, #confirmPassword {
-  width: 352px;
-}
+// #password, #confirmPassword {
+//   background-color: rgb(241, 241, 241);
+//   border-radius: 5px;
+//   width: 352px;
+// }
 
 #signup-agreement {
   margin: 20px 0;
+}
+
+.password-errors {
+  margin: -8px 0 10px 0;
+}
+
+.password-criteria {
+  display: flex;
+
+  p {
+    margin: 2px 0;
+  }
+}
+
+.criteria-not-met {
+  color: red;
+  font-size: 14px;
+  margin: 2px 0;
+}
+
+.criteria-met {
+  color: green;
+  font-size: 14px;
+  margin: 2px 0;
 }

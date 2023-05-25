@@ -21,11 +21,11 @@ export const Email = ({ setFormValues }) => {
   return (
     <div className='email'>
       <FormControl variant='standard'>
-        <InputLabel htmlFor={inputId}>
+        <label className='form-label' htmlFor={inputId}>
           Email
           <span className='password-label-helper'>{sampleEmail}</span>
-        </InputLabel>
-        <Input
+        </label>
+        <input
           id={inputId}
           name={inputId}
           onChange={handleEmailChange}
