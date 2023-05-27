@@ -3,7 +3,9 @@ paths:
     - Self-reviewed
     - Synced with develop
     - No repeated logic
-    - Code is legible (no confusing conditionals, semantic variable names proper
-      formatting & casing, etc.)
+    - Aliased imports
+    - Code is legible (alphabetized objects, clean conditionals, semantic
+      variable names, proper formatting & casing, etc.)
     - No 'dead code' (commented out code, console.logs, etc.)
     - No merge conlicts
+    - Posted in pull-requests channel on Discord
