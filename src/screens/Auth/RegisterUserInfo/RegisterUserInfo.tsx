@@ -57,7 +57,7 @@ export const RegisterUserInfo: React.FC = () => {
                   ? 'https://pbs.twimg.com/profile_images/1564398871996174336/M-hffw5a_400x400.jpg'
                   : profilePicture
               }
-              alt='photo'
+              alt='profile'
             />
           </div>
           <label>Profile Photo:</label>

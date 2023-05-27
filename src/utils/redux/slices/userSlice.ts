@@ -1,15 +1,18 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import {
+  Availability,
   SignUpInterface,
   UiSliceInterface,
   UserInterface,
 } from 'interfaces/UserInterface'
 import { signUp, updateUser } from 'utils/api/users'
+import { defaultAvailability } from 'utils/data/userConstants'
 import { RootState } from 'utils/redux/store'
 
 const initialState: UiSliceInterface = {
   auth: {
     user: {
+      availability: defaultAvailability,
       bio: '',
       email: '',
       firstName: '',
@@ -25,6 +28,12 @@ const initialState: UiSliceInterface = {
   },
   sidebar: {
     visibleSidebar: false,
+  },
+  chat: {
+    visibleChat: false,
+    _id: '',
+    isGroup: false,
+    participants: [],
   },
   status: {
     isAuthenticated: false,
@@ -78,8 +87,32 @@ const userSlice = createSlice({
     updateAuthUser: (state, action: PayloadAction<UserInterface>) => {
       state.auth.user = action.payload
     },
+    setUserAvailability: (state, action: PayloadAction<Availability>) => {
+      state.auth.user.availability = action.payload
+    },
     toggleSidebar: state => {
       state.sidebar.visibleSidebar = !state.sidebar.visibleSidebar
+    },
+    toggleSidebarClose: state => {
+      state.sidebar.visibleSidebar = false
+    },
+    toggleChat: state => {
+      state.chat.visibleChat = !state.chat.visibleChat
+    },
+    toggleChatClose: state => {
+      state.chat.visibleChat = false
+    },
+    setCurrentConversation: (
+      state,
+      action: PayloadAction<{
+        _id: string
+        isGroup: boolean
+        participants: any
+      }>
+    ) => {
+      state.chat._id = action.payload._id
+      state.chat.isGroup = action.payload.isGroup
+      state.chat.participants = action.payload.participants
     },
     reset: state => {
       state.status.isLoading = false
@@ -120,12 +153,21 @@ const userSlice = createSlice({
 })
 
 export const selectAuthUser = (state: RootState) => state.ui.auth.user
+export const getUserAvailability = (state: RootState) =>
+  state.ui.auth.user.availability
+export const chatStatus = (state: RootState) => state.ui.chat.visibleChat
+export const selectConversation = (state: RootState) => state.ui.chat
 export const uiStatus = (state: RootState) => state.ui.status
 export const {
   setAuthUser,
   updateAuthUser,
+  setUserAvailability,
   reset,
   logoutAuthUser,
   toggleSidebar,
+  toggleSidebarClose,
+  toggleChat,
+  toggleChatClose,
+  setCurrentConversation,
 } = userSlice.actions
 export default userSlice.reducer

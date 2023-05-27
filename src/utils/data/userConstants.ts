@@ -1,12 +1,45 @@
 import {
+  Availability,
   SignUpInterface,
   UiSliceInterface,
   UserInterface,
 } from 'interfaces/UserInterface'
 
+export const defaultAvailability: Availability = {
+  SUN: {
+    available: false,
+    availability: [],
+  },
+  MON: {
+    available: false,
+    availability: [],
+  },
+  TUE: {
+    available: false,
+    availability: [],
+  },
+  WED: {
+    available: false,
+    availability: [],
+  },
+  THU: {
+    available: false,
+    availability: [],
+  },
+  FRI: {
+    available: false,
+    availability: [],
+  },
+  SAT: {
+    available: false,
+    availability: [],
+  },
+}
+
 export const initialState: UiSliceInterface = {
   auth: {
     user: {
+      availability: defaultAvailability,
       bio: '',
       email: '',
       firstName: '',
@@ -23,6 +56,12 @@ export const initialState: UiSliceInterface = {
   sidebar: {
     visibleSidebar: false,
   },
+  chat: {
+    visibleChat: false,
+    _id: '',
+    isGroup: false,
+    participants: [],
+  },
   status: {
     isAuthenticated: false,
     isLoading: false,
@@ -35,6 +74,7 @@ export const initialState: UiSliceInterface = {
 }
 
 export const emptyUser: UserInterface = {
+  availability: defaultAvailability,
   bio: '',
   email: '',
   firstName: '',

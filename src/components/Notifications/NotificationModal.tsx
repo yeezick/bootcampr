@@ -29,9 +29,14 @@ export const NotificationModal = () => {
     const displayNotifications = await getAllNotifications(authUser._id)
     setNotifications(displayNotifications)
   }
-  useEffect(() => {
-    fetchNotifications()
-  }, [])
+  useEffect(
+    () => {
+      fetchNotifications()
+    },
+    [
+      /*fetchNotifications*/
+    ]
+  )
 
   const handleClickOpen = async () => {
     fetchNotifications()
