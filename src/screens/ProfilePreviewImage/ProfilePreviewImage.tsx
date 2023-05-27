@@ -1,10 +1,12 @@
 import { useCallback, useState, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from 'utils/redux/store'
+import { useDispatch } from 'react-redux'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { setImageUrl } from 'utils/redux/slices/avatarSlice'
-import { setUploadedImage } from 'utils/redux/slices/userSlice'
+import {
+  setUploadedImage,
+  removeUploadedImage,
+} from 'utils/redux/slices/userSlice'
 import { updateUserImage, deleteUserImage } from '../../utils/api/services'
 import ImageEditorModal from 'components/ImageEditorModal/ImageEditorModal'
 import { ProfilePreviewImageProps } from '../../interfaces/ProfileImageInterfaces'
@@ -38,7 +40,6 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
 }) => {
   // State and ref variables
   const [isImageEditorOpen, setIsImageEditorOpen] = useState(false)
-  const imageUrl = useSelector((state: RootState) => state.avatar.imageUrl)
   const dispatch = useDispatch()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -96,9 +97,11 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
     const userId = authUser._id
     try {
       const res = await deleteUserImage(userId) // results in error or results in success
-      if (res && res.data && res.data.success === true) {
-        dispatch(setUploadedImage(null))
+      if (res.success) {
+        dispatch(removeUploadedImage())
         dispatch(setImageUrl(null))
+      } else {
+        console.log('unsuccessful', res)
       }
     } catch (err) {
       console.error(err)
@@ -141,11 +144,7 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
                 </>
               ) : (
                 // If uploadedImage is not available, use Avatar
-                <Avatar
-                  uploadedImage={uploadedImage}
-                  imageUrl={imageUrl}
-                  clickable={false}
-                />
+                <Avatar clickable={false} />
               )}
             </Box>
           </DialogContent>

@@ -60,6 +60,7 @@ export default async function getCroppedImg(
   async function getOrientationAdjustedCanvas(
     imageSrc: string
   ): Promise<HTMLCanvasElement> {
+    console.log('Image Src:', imageSrc)
     return new Promise((resolve, reject) => {
       loadImage(
         imageSrc,
@@ -83,6 +84,7 @@ export default async function getCroppedImg(
   const canvasWithOrientation = await getOrientationAdjustedCanvas(imageSrc)
 
   // Create a new canvas and get its 2D context
+  console.log('canvasWithOrientation:', canvasWithOrientation)
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
 
@@ -134,8 +136,11 @@ export default async function getCroppedImg(
   // Return the cropped image as a blob
   return new Promise((resolve, reject) => {
     canvas.toBlob(file => {
+      console.log('Blob file:', file)
       if (file) {
-        resolve(URL.createObjectURL(file))
+        const blobUrl = URL.createObjectURL(file)
+        console.log('Blob URL:', blobUrl)
+        resolve(blobUrl)
       } else {
         reject('Failed to create Blob.')
       }
