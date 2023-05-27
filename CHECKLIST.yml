@@ -1,6 +1,9 @@
 paths:
-  "*":
-    - Does all code use proper formatting and casing?
-    - No repeated logic?
-    - Is code legible? no confusing conditionals, etc.
-    - No 'dead code'? (commented out code, console.logs, etc.)
+  '*':
+    - Self-reviewed
+    - Synced with develop
+    - No repeated logic
+    - Code is legible (no confusing conditionals, semantic variable names proper
+      formatting & casing, etc.)
+    - No 'dead code' (commented out code, console.logs, etc.)
+    - No merge conlicts
