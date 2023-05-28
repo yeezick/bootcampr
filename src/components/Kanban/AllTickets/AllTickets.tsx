@@ -132,14 +132,12 @@ export const AllTickets = ({ projectTracker }) => {
                         >
                           {provided => (
                             <div
-                              className='data'
+                              className='tickets'
                               id={ticketDetail._id}
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                             >
-                              <h1>{ticketDetail.status}</h1>
-                              <h1>{ticketDetail.description}</h1>
                               <TicketDetail
                                 ticketDetail={ticketDetail}
                                 getAllTicket={getAllTicket}

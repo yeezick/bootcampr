@@ -7,19 +7,15 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
-  border: 1px solid black;
-  // justify-content: center;
+
   gap: 10px;
 }
 
 .ticketStatusContainer {
   display: flex;
-  border: 1px solid black;
-  flex-direction: column;
-}
 
-.data {
-  background-color: grey;
+  width: 20%;
+  flex-direction: column;
 }
 
 .textFieldStyle {
@@ -34,11 +30,39 @@
 }
 
 .createTicketButton {
-  background-color: rgb(1, 0, 0);
+  background-color: red;
 }
 
 .ticketStatusProgress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 20px;
+  font-size: 18px;
+  font-weight: bold;
   background-color: white;
   border-radius: 10px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.createTicketButton {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 2.5rem;
+  font-size: 15px;
+  background: #313335;
+  border: 1px solid #313335;
+  border-radius: 4px;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px 0;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 400;
+}
+.tickets {
+  border: solid;
+  // color: white;
+  // background: #313335;
 }

@@ -28,6 +28,7 @@ const style = {
 export const TicketDetail = ({
   ticketDetail,
   getAllTicket,
+
   setGetAllTicket,
   ticketsStatus,
   splitCamelCaseToWords,
@@ -102,7 +103,9 @@ export const TicketDetail = ({
   }
   return (
     <div>
-      <button onClick={openModal}> Ticket Detail</button>
+      <div onClick={openModal}>
+        <h1>{ticketDetail.title}</h1>
+      </div>
       <Modal
         // isOpen={modalIsOpen}
         // onRequestClose={closeModal}

@@ -75,14 +75,10 @@ export const CreateTicket = ({
 
   return (
     <div>
-      <Button
-        onClick={openModal}
-        variant='contained'
-        className='createTicketButton'
-      >
+      <button onClick={openModal} className='createTicketButton'>
         <Icon {...label} component={AddIcon} />
-        Create a ticket
-      </Button>
+        Create task
+      </button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
