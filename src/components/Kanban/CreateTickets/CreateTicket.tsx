@@ -1,9 +1,10 @@
-import { Button, Box, FormControl } from '@mui/material'
+import { Button, Box, FormControl, Icon } from '@mui/material'
 
 import { useState } from 'react'
 import Modal from 'react-modal'
 import TextField from '@mui/material/TextField'
 import { SelectStatus } from 'components/Kanban'
+import AddIcon from '@mui/icons-material/Add'
 
 import {
   createTicketInterface,
@@ -70,10 +71,18 @@ export const CreateTicket = ({
 
     closeModal()
   }
+  const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
   return (
     <div>
-      <button onClick={openModal}>Create a ticket</button>
+      <Button
+        onClick={openModal}
+        variant='contained'
+        className='createTicketButton'
+      >
+        <Icon {...label} component={AddIcon} />
+        Create a ticket
+      </Button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

@@ -20,17 +20,24 @@ export const AllTickets = ({ projectTracker }) => {
     projectTracker?.projectTracker
   )
   const handleOnDragEnd = movingTicket => {
-    const ticketId = movingTicket.draggableId
-    const sourceCategory: KeyOfTicketStatusType =
-      movingTicket.source.droppableId
-    const targetCategory: KeyOfTicketStatusType =
-      movingTicket.destination.droppableId
-    const item: TicketInterface | undefined = getAllTicket[
-      sourceCategory as KeyOfTicketStatusType
-    ]?.find(item => item._id?.toString() === ticketId)
+    // Check if movingTicket exists
+    if (movingTicket) {
+      const ticketId = movingTicket.draggableId
+      const sourceCategory: KeyOfTicketStatusType =
+        movingTicket.source?.droppableId
+      const targetCategory: KeyOfTicketStatusType =
+        movingTicket.destination?.droppableId
 
-    if (sourceCategory !== targetCategory && item) {
-      ticketStatusChange({ sourceCategory, targetCategory, item, ticketId })
+      // Check if sourceCategory and targetCategory exist
+      if (sourceCategory && targetCategory) {
+        const item: TicketInterface | undefined = getAllTicket[
+          sourceCategory as KeyOfTicketStatusType
+        ]?.find(item => item._id?.toString() === ticketId)
+
+        if (sourceCategory !== targetCategory && item) {
+          ticketStatusChange({ sourceCategory, targetCategory, item, ticketId })
+        }
+      }
     }
   }
 
@@ -72,71 +79,88 @@ export const AllTickets = ({ projectTracker }) => {
   }
 
   const concatenatedString = statusString => statusString.replace(/\s+/g, '')
-
   const splitCamelCaseToWords = statusString =>
     statusString?.split(/(?=[A-Z])/).join(' ')
 
+  const formatTaskStatus = (status: string) => {
+    switch (status) {
+      case 'toDo':
+        return 'To Do'
+      case 'inProgress':
+        return 'In Progress'
+      case 'completed':
+        return 'Completed'
+      case 'underReview':
+        return 'Under Review'
+      default:
+        return status
+    }
+  }
+
   return (
     <div className='AllTickets'>
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        {Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
-          <Droppable droppableId={ticketsStatus} key={ticketsStatus}>
-            {provided => (
-              <div className='container' key={i}>
-                <div>
-                  <h1>{splitCamelCaseToWords(ticketsStatus)}</h1>
+      <div className='AllTickets'>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          {Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
+            <Droppable droppableId={ticketsStatus} key={ticketsStatus}>
+              {provided => (
+                <div className='ticketStatusContainer' key={i}>
+                  <div className='ticketStatusProgress'>
+                    <p>{formatTaskStatus(ticketsStatus)}</p>
+                    <span>{getAllTicket[ticketsStatus].length}</span>
+                  </div>
+                  <div>
+                    <CreateTicket
+                      projectId={id}
+                      setGetAllTicket={setGetAllTicket}
+                      getAllTicket={getAllTicket}
+                      ticketsStatus={splitCamelCaseToWords(ticketsStatus)}
+                      concatenatedString={concatenatedString}
+                    />
+                  </div>
+                  <div
+                    className='content'
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {getAllTicket[ticketsStatus as KeyOfTicketStatusType]?.map(
+                      (ticketDetail: TicketInterface, idx) => (
+                        <Draggable
+                          key={ticketDetail._id}
+                          draggableId={ticketDetail._id}
+                          index={idx}
+                        >
+                          {provided => (
+                            <div
+                              className='data'
+                              id={ticketDetail._id}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <h1>{ticketDetail.status}</h1>
+                              <h1>{ticketDetail.description}</h1>
+                              <TicketDetail
+                                ticketDetail={ticketDetail}
+                                getAllTicket={getAllTicket}
+                                setGetAllTicket={setGetAllTicket}
+                                ticketsStatus={ticketsStatus}
+                                splitCamelCaseToWords={splitCamelCaseToWords}
+                                concatenatedString={concatenatedString}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      )
+                    )}
+                    {provided.placeholder}
+                  </div>
                 </div>
-                <div>
-                  <CreateTicket
-                    projectId={id}
-                    setGetAllTicket={setGetAllTicket}
-                    getAllTicket={getAllTicket}
-                    ticketsStatus={splitCamelCaseToWords(ticketsStatus)}
-                    concatenatedString={concatenatedString}
-                  />
-                </div>
-                <div
-                  className='content'
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {getAllTicket[ticketsStatus as KeyOfTicketStatusType]?.map(
-                    (ticketDetail: TicketInterface, idx) => (
-                      <Draggable
-                        key={ticketDetail._id}
-                        draggableId={ticketDetail._id}
-                        index={idx}
-                      >
-                        {provided => (
-                          <div
-                            className='data'
-                            id={ticketDetail._id}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <h1>{ticketDetail.status}</h1>
-                            <h1>{ticketDetail.description}</h1>
-                            <TicketDetail
-                              ticketDetail={ticketDetail}
-                              getAllTicket={getAllTicket}
-                              setGetAllTicket={setGetAllTicket}
-                              ticketsStatus={ticketsStatus}
-                              splitCamelCaseToWords={splitCamelCaseToWords}
-                              concatenatedString={concatenatedString}
-                            />
-                          </div>
-                        )}
-                      </Draggable>
-                    )
-                  )}
-                  {provided.placeholder}
-                </div>
-              </div>
-            )}
-          </Droppable>
-        ))}
-      </DragDropContext>
+              )}
+            </Droppable>
+          ))}
+        </DragDropContext>
+      </div>
     </div>
   )
 }

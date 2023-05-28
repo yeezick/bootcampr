@@ -3,8 +3,9 @@ import { ProjectInterface } from 'interfaces'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 // import { AllTickets } from 'components/Kanban/AllTickets/AllTickets'
-
+import './Project.scss'
 import { getOneProject } from 'utils/api'
+import { Checkbox } from '@mui/material'
 
 const ProjectDetails = () => {
   const { id } = useParams()
@@ -25,10 +26,26 @@ const ProjectDetails = () => {
   }, [id])
 
   return (
-    <div>
-      <h1>{projectDetail?.title}</h1>
-      <h1>{projectDetail?.duration}</h1>
-      {projectDetail && <AllTickets projectTracker={projectDetail} />}
+    <div className='Project'>
+      <div>
+        <div className='Project-header'>
+          <h1>Kanban board</h1>
+        </div>
+        <div className='Project-filter'>
+          <span>
+            <Checkbox />
+            <p>All Task</p>
+          </span>
+          <span>
+            <Checkbox />
+            <p>My Task</p>
+          </span>
+        </div>
+      </div>
+
+      <div>
+        {projectDetail && <AllTickets projectTracker={projectDetail} />}
+      </div>
     </div>
   )
 }

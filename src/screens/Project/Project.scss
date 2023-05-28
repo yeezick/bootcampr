@@ -1,0 +1,27 @@
+.Project {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  flex-direction: column;
+  display: flex;
+  gap: 1rem;
+}
+
+.Project-header {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  color: #000000;
+}
+
+.Project-filter {
+  display: flex;
+  gap: 2rem;
+  background: #fefefe;
+  border-radius: 4px;
+  padding-left: 1rem;
+}
+
+.Project-filter > span {
+  display: flex;
+}
