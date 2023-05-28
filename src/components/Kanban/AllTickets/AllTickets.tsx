@@ -99,7 +99,7 @@ export const AllTickets = ({ projectTracker }) => {
 
   return (
     <div className='AllTickets'>
-      <div className='AllTickets'>
+      <div className='AllTickets-drag-drop'>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           {Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
             <Droppable droppableId={ticketsStatus} key={ticketsStatus}>

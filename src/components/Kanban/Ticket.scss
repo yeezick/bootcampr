@@ -1,8 +1,14 @@
 .AllTickets {
   display: flex;
   width: 100%;
-  border: 1px solid black;
   justify-content: center;
+}
+.AllTickets-drag-drop {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border: 1px solid black;
+  // justify-content: center;
   gap: 10px;
 }
 
