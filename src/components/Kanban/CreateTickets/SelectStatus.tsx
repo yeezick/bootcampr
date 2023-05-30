@@ -16,19 +16,16 @@ export const SelectStatus = ({
 }: SelectStatusProps) => {
   return (
     <Box sx={{ minWidth: 10 }}>
-      <FormControl fullWidth sx={{ width: '100%', paddingBottom: '20px' }}>
-        <InputLabel id='demo-simple-select-label'>Status</InputLabel>
+      <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
         <Select
-          labelId='demo-simple-select-label'
-          id='demo-simple-select'
-          label='status'
-          name='status'
+          displayEmpty
+          onChange={handleOnChange}
           defaultValue={
             ticketDetail
               ? splitCamelCaseToWords(ticketDetail?.status)
               : ticketsStatus
           }
-          onChange={handleOnChange}
+          inputProps={{ 'aria-label': 'Without label' }}
         >
           <MenuItem value={'to Do'}>To Do</MenuItem>
           <MenuItem value={'in Progress'}>In progress</MenuItem>
