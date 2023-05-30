@@ -3,19 +3,22 @@
   width: 100%;
   justify-content: center;
 }
+
 .AllTickets-drag-drop {
   display: flex;
   width: 100%;
   justify-content: space-between;
-
   gap: 10px;
 }
 
 .ticketStatusContainer {
   display: flex;
-
   width: 20%;
   flex-direction: column;
+}
+
+.content {
+  min-height: 10rem;
 }
 
 .textFieldStyle {
@@ -61,8 +64,41 @@
   cursor: pointer;
   font-weight: 400;
 }
-.tickets {
-  border: solid;
-  // color: white;
-  // background: #313335;
+
+.modal {
+}
+
+.ticketDetail-openModal {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  height: 2.8rem;
+  font-size: 15px;
+  background: #313335;
+  border-radius: 4px;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px 0;
+  color: #fff;
+  font-weight: 400;
+}
+
+.ticketDetail-openModal > div {
+  padding-left: 0.8rem;
+}
+
+.ticket-container {
+  margin-bottom: 10px;
+}
+
+.ticketDetail-openModal-box {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background-color: #f5f5f5;
+  border: 2px solid #000;
+  box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.5);
+  padding: 16px;
 }

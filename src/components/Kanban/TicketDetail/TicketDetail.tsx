@@ -12,6 +12,7 @@ import {
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 import { deleteTicketApi } from 'utils/api/tickets'
+import '../Ticket.scss'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -103,33 +104,28 @@ export const TicketDetail = ({
   }
   return (
     <div>
-      <div onClick={openModal}>
-        <h1>{ticketDetail.title}</h1>
+      <div onClick={openModal} className='ticketDetail-openModal'>
+        <div>
+          <h3>{ticketDetail.title}</h3>
+        </div>
       </div>
-      <Modal
-        // isOpen={modalIsOpen}
-        // onRequestClose={closeModal}
-        open={modalIsOpen}
-        onClose={closeModal}
-        // style={customStyles}
-        // contentLabel='Example Modal'
-      >
+      <Modal open={modalIsOpen} onClose={closeModal} className='modal'>
         {isBeingEdited ? (
           <h1>Saving changes...</h1>
         ) : (
           <>
-            <Button
-              sx={{ marginRight: '10px' }}
-              color='error'
-              disabled={false}
-              size='small'
-              variant='outlined'
-              onClick={closeModal}
-            >
-              close
-            </Button>
             <Box>
-              <Box sx={{ display: 'flex', gap: '30px', ...style }}>
+              <Box className='ticketDetail-openModal-box'>
+                <Button
+                  sx={{ marginRight: '10px' }}
+                  color='error'
+                  disabled={false}
+                  size='small'
+                  variant='outlined'
+                  onClick={closeModal}
+                >
+                  close
+                </Button>
                 <Box sx={{ width: '50%' }}>
                   <h3>Title</h3>
                   <blockquote>
@@ -178,27 +174,29 @@ export const TicketDetail = ({
                     defaultValue={ticketDetail.dueDate}
                   />
                 </Box>
+                <Box>
+                  <Button
+                    sx={{ marginRight: '10px' }}
+                    color='error'
+                    disabled={false}
+                    size='small'
+                    variant='outlined'
+                    onClick={() => deleteTicket(ticketDetail?._id)}
+                  >
+                    Delete
+                  </Button>
+                  <Button
+                    sx={{ marginRight: '10px' }}
+                    color='success'
+                    disabled={false}
+                    size='small'
+                    variant='outlined'
+                    onClick={() => saveChanges()}
+                  >
+                    Save Changes
+                  </Button>
+                </Box>
               </Box>
-              <Button
-                sx={{ marginRight: '10px' }}
-                color='error'
-                disabled={false}
-                size='small'
-                variant='outlined'
-                onClick={() => deleteTicket(ticketDetail?._id)}
-              >
-                Delete
-              </Button>
-              <Button
-                sx={{ marginRight: '10px' }}
-                color='success'
-                disabled={false}
-                size='small'
-                variant='outlined'
-                onClick={() => saveChanges()}
-              >
-                Save Changes
-              </Button>
             </Box>
           </>
         )}

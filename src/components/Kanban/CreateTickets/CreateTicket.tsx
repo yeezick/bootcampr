@@ -112,7 +112,10 @@ export const CreateTicket = ({
                     onChange={handleOnChange}
                   />
                   <input type='date' name='dueDate' onChange={handleOnChange} />
-                  <p>createdBy:{authUser?.firstName}</p>
+                  <p>
+                    createdBy:{authUser?.firstName}
+                    <img src={authUser.profilePicture} alt='auth' />
+                  </p>
                 </Box>
                 <Box sx={{ width: '50%' }}>
                   <TextField

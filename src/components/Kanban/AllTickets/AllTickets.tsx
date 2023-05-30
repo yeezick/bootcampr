@@ -132,7 +132,7 @@ export const AllTickets = ({ projectTracker }) => {
                         >
                           {provided => (
                             <div
-                              className='tickets'
+                              className='ticket-container'
                               id={ticketDetail._id}
                               ref={provided.innerRef}
                               {...provided.draggableProps}
