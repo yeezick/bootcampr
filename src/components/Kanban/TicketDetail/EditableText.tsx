@@ -8,7 +8,7 @@ const EditableText = ({ editRef, ticketDetail, text, detailIcon }) => {
         <Icon>{detailIcon}</Icon>
         <h4>{text}</h4>
       </div>
-      <blockquote>
+      <blockquote className='blockquote-text'>
         <p
           contentEditable='true'
           ref={editRef}
