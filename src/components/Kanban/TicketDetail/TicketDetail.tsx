@@ -1,5 +1,4 @@
 import { useState, useRef, MutableRefObject } from 'react'
-// import Modal from 'react-modal'
 import Modal from '@mui/material/Modal'
 import { Button, Box } from '@mui/material'
 import { SelectStatus } from 'components/Kanban'
@@ -13,19 +12,11 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 import { deleteTicketApi } from 'utils/api/tickets'
 import '../Ticket.scss'
-
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-}
-
+import EditableText from './EditableText'
+import { FaBeer } from 'react-icons/fa'
+import { MdOutlineTitle } from 'react-icons/md'
+import { TbPencilMinus } from 'react-icons/tb'
+import { BiLink } from 'react-icons/bi'
 export const TicketDetail = ({
   ticketDetail,
   getAllTicket,
@@ -35,7 +26,6 @@ export const TicketDetail = ({
   splitCamelCaseToWords,
   concatenatedString,
 }: TicketDetailPropsInterface) => {
-  // Modal.setAppElement('#root')
   const authUser = useAppSelector(selectAuthUser)
   const [modalIsOpen, setIsOpen] = useState(false)
   const [ticketStatus, setTicketStatus] = useState<string>()
@@ -116,64 +106,44 @@ export const TicketDetail = ({
           <>
             <Box>
               <Box className='ticketDetail-openModal-box'>
-                <Button
-                  sx={{ marginRight: '10px' }}
-                  color='error'
-                  disabled={false}
-                  size='small'
-                  variant='outlined'
-                  onClick={closeModal}
-                >
-                  close
-                </Button>
-                <Box sx={{ width: '50%' }}>
-                  <h3>Title</h3>
-                  <blockquote>
-                    <p
-                      contentEditable='true'
-                      ref={tittleRef}
-                      suppressContentEditableWarning={true}
-                    >
-                      {ticketDetail.title}
-                    </p>
-                  </blockquote>
-                  <h3>description</h3>
+                <Box sx={{ display: 'flex' }}>
+                  <Box sx={{ width: '50%' }}>
+                    <EditableText
+                      detailIcon={<MdOutlineTitle />}
+                      text='Title'
+                      editRef={tittleRef}
+                      ticketDetail={ticketDetail.title}
+                    />
+                    <EditableText
+                      detailIcon={<TbPencilMinus />}
+                      text='Description'
+                      editRef={descriptionRef}
+                      ticketDetail={ticketDetail.description}
+                    />
 
-                  <blockquote>
-                    <p
-                      contentEditable='true'
-                      ref={descriptionRef}
-                      suppressContentEditableWarning={true}
-                    >
-                      {ticketDetail.description}
-                    </p>
-                  </blockquote>
-                  <h3>Link</h3>
+                    <EditableText
+                      detailIcon={<BiLink />}
+                      text='Link'
+                      editRef={linkRef}
+                      ticketDetail={ticketDetail.link}
+                    />
+                  </Box>
 
-                  <blockquote>
-                    <p
-                      contentEditable='true'
-                      ref={linkRef}
-                      suppressContentEditableWarning={true}
-                    >
-                      {ticketDetail.link}
-                    </p>
-                  </blockquote>
+                  <Box sx={{ width: '50%' }}>
+                    <SelectStatus
+                      handleOnChange={handleEditChange}
+                      ticketDetail={ticketDetail}
+                      splitCamelCaseToWords={splitCamelCaseToWords}
+                    />
+                    <input
+                      type='date'
+                      name='date'
+                      ref={dateRef}
+                      defaultValue={ticketDetail.dueDate}
+                    />
+                  </Box>
                 </Box>
 
-                <Box sx={{ width: '50%' }}>
-                  <SelectStatus
-                    handleOnChange={handleEditChange}
-                    ticketDetail={ticketDetail}
-                    splitCamelCaseToWords={splitCamelCaseToWords}
-                  />
-                  <input
-                    type='date'
-                    name='date'
-                    ref={dateRef}
-                    defaultValue={ticketDetail.dueDate}
-                  />
-                </Box>
                 <Box>
                   <Button
                     sx={{ marginRight: '10px' }}

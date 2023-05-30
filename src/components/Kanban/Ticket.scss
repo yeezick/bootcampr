@@ -65,9 +65,6 @@
   font-weight: 400;
 }
 
-.modal {
-}
-
 .ticketDetail-openModal {
   margin-top: 10px;
   display: flex;
@@ -93,12 +90,23 @@
 .ticketDetail-openModal-box {
   display: flex;
   position: absolute;
+  flex-direction: column;
   top: 50%;
   left: 50%;
+  width: 50%;
+  height: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
   background-color: #f5f5f5;
-  border: 2px solid #000;
   box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.5);
   padding: 16px;
+}
+
+.EditableText {
+  display: flex;
+  flex-direction: column;
+}
+
+.EditableText-icon-text {
+  display: flex;
+  gap: 10px;
 }
