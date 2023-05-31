@@ -145,27 +145,22 @@ export const CreateTicket = ({
                   />
                   <SelectDate handleOnChange={handleOnChange} />
 
-                  <Box>
-                    <Button
-                      sx={{ marginRight: '10px' }}
-                      color='primary'
+                  <Box className='ticketDetail-openModal-box-button '>
+                    <button
+                      className='button1'
                       disabled={false}
-                      size='small'
-                      variant='outlined'
-                      onClick={() => addTickets()}
-                    >
-                      Add a ticket
-                    </Button>
-                    <Button
-                      sx={{ marginRight: '10px' }}
-                      color='error'
-                      disabled={false}
-                      size='small'
-                      variant='outlined'
                       onClick={closeModal}
                     >
-                      close
-                    </Button>
+                      Cancel
+                    </button>
+                    <button
+                      disabled={false}
+                      onClick={() => addTickets()}
+                      className='button2'
+                      style={{ backgroundColor: '#FA9413', color: 'black' }}
+                    >
+                      Add a ticket
+                    </button>
                   </Box>
                 </Box>
               </Box>
