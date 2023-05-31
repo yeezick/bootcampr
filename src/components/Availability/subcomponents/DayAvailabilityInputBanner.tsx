@@ -1,24 +1,8 @@
-import { useState } from 'react'
 import { Checkbox } from '@mui/material'
 import { TimeSlotInput } from './TimeslotInput'
-import { defaultAvailabilityForm } from '../utils/data'
+import { handleCheck } from '../utils/helpers'
 
-export const DayAvailabilityInputBanner = ({ day }) => {
-  const [days, setDays] = useState(defaultAvailabilityForm)
-
-  const handleCheck = () => {
-    const available = !days[day].available
-    const availability = [...days[day].availability]
-
-    setDays({
-      ...days,
-      [day]: {
-        available,
-        availability,
-      },
-    })
-  }
-
+export const DayAvailabilityInputBanner = ({ day, days, setDays }) => {
   return (
     <div>
       <div className='day-availability-input-banner'>
@@ -26,7 +10,7 @@ export const DayAvailabilityInputBanner = ({ day }) => {
           <div className='check-day'>
             <Checkbox
               name={day}
-              onChange={handleCheck}
+              onChange={() => handleCheck(day, days, setDays)}
               sx={checkBoxStyle}
               checked={days[day].available}
             />
