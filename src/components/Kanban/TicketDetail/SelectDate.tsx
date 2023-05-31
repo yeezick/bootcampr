@@ -2,7 +2,6 @@ import React from 'react'
 import { AiOutlineCalendar } from 'react-icons/ai'
 import { Icon } from '@material-ui/core'
 
-// AiOutlineCalendar
 type SelectDateProps = {
   dateRef?: React.RefObject<HTMLInputElement>
   defaultValue?: string

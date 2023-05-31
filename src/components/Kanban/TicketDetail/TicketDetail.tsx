@@ -36,9 +36,6 @@ export const TicketDetail = ({
   const tittleRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
   const dateRef: MutableRefObject<HTMLInputElement | null> = useRef(null)
   const linkRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
-  console.log('====================================')
-  console.log(ticketDetail)
-  console.log('====================================')
   const descriptionRef: MutableRefObject<HTMLParagraphElement | null> =
     useRef(null)
   const openModal = () => setIsOpen(true)

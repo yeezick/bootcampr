@@ -1,7 +1,7 @@
 import { Button, Box, FormControl, Icon } from '@mui/material'
 
 import { useState } from 'react'
-import Modal from 'react-modal'
+import Modal from '@mui/material/Modal'
 import TextField from '@mui/material/TextField'
 import { SelectStatus } from 'components/Kanban'
 import AddIcon from '@mui/icons-material/Add'
@@ -20,6 +20,7 @@ import { BiLink } from 'react-icons/bi'
 import UserAssignee from '../TicketDetail/UserAssignee'
 import { RxPerson } from 'react-icons/rx'
 import SelectDate from '../TicketDetail/SelectDate'
+import { TbPencilMinus } from 'react-icons/tb'
 
 const customStyles = {
   content: {
@@ -43,7 +44,6 @@ export const CreateTicket = ({
 }: createTicketInterface) => {
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
-  Modal.setAppElement('#root')
   const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()
   const [modalIsOpen, setIsOpen] = useState(false)
   const [isBeingCreated, setIsBeingCreated] = useState<boolean>(false)
@@ -86,17 +86,12 @@ export const CreateTicket = ({
         <Icon {...label} component={AddIcon} />
         Create task
       </button>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel='Example Modal'
-      >
+      <Modal open={modalIsOpen} onClose={closeModal} className='modal'>
         <div>
           {isBeingCreated ? (
             <h1>Creating...</h1>
           ) : (
-            <Box>
+            <Box className='ticketDetail-openModal-box'>
               <Box className='createTicketBox'>
                 <Box sx={{ width: '50%' }}>
                   <TextFieldData
@@ -106,7 +101,13 @@ export const CreateTicket = ({
                     placeholderText={'Ex, User interviews'}
                     handleOnChange={handleOnChange}
                   />
-                  <Box>
+                  <Box className='EditableText'>
+                    <div className='EditableText-icon-text'>
+                      <Icon>
+                        <TbPencilMinus />
+                      </Icon>
+                      <h4>Description</h4>
+                    </div>
                     <TextField
                       className='textFieldStyle'
                       type='text'
@@ -130,7 +131,7 @@ export const CreateTicket = ({
                     handleOnChange={handleOnChange}
                   />
                 </Box>
-                <Box sx={{ width: '50%' }}>
+                <Box sx={{ width: '50%' }} className='createTicket-status-user'>
                   <SelectStatus
                     handleOnChange={handleOnChange}
                     ticketsStatus={ticketsStatus}
@@ -143,30 +144,30 @@ export const CreateTicket = ({
                     userImage={authUser.profilePicture}
                   />
                   <SelectDate handleOnChange={handleOnChange} />
-                  <input type='date' name='dueDate' onChange={handleOnChange} />
+
+                  <Box>
+                    <Button
+                      sx={{ marginRight: '10px' }}
+                      color='primary'
+                      disabled={false}
+                      size='small'
+                      variant='outlined'
+                      onClick={() => addTickets()}
+                    >
+                      Add a ticket
+                    </Button>
+                    <Button
+                      sx={{ marginRight: '10px' }}
+                      color='error'
+                      disabled={false}
+                      size='small'
+                      variant='outlined'
+                      onClick={closeModal}
+                    >
+                      close
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
-              <Box>
-                <Button
-                  sx={{ marginRight: '10px' }}
-                  color='primary'
-                  disabled={false}
-                  size='small'
-                  variant='outlined'
-                  onClick={() => addTickets()}
-                >
-                  Add a ticket
-                </Button>
-                <Button
-                  sx={{ marginRight: '10px' }}
-                  color='error'
-                  disabled={false}
-                  size='small'
-                  variant='outlined'
-                  onClick={closeModal}
-                >
-                  close
-                </Button>
               </Box>
             </Box>
           )}
