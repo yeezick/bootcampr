@@ -3,7 +3,16 @@ import { AiOutlineCalendar } from 'react-icons/ai'
 import { Icon } from '@material-ui/core'
 
 // AiOutlineCalendar
-const SelectDate = ({ dateRef, defaultValue }) => {
+type SelectDateProps = {
+  dateRef?: React.RefObject<HTMLInputElement>
+  defaultValue?: string
+  handleOnChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+}
+const SelectDate = ({
+  dateRef,
+  defaultValue,
+  handleOnChange,
+}: SelectDateProps) => {
   return (
     <div className='date-container'>
       <div className='date-icon-container'>
@@ -16,7 +25,8 @@ const SelectDate = ({ dateRef, defaultValue }) => {
         <input
           className='date-container-date'
           type='date'
-          name='date'
+          name='dueDate'
+          onChange={handleOnChange}
           ref={dateRef}
           defaultValue={defaultValue}
         />

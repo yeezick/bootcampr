@@ -15,6 +15,11 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import '../Ticket.scss'
 import TextFieldData from './TextFieldData'
+import { MdOutlineTitle } from 'react-icons/md'
+import { BiLink } from 'react-icons/bi'
+import UserAssignee from '../TicketDetail/UserAssignee'
+import { RxPerson } from 'react-icons/rx'
+import SelectDate from '../TicketDetail/SelectDate'
 
 const customStyles = {
   content: {
@@ -36,6 +41,8 @@ export const CreateTicket = ({
   ticketsStatus,
   projectId,
 }: createTicketInterface) => {
+  const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
+
   Modal.setAppElement('#root')
   const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -72,7 +79,6 @@ export const CreateTicket = ({
 
     closeModal()
   }
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
   return (
     <div>
@@ -90,42 +96,54 @@ export const CreateTicket = ({
           {isBeingCreated ? (
             <h1>Creating...</h1>
           ) : (
-            <FormControl>
+            <Box>
               <Box className='createTicketBox'>
                 <Box sx={{ width: '50%' }}>
                   <TextFieldData
                     name={'title'}
+                    text='Title'
+                    detailIcon={<MdOutlineTitle />}
                     placeholderText={'Ex, User interviews'}
                     handleOnChange={handleOnChange}
                   />
+                  <Box>
+                    <TextField
+                      className='textFieldStyle'
+                      type='text'
+                      // detailIcon={<TbPencilMinus />}
+                      id='outlined-basic'
+                      variant='outlined'
+                      multiline
+                      placeholder='Give a description of the task.
+                      You may want to include user stories:
+                      As a _______, I want to _________, so that I can ________.'
+                      name='description'
+                      onChange={handleOnChange}
+                      InputProps={{ rows: 4.5 }}
+                    />
+                  </Box>
                   <TextFieldData
+                    detailIcon={<BiLink />}
+                    text='Link'
                     name={'link'}
-                    placeholderText={'add a link'}
+                    placeholderText={'Add a link'}
                     handleOnChange={handleOnChange}
                   />
-
-                  <input type='date' name='dueDate' onChange={handleOnChange} />
-                  <p>
-                    createdBy:{authUser?.firstName}
-                    <img src={authUser.profilePicture} alt='auth' />
-                  </p>
                 </Box>
                 <Box sx={{ width: '50%' }}>
-                  <TextField
-                    className='textFieldStyle'
-                    type='text'
-                    id='outlined-basic'
-                    label='Description'
-                    variant='outlined'
-                    multiline
-                    name='description'
-                    onChange={handleOnChange}
-                    InputProps={{ rows: 4.5 }}
-                  />
                   <SelectStatus
                     handleOnChange={handleOnChange}
                     ticketsStatus={ticketsStatus}
                   />
+                  <UserAssignee
+                    text='Assignee'
+                    detailIcon={<RxPerson />}
+                    userName={authUser.firstName}
+                    userRole={authUser.role}
+                    userImage={authUser.profilePicture}
+                  />
+                  <SelectDate handleOnChange={handleOnChange} />
+                  <input type='date' name='dueDate' onChange={handleOnChange} />
                 </Box>
               </Box>
               <Box>
@@ -150,7 +168,7 @@ export const CreateTicket = ({
                   close
                 </Button>
               </Box>
-            </FormControl>
+            </Box>
           )}
         </div>
       </Modal>
