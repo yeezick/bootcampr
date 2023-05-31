@@ -17,6 +17,8 @@ import { FaBeer } from 'react-icons/fa'
 import { MdOutlineTitle } from 'react-icons/md'
 import { TbPencilMinus } from 'react-icons/tb'
 import { BiLink } from 'react-icons/bi'
+import { RxPerson } from 'react-icons/rx'
+import UserAssignee from './UserAssignee'
 export const TicketDetail = ({
   ticketDetail,
   getAllTicket,
@@ -34,7 +36,9 @@ export const TicketDetail = ({
   const tittleRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
   const dateRef: MutableRefObject<HTMLInputElement | null> = useRef(null)
   const linkRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
-
+  console.log('====================================')
+  console.log(ticketDetail)
+  console.log('====================================')
   const descriptionRef: MutableRefObject<HTMLParagraphElement | null> =
     useRef(null)
   const openModal = () => setIsOpen(true)
@@ -135,36 +139,53 @@ export const TicketDetail = ({
                       ticketDetail={ticketDetail}
                       splitCamelCaseToWords={splitCamelCaseToWords}
                     />
+
+                    <UserAssignee
+                      text='Created by'
+                      detailIcon={<RxPerson />}
+                      userName={ticketDetail.createdBy.firstName}
+                      userRole={ticketDetail.createdBy.role}
+                      userImage={ticketDetail.createdBy.profilePicture}
+                    />
+
+                    <UserAssignee
+                      text='Assignee'
+                      detailIcon={<RxPerson />}
+                      userName={ticketDetail.assignees.firstName}
+                      userRole={ticketDetail.assignees.role}
+                      userImage={ticketDetail.assignees.profilePicture}
+                    />
+
                     <input
                       type='date'
                       name='date'
                       ref={dateRef}
                       defaultValue={ticketDetail.dueDate}
                     />
-                  </Box>
-                </Box>
 
-                <Box>
-                  <Button
-                    sx={{ marginRight: '10px' }}
-                    color='error'
-                    disabled={false}
-                    size='small'
-                    variant='outlined'
-                    onClick={() => deleteTicket(ticketDetail?._id)}
-                  >
-                    Delete
-                  </Button>
-                  <Button
-                    sx={{ marginRight: '10px' }}
-                    color='success'
-                    disabled={false}
-                    size='small'
-                    variant='outlined'
-                    onClick={() => saveChanges()}
-                  >
-                    Save Changes
-                  </Button>
+                    <Box>
+                      <Button
+                        sx={{ marginRight: '10px' }}
+                        color='error'
+                        disabled={false}
+                        size='small'
+                        variant='outlined'
+                        onClick={() => deleteTicket(ticketDetail?._id)}
+                      >
+                        Delete
+                      </Button>
+                      <Button
+                        sx={{ marginRight: '10px' }}
+                        color='success'
+                        disabled={false}
+                        size='small'
+                        variant='outlined'
+                        onClick={() => saveChanges()}
+                      >
+                        Save Changes
+                      </Button>
+                    </Box>
+                  </Box>
                 </Box>
               </Box>
             </Box>

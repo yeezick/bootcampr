@@ -1,6 +1,14 @@
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import {
+  Box,
+  FormControl,
+  Icon,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@mui/material'
 import { SelectChangeEvent } from '@mui/material/Select'
 import { TicketInterface } from 'interfaces/TicketInterFace'
+import { FiWatch } from 'react-icons/fi'
 
 type SelectStatusProps = {
   handleOnChange?: (e: SelectChangeEvent) => void
@@ -16,6 +24,10 @@ export const SelectStatus = ({
 }: SelectStatusProps) => {
   return (
     <Box sx={{ minWidth: 10 }}>
+      <Icon>
+        <FiWatch />
+      </Icon>
+      <h3>Status</h3>
       <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
         <Select
           displayEmpty

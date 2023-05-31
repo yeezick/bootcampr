@@ -13,7 +13,7 @@ export interface TaskInterface {
 }
 
 export interface TicketInterface {
-  assignees?: UserInterface | string
+  assignees?: UserInterface
   createAt?: string
   description?: string
   projectId?: string
@@ -22,7 +22,7 @@ export interface TicketInterface {
   dueDate?: string
   link?: string
   updatedAt?: string
-  ticketOwner?: UserInterface | string
+  createdBy?: UserInterface
   _v?: number
   _id?: string
 }
