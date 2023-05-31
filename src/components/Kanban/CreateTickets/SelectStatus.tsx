@@ -9,6 +9,7 @@ import {
 import { SelectChangeEvent } from '@mui/material/Select'
 import { TicketInterface } from 'interfaces/TicketInterFace'
 import { FiWatch } from 'react-icons/fi'
+import '../Ticket.scss'
 
 type SelectStatusProps = {
   handleOnChange?: (e: SelectChangeEvent) => void
@@ -23,13 +24,16 @@ export const SelectStatus = ({
   ticketsStatus,
 }: SelectStatusProps) => {
   return (
-    <Box sx={{ minWidth: 10 }}>
-      <Icon>
-        <FiWatch />
-      </Icon>
-      <h3>Status</h3>
-      <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
+    <Box sx={{ minWidth: 10 }} className='select-status'>
+      <div className='select-status-icon-text'>
+        <Icon>
+          <FiWatch />
+        </Icon>
+        <h3>Status</h3>
+      </div>
+      <FormControl className='select-status-FormControl'>
         <Select
+          className='select-status-select'
           displayEmpty
           onChange={handleOnChange}
           defaultValue={

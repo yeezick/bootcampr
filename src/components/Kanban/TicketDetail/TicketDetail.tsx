@@ -19,6 +19,7 @@ import { TbPencilMinus } from 'react-icons/tb'
 import { BiLink } from 'react-icons/bi'
 import { RxPerson } from 'react-icons/rx'
 import UserAssignee from './UserAssignee'
+import SelectDate from './SelectDate'
 export const TicketDetail = ({
   ticketDetail,
   getAllTicket,
@@ -156,10 +157,8 @@ export const TicketDetail = ({
                       userImage={ticketDetail.assignees.profilePicture}
                     />
 
-                    <input
-                      type='date'
-                      name='date'
-                      ref={dateRef}
+                    <SelectDate
+                      dateRef={dateRef}
                       defaultValue={ticketDetail.dueDate}
                     />
 
