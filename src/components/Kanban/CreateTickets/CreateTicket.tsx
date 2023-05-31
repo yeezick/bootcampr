@@ -5,7 +5,7 @@ import Modal from 'react-modal'
 import TextField from '@mui/material/TextField'
 import { SelectStatus } from 'components/Kanban'
 import AddIcon from '@mui/icons-material/Add'
-
+import './CreateTickets.scss'
 import {
   createTicketInterface,
   TaskInterface,
@@ -14,6 +14,7 @@ import { createTicketApi } from 'utils/api/tickets'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import '../Ticket.scss'
+import TextFieldData from './TextFieldData'
 
 const customStyles = {
   content: {
@@ -86,31 +87,23 @@ export const CreateTicket = ({
         contentLabel='Example Modal'
       >
         <div>
-          <h1>Create a ticket</h1>
           {isBeingCreated ? (
             <h1>Creating...</h1>
           ) : (
             <FormControl>
               <Box className='createTicketBox'>
                 <Box sx={{ width: '50%' }}>
-                  <TextField
-                    className='textFieldStyle'
-                    type='text'
-                    label='Title'
-                    id='outlined-basic'
-                    variant='outlined'
-                    name='title'
-                    onChange={handleOnChange}
+                  <TextFieldData
+                    name={'title'}
+                    placeholderText={'Ex, User interviews'}
+                    handleOnChange={handleOnChange}
                   />
-                  <TextField
-                    className='textFieldStyle'
-                    type='text'
-                    label='link'
-                    id='outlined-basic'
-                    variant='outlined'
-                    name='link'
-                    onChange={handleOnChange}
+                  <TextFieldData
+                    name={'link'}
+                    placeholderText={'add a link'}
+                    handleOnChange={handleOnChange}
                   />
+
                   <input type='date' name='dueDate' onChange={handleOnChange} />
                   <p>
                     createdBy:{authUser?.firstName}

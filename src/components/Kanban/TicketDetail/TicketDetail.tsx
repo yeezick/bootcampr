@@ -13,7 +13,6 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { deleteTicketApi } from 'utils/api/tickets'
 import '../Ticket.scss'
 import EditableText from './EditableText'
-import { FaBeer } from 'react-icons/fa'
 import { MdOutlineTitle } from 'react-icons/md'
 import { TbPencilMinus } from 'react-icons/tb'
 import { BiLink } from 'react-icons/bi'
@@ -109,81 +108,78 @@ export const TicketDetail = ({
           <h1>Saving changes...</h1>
         ) : (
           <>
-            <Box>
-              <Box className='ticketDetail-openModal-box'>
-                <Box sx={{ display: 'flex' }}>
-                  <Box sx={{ width: '50%' }}>
-                    <EditableText
-                      detailIcon={<MdOutlineTitle />}
-                      text='Title'
-                      editRef={tittleRef}
-                      ticketDetail={ticketDetail.title}
-                    />
-                    <EditableText
-                      detailIcon={<TbPencilMinus />}
-                      text='Description'
-                      editRef={descriptionRef}
-                      ticketDetail={ticketDetail.description}
-                    />
+            <Box className='ticketDetail-openModal-box'>
+              <Box sx={{ display: 'flex' }}>
+                <Box sx={{ width: '50%' }}>
+                  <EditableText
+                    detailIcon={<MdOutlineTitle />}
+                    text='Title'
+                    editRef={tittleRef}
+                    ticketDetail={ticketDetail.title}
+                  />
+                  <EditableText
+                    detailIcon={<TbPencilMinus />}
+                    text='Description'
+                    editRef={descriptionRef}
+                    ticketDetail={ticketDetail.description}
+                  />
 
-                    <EditableText
-                      detailIcon={<BiLink />}
-                      text='Link'
-                      editRef={linkRef}
-                      ticketDetail={ticketDetail.link}
-                    />
-                  </Box>
+                  <EditableText
+                    detailIcon={<BiLink />}
+                    text='Link'
+                    editRef={linkRef}
+                    ticketDetail={ticketDetail.link}
+                  />
+                </Box>
 
-                  <Box sx={{ width: '50%' }}>
-                    <SelectStatus
-                      handleOnChange={handleEditChange}
-                      ticketDetail={ticketDetail}
-                      splitCamelCaseToWords={splitCamelCaseToWords}
-                    />
+                <Box sx={{ width: '50%' }}>
+                  <SelectStatus
+                    handleOnChange={handleEditChange}
+                    ticketDetail={ticketDetail}
+                    splitCamelCaseToWords={splitCamelCaseToWords}
+                  />
 
-                    <UserAssignee
-                      text='Created by'
-                      detailIcon={<RxPerson />}
-                      userName={ticketDetail.createdBy.firstName}
-                      userRole={ticketDetail.createdBy.role}
-                      userImage={ticketDetail.createdBy.profilePicture}
-                    />
+                  <UserAssignee
+                    text='Created by'
+                    detailIcon={<RxPerson />}
+                    userName={ticketDetail.createdBy.firstName}
+                    userRole={ticketDetail.createdBy.role}
+                    userImage={ticketDetail.createdBy.profilePicture}
+                  />
 
-                    <UserAssignee
-                      text='Assignee'
-                      detailIcon={<RxPerson />}
-                      userName={ticketDetail.assignees.firstName}
-                      userRole={ticketDetail.assignees.role}
-                      userImage={ticketDetail.assignees.profilePicture}
-                    />
+                  <UserAssignee
+                    text='Assignee'
+                    detailIcon={<RxPerson />}
+                    userName={ticketDetail.assignees.firstName}
+                    userRole={ticketDetail.assignees.role}
+                    userImage={ticketDetail.assignees.profilePicture}
+                  />
 
-                    <SelectDate
-                      dateRef={dateRef}
-                      defaultValue={ticketDetail.dueDate}
-                    />
+                  <SelectDate
+                    dateRef={dateRef}
+                    defaultValue={ticketDetail.dueDate}
+                  />
 
-                    <Box>
-                      <Button
-                        sx={{ marginRight: '10px' }}
-                        color='error'
-                        disabled={false}
-                        size='small'
-                        variant='outlined'
-                        onClick={() => deleteTicket(ticketDetail?._id)}
-                      >
-                        Delete
-                      </Button>
-                      <Button
-                        sx={{ marginRight: '10px' }}
-                        color='success'
-                        disabled={false}
-                        size='small'
-                        variant='outlined'
-                        onClick={() => saveChanges()}
-                      >
-                        Save Changes
-                      </Button>
-                    </Box>
+                  <Box className='ticketDetail-openModal-box-button button1'>
+                    <Button
+                      className='ticketDetail-openModal-button'
+                      disabled={false}
+                      size='small'
+                      variant='outlined'
+                      onClick={() => deleteTicket(ticketDetail?._id)}
+                    >
+                      Delete
+                    </Button>
+                    <Button
+                      className='ticketDetail-openModal-button button2'
+                      color='success'
+                      disabled={false}
+                      size='small'
+                      variant='contained'
+                      onClick={() => saveChanges()}
+                    >
+                      Save Changes
+                    </Button>
                   </Box>
                 </Box>
               </Box>

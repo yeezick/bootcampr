@@ -94,7 +94,7 @@
   top: 50%;
   left: 50%;
   width: 50%;
-  height: 70%;
+  min-height: 70%;
   transform: translate(-50%, -50%);
   background: #d9d9d9;
 
@@ -195,5 +195,20 @@
     align-items: center;
     background-color: #f5f5f5;
     font-size: 1.1rem;
+  }
+}
+
+.ticketDetail-openModal-box-button {
+  display: flex;
+  max-height: 100%;
+  border: solid;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 40px;
+  .button1 {
+    color: red;
+  }
+  .ticketDetail-openModal-button {
+    height: 40%;
   }
 }
