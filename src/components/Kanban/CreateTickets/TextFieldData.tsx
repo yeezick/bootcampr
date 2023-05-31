@@ -16,6 +16,7 @@ const TextFieldData = ({
         <h4>{text}</h4>
       </div>
       <TextField
+        className='EditableText-textField'
         id='outlined-basic'
         variant='outlined'
         placeholder={placeholderText}

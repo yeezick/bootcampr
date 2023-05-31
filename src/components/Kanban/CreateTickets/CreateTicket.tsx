@@ -5,7 +5,7 @@ import Modal from '@mui/material/Modal'
 import TextField from '@mui/material/TextField'
 import { SelectStatus } from 'components/Kanban'
 import AddIcon from '@mui/icons-material/Add'
-import './CreateTickets.scss'
+
 import {
   createTicketInterface,
   TaskInterface,
@@ -109,7 +109,7 @@ export const CreateTicket = ({
                       <h4>Description</h4>
                     </div>
                     <TextField
-                      className='textFieldStyle'
+                      className='EditableText-textField'
                       type='text'
                       // detailIcon={<TbPencilMinus />}
                       id='outlined-basic'

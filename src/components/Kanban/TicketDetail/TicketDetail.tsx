@@ -157,26 +157,21 @@ export const TicketDetail = ({
                     defaultValue={ticketDetail.dueDate}
                   />
 
-                  <Box className='ticketDetail-openModal-box-button button1'>
-                    <Button
-                      className='ticketDetail-openModal-button'
+                  <Box className='ticketDetail-openModal-box-button '>
+                    <button
+                      className='ticketDetail-openModal-button button1'
                       disabled={false}
-                      size='small'
-                      variant='outlined'
                       onClick={() => deleteTicket(ticketDetail?._id)}
                     >
                       Delete
-                    </Button>
-                    <Button
+                    </button>
+                    <button
                       className='ticketDetail-openModal-button button2'
-                      color='success'
                       disabled={false}
-                      size='small'
-                      variant='contained'
                       onClick={() => saveChanges()}
                     >
                       Save Changes
-                    </Button>
+                    </button>
                   </Box>
                 </Box>
               </Box>

@@ -105,6 +105,7 @@
 .EditableText {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 }
 
 .EditableText > blockquote {
@@ -201,14 +202,65 @@
 .ticketDetail-openModal-box-button {
   display: flex;
   max-height: 100%;
-  border: solid;
+
   justify-content: flex-end;
   align-items: flex-end;
   gap: 40px;
-  .button1 {
-    color: red;
-  }
+
   .ticketDetail-openModal-button {
     height: 40%;
   }
+}
+
+.EditableText-textField {
+  background-color: white;
+}
+.createTicket-status-user {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.createTicket {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40rem;
+  height: 25rem;
+  margin-right: -20rem;
+  transform: translate(-50%, -50%);
+}
+
+.button2 {
+  align-items: center;
+  background-clip: padding-box;
+  background-color: #8048c8;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 3rem;
+  padding: calc(0.875rem - 1px) calc(1.5rem - 1px);
+}
+
+.button1 {
+  background-color: #ffffff;
+  border: 1px solid #5658c7;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #5658c7;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+
+  margin: 0;
+  padding: 13px 23px;
 }
