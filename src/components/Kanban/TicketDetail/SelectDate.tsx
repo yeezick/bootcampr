@@ -7,7 +7,7 @@ type SelectDateProps = {
   defaultValue?: string
   handleOnChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
-const SelectDate = ({
+export const SelectDate = ({
   dateRef,
   defaultValue,
   handleOnChange,
@@ -33,5 +33,3 @@ const SelectDate = ({
     </div>
   )
 }
-
-export default SelectDate

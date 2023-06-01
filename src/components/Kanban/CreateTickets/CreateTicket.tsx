@@ -17,9 +17,9 @@ import '../Ticket.scss'
 import TextFieldData from './TextFieldData'
 import { MdOutlineTitle } from 'react-icons/md'
 import { BiLink } from 'react-icons/bi'
-import UserAssignee from '../TicketDetail/UserAssignee'
+import { UserAssignee } from '../TicketDetail/UserAssignee'
 import { RxPerson } from 'react-icons/rx'
-import SelectDate from '../TicketDetail/SelectDate'
+import { SelectDate } from '../TicketDetail/SelectDate'
 import { TbPencilMinus } from 'react-icons/tb'
 
 const customStyles = {

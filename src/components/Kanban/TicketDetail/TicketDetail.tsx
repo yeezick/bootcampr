@@ -11,14 +11,15 @@ import {
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 import { deleteTicketApi } from 'utils/api/tickets'
-import '../Ticket.scss'
 import EditableText from './EditableText'
 import { MdOutlineTitle } from 'react-icons/md'
 import { TbPencilMinus } from 'react-icons/tb'
 import { BiLink } from 'react-icons/bi'
 import { RxPerson } from 'react-icons/rx'
-import UserAssignee from './UserAssignee'
-import SelectDate from './SelectDate'
+import { UserAssignee } from './UserAssignee'
+import { SelectDate } from './SelectDate'
+import '../Ticket.scss'
+
 export const TicketDetail = ({
   ticketDetail,
   getAllTicket,

@@ -2,7 +2,13 @@ import React from 'react'
 import '../Ticket.scss'
 import { Icon } from '@mui/material'
 
-const UserAssignee = ({ userName, text, detailIcon, userImage, userRole }) => {
+export const UserAssignee = ({
+  userName,
+  text,
+  detailIcon,
+  userImage,
+  userRole,
+}) => {
   return (
     <div className='UserAssignee'>
       <div className='UserAssignee-icon-text'>
@@ -24,5 +30,3 @@ const UserAssignee = ({ userName, text, detailIcon, userImage, userRole }) => {
     </div>
   )
 }
-
-export default UserAssignee
