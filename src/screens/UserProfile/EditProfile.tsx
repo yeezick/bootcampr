@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -69,7 +69,7 @@ export const EditProfile: React.FC = () => {
 
   return (
     <div className='editprofile'>
-      <div className='editprofile__back-container'>
+      <div className='editprofile__backContainer'>
         <IconButton
           aria-label='go back to view profile'
           className='editprofile__backBtn'
@@ -82,7 +82,7 @@ export const EditProfile: React.FC = () => {
       <p className='editprofile__heading'>My Profile</p>
       <div className='editprofile__container'>
         <form onSubmit={handleUserUpdate} className='editprofile__form'>
-          <div className='editprofile__profileImage'>
+          <div className='editprofile__image'>
             <IconButton
               aria-label='change profile pic'
               className='editprofile__cameraIcon'
