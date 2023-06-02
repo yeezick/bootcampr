@@ -16,10 +16,12 @@ const initialState: UiSliceInterface = {
       bio: '',
       email: '',
       firstName: '',
-      githubUrl: '',
       lastName: '',
-      linkedinUrl: '',
-      portfolioUrl: '',
+      links: {
+        githubUrl: '',
+        linkedinUrl: '',
+        portfolioUrl: '',
+      },
       profilePicture: '',
       role: '',
       __v: 0,
@@ -64,6 +66,12 @@ export const updateProfile = createAsyncThunk(
     try {
       const res = await updateUser(user._id, user)
       if (res) {
+        res.links = {
+          portfolioUrl: user.links.portfolioUrl,
+          githubUrl: user.links.githubUrl,
+          linkedinUrl: user.links.linkedinUrl,
+        }
+
         reset()
         return res
       }
@@ -85,7 +93,10 @@ const userSlice = createSlice({
       state.auth.user = action.payload
     },
     updateAuthUser: (state, action: PayloadAction<UserInterface>) => {
-      state.auth.user = action.payload
+      state.auth.user = {
+        ...state.auth.user,
+        ...action.payload,
+      }
     },
     setUserAvailability: (state, action: PayloadAction<Availability>) => {
       state.auth.user.availability = action.payload

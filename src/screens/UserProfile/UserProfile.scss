@@ -50,10 +50,16 @@ body {
     border: none;
     border-radius: 4px;
     color: #fefefe;
+    cursor: pointer;
     height: 43px;
     margin: $vep-margin $vep-margin auto auto;
     padding: 10px 16px;
     width: 115px;
+  }
+
+  h3 {
+    @include font-properties((size: 16px, weight: 400, line-height: 22px));
+    max-height: 23px;
   }
 
   &__heading {
@@ -86,7 +92,7 @@ body {
   }
 
   &__infoContainer {
-    margin: $vep-margin 0 0 $vep-margin;
+    margin: $vep-margin 0 $vep-margin $vep-margin;
     max-width: 501px;
 
     h3 {
@@ -94,17 +100,29 @@ body {
     }
 
     p {
-      margin-top: 6px
+      margin-top: 6px;
+      margin: 0;
     }
+  }
+
+  &__link {
+    margin-bottom: 15px !important;
+  }
+
+  &__linksContainer {
+    margin: 0 0 $vep-margin $vep-margin;
+    padding: 0px;
+    width: 339px;
   }
 
   &__linkItem {
     @include flex();
 
-    h3, p {
+    h3, p, a {
       font-weight: $vep-font-weight;
       margin-left: 10px;
       text-align: left;
+      text-decoration: none;
     }
 
     p {
@@ -112,10 +130,8 @@ body {
     }
   }
 
-  &__linksContainer {
-    margin: 0 0 $vep-margin $vep-margin;
-    padding: 0px;
-    width: 339px;
+  &__linkLast {
+    margin-bottom: $vep-margin;
   }
 
   &__title {
@@ -137,16 +153,8 @@ body {
     @include flex(row);
   }
 
-  h3 {
-    @include font-properties((size: 16px, weight: 400, line-height: 22px));
-    max-height: 23px;
-  }
-
-  &__p {
-    margin-bottom: 15px !important;
-  }
-
-  p {
-    margin-bottom: $vep-margin;
+  &__urlNoBlue {
+    color: black;
+    cursor: default;
   }
 }

@@ -22,6 +22,8 @@ export const UserProfile: React.FC = () => {
     navigate(`/users/${authUser._id}/edit`)
   }
 
+  console.log(authUser)
+
   return (
     <div className='userProfile'>
       <div className='userProfile__backContainer'>
@@ -50,7 +52,13 @@ export const UserProfile: React.FC = () => {
               {authUser.firstName ? authUser.firstName : 'Jeanine'}{' '}
               {authUser.lastName ? authUser.lastName : 'Bootcampr'}
             </h2>
-            <h3>UX Designer {authUser.role}</h3>
+            {(authUser.role === 'Software Engineer' ||
+              authUser.role === 'UX Designer') &&
+            authUser.role ? (
+              <h3>{authUser.role}</h3>
+            ) : (
+              <h3 className='userProfile__role'>UX Designer</h3>
+            )}
           </div>
           <button className='userProfile__editBtn' onClick={routeToEdit}>
             Edit Profile
@@ -58,54 +66,109 @@ export const UserProfile: React.FC = () => {
         </div>
         <div className='userProfile__infoContainer'>
           <h3>About me</h3>
-          {authUser.role === 'Software Engineer' && <p>{authUser.bio}</p>}
-          <p>
-            I’m writing some jibberish to see what 500 characters looks like. I
-            like pizza. My favorite is New York style. Have you ever been to
-            NYC? Love getting me a slice there. It’s the best. A controversial
-            topic in regards to pizza is whether or not pineapple should be a
-            topping. My thought is if it floats your boat, go for it. I’m not
-            going to admonish you for eating pizza with that topping, but I’m
-            not a fan of that. Speaking of controversy, Coke or Pepsi. The
-            answer is Coke. No debate there. Haha!!
-          </p>
+          {(authUser.role === 'Software Engineer' ||
+            authUser.role === 'UX Designer') &&
+          authUser.bio ? (
+            <p>{authUser.bio}</p>
+          ) : (
+            <p>
+              I’m writing some jibberish to see what 500 characters looks like.
+              I like pizza. My favorite is New York style. Have you ever been to
+              NYC? Love getting me a slice there. It’s the best. A controversial
+              topic in regards to pizza is whether or not pineapple should be a
+              topping. My thought is if it floats your boat, go for it. I’m not
+              going to admonish you for eating pizza with that topping, but I’m
+              not a fan of that. Speaking of controversy, Coke or Pepsi. The
+              answer is Coke. No debate there. Haha!!
+            </p>
+          )}
         </div>
 
         <div className='userProfile__linksContainer'>
           <div className='userProfile__linkItem'>
             <BsLink45Deg className='userProfile__icons' />
-            <div>
+            <div className='userProfile__link'>
               <h3>Portfolio</h3>
-              {authUser.role === 'Software Engineer' && (
-                <p className='userProfile__p'>
-                  {authUser.portfolioUrl ? authUser.portfolioUrl : 'N/A'}
-                </p>
+              {(authUser.role === 'Software Engineer' ||
+                authUser.role === 'UX Designer') &&
+              authUser.links &&
+              authUser.links.portfolioUrl ? (
+                <a
+                  className='userProfile__url'
+                  href={authUser.links.portfolioUrl}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  {authUser.links.portfolioUrl}
+                </a>
+              ) : (
+                <a
+                  className='userProfile__url'
+                  href='https://myportfoliokicksass.com'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  https://myportfoliokicksass.com
+                </a>
               )}
-              <p className='userProfile__p'>https://myportfoliokicksass.com</p>
             </div>
           </div>
 
           <div className='userProfile__linkItem'>
             <RiGithubLine className='userProfile__icons' />
-            <div>
+            <div className='userProfile__link'>
               <h3>Github</h3>
-              {authUser.role === 'Software Engineer' && (
-                <p className='userProfile__p'>
-                  {authUser.githubUrl ? authUser.githubUrl : 'N/A'}
-                </p>
+              {(authUser.role === 'Software Engineer' ||
+                authUser.role === 'UX Designer') &&
+              authUser.links &&
+              authUser.links.githubUrl ? (
+                <a
+                  className='userProfile__url'
+                  href={authUser.links.githubUrl}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  {authUser.links.githubUrl}
+                </a>
+              ) : (
+                <a
+                  className='userProfile__urlNoBlue'
+                  href='N/A'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  N/A
+                </a>
               )}
-              <p className='userProfile__p'>N/A</p>
             </div>
           </div>
 
           <div className='userProfile__linkItem'>
             <FiLinkedin className='userProfile__icons' />
-            <div>
+            <div className='userProfile__linkLast'>
               <h3>LinkedIn</h3>
-              {authUser.role === 'Software Engineer' && (
-                <p>{authUser.linkedinUrl ? authUser.linkedinUrl : 'N/A'}</p>
+              {(authUser.role === 'Software Engineer' ||
+                authUser.role === 'UX Designer') &&
+              authUser.links &&
+              authUser.links.linkedinUrl ? (
+                <a
+                  className='userProfile__url'
+                  href={authUser.links.linkedinUrl}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  {authUser.links.linkedinUrl}
+                </a>
+              ) : (
+                <a
+                  className='userProfile__url'
+                  href='https://www.linkedin.com/in/jeaninebootcampr/'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  https://www.linkedin.com/in/jeaninebootcampr/
+                </a>
               )}
-              <p>https://www.linkedin.com/in/jeaninebootcampr/</p>
             </div>
           </div>
         </div>

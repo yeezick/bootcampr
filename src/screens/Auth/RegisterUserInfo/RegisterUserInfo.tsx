@@ -14,10 +14,8 @@ export const RegisterUserInfo: React.FC = () => {
   const {
     bio,
     firstName,
-    githubUrl,
     lastName,
-    linkedinUrl,
-    portfolioUrl,
+    links: { githubUrl, linkedinUrl, portfolioUrl },
     profilePicture,
   } = userForm
 
@@ -36,7 +34,18 @@ export const RegisterUserInfo: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target
-    setUserForm({ ...userForm, [name]: value })
+
+    if (['linkedinUrl', 'githubUrl', 'portfolioUrl'].includes(name)) {
+      setUserForm({
+        ...userForm,
+        links: {
+          ...userForm.links,
+          [name]: value,
+        },
+      })
+    } else {
+      setUserForm({ ...userForm, [name]: value })
+    }
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

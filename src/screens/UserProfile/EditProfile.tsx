@@ -24,9 +24,7 @@ export const EditProfile: React.FC = () => {
     bio,
     firstName,
     lastName,
-    linkedinUrl,
-    githubUrl,
-    portfolioUrl,
+    links: { githubUrl, linkedinUrl, portfolioUrl },
     profilePicture,
     role,
     _id: userId,
@@ -48,7 +46,18 @@ export const EditProfile: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
-    updateUserForm({ ...userForm, [name]: value })
+
+    if (['linkedinUrl', 'githubUrl', 'portfolioUrl'].includes(name)) {
+      updateUserForm({
+        ...userForm,
+        links: {
+          ...userForm.links,
+          [name]: value,
+        },
+      })
+    } else {
+      updateUserForm({ ...userForm, [name]: value })
+    }
 
     if (name === 'bio') {
       setBioCharCount(value.length)
