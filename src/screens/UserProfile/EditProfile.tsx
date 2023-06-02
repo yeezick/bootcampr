@@ -7,11 +7,16 @@ import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
 import { updateUser } from 'utils/api/users'
 import { useNotification } from 'utils/redux/slices/notificationSlice'
+import TextareaAutosize from 'react-textarea-autosize'
+import { IconButton } from '@mui/material'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
+import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined'
 import './EditProfile.scss'
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
   const [userForm, updateUserForm] = useState<UserInterface>(emptyUser)
+  const [bioCharCount, setBioCharCount] = useState(0)
   const params = useParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -35,11 +40,19 @@ export const EditProfile: React.FC = () => {
         return { ...currForm, ...authUser }
       })
     }
-  }, [authUser])
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBioCharCount(authUser.bio.length)
+  }, [])
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target
     updateUserForm({ ...userForm, [name]: value })
+
+    if (name === 'bio') {
+      setBioCharCount(value.length)
+    }
   }
 
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -55,102 +68,125 @@ export const EditProfile: React.FC = () => {
   }
 
   return (
-    <div className='editprofile-screen'>
-      <p className='heading'>My Profile</p>
-      <form onSubmit={handleUserUpdate}>
-        <label>
-          Profile Picture
-          <input
-            type='text'
-            name='profilePicture'
-            value={profilePicture}
-            onChange={event => handleInputChange(event)}
-          />
-        </label>
+    <div className='editprofile'>
+      <div className='editprofile__back-container'>
+        <IconButton
+          aria-label='go back to view profile'
+          className='editprofile__backBtn'
+          onClick={() => navigate(`/users/${userId}`)}
+        >
+          <ArrowBackIosNewIcon className='editprofile__backArrow' />
+          <p>Back</p>
+        </IconButton>
+      </div>
+      <p className='editprofile__heading'>My Profile</p>
+      <div className='editprofile__container'>
+        <form onSubmit={handleUserUpdate} className='editprofile__form'>
+          <div className='editprofile__profileImage'>
+            <IconButton
+              aria-label='change profile pic'
+              className='editprofile__cameraIcon'
+            >
+              <CameraAltOutlinedIcon className='editprofile__imageChange' />
+            </IconButton>
+          </div>
 
-        <label>
-          First Name
-          <input
-            type='text'
-            name='firstName'
-            value={firstName}
-            onChange={event => handleInputChange(event)}
-          />
-        </label>
-
-        <label>
-          Last Name
-          <input
-            type='text'
-            name='lastName'
-            value={lastName}
-            onChange={event => handleInputChange(event)}
-          />
-        </label>
-
-        <label>
-          I am a DROPDOWN
-          <input
-            type='text'
-            name='role'
-            value={role}
-            onChange={event => handleInputChange(event)}
-          />
-        </label>
-
-        <label>
-          About Me
-          <input
-            type='text'
-            name='bio'
-            value={bio}
-            onChange={event => handleInputChange(event)}
-          />
-        </label>
-
-        <label>
-          Portfolio URL
-          <input
-            type='text'
-            name='portfolioUrl'
-            value={portfolioUrl}
-            onChange={event => handleInputChange(event)}
-          />
-        </label>
-
-        <label>
-          Linkedin URL
-          <input
-            type='text'
-            name='linkedinUrl'
-            value={linkedinUrl}
-            onChange={event => handleInputChange(event)}
-          />
-        </label>
-
-        {role === 'Software Engineer' && (
-          <label>
-            Github URL
+          <label className='editprofile__label'>
+            First name
             <input
               type='text'
-              name='githubUrl'
-              value={githubUrl}
-              onChange={event => handleInputChange(event)}
+              name='firstName'
+              className='editprofile__input'
+              value={firstName}
+              onChange={handleInputChange}
             />
           </label>
-        )}
 
-        <button
-          type='submit'
-          onClick={() =>
-            displayNotification({
-              message: 'User profile successfully updated.',
-            })
-          }
-        >
-          Update Info
-        </button>
-      </form>
+          <label className='editprofile__label'>
+            Last name
+            <input
+              type='text'
+              name='lastName'
+              className='editprofile__input'
+              value={lastName}
+              onChange={handleInputChange}
+            />
+          </label>
+
+          <label className='editprofile__label'>
+            About me
+            <TextareaAutosize
+              name='bio'
+              className='editprofile__textarea'
+              value={bio}
+              onChange={handleInputChange}
+              maxLength={500}
+            />
+            <div className='editprofile__bioCharCount'>
+              {bioCharCount}/500 characters
+            </div>
+          </label>
+
+          <label className='editprofile__label'>
+            Portfolio (URL)
+            <input
+              type='text'
+              name='portfolioUrl'
+              className='editprofile__input'
+              value={portfolioUrl}
+              onChange={handleInputChange}
+            />
+          </label>
+
+          {role === 'Software Engineer' && (
+            <label className='editprofile__label'>
+              Github (URL) {role}
+              <input
+                type='text'
+                name='githubUrl'
+                className='editprofile__input'
+                value={githubUrl}
+                onChange={handleInputChange}
+              />
+            </label>
+          )}
+
+          <label className='editprofile__label'>
+            Linkedin profile (URL)
+            <input
+              type='text'
+              name='linkedinUrl'
+              className='editprofile__input'
+              value={linkedinUrl}
+              onChange={handleInputChange}
+            />
+          </label>
+          <div className='editprofile__btns'>
+            <button
+              type='submit'
+              className='editprofile__cancelBtn'
+              onClick={() =>
+                displayNotification({
+                  message: 'User profile successfully updated.',
+                })
+              }
+            >
+              Cancel
+            </button>
+            <button
+              type='submit'
+              className='editprofile__saveBtn'
+              onClick={() =>
+                displayNotification({
+                  message: 'User profile successfully updated.',
+                })
+              }
+            >
+              Save Profile
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
