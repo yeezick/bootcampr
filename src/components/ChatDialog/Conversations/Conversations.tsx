@@ -1,12 +1,20 @@
 import { useEffect, useState } from 'react'
 import { MdOutlineSearch } from 'react-icons/md'
-import { getAllConversations } from 'utils/api/chat'
+import { RxDotFilled } from 'react-icons/rx'
+import {
+  getAllConversations,
+  updateGroupMessageReadStatus,
+  updatePrivateMessageReadStatus,
+} from 'utils/api/chat'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectAuthUser,
   setCurrentConversation,
+  setSelectedMember,
 } from 'utils/redux/slices/userSlice'
 import './Conversations.scss'
+import { formatLastMessageTimestamp } from 'utils/functions/utilityFunctions'
+import { GroupAvatarGrid } from '../GroupAvatarGrid/GroupAvatarGrid'
 
 export const Conversations = ({ handleConversationClick }) => {
   const dispatch = useAppDispatch()
@@ -19,7 +27,6 @@ export const Conversations = ({ handleConversationClick }) => {
   useEffect(() => {
     const getThreads = async () => {
       const res = await getAllConversations(authUser._id)
-      console.log('all threads:', res)
       if (res) {
         setThreads(res)
         res.length > 0
@@ -35,23 +42,39 @@ export const Conversations = ({ handleConversationClick }) => {
     participants: any,
     groupName: string
   ) => {
-    participants.length > 2
-      ? dispatch(
-          setCurrentConversation({
-            _id: chatId,
-            isGroup: true,
-            participants,
-            displayName: groupName,
-          })
-        )
-      : dispatch(
-          setCurrentConversation({
-            _id: chatId,
-            isGroup: false,
-            participants,
-            displayName: `${participants[1].firstName} ${participants[1].lastName}`,
-          })
-        )
+    if (participants.length > 2) {
+      dispatch(
+        setCurrentConversation({
+          _id: chatId,
+          isGroup: true,
+          participants,
+          displayName: groupName,
+        })
+      )
+      updateGroupMessageReadStatus(authUser._id, chatId)
+    } else {
+      const recipient = participants.filter(
+        participant => participant._id !== authUser._id
+      )
+
+      dispatch(
+        setCurrentConversation({
+          _id: chatId,
+          isGroup: false,
+          participants,
+          displayName: `${recipient[0].firstName} ${recipient[0].lastName}`,
+        })
+      )
+      dispatch(
+        setSelectedMember({
+          _id: recipient[0]._id,
+          firstName: recipient[0].firstName,
+          lastName: recipient[0].lastName,
+          profilePicture: recipient[0].profilePicture,
+        })
+      )
+      updatePrivateMessageReadStatus(authUser._id, chatId)
+    }
 
     await handleConversationClick()
   }
@@ -92,24 +115,36 @@ const ConversationsList = ({
             _id: chatId,
             participants,
             groupName,
-            groupPhoto,
             lastMessage,
-          }) => (
-            <div
-              className='conversation-grid'
-              key={chatId}
-              onClick={() => handleConvoClick(chatId, participants, groupName)}
-            >
-              <ConversationThumbnail
-                authUser={authUser}
-                chatId={chatId}
-                groupPhoto={groupPhoto}
-                groupName={groupName}
-                participants={participants}
-                lastMessage={lastMessage}
-              />
-            </div>
-          )
+            lastActive,
+          }) => {
+            let isMessageRead = false
+            if (lastMessage) {
+              isMessageRead = lastMessage.readBy.some(
+                userObj => userObj.user.toString() === authUser._id
+              )
+            }
+
+            return (
+              <div
+                className='conversation-grid'
+                key={chatId}
+                onClick={() =>
+                  handleConvoClick(chatId, participants, groupName)
+                }
+              >
+                <ConversationThumbnail
+                  authUser={authUser}
+                  chatId={chatId}
+                  groupName={groupName}
+                  participants={participants}
+                  lastMessage={lastMessage}
+                  isMessageRead={isMessageRead}
+                  lastActive={lastActive}
+                />
+              </div>
+            )
+          }
         )}
       </div>
     )
@@ -128,57 +163,117 @@ const ConversationsList = ({
 const ConversationThumbnail = ({
   authUser,
   chatId,
-  groupPhoto,
   groupName,
   participants,
   lastMessage,
+  isMessageRead,
+  lastActive,
 }) => {
   if (participants.length > 2) {
+    const members = participants.filter(
+      ({ participant }) => participant._id !== authUser._id
+    )
+    const pictures = members.map(
+      ({ participant }) => participant.profilePicture
+    )
+
     return (
       <>
         <div className='avatar-grid'>
-          <img src={groupPhoto} alt='avatar' key={chatId} />
+          <GroupAvatarGrid
+            picturesArray={pictures}
+            avatarSize={'medium'}
+            chatType={'group'}
+          />
         </div>
-        <div className='thread-details-grid'>
-          <h5>
-            {groupName.length > 28
-              ? `${groupName.slice(0, 28)}...`
-              : groupName || 'Group Chat'}
-          </h5>
-          <LastMessageText lastMessage={lastMessage} authUser={authUser} />
+        <div className='thumbnail-right'>
+          <div className='thread-details-grid'>
+            <h5 className={lastMessage && !isMessageRead && 'unread-message'}>
+              {groupName || 'Group Chat'}
+            </h5>
+            <LastMessageText
+              lastMessage={lastMessage}
+              authUser={authUser}
+              isMessageRead={isMessageRead}
+            />
+          </div>
+          <div className='dot-grid'>
+            {lastMessage ? (
+              <>
+                <p>{formatLastMessageTimestamp(lastMessage.timestamp)}</p>
+                <RxDotFilled
+                  size={26}
+                  className={
+                    !isMessageRead ? 'unread-dot-visible' : 'unread-dot-hidden'
+                  }
+                />
+              </>
+            ) : (
+              <>
+                <p>{formatLastMessageTimestamp(lastActive)}</p>
+                <RxDotFilled size={26} className='unread-dot-hidden' />
+              </>
+            )}
+          </div>
         </div>
       </>
     )
   }
 
   if (participants.length === 2) {
+    const recipient = participants.filter(
+      participant => participant._id !== authUser._id
+    )
     return (
       <>
-        <div className='avatar-grid'>
-          <img src={participants[1].profilePicture} alt='avatar' key={chatId} />
-        </div>
-        <div className='thread-details-grid'>
-          <h5>
-            {participants[1].firstName} {participants[1].lastName}
-          </h5>
-          <LastMessageText lastMessage={lastMessage} authUser={authUser} />
+        <GroupAvatarGrid
+          picturesArray={recipient[0].profilePicture}
+          avatarSize={'medium'}
+          chatType={'private'}
+        />
+        <div className='thumbnail-right'>
+          <div className='thread-details-grid'>
+            <h5 className={lastMessage && !isMessageRead && 'unread-message'}>
+              {recipient[0].firstName} {recipient[0].lastName}
+            </h5>
+            <LastMessageText
+              lastMessage={lastMessage}
+              authUser={authUser}
+              isMessageRead={isMessageRead}
+            />
+          </div>
+          <div className='dot-grid'>
+            {lastMessage ? (
+              <>
+                <p>{formatLastMessageTimestamp(lastMessage.timestamp)}</p>
+                <RxDotFilled
+                  size={26}
+                  className={
+                    !isMessageRead ? 'unread-dot-visible' : 'unread-dot-hidden'
+                  }
+                />
+              </>
+            ) : (
+              <>
+                <p>{formatLastMessageTimestamp(lastActive)}</p>
+                <RxDotFilled size={26} className='unread-dot-hidden' />
+              </>
+            )}
+          </div>
         </div>
       </>
     )
   }
 }
 
-const LastMessageText = ({ lastMessage, authUser }) => {
+const LastMessageText = ({ lastMessage, authUser, isMessageRead }) => {
   if (lastMessage) {
     return (
-      <p>
+      <p className={!isMessageRead && 'unread-message'}>
         {lastMessage.sender._id === authUser._id
           ? 'You'
           : lastMessage.sender.firstName}
-        :{' '}
-        {lastMessage.text.length > 26
-          ? `${lastMessage.text.slice(0, 26)}...`
-          : lastMessage.text || 'Media message'}
+        : {lastMessage.text || 'Media message'}
       </p>
     )
   } else {

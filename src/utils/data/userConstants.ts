@@ -63,6 +63,12 @@ export const initialState: UiSliceInterface = {
     isGroup: false,
     participants: [],
     displayName: '',
+    selectedMember: {
+      _id: '',
+      firstName: '',
+      lastName: '',
+      profilePicture: '',
+    },
   },
   status: {
     isAuthenticated: false,

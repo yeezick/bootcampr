@@ -34,6 +34,7 @@ export interface UiSliceInterface {
     isGroup: boolean
     participants: []
     displayName?: string
+    selectedMember: ChatSelectedMemberInterface
   }
   status: {
     isAuthenticated: boolean
@@ -134,4 +135,20 @@ export interface Availability {
 
 export interface ChatMessageInterface {
   text: string
+}
+
+export interface ChatSelectedMemberInterface {
+  _id: string
+  firstName: string
+  lastName: string
+  profilePicture: string
+}
+
+export interface ProjectMemberInterface {
+  _id: string
+  firstName: string
+  lastName: string
+  email: string
+  role: string
+  profilePicture: string
 }

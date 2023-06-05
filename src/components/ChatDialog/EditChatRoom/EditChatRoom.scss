@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: column;
   height: 415px;
+  margin: 0 -15px;
   overflow-x: hidden;
   overflow-y: auto;
-  margin: 0 -15px;
   padding: 0 15px;
   row-gap: 35px;
 
@@ -32,60 +32,16 @@
     text-align: left;
   }
 
-  .group-photo-container {
-    align-items: center;
-    display: flex;
-    padding-top: 30px;
-    justify-content: center;
-    position: relative;
-
-    .photo-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      grid-gap: 1px;
-      border-radius: 50%;
-      height: 100px;
-      width: 100px;
-      overflow: hidden;
-      align-content: center;
-
-      .merged-grid {
-        grid-row: span 2;
-      }
-
-      img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-        padding: 0;
-      }
-
-      .camera-icon {
-        align-items: center;
-        background-color: #ecebeb;
-        display: flex;
-        border-radius: 50%;
-        height: 32px;
-        justify-content: center;
-        position: absolute;
-        right: 77px;
-        top: 97px;
-        width: 32px;
-      }
-    }
-  }
-
   .room-info-grid {
     input {
       background-color: #ecebeb;
       border: none;
       border-radius: 4px;
+      box-sizing: border-box;
       height: 34px;
       margin-top: 5px;
       padding: 0 15px;
       width: 100%;
-      box-sizing: border-box;
     }
   }
 
@@ -94,13 +50,26 @@
     flex-direction: column;
     margin-left: -8px;
     margin-top: 5px;
-    // row-gap: px;
 
     .members-list {
       align-items: center;
       column-gap: 8px;
       display: flex;
       padding: 8px 0 8px 8px;
+
+      &:hover {
+        background-color: #faeedf;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      svg:hover {
+        color: black;
+      }
+
+      .you-identifier {
+        font-weight: 600;
+      }
 
       .avatar-grid {
         align-items: center;
@@ -121,16 +90,6 @@
       p {
         font-size: 14px;
         margin: 0;
-      }
-    }
-
-    .members-list.new-member:hover {
-      background-color: #faeedf;
-      border-radius: 5px;
-      cursor: pointer;
-
-      svg:hover {
-        color: black;
       }
     }
   }

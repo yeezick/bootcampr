@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import {
+  ChatSelectedMemberInterface,
   SignUpInterface,
   UiSliceInterface,
   UserInterface,
@@ -34,6 +35,12 @@ const initialState: UiSliceInterface = {
     isGroup: false,
     participants: [],
     displayName: '',
+    selectedMember: {
+      _id: '',
+      firstName: '',
+      lastName: '',
+      profilePicture: '',
+    },
   },
   status: {
     isAuthenticated: false,
@@ -104,14 +111,21 @@ const userSlice = createSlice({
       action: PayloadAction<{
         _id: string
         isGroup: boolean
-        participants: any
+        participants?: any
         displayName?: string
+        selectedMember?: ChatSelectedMemberInterface
       }>
     ) => {
       state.chat._id = action.payload._id
       state.chat.isGroup = action.payload.isGroup
       state.chat.participants = action.payload.participants
       state.chat.displayName = action.payload.displayName
+    },
+    setSelectedMember: (
+      state,
+      action: PayloadAction<ChatSelectedMemberInterface>
+    ) => {
+      state.chat.selectedMember = action.payload
     },
     reset: state => {
       state.status.isLoading = false
@@ -154,6 +168,8 @@ const userSlice = createSlice({
 export const selectAuthUser = (state: RootState) => state.ui.auth.user
 export const chatStatus = (state: RootState) => state.ui.chat.visibleChat
 export const selectConversation = (state: RootState) => state.ui.chat
+export const selectSelectedMember = (state: RootState) =>
+  state.ui.chat.selectedMember
 export const uiStatus = (state: RootState) => state.ui.status
 export const {
   setAuthUser,
@@ -165,5 +181,6 @@ export const {
   toggleChat,
   toggleChatClose,
   setCurrentConversation,
+  setSelectedMember,
 } = userSlice.actions
 export default userSlice.reducer

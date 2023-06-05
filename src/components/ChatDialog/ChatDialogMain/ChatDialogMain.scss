@@ -6,10 +6,10 @@
   height: 470px;
   padding: 0 20px;
   position: fixed;
+  right: 173px;
   top: 90px;
   width: 260px;
   z-index: 999999;
-  right: 173px;
 
   .chat-header-main,
   .chat-header-messages {
@@ -34,9 +34,18 @@
       }
 
       h5 {
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 400;
         margin: 11px 0;
+        max-width: 190px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      &.messages {
+        margin-bottom: -3px;
+        margin-top: -3px;
       }
     }
 
@@ -48,9 +57,9 @@
   }
 
   .chat-header-messages {
+    border-bottom: 1px solid #86888a;
     margin: 0 -20px;
     padding: 8px 7px 8px 17px;
-    border-bottom: 1px solid #86888a;
 
     .back-arrow {
       h5 {

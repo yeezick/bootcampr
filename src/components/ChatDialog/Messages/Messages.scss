@@ -5,11 +5,11 @@
   .messages-grid {
     display: flex;
     flex-direction: column;
-    height: 375px;
+    height: 378px;
     margin: 0 -18px 0 -12px;
     overflow-y: auto;
-    padding-top: 10px;
     padding-right: 3px;
+    padding-top: 10px;
 
     &::-webkit-scrollbar {
       background-color: #f5f5f500;
@@ -99,6 +99,21 @@
 
     p {
       text-align: left;
+      white-space: pre-wrap;
+    }
+  }
+
+  .message-container.selected {
+    .message-left {
+      background-color: #d9d9d9;
+    }
+
+    .message-right {
+      background-color: #fca73a;
+    }
+
+    .message-timestamp p {
+      font-size: 11px;
     }
   }
 
@@ -112,15 +127,16 @@
   .details-left {
     display: flex;
     margin-bottom: 5px;
+    margin-left: 38px;
     margin-top: -10px;
   }
 
   .message-left {
     background-color: #ecebeb;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 16px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 16px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 16px;
     margin-bottom: 10px;
     max-width: 150px;
     padding: 8px;
@@ -130,6 +146,7 @@
 
     p {
       text-align: left;
+      white-space: pre-wrap;
     }
   }
 
