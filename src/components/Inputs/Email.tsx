@@ -7,16 +7,17 @@ export const Email = ({ setFormValues }) => {
   const inputId = 'email'
   const sampleEmail = ' (ex. jeanine@bootcampr.io)'
 
-  const validateEmail = email => {
+  const validateEmail = e => {
+    const email = e.target.value
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
     if (emailRegex.test(email)) setError(false)
     else setError(true)
     return emailRegex.test(email)
+    // add existing email validation here as well
   }
 
   const handleEmailChange = e => {
     handleFormInputChange(e, setFormValues)
-    validateEmail(e.target.value)
   }
   return (
     <div className='email'>
@@ -28,6 +29,7 @@ export const Email = ({ setFormValues }) => {
         <input
           id={inputId}
           name={inputId}
+          onBlur={validateEmail}
           onChange={handleEmailChange}
           required
           type={inputId}
