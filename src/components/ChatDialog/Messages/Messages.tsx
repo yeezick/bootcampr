@@ -7,7 +7,7 @@ import {
   getAllGroupMessages,
   getAllPrivateMessages,
 } from 'utils/api/chat'
-import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { useAppSelector } from 'utils/redux/hooks'
 import {
   selectAuthUser,
   selectConversation,
@@ -23,7 +23,6 @@ export const Messages = ({ setChatRecipientId }) => {
   const [messages, setMessages] = useState([])
   const [chatParticipants, setChatParticipants] = useState([])
   const [listResults, setListResults] = useState('empty')
-  const [showTimestamp, toggleShowTimestamp] = useState(false)
   const [selectedMessages, setSelectedMessages] = useState([])
   const [textForm, setTextForm] = useState<ChatMessageInterface>(emptyChatText)
   const [newMessage, setNewMessage] = useState(false)
@@ -89,14 +88,9 @@ export const Messages = ({ setChatRecipientId }) => {
   const handleTimestampClick = (message: any) => {
     if (selectedMessages.some(msg => msg === message)) {
       setSelectedMessages(selectedMessages.filter(msg => msg !== message))
-      // toggleShowTimestamp(false)
     } else {
       setSelectedMessages([...selectedMessages, message])
-      // toggleShowTimestamp(true)
     }
-    // toggleShowTimestamp(!showTimestamp)
-    // !showTimestamp ? toggleShowTimestamp(true) : toggleShowTimestamp(false)
-    // setSelectedMessage(message)
   }
 
   const handleChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
