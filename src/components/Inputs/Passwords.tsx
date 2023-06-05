@@ -192,7 +192,11 @@ const PasswordCriteria = ({ criteria, errorState = 'neutral' }) => {
   return (
     <div className='password-criteria'>
       {/* change v to checkmark and inline display */}
-      {errorState === 'criteria-met' && <p>v .</p>}
+      {errorState === 'criteria-met' && (
+        <div>
+          <img src='./check.png' className='criteria-check' />
+        </div>
+      )}
       <p className={errorState}>{criteria}</p>
     </div>
   )

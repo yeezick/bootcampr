@@ -155,7 +155,13 @@ h3, h4 {
 }
 
 .criteria-met {
-  color: green;
+  color: #23A6A1;
   font-size: 14px;
   margin: 2px 0;
+}
+
+.criteria-check {
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
 }
