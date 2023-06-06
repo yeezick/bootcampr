@@ -87,7 +87,6 @@ export const verifyEmail = async email => {
   const { data, status } = await api.get(`/verify-email/${email}`)
   const msg = status >= 400 ? 'error' : 'message'
 
-  console.log()
   return { status, message: data[msg] }
 }
 

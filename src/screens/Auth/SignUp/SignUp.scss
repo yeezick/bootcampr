@@ -19,9 +19,9 @@
 }
 
 .signup-banner {
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .pwd-match {
@@ -72,13 +72,13 @@
   }
 
   form input {
-    margin: 5px 0 15px 0;
     background-color: rgb(241, 241, 241);
     border-radius: 5px;
     border-style: none;
     height: 38px;
-    padding: 0 10px;
     font-size: 16px;
+    margin: 5px 0 15px 0;
+    padding: 0 10px;
     width: 400px;
   }
 
@@ -101,11 +101,11 @@ h3, h4 {
   margin-top: -100px;
   margin-left: -100px;
   margin-right: 100px;
-  
+
   img {
+    height: 400px;
     object-fit: cover;
     width: 400px;
-    height: 400px;
   }
 
 }
@@ -119,9 +119,9 @@ h3, h4 {
 }
 
 .eyecon {
+  bottom: 5px;
   position: relative;
   right: 55px;
-  bottom: 5px;
 }
 
 .form-btn {
@@ -131,12 +131,12 @@ h3, h4 {
     background-color: #FA9413;
     border: none;
     border-radius: 3px;
+    box-sizing: border-box;
     font-size: 18px;
-    padding: 13px;
     margin-top: 5px;
     margin-left: -15px;
+    padding: 13px;
     width: 415px;
-    box-sizing: border-box;
   }
 
   button:disabled {
@@ -173,7 +173,7 @@ h3, h4 {
 }
 
 .criteria-check {
-  width: 10px;
   height: 10px;
   margin-right: 5px;
+  width: 10px;
 }

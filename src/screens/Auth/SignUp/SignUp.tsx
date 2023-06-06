@@ -143,7 +143,6 @@ export const SignUp: React.FC = () => {
 }
 
 const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
-  // reset validations states here
   const handleCheckbox = e => setIsAccepted(e.target.checked)
   const checkboxStyles = {
     '& .MuiFormControlLabel-root': {
