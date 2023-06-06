@@ -41,15 +41,6 @@ export const addPortfolioProject = async (id: any, newProject: any) => {
   }
 }
 
-export const checkEmailAuth = async (email: any) => {
-  try {
-    const res = await api.post('/email', email)
-    return res.data.message
-  } catch (error) {
-    throw error
-  }
-}
-
 export const signUp = async (credentials: any) => {
   try {
     const res = await api.post('/sign-up', credentials)
@@ -90,6 +81,14 @@ export const verify = async () => {
     return user
   }
   return false
+}
+
+export const verifyEmail = async email => {
+  const { data, status } = await api.get(`/verify-email/${email}`)
+  const msg = status >= 400 ? 'error' : 'message'
+
+  console.log()
+  return { status, message: data[msg] }
 }
 
 export const updateUsersEmail = async (

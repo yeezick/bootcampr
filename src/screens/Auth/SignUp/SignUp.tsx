@@ -92,6 +92,15 @@ export const SignUp: React.FC = () => {
         </div>
       )}
 
+      <div className='signup-header'>
+        <h1>Join Bootcampr today.</h1>
+        <h2>Get the experience. Get the job.</h2>
+      </div>
+
+      <div className='honeycomb'>
+        <img src='./drawing-wireframes.jpg' />
+      </div>
+
       <div className='signup-container'>
         <form onSubmit={handleSubmit} autoComplete='off'>
           <Text
@@ -123,7 +132,7 @@ export const SignUp: React.FC = () => {
 
           <div className='form-btn'>
             <button type='submit' disabled={disabledForm}>
-              Create Account
+              Sign up
             </button>
           </div>
         </form>
@@ -133,6 +142,7 @@ export const SignUp: React.FC = () => {
 }
 
 const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
+  // reset validations states here
   const handleCheckbox = e => setIsAccepted(e.target.checked)
   const checkboxStyles = {
     '& .MuiFormControlLabel-root': {

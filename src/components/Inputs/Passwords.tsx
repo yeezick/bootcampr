@@ -1,12 +1,5 @@
 import { useState } from 'react'
-import {
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  Input,
-  InputAdornment,
-  IconButton,
-} from '@mui/material'
+import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { PasswordInputProps } from 'interfaces/components/Input'
 import { handleFormInputChange } from 'utils/helpers/stateHelpers'
@@ -75,12 +68,12 @@ export const Password = ({
     return (
       <div className='password-errors'>
         {Object.keys(passwordErrorMessages).map(key => (
-          <>
+          <div key={key}>
             <PasswordCriteria
               criteria={passwordErrorMessages[key]}
               errorState={passwordErrors[key]}
             />
-          </>
+          </div>
         ))}
       </div>
     )
@@ -191,7 +184,6 @@ const handlePasswordMatching = (
 const PasswordCriteria = ({ criteria, errorState = 'neutral' }) => {
   return (
     <div className='password-criteria'>
-      {/* change v to checkmark and inline display */}
       {errorState === 'criteria-met' && (
         <div>
           <img src='./check.png' className='criteria-check' />
