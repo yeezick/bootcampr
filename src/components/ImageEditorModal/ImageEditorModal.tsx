@@ -66,8 +66,6 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
     if (uploadedImage) {
       getCroppedImg(uploadedImage, cropArea, zoom).then(
         async croppedImageURL => {
-          console.log('Cropped Image URL:', croppedImageURL) // Wrong URL
-
           if (croppedImageURL) {
             try {
               const croppedImageFile = await saveCroppedImage(croppedImageURL)

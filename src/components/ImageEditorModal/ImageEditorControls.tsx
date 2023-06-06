@@ -22,7 +22,6 @@ const ImageEditorControls: React.FC<ImageEditorControlsProps> = ({
 }) => {
   const handleOpenFileInput = () => {
     fileInputRef.current?.click()
-    console.log('Change Photo button clicked')
   }
 
   // Updates the zoom state when the zoom slider is adjusted

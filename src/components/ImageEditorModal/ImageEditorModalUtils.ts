@@ -32,7 +32,6 @@ export const saveCroppedImage = async (
 ): Promise<File> => {
   const response = await fetch(croppedImageURL)
   const blob = await response.blob()
-  console.log('Cropped Image Blob:', blob)
   const croppedImageFile = new File([blob], 'croppedImage.jpg', {
     type: 'image/jpeg',
   })

@@ -22,7 +22,7 @@ import {
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import DeleteIcon from '@mui/icons-material/DeleteOutline'
-import EditIcon from '../../assets/Icons/edit.png'
+import { FiEdit } from 'react-icons/fi'
 import CameraAltIcon from '@mui/icons-material/CameraAltOutlined'
 import './ProfilePreviewImage.scss'
 
@@ -55,7 +55,6 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
 
   const handleOpenFileInput = () => {
     fileInputRef.current?.click()
-    console.log('Change Photo button clicked')
   }
 
   /**
@@ -65,7 +64,6 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
   const handleImageUpload = (image: string) => {
     dispatch(setImageUrl(image))
     closeImageEditor()
-    console.log('Uploaded image:', image)
 
     // Send request to update user's profile image in the database
     // try and catch recommended
@@ -90,8 +88,6 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
     if (uploadedImage) {
       URL.revokeObjectURL(uploadedImage)
     }
-
-    console.log('Delete button clicked')
 
     //Send request to delete user's profile image from the database
     const userId = authUser._id
@@ -134,14 +130,13 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
             <Box className='profile-preview__content-box'>
               {/* Render uploaded image if available */}
               {Boolean(uploadedImage) ? (
-                <>
+                <div className='profile-preview__profile-image-container'>
                   <img
                     src={uploadedImage as string}
                     alt='Profile'
                     className='profile-preview__profile-image'
                   />
-                  {console.log('Image is uploaded:', uploadedImage)}
-                </>
+                </div>
               ) : (
                 // If uploadedImage is not available, use Avatar
                 <Avatar clickable={false} />
@@ -157,11 +152,7 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
                   onClick={openImageEditor}
                 >
                   <div className='profile-preview__btn-container'>
-                    <img
-                      src={EditIcon}
-                      className='profile-preview__edit-icon'
-                      alt='editIcon'
-                    />
+                    <FiEdit className='profile-preview__edit-icon' />
                     Edit
                   </div>
                 </Button>
