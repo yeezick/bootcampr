@@ -13,6 +13,17 @@
   @include alert-banners($alert-success-background, $alert-success-text-color)
 }
 
+.signup-screen {
+  display:flex;
+  flex-direction: column;
+}
+
+.signup-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .pwd-match {
   color: rgb(48, 161, 192);
   margin-top: 16px;
@@ -35,18 +46,26 @@
   }
 }
 
+.signup-header {
+  align-self: center;
+
+  h1 {
+    font-size: 48px;
+    margin: 30px 0;
+  }
+
+  h2 {
+    font-size: 30px;
+    margin: 0;
+  }
+}
+
 .signup-container {
   border-radius: 2% / 1%;
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  margin-top: 48px;
   padding: 30px;
   width: 450px;
-
-  // button {
-  //   @include form-buttons();
-  // }
 
   form {
     padding: 36.8px 24px 16px 8px;
@@ -79,10 +98,14 @@ h3, h4 {
 }
 
 .honeycomb {
+  margin-top: -100px;
+  margin-left: -100px;
+  margin-right: 100px;
+  
   img {
     object-fit: cover;
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
   }
 
 }

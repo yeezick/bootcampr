@@ -84,7 +84,7 @@ export const SignUp: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className='signup-screen'>
       {alertBanner.status && (
         <div className={alertBanner.type}>
           {alertBanner.icon}
@@ -96,46 +96,47 @@ export const SignUp: React.FC = () => {
         <h1>Join Bootcampr today.</h1>
         <h2>Get the experience. Get the job.</h2>
       </div>
+      <div className='signup-banner'>
+        <div className='honeycomb'>
+          <img src='./drawing-wireframes.jpg' />
+        </div>
 
-      <div className='honeycomb'>
-        <img src='./drawing-wireframes.jpg' />
-      </div>
+        <div className='signup-container'>
+          <form onSubmit={handleSubmit} autoComplete='off'>
+            <Text
+              label='First Name'
+              name='firstName'
+              required
+              setFormValues={setFormValues}
+            />
 
-      <div className='signup-container'>
-        <form onSubmit={handleSubmit} autoComplete='off'>
-          <Text
-            label='First Name'
-            name='firstName'
-            required
-            setFormValues={setFormValues}
-          />
+            <Text
+              label='Last Name'
+              name='lastName'
+              required
+              setFormValues={setFormValues}
+            />
+            <Email setFormValues={setFormValues} />
+            <PasswordInputs
+              formValues={formValues}
+              password={password}
+              passwordErrors={passwordErrors}
+              setPasswordErrors={setPasswordErrors}
+              setFormValues={setFormValues}
+            />
 
-          <Text
-            label='Last Name'
-            name='lastName'
-            required
-            setFormValues={setFormValues}
-          />
-          <Email setFormValues={setFormValues} />
-          <PasswordInputs
-            formValues={formValues}
-            password={password}
-            passwordErrors={passwordErrors}
-            setPasswordErrors={setPasswordErrors}
-            setFormValues={setFormValues}
-          />
+            <AcceptTermsCheckbox
+              isAccepted={isAccepted}
+              setIsAccepted={setIsAccepted}
+            />
 
-          <AcceptTermsCheckbox
-            isAccepted={isAccepted}
-            setIsAccepted={setIsAccepted}
-          />
-
-          <div className='form-btn'>
-            <button type='submit' disabled={disabledForm}>
-              Sign up
-            </button>
-          </div>
-        </form>
+            <div className='form-btn'>
+              <button type='submit' disabled={disabledForm}>
+                Sign up
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   )
