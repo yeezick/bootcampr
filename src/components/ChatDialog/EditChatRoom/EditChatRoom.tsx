@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 import { getGroupChatByChatId, updateGroupChat } from 'utils/api/chat'
 import { FiPlus } from 'react-icons/fi'
 import './EditChatRoom.scss'
-import { GroupAvatarGrid } from '../GroupAvatarGrid/GroupAvatarGrid'
+import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 
 export const EditChatRoom = ({ updateChatScreen }) => {
   const dispatch = useAppDispatch()
@@ -96,7 +96,7 @@ export const EditChatRoom = ({ updateChatScreen }) => {
   return (
     groupChat && (
       <div className='edit-chat-container'>
-        <GroupAvatarGrid
+        <AvatarGrid
           picturesArray={profilePictures}
           avatarSize={'large'}
           chatType={'group'}
@@ -104,7 +104,6 @@ export const EditChatRoom = ({ updateChatScreen }) => {
         <ChatRoomInfo
           displayName={displayName}
           handleChange={handleChange}
-          groupName={groupChat.groupName}
           handleBlurGroupNameUpdate={handleBlurGroupNameUpdate}
           isModified={isModified}
           initialDisplayName={initialDisplayName}
@@ -123,7 +122,6 @@ export const EditChatRoom = ({ updateChatScreen }) => {
 const ChatRoomInfo = ({
   displayName,
   handleChange,
-  groupName,
   handleBlurGroupNameUpdate,
   isModified,
   initialDisplayName,

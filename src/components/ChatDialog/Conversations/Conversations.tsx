@@ -14,7 +14,7 @@ import {
 } from 'utils/redux/slices/userSlice'
 import './Conversations.scss'
 import { formatLastMessageTimestamp } from 'utils/functions/utilityFunctions'
-import { GroupAvatarGrid } from '../GroupAvatarGrid/GroupAvatarGrid'
+import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 
 export const Conversations = ({ handleConversationClick }) => {
   const dispatch = useAppDispatch()
@@ -135,7 +135,6 @@ const ConversationsList = ({
               >
                 <ConversationThumbnail
                   authUser={authUser}
-                  chatId={chatId}
                   groupName={groupName}
                   participants={participants}
                   lastMessage={lastMessage}
@@ -162,7 +161,6 @@ const ConversationsList = ({
 
 const ConversationThumbnail = ({
   authUser,
-  chatId,
   groupName,
   participants,
   lastMessage,
@@ -180,7 +178,7 @@ const ConversationThumbnail = ({
     return (
       <>
         <div className='avatar-grid'>
-          <GroupAvatarGrid
+          <AvatarGrid
             picturesArray={pictures}
             avatarSize={'medium'}
             chatType={'group'}
@@ -226,7 +224,7 @@ const ConversationThumbnail = ({
     )
     return (
       <>
-        <GroupAvatarGrid
+        <AvatarGrid
           picturesArray={recipient[0].profilePicture}
           avatarSize={'medium'}
           chatType={'private'}

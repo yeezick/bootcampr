@@ -6,7 +6,6 @@ import {
   selectAuthUser,
   selectConversation,
   selectSelectedMember,
-  setSelectedMember,
   toggleChatClose,
 } from 'utils/redux/slices/userSlice'
 import { Messages } from 'components/ChatDialog/Messages/Messages'
@@ -16,7 +15,7 @@ import { NewChatRoom } from 'components/ChatDialog/NewChatRoom/NewChatRoom'
 import { EditChatRoom } from 'components/ChatDialog/EditChatRoom/EditChatRoom'
 import './ChatDialogMain.scss'
 import { ChatMemberProfile } from '../ChatMemberProfile/ChatMemberProfile'
-import { GroupAvatarGrid } from '../GroupAvatarGrid/GroupAvatarGrid'
+import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 
 export const ChatDialogMain = () => {
   const dispatch = useAppDispatch()
@@ -83,8 +82,6 @@ export const ChatDialogMain = () => {
           handleBackArrow={handleBackArrow}
           updateChatScreen={updateChatScreen}
           currentConversation={currentConversation}
-          dispatch={dispatch}
-          chatRecipientId={chatRecipientId}
           selectedMember={selectedMember}
           profilePictures={profilePictures}
         />
@@ -111,8 +108,6 @@ const ChatTitle = ({
   handleBackArrow,
   updateChatScreen,
   currentConversation,
-  dispatch,
-  chatRecipientId,
   selectedMember,
   profilePictures,
 }) => {
@@ -161,7 +156,7 @@ const ChatTitle = ({
       <div className='back-arrow messages'>
         <FiArrowLeft size={23} onClick={handleBackArrow} />
         {profilePictures.length > 0 && (
-          <GroupAvatarGrid
+          <AvatarGrid
             picturesArray={profilePictures}
             avatarSize={'small'}
             chatType={'group'}
@@ -185,7 +180,7 @@ const ChatTitle = ({
     return (
       <div className='back-arrow messages'>
         <FiArrowLeft size={23} onClick={handleBackArrow} />
-        <GroupAvatarGrid
+        <AvatarGrid
           picturesArray={selectedMember.profilePicture}
           avatarSize={'small'}
           chatType={'private'}

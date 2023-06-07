@@ -1,8 +1,8 @@
 import { FiCamera } from 'react-icons/fi'
-import './GroupAvatarGrid.scss'
+import './AvatarGrid.scss'
 import { useEffect, useState } from 'react'
 
-export const GroupAvatarGrid = ({ picturesArray, avatarSize, chatType }) => {
+export const AvatarGrid = ({ picturesArray, avatarSize, chatType }) => {
   const [profilePictures, setProfilePictures] = useState([])
   const [avatarClassName, setAvatarClassName] = useState('')
 

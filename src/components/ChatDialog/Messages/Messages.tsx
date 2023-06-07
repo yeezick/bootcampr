@@ -16,6 +16,15 @@ import { formatTimestamp } from 'utils/functions/utilityFunctions'
 import { emptyChatText } from 'utils/data/userConstants'
 import './Messages.scss'
 import { ChatMessageInterface } from 'interfaces'
+import {
+  isFirstMessageAnyUser,
+  isLastMessage,
+  isLastMessageAnyUser,
+  isOnlyMessageBySameSender,
+  isSameSender,
+  isSameSenderAny,
+  isSameUser,
+} from '../../../utils/functions/chatLogic'
 
 export const Messages = ({ setChatRecipientId }) => {
   const authUser = useAppSelector(selectAuthUser)
@@ -157,21 +166,55 @@ const MessagesList = ({
   defaultImg,
 }) => {
   if (listResults === 'messages') {
-    return messages.map(message => {
+    return messages.map((message, index) => {
       const isSender = message.sender._id === authUser._id
-      const messageClasses = isSender ? 'message-right' : 'message-left'
       const detailsClasses = isSender ? 'details-right' : 'details-left'
       const isSelected = selectedMessages.includes(message)
+        ? 'selected-message'
+        : 'not-selected'
+      const sameUser = isSameUser(messages, message, index)
+        ? 'same-user-text-margin'
+        : 'other-user-text-margin'
+      const isAvatar =
+        isSameSender(messages, message, index, authUser._id) ||
+        isLastMessage(messages, index, authUser._id)
+          ? 'avatar'
+          : 'no-avatar'
+      const lastMessageAny =
+        isSameSenderAny(messages, message, index) ||
+        isLastMessageAnyUser(messages, index)
+          ? 'same-sender-last-message'
+          : ''
+      const firstMessageAny =
+        isSameSenderAny(messages, message, index) ||
+        isFirstMessageAnyUser(messages, index)
+          ? 'same-sender-first-message'
+          : ''
+      const isOnlyOneMessage = isOnlyMessageBySameSender(messages, index)
+        ? 'same-sender-one-message'
+        : ''
 
       return (
-        <div
-          key={message.timestamp}
-          className={`message-container ${isSelected ? 'selected' : ''}`}
-          onClick={() => handleTimestampClick(message)}
-        >
-          <MessageDisplay
-            isSender={isSender}
-            messageClasses={messageClasses}
+        <div key={message._id} className='message-container'>
+          <div className='message-grid'>
+            {(isSameSender(messages, message, index, authUser._id) ||
+              isLastMessage(messages, index, authUser._id)) && (
+              <div className='recipient-avatar'>
+                <img src={message.sender.profilePicture} alt='avatar' />
+              </div>
+            )}
+            <div
+              className={
+                message.sender._id === authUser._id
+                  ? `auth-text ${sameUser} ${isAvatar} ${lastMessageAny} ${firstMessageAny} ${isOnlyOneMessage} ${isSelected}`
+                  : `recipient-text ${sameUser} ${isAvatar} ${lastMessageAny} ${firstMessageAny} ${isOnlyOneMessage} ${isSelected}`
+              }
+              onClick={() => handleTimestampClick(message)}
+            >
+              <p>{message.text}</p>
+            </div>
+          </div>
+          <TimestampDisplay
             detailsClasses={detailsClasses}
             message={message}
             selectedMessages={selectedMessages}
@@ -191,55 +234,18 @@ const MessagesList = ({
   }
 }
 
-const MessageDisplay = ({
-  isSender,
-  messageClasses,
-  detailsClasses,
-  message,
-  selectedMessages,
-}) => {
-  if (!isSender) {
-    return (
-      <>
-        <div className='recipient-grid'>
-          <div className='recipient-avatar'>
-            <img src={message.sender.profilePicture} alt='avatar' />
-          </div>
-          <div className={`message ${messageClasses}`}>
-            <div className='message-text'>
-              <p>{message.text}</p>
-            </div>
+const TimestampDisplay = ({ detailsClasses, message, selectedMessages }) => {
+  return (
+    <>
+      {selectedMessages.includes(message) && message.timestamp && (
+        <div className={`message-details ${detailsClasses}`}>
+          <div className='message-timestamp'>
+            <p>{formatTimestamp(message.timestamp)}</p>
           </div>
         </div>
-        {selectedMessages.includes(message) && message.timestamp && (
-          <div className={`message-details ${detailsClasses}`}>
-            <div className='message-timestamp'>
-              <p>{formatTimestamp(message.timestamp)}</p>
-            </div>
-          </div>
-        )}
-      </>
-    )
-  }
-
-  if (isSender) {
-    return (
-      <>
-        <div className={`message ${messageClasses}`}>
-          <div className='message-text'>
-            <p>{message.text}</p>
-          </div>
-        </div>
-        {selectedMessages.includes(message) && message.timestamp && (
-          <div className={`message-details ${detailsClasses}`}>
-            <div className='message-timestamp'>
-              <p>{formatTimestamp(message.timestamp)}</p>
-            </div>
-          </div>
-        )}
-      </>
-    )
-  }
+      )}
+    </>
+  )
 }
 
 const TextInput = ({ textForm, handleChangeText, handleSubmitText }) => {

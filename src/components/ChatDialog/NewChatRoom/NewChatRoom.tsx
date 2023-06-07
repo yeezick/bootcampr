@@ -77,9 +77,6 @@ export const NewChatRoom = ({ chatScreen, updateChatScreen }) => {
 
       setProjectMembers(remainingMembers)
       setStillRemainingMembers(remainingMembers.length > 0)
-      // remainingMembers.length === 0
-      //   ? setStillRemainingMembers(false)
-      //   : setStillRemainingMembers(true)
     } else if (chatScreen === 'composeNewChat') {
       if (engineers.length > 0 && designers.length > 0) {
         setProjectMembers([...designers, ...engineers])
