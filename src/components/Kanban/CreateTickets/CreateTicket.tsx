@@ -1,12 +1,10 @@
-import { Button, Box, FormControl } from '@mui/material'
-
 import { useState } from 'react'
+import { Button, Box, FormControl, TextField } from '@mui/material'
+// Todo: replace this modal with modal from MUI
 import Modal from 'react-modal'
-import TextField from '@mui/material/TextField'
 import { SelectStatus } from 'components/Kanban'
-
 import {
-  createTicketInterface,
+  CreateTicketInterface,
   TaskInterface,
 } from 'interfaces/TicketInterFace'
 import { createTicketApi } from 'utils/api/tickets'
@@ -33,7 +31,7 @@ export const CreateTicket = ({
   concatenatedString,
   ticketsStatus,
   projectId,
-}: createTicketInterface) => {
+}: CreateTicketInterface) => {
   Modal.setAppElement('#root')
   const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()
   const [modalIsOpen, setIsOpen] = useState(false)
