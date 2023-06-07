@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { CreateTicket } from 'components/Kanban'
 import { TicketDetail } from 'components/Kanban'
-
 import {
   TicketInterface,
   KeyOfTicketStatusType,
@@ -10,7 +9,7 @@ import {
   TicketStatusChangeFunc,
 } from 'interfaces'
 import { updateTicketInformationAndStatus } from 'utils/api/tickets'
-import '../Ticket.scss'
+import './Ticket.scss'
 
 export const AllTickets = ({ projectTracker }) => {
   const { id } = useParams()
