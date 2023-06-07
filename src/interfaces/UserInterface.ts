@@ -6,13 +6,15 @@ export interface UserInterface {
   declinedProjects?: ProjectInterface[]
   email: string
   firstName: string
-  githubUrl: string
   interestedProjects?: ProjectInterface[]
   lastName: string
-  linkedinUrl: string
+  links: {
+    githubUrl?: string
+    linkedinUrl: string
+    portfolioUrl: string
+  }
   memberOfProjects?: ProjectInterface[]
   ownerOfProjects?: ProjectInterface[]
-  portfolioUrl: string
   portfolioProjects?: ProjectInterface[]
   profilePicture: string
   role: string
