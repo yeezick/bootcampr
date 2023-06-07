@@ -42,7 +42,7 @@ export const EditProfile: React.FC = () => {
     setBioCharCount(authUser.bio.length)
   }, [])
 
-  const nestedProperties = Object.keys(userForm.links)
+  const nestedLinks = Object.keys(userForm.links)
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
@@ -50,7 +50,7 @@ export const EditProfile: React.FC = () => {
     const { name, value } = e.target
 
     // check if the input name is one of the nested properties
-    if (nestedProperties.includes(name)) {
+    if (nestedLinks.includes(name)) {
       updateUserForm(prevForm => ({
         ...prevForm,
         links: {

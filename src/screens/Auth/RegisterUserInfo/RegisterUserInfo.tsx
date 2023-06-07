@@ -30,7 +30,7 @@ export const RegisterUserInfo: React.FC = () => {
     }
   }, [authUser])
 
-  const nestedProperties = Object.keys(userForm.links)
+  const nestedLinks = Object.keys(userForm.links)
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -38,7 +38,7 @@ export const RegisterUserInfo: React.FC = () => {
     const { name, value } = e.target
 
     // check if the input name is one of the nested properties
-    if (nestedProperties.includes(name)) {
+    if (nestedLinks.includes(name)) {
       setUserForm(prevForm => ({
         ...prevForm,
         links: {
