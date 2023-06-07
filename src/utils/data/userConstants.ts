@@ -8,31 +8,31 @@ import {
 export const defaultAvailability: Availability = {
   SUN: {
     available: false,
-    availability: [['9:00 AM', '5:00 PM']],
+    availability: [],
   },
   MON: {
     available: false,
-    availability: [['9:00 AM', '5:00 PM']],
+    availability: [],
   },
   TUE: {
     available: false,
-    availability: [['9:00 AM', '5:00 PM']],
+    availability: [],
   },
   WED: {
     available: false,
-    availability: [['9:00 AM', '5:00 PM']],
+    availability: [],
   },
   THU: {
     available: false,
-    availability: [['9:00 AM', '5:00 PM']],
+    availability: [],
   },
   FRI: {
     available: false,
-    availability: [['9:00 AM', '5:00 PM']],
+    availability: [],
   },
   SAT: {
     available: false,
-    availability: [['9:00 AM', '5:00 PM']],
+    availability: [],
   },
 }
 
