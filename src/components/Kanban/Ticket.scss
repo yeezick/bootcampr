@@ -1,6 +1,7 @@
 .AllTickets {
   display: flex;
   width: 100%;
+  flex-direction: column;
   justify-content: center;
 }
 
@@ -234,12 +235,12 @@
 .button2 {
   align-items: center;
   background-clip: padding-box;
-  background-color: #8048c8;
+  background-color: #fa9413;
   border: 1px solid transparent;
   border-radius: 0.25rem;
   box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
   box-sizing: border-box;
-  color: #fff;
+  color: black;
   cursor: pointer;
   display: inline-flex;
   font-size: 16px;

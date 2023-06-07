@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { CreateTicket } from 'components/Kanban'
 import { TicketDetail } from 'components/Kanban'
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd'
+import AddIcon from '@mui/icons-material/Add'
 
 import {
   TicketInterface,
@@ -12,6 +13,7 @@ import {
 } from 'interfaces'
 import { updateTicketInformationAndStatus } from 'utils/api/tickets'
 import '../Ticket.scss'
+import { Icon } from '@mui/material'
 
 export const AllTickets = ({ projectTracker }) => {
   const { id } = useParams()
@@ -81,6 +83,7 @@ export const AllTickets = ({ projectTracker }) => {
   const concatenatedString = statusString => statusString.replace(/\s+/g, '')
   const splitCamelCaseToWords = statusString =>
     statusString?.split(/(?=[A-Z])/).join(' ')
+  const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
   const formatTaskStatus = (status: string) => {
     switch (status) {
@@ -96,7 +99,12 @@ export const AllTickets = ({ projectTracker }) => {
         return status
     }
   }
-
+  const checkIfTheresNoTicket = () => {
+    const noTicket = Object.keys(getAllTicket).every(
+      ticketStatus => getAllTicket[ticketStatus]?.length === 0
+    )
+    return noTicket
+  }
   return (
     <div className='AllTickets'>
       <div className='AllTickets-drag-drop'>
@@ -116,6 +124,7 @@ export const AllTickets = ({ projectTracker }) => {
                       getAllTicket={getAllTicket}
                       ticketsStatus={splitCamelCaseToWords(ticketsStatus)}
                       concatenatedString={concatenatedString}
+                      buttonText='Create task'
                     />
                   </div>
                   <div
@@ -159,6 +168,25 @@ export const AllTickets = ({ projectTracker }) => {
           ))}
         </DragDropContext>
       </div>
+      {checkIfTheresNoTicket() ? (
+        <div>
+          <h1>Your team hasn’t created any tasks.</h1>
+          <p>
+            Maximize efficiency and visualize work by tracking tasks here. Move
+            the task through the board from To Do to Complete. You’ll be one
+            step closer to shipping a live product with each completed task!
+          </p>
+          <CreateTicket
+            projectId={id}
+            setGetAllTicket={setGetAllTicket}
+            getAllTicket={getAllTicket}
+            ticketsStatus={'to Do'}
+            concatenatedString={concatenatedString}
+            buttonText=' Created first task'
+            buttonClassName='button2'
+          />
+        </div>
+      ) : null}
     </div>
   )
 }

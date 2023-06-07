@@ -140,17 +140,17 @@ export const TicketDetail = ({
                   <UserAssignee
                     text='Created by'
                     detailIcon={<RxPerson />}
-                    userName={ticketDetail.createdBy.firstName}
-                    userRole={ticketDetail.createdBy.role}
-                    userImage={ticketDetail.createdBy.profilePicture}
+                    userName={ticketDetail?.createdBy?.firstName}
+                    userRole={ticketDetail?.createdBy?.role}
+                    userImage={ticketDetail?.createdBy?.profilePicture}
                   />
 
                   <UserAssignee
                     text='Assignee'
                     detailIcon={<RxPerson />}
-                    userName={ticketDetail.assignees.firstName}
-                    userRole={ticketDetail.assignees.role}
-                    userImage={ticketDetail.assignees.profilePicture}
+                    userName={ticketDetail?.assignees?.firstName}
+                    userRole={ticketDetail?.assignees?.role}
+                    userImage={ticketDetail?.assignees?.profilePicture}
                   />
 
                   <SelectDate
@@ -168,6 +168,7 @@ export const TicketDetail = ({
                     </button>
                     <button
                       className='ticketDetail-openModal-button button2'
+                      style={{ backgroundColor: '#8048c8', color: 'white' }}
                       disabled={false}
                       onClick={() => saveChanges()}
                     >

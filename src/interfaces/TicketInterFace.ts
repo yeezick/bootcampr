@@ -49,6 +49,8 @@ export interface createTicketInterface {
   setGetAllTicket?: React.Dispatch<React.SetStateAction<TicketInterface>>
   splitCamelCaseToWords?: (str: string) => string
   ticketsStatus?: string
+  buttonText?: string
+  buttonClassName?: string
 }
 
 export interface TicketStatusChangeFunc {

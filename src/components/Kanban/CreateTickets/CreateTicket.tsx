@@ -22,28 +22,16 @@ import { RxPerson } from 'react-icons/rx'
 import { SelectDate } from '../TicketDetail/SelectDate'
 import { TbPencilMinus } from 'react-icons/tb'
 
-const customStyles = {
-  content: {
-    top: '50%',
-    width: '40rem',
-    height: '25rem',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '50%',
-    transform: 'translate(-50%, -50%)',
-  },
-}
-
 export const CreateTicket = ({
   setGetAllTicket,
   getAllTicket,
   concatenatedString,
   ticketsStatus,
   projectId,
+  buttonText,
+  buttonClassName,
 }: createTicketInterface) => {
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
-
   const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()
   const [modalIsOpen, setIsOpen] = useState(false)
   const [isBeingCreated, setIsBeingCreated] = useState<boolean>(false)
@@ -51,7 +39,7 @@ export const CreateTicket = ({
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
 
-  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
     setAddTicketForm({
       ...addTicketForm,
@@ -76,15 +64,17 @@ export const CreateTicket = ({
       [newStatus]: [...getAllTicket[newStatus], { ...createdTicket }],
     })
     setIsBeingCreated(false)
-
     closeModal()
   }
 
   return (
     <div>
-      <button onClick={openModal} className='createTicketButton'>
+      <button
+        onClick={openModal}
+        className={buttonClassName ?? 'createTicketButton'}
+      >
         <Icon {...label} component={AddIcon} />
-        Create task
+        {buttonText}
       </button>
       <Modal open={modalIsOpen} onClose={closeModal} className='modal'>
         <div>
