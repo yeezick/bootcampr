@@ -9,7 +9,7 @@ export interface UserInterface {
   interestedProjects?: ProjectInterface[]
   lastName: string
   links: {
-    githubUrl: string
+    githubUrl?: string
     linkedinUrl: string
     portfolioUrl: string
   }

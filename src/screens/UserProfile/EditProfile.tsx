@@ -42,26 +42,41 @@ export const EditProfile: React.FC = () => {
     setBioCharCount(authUser.bio.length)
   }, [])
 
+  const nestedProperties = Object.keys(userForm.links)
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
 
-    if (['linkedinUrl', 'githubUrl', 'portfolioUrl'].includes(name)) {
-      updateUserForm({
-        ...userForm,
+    // check if the input name is one of the nested properties
+    if (nestedProperties.includes(name)) {
+      updateUserForm(prevForm => ({
+        ...prevForm,
         links: {
-          ...userForm.links,
+          ...prevForm.links,
           [name]: value,
         },
-      })
+      }))
     } else {
+      // It's a top level property
       updateUserForm({ ...userForm, [name]: value })
     }
 
     if (name === 'bio') {
       setBioCharCount(value.length)
     }
+  }
+
+  const handleProfileSave = () => {
+    displayNotification({
+      message: 'User profile successfully updated.',
+    })
+  }
+
+  const handleCancel = () => {
+    updateUserForm({ ...authUser })
+    navigate(`/users/${authUser._id}`)
   }
 
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -174,22 +189,14 @@ export const EditProfile: React.FC = () => {
             <button
               type='submit'
               className='editprofile__cancelBtn'
-              onClick={() =>
-                displayNotification({
-                  message: 'User profile successfully updated.',
-                })
-              }
+              onClick={handleCancel}
             >
               Cancel
             </button>
             <button
               type='submit'
               className='editprofile__saveBtn'
-              onClick={() =>
-                displayNotification({
-                  message: 'User profile successfully updated.',
-                })
-              }
+              onClick={handleProfileSave}
             >
               Save Profile
             </button>

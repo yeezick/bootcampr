@@ -66,12 +66,6 @@ export const updateProfile = createAsyncThunk(
     try {
       const res = await updateUser(user._id, user)
       if (res) {
-        res.links = {
-          portfolioUrl: user.links.portfolioUrl,
-          githubUrl: user.links.githubUrl,
-          linkedinUrl: user.links.linkedinUrl,
-        }
-
         reset()
         return res
       }
