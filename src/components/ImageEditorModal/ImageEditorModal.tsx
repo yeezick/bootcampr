@@ -75,7 +75,7 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
 
               handleClose()
             } catch (error) {
-              console.log('Failed to generate cropped image URL:', error)
+              console.error('Failed to generate cropped image URL:', error)
             }
           }
         }

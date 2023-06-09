@@ -31,7 +31,7 @@ export const Landing: React.FC = () => {
         setLoginStatus(false)
       }
     } catch (err) {
-      console.log('Unable to set random user:', err)
+      console.error('Unable to set random user:', err)
       setLoginStatus(false)
     }
   }

@@ -66,11 +66,10 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
     closeImageEditor()
 
     // Send request to update user's profile image in the database
-    // try and catch recommended
     const userId = authUser._id
     updateUserImage(userId, image)
       .then(() => console.log('Image updated successfully'))
-      .catch(err => console.log('Failed to update image:', err))
+      .catch(err => console.error('Failed to update image:', err))
   }
 
   /**
@@ -92,16 +91,15 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
     //Send request to delete user's profile image from the database
     const userId = authUser._id
     try {
-      const res = await deleteUserImage(userId) // results in error or results in success
+      const res = await deleteUserImage(userId)
       if (res.success) {
         dispatch(removeUploadedImage())
         dispatch(setImageUrl(null))
       } else {
-        console.log('unsuccessful', res)
+        throw new Error('Failed to delete image')
       }
     } catch (err) {
       console.error(err)
-      // tell user that image failed to delete
     }
   }
 
