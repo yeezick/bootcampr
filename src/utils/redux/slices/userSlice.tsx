@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { renderToStaticMarkup } from 'react-dom/server'
 import {
   Availability,
   SignUpInterface,
@@ -8,6 +9,7 @@ import {
 import { signUp, updateUser } from 'utils/api/users'
 import { defaultAvailability } from 'utils/data/userConstants'
 import { RootState } from 'utils/redux/store'
+import PersonIcon from '@mui/icons-material/Person'
 
 const initialState: UiSliceInterface = {
   auth: {
@@ -20,7 +22,7 @@ const initialState: UiSliceInterface = {
       links: {
         githubUrl: '',
         linkedinUrl: '',
-        portfolioUrl: '',
+        portfolioUrl: null,
       },
       profilePicture: '',
       role: '',
@@ -124,6 +126,21 @@ const userSlice = createSlice({
       state.status.isSuccess = false
       state.status.isError = { status: false }
     },
+    setUploadedImage: (state, action: PayloadAction<string | null>) => {
+      state.auth.user.profilePicture = action.payload
+    },
+    removeUploadedImage: state => {
+      const personIconSvg = renderToStaticMarkup(
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
+          <PersonIcon fill='#afadad' />
+        </svg>
+      )
+
+      const personIconUrl = `data:image/svg+xml;utf8,${encodeURIComponent(
+        personIconSvg
+      )}`
+      state.auth.user.profilePicture = personIconUrl
+    },
   },
   extraReducers: builder => {
     builder
@@ -163,6 +180,8 @@ export const getUserAvailability = (state: RootState) =>
 export const chatStatus = (state: RootState) => state.ui.chat.visibleChat
 export const selectConversation = (state: RootState) => state.ui.chat
 export const uiStatus = (state: RootState) => state.ui.status
+export const getUserProfileImage = (state: RootState) =>
+  state.ui.auth.user.profilePicture
 export const {
   setAuthUser,
   updateAuthUser,
@@ -174,5 +193,7 @@ export const {
   toggleChat,
   toggleChatClose,
   setCurrentConversation,
+  setUploadedImage,
+  removeUploadedImage,
 } = userSlice.actions
 export default userSlice.reducer
