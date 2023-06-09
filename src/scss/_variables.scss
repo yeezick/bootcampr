@@ -13,3 +13,17 @@ $color-btn-hover: rgb(79, 127, 169);
 $color-dark-btn-font: #ffffff;
 $color-light-btn-font: rgb(44, 56, 66);
 $color-input: rgb(248, 248, 248);
+
+// View and Edit Profile scss variables
+$vep-font-family: 'Inter';
+$vep-font-size: 14px;
+$vep-font-weight: 400;
+$vep-line-height: 20px;
+$vep-margin: 20px;
+$vep-default-color: #000000;
+$vep-default-font: (
+  family: $vep-font-family,
+  size: $vep-font-size,
+  weight: $vep-font-weight,
+  line-height: $vep-line-height,
+);

@@ -36,22 +36,26 @@ export const defaultAvailability: Availability = {
   },
 }
 
+export const emptyUser: UserInterface = {
+  availability: defaultAvailability,
+  bio: '',
+  email: '',
+  firstName: '',
+  lastName: '',
+  links: {
+    githubUrl: '',
+    linkedinUrl: '',
+    portfolioUrl: '',
+  },
+  ownerOfProjects: [],
+  profilePicture: '',
+  role: '',
+  _id: '',
+}
+
 export const initialState: UiSliceInterface = {
   auth: {
-    user: {
-      availability: defaultAvailability,
-      bio: '',
-      email: '',
-      firstName: '',
-      githubUrl: '',
-      lastName: '',
-      linkedinUrl: '',
-      portfolioUrl: '',
-      profilePicture: '',
-      role: '',
-      __v: 0,
-      _id: '',
-    },
+    user: emptyUser,
   },
   sidebar: {
     visibleSidebar: false,
@@ -71,21 +75,6 @@ export const initialState: UiSliceInterface = {
       message: '',
     },
   },
-}
-
-export const emptyUser: UserInterface = {
-  availability: defaultAvailability,
-  bio: '',
-  email: '',
-  firstName: '',
-  githubUrl: '',
-  lastName: '',
-  linkedinUrl: '',
-  ownerOfProjects: [],
-  portfolioUrl: '',
-  profilePicture: '',
-  role: '',
-  _id: '',
 }
 
 export const emptySignUp: SignUpInterface = {

@@ -127,3 +127,17 @@
   top: 75px;
   z-index: 1;
 }
+
+@mixin font-properties($font: $vep-default-font) {
+  font-family: map-get($font, family);
+  font-size: map-get($font, size);
+  font-weight: map-get($font, weight);
+  line-height: map-get($font, line-height);
+}
+
+@mixin flex($direction: row, $justify: flex-start, $align: flex-start) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}

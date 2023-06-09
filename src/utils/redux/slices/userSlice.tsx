@@ -18,11 +18,13 @@ const initialState: UiSliceInterface = {
       bio: '',
       email: '',
       firstName: '',
-      githubUrl: '',
       lastName: '',
-      linkedinUrl: '',
-      portfolioUrl: '',
-      profilePicture: null,
+      links: {
+        githubUrl: '',
+        linkedinUrl: '',
+        portfolioUrl: null,
+      },
+      profilePicture: '',
       role: '',
       __v: 0,
       _id: '',
@@ -87,7 +89,10 @@ const userSlice = createSlice({
       state.auth.user = action.payload
     },
     updateAuthUser: (state, action: PayloadAction<UserInterface>) => {
-      state.auth.user = action.payload
+      state.auth.user = {
+        ...state.auth.user,
+        ...action.payload,
+      }
     },
     setUserAvailability: (state, action: PayloadAction<Availability>) => {
       state.auth.user.availability = action.payload

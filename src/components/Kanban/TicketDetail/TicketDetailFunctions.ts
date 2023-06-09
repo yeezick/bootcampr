@@ -1,5 +1,4 @@
 import { updateTicketInformationAndStatus } from 'utils/api/tickets'
-
 import { TaskInterface, KeyOfTicketStatusType } from 'interfaces'
 
 export const ticketStatusHasNotChange = async ({
