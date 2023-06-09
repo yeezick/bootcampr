@@ -1,0 +1,89 @@
+@import '../../scss/mixins.scss';
+
+.image-modal {
+  &__actions {
+    margin: 1rem 1.5rem !important;
+  }
+
+  &__action-box {
+    @include action-box;
+  }
+
+  &__actions {
+    flex-direction: column !important;
+  }
+
+  &__button-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+
+  &__change-btn,
+  &__crop-btn {
+    color: #470d91 !important;
+    font-size: 16px !important;
+    text-transform: none !important;
+  }
+
+  &__change-btn {
+    border-color: #470d91 !important;
+  }
+
+  &__close-btn {
+    cursor: pointer;
+    padding-right: 20px;
+  }
+
+  &__crop-btn {
+    font-size: 15px !important;
+    padding-bottom: 20px !important;
+
+    .MuiSvgIcon-root {
+      color: #470d91;
+      font-size: 25px !important;
+    }
+  }
+
+  &__crop-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2;
+    justify-content: center;
+  }
+
+  &__dialog-content {
+    @include dialog-content;
+  }
+
+  &__empty-avatar {
+    @include empty-avatar;
+  }
+
+  &__file-input {
+    display: none;
+  }
+
+  &__header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__save-btn {
+    background-color: #fa9413 !important;
+    color: #470d91 !important;
+    font-size: 16px !important;
+    text-transform: none !important;
+  }
+
+  &__slider {
+    color: #470d91 !important;
+  }
+
+  &__title {
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    text-align: center;
+  }
+}

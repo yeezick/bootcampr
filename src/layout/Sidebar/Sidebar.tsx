@@ -8,6 +8,7 @@ import {
   toggleSidebar,
 } from 'utils/redux/slices/userSlice'
 import './Sidebar.scss'
+import Avatar from 'components/Avatar/Avatar'
 
 export const Sidebar = () => {
   const authUser = useAppSelector(selectAuthUser)
@@ -36,7 +37,7 @@ export const Sidebar = () => {
       </div>
 
       <div className='current-user'>
-        <div className='image'></div>
+        <Avatar />
         <div>
           <p className='user-name'>
             {firstName} {lastName}
