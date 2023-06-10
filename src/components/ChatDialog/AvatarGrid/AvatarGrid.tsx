@@ -2,26 +2,26 @@ import { FiCamera } from 'react-icons/fi'
 import './AvatarGrid.scss'
 import { useEffect, useState } from 'react'
 
-export const AvatarGrid = ({ picturesArray, avatarSize, chatType }) => {
-  const [profilePictures, setProfilePictures] = useState([])
+export const AvatarGrid = ({ pictures, avatarSize, chatType }) => {
+  const [profilePictures, setProfilePictures] = useState<string | []>([])
   const [avatarClassName, setAvatarClassName] = useState('')
 
   useEffect(() => {
-    if (picturesArray.length !== 0 && chatType === 'group') {
-      setProfilePictures(picturesArray)
-      setAvatarClassName(`group-photo-container ${avatarSize}`)
-    }
+    if (pictures && pictures.length !== 0) {
+      setProfilePictures(pictures)
 
-    if (picturesArray.length !== 0 && chatType === 'private') {
-      setProfilePictures(picturesArray)
-      setAvatarClassName(`avatar-grid ${avatarSize}`)
+      if (chatType === 'group') {
+        setAvatarClassName(`group-photo-container ${avatarSize}`)
+      } else if (chatType === 'private') {
+        setAvatarClassName(`avatar-grid ${avatarSize}`)
+      }
     }
-  }, [])
+  }, [chatType, pictures])
 
   const gridClassName = () => {
-    if (picturesArray.length === 2) {
+    if (pictures.length === 2) {
       return ['left-column', 'right-column']
-    } else if (picturesArray.length === 3) {
+    } else if (pictures.length === 3) {
       return ['merged-grid', '']
     } else {
       return ['', '', '', '']

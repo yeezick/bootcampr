@@ -11,7 +11,7 @@ import { FiPlus } from 'react-icons/fi'
 import './EditChatRoom.scss'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 
-export const EditChatRoom = ({ updateChatScreen }) => {
+export const EditChatRoom = ({ onScreenUpdate }) => {
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const currentConversation = useAppSelector(selectConversation)
@@ -87,7 +87,7 @@ export const EditChatRoom = ({ updateChatScreen }) => {
     lastName: string,
     profilePicture: string
   ) => {
-    updateChatScreen('memberProfile')
+    onScreenUpdate('memberProfile')
     dispatch(
       setSelectedMember({ _id: memberId, firstName, lastName, profilePicture })
     )
@@ -97,7 +97,7 @@ export const EditChatRoom = ({ updateChatScreen }) => {
     groupChat && (
       <div className='edit-chat-container'>
         <AvatarGrid
-          picturesArray={profilePictures}
+          pictures={profilePictures}
           avatarSize={'large'}
           chatType={'group'}
         />
@@ -111,7 +111,7 @@ export const EditChatRoom = ({ updateChatScreen }) => {
         <GroupMembers
           groupChat={groupChat}
           handleMemberClick={handleMemberClick}
-          updateChatScreen={updateChatScreen}
+          onScreenUpdate={onScreenUpdate}
           authUser={authUser}
         />
       </div>
@@ -143,7 +143,7 @@ const ChatRoomInfo = ({
 const GroupMembers = ({
   groupChat,
   handleMemberClick,
-  updateChatScreen,
+  onScreenUpdate,
   authUser,
 }) => {
   return (
@@ -182,17 +182,17 @@ const GroupMembers = ({
             </div>
           )
         })}
-        <NewMemberButton updateChatScreen={updateChatScreen} />
+        <NewMemberButton onScreenUpdate={onScreenUpdate} />
       </div>
     </div>
   )
 }
 
-const NewMemberButton = ({ updateChatScreen }) => {
+const NewMemberButton = ({ onScreenUpdate }) => {
   return (
     <div
       className='members-list'
-      onClick={() => updateChatScreen('inviteNewMembers')}
+      onClick={() => onScreenUpdate('inviteNewMembers')}
     >
       <div className='avatar-grid'>
         <FiPlus size={20} />

@@ -27,12 +27,12 @@ export const ChatDialogMain = () => {
   const [chatRecipientId, setChatRecipientId] = useState('')
   const [profilePictures, setProfilePictures] = useState([])
 
-  const updateChatScreen = screen => {
+  const onScreenUpdate = screen => {
     setChatScreenPath(prevPath => [...prevPath, screen])
     setChatScreen(screen)
   }
 
-  const handleBackArrow = () => {
+  const onBackArrowClick = () => {
     if (chatScreenPath.length > 1) {
       const updatedPath = chatScreenPath.slice(0, -1)
       setChatScreenPath(updatedPath)
@@ -41,11 +41,11 @@ export const ChatDialogMain = () => {
   }
 
   const handleConversationClick = () => {
-    updateChatScreen('messages')
+    onScreenUpdate('messages')
   }
 
   const handleComposeMessage = () => {
-    updateChatScreen('composeNewChat')
+    onScreenUpdate('composeNewChat')
   }
 
   const closeChatBox = () => {
@@ -79,11 +79,12 @@ export const ChatDialogMain = () => {
       >
         <ChatTitle
           chatScreen={chatScreen}
-          handleBackArrow={handleBackArrow}
-          updateChatScreen={updateChatScreen}
+          onBackArrowClick={onBackArrowClick}
+          onScreenUpdate={onScreenUpdate}
           currentConversation={currentConversation}
           selectedMember={selectedMember}
           profilePictures={profilePictures}
+          getTitleText={getTitleText}
         />
         <ChatHeaderActions
           chatScreen={chatScreen}
@@ -95,7 +96,7 @@ export const ChatDialogMain = () => {
         <ChatBody
           chatScreen={chatScreen}
           handleConversationClick={handleConversationClick}
-          updateChatScreen={updateChatScreen}
+          onScreenUpdate={onScreenUpdate}
           setChatRecipientId={setChatRecipientId}
         />
       </section>
@@ -105,83 +106,44 @@ export const ChatDialogMain = () => {
 
 const ChatTitle = ({
   chatScreen,
-  handleBackArrow,
-  updateChatScreen,
+  onBackArrowClick,
+  onScreenUpdate,
   currentConversation,
   selectedMember,
   profilePictures,
+  getTitleText,
 }) => {
   if (chatScreen === 'main') {
     return <h1> Chats</h1>
-  }
-
-  if (chatScreen === 'composeNewChat') {
-    return (
-      <div className='back-arrow'>
-        <FiArrowLeft size={23} onClick={handleBackArrow} />
-        <h5>New Chat Room</h5>
-      </div>
-    )
-  }
-
-  if (chatScreen === 'editChatRoom') {
-    return (
-      <div className='back-arrow'>
-        <FiArrowLeft size={23} onClick={handleBackArrow} />
-        <h5>Edit Chat Room</h5>
-      </div>
-    )
-  }
-
-  if (chatScreen === 'inviteNewMembers') {
-    return (
-      <div className='back-arrow'>
-        <FiArrowLeft size={23} onClick={handleBackArrow} />
-        <h5>Edit Chat Room</h5>
-      </div>
-    )
-  }
-
-  if (chatScreen === 'memberProfile') {
-    return (
-      <div className='back-arrow'>
-        <FiArrowLeft size={23} onClick={handleBackArrow} />
-        <h5>{selectedMember.firstName}'s Profile</h5>
-      </div>
-    )
-  }
-
-  if (chatScreen === 'messages' && currentConversation.isGroup) {
+  } else if (chatScreen === 'messages' && currentConversation.isGroup) {
     return (
       <div className='back-arrow messages'>
-        <FiArrowLeft size={23} onClick={handleBackArrow} />
+        <FiArrowLeft size={23} onClick={onBackArrowClick} />
         {profilePictures.length > 0 && (
           <AvatarGrid
-            picturesArray={profilePictures}
+            pictures={profilePictures}
             avatarSize={'small'}
             chatType={'group'}
           />
         )}
         <h5
-          onClick={() => updateChatScreen('editChatRoom')}
+          onClick={() => onScreenUpdate('editChatRoom')}
           className='group-link'
         >
           {currentConversation.displayName}
         </h5>
       </div>
     )
-  }
-
-  if (chatScreen === 'messages' && !currentConversation.isGroup) {
+  } else if (chatScreen === 'messages' && !currentConversation.isGroup) {
     const handleRecipientNameClick = () => {
-      updateChatScreen('memberProfile')
+      onScreenUpdate('memberProfile')
     }
 
     return (
       <div className='back-arrow messages'>
-        <FiArrowLeft size={23} onClick={handleBackArrow} />
+        <FiArrowLeft size={23} onClick={onBackArrowClick} />
         <AvatarGrid
-          picturesArray={selectedMember.profilePicture}
+          pictures={selectedMember.profilePicture}
           avatarSize={'small'}
           chatType={'private'}
         />
@@ -191,6 +153,28 @@ const ChatTitle = ({
         </h5>
       </div>
     )
+  } else {
+    return (
+      <div className='back-arrow'>
+        <FiArrowLeft size={23} onClick={onBackArrowClick} />
+        <h5>{getTitleText({ chatScreen, selectedMember })}</h5>
+      </div>
+    )
+  }
+}
+
+const getTitleText = ({ chatScreen, selectedMember }) => {
+  switch (chatScreen) {
+    case 'composeNewChat':
+      return 'New Chat Room'
+    case 'editChatRoom':
+      return 'Edit Chat Room'
+    case 'inviteNewMembers':
+      return 'Edit Chat Room'
+    case 'memberProfile':
+      return `${selectedMember.firstName}'s Profile`
+    default:
+      return ''
   }
 }
 
@@ -218,7 +202,7 @@ const ChatBody = ({
   chatScreen,
   handleConversationClick,
   setChatRecipientId,
-  updateChatScreen,
+  onScreenUpdate,
 }) => {
   if (chatScreen === 'main') {
     return <Conversations handleConversationClick={handleConversationClick} />
@@ -230,23 +214,17 @@ const ChatBody = ({
 
   if (chatScreen === 'composeNewChat') {
     return (
-      <NewChatRoom
-        chatScreen={chatScreen}
-        updateChatScreen={updateChatScreen}
-      />
+      <NewChatRoom chatScreen={chatScreen} onScreenUpdate={onScreenUpdate} />
     )
   }
 
   if (chatScreen === 'editChatRoom') {
-    return <EditChatRoom updateChatScreen={updateChatScreen} />
+    return <EditChatRoom onScreenUpdate={onScreenUpdate} />
   }
 
   if (chatScreen === 'inviteNewMembers') {
     return (
-      <NewChatRoom
-        chatScreen={chatScreen}
-        updateChatScreen={updateChatScreen}
-      />
+      <NewChatRoom chatScreen={chatScreen} onScreenUpdate={onScreenUpdate} />
     )
   }
 

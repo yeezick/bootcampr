@@ -17,7 +17,7 @@ import {
 } from 'utils/redux/slices/userSlice'
 import './NewChatRoom.scss'
 
-export const NewChatRoom = ({ chatScreen, updateChatScreen }) => {
+export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
   const dispatch = useAppDispatch()
   const currentConversation = useAppSelector(selectConversation)
   const authUser = useAppSelector(selectAuthUser)
@@ -131,7 +131,7 @@ export const NewChatRoom = ({ chatScreen, updateChatScreen }) => {
         displayName: `${currentDisplayName}, ${newMembersName}`,
       })
     )
-    updateChatScreen('editChatRoom')
+    onScreenUpdate('editChatRoom')
   }
 
   const handleSubmitNewChatRoom = async () => {
@@ -156,7 +156,7 @@ export const NewChatRoom = ({ chatScreen, updateChatScreen }) => {
           displayName: participantsNames,
         })
       )
-      updateChatScreen('messages')
+      onScreenUpdate('messages')
     } else {
       const recipientEmail = selectedMembers[0].email
       newRoom = await createPrivateChatRoom(authUser._id, recipientEmail)
@@ -175,7 +175,7 @@ export const NewChatRoom = ({ chatScreen, updateChatScreen }) => {
           profilePicture: selectedMembers[0].profilePicture,
         })
       )
-      updateChatScreen('messages')
+      onScreenUpdate('messages')
     }
   }
 

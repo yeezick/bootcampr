@@ -179,7 +179,7 @@ const ConversationThumbnail = ({
       <>
         <div className='avatar-grid'>
           <AvatarGrid
-            picturesArray={pictures}
+            pictures={pictures}
             avatarSize={'medium'}
             chatType={'group'}
           />
@@ -225,7 +225,7 @@ const ConversationThumbnail = ({
     return (
       <>
         <AvatarGrid
-          picturesArray={recipient[0].profilePicture}
+          pictures={recipient[0].profilePicture}
           avatarSize={'medium'}
           chatType={'private'}
         />
