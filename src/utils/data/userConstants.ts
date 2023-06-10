@@ -103,7 +103,3 @@ export const emptySignUp: SignUpInterface = {
   lastName: '',
   password: '',
 }
-
-export const emptyChatText: ChatMessageInterface = {
-  text: '',
-}

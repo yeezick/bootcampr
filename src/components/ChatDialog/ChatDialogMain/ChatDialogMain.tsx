@@ -16,18 +16,21 @@ import { EditChatRoom } from 'components/ChatDialog/EditChatRoom/EditChatRoom'
 import './ChatDialogMain.scss'
 import { ChatMemberProfile } from '../ChatMemberProfile/ChatMemberProfile'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
+import { ChatScreen } from 'utils/data/chatConstants'
 
 export const ChatDialogMain = () => {
   const dispatch = useAppDispatch()
-  const [chatScreen, setChatScreen] = useState<string>('main')
-  const [chatScreenPath, setChatScreenPath] = useState<string[]>(['main'])
+  const [chatScreen, setChatScreen] = useState<ChatScreen>(ChatScreen.Main)
+  const [chatScreenPath, setChatScreenPath] = useState<ChatScreen[]>([
+    ChatScreen.Main,
+  ])
   const authUser = useAppSelector(selectAuthUser)
   const currentConversation = useAppSelector(selectConversation)
   const selectedMember = useAppSelector(selectSelectedMember)
   const [chatRecipientId, setChatRecipientId] = useState('')
   const [profilePictures, setProfilePictures] = useState([])
 
-  const onScreenUpdate = screen => {
+  const onScreenUpdate = (screen: ChatScreen) => {
     setChatScreenPath(prevPath => [...prevPath, screen])
     setChatScreen(screen)
   }
@@ -41,11 +44,11 @@ export const ChatDialogMain = () => {
   }
 
   const handleConversationClick = () => {
-    onScreenUpdate('messages')
+    onScreenUpdate(ChatScreen.Messages)
   }
 
   const handleComposeMessage = () => {
-    onScreenUpdate('composeNewChat')
+    onScreenUpdate(ChatScreen.ComposeNewChat)
   }
 
   const closeChatBox = () => {
@@ -72,7 +75,7 @@ export const ChatDialogMain = () => {
     <div className='chat-dialog-container'>
       <section
         className={
-          chatScreen === 'messages'
+          chatScreen === ChatScreen.Messages
             ? 'chat-header-messages'
             : 'chat-header-main'
         }
@@ -113,9 +116,12 @@ const ChatTitle = ({
   profilePictures,
   getTitleText,
 }) => {
-  if (chatScreen === 'main') {
+  if (chatScreen === ChatScreen.Main) {
     return <h1> Chats</h1>
-  } else if (chatScreen === 'messages' && currentConversation.isGroup) {
+  } else if (
+    chatScreen === ChatScreen.Messages &&
+    currentConversation.isGroup
+  ) {
     return (
       <div className='back-arrow messages'>
         <FiArrowLeft size={23} onClick={onBackArrowClick} />
@@ -127,14 +133,17 @@ const ChatTitle = ({
           />
         )}
         <h5
-          onClick={() => onScreenUpdate('editChatRoom')}
+          onClick={() => onScreenUpdate(ChatScreen.EditChatRoom)}
           className='group-link'
         >
           {currentConversation.displayName}
         </h5>
       </div>
     )
-  } else if (chatScreen === 'messages' && !currentConversation.isGroup) {
+  } else if (
+    chatScreen === ChatScreen.Messages &&
+    !currentConversation.isGroup
+  ) {
     const handleRecipientNameClick = () => {
       onScreenUpdate('memberProfile')
     }
@@ -165,13 +174,13 @@ const ChatTitle = ({
 
 const getTitleText = ({ chatScreen, selectedMember }) => {
   switch (chatScreen) {
-    case 'composeNewChat':
+    case ChatScreen.Main:
       return 'New Chat Room'
-    case 'editChatRoom':
+    case ChatScreen.EditChatRoom:
       return 'Edit Chat Room'
-    case 'inviteNewMembers':
+    case ChatScreen.InviteNewMembers:
       return 'Edit Chat Room'
-    case 'memberProfile':
+    case ChatScreen.MemberProfile:
       return `${selectedMember.firstName}'s Profile`
     default:
       return ''
@@ -185,7 +194,7 @@ const ChatHeaderActions = ({
 }) => {
   return (
     <div className='main-icons'>
-      {chatScreen === 'main' && (
+      {chatScreen === ChatScreen.Main && (
         <HiOutlinePencilAlt size={22} onClick={handleComposeMessage} />
       )}
       <IoMdClose size={22} onClick={closeChatBox} />
@@ -199,31 +208,31 @@ const ChatBody = ({
   setChatRecipientId,
   onScreenUpdate,
 }) => {
-  if (chatScreen === 'main') {
+  if (chatScreen === ChatScreen.Main) {
     return <Conversations handleConversationClick={handleConversationClick} />
   }
 
-  if (chatScreen === 'messages') {
+  if (chatScreen === ChatScreen.Messages) {
     return <Messages setChatRecipientId={setChatRecipientId} />
   }
 
-  if (chatScreen === 'composeNewChat') {
+  if (chatScreen === ChatScreen.ComposeNewChat) {
     return (
       <NewChatRoom chatScreen={chatScreen} onScreenUpdate={onScreenUpdate} />
     )
   }
 
-  if (chatScreen === 'editChatRoom') {
+  if (chatScreen === ChatScreen.EditChatRoom) {
     return <EditChatRoom onScreenUpdate={onScreenUpdate} />
   }
 
-  if (chatScreen === 'inviteNewMembers') {
+  if (chatScreen === ChatScreen.InviteNewMembers) {
     return (
       <NewChatRoom chatScreen={chatScreen} onScreenUpdate={onScreenUpdate} />
     )
   }
 
-  if (chatScreen === 'memberProfile') {
+  if (chatScreen === ChatScreen.MemberProfile) {
     return <ChatMemberProfile />
   }
 }

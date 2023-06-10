@@ -13,7 +13,7 @@ import {
   selectConversation,
 } from 'utils/redux/slices/userSlice'
 import { formatTimestamp } from 'utils/functions/utilityFunctions'
-import { emptyChatText } from 'utils/data/userConstants'
+import { emptyChatText } from 'utils/data/chatConstants'
 import './Messages.scss'
 import { ChatMessageInterface } from 'interfaces'
 import {
