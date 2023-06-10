@@ -116,75 +116,67 @@ const ChatTitle = ({
   profilePictures,
   getTitleText,
 }) => {
-  if (chatScreen === ChatScreen.Main) {
-    return <h1> Chats</h1>
-  } else if (
-    chatScreen === ChatScreen.Messages &&
-    currentConversation.isGroup
-  ) {
-    return (
-      <div className='back-arrow messages'>
-        <FiArrowLeft size={23} onClick={onBackArrowClick} />
-        {profilePictures.length > 0 && (
-          <AvatarGrid
-            pictures={profilePictures}
-            avatarSize={'small'}
-            chatType={'group'}
-          />
-        )}
-        <h5
-          onClick={() => onScreenUpdate(ChatScreen.EditChatRoom)}
-          className='group-link'
-        >
-          {currentConversation.displayName}
-        </h5>
-      </div>
-    )
-  } else if (
-    chatScreen === ChatScreen.Messages &&
-    !currentConversation.isGroup
-  ) {
-    const handleRecipientNameClick = () => {
-      onScreenUpdate(ChatScreen.MemberProfile)
-    }
-
-    return (
-      <div className='back-arrow messages'>
-        <FiArrowLeft size={23} onClick={onBackArrowClick} />
-        <AvatarGrid
-          pictures={selectedMember.profilePicture}
-          avatarSize={'small'}
-          chatType={'private'}
-        />
-        <h5 onClick={handleRecipientNameClick} className='group-link'>
-          {currentConversation.selectedMember.firstName}{' '}
-          {currentConversation.selectedMember.lastName}
-        </h5>
-      </div>
-    )
-  } else {
-    return (
-      <div className='back-arrow'>
-        <FiArrowLeft size={23} onClick={onBackArrowClick} />
-        <h5>{getTitleText({ chatScreen, selectedMember })}</h5>
-      </div>
-    )
+  switch (chatScreen) {
+    case ChatScreen.Main:
+      return <h1> Chats</h1>
+    case ChatScreen.Messages:
+      if (currentConversation.isGroup) {
+        return (
+          <div className='back-arrow messages'>
+            <FiArrowLeft size={23} onClick={onBackArrowClick} />
+            {profilePictures.length > 0 && (
+              <AvatarGrid
+                pictures={profilePictures}
+                avatarSize={'small'}
+                chatType={'group'}
+              />
+            )}
+            <h5
+              onClick={() => onScreenUpdate(ChatScreen.EditChatRoom)}
+              className='group-link'
+            >
+              {currentConversation.displayName}
+            </h5>
+          </div>
+        )
+      } else {
+        return (
+          <div className='back-arrow messages'>
+            <FiArrowLeft size={23} onClick={onBackArrowClick} />
+            <AvatarGrid
+              pictures={selectedMember.profilePicture}
+              avatarSize={'small'}
+              chatType={'private'}
+            />
+            <h5
+              onClick={() => onScreenUpdate(ChatScreen.MemberProfile)}
+              className='group-link'
+            >
+              {currentConversation.selectedMember.firstName}{' '}
+              {currentConversation.selectedMember.lastName}
+            </h5>
+          </div>
+        )
+      }
+    default:
+      return (
+        <div className='back-arrow'>
+          <FiArrowLeft size={23} onClick={onBackArrowClick} />
+          <h5>{getTitleText({ chatScreen, selectedMember })}</h5>
+        </div>
+      )
   }
 }
 
 const getTitleText = ({ chatScreen, selectedMember }) => {
-  switch (chatScreen) {
-    case ChatScreen.Main:
-      return 'New Chat Room'
-    case ChatScreen.EditChatRoom:
-      return 'Edit Chat Room'
-    case ChatScreen.InviteNewMembers:
-      return 'Edit Chat Room'
-    case ChatScreen.MemberProfile:
-      return `${selectedMember.firstName}'s Profile`
-    default:
-      return ''
+  const titleTextLookup = {
+    [ChatScreen.ComposeNewChat]: 'New Chat Room',
+    [ChatScreen.EditChatRoom]: 'Edit Chat Room',
+    [ChatScreen.InviteNewMembers]: 'Edit Chat Room',
+    [ChatScreen.MemberProfile]: `${selectedMember.firstName}'s Profile`,
   }
+
+  return titleTextLookup[chatScreen] || ''
 }
 
 const ChatHeaderActions = ({
@@ -208,28 +200,20 @@ const ChatBody = ({
   setChatRecipientId,
   onScreenUpdate,
 }) => {
-  if (chatScreen === ChatScreen.Main) {
-    return <Conversations handleConversationClick={handleConversationClick} />
-  }
-
-  if (chatScreen === ChatScreen.Messages) {
-    return <Messages setChatRecipientId={setChatRecipientId} />
-  }
-
-  if (
-    chatScreen === ChatScreen.ComposeNewChat ||
-    chatScreen === ChatScreen.InviteNewMembers
-  ) {
-    return (
+  const chatComponentLookup = {
+    [ChatScreen.Main]: (
+      <Conversations handleConversationClick={handleConversationClick} />
+    ),
+    [ChatScreen.Messages]: <Messages setChatRecipientId={setChatRecipientId} />,
+    [ChatScreen.ComposeNewChat]: (
       <NewChatRoom chatScreen={chatScreen} onScreenUpdate={onScreenUpdate} />
-    )
+    ),
+    [ChatScreen.InviteNewMembers]: (
+      <NewChatRoom chatScreen={chatScreen} onScreenUpdate={onScreenUpdate} />
+    ),
+    [ChatScreen.EditChatRoom]: <EditChatRoom onScreenUpdate={onScreenUpdate} />,
+    [ChatScreen.MemberProfile]: <ChatMemberProfile />,
   }
 
-  if (chatScreen === ChatScreen.EditChatRoom) {
-    return <EditChatRoom onScreenUpdate={onScreenUpdate} />
-  }
-
-  if (chatScreen === ChatScreen.MemberProfile) {
-    return <ChatMemberProfile />
-  }
+  return chatComponentLookup[chatScreen] || null
 }
