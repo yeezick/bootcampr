@@ -216,7 +216,10 @@ const ChatBody = ({
     return <Messages setChatRecipientId={setChatRecipientId} />
   }
 
-  if (chatScreen === ChatScreen.ComposeNewChat) {
+  if (
+    chatScreen === ChatScreen.ComposeNewChat ||
+    chatScreen === ChatScreen.InviteNewMembers
+  ) {
     return (
       <NewChatRoom chatScreen={chatScreen} onScreenUpdate={onScreenUpdate} />
     )
@@ -224,12 +227,6 @@ const ChatBody = ({
 
   if (chatScreen === ChatScreen.EditChatRoom) {
     return <EditChatRoom onScreenUpdate={onScreenUpdate} />
-  }
-
-  if (chatScreen === ChatScreen.InviteNewMembers) {
-    return (
-      <NewChatRoom chatScreen={chatScreen} onScreenUpdate={onScreenUpdate} />
-    )
   }
 
   if (chatScreen === ChatScreen.MemberProfile) {
