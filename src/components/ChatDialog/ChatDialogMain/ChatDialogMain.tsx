@@ -183,19 +183,14 @@ const ChatHeaderActions = ({
   handleComposeMessage,
   closeChatBox,
 }) => {
-  if (chatScreen === 'main') {
-    return (
-      <div className='main-icons'>
+  return (
+    <div className='main-icons'>
+      {chatScreen === 'main' && (
         <HiOutlinePencilAlt size={22} onClick={handleComposeMessage} />
-        <IoMdClose size={22} onClick={closeChatBox} />
-      </div>
-    )
-  } else
-    return (
-      <div className='main-icons'>
-        <IoMdClose size={22} onClick={closeChatBox} />
-      </div>
-    )
+      )}
+      <IoMdClose size={22} onClick={closeChatBox} />
+    </div>
+  )
 }
 
 const ChatBody = ({
