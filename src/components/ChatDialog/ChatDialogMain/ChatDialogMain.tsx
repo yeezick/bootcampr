@@ -145,7 +145,7 @@ const ChatTitle = ({
     !currentConversation.isGroup
   ) {
     const handleRecipientNameClick = () => {
-      onScreenUpdate('memberProfile')
+      onScreenUpdate(ChatScreen.MemberProfile)
     }
 
     return (

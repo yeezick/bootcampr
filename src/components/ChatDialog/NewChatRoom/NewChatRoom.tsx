@@ -15,6 +15,7 @@ import {
   setCurrentConversation,
   setSelectedMember,
 } from 'utils/redux/slices/userSlice'
+import { ChatScreen } from 'utils/data/chatConstants'
 import './NewChatRoom.scss'
 
 export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
@@ -61,7 +62,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
 
   useEffect(() => {
     if (
-      chatScreen === 'inviteNewMembers' &&
+      chatScreen === ChatScreen.InviteNewMembers &&
       currentConversation &&
       currentConversation.participants
     ) {
@@ -77,7 +78,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
 
       setProjectMembers(remainingMembers)
       setStillRemainingMembers(remainingMembers.length > 0)
-    } else if (chatScreen === 'composeNewChat') {
+    } else if (chatScreen === ChatScreen.ComposeNewChat) {
       if (engineers.length > 0 && designers.length > 0) {
         setProjectMembers([...designers, ...engineers])
       } else {
@@ -131,7 +132,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
         displayName: `${currentDisplayName}, ${newMembersName}`,
       })
     )
-    onScreenUpdate('editChatRoom')
+    onScreenUpdate(ChatScreen.EditChatRoom)
   }
 
   const handleSubmitNewChatRoom = async () => {
@@ -156,7 +157,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
           displayName: participantsNames,
         })
       )
-      onScreenUpdate('messages')
+      onScreenUpdate(ChatScreen.Messages)
     } else {
       const recipientEmail = selectedMembers[0].email
       newRoom = await createPrivateChatRoom(authUser._id, recipientEmail)
@@ -175,7 +176,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
           profilePicture: selectedMembers[0].profilePicture,
         })
       )
-      onScreenUpdate('messages')
+      onScreenUpdate(ChatScreen.Messages)
     }
   }
 
@@ -212,12 +213,14 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
       <button
         disabled={selectedMembers.length === 0}
         onClick={
-          chatScreen === 'composeNewChat'
+          chatScreen === ChatScreen.ComposeNewChat
             ? handleSubmitNewChatRoom
             : handleSubmitAddMembers
         }
       >
-        {chatScreen === 'composeNewChat' ? 'Create a Room' : 'Add Members'}
+        {chatScreen === ChatScreen.ComposeNewChat
+          ? 'Create a Room'
+          : 'Add Members'}
       </button>
     </div>
   )
