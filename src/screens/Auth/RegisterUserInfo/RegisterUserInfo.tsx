@@ -14,10 +14,8 @@ export const RegisterUserInfo: React.FC = () => {
   const {
     bio,
     firstName,
-    githubUrl,
     lastName,
-    linkedinUrl,
-    portfolioUrl,
+    links: { githubUrl, linkedinUrl, portfolioUrl },
     profilePicture,
   } = userForm
 
@@ -32,11 +30,26 @@ export const RegisterUserInfo: React.FC = () => {
     }
   }, [authUser])
 
+  const nestedLinks = Object.keys(userForm.links)
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target
-    setUserForm({ ...userForm, [name]: value })
+
+    // check if the input name is one of the nested properties
+    if (nestedLinks.includes(name)) {
+      setUserForm(prevForm => ({
+        ...prevForm,
+        links: {
+          ...prevForm.links,
+          [name]: value,
+        },
+      }))
+    } else {
+      // It's a top level property
+      setUserForm({ ...userForm, [name]: value })
+    }
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

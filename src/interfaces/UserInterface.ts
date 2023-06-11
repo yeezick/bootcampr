@@ -1,24 +1,26 @@
 import { ProjectInterface } from 'interfaces'
 
 export interface UserInterface {
-  availability: Availability
-  bio: string
+  availability?: Availability
+  bio?: string
   declinedProjects?: ProjectInterface[]
   email: string
   firstName: string
-  githubUrl: string
   interestedProjects?: ProjectInterface[]
   lastName: string
-  linkedinUrl: string
+  links: {
+    githubUrl?: string
+    linkedinUrl: string
+    portfolioUrl: string
+  }
   memberOfProjects?: ProjectInterface[]
   ownerOfProjects?: ProjectInterface[]
-  portfolioUrl: string
   portfolioProjects?: ProjectInterface[]
-  profilePicture: string
-  role: string
+  profilePicture?: string | null
+  role?: string
   savedProjects?: ProjectInterface[]
   __v?: number
-  _id: string
+  _id?: string
 }
 
 export interface UiSliceInterface {
