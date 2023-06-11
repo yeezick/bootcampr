@@ -10,6 +10,7 @@ import { getGroupChatByChatId, updateGroupChat } from 'utils/api/chat'
 import { FiPlus } from 'react-icons/fi'
 import './EditChatRoom.scss'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
+import { extractConversationAvatars } from 'utils/functions/chatLogic'
 
 export const EditChatRoom = ({ onScreenUpdate }) => {
   const dispatch = useAppDispatch()
@@ -27,11 +28,9 @@ export const EditChatRoom = ({ onScreenUpdate }) => {
         const groupRes = await getGroupChatByChatId(currentConversation._id)
         setGroupChat(groupRes)
 
-        const participants = groupRes.participants.filter(
-          ({ participant }) => participant._id !== authUser._id
-        )
-        const pictures = participants.map(
-          ({ participant }) => participant.profilePicture
+        const pictures = extractConversationAvatars(
+          groupRes.participants,
+          authUser._id
         )
         setProfilePictures(pictures)
       } catch (error) {

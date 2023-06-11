@@ -17,6 +17,7 @@ import './ChatDialogMain.scss'
 import { ChatMemberProfile } from '../ChatMemberProfile/ChatMemberProfile'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 import { ChatScreen } from 'utils/data/chatConstants'
+import { extractConversationAvatars } from 'utils/functions/chatLogic'
 
 export const ChatDialogMain = () => {
   const dispatch = useAppDispatch()
@@ -61,11 +62,10 @@ export const ChatDialogMain = () => {
       currentConversation.participants &&
       Array.isArray(currentConversation.participants)
     ) {
-      const groupPictures = (currentConversation.participants as Array<any>)
-        .filter(
-          ({ participant }) => participant && participant._id !== authUser._id
-        )
-        .map(({ participant }) => participant.profilePicture)
+      const groupPictures = extractConversationAvatars(
+        currentConversation.participants,
+        authUser._id
+      )
 
       setProfilePictures(groupPictures)
     }

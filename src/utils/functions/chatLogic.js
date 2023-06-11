@@ -1,3 +1,11 @@
+export const extractConversationAvatars = (chatMembers, authUserId) => {
+  const avatars = chatMembers
+    .filter(({ participant }) => participant && participant._id !== authUserId)
+    .map(({ participant }) => participant.profilePicture)
+
+  return avatars
+}
+
 export const isSameSender = (messages, m, i, userId) => {
   return (
     i < messages.length - 1 &&

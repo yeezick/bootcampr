@@ -15,6 +15,7 @@ import {
 import './Conversations.scss'
 import { formatLastMessageTimestamp } from 'utils/functions/utilityFunctions'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
+import { extractConversationAvatars } from 'utils/functions/chatLogic'
 
 export const Conversations = ({ handleConversationClick }) => {
   const dispatch = useAppDispatch()
@@ -26,12 +27,16 @@ export const Conversations = ({ handleConversationClick }) => {
 
   useEffect(() => {
     const getThreads = async () => {
-      const res = await getAllConversations(authUser._id)
-      if (res) {
-        setThreads(res)
-        res.length > 0
-          ? setListResults('conversations')
-          : setListResults('noConversations')
+      try {
+        const res = await getAllConversations(authUser._id)
+        if (res) {
+          setThreads(res)
+          res.length > 0
+            ? setListResults('conversations')
+            : setListResults('noConversations')
+        }
+      } catch (error) {
+        console.error('Error fetching messages:', error)
       }
     }
     getThreads()
@@ -168,12 +173,7 @@ const ConversationThumbnail = ({
   lastActive,
 }) => {
   if (participants.length > 2) {
-    const members = participants.filter(
-      ({ participant }) => participant._id !== authUser._id
-    )
-    const pictures = members.map(
-      ({ participant }) => participant.profilePicture
-    )
+    const pictures = extractConversationAvatars(participants, authUser._id)
 
     return (
       <>
