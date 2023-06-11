@@ -116,56 +116,52 @@ const ChatTitle = ({
   profilePictures,
   getTitleText,
 }) => {
-  switch (chatScreen) {
-    case ChatScreen.Main:
-      return <h1> Chats</h1>
-    case ChatScreen.Messages:
-      if (currentConversation.isGroup) {
-        return (
-          <div className='back-arrow messages'>
-            <FiArrowLeft size={23} onClick={onBackArrowClick} />
-            {profilePictures.length > 0 && (
-              <AvatarGrid
-                pictures={profilePictures}
-                avatarSize={'small'}
-                chatType={'group'}
-              />
-            )}
-            <h5
-              onClick={() => onScreenUpdate(ChatScreen.EditChatRoom)}
-              className='group-link'
-            >
-              {currentConversation.displayName}
-            </h5>
-          </div>
-        )
-      } else {
-        return (
-          <div className='back-arrow messages'>
-            <FiArrowLeft size={23} onClick={onBackArrowClick} />
-            <AvatarGrid
-              pictures={selectedMember.profilePicture}
-              avatarSize={'small'}
-              chatType={'private'}
-            />
-            <h5
-              onClick={() => onScreenUpdate(ChatScreen.MemberProfile)}
-              className='group-link'
-            >
-              {currentConversation.selectedMember.firstName}{' '}
-              {currentConversation.selectedMember.lastName}
-            </h5>
-          </div>
-        )
-      }
-    default:
-      return (
-        <div className='back-arrow'>
-          <FiArrowLeft size={23} onClick={onBackArrowClick} />
-          <h5>{getTitleText({ chatScreen, selectedMember })}</h5>
-        </div>
-      )
+  const titleContentLookup = {
+    [ChatScreen.Main]: <h1>Chats</h1>,
+    [ChatScreen.Messages]: currentConversation.isGroup ? (
+      <div className='back-arrow messages'>
+        <FiArrowLeft size={23} onClick={onBackArrowClick} />
+        {profilePictures.length > 0 && (
+          <AvatarGrid
+            pictures={profilePictures}
+            avatarSize={'small'}
+            chatType={'group'}
+          />
+        )}
+        <h5
+          onClick={() => onScreenUpdate(ChatScreen.EditChatRoom)}
+          className='group-link'
+        >
+          {currentConversation.displayName}
+        </h5>
+      </div>
+    ) : (
+      <div className='back-arrow messages'>
+        <FiArrowLeft size={23} onClick={onBackArrowClick} />
+        <AvatarGrid
+          pictures={selectedMember.profilePicture}
+          avatarSize={'small'}
+          chatType={'private'}
+        />
+        <h5
+          onClick={() => onScreenUpdate(ChatScreen.MemberProfile)}
+          className='group-link'
+        >
+          {currentConversation.selectedMember.firstName}{' '}
+          {currentConversation.selectedMember.lastName}
+        </h5>
+      </div>
+    ),
   }
+
+  return (
+    titleContentLookup[chatScreen] || (
+      <div className='back-arrow'>
+        <FiArrowLeft size={23} onClick={onBackArrowClick} />
+        <h5>{getTitleText({ chatScreen, selectedMember })}</h5>
+      </div>
+    )
+  )
 }
 
 const getTitleText = ({ chatScreen, selectedMember }) => {
