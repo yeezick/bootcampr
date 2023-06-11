@@ -6,16 +6,16 @@ export const extractConversationAvatars = (chatMembers, authUserId) => {
   return avatars
 }
 
-export const isSameSender = (messages, m, i, userId) => {
+export const isRecipientMessageSameSender = (messages, m, i, authUserId) => {
   return (
     i < messages.length - 1 &&
     (messages[i + 1].sender._id !== m.sender._id ||
       messages[i + 1].sender._id === undefined) &&
-    messages[i].sender._id !== userId
+    messages[i].sender._id !== authUserId
   )
 }
 
-export const isSameSenderAny = (messages, m, i) => {
+export const isMessageSameSender = (messages, m, i) => {
   return (
     i < messages.length - 1 &&
     (messages[i + 1].sender._id !== m.sender._id ||
@@ -23,7 +23,7 @@ export const isSameSenderAny = (messages, m, i) => {
   )
 }
 
-export const isLastMessage = (messages, i, userId) => {
+export const isLastMessageBySameRecipient = (messages, i, userId) => {
   return (
     i === messages.length - 1 &&
     messages[messages.length - 1].sender._id !== userId &&
@@ -31,11 +31,11 @@ export const isLastMessage = (messages, i, userId) => {
   )
 }
 
-export const isLastMessageAnyUser = (messages, i) => {
+export const isLastMessageBySameUser = (messages, i) => {
   return i === messages.length - 1 && messages[messages.length - 1].sender._id
 }
 
-export const isFirstMessageAnyUser = (messages, i) => {
+export const isFirstMessageBySameUser = (messages, i) => {
   if (i === 0) {
     return true
   } else {
@@ -54,6 +54,6 @@ export const isOnlyMessageBySameSender = (messages, i) => {
   return previousSender !== currentSender && nextSender !== currentSender
 }
 
-export const isSameUser = (messages, m, i) => {
+export const isSameSenderAsPrevious = (messages, m, i) => {
   return i > 0 && messages[i - 1].sender._id === m.sender._id
 }

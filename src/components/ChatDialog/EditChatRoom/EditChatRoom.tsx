@@ -8,9 +8,10 @@ import {
 import { useEffect, useState } from 'react'
 import { getGroupChatByChatId, updateGroupChat } from 'utils/api/chat'
 import { FiPlus } from 'react-icons/fi'
-import './EditChatRoom.scss'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 import { extractConversationAvatars } from 'utils/functions/chatLogic'
+import { ChatScreen } from 'utils/data/chatConstants'
+import './EditChatRoom.scss'
 
 export const EditChatRoom = ({ onScreenUpdate }) => {
   const dispatch = useAppDispatch()
@@ -86,7 +87,7 @@ export const EditChatRoom = ({ onScreenUpdate }) => {
     lastName: string,
     profilePicture: string
   ) => {
-    onScreenUpdate('memberProfile')
+    onScreenUpdate(ChatScreen.MemberProfile)
     dispatch(
       setSelectedMember({ _id: memberId, firstName, lastName, profilePicture })
     )
@@ -191,7 +192,7 @@ const NewMemberButton = ({ onScreenUpdate }) => {
   return (
     <div
       className='members-list'
-      onClick={() => onScreenUpdate('inviteNewMembers')}
+      onClick={() => onScreenUpdate(ChatScreen.InviteNewMembers)}
     >
       <div className='avatar-grid'>
         <FiPlus size={20} />

@@ -16,14 +16,13 @@ import './Conversations.scss'
 import { formatLastMessageTimestamp } from 'utils/functions/utilityFunctions'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 import { extractConversationAvatars } from 'utils/functions/chatLogic'
+import { DefaultIcons } from 'utils/data/chatConstants'
 
 export const Conversations = ({ handleConversationClick }) => {
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const [threads, setThreads] = useState([])
   const [listResults, setListResults] = useState('empty')
-  const defaultImg =
-    'https://i.postimg.cc/bN6vcwc9/Screen-Shot-2023-04-18-at-10-32-05-PM.png'
 
   useEffect(() => {
     const getThreads = async () => {
@@ -94,7 +93,6 @@ export const Conversations = ({ handleConversationClick }) => {
         authUser={authUser}
         listResults={listResults}
         threads={threads}
-        defaultImg={defaultImg}
         handleConvoClick={handleConvoClick}
       />
     </div>
@@ -105,7 +103,6 @@ const ConversationsList = ({
   authUser,
   listResults,
   threads,
-  defaultImg,
   handleConvoClick,
 }) => {
   if (listResults === 'empty') {
@@ -157,7 +154,7 @@ const ConversationsList = ({
   if (listResults === 'noConversations') {
     return (
       <div className='no-results'>
-        <img src={defaultImg} alt='no data' />
+        <img src={DefaultIcons.NoConversations} alt='no data' />
         <p>Don't be shy! Start a conversation</p>
       </div>
     )

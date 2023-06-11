@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, KeyboardEvent } from 'react'
 import { BsPaperclip } from 'react-icons/bs'
 import { AiOutlineSend } from 'react-icons/ai'
 import {
@@ -13,18 +13,18 @@ import {
   selectConversation,
 } from 'utils/redux/slices/userSlice'
 import { formatTimestamp } from 'utils/functions/utilityFunctions'
-import { emptyChatText } from 'utils/data/chatConstants'
-import './Messages.scss'
+import { DefaultIcons, emptyChatText } from 'utils/data/chatConstants'
 import { ChatMessageInterface } from 'interfaces'
 import {
-  isFirstMessageAnyUser,
-  isLastMessage,
-  isLastMessageAnyUser,
+  isFirstMessageBySameUser,
+  isLastMessageBySameRecipient,
+  isLastMessageBySameUser,
+  isMessageSameSender,
   isOnlyMessageBySameSender,
-  isSameSender,
-  isSameSenderAny,
-  isSameUser,
-} from '../../../utils/functions/chatLogic'
+  isRecipientMessageSameSender,
+  isSameSenderAsPrevious,
+} from 'utils/functions/chatLogic'
+import './Messages.scss'
 
 export const Messages = ({ setChatRecipientId }) => {
   const authUser = useAppSelector(selectAuthUser)
@@ -36,27 +36,26 @@ export const Messages = ({ setChatRecipientId }) => {
   const [textForm, setTextForm] = useState<ChatMessageInterface>(emptyChatText)
   const [newMessage, setNewMessage] = useState(false)
   const containerRef = useRef(null)
-  const defaultImg =
-    'https://i.postimg.cc/bN6vcwc9/Screen-Shot-2023-04-18-at-10-32-05-PM.png'
 
   useEffect(() => {
-    const getAllMessages = async () => {
+    const fetchMessages = async () => {
       try {
-        let messageRes: any
+        let messageRes
         if (currentConversation.isGroup) {
           messageRes = await getAllGroupMessages(
             authUser._id,
             currentConversation._id
           )
-          setMessages(messageRes.combinedMessages)
         } else {
           messageRes = await getAllPrivateMessages(
             authUser._id,
             currentConversation._id
           )
-          setMessages(messageRes.combinedMessages)
           setChatParticipants(messageRes.participants)
         }
+
+        setMessages(messageRes.combinedMessages)
+
         if (
           !messageRes.combinedMessages ||
           messageRes.combinedMessages.length === 0 ||
@@ -71,7 +70,7 @@ export const Messages = ({ setChatRecipientId }) => {
         console.error('Error fetching messages:', error)
       }
     }
-    getAllMessages()
+    fetchMessages()
   }, [
     authUser._id,
     currentConversation._id,
@@ -80,12 +79,14 @@ export const Messages = ({ setChatRecipientId }) => {
   ])
 
   useEffect(() => {
+    // Scroll messages container to bottom for last message when component mounts
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight
     }
   }, [messages])
 
   useEffect(() => {
+    // Extracting recipient's ID in private chat
     if (chatParticipants) {
       const recipientId = chatParticipants.filter(
         memberId => memberId != authUser._id
@@ -95,9 +96,13 @@ export const Messages = ({ setChatRecipientId }) => {
   }, [chatParticipants])
 
   const handleTimestampClick = (message: any) => {
+    // Logic to display/hide timestamp on message click:
+    // Check if selected message is already present in selectedMessages array
     if (selectedMessages.some(msg => msg === message)) {
+      // If it exists, remove it from the array
       setSelectedMessages(selectedMessages.filter(msg => msg !== message))
     } else {
+      // If it doesn't exist, add it to the array
       setSelectedMessages([...selectedMessages, message])
     }
   }
@@ -107,34 +112,35 @@ export const Messages = ({ setChatRecipientId }) => {
     setTextForm({ ...textForm, [name]: value })
   }
 
-  const handleSubmitText = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitText = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    if (textForm.text === '') return // Message will not send if textarea is empty
+
     if (currentConversation.isGroup) {
-      createGroupMessage(authUser._id, currentConversation._id, textForm.text)
-      setTextForm(emptyChatText)
+      await createGroupMessage(
+        authUser._id,
+        currentConversation._id,
+        textForm.text
+      )
     } else {
-      createPrivateMessage(authUser._id, currentConversation._id, textForm.text)
-      setTextForm(emptyChatText)
+      await createPrivateMessage(
+        authUser._id,
+        currentConversation._id,
+        textForm.text
+      )
     }
+    setTextForm(emptyChatText)
     setNewMessage(true)
   }
 
-  useEffect(() => {
-    const handleKeyPress = e => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        handleSubmitText(e)
-      }
+  const handleKeyDown = e => {
+    // Send message with 'Enter' key
+    // Does not send with 'Enter' + 'Shift'
+    if (e.key === 'Enter' && !e.shiftKey) {
+      handleSubmitText(e)
     }
-
-    const textarea = document.querySelector('.convo-input')
-
-    textarea.addEventListener('keydown', handleKeyPress)
-
-    return () => {
-      textarea.removeEventListener('keydown', handleKeyPress)
-    }
-  }, [handleSubmitText])
+  }
 
   return (
     <div className='messages-container'>
@@ -145,12 +151,12 @@ export const Messages = ({ setChatRecipientId }) => {
           messages={messages}
           selectedMessages={selectedMessages}
           handleTimestampClick={handleTimestampClick}
-          defaultImg={defaultImg}
         />
       </section>
       <TextInput
         textForm={textForm}
         handleChangeText={handleChangeText}
+        handleKeyDown={handleKeyDown}
         handleSubmitText={handleSubmitText}
       />
     </div>
@@ -163,59 +169,59 @@ const MessagesList = ({
   messages,
   selectedMessages,
   handleTimestampClick,
-  defaultImg,
 }) => {
   if (listResults === 'messages') {
     return messages.map((message, index) => {
-      const isSender = message.sender._id === authUser._id
-      const detailsClasses = isSender ? 'details-right' : 'details-left'
-      const isSelected = selectedMessages.includes(message)
-        ? 'selected-message'
-        : 'not-selected'
-      const sameUser = isSameUser(messages, message, index)
+      // Check if message is by same recipient user and/or by authUser:
+      const isSenderAuthUser = message.sender._id === authUser._id
+      const isSameUser = isSameSenderAsPrevious(messages, message, index)
         ? 'same-user-text-margin'
         : 'other-user-text-margin'
-      const isAvatar =
-        isSameSender(messages, message, index, authUser._id) ||
-        isLastMessage(messages, index, authUser._id)
-          ? 'avatar'
-          : 'no-avatar'
-      const lastMessageAny =
-        isSameSenderAny(messages, message, index) ||
-        isLastMessageAnyUser(messages, index)
-          ? 'same-sender-last-message'
-          : ''
-      const firstMessageAny =
-        isSameSenderAny(messages, message, index) ||
-        isFirstMessageAnyUser(messages, index)
-          ? 'same-sender-first-message'
-          : ''
-      const isOnlyOneMessage = isOnlyMessageBySameSender(messages, index)
-        ? 'same-sender-one-message'
-        : ''
+      // Check message position if consecutive messages are sent by same user:
+      const isLastMessageAndSameRecipient =
+        isRecipientMessageSameSender(messages, message, index, authUser._id) ||
+        isLastMessageBySameRecipient(messages, index, authUser._id)
+      const isLastMessage =
+        (isMessageSameSender(messages, message, index) ||
+          isLastMessageBySameUser(messages, index)) &&
+        'same-sender-last-message'
+      const isFirstMessage =
+        (isMessageSameSender(messages, message, index) ||
+          isFirstMessageBySameUser(messages, index)) &&
+        'same-sender-first-message'
+      const isOnlyMessage =
+        isOnlyMessageBySameSender(messages, index) && 'same-sender-one-message'
+      const isAvatarDisplayed = isLastMessageAndSameRecipient
+        ? 'avatar'
+        : 'no-avatar'
+      // ClassName logic for displaying message timestamps on click:
+      const isMessageSelected = selectedMessages.includes(message)
+        ? 'selected-message'
+        : 'not-selected'
+      const timestampClasses = isSenderAuthUser
+        ? 'details-right'
+        : 'details-left'
 
       return (
         <div key={message._id} className='message-container'>
           <div className='message-grid'>
-            {(isSameSender(messages, message, index, authUser._id) ||
-              isLastMessage(messages, index, authUser._id)) && (
-              <div className='recipient-avatar'>
-                <img src={message.sender.profilePicture} alt='avatar' />
-              </div>
+            {isLastMessageAndSameRecipient && (
+              <RecipientsAvatar message={message} />
             )}
-            <div
-              className={
-                message.sender._id === authUser._id
-                  ? `auth-text ${sameUser} ${isAvatar} ${lastMessageAny} ${firstMessageAny} ${isOnlyOneMessage} ${isSelected}`
-                  : `recipient-text ${sameUser} ${isAvatar} ${lastMessageAny} ${firstMessageAny} ${isOnlyOneMessage} ${isSelected}`
-              }
-              onClick={() => handleTimestampClick(message)}
-            >
-              <p>{message.text}</p>
-            </div>
+            <MessageText
+              isSenderAuthUser={isSenderAuthUser}
+              message={message}
+              isSameUser={isSameUser}
+              isAvatarDisplayed={isAvatarDisplayed}
+              isLastMessage={isLastMessage}
+              isFirstMessage={isFirstMessage}
+              isOnlyMessage={isOnlyMessage}
+              isMessageSelected={isMessageSelected}
+              handleTimestampClick={handleTimestampClick}
+            />
           </div>
           <TimestampDisplay
-            detailsClasses={detailsClasses}
+            timestampClasses={timestampClasses}
             message={message}
             selectedMessages={selectedMessages}
           />
@@ -227,18 +233,52 @@ const MessagesList = ({
   if (listResults === 'noMessages') {
     return (
       <div className='no-results'>
-        <img src={defaultImg} alt='no data' />
+        <img src={DefaultIcons.NoMessages} alt='no data' />
         <p>Don't be shy! Start a conversation</p>
       </div>
     )
   }
 }
 
-const TimestampDisplay = ({ detailsClasses, message, selectedMessages }) => {
+const RecipientsAvatar = ({ message }) => {
+  return (
+    <div className='recipient-avatar'>
+      <img src={message.sender.profilePicture} alt='avatar' />
+    </div>
+  )
+}
+
+const MessageText = ({
+  isSenderAuthUser,
+  message,
+  isSameUser,
+  isAvatarDisplayed,
+  isLastMessage,
+  isFirstMessage,
+  isOnlyMessage,
+  isMessageSelected,
+  handleTimestampClick,
+}) => {
+  const defineDynamicClassNames = () => {
+    return `${
+      isSenderAuthUser ? 'auth-text' : 'recipient-text'
+    } ${isSameUser} ${isAvatarDisplayed} ${isLastMessage} ${isFirstMessage} ${isOnlyMessage} ${isMessageSelected}`
+  }
+  return (
+    <div
+      className={defineDynamicClassNames()}
+      onClick={() => handleTimestampClick(message)}
+    >
+      <p>{message.text}</p>
+    </div>
+  )
+}
+
+const TimestampDisplay = ({ timestampClasses, message, selectedMessages }) => {
   return (
     <>
       {selectedMessages.includes(message) && message.timestamp && (
-        <div className={`message-details ${detailsClasses}`}>
+        <div className={`message-details ${timestampClasses}`}>
           <div className='message-timestamp'>
             <p>{formatTimestamp(message.timestamp)}</p>
           </div>
@@ -248,37 +288,30 @@ const TimestampDisplay = ({ detailsClasses, message, selectedMessages }) => {
   )
 }
 
-const TextInput = ({ textForm, handleChangeText, handleSubmitText }) => {
-  if (textForm.text === '') {
-    return (
-      <div className='convo-input-container'>
-        <BsPaperclip size={23} />
-        <textarea
-          className='convo-input'
-          onChange={handleChangeText}
-          name='text'
-          value={textForm.text}
-          placeholder='Type your message here...'
-        />
-      </div>
-    )
-  } else {
-    return (
-      <div className='convo-input-container'>
-        <BsPaperclip size={23} />
-        <textarea
-          className='convo-input'
-          onChange={handleChangeText}
-          name='text'
-          value={textForm.text}
-          placeholder='Type your message here...'
-        />
+const TextInput = ({
+  textForm,
+  handleChangeText,
+  handleKeyDown,
+  handleSubmitText,
+}) => {
+  return (
+    <div className='convo-input-container'>
+      <BsPaperclip size={23} />
+      <textarea
+        className='convo-input'
+        onChange={handleChangeText}
+        onKeyDown={handleKeyDown}
+        name='text'
+        value={textForm.text}
+        placeholder='Type your message here...'
+      />
+      {textForm.text !== '' && (
         <AiOutlineSend
           size={20}
           className='send-button'
           onClick={handleSubmitText}
         />
-      </div>
-    )
-  }
+      )}
+    </div>
+  )
 }

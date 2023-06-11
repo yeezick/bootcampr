@@ -15,7 +15,7 @@ import {
   setCurrentConversation,
   setSelectedMember,
 } from 'utils/redux/slices/userSlice'
-import { ChatScreen } from 'utils/data/chatConstants'
+import { ChatScreen, DefaultIcons } from 'utils/data/chatConstants'
 import './NewChatRoom.scss'
 
 export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
@@ -32,8 +32,6 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
   >([])
   const [allMembersSelected, setAllMembersSelected] = useState(false)
   const [stillRemainingMembers, setStillRemainingMembers] = useState(true)
-  const noMembersImage =
-    'https://i.postimg.cc/VNBQ0xHP/Screen-Shot-2023-05-26-at-8-08-16-PM.png'
 
   useEffect(() => {
     const fetchProjectMembers = async () => {
@@ -205,7 +203,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
           />
         ) : (
           <div className='no-remaining-members'>
-            <img src={noMembersImage} alt='no members' />
+            <img src={DefaultIcons.NoMembers} alt='no members' />
             <p>All project members are in current chat!</p>
           </div>
         )}
