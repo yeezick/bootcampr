@@ -5,6 +5,7 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { selectSelectedMember } from 'utils/redux/slices/userSlice'
 import { HiLink } from 'react-icons/hi'
 import { FiGithub, FiLinkedin } from 'react-icons/fi'
+import { MemberThumbnail } from '../MemberThumbnail/MemberThumbnail'
 
 export const ChatMemberProfile = () => {
   const [memberInfo, setMemberInfo] = useState(null)
@@ -28,7 +29,7 @@ export const ChatMemberProfile = () => {
   return (
     memberInfo && (
       <div className='member-profile-container'>
-        <MemberThumbnail memberInfo={memberInfo} />
+        <MemberHeaderInfo memberInfo={memberInfo} />
         <MemberBio memberInfo={memberInfo} />
         <MemberSocials memberInfo={memberInfo} />
       </div>
@@ -36,20 +37,10 @@ export const ChatMemberProfile = () => {
   )
 }
 
-const MemberThumbnail = ({ memberInfo }) => {
-  const { profilePicture, firstName, lastName, role } = memberInfo
-
+const MemberHeaderInfo = ({ memberInfo }) => {
   return (
     <div className='member-grid'>
-      <div className='avatar-grid'>
-        <img src={profilePicture} alt='avatar' />
-      </div>
-      <div className='member-info-grid'>
-        <h5>
-          {firstName} {lastName}
-        </h5>
-        <p>{role}</p>
-      </div>
+      <MemberThumbnail user={memberInfo} />
     </div>
   )
 }
