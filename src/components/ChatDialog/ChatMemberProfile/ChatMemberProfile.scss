@@ -31,49 +31,11 @@
   .member-grid {
     align-items: center;
     column-gap: 8px;
-    cursor: pointer;
     display: flex;
     padding: 12px 0;
 
     &:hover {
       cursor: default;
-    }
-
-    p {
-      font-size: 11.5px;
-      font-weight: 400;
-      margin-bottom: 8px;
-      text-align: left;
-    }
-
-    h5 {
-      font-weight: 400;
-    }
-
-    .member-info-grid {
-      display: flex;
-      flex-direction: column;
-      row-gap: 5px;
-
-      h5,
-      p {
-        margin: 0;
-      }
-    }
-
-    .avatar-grid {
-      align-items: center;
-      border-radius: 50px;
-      display: flex;
-      height: 48px;
-      justify-content: center;
-      overflow: hidden;
-      width: 48px;
-
-      img {
-        height: 48px;
-        padding: 0;
-      }
     }
   }
 
