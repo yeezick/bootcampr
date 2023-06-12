@@ -21,15 +21,24 @@ export const formatLastMessageTimestamp = lastMessageTimestamp => {
   const hours = Math.floor(minutes / 60)
   const days = Math.floor(hours / 24)
 
-  if (days > 0) {
-    return `${days}d`
-  } else if (hours > 0) {
-    return `${hours}h`
-  } else if (minutes > 0) {
-    return `${minutes}m`
-  } else {
-    return `${seconds}s`
+  let formattedTimestamp
+
+  switch (true) {
+    case days > 0:
+      formattedTimestamp = `${days}d`
+      break
+    case hours > 0:
+      formattedTimestamp = `${hours}h`
+      break
+    case minutes > 0:
+      formattedTimestamp = `${minutes}m`
+      break
+    default:
+      formattedTimestamp = `${seconds}s`
+      break
   }
+
+  return formattedTimestamp
 }
 
 export const isMemberSelected = (selectedMembers, member) => {
