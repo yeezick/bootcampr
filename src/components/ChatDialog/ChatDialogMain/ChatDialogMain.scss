@@ -1,0 +1,44 @@
+.chat-dialog-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 8px 17px -6px rgba(0, 0, 0, 0.7);
+  cursor: default;
+  height: 450px;
+  padding: 0 20px;
+  position: fixed;
+  top: 90px;
+  width: 260px;
+  z-index: 999999;
+  right: 173px;
+
+  .chat-header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+
+    .back-arrow {
+      align-items: center;
+      column-gap: 5px;
+      display: flex;
+      margin-left: -10px;
+    }
+
+    .main-icons {
+      align-items: center;
+      column-gap: 8px;
+      display: flex;
+    }
+  }
+
+  svg {
+    cursor: pointer;
+
+    &:hover {
+      color: #f29e34;
+    }
+  }
+
+  p {
+    text-align: center;
+  }
+}

@@ -66,8 +66,8 @@ export const signIn = async (credentials: any) => {
     if (res.data.invalidCredentials) {
       return { message: res.data.message }
     }
-    const { bootcamprAuthToken, user } = res.data
-    localStorage.setItem('bootcamprAuthToken', bootcamprAuthToken)
+    const { token, user } = res.data
+    localStorage.setItem('bootcamprAuthToken', token)
     return user
   } catch (error) {
     throw error
@@ -103,7 +103,6 @@ export const updateUsersEmail = async (
     return { error: 'Something went wrong' }
   }
 }
-
 export const updateUsersPassword = async (
   formData: PasswordFormData | EmailFormData,
   userId: string | undefined

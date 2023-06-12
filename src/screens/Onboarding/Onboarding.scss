@@ -1,6 +1,143 @@
-.onboarding-container {
+
+.onboarding-incomplete-text-container {
   display: flex;
-  align-items: center;
   flex-direction: column;
+  margin: 4rem 10rem 0 10rem;
 }
 
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  h1 {
+    margin: 0;
+    text-align: left;
+    font-size: 3rem;
+  }
+}
+
+p {
+  margin-top: 10px;
+  text-align: left;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.role-selection-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  
+
+  .tell-role{
+    margin-top: 2rem;
+    margin-bottom: 0;
+  }
+
+  p {
+    margin-top: 0.75rem;
+  }
+
+  .select-role{
+    margin: 2rem 0 0 0;
+  }
+
+  ul{
+    margin:0;
+  }
+}
+
+
+.onboarding-button-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 10px;
+}
+
+.onboarding-incomplete-btn {
+  
+}
+
+.onboarding-lastscreen-container {
+  display: flex;
+  justify-content: center;
+  margin:auto;
+}
+
+.lastscreen-text-container {
+  display: flex;
+  flex-direction: column;
+  // margin: 3rem 10rem 0rem 10rem;
+  width: 675px;
+  height: 547px;
+  left: 382px;
+  top: 147px;
+}
+
+.lastscreen-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4rem 0 2rem 0;
+
+  h1 {
+    font-size: 3.5rem;
+  }
+}
+
+.whats-next {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40rem;
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 0;
+  }
+
+  p{
+    text-align: center;
+  }
+}
+
+.lastscreen-survey {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+
+  .lastscreen-feedback {
+    font-weight: 800;
+    margin: 0.5rem;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.project-details {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  p {
+    margin: 3.5rem 0 1.5rem 0
+  }
+}
+
+.project-details-btn {
+  background-color: orange;
+  border:none;
+  font-size: medium;
+}

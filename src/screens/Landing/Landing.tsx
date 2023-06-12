@@ -25,7 +25,7 @@ export const Landing: React.FC = () => {
 
   useEffect(() => {
     authUser._id ? setLoginStatus(true) : setLoginStatus(false)
-  }, [])
+  }, [authUser._id])
 
   const LoginStatusSymbol: React.FC = () => {
     if (loginStatus === true && authUser._id) {

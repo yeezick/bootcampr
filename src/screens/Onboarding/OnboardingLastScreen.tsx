@@ -1,30 +1,46 @@
 import React from 'react'
 import './Onboarding.scss'
+import { Link } from 'react-router-dom'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
-export const OnboardingLastScreen = () => {
+export const OnboardingLastScreen = ({ handlePageNavigation }) => {
+  const authUser = useAppSelector(selectAuthUser)
+
+  const handleViewProjectDetails = () => {}
+
+  const handlePrevious = () => {
+    handlePageNavigation('previous')
+  }
+
   return (
-    <div className='onboarding-container'>
-      <div className='header'>
-        <h1> You're a Bootcampr now!</h1>
-      </div>
-      <div className='whats-next'>
-        <h2> What's next?</h2>
-        <p>
-          We'll send you an email when we are ready to begin the beta Bootcampr
-          launch. The email will tell you the date and time of the first meeting
-          with your project team. It will ask you to confirm you're availability
-          to attend the first meeting.
-        </p>
-      </div>
-      <div className='survey'>
-        <p>
-          We love feedback. Please take this short survey so we can improve.
-        </p>
-        <p>Your answers will be kept confidential. Thank you!</p>
-      </div>
-      <div className='project-details'>
-        <p>You can view the project details at any time.</p>
-        <button>View Project Details</button>
+    <div className='onboarding-lastscreen-container'>
+      <div className='lastscreen-text-container'>
+        <div className='lastscreen-header'>
+          <h1> You're a Bootcampr now!</h1>
+        </div>
+        <div className='whats-next'>
+          <h2> What's next?</h2>
+          <p>
+            Bootcampr is now working to match you to a team. After your team of
+            3 SWEs and 2UXDS is complete, we'll send an email with the date and
+            time of your project kickoff meeting.(1-4 weeks from today)
+          </p>
+        </div>
+        <div className='lastscreen-survey'>
+          <p className='lastscreen-feedback'>
+            We love feedback. Please take this short survey so we can improve.
+          </p>
+          <p>Your answers will be kept confidential. Thank you!</p>
+        </div>
+        <div className='project-details'>
+          <p>You can view the project details at any time.</p>
+          <Link className='link' to={`/project/${authUser.project}`}>
+            <button className='project-details-btn'>
+              View Project Details
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   )

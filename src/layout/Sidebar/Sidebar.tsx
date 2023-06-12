@@ -57,7 +57,7 @@ export const Sidebar = () => {
         <Link className='link' to={`/`} onClick={handleLogout}>
           <AiFillStar size={18} /> Sign Out
         </Link>
-        <Link className='link' to={`/users/onboarding`}>
+        <Link className='link' to={`/onboarding/${userId}`}>
           Onboarding
         </Link>
       </div>

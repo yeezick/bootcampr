@@ -1,4 +1,4 @@
-import { ProjectInterface } from './ProjectInterface'
+import { ProjectInterface } from 'interfaces'
 
 export interface UserInterface {
   availability: Availability
@@ -15,6 +15,7 @@ export interface UserInterface {
   portfolioUrl: string
   portfolioProjects?: ProjectInterface[]
   profilePicture: string
+  project?: string
   role: string
   savedProjects?: ProjectInterface[]
   __v?: number
@@ -27,6 +28,12 @@ export interface UiSliceInterface {
   }
   sidebar: {
     visibleSidebar: boolean
+  }
+  chat: {
+    visibleChat: boolean
+    _id: string
+    isGroup: boolean
+    participants: []
   }
   status: {
     isAuthenticated: boolean

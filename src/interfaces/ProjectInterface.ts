@@ -1,16 +1,23 @@
-import { UserInterface } from './UserInterface'
+import { TicketInterface } from 'interfaces'
 
 export interface ProjectInterface {
-  createdAt?: string
-  duration: string
-  meeting_cadence: string
-  overview: string
-  project_owner: string | UserInterface
-  roles?: string[]
-  status: string
-  technologies_used?: string[]
-  title: string
-  updatedAt?: string
+  _v?: number
+  createAt?: string
+  duration?: string
   _id?: string
-  __v?: number
+  meetingCadence?: number
+  overview: string
+  projectTracker?: {
+    completed?: TicketInterface[]
+    inProgress?: TicketInterface[]
+    toDo?: TicketInterface[]
+    underReview?: TicketInterface[]
+  }
+  members?: {
+    design?: any
+    engineer?: any
+  }
+  status?: string
+  title?: string
+  tools?: string[]
 }
