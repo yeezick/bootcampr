@@ -28,14 +28,6 @@ export interface UiSliceInterface {
   sidebar: {
     visibleSidebar: boolean
   }
-  chat: {
-    visibleChat: boolean
-    _id: string
-    isGroup: boolean
-    participants: []
-    displayName?: string
-    selectedMember: ChatSelectedMemberInterface
-  }
   status: {
     isAuthenticated: boolean
     isLoading?: boolean
@@ -131,17 +123,6 @@ export interface Availability {
     available: boolean
     availability: TimeOption[][]
   }
-}
-
-export interface ChatMessageInterface {
-  text: string
-}
-
-export interface ChatSelectedMemberInterface {
-  _id: string
-  firstName: string
-  lastName: string
-  profilePicture: string
 }
 
 export interface ProjectMemberInterface {

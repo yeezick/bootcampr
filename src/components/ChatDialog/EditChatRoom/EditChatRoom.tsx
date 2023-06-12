@@ -1,10 +1,10 @@
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from '../../../utils/redux/slices/userSlice'
 import {
-  selectAuthUser,
   selectConversation,
   setCurrentConversation,
   setSelectedMember,
-} from 'utils/redux/slices/userSlice'
+} from 'utils/redux/slices/chatSlice'
 import { useEffect, useState } from 'react'
 import { getGroupChatByChatId, updateGroupChat } from 'utils/api/chat'
 import { FiPlus } from 'react-icons/fi'

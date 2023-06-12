@@ -7,11 +7,11 @@ import {
   updatePrivateMessageReadStatus,
 } from 'utils/api/chat'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from '../../../utils/redux/slices/userSlice'
 import {
-  selectAuthUser,
   setCurrentConversation,
   setSelectedMember,
-} from 'utils/redux/slices/userSlice'
+} from 'utils/redux/slices/chatSlice'
 import './Conversations.scss'
 import { formatLastMessageTimestamp } from 'utils/functions/chatLogic'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'

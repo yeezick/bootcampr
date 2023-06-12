@@ -1,4 +1,21 @@
-import { ChatMessageInterface } from 'interfaces'
+import {
+  ChatMessageInterface,
+  ChatSliceInterface,
+} from 'interfaces/ChatInterface'
+
+export const initialState: ChatSliceInterface = {
+  visibleChat: false,
+  _id: '',
+  isGroup: false,
+  participants: [],
+  displayName: '',
+  selectedMember: {
+    _id: '',
+    firstName: '',
+    lastName: '',
+    profilePicture: '',
+  },
+}
 
 export enum ChatScreen {
   Main = 'main',

@@ -1,6 +1,5 @@
 import {
   Availability,
-  ChatMessageInterface,
   SignUpInterface,
   UiSliceInterface,
   UserInterface,
@@ -56,19 +55,6 @@ export const initialState: UiSliceInterface = {
   },
   sidebar: {
     visibleSidebar: false,
-  },
-  chat: {
-    visibleChat: false,
-    _id: '',
-    isGroup: false,
-    participants: [],
-    displayName: '',
-    selectedMember: {
-      _id: '',
-      firstName: '',
-      lastName: '',
-      profilePicture: '',
-    },
   },
   status: {
     isAuthenticated: false,

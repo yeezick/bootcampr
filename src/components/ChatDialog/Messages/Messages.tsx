@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, KeyboardEvent } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { BsPaperclip } from 'react-icons/bs'
 import { AiOutlineSend } from 'react-icons/ai'
 import {
@@ -8,13 +8,11 @@ import {
   getAllPrivateMessages,
 } from 'utils/api/chat'
 import { useAppSelector } from 'utils/redux/hooks'
-import {
-  selectAuthUser,
-  selectConversation,
-} from 'utils/redux/slices/userSlice'
+import { selectAuthUser } from '../../../utils/redux/slices/userSlice'
+import { selectConversation } from 'utils/redux/slices/chatSlice'
 import { formatTimestamp } from 'utils/functions/chatLogic'
 import { DefaultIcons, emptyChatText } from 'utils/data/chatConstants'
-import { ChatMessageInterface } from 'interfaces'
+import { ChatMessageInterface } from 'interfaces/ChatInterface'
 import {
   isFirstMessageBySameUser,
   isLastMessageBySameRecipient,

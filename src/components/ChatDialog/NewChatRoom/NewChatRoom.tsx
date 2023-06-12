@@ -9,12 +9,12 @@ import {
   createPrivateChatRoom,
   updateGroupChat,
 } from 'utils/api/chat'
+import { selectAuthUser } from '../../../utils/redux/slices/userSlice'
 import {
-  selectAuthUser,
   selectConversation,
   setCurrentConversation,
   setSelectedMember,
-} from 'utils/redux/slices/userSlice'
+} from 'utils/redux/slices/chatSlice'
 import { ChatScreen, DefaultIcons } from 'utils/data/chatConstants'
 import './NewChatRoom.scss'
 import { isMemberSelected } from 'utils/functions/chatLogic'

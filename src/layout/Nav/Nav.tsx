@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
   selectAuthUser,
-  toggleChatClose,
   toggleSidebar,
   toggleSidebarClose,
 } from 'utils/redux/slices/userSlice'
@@ -14,7 +13,11 @@ import { NotificationModal } from 'components/Notifications/NotificationModal'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
 import { Socket } from 'components/Notifications/Socket'
 import './Nav.scss'
-import { chatStatus, toggleChat } from 'utils/redux/slices/userSlice'
+import {
+  chatStatus,
+  toggleChat,
+  toggleChatClose,
+} from 'utils/redux/slices/chatSlice'
 
 export const Nav = () => {
   const [colored, setColored] = useState(false)

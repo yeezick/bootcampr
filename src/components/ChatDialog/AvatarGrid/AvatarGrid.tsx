@@ -1,6 +1,6 @@
+import { useEffect, useState } from 'react'
 import { FiCamera } from 'react-icons/fi'
 import './AvatarGrid.scss'
-import { useEffect, useState } from 'react'
 
 export const AvatarGrid = ({ pictures, avatarSize, chatType }) => {
   const [profilePictures, setProfilePictures] = useState<string | []>([])

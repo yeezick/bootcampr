@@ -2,12 +2,12 @@ import { HiOutlinePencilAlt } from 'react-icons/hi'
 import { IoMdClose } from 'react-icons/io'
 import { FiArrowLeft } from 'react-icons/fi'
 import { Conversations } from 'components/ChatDialog/Conversations/Conversations'
+import { selectAuthUser } from '../../../utils/redux/slices/userSlice'
 import {
-  selectAuthUser,
   selectConversation,
   selectSelectedMember,
   toggleChatClose,
-} from 'utils/redux/slices/userSlice'
+} from 'utils/redux/slices/chatSlice'
 import { Messages } from 'components/ChatDialog/Messages/Messages'
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'

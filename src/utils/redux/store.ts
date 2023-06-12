@@ -1,10 +1,12 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import notificationReducer from './slices/notificationSlice'
 import userReducer from './slices/userSlice'
+import chatReducer from './slices/chatSlice'
 
 export const store = configureStore({
   reducer: {
     ui: userReducer,
+    chat: chatReducer,
     notification: notificationReducer,
   },
 })
