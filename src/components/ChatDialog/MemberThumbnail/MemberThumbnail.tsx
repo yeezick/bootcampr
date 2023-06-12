@@ -1,4 +1,4 @@
-import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
+import { AvatarGrid } from 'components/ChatDialog/AvatarGrid/AvatarGrid'
 import './MemberThumbnail.scss'
 
 export const MemberThumbnail = ({ user }) => {

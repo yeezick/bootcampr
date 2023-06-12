@@ -2,7 +2,7 @@ import { HiOutlinePencilAlt } from 'react-icons/hi'
 import { IoMdClose } from 'react-icons/io'
 import { FiArrowLeft } from 'react-icons/fi'
 import { Conversations } from 'components/ChatDialog/Conversations/Conversations'
-import { selectAuthUser } from '../../../utils/redux/slices/userSlice'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
   selectConversation,
   selectSelectedMember,
@@ -14,8 +14,8 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { NewChatRoom } from 'components/ChatDialog/NewChatRoom/NewChatRoom'
 import { EditChatRoom } from 'components/ChatDialog/EditChatRoom/EditChatRoom'
 import './ChatDialogMain.scss'
-import { ChatMemberProfile } from '../ChatMemberProfile/ChatMemberProfile'
-import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
+import { ChatMemberProfile } from 'components/ChatDialog/ChatMemberProfile/ChatMemberProfile'
+import { AvatarGrid } from 'components/ChatDialog/AvatarGrid/AvatarGrid'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { extractConversationAvatars } from 'utils/functions/chatLogic'
 

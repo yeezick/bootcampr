@@ -8,7 +8,7 @@ import {
   getAllPrivateMessages,
 } from 'utils/api/chat'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from '../../../utils/redux/slices/userSlice'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { selectConversation } from 'utils/redux/slices/chatSlice'
 import { formatTimestamp } from 'utils/functions/chatLogic'
 import { DefaultIcons, emptyChatText } from 'utils/data/chatConstants'

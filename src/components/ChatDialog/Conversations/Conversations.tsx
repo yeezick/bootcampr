@@ -7,16 +7,16 @@ import {
   updatePrivateMessageReadStatus,
 } from 'utils/api/chat'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from '../../../utils/redux/slices/userSlice'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
   setCurrentConversation,
   setSelectedMember,
 } from 'utils/redux/slices/chatSlice'
-import './Conversations.scss'
 import { formatLastMessageTimestamp } from 'utils/functions/chatLogic'
-import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
+import { AvatarGrid } from 'components/ChatDialog/AvatarGrid/AvatarGrid'
 import { extractConversationAvatars } from 'utils/functions/chatLogic'
 import { DefaultIcons } from 'utils/data/chatConstants'
+import './Conversations.scss'
 
 export const Conversations = ({ handleConversationClick }) => {
   const dispatch = useAppDispatch()

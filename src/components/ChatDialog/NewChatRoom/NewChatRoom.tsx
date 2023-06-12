@@ -9,16 +9,16 @@ import {
   createPrivateChatRoom,
   updateGroupChat,
 } from 'utils/api/chat'
-import { selectAuthUser } from '../../../utils/redux/slices/userSlice'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
   selectConversation,
   setCurrentConversation,
   setSelectedMember,
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen, DefaultIcons } from 'utils/data/chatConstants'
-import './NewChatRoom.scss'
 import { isMemberSelected } from 'utils/functions/chatLogic'
-import { MemberThumbnail } from '../MemberThumbnail/MemberThumbnail'
+import { MemberThumbnail } from 'components/ChatDialog/MemberThumbnail/MemberThumbnail'
+import './NewChatRoom.scss'
 
 export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
   const dispatch = useAppDispatch()

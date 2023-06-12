@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from '../../../utils/redux/slices/userSlice'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
   selectConversation,
   setCurrentConversation,
@@ -8,7 +8,7 @@ import {
 import { useEffect, useState } from 'react'
 import { getGroupChatByChatId, updateGroupChat } from 'utils/api/chat'
 import { FiPlus } from 'react-icons/fi'
-import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
+import { AvatarGrid } from 'components/ChatDialog/AvatarGrid/AvatarGrid'
 import { extractConversationAvatars } from 'utils/functions/chatLogic'
 import { ChatScreen } from 'utils/data/chatConstants'
 import './EditChatRoom.scss'

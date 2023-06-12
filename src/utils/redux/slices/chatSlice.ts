@@ -3,7 +3,7 @@ import {
   ChatSelectedMemberInterface,
   ChatSliceInterface,
 } from 'interfaces/ChatInterface'
-import { RootState } from '../store'
+import { RootState } from 'utils/redux/store'
 
 const initialState: ChatSliceInterface = {
   visibleChat: false,

@@ -5,7 +5,7 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { selectSelectedMember } from 'utils/redux/slices/chatSlice'
 import { HiLink } from 'react-icons/hi'
 import { FiGithub, FiLinkedin } from 'react-icons/fi'
-import { MemberThumbnail } from '../MemberThumbnail/MemberThumbnail'
+import { MemberThumbnail } from 'components/ChatDialog/MemberThumbnail/MemberThumbnail'
 
 export const ChatMemberProfile = () => {
   const [memberInfo, setMemberInfo] = useState(null)
