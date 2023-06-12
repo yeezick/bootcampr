@@ -12,7 +12,7 @@ import {
   selectAuthUser,
   selectConversation,
 } from 'utils/redux/slices/userSlice'
-import { formatTimestamp } from 'utils/functions/utilityFunctions'
+import { formatTimestamp } from 'utils/functions/chatLogic'
 import { DefaultIcons, emptyChatText } from 'utils/data/chatConstants'
 import { ChatMessageInterface } from 'interfaces'
 import {

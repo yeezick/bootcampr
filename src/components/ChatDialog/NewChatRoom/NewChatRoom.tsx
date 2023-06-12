@@ -17,6 +17,8 @@ import {
 } from 'utils/redux/slices/userSlice'
 import { ChatScreen, DefaultIcons } from 'utils/data/chatConstants'
 import './NewChatRoom.scss'
+import { isMemberSelected } from 'utils/functions/chatLogic'
+import { MemberThumbnail } from '../MemberThumbnail/MemberThumbnail'
 
 export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
   const dispatch = useAppDispatch()
@@ -40,6 +42,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
         const { engineers: projectEngineers, designers: projectDesigners } =
           project.existingProject[0].members
 
+        // Set project members to state based on respective role, excluding authUser
         if (authUser.role === 'Software Engineer') {
           setEngineers(
             projectEngineers.filter(member => member._id !== authUser._id)
@@ -64,8 +67,10 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
       currentConversation &&
       currentConversation.participants
     ) {
-      const currentMembers = [...designers, ...engineers]
+      // In Edit Chat Room of current conversation:
+      const currentMembers = [...designers, ...engineers] // All members in project
 
+      // Filter out members not present in current conversation
       const remainingMembers = currentMembers.filter(
         mem =>
           !currentConversation.participants.some(
@@ -74,11 +79,12 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
           )
       )
 
-      setProjectMembers(remainingMembers)
-      setStillRemainingMembers(remainingMembers.length > 0)
+      setProjectMembers(remainingMembers) // Remaining members to be displayed
+      setStillRemainingMembers(remainingMembers.length > 0) // False if all members already in current conversation
     } else if (chatScreen === ChatScreen.ComposeNewChat) {
+      // In Compose New Chat to create a new conversation:
       if (engineers.length > 0 && designers.length > 0) {
-        setProjectMembers([...designers, ...engineers])
+        setProjectMembers([...designers, ...engineers]) // All project members to be displayed
       } else {
         setProjectMembers([])
       }
@@ -86,6 +92,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
   }, [chatScreen, currentConversation, engineers, designers])
 
   useEffect(() => {
+    // Check if ALL members' checkboxes are selected
     selectedMembers.length === projectMembers.length &&
     projectMembers.length > 0
       ? setAllMembersSelected(true)
@@ -93,6 +100,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
   }, [selectedMembers, projectMembers])
 
   const handleMemberClick = (member: ProjectMemberInterface) => {
+    // Adds/Removes project member from selectedMembers array on checkbox click
     const isSelected = selectedMembers.some(mem => mem._id === member._id)
     isSelected
       ? setSelectedMembers(
@@ -102,6 +110,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
   }
 
   const selectAllClick = () => {
+    // Handles Invite All Members checkbox to select all members
     if (allMembersSelected) {
       setSelectedMembers([])
     } else setSelectedMembers([...projectMembers])
@@ -109,15 +118,19 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
   }
 
   const handleSubmitAddMembers = async () => {
+    // Only in Edit Chat Room to add additional members to current conversation:
     const participantsToAdd = selectedMembers.map(member => member._id)
+    // PUT request to update current group chat with additional selected members
     const newMembers = await updateGroupChat(
       authUser._id,
       currentConversation._id,
       { participants: participantsToAdd }
     )
 
+    // Updating group chat displayName in Redux
     const currentDisplayName = currentConversation.displayName
 
+    // Additional members to append to displayName
     const newMembersName = selectedMembers
       .map(member => `${member.firstName} ${member.lastName}`)
       .join(', ')
@@ -127,26 +140,31 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
         _id: currentConversation._id,
         isGroup: true,
         participants: projectMembers,
-        displayName: `${currentDisplayName}, ${newMembersName}`,
+        displayName: `${currentDisplayName}, ${newMembersName}`, // Updated displayName
       })
     )
     onScreenUpdate(ChatScreen.EditChatRoom)
   }
 
   const handleSubmitNewChatRoom = async () => {
+    // Only in New Chat Room to create a new conversation:
     let newRoom
+    // Selected members to add to new GROUP conversation
     if (selectedMembers.length > 1) {
       const participants = selectedMembers.map(member => member._id)
 
+      // Concatenating participant names
       const participantsNames = selectedMembers
         .map(member => `${member.firstName} ${member.lastName}`)
         .join(', ')
+      // POST request to create new group chat with selected participants
       newRoom = await createGroupChatRoom(
         authUser._id,
         participants,
         participantsNames
       )
 
+      // Updating Redux chat state
       dispatch(
         setCurrentConversation({
           _id: newRoom.newRoomId,
@@ -157,8 +175,11 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
       )
       onScreenUpdate(ChatScreen.Messages)
     } else {
+      // Selected member to add to PRIVATE conversation
       const recipientEmail = selectedMembers[0].email
+      // POST request to create new private chat with selected participant
       newRoom = await createPrivateChatRoom(authUser._id, recipientEmail)
+      // Updating Redux chat state
       dispatch(
         setCurrentConversation({
           _id: newRoom.chatRoom._id,
@@ -166,6 +187,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
           displayName: `${selectedMembers[0].firstName} ${selectedMembers[0].lastName}`,
         })
       )
+      // Set selectedMember in Redux for private chats
       dispatch(
         setSelectedMember({
           _id: selectedMembers[0]._id,
@@ -181,32 +203,21 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
   return (
     <div className='new-chat-room-container'>
       <section>
-        <ChatRoomRecipients
+        <SelectedMembersGrid
           handleMemberClick={handleMemberClick}
           selectedMembers={selectedMembers}
         />
         <p>Invite members from your project</p>
-        <div className='select-all-grid'>
-          <div
-            className={allMembersSelected ? 'all-checked' : 'checkbox'}
-            onClick={selectAllClick}
-          >
-            {allMembersSelected && <TfiMinus className='checkmark' />}
-          </div>
-          <label>Invite all members</label>
-        </div>
-        {stillRemainingMembers ? (
-          <AllProjectMembers
-            projectMembers={projectMembers}
-            selectedMembers={selectedMembers}
-            handleMemberClick={handleMemberClick}
-          />
-        ) : (
-          <div className='no-remaining-members'>
-            <img src={DefaultIcons.NoMembers} alt='no members' />
-            <p>All project members are in current chat!</p>
-          </div>
-        )}
+        <SelectAllMembersCheck
+          allMembersSelected={allMembersSelected}
+          selectAllClick={selectAllClick}
+        />
+        <ProjectMembersList
+          projectMembers={projectMembers}
+          selectedMembers={selectedMembers}
+          handleMemberClick={handleMemberClick}
+          stillRemainingMembers={stillRemainingMembers}
+        />
       </section>
       <button
         disabled={selectedMembers.length === 0}
@@ -224,7 +235,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
   )
 }
 
-const ChatRoomRecipients = ({ selectedMembers, handleMemberClick }) => {
+const SelectedMembersGrid = ({ selectedMembers, handleMemberClick }) => {
   return (
     <div className='to-container'>
       <p>To:</p>
@@ -242,41 +253,72 @@ const ChatRoomRecipients = ({ selectedMembers, handleMemberClick }) => {
   )
 }
 
-const AllProjectMembers = ({
+const SelectAllMembersCheck = ({ allMembersSelected, selectAllClick }) => {
+  return (
+    <div className='select-all-grid'>
+      <SelectAllCheckbox
+        allMembersSelected={allMembersSelected}
+        selectAllClick={selectAllClick}
+      />
+      <label>Invite all members</label>
+    </div>
+  )
+}
+
+const ProjectMembersList = ({
   projectMembers,
   selectedMembers,
   handleMemberClick,
+  stillRemainingMembers,
 }) => {
-  return (
-    <div className='members-container'>
-      {projectMembers.map(member => (
-        <div
-          className='member-grid'
-          key={member._id}
-          onClick={() => handleMemberClick(member)}
-        >
+  if (stillRemainingMembers) {
+    return (
+      <div className='members-container'>
+        {projectMembers.map(member => (
           <div
-            className={
-              selectedMembers.some(mem => mem._id === member._id)
-                ? 'checkbox-checked'
-                : 'checkbox'
-            }
+            className='member-grid'
+            key={member._id}
+            onClick={() => handleMemberClick(member)}
           >
-            {selectedMembers.some(mem => mem._id === member._id) && (
-              <TfiCheck className='checkmark' />
-            )}
+            <SelectOneCheckbox
+              selectedMembers={selectedMembers}
+              member={member}
+            />
+            <MemberThumbnail user={member} />
           </div>
-          <div className='avatar-grid'>
-            <img src={member.profilePicture} alt='avatar' />
-          </div>
-          <div className='member-info-grid'>
-            <h5>
-              {member.firstName} {member.lastName}
-            </h5>
-            <p>{member.role}</p>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
+    )
+  } else {
+    return (
+      <div className='no-remaining-members'>
+        <img src={DefaultIcons.NoMembers} alt='no members' />
+        <p>All project members are in current chat!</p>
+      </div>
+    )
+  }
+}
+
+const SelectOneCheckbox = ({ selectedMembers, member }) => {
+  const selectOneClassName = isMemberSelected(selectedMembers, member)
+    ? 'checkbox-checked'
+    : 'checkbox'
+
+  return (
+    <div className={selectOneClassName}>
+      {isMemberSelected(selectedMembers, member) && (
+        <TfiCheck className='checkmark' />
+      )}
+    </div>
+  )
+}
+
+const SelectAllCheckbox = ({ allMembersSelected, selectAllClick }) => {
+  const selectAllClassName = allMembersSelected ? 'all-checked' : 'checkbox'
+
+  return (
+    <div className={selectAllClassName} onClick={selectAllClick}>
+      {allMembersSelected && <TfiMinus className='checkmark' />}
     </div>
   )
 }

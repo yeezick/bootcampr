@@ -13,7 +13,7 @@ import {
   setSelectedMember,
 } from 'utils/redux/slices/userSlice'
 import './Conversations.scss'
-import { formatLastMessageTimestamp } from 'utils/functions/utilityFunctions'
+import { formatLastMessageTimestamp } from 'utils/functions/chatLogic'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 import { extractConversationAvatars } from 'utils/functions/chatLogic'
 import { DefaultIcons } from 'utils/data/chatConstants'
