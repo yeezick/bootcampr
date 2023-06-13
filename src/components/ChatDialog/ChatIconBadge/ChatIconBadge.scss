@@ -10,4 +10,12 @@
   right: 168px;
   top: 18px;
   width: 22px;
+
+  &.visible {
+    opacity: 1;
+  }
+
+  &.hidden {
+    opacity: 0;
+  }
 }

@@ -40,8 +40,11 @@ export const ChatIconBadge = () => {
     getConversations()
   }, [])
 
+  // ClassName for badge: if unreadMessages === 0, icon will be hidden
+  const badgeClassName = unreadMessages === 0 ? 'hidden' : 'visible'
+
   return (
-    <div className='messages-badge'>
+    <div className={`messages-badge ${badgeClassName}`}>
       <p>{unreadMessages}</p>
     </div>
   )
