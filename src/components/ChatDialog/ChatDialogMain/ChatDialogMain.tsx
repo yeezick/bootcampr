@@ -117,7 +117,7 @@ const ChatTitle = ({
   getTitleText,
 }) => {
   const titleContentLookup = {
-    [ChatScreen.Main]: <h1>Chats</h1>,
+    [ChatScreen.Main]: <h1 className='main-title'>Chats</h1>,
     [ChatScreen.Messages]: currentConversation.isGroup ? (
       <div className='back-arrow messages'>
         <FiArrowLeft size={23} onClick={onBackArrowClick} />

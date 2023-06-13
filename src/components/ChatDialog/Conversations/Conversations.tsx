@@ -183,7 +183,9 @@ const ConversationThumbnail = ({
         </div>
         <div className='thumbnail-right'>
           <div className='thread-details-grid'>
-            <h5 className={lastMessage && !isMessageRead && 'unread-message'}>
+            <h5
+              className={lastMessage && !isMessageRead ? 'unread-message' : ''}
+            >
               {groupName || 'Group Chat'}
             </h5>
             <LastMessageText
@@ -228,7 +230,9 @@ const ConversationThumbnail = ({
         />
         <div className='thumbnail-right'>
           <div className='thread-details-grid'>
-            <h5 className={lastMessage && !isMessageRead && 'unread-message'}>
+            <h5
+              className={lastMessage && !isMessageRead ? 'unread-message' : ''}
+            >
               {recipient[0].firstName} {recipient[0].lastName}
             </h5>
             <LastMessageText
@@ -264,7 +268,7 @@ const ConversationThumbnail = ({
 const LastMessageText = ({ lastMessage, authUser, isMessageRead }) => {
   if (lastMessage) {
     return (
-      <p className={!isMessageRead && 'unread-message'}>
+      <p className={isMessageRead ? '' : 'unread-message'}>
         {lastMessage.sender._id === authUser._id
           ? 'You'
           : lastMessage.sender.firstName}

@@ -39,7 +39,7 @@ export const EditChatRoom = ({ onScreenUpdate }) => {
       }
     }
     getGroupChat()
-  }, [currentConversation._id])
+  }, [authUser._id, currentConversation._id])
 
   useEffect(() => {
     if (groupChat && !isModified) {
@@ -53,7 +53,7 @@ export const EditChatRoom = ({ onScreenUpdate }) => {
       setInitialDisplayName(formatDisplayName)
       setDisplayName(formatDisplayName)
     }
-  }, [groupChat, authUser._id])
+  }, [groupChat, authUser._id, isModified])
 
   const handleChange = e => {
     const { value } = e.target

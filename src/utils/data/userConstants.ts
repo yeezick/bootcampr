@@ -6,52 +6,56 @@ import {
 } from 'interfaces/UserInterface'
 
 export const defaultAvailability: Availability = {
-  ['SUN']: {
+  SUN: {
     available: false,
-    availability: [['9:00 AM', '5:00 PM']],
+    availability: [],
   },
-  ['MON']: {
+  MON: {
     available: false,
-    availability: [['9:00 AM', '5:00 PM']],
+    availability: [],
   },
-  ['TUE']: {
+  TUE: {
     available: false,
-    availability: [['9:00 AM', '5:00 PM']],
+    availability: [],
   },
-  ['WED']: {
+  WED: {
     available: false,
-    availability: [['9:00 AM', '5:00 PM']],
+    availability: [],
   },
-  ['THU']: {
+  THU: {
     available: false,
-    availability: [['9:00 AM', '5:00 PM']],
+    availability: [],
   },
-  ['FRI']: {
+  FRI: {
     available: false,
-    availability: [['9:00 AM', '5:00 PM']],
+    availability: [],
   },
-  ['SAT']: {
+  SAT: {
     available: false,
-    availability: [['9:00 AM', '5:00 PM']],
+    availability: [],
   },
+}
+
+export const emptyUser: UserInterface = {
+  availability: defaultAvailability,
+  bio: '',
+  email: '',
+  firstName: '',
+  lastName: '',
+  links: {
+    githubUrl: '',
+    linkedinUrl: '',
+    portfolioUrl: '',
+  },
+  ownerOfProjects: [],
+  profilePicture: '',
+  role: '',
+  _id: '',
 }
 
 export const initialState: UiSliceInterface = {
   auth: {
-    user: {
-      availability: defaultAvailability,
-      bio: '',
-      email: '',
-      firstName: '',
-      githubUrl: '',
-      lastName: '',
-      linkedinUrl: '',
-      portfolioUrl: '',
-      profilePicture: '',
-      role: '',
-      __v: 0,
-      _id: '',
-    },
+    user: emptyUser,
   },
   sidebar: {
     visibleSidebar: false,
@@ -65,21 +69,6 @@ export const initialState: UiSliceInterface = {
       message: '',
     },
   },
-}
-
-export const emptyUser: UserInterface = {
-  availability: defaultAvailability,
-  bio: '',
-  email: '',
-  firstName: '',
-  githubUrl: '',
-  lastName: '',
-  linkedinUrl: '',
-  ownerOfProjects: [],
-  portfolioUrl: '',
-  profilePicture: '',
-  role: '',
-  _id: '',
 }
 
 export const emptySignUp: SignUpInterface = {

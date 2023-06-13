@@ -3,12 +3,12 @@
   border-radius: 8px;
   box-shadow: 0 8px 17px -6px rgba(0, 0, 0, 0.7);
   cursor: default;
-  height: 470px;
+  height: 520px;
   padding: 0 20px;
   position: fixed;
   right: 173px;
   top: 90px;
-  width: 260px;
+  width: 295px;
   z-index: 999999;
 
   .chat-header-main,
@@ -19,6 +19,11 @@
     margin: 0;
     margin-left: -3px;
     margin-right: -13px;
+
+    .main-title {
+      font-size: 20px;
+      margin-top: 26px;
+    }
 
     .back-arrow {
       align-items: center;
@@ -36,10 +41,10 @@
       }
 
       h5 {
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 400;
         margin: 11px 0;
-        max-width: 190px;
+        max-width: 225px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

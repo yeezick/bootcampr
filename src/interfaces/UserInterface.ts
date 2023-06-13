@@ -1,24 +1,26 @@
-import { ProjectInterface } from './ProjectInterface'
+import { ProjectInterface } from 'interfaces'
 
 export interface UserInterface {
-  availability: Availability
-  bio: string
+  availability?: Availability
+  bio?: string
   declinedProjects?: ProjectInterface[]
   email: string
   firstName: string
-  githubUrl: string
   interestedProjects?: ProjectInterface[]
   lastName: string
-  linkedinUrl: string
+  links: {
+    githubUrl?: string
+    linkedinUrl: string
+    portfolioUrl: string
+  }
   memberOfProjects?: ProjectInterface[]
   ownerOfProjects?: ProjectInterface[]
-  portfolioUrl: string
   portfolioProjects?: ProjectInterface[]
-  profilePicture: string
-  role: string
+  profilePicture?: string | null
+  role?: string
   savedProjects?: ProjectInterface[]
   __v?: number
-  _id: string
+  _id?: string
 }
 
 export interface UiSliceInterface {
@@ -95,34 +97,48 @@ export const timeOptions = [
 export type TimeOption = (typeof timeOptions)[0]
 
 export interface Availability {
-  SUN: {
-    available: boolean
-    availability: TimeOption[][]
-  }
-  MON: {
-    available: boolean
-    availability: TimeOption[][]
-  }
-  TUE: {
-    available: boolean
-    availability: TimeOption[][]
-  }
-  WED: {
-    available: boolean
-    availability: TimeOption[][]
-  }
-  THU: {
-    available: boolean
-    availability: TimeOption[][]
-  }
-  FRI: {
-    available: boolean
-    availability: TimeOption[][]
-  }
-  SAT: {
-    available: boolean
-    availability: TimeOption[][]
-  }
+  SUN:
+    | string
+    | {
+        available: boolean
+        availability: TimeOption[][]
+      }
+  MON:
+    | string
+    | {
+        available: boolean
+        availability: TimeOption[][]
+      }
+  TUE:
+    | string
+    | {
+        available: boolean
+        availability: TimeOption[][]
+      }
+  WED:
+    | string
+    | {
+        available: boolean
+        availability: TimeOption[][]
+      }
+  THU:
+    | string
+    | {
+        available: boolean
+        availability: TimeOption[][]
+      }
+  FRI:
+    | string
+    | {
+        available: boolean
+        availability: TimeOption[][]
+      }
+  SAT:
+    | string
+    | {
+        available: boolean
+        availability: TimeOption[][]
+      }
 }
 
 export interface ProjectMemberInterface {

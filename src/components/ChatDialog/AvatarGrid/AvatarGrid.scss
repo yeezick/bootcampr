@@ -1,7 +1,7 @@
 @import 'scss/mixins';
 
 .avatar-grid.small {
-  @include private-chat-avatar-grid(28px, 28px, 28px);
+  @include private-chat-avatar-grid(32px, 32px, 32px);
 }
 
 .avatar-grid.medium {
@@ -9,7 +9,7 @@
 }
 
 .group-photo-container.small {
-  @include group-profile-picture-grid(0px, 28px, 28px);
+  @include group-profile-picture-grid(0px, 32px, 32px);
 }
 
 .group-photo-container.medium {
@@ -27,7 +27,7 @@
     height: 32px;
     justify-content: center;
     position: absolute;
-    right: 77px;
+    right: 95px;
     top: 97px;
     width: 32px;
   }

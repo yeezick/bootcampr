@@ -1,0 +1,160 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+
+body {
+  @include font-properties();
+  background-color: #f5f5f5;
+}
+
+.userProfile {
+  $this: &;
+
+  &__backArrow, &__icons {
+    height: 16px !important;
+    width: 16px !important;
+  }
+
+  &__backBtn, &__imageChange {
+    color: #470d91 !important;
+  }
+
+  &__backContainer, &__heading, &__titleContainer {
+    @include flex(row);
+  }
+
+  &__backContainer {
+    margin: 17px 0 0 24px;
+
+    p {
+      @include font-properties((size: 14px, line-height: 16px));
+      margin: 0 0 0 12px !important;
+    }
+  }
+
+  &__cameraIcon {
+    background-color: #ecebeb !important;
+    left: 70px;
+    top: 58px;
+  }
+
+  &__container {
+    background-color: #ffffff;
+    border-radius: 4px;
+    margin: $vep-margin auto auto;
+    max-width: 799px;
+  }
+
+  &__editBtn {
+    @include font-properties((size: 16px, weight: 500, line-height: 22px));
+    background-color: #8048c8;
+    border: none;
+    border-radius: 4px;
+    color: #fefefe;
+    cursor: pointer;
+    height: 43px;
+    margin: $vep-margin $vep-margin auto auto;
+    padding: 10px 16px;
+    width: 115px;
+  }
+
+  h3 {
+    @include font-properties((size: 16px, weight: 400, line-height: 22px));
+    max-height: 23px;
+  }
+
+  &__heading {
+    @include font-properties((size: 32px, weight: 500, line-height: 45px));
+    margin: auto;
+    max-height: 45px;
+    max-width: 799px;
+    text-align: center;
+  }
+
+  &__icons {
+    color: black !important;
+    padding: 15px 0 0 0 !important;
+  }
+
+  &__image {
+    background-color: #c4c4c4;
+    border-radius: 100%;
+    height: 100px;
+    margin: $vep-margin 19px 0 $vep-margin;
+    width: 100px;
+  }
+
+  &__imageChange {
+    color: nth($vep-default-color, 1) !important;
+  }
+
+  &__infoContainer, &__linksContainer, &__title {
+    @include flex(column);
+  }
+
+  &__infoContainer {
+    margin: $vep-margin 0 $vep-margin $vep-margin;
+    max-width: 501px;
+
+    h3 {
+      font-weight: 700 !important; 
+    }
+
+    p {
+      margin-top: 6px;
+      margin: 0;
+    }
+  }
+
+  &__link {
+    margin-bottom: 15px !important;
+  }
+
+  &__linksContainer {
+    margin: 0 0 $vep-margin $vep-margin;
+    padding: 0px;
+    width: 339px;
+  }
+
+  &__linkItem {
+    @include flex();
+
+    h3, p, a {
+      font-weight: $vep-font-weight;
+      margin-left: 10px;
+      text-align: left;
+      text-decoration: none;
+    }
+
+    p {
+      margin-top: 3px;
+    }
+  }
+
+  &__linkLast {
+    margin-bottom: $vep-margin;
+  }
+
+  &__title {
+    margin-top: 37.5px !important;
+
+    h2 {
+      @include font-properties((size: 24px, weight: 600, line-height: 34px));
+      color: $vep-default-color;
+      margin: 0;
+    }
+
+    h3 {
+      @include font-properties((size: 16px, line-height: 22px));
+      margin-top: 8px;
+    }
+  }
+
+  &__titleContainer {
+    @include flex(row);
+  }
+
+  &__urlNoBlue {
+    color: black;
+    cursor: default;
+  }
+}

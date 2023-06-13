@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
+import { useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import {
+  getUserProfileImage,
   selectAuthUser,
   toggleSidebar,
   toggleSidebarClose,
@@ -12,23 +14,27 @@ import Logo from 'assets/Logo.svg'
 import { NotificationModal } from 'components/Notifications/NotificationModal'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
 import { Socket } from 'components/Notifications/Socket'
+import Avatar from 'components/Avatar/Avatar'
 import './Nav.scss'
 import {
   chatStatus,
   toggleChat,
   toggleChatClose,
 } from 'utils/redux/slices/chatSlice'
+import ProfilePreviewImage from 'screens/ProfilePreviewImage/ProfilePreviewImage'
 
 export const Nav = () => {
   const [colored, setColored] = useState(false)
-  const location = useLocation()
   const [notificationCount, setNotificationCount] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const reduxUploadedImage = useSelector(getUserProfileImage)
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId } = authUser
   const dispatch = useAppDispatch()
   const { socketConnection } = Socket()
   const visibleChat = useAppSelector(chatStatus)
   const chatRef = useRef(null)
+  const location = useLocation()
 
   useEffect(() => {
     if (socketConnection) {
@@ -70,6 +76,10 @@ export const Nav = () => {
   const ChangeNavbarColor = () => {
     window.scrollY >= 100 ? setColored(true) : setColored(false)
   }
+
+  const openModal = () => setIsModalOpen(true)
+  const closeModal = () => setIsModalOpen(false)
+
   window.addEventListener('scroll', ChangeNavbarColor)
 
   return (
@@ -111,7 +121,7 @@ export const Nav = () => {
               <span>{notificationCount}</span>
             </div>
           )}
-          <div className='image'></div>
+          <Avatar openModal={openModal} />
           <Link className='link' to='/'>
             <MdArrowDropDown size={25} />
           </Link>
@@ -133,6 +143,11 @@ export const Nav = () => {
           </div>
         </div>
       )}
+      <ProfilePreviewImage
+        open={isModalOpen}
+        onClose={closeModal}
+        uploadedImage={reduxUploadedImage}
+      />
     </nav>
   )
 }

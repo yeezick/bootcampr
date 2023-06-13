@@ -87,11 +87,11 @@ export const Messages = ({ setChatRecipientId }) => {
     // Extracting recipient's ID in private chat
     if (chatParticipants) {
       const recipientId = chatParticipants.filter(
-        memberId => memberId != authUser._id
+        memberId => memberId !== authUser._id
       )
       setChatRecipientId(recipientId)
     }
-  }, [chatParticipants])
+  }, [authUser._id, setChatRecipientId, chatParticipants])
 
   const handleTimestampClick = (message: any) => {
     // Logic to display/hide timestamp on message click:

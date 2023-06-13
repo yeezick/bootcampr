@@ -17,6 +17,16 @@ export const getAllUsers = async () => {
 export const getOneUser = async (id: any) => {
   try {
     const res = await api.get(`/users/${id}`)
+    console.log('res', res.data)
+    res.data.availability = {
+      SUN: res.data.availability.SUN,
+      MON: res.data.availability.MON,
+      TUE: res.data.availability.TUE,
+      WED: res.data.availability.WED,
+      THU: res.data.availability.THU,
+      FRI: res.data.availability.FRI,
+      SAT: res.data.availability.SAT,
+    }
     return res.data
   } catch (error) {
     throw error
@@ -66,8 +76,8 @@ export const signIn = async (credentials: any) => {
     if (res.data.invalidCredentials) {
       return { message: res.data.message }
     }
-    const { bootcamprAuthToken, user } = res.data
-    localStorage.setItem('bootcamprAuthToken', bootcamprAuthToken)
+    const { token, user } = res.data
+    localStorage.setItem('bootcamprAuthToken', token)
     return user
   } catch (error) {
     throw error
@@ -103,7 +113,6 @@ export const updateUsersEmail = async (
     return { error: 'Something went wrong' }
   }
 }
-
 export const updateUsersPassword = async (
   formData: PasswordFormData | EmailFormData,
   userId: string | undefined

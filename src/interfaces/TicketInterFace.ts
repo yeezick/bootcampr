@@ -1,41 +1,67 @@
-import { UserInterface } from './UserInterface'
+import { UserInterface } from 'interfaces'
 
 export interface TaskInterface {
-  id?: string
-  title?: string | null
-  status?: string
-  description?: string | null
-  assignees?: {
-    title: string
-    id: number
-    image: string
-  }
+  assignees?: UserInterface | string
   date?: string
+  description?: string | null
+  _id?: string
+  id?: string
   link?: string | null
+  projectId?: string
+  status?: string
+  title?: string | null
 }
-export interface ticketInterface {
-  'To Do': TaskInterface[]
-  'In progress': TaskInterface[]
-  'Under Review': TaskInterface[]
-  Completed: TaskInterface[]
+
+export interface TicketInterface {
+  assignees?: UserInterface | string
+  createAt?: string
+  description?: string
+  projectId?: string
+  status?: string
+  title?: string
+  dueDate?: string
+  link?: string
+  updatedAt?: string
+  ticketOwner?: UserInterface | string
+  _v?: number
+  _id?: string
 }
 
 export interface TicketStatusChangeParams {
-  sourceCategory: keyof ticketInterface | null
-  targetCategory: keyof ticketInterface | string
-  item: TaskInterface
   id: string
+  item: TaskInterface
+  sourceCategory: keyof TicketInterface | null
+  targetCategory: keyof TicketInterface | string
 }
 
-export type TicketStatusType = keyof ticketInterface
+export type KeyOfTicketStatusType = keyof TicketInterface
 export interface TicketDetailInterface {
+  getAllTicket: TicketInterface
+  setGetAllTicket: React.Dispatch<React.SetStateAction<TicketInterface[]>>
   ticketDetail: TaskInterface
-  getAllTicket: ticketInterface
-  setGetAllTicket: any
-  ticketsStatus: TicketStatusType | string
+  ticketsStatus: KeyOfTicketStatusType | string
 }
 
-export interface createTicketInterface {
-  getAllTicket: ticketInterface
-  setGetAllTicket: any
+export interface CreateTicketInterface {
+  concatenatedString?: (str: string) => string
+  getAllTicket?: TicketInterface
+  projectId?: string
+  setGetAllTicket?: React.Dispatch<React.SetStateAction<TicketInterface>>
+  splitCamelCaseToWords?: (str: string) => string
+  ticketsStatus?: string
+}
+
+export interface TicketStatusChangeFunc {
+  item?: TicketInterface
+  sourceCategory?: KeyOfTicketStatusType
+  targetCategory?: KeyOfTicketStatusType
+  ticketId?: string
+}
+export interface TicketDetailPropsInterface {
+  concatenatedString?: (str: string) => string
+  getAllTicket?: TicketInterface[]
+  setGetAllTicket?: React.Dispatch<React.SetStateAction<TicketInterface[]>>
+  splitCamelCaseToWords?: (str: string) => string
+  ticketDetail?: TicketInterface
+  ticketsStatus?: KeyOfTicketStatusType | string
 }
