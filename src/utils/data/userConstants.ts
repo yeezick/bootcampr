@@ -60,12 +60,6 @@ export const initialState: UiSliceInterface = {
   sidebar: {
     visibleSidebar: false,
   },
-  chat: {
-    visibleChat: false,
-    _id: '',
-    isGroup: false,
-    participants: [],
-  },
   status: {
     isAuthenticated: false,
     isLoading: false,

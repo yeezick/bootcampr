@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux'
 import { RootState } from 'utils/redux/store'
 import { getUserProfileImage } from 'utils/redux/slices/userSlice'
-import { UserInterface } from 'interfaces'
 import { AvatarProps } from 'interfaces/ProfileImageInterfaces'
 import './Avatar.scss'
 
@@ -10,7 +9,7 @@ import './Avatar.scss'
  * @param {boolean} [clickable=true] - Indicates if the avatar is clickable.
  * @returns {JSX.Element} - Avatar component.
  */
-const Avatar: React.FC<AvatarProps & UserInterface> = ({
+const Avatar: React.FC<AvatarProps> = ({
   imageUrl: propImageUrl,
   uploadedImage: propUploadedImage,
   clickable = true,

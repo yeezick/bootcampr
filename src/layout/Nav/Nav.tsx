@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import {
+  getUserProfileImage,
   selectAuthUser,
-  toggleChatClose,
   toggleSidebar,
   toggleSidebarClose,
 } from 'utils/redux/slices/userSlice'
@@ -18,10 +18,11 @@ import Avatar from 'components/Avatar/Avatar'
 import './Nav.scss'
 import {
   chatStatus,
-  getUserProfileImage,
   toggleChat,
-} from 'utils/redux/slices/userSlice'
+  toggleChatClose,
+} from 'utils/redux/slices/chatSlice'
 import ProfilePreviewImage from 'screens/ProfilePreviewImage/ProfilePreviewImage'
+import { ChatIconBadge } from 'components/ChatDialog/ChatIconBadge/ChatIconBadge'
 
 export const Nav = () => {
   const [colored, setColored] = useState(false)
@@ -111,6 +112,7 @@ export const Nav = () => {
               className='chat-icon'
               onClick={() => toggleChatBox()}
             />
+            <ChatIconBadge />
             {visibleChat && <ChatDialogMain />}
           </div>
           <div className='notification-badge link'>
