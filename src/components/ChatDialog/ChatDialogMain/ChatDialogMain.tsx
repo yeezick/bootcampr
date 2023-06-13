@@ -181,7 +181,9 @@ const ChatHeaderActions = ({
   closeChatBox,
 }) => {
   return (
-    <div className='main-icons'>
+    <div
+      className={`main-icons ${chatScreen === ChatScreen.Main ? 'home' : ''}`}
+    >
       {chatScreen === ChatScreen.Main && (
         <HiOutlinePencilAlt size={22} onClick={handleComposeMessage} />
       )}
