@@ -17,16 +17,6 @@ export const getAllUsers = async () => {
 export const getOneUser = async (id: any) => {
   try {
     const res = await api.get(`/users/${id}`)
-    console.log('res', res.data)
-    res.data.availability = {
-      SUN: res.data.availability.SUN,
-      MON: res.data.availability.MON,
-      TUE: res.data.availability.TUE,
-      WED: res.data.availability.WED,
-      THU: res.data.availability.THU,
-      FRI: res.data.availability.FRI,
-      SAT: res.data.availability.SAT,
-    }
     return res.data
   } catch (error) {
     throw error
