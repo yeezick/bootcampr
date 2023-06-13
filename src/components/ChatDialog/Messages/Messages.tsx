@@ -201,7 +201,7 @@ const MessagesList = ({
         : 'details-left'
 
       return (
-        <div key={message._id} className='message-container'>
+        <div key={index} className='message-container'>
           <div className='message-grid'>
             {isLastMessageAndSameRecipient && (
               <RecipientsAvatar message={message} />

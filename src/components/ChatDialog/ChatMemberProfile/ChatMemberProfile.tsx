@@ -17,7 +17,6 @@ export const ChatMemberProfile = () => {
       try {
         const res = await getOneUser(memberId)
         if (res) {
-          console.log('RES DATA', res)
           setMemberInfo(res)
         }
       } catch (error) {
