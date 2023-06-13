@@ -5,6 +5,7 @@ export interface ChatSliceInterface {
   participants: []
   displayName?: string
   selectedMember: ChatSelectedMemberInterface
+  unreadMessages: number
 }
 
 export interface ChatMessageInterface {

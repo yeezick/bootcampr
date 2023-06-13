@@ -17,6 +17,7 @@ const initialState: ChatSliceInterface = {
     lastName: '',
     profilePicture: '',
   },
+  unreadMessages: 0,
 }
 
 const chatSlice = createSlice({
@@ -50,6 +51,9 @@ const chatSlice = createSlice({
     ) => {
       state.selectedMember = action.payload
     },
+    setUnreadMessages: (state, action: PayloadAction<number>) => {
+      state.unreadMessages = action.payload
+    },
   },
 })
 
@@ -62,5 +66,6 @@ export const {
   toggleChatClose,
   setCurrentConversation,
   setSelectedMember,
+  setUnreadMessages,
 } = chatSlice.actions
 export default chatSlice.reducer

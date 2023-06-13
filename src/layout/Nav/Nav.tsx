@@ -22,6 +22,7 @@ import {
   toggleChatClose,
 } from 'utils/redux/slices/chatSlice'
 import ProfilePreviewImage from 'screens/ProfilePreviewImage/ProfilePreviewImage'
+import { ChatIconBadge } from 'components/ChatDialog/ChatIconBadge/ChatIconBadge'
 
 export const Nav = () => {
   const [colored, setColored] = useState(false)
@@ -111,6 +112,7 @@ export const Nav = () => {
               className='chat-icon'
               onClick={() => toggleChatBox()}
             />
+            <ChatIconBadge />
             {visibleChat && <ChatDialogMain />}
           </div>
           <div className='notification-badge link'>

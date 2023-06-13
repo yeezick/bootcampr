@@ -15,6 +15,7 @@ export const initialState: ChatSliceInterface = {
     lastName: '',
     profilePicture: '',
   },
+  unreadMessages: 0,
 }
 
 export enum ChatScreen {
