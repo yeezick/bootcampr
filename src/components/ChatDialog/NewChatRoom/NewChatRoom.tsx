@@ -34,11 +34,17 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
   >([])
   const [allMembersSelected, setAllMembersSelected] = useState(false)
   const [stillRemainingMembers, setStillRemainingMembers] = useState(true)
+  const [isAssignedToProject, setIsAssignedToProject] = useState(true)
 
   useEffect(() => {
     const fetchProjectMembers = async () => {
       try {
         const project = await getProjectByUser(authUser._id)
+
+        if (project.existingProject.length === 0) {
+          setIsAssignedToProject(false)
+        }
+
         const { engineers: projectEngineers, designers: projectDesigners } =
           project.existingProject[0].members
 
@@ -212,12 +218,16 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
           allMembersSelected={allMembersSelected}
           selectAllClick={selectAllClick}
         />
-        <ProjectMembersList
-          projectMembers={projectMembers}
-          selectedMembers={selectedMembers}
-          handleMemberClick={handleMemberClick}
-          stillRemainingMembers={stillRemainingMembers}
-        />
+        {isAssignedToProject ? (
+          <ProjectMembersList
+            projectMembers={projectMembers}
+            selectedMembers={selectedMembers}
+            handleMemberClick={handleMemberClick}
+            stillRemainingMembers={stillRemainingMembers}
+          />
+        ) : (
+          <NoAssignedProject />
+        )}
       </section>
       <button
         disabled={selectedMembers.length === 0}
@@ -319,6 +329,15 @@ const SelectAllCheckbox = ({ allMembersSelected, selectAllClick }) => {
   return (
     <div className={selectAllClassName} onClick={selectAllClick}>
       {allMembersSelected && <TfiMinus className='checkmark' />}
+    </div>
+  )
+}
+
+const NoAssignedProject = () => {
+  return (
+    <div className='no-remaining-members'>
+      <img src={DefaultIcons.NoMembers} alt='no members' />
+      <p>Not assigned to a project yet. Hang tight!</p>
     </div>
   )
 }
