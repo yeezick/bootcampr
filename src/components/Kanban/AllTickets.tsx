@@ -10,8 +10,8 @@ import {
   TicketStatusChangeFunc,
 } from 'interfaces'
 import { updateTicketInformationAndStatus } from 'utils/api/tickets'
-import '../Ticket.scss'
-import kanbanImage from '../svg/bootcampr.png'
+import kanbanImage from './svg/bootcampr.png'
+import './Ticket.scss'
 
 export const AllTickets = ({ projectTracker }) => {
   const { id } = useParams()
@@ -20,15 +20,12 @@ export const AllTickets = ({ projectTracker }) => {
     projectTracker?.projectTracker
   )
   const handleOnDragEnd = movingTicket => {
-    // Check if movingTicket exists
     if (movingTicket) {
       const ticketId = movingTicket.draggableId
       const sourceCategory: KeyOfTicketStatusType =
         movingTicket.source?.droppableId
       const targetCategory: KeyOfTicketStatusType =
         movingTicket.destination?.droppableId
-
-      // Check if sourceCategory and targetCategory exist
       if (sourceCategory && targetCategory) {
         const item: TicketInterface | undefined = getAllTicket[
           sourceCategory as KeyOfTicketStatusType
@@ -139,7 +136,7 @@ export const AllTickets = ({ projectTracker }) => {
                         >
                           {provided => (
                             <div
-                              className='ticket-container'
+                              className='ticketContainer'
                               id={ticketDetail._id}
                               ref={provided.innerRef}
                               {...provided.draggableProps}

@@ -4,7 +4,7 @@ import { Icon } from '@material-ui/core'
 const EditableText = ({ editRef, ticketDetail, text, detailIcon }) => {
   return (
     <div className='EditableText'>
-      <div className='EditableText-icon-text'>
+      <div className='EditableTextIconText'>
         <Icon>{detailIcon}</Icon>
         <h4>{text}</h4>
       </div>

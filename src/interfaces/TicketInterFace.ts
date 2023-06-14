@@ -42,7 +42,7 @@ export interface TicketDetailInterface {
   ticketsStatus: KeyOfTicketStatusType | string
 }
 
-export interface createTicketInterface {
+export interface CreateTicketInterface {
   concatenatedString?: (str: string) => string
   getAllTicket?: TicketInterface
   projectId?: string

@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { renderToStaticMarkup } from 'react-dom/server'
 import {
   Availability,
   SignUpInterface,
@@ -8,6 +9,7 @@ import {
 import { signUp, updateUser } from 'utils/api/users'
 import { defaultAvailability } from 'utils/data/userConstants'
 import { RootState } from 'utils/redux/store'
+import PersonIcon from '@mui/icons-material/Person'
 
 const initialState: UiSliceInterface = {
   auth: {
@@ -16,10 +18,12 @@ const initialState: UiSliceInterface = {
       bio: '',
       email: '',
       firstName: '',
-      githubUrl: '',
       lastName: '',
-      linkedinUrl: '',
-      portfolioUrl: '',
+      links: {
+        githubUrl: '',
+        linkedinUrl: '',
+        portfolioUrl: null,
+      },
       profilePicture: '',
       role: '',
       __v: 0,
@@ -28,12 +32,6 @@ const initialState: UiSliceInterface = {
   },
   sidebar: {
     visibleSidebar: false,
-  },
-  chat: {
-    visibleChat: false,
-    _id: '',
-    isGroup: false,
-    participants: [],
   },
   status: {
     isAuthenticated: false,
@@ -85,7 +83,10 @@ const userSlice = createSlice({
       state.auth.user = action.payload
     },
     updateAuthUser: (state, action: PayloadAction<UserInterface>) => {
-      state.auth.user = action.payload
+      state.auth.user = {
+        ...state.auth.user,
+        ...action.payload,
+      }
     },
     setUserAvailability: (state, action: PayloadAction<Availability>) => {
       state.auth.user.availability = action.payload
@@ -96,28 +97,25 @@ const userSlice = createSlice({
     toggleSidebarClose: state => {
       state.sidebar.visibleSidebar = false
     },
-    toggleChat: state => {
-      state.chat.visibleChat = !state.chat.visibleChat
-    },
-    toggleChatClose: state => {
-      state.chat.visibleChat = false
-    },
-    setCurrentConversation: (
-      state,
-      action: PayloadAction<{
-        _id: string
-        isGroup: boolean
-        participants: any
-      }>
-    ) => {
-      state.chat._id = action.payload._id
-      state.chat.isGroup = action.payload.isGroup
-      state.chat.participants = action.payload.participants
-    },
     reset: state => {
       state.status.isLoading = false
       state.status.isSuccess = false
       state.status.isError = { status: false }
+    },
+    setUploadedImage: (state, action: PayloadAction<string | null>) => {
+      state.auth.user.profilePicture = action.payload
+    },
+    removeUploadedImage: state => {
+      const personIconSvg = renderToStaticMarkup(
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
+          <PersonIcon fill='#afadad' />
+        </svg>
+      )
+
+      const personIconUrl = `data:image/svg+xml;utf8,${encodeURIComponent(
+        personIconSvg
+      )}`
+      state.auth.user.profilePicture = personIconUrl
     },
   },
   extraReducers: builder => {
@@ -155,9 +153,9 @@ const userSlice = createSlice({
 export const selectAuthUser = (state: RootState) => state.ui.auth.user
 export const getUserAvailability = (state: RootState) =>
   state.ui.auth.user.availability
-export const chatStatus = (state: RootState) => state.ui.chat.visibleChat
-export const selectConversation = (state: RootState) => state.ui.chat
 export const uiStatus = (state: RootState) => state.ui.status
+export const getUserProfileImage = (state: RootState) =>
+  state.ui.auth.user.profilePicture
 export const {
   setAuthUser,
   updateAuthUser,
@@ -166,8 +164,7 @@ export const {
   logoutAuthUser,
   toggleSidebar,
   toggleSidebarClose,
-  toggleChat,
-  toggleChatClose,
-  setCurrentConversation,
+  setUploadedImage,
+  removeUploadedImage,
 } = userSlice.actions
 export default userSlice.reducer

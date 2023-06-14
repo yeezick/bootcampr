@@ -13,7 +13,7 @@ export const SelectDate = ({
   handleOnChange,
 }: SelectDateProps) => {
   return (
-    <div className='date-container'>
+    <div className='dateContainer'>
       <div className='date-icon-container'>
         <Icon>
           <AiOutlineCalendar />
@@ -22,7 +22,7 @@ export const SelectDate = ({
       </div>
       <div>
         <input
-          className='date-container-date'
+          className='dateContainerDate'
           type='date'
           name='dueDate'
           onChange={handleOnChange}

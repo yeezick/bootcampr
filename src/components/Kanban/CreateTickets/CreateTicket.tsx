@@ -1,4 +1,4 @@
-import { Button, Box, FormControl, Icon } from '@mui/material'
+import { Box, Icon } from '@mui/material'
 
 import { useState } from 'react'
 import Modal from '@mui/material/Modal'
@@ -7,7 +7,7 @@ import { SelectStatus } from 'components/Kanban'
 import AddIcon from '@mui/icons-material/Add'
 
 import {
-  createTicketInterface,
+  CreateTicketInterface,
   TaskInterface,
 } from 'interfaces/TicketInterFace'
 import { createTicketApi } from 'utils/api/tickets'
@@ -30,7 +30,7 @@ export const CreateTicket = ({
   projectId,
   buttonText,
   buttonClassName,
-}: createTicketInterface) => {
+}: CreateTicketInterface) => {
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
   const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -81,7 +81,7 @@ export const CreateTicket = ({
           {isBeingCreated ? (
             <h1>Creating...</h1>
           ) : (
-            <Box className='ticketDetail-openModal-box'>
+            <Box className='ticketDetailOpenModalBox'>
               <Box className='createTicketBox'>
                 <Box sx={{ width: '50%' }}>
                   <TextFieldData
@@ -92,14 +92,14 @@ export const CreateTicket = ({
                     handleOnChange={handleOnChange}
                   />
                   <Box className='EditableText'>
-                    <div className='EditableText-icon-text'>
+                    <div className='EditableTextIconText'>
                       <Icon>
                         <TbPencilMinus />
                       </Icon>
                       <h4>Description</h4>
                     </div>
                     <TextField
-                      className='EditableText-textField'
+                      className='EditableTextTextField'
                       type='text'
                       // detailIcon={<TbPencilMinus />}
                       id='outlined-basic'
@@ -121,7 +121,7 @@ export const CreateTicket = ({
                     handleOnChange={handleOnChange}
                   />
                 </Box>
-                <Box sx={{ width: '50%' }} className='createTicket-status-user'>
+                <Box sx={{ width: '50%' }} className='createTicketStatusUser'>
                   <SelectStatus
                     handleOnChange={handleOnChange}
                     ticketsStatus={ticketsStatus}

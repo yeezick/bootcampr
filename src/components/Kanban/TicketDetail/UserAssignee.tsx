@@ -11,11 +11,11 @@ export const UserAssignee = ({
 }) => {
   return (
     <div className='UserAssignee'>
-      <div className='UserAssignee-icon-text'>
+      <div className='UserAssigneeIconText'>
         <Icon>{detailIcon}</Icon>
         <h1>{text}</h1>
       </div>
-      <div className='UserAssignee-user-info'>
+      <div className='UserAssigneeUserInfo'>
         <div>
           <img
             src='https://issuetrackerimage.s3.amazonaws.com/0535deeb-4388-4bfd-b191-4c69d1e81cbc'

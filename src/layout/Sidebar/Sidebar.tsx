@@ -8,6 +8,7 @@ import {
   toggleSidebar,
 } from 'utils/redux/slices/userSlice'
 import './Sidebar.scss'
+import Avatar from 'components/Avatar/Avatar'
 
 export const Sidebar = () => {
   const authUser = useAppSelector(selectAuthUser)
@@ -36,7 +37,7 @@ export const Sidebar = () => {
       </div>
 
       <div className='current-user'>
-        <div className='image'></div>
+        <Avatar />
         <div>
           <p className='user-name'>
             {firstName} {lastName}
@@ -53,6 +54,17 @@ export const Sidebar = () => {
         </Link>
         <Link className='link' to={'/availability'}>
           Availability Demo
+        </Link>
+        <Link className='link' to={'/create-project'}>
+          Create project
+        </Link>
+        <Link className='link' to={'/all-projects'}>
+          All Projects
+        </Link>
+
+        {/* TODO: replace with project id */}
+        <Link className='link' to={'/project/123/calendar'}>
+          Calendar
         </Link>
         <Link className='link' to={`/`} onClick={handleLogout}>
           <AiFillStar size={18} /> Sign Out

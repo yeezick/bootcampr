@@ -96,7 +96,7 @@ export const TicketDetail = ({
   }
   return (
     <div>
-      <div onClick={openModal} className='ticketDetail-openModal'>
+      <div onClick={openModal} className='ticketDetailOpenModal'>
         <div>
           <h3>{ticketDetail.title}</h3>
         </div>
@@ -106,7 +106,7 @@ export const TicketDetail = ({
           <h1>Saving changes...</h1>
         ) : (
           <>
-            <Box className='ticketDetail-openModal-box'>
+            <Box className='ticketDetailOpenModalBox'>
               <Box sx={{ display: 'flex' }}>
                 <Box sx={{ width: '50%' }}>
                   <EditableText
@@ -158,16 +158,16 @@ export const TicketDetail = ({
                     defaultValue={ticketDetail.dueDate}
                   />
 
-                  <Box className='ticketDetail-openModal-box-button '>
+                  <Box className='ticketDetailOpenModalBoxButton '>
                     <button
-                      className='ticketDetail-openModal-button button1'
+                      className='ticketDetailOpenModalButton button1'
                       disabled={false}
                       onClick={() => deleteTicket(ticketDetail?._id)}
                     >
                       Delete
                     </button>
                     <button
-                      className='ticketDetail-openModal-button button2'
+                      className='ticketDetailOpenModalButton button2'
                       style={{ backgroundColor: '#8048c8', color: 'white' }}
                       disabled={false}
                       onClick={() => saveChanges()}

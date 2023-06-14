@@ -24,16 +24,16 @@ export const SelectStatus = ({
   ticketsStatus,
 }: SelectStatusProps) => {
   return (
-    <Box sx={{ minWidth: 10 }} className='select-status'>
-      <div className='select-status-icon-text'>
+    <Box sx={{ minWidth: 10 }} className='selectStatus'>
+      <div className='selectStatusIconText'>
         <Icon>
           <FiWatch />
         </Icon>
         <h3>Status</h3>
       </div>
-      <FormControl className='select-status-FormControl'>
+      <FormControl className='selectStatusFormControl'>
         <Select
-          className='select-status-select'
+          className='selectStatusSelect'
           displayEmpty
           onChange={handleOnChange}
           defaultValue={

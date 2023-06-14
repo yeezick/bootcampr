@@ -11,12 +11,12 @@ const TextFieldData = ({
 }) => {
   return (
     <div className='EditableText'>
-      <div className='EditableText-icon-text'>
+      <div className='EditableTextIconText'>
         <Icon>{detailIcon}</Icon>
         <h4>{text}</h4>
       </div>
       <TextField
-        className='EditableText-textField'
+        className='EditableTextTextField'
         id='outlined-basic'
         variant='outlined'
         placeholder={placeholderText}
