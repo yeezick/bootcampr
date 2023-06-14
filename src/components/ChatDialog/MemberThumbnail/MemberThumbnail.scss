@@ -1,0 +1,25 @@
+.thumbnail-container {
+  align-items: center;
+  column-gap: 8px;
+  display: flex;
+
+  .member-info-grid {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2px;
+
+    h5,
+    p {
+      font-weight: 400;
+      margin: 0;
+    }
+
+    h5 {
+      font-size: 13px;
+    }
+
+    p {
+      font-size: 11.5px;
+    }
+  }
+}

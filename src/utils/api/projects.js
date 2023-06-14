@@ -62,3 +62,12 @@ export const updateUserAndProject = async projectUpdate => {
     throw error
   }
 }
+
+export const getProjectByUser = async userId => {
+  try {
+    const res = await api.get(`/users/${userId}/project`)
+    return res.data
+  } catch (error) {
+    throw error
+  }
+}
