@@ -13,7 +13,7 @@ export interface TaskInterface {
 }
 
 export interface TicketInterface {
-  assignees?: UserInterface | string
+  assignees?: UserInterface
   createAt?: string
   description?: string
   projectId?: string
@@ -22,7 +22,7 @@ export interface TicketInterface {
   dueDate?: string
   link?: string
   updatedAt?: string
-  ticketOwner?: UserInterface | string
+  createdBy?: UserInterface
   _v?: number
   _id?: string
 }
@@ -49,6 +49,8 @@ export interface CreateTicketInterface {
   setGetAllTicket?: React.Dispatch<React.SetStateAction<TicketInterface>>
   splitCamelCaseToWords?: (str: string) => string
   ticketsStatus?: string
+  buttonText?: string
+  buttonClassName?: string
 }
 
 export interface TicketStatusChangeFunc {
@@ -60,6 +62,7 @@ export interface TicketStatusChangeFunc {
 export interface TicketDetailPropsInterface {
   concatenatedString?: (str: string) => string
   getAllTicket?: TicketInterface[]
+  ref?: any
   setGetAllTicket?: React.Dispatch<React.SetStateAction<TicketInterface[]>>
   splitCamelCaseToWords?: (str: string) => string
   ticketDetail?: TicketInterface

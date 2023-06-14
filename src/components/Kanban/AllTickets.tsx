@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { CreateTicket } from 'components/Kanban'
 import { TicketDetail } from 'components/Kanban'
+import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd'
 import {
   TicketInterface,
   KeyOfTicketStatusType,
@@ -9,6 +10,7 @@ import {
   TicketStatusChangeFunc,
 } from 'interfaces'
 import { updateTicketInformationAndStatus } from 'utils/api/tickets'
+import kanbanImage from './svg/bootcampr.png'
 import './Ticket.scss'
 
 export const AllTickets = ({ projectTracker }) => {
@@ -17,27 +19,23 @@ export const AllTickets = ({ projectTracker }) => {
   const [getAllTicket, setGetAllTicket] = useState(
     projectTracker?.projectTracker
   )
+  const handleOnDragEnd = movingTicket => {
+    if (movingTicket) {
+      const ticketId = movingTicket.draggableId
+      const sourceCategory: KeyOfTicketStatusType =
+        movingTicket.source?.droppableId
+      const targetCategory: KeyOfTicketStatusType =
+        movingTicket.destination?.droppableId
+      if (sourceCategory && targetCategory) {
+        const item: TicketInterface | undefined = getAllTicket[
+          sourceCategory as KeyOfTicketStatusType
+        ]?.find(item => item._id?.toString() === ticketId)
 
-  const [activeItem, setActiveItem] = useState<KeyOfTicketStatusType | null>(
-    null
-  )
-
-  const dragDropped = (
-    e: React.DragEvent,
-    targetCategory: KeyOfTicketStatusType
-  ) => {
-    e.preventDefault()
-    const ticketId = e.dataTransfer.getData('id')
-    const sourceCategory: KeyOfTicketStatusType = concatenatedString(activeItem)
-
-    const item: TicketInterface | undefined = getAllTicket[
-      sourceCategory as KeyOfTicketStatusType
-    ]?.find(item => item._id?.toString() === ticketId)
-
-    if (sourceCategory !== targetCategory && item) {
-      ticketStatusChange({ sourceCategory, targetCategory, item, ticketId })
+        if (sourceCategory !== targetCategory && item) {
+          ticketStatusChange({ sourceCategory, targetCategory, item, ticketId })
+        }
+      }
     }
-    setActiveItem(null)
   }
 
   const ticketStatusChange = ({
@@ -61,7 +59,6 @@ export const AllTickets = ({ projectTracker }) => {
       ],
       [targetCategory]: [...addToNewSection],
     })
-
     updateTicketInformationAndStatus({
       projectId: id,
       newStatus: targetCategory,
@@ -70,84 +67,131 @@ export const AllTickets = ({ projectTracker }) => {
     })
   }
 
-  const draggingOver = (e: React.DragEvent<HTMLDivElement>) =>
-    e.preventDefault()
-
-  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) =>
-    e.preventDefault()
-
-  const dragHasStarted = (
-    e: React.DragEvent<HTMLDivElement>,
-    itemType: KeyOfTicketStatusType | null,
-    dataId: string
-  ) => {
-    e.dataTransfer.setData('id', dataId)
-    setActiveItem(itemType)
-  }
-  const concatenatedString = statusString => statusString.replace(/\s+/g, '')
-
-  const splitCamelCaseToWords = statusString =>
+  const concatenatedString = (statusString: string) =>
+    statusString.replace(/\s+/g, '')
+  const splitCamelCaseToWords = (statusString: string) =>
     statusString?.split(/(?=[A-Z])/).join(' ')
+
+  const formatTaskStatus = (status: string) => {
+    switch (status) {
+      case 'toDo':
+        return 'To Do'
+      case 'inProgress':
+        return 'In Progress'
+      case 'completed':
+        return 'Completed'
+      case 'underReview':
+        return 'Under Review'
+      default:
+        return status
+    }
+  }
+
+  const checkIfTheresNoTicket = () => {
+    const noTicket = Object.keys(getAllTicket).every(
+      ticketStatus => getAllTicket[ticketStatus]?.length === 0
+    )
+    return noTicket
+  }
 
   return (
     <div className='AllTickets'>
-      {Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
-        <div
-          className='container'
-          onDrop={e =>
-            dragDropped(e, concatenatedString(ticketsStatus as string))
-          }
-          key={i}
-          onDragOver={draggingOver}
-        >
+      <div
+        className={`${
+          checkIfTheresNoTicket()
+            ? 'AllTicketsDragDropNoTicket'
+            : 'AllTicketsDragDrop'
+        }`}
+      >
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          {Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
+            <Droppable droppableId={ticketsStatus} key={ticketsStatus}>
+              {provided => (
+                <div className='ticketStatusContainer' key={i}>
+                  <div className='ticketStatusProgress'>
+                    <p>{formatTaskStatus(ticketsStatus)}</p>
+                    <span>{getAllTicket[ticketsStatus].length}</span>
+                  </div>
+                  <div>
+                    <CreateTicket
+                      projectId={id}
+                      setGetAllTicket={setGetAllTicket}
+                      getAllTicket={getAllTicket}
+                      ticketsStatus={splitCamelCaseToWords(ticketsStatus)}
+                      concatenatedString={concatenatedString}
+                      buttonText='Create task'
+                    />
+                  </div>
+                  <div
+                    className='content'
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {getAllTicket[ticketsStatus as KeyOfTicketStatusType]?.map(
+                      (ticketDetail: TicketInterface, idx) => (
+                        <Draggable
+                          key={ticketDetail._id}
+                          draggableId={ticketDetail._id}
+                          index={idx}
+                        >
+                          {provided => (
+                            <div
+                              className='ticketContainer'
+                              id={ticketDetail._id}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <TicketDetail
+                                ticketDetail={ticketDetail}
+                                getAllTicket={getAllTicket}
+                                setGetAllTicket={setGetAllTicket}
+                                ticketsStatus={ticketsStatus}
+                                splitCamelCaseToWords={splitCamelCaseToWords}
+                                concatenatedString={concatenatedString}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      )
+                    )}
+                    {provided.placeholder}
+                  </div>
+                </div>
+              )}
+            </Droppable>
+          ))}
+        </DragDropContext>
+      </div>
+      {checkIfTheresNoTicket() ? (
+        <div className='ifTheresNoTicket'>
+          <div className='ifTheresNoTicketImageContainer'>
+            <img src={kanbanImage} alt='kanbanImage' />
+          </div>
           <div>
-            <h1>{splitCamelCaseToWords(ticketsStatus)}</h1>
+            <h1>Your team hasn’t created any tasks.</h1>
+          </div>
+          <div className='textBox'>
+            <p>
+              Maximize efficiency and visualize work by tracking tasks here.
+              Move the task through the board from To Do to Complete. You’ll be
+              one step closer to shipping a live product with each completed
+              task!
+            </p>
           </div>
           <div>
             <CreateTicket
               projectId={id}
               setGetAllTicket={setGetAllTicket}
               getAllTicket={getAllTicket}
-              ticketsStatus={splitCamelCaseToWords(ticketsStatus)}
+              ticketsStatus={'to Do'}
               concatenatedString={concatenatedString}
+              buttonText=' Created first task'
+              buttonClassName='button2'
             />
           </div>
-          <div className='content'>
-            {getAllTicket[ticketsStatus as KeyOfTicketStatusType]?.map(
-              (ticketDetail: TicketInterface) => (
-                <div
-                  className='data'
-                  draggable='true'
-                  onDragStart={e =>
-                    dragHasStarted(
-                      e,
-                      splitCamelCaseToWords(
-                        ticketsStatus
-                      ) as KeyOfTicketStatusType,
-                      ticketDetail._id as string
-                    )
-                  }
-                  onDragEnter={handleDragEnter}
-                  id={ticketDetail._id}
-                  key={ticketDetail._id}
-                >
-                  <h1>{ticketDetail.status}</h1>
-
-                  <h1>{ticketDetail.description}</h1>
-                  <TicketDetail
-                    ticketDetail={ticketDetail}
-                    getAllTicket={getAllTicket}
-                    setGetAllTicket={setGetAllTicket}
-                    ticketsStatus={ticketsStatus}
-                    splitCamelCaseToWords={splitCamelCaseToWords}
-                    concatenatedString={concatenatedString}
-                  />
-                </div>
-              )
-            )}
-          </div>
         </div>
-      ))}
+      ) : null}
     </div>
   )
 }

@@ -1,8 +1,11 @@
+import { Box, Icon } from '@mui/material'
+
 import { useState } from 'react'
-import { Button, Box, FormControl, TextField } from '@mui/material'
-// Todo: replace this modal with modal from MUI
-import Modal from 'react-modal'
+import Modal from '@mui/material/Modal'
+import TextField from '@mui/material/TextField'
 import { SelectStatus } from 'components/Kanban'
+import AddIcon from '@mui/icons-material/Add'
+
 import {
   CreateTicketInterface,
   TaskInterface,
@@ -11,19 +14,13 @@ import { createTicketApi } from 'utils/api/tickets'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import '../Ticket.scss'
-
-const customStyles = {
-  content: {
-    top: '50%',
-    width: '40rem',
-    height: '25rem',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '50%',
-    transform: 'translate(-50%, -50%)',
-  },
-}
+import TextFieldData from './TextFieldData'
+import { MdOutlineTitle } from 'react-icons/md'
+import { BiLink } from 'react-icons/bi'
+import { UserAssignee } from '../TicketDetail/UserAssignee'
+import { RxPerson } from 'react-icons/rx'
+import { SelectDate } from '../TicketDetail/SelectDate'
+import { TbPencilMinus } from 'react-icons/tb'
 
 export const CreateTicket = ({
   setGetAllTicket,
@@ -31,8 +28,10 @@ export const CreateTicket = ({
   concatenatedString,
   ticketsStatus,
   projectId,
+  buttonText,
+  buttonClassName,
 }: CreateTicketInterface) => {
-  Modal.setAppElement('#root')
+  const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
   const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()
   const [modalIsOpen, setIsOpen] = useState(false)
   const [isBeingCreated, setIsBeingCreated] = useState<boolean>(false)
@@ -40,7 +39,7 @@ export const CreateTicket = ({
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
 
-  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
     setAddTicketForm({
       ...addTicketForm,
@@ -65,89 +64,97 @@ export const CreateTicket = ({
       [newStatus]: [...getAllTicket[newStatus], { ...createdTicket }],
     })
     setIsBeingCreated(false)
-
     closeModal()
   }
 
   return (
     <div>
-      <button onClick={openModal}>Create a ticket</button>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel='Example Modal'
+      <button
+        onClick={openModal}
+        className={buttonClassName ?? 'createTicketButton'}
       >
+        <Icon {...label} component={AddIcon} />
+        {buttonText}
+      </button>
+      <Modal open={modalIsOpen} onClose={closeModal} className='modal'>
         <div>
-          <h1>Create a ticket</h1>
           {isBeingCreated ? (
             <h1>Creating...</h1>
           ) : (
-            <FormControl>
+            <Box className='ticketDetailOpenModalBox'>
               <Box className='createTicketBox'>
                 <Box sx={{ width: '50%' }}>
-                  <TextField
-                    className='textFieldStyle'
-                    type='text'
-                    label='Title'
-                    id='outlined-basic'
-                    variant='outlined'
-                    name='title'
-                    onChange={handleOnChange}
+                  <TextFieldData
+                    name={'title'}
+                    text='Title'
+                    detailIcon={<MdOutlineTitle />}
+                    placeholderText={'Ex, User interviews'}
+                    handleOnChange={handleOnChange}
                   />
-                  <TextField
-                    className='textFieldStyle'
-                    type='text'
-                    label='link'
-                    id='outlined-basic'
-                    variant='outlined'
-                    name='link'
-                    onChange={handleOnChange}
+                  <Box className='EditableText'>
+                    <div className='EditableTextIconText'>
+                      <Icon>
+                        <TbPencilMinus />
+                      </Icon>
+                      <h4>Description</h4>
+                    </div>
+                    <TextField
+                      className='EditableTextTextField'
+                      type='text'
+                      // detailIcon={<TbPencilMinus />}
+                      id='outlined-basic'
+                      variant='outlined'
+                      multiline
+                      placeholder='Give a description of the task.
+                      You may want to include user stories:
+                      As a _______, I want to _________, so that I can ________.'
+                      name='description'
+                      onChange={handleOnChange}
+                      InputProps={{ rows: 4.5 }}
+                    />
+                  </Box>
+                  <TextFieldData
+                    detailIcon={<BiLink />}
+                    text='Link'
+                    name={'link'}
+                    placeholderText={'Add a link'}
+                    handleOnChange={handleOnChange}
                   />
-                  <input type='date' name='dueDate' onChange={handleOnChange} />
-                  <p>createdBy:{authUser?.firstName}</p>
                 </Box>
-                <Box sx={{ width: '50%' }}>
-                  <TextField
-                    className='textFieldStyle'
-                    type='text'
-                    id='outlined-basic'
-                    label='Description'
-                    variant='outlined'
-                    multiline
-                    name='description'
-                    onChange={handleOnChange}
-                    InputProps={{ rows: 4.5 }}
-                  />
+                <Box sx={{ width: '50%' }} className='createTicketStatusUser'>
                   <SelectStatus
                     handleOnChange={handleOnChange}
                     ticketsStatus={ticketsStatus}
                   />
+                  <UserAssignee
+                    text='Assignee'
+                    detailIcon={<RxPerson />}
+                    userName={authUser.firstName}
+                    userRole={authUser.role}
+                    userImage={authUser.profilePicture}
+                  />
+                  <SelectDate handleOnChange={handleOnChange} />
+
+                  <Box className='ticketDetail-openModal-box-button '>
+                    <button
+                      className='button1'
+                      disabled={false}
+                      onClick={closeModal}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      disabled={false}
+                      onClick={() => addTickets()}
+                      className='button2'
+                      style={{ backgroundColor: '#FA9413', color: 'black' }}
+                    >
+                      Add a ticket
+                    </button>
+                  </Box>
                 </Box>
               </Box>
-              <Box>
-                <Button
-                  sx={{ marginRight: '10px' }}
-                  color='primary'
-                  disabled={false}
-                  size='small'
-                  variant='outlined'
-                  onClick={() => addTickets()}
-                >
-                  Add a ticket
-                </Button>
-                <Button
-                  sx={{ marginRight: '10px' }}
-                  color='error'
-                  disabled={false}
-                  size='small'
-                  variant='outlined'
-                  onClick={closeModal}
-                >
-                  close
-                </Button>
-              </Box>
-            </FormControl>
+            </Box>
           )}
         </div>
       </Modal>
