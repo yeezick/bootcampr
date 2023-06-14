@@ -6,7 +6,6 @@ import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { PaginatorExample } from 'components/Paginator/Examples/PaginatorExample'
 import { AllProjects, CreateProject, ProjectDetails } from 'screens/Project'
-import ProjectPage from 'screens/Project/ProjectPage' // revisit
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 import { Calendar } from 'screens/Project/Calendar'
 import './App.css'
