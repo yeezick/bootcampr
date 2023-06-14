@@ -5,11 +5,18 @@
   justify-content: center;
 }
 
-.AllTickets-drag-drop {
+.AllTicketsDragDrop {
   display: flex;
   width: 100%;
   justify-content: space-between;
   gap: 10px;
+}
+.AllTicketsDragDropNoTicket {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 10px;
+  height: 10rem;
 }
 
 .ticketStatusContainer {
@@ -264,4 +271,22 @@
 
   margin: 0;
   padding: 13px 23px;
+}
+
+.ifTheresNoTicket {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .ifTheresNoTicketImageContainer {
+    display: flex;
+    justify-content: center;
+  }
+  img {
+    width: 50%;
+  }
+  .textBox {
+    font-size: 20px;
+    text-align: center;
+    width: 50%;
+  }
 }
