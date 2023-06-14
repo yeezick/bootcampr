@@ -1,28 +1,28 @@
 .AllTickets {
   display: flex;
-  width: 100%;
   flex-direction: column;
   justify-content: center;
+  width: 100%;
 }
-
 .AllTicketsDragDrop {
   display: flex;
-  width: 100%;
-  justify-content: space-between;
   gap: 10px;
+  justify-content: space-between;
+  width: 100%;
 }
+
 .AllTicketsDragDropNoTicket {
   display: flex;
-  width: 100%;
-  justify-content: space-between;
   gap: 10px;
   height: 10rem;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .ticketStatusContainer {
   display: flex;
-  width: 20%;
   flex-direction: column;
+  width: 20%;
 }
 
 .content {
@@ -30,8 +30,8 @@
 }
 
 .textFieldStyle {
-  width: 100%;
   padding-top: 20px;
+  width: 100%;
 }
 
 .createTicketBox {
@@ -40,51 +40,47 @@
   gap: 30px;
 }
 
-.createTicketButton {
-  background-color: red;
-}
-
 .ticketStatusProgress {
-  display: flex;
   align-items: center;
-  gap: 10px;
-  padding-left: 20px;
-  font-size: 18px;
-  font-weight: bold;
   background-color: white;
   border-radius: 10px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  font-size: 18px;
+  font-weight: bold;
+  gap: 10px;
+  padding-left: 20px;
 }
 
 .createTicketButton {
-  margin-top: 10px;
-  display: flex;
   align-items: center;
-  gap: 5px;
-  height: 2.5rem;
-  font-size: 15px;
   background: #313335;
   border: 1px solid #313335;
   border-radius: 4px;
-  width: 100%;
   box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px 0;
   color: #fff;
   cursor: pointer;
+  display: flex;
+  font-size: 15px;
   font-weight: 400;
+  gap: 5px;
+  height: 2.5rem;
+  margin-top: 10px;
+  width: 100%;
 }
 
 .ticketDetail-openModal {
-  margin-top: 10px;
-  display: flex;
   align-items: center;
-  height: 2.8rem;
-  font-size: 15px;
   background: #313335;
   border-radius: 4px;
-  width: 100%;
   box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px 0;
   color: #fff;
+  display: flex;
+  font-size: 15px;
   font-weight: 400;
+  height: 2.8rem;
+  margin-top: 10px;
+  width: 100%;
 }
 
 .ticketDetail-openModal > div {
@@ -96,18 +92,17 @@
 }
 
 .ticketDetail-openModal-box {
-  display: flex;
-  position: absolute;
-  flex-direction: column;
-  top: 50%;
-  left: 50%;
-  width: 50%;
-  min-height: 70%;
-  transform: translate(-50%, -50%);
   background: #d9d9d9;
-
   box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  left: 50%;
+  min-height: 70%;
   padding: 16px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
 }
 
 .EditableText {
@@ -117,8 +112,8 @@
 }
 
 .EditableText > blockquote {
-  margin-top: 0;
   margin-bottom: 0;
+  margin-top: 0;
 }
 
 .EditableText-icon-text {
@@ -132,12 +127,9 @@
 }
 
 .UserAssignee {
-  display: flex;
-  flex-direction: column;
-
   .UserAssignee-icon-text {
-    display: flex;
     align-items: center;
+    display: flex;
     gap: 10px;
   }
 
@@ -145,6 +137,19 @@
     font-size: 1.1rem;
   }
 
+  .UserAssignee-user-info {
+    align-items: center;
+    background-color: #f5f5f5;
+    border-radius: 0.4rem;
+    display: flex;
+    height: 4rem;
+    margin-left: 2rem;
+    width: 90%;
+  }
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   img {
     width: 3rem;
   }
@@ -152,68 +157,57 @@
   p {
     margin: 0;
   }
-
-  .UserAssignee-user-info {
-    height: 4rem;
-    width: 90%;
-    margin-left: 2rem;
-
-    border-radius: 0.4rem;
-    display: flex;
-    align-items: center;
-    background-color: #f5f5f5;
-  }
 }
-.select-status {
-  display: flex;
-  flex-direction: column;
 
+.select-status {
   .select-status-icon-text {
-    display: flex;
     align-items: center;
+    display: flex;
     gap: 10px;
   }
 
   .select-status-select {
-    height: 3rem;
-    width: 60%;
-    margin-left: 2rem;
-    border-radius: 0.4rem;
-    display: flex;
     align-items: center;
     background-color: #f5f5f5;
+    border-radius: 0.4rem;
+    display: flex;
+    height: 3rem;
+    margin-left: 2rem;
+    width: 60%;
   }
-}
-.date-container {
+
   display: flex;
   flex-direction: column;
-  .date-icon-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    h1 {
-      font-size: 1.1rem;
-    }
-  }
+}
+
+.date-container {
   .date-container-date {
-    height: 3rem;
-    width: 60%;
-    margin-left: 2rem;
-    border-radius: 0.4rem;
-    display: flex;
     align-items: center;
     background-color: #f5f5f5;
+    border-radius: 0.4rem;
+    display: flex;
     font-size: 1.1rem;
+    height: 3rem;
+    margin-left: 2rem;
+    width: 60%;
   }
+
+  .date-icon-container {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+  }
+
+  display: flex;
+  flex-direction: column;
 }
 
 .ticketDetail-openModal-box-button {
-  display: flex;
-  max-height: 100%;
-
-  justify-content: flex-end;
   align-items: flex-end;
+  display: flex;
   gap: 40px;
+  justify-content: flex-end;
+  max-height: 100%;
 
   .ticketDetail-openModal-button {
     height: 40%;
@@ -230,13 +224,13 @@
 }
 
 .createTicket {
+  height: 25rem;
+  left: 50%;
+  margin-right: -20rem;
   position: absolute;
   top: 50%;
-  left: 50%;
-  width: 40rem;
-  height: 25rem;
-  margin-right: -20rem;
   transform: translate(-50%, -50%);
+  width: 40rem;
 }
 
 .button2 {
@@ -268,22 +262,23 @@
   cursor: pointer;
   font-size: 16px;
   font-weight: 600;
-
   margin: 0;
   padding: 13px 23px;
 }
 
 .ifTheresNoTicket {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  img {
+    width: 50%;
+  }
+
   .ifTheresNoTicketImageContainer {
     display: flex;
     justify-content: center;
   }
-  img {
-    width: 50%;
-  }
+
   .textBox {
     font-size: 20px;
     text-align: center;
