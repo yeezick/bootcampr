@@ -92,6 +92,7 @@ const PageBar = ({ currentPageId, handlePageNavigation, allPages }) => {
     <div className='page-bar'>
       {Object.keys(allPages).map(pageTitle => (
         <PageBarItem
+          key={pageTitle}
           page={allPages[pageTitle]}
           handlePageNavigation={handlePageNavigation}
           currentPageId={currentPageId}

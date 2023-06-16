@@ -5,7 +5,8 @@ import { Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { PaginatorExample } from 'components/Paginator/Examples/PaginatorExample'
-import { AllProjects, CreateProject, ProjectDetails } from 'screens/Project'
+import { AllProjects, ProjectDetails } from 'screens/Project'
+import { ProjectCompletion } from './screens/ProjectCompletion/ProjectCompletion'
 // import ProjectPage from 'screens/Project/ProjectPage' // revisit
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 import { Calendar } from 'screens/Project/Calendar'
@@ -31,7 +32,7 @@ function App() {
           <Route path='/paginator-example' element={<PaginatorExample />} />
           {/* Project */}
           <Route path='/all-projects' element={<AllProjects />} />
-          <Route path='/create-project' element={<CreateProject />} />
+          <Route path='/project-completion' element={<ProjectCompletion />} />
           <Route path='/project/:id' element={<ProjectDetails />} />
           <Route path='/project/:id/calendar' element={<Calendar />} />
         </Routes>

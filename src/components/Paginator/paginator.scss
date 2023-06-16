@@ -12,6 +12,14 @@
   justify-content: space-evenly;
 }
 
+.paginator {
+  background-color: #ffffff;
+
+  h2 {
+    margin: 0;
+  }
+}
+
 .page-bar-item-wrapper {
   align-items: center;
   display: flex;
@@ -32,6 +40,6 @@
 }
 
 .current-page-wrapper {
-  height: 100%;
-  width: 100%;
+  // height: 100%;
+  // width: 100%;
 }
