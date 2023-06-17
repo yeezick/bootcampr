@@ -38,7 +38,7 @@
 .createTicketBox {
   display: flex;
   flex-direction: row;
-  gap: 30px;
+  gap: 70px;
 }
 
 .ticketStatusProgress {
@@ -99,17 +99,27 @@
   flex-direction: column;
   left: 50%;
   min-height: 70%;
-  padding: 16px;
+  padding: 30px;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 50%;
+  width: fit-content;
+
+  .close-x {
+    font-size: 18px;
+    text-align: end;
+  }
 }
 
 .EditableText {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  margin-bottom: 15px;
+
+  h4 {
+    font-size: 18px;
+  }
 }
 
 .EditableText > blockquote {
@@ -146,6 +156,14 @@
     height: 4rem;
     margin-left: 2rem;
     width: 90%;
+
+    .assignee-thumbnail {
+      border-radius: 50%;
+      height: 50px;
+      margin: 5px;
+      width: 50px;
+      object-fit: cover;
+    }
   }
 
   display: flex;
@@ -217,12 +235,14 @@
 
 .EditableTextTextField {
   background-color: white;
+  width: 400px;
 }
 
 .createTicketStatusUser {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  width: 300px;
 }
 
 .createTicket {

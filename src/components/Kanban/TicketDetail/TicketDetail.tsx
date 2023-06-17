@@ -1,6 +1,6 @@
 import { useState, useRef, MutableRefObject } from 'react'
 import Modal from '@mui/material/Modal'
-import { Button, Box } from '@mui/material'
+import { Box } from '@mui/material'
 import { SelectStatus } from 'components/Kanban'
 import { SelectChangeEvent } from '@mui/material/Select'
 import { TaskInterface, TicketDetailPropsInterface } from 'interfaces'
@@ -15,10 +15,11 @@ import EditableText from './EditableText'
 import { MdOutlineTitle } from 'react-icons/md'
 import { TbPencilMinus } from 'react-icons/tb'
 import { BiLink } from 'react-icons/bi'
-import { RxPerson } from 'react-icons/rx'
+import { RxPerson, RxText } from 'react-icons/rx'
 import { UserAssignee } from './UserAssignee'
 import { SelectDate } from './SelectDate'
 import '../Ticket.scss'
+import { SelectAssignee } from '../CreateTickets/SelectAssignee'
 
 export const TicketDetail = ({
   ticketDetail,
@@ -110,7 +111,7 @@ export const TicketDetail = ({
               <Box sx={{ display: 'flex' }}>
                 <Box sx={{ width: '50%' }}>
                   <EditableText
-                    detailIcon={<MdOutlineTitle />}
+                    detailIcon={<RxText />}
                     text='Title'
                     editRef={tittleRef}
                     ticketDetail={ticketDetail.title}
@@ -136,22 +137,26 @@ export const TicketDetail = ({
                     ticketDetail={ticketDetail}
                     splitCamelCaseToWords={splitCamelCaseToWords}
                   />
-
+                  {/* 
                   <UserAssignee
                     text='Created by'
                     detailIcon={<RxPerson />}
                     userName={ticketDetail?.createdBy?.firstName}
                     userRole={ticketDetail?.createdBy?.role}
                     userImage={ticketDetail?.createdBy?.profilePicture}
-                  />
+                  /> */}
 
-                  <UserAssignee
+                  <SelectAssignee
+                    ticketDetail='testing'
+                    setAssignees={() => console.log('what')}
+                  />
+                  {/* <UserAssignee
                     text='Assignee'
                     detailIcon={<RxPerson />}
                     userName={ticketDetail?.assignees?.firstName}
                     userRole={ticketDetail?.assignees?.role}
                     userImage={ticketDetail?.assignees?.profilePicture}
-                  />
+                  /> */}
 
                   <SelectDate
                     dateRef={dateRef}

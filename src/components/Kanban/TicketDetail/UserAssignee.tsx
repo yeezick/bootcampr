@@ -1,14 +1,17 @@
 import React from 'react'
 import '../Ticket.scss'
-import { Icon } from '@mui/material'
+import { Icon, MenuItem, MenuItemProps, Select } from '@mui/material'
+import { SelectAssignee } from '../CreateTickets/SelectAssignee'
 
 export const UserAssignee = ({
-  userName,
+  userName = 'Unassigned',
   text,
   detailIcon,
-  userImage,
-  userRole,
+  userImage = 'default',
+  userRole = '',
 }) => {
+  console.log(text)
+
   return (
     <div className='UserAssignee'>
       <div className='UserAssigneeIconText'>
@@ -17,15 +20,19 @@ export const UserAssignee = ({
       </div>
       <div className='UserAssigneeUserInfo'>
         <div>
-          <img
-            src='https://issuetrackerimage.s3.amazonaws.com/0535deeb-4388-4bfd-b191-4c69d1e81cbc'
-            alt=''
-          />
+          <Select>
+            <MenuItem value='Julia'>
+              <div>
+                <img className='assignee-thumbnail' src={userImage} alt='' />
+              </div>
+              Julia Dwyer
+            </MenuItem>
+          </Select>
         </div>
-        <div>
+        {/* <div>
           <p>{userName}</p>
           <p>{userRole}</p>
-        </div>
+        </div> */}
       </div>
     </div>
   )

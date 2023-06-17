@@ -1,6 +1,6 @@
 import { Box, Icon } from '@mui/material'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Modal from '@mui/material/Modal'
 import TextField from '@mui/material/TextField'
 import { SelectStatus } from 'components/Kanban'
@@ -18,9 +18,10 @@ import TextFieldData from './TextFieldData'
 import { MdOutlineTitle } from 'react-icons/md'
 import { BiLink } from 'react-icons/bi'
 import { UserAssignee } from '../TicketDetail/UserAssignee'
-import { RxPerson } from 'react-icons/rx'
+import { RxPerson, RxText } from 'react-icons/rx'
 import { SelectDate } from '../TicketDetail/SelectDate'
 import { TbPencilMinus } from 'react-icons/tb'
+import { SelectAssignee } from './SelectAssignee'
 
 export const CreateTicket = ({
   setGetAllTicket,
@@ -38,6 +39,10 @@ export const CreateTicket = ({
   const authUser = useAppSelector(selectAuthUser)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
+
+  useEffect(() => {
+    console.log(projectId)
+  }, [])
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -82,12 +87,14 @@ export const CreateTicket = ({
             <h1>Creating...</h1>
           ) : (
             <Box className='ticketDetailOpenModalBox'>
+              {/* replace with an icon */}
+              <div className='close-x'>x</div>
               <Box className='createTicketBox'>
-                <Box sx={{ width: '50%' }}>
+                <Box>
                   <TextFieldData
                     name={'title'}
                     text='Title'
-                    detailIcon={<MdOutlineTitle />}
+                    detailIcon={<RxText />}
                     placeholderText={'Ex, User interviews'}
                     handleOnChange={handleOnChange}
                   />
@@ -121,18 +128,18 @@ export const CreateTicket = ({
                     handleOnChange={handleOnChange}
                   />
                 </Box>
-                <Box sx={{ width: '50%' }} className='createTicketStatusUser'>
+                <Box className='createTicketStatusUser'>
                   <SelectStatus
                     handleOnChange={handleOnChange}
                     ticketsStatus={ticketsStatus}
                   />
-                  <UserAssignee
-                    text='Assignee'
-                    detailIcon={<RxPerson />}
-                    userName={authUser.firstName}
-                    userRole={authUser.role}
-                    userImage={authUser.profilePicture}
+
+                  <SelectAssignee
+                    ticketDetail='test'
+                    setAssignees={() => console.log('setting assignee')}
                   />
+                  {/* Assignee here */}
+                  <UserAssignee text='Assignee' detailIcon={<RxPerson />} />
                   <SelectDate handleOnChange={handleOnChange} />
 
                   <Box className='ticketDetail-openModal-box-button '>
