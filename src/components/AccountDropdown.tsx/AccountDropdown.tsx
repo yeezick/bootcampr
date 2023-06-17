@@ -1,17 +1,26 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Menu, MenuItem } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectUserId } from 'utils/redux/slices/userSlice'
 
-export const AccountDropdown = ({ anchorEl, onSelection }) => {
+export const AccountDropdown = ({ anchorEl, onSelection, closeDropdown }) => {
   const [open, setOpen] = useState(false)
   const userId = useSelector(selectUserId)
+
+  useEffect(() => {
+    if (anchorEl) {
+      setOpen(true)
+    } else {
+      setOpen(false)
+    }
+  }, [anchorEl])
 
   const handleClose = (executeSelection?) => {
     if (executeSelection) {
       onSelection()
     }
+    closeDropdown()
     setOpen(false)
   }
 

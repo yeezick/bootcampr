@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import {
-  getUserProfileImage,
   selectAuthUser,
   toggleSidebar,
   toggleSidebarClose,
@@ -21,21 +19,23 @@ import {
   toggleChat,
   toggleChatClose,
 } from 'utils/redux/slices/chatSlice'
-import ProfilePreviewImage from 'screens/ProfilePreviewImage/ProfilePreviewImage'
 import { ChatIconBadge } from 'components/ChatDialog/ChatIconBadge/ChatIconBadge'
+import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
 
 export const Nav = () => {
   const [colored, setColored] = useState(false)
   const [notificationCount, setNotificationCount] = useState(0)
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const reduxUploadedImage = useSelector(getUserProfileImage)
+  const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId } = authUser
   const dispatch = useAppDispatch()
   const { socketConnection } = Socket()
-  const visibleChat = useAppSelector(chatStatus)
-  const chatRef = useRef(null)
   const location = useLocation()
+  const closeDropdown = () => setAnchorEl(null)
+  const toggleSidebarHandler = () => dispatch(toggleSidebar())
+  const ChangeNavbarColor = () =>
+    window.scrollY >= 100 ? setColored(true) : setColored(false)
+  window.addEventListener('scroll', ChangeNavbarColor)
 
   useEffect(() => {
     if (socketConnection) {
@@ -66,23 +66,6 @@ export const Nav = () => {
     dispatch(toggleSidebarClose())
   }, [dispatch, location])
 
-  const toggleSidebarHandler = () => {
-    dispatch(toggleSidebar())
-  }
-
-  const toggleChatBox = () => {
-    dispatch(toggleChat())
-  }
-
-  const ChangeNavbarColor = () => {
-    window.scrollY >= 100 ? setColored(true) : setColored(false)
-  }
-
-  const openModal = () => setIsModalOpen(true)
-  const closeModal = () => setIsModalOpen(false)
-
-  window.addEventListener('scroll', ChangeNavbarColor)
-
   return (
     <nav
       className={
@@ -104,52 +87,68 @@ export const Nav = () => {
         </div>
       </div>
 
-      {userId && (
-        <div className='notifications'>
-          <div className='messages-icon' ref={chatRef}>
-            <BsFillChatLeftTextFill
-              size={23}
-              className='chat-icon'
-              onClick={() => toggleChatBox()}
-            />
-            <ChatIconBadge />
-            {visibleChat && <ChatDialogMain />}
-          </div>
-          <div className='notification-badge link'>
-            <NotificationModal />
-          </div>
-          {notificationCount > 0 && (
-            <div className='notification-count'>
-              <span>{notificationCount}</span>
-            </div>
-          )}
-          <Avatar openModal={openModal} />
-          <Link className='link' to='/'>
-            <MdArrowDropDown size={25} />
-          </Link>
-        </div>
+      {userId ? (
+        <AuthorizedNavLinks
+          notificationCount={notificationCount}
+          setAnchorEl={setAnchorEl}
+        />
+      ) : (
+        <UnauthorizedNavLinks />
       )}
 
-      {!userId && (
-        <div className='auth-btn'>
-          <div>
-            <Link className='link sign-up' to='/sign-up'>
-              Sign up
-            </Link>
-          </div>
-
-          <div>
-            <Link className='link log-in' to='/sign-in'>
-              Log in
-            </Link>
-          </div>
-        </div>
-      )}
-      <ProfilePreviewImage
-        open={isModalOpen}
-        onClose={closeModal}
-        uploadedImage={reduxUploadedImage}
+      <AccountDropdown
+        anchorEl={anchorEl}
+        onSelection={() => null}
+        closeDropdown={closeDropdown}
       />
     </nav>
   )
 }
+
+const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
+  const visibleChat = useAppSelector(chatStatus)
+  const chatRef = useRef(null)
+  const dispatch = useAppDispatch()
+  const toggleChatBox = () => {
+    dispatch(toggleChat())
+  }
+
+  return (
+    <div className='notifications'>
+      <div className='messages-icon' ref={chatRef}>
+        <BsFillChatLeftTextFill
+          size={23}
+          className='chat-icon'
+          onClick={() => toggleChatBox()}
+        />
+        <ChatIconBadge />
+        {visibleChat && <ChatDialogMain />}
+      </div>
+      <div className='notification-badge link'>
+        <NotificationModal />
+      </div>
+      {notificationCount > 0 && (
+        <div className='notification-count'>
+          <span>{notificationCount}</span>
+        </div>
+      )}
+      <Avatar clickable={false} setAnchorEl={setAnchorEl} />
+      <MdArrowDropDown size={25} />
+    </div>
+  )
+}
+const UnauthorizedNavLinks = () => (
+  <div className='auth-btn'>
+    <div>
+      <Link className='link sign-up' to='/sign-up'>
+        Sign up
+      </Link>
+    </div>
+
+    <div>
+      <Link className='link log-in' to='/sign-in'>
+        Log in
+      </Link>
+    </div>
+  </div>
+)
