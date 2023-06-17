@@ -151,6 +151,7 @@ const userSlice = createSlice({
 })
 
 export const selectAuthUser = (state: RootState) => state.ui.auth.user
+export const selectUserId = (state: RootState) => state.ui.auth.user._id
 export const getUserAvailability = (state: RootState) =>
   state.ui.auth.user.availability
 export const uiStatus = (state: RootState) => state.ui.status
