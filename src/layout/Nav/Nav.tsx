@@ -36,6 +36,8 @@ export const Nav = () => {
   const ChangeNavbarColor = () =>
     window.scrollY >= 100 ? setColored(true) : setColored(false)
   window.addEventListener('scroll', ChangeNavbarColor)
+  const navClassName =
+    location.pathname === '/' ? (colored ? 'navbar-colored' : 'navbar') : ''
 
   useEffect(() => {
     if (socketConnection) {
@@ -67,11 +69,7 @@ export const Nav = () => {
   }, [dispatch, location])
 
   return (
-    <nav
-      className={
-        location.pathname === '/' ? (colored ? 'navbar-colored' : 'navbar') : ''
-      }
-    >
+    <nav className={navClassName}>
       <div className='nav-container'>
         {userId !== '' ? (
           <div className='menu-btn' onClick={toggleSidebarHandler}>
@@ -96,11 +94,7 @@ export const Nav = () => {
         <UnauthorizedNavLinks />
       )}
 
-      <AccountDropdown
-        anchorEl={anchorEl}
-        onSelection={() => null}
-        closeDropdown={closeDropdown}
-      />
+      <AccountDropdown anchorEl={anchorEl} closeDropdown={closeDropdown} />
     </nav>
   )
 }
