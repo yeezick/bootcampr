@@ -1,6 +1,6 @@
 import React from 'react'
 import { AiOutlineCalendar } from 'react-icons/ai'
-import { Icon } from '@material-ui/core'
+import { Icon } from '@mui/material'
 
 type SelectDateProps = {
   dateRef?: React.RefObject<HTMLInputElement>
