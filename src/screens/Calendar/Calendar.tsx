@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { CalendarHeader, CalendarTabs, MeetingModal } from 'components/Calendar'
 import 'components/Calendar/Calendar.scss'
 
-export const Calendar = () => {
+export const CalendarScreen = () => {
   const [visibleMeeting, toggleVisibleMeeting] = useState(false)
   const toggleMeetingModal = () => toggleVisibleMeeting(!visibleMeeting)
 

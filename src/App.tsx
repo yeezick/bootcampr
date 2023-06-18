@@ -13,7 +13,7 @@ import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { PaginatorExample } from 'components/Paginator/Examples/PaginatorExample'
 import { AllProjects, CreateProject, ProjectDetails } from 'screens/Project'
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
-import { Calendar } from 'screens/Project/Calendar'
+import { CalendarScreen } from 'screens/Calendar/Calendar'
 import './App.css'
 
 function App() {
@@ -39,7 +39,7 @@ function App() {
           <Route path='/all-projects' element={<AllProjects />} />
           <Route path='/create-project' element={<CreateProject />} />
           <Route path='/project/:id' element={<ProjectDetails />} />
-          <Route path='/project/:id/calendar' element={<Calendar />} />
+          <Route path='/project/:id/calendar' element={<CalendarScreen />} />
         </Routes>
       </Layout>
     </>
