@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { Box, Tabs, Tab } from '@mui/material'
 import { Availability } from 'components/Availability/Availability'
+import { CalendarView } from 'screens/Calendar/CalendarView'
 
 // If components need props, create this object inside CalendarTabs instead
 const allTabs = [
   {
     label: 'Calendar',
-    component: <>Calendar</>,
+    component: <CalendarView />,
   },
   {
     label: 'My Availability',

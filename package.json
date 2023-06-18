@@ -13,6 +13,8 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@fullcalendar/core": "^6.1.8",
+    "@fullcalendar/timegrid": "^6.1.8",
     "@hello-pangea/dnd": "^16.2.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.0",
