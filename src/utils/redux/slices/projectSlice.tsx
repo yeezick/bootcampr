@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ProjectInterface } from 'interfaces'
-import { AvatarState } from 'interfaces/ProfileImageInterfaces'
 // todo: may be preferable to move project tracker into its own model and slice?
 
 const initialState: ProjectInterface = {
