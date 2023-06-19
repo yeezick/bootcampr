@@ -11,7 +11,7 @@ export const CalendarView = () => {
   useEffect(() => {
     // set all events
     const fetchAllEvents = async () => {
-      const res = await fetchProjectCalendar(calendarId)
+      // const res = await fetchProjectCalendar(calendarId)
     }
   }, [])
 
