@@ -37,7 +37,7 @@ export const OnboardingLastScreen = ({ handlePageNavigation }) => {
           <p>You can view the project details at any time.</p>
           <Link className='link' to={`/project/${authUser.project}`}>
             <button className='project-details-btn'>
-              View Project Details
+              View project details
             </button>
           </Link>
         </div>

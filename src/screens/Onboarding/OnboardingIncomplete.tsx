@@ -6,6 +6,7 @@ import {
   updateProfile,
   updateAuthUser,
 } from 'utils/redux/slices/userSlice'
+import { FiArrowRight } from 'react-icons/fi'
 
 export const OnboardingIncomplete = ({ handlePageNavigation }) => {
   const dispatch = useAppDispatch()
@@ -53,35 +54,32 @@ export const OnboardingIncomplete = ({ handlePageNavigation }) => {
           </p>
 
           <h2 className='select-role'>I am a...</h2>
-          <form>
-            <ul>
-              <li>
-                <label>
-                  <input
-                    type='radio'
-                    name='role'
-                    value='UX Designer'
-                    checked={selectedRole === 'UX Designer'}
-                    onChange={handleRoleSelect}
-                  />
-                  UX Designer
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input
-                    type='radio'
-                    name='role'
-                    value='Software Engineer'
-                    checked={selectedRole === 'Software Engineer'}
-                    onChange={handleRoleSelect}
-                  />
-                  Software Engineer
-                </label>
-              </li>
-            </ul>
+          <form className='onboarding-form-container'>
+            <div className='radio-btn'>
+              <label>
+                <input
+                  type='radio'
+                  name='role'
+                  value='UX Designer'
+                  checked={selectedRole === 'UX Designer'}
+                  onChange={handleRoleSelect}
+                />
+                UX Designer
+              </label>
 
-            <div className='software-engineer-message'>
+              <label className='software-engineer-btn'>
+                <input
+                  type='radio'
+                  name='role'
+                  value='Software Engineer'
+                  checked={selectedRole === 'Software Engineer'}
+                  onChange={handleRoleSelect}
+                />
+                Software Engineer
+              </label>
+            </div>
+
+            <div className='software-engineer-msg'>
               <p>*SWEs should have MERN/full stack experience </p>
             </div>
 
@@ -95,7 +93,7 @@ export const OnboardingIncomplete = ({ handlePageNavigation }) => {
                 onClick={handleSubmit}
                 className='onboarding-incomplete-btn'
               >
-                Set availability
+                <p>Set availability </p> <FiArrowRight className='arrow-icon' />
               </button>
             </div>
           </form>

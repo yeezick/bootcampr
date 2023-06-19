@@ -1,8 +1,10 @@
+/* onboarding incomplete */
 
 .onboarding-incomplete-text-container {
   display: flex;
   flex-direction: column;
-  margin: 4rem 10rem 0 10rem;
+  width: 675px;
+  margin: 50px 382px 400px 382px;
 }
 
 .welcome-container {
@@ -10,33 +12,58 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  padding: 0px;
+  gap: 5px;
+  width: 538px;
+  height: 86px;
+  left: 451px;
+  top: 221px;
 
   h1 {
     margin: 0;
     text-align: left;
-    font-size: 3rem;
+    width: 347px;
+    height: 54px;
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 53.2px;
   }
+
+  p {
+    margin-top: 10px;
+    text-align: left;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+  }
+  
 }
 
-p {
-  margin-top: 10px;
-  text-align: left;
-}
-
-h2 {
-  margin-top: 0;
-}
 
 .role-selection-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  // margin-top: 50px;
+  padding: 0px;
+  // gap: 6px;
+  // width: 462px;
+  // height: 88px;
+  // left: 451px;
+  // top: 357px;
   
 
   .tell-role{
-    margin-top: 2rem;
-    margin-bottom: 0;
+    width: 250px;
+    height: 34px;
+    
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 34px;
+    
   }
 
   p {
@@ -52,6 +79,25 @@ h2 {
   }
 }
 
+.onboarding-form-container {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.radio-btn {
+  display:flex;
+  flex-direction: row;
+}
+
+.software-engineer-btn {
+  padding-left:120px;
+}
+
+.software-engineer-msg {
+  padding-left: 270px
+}
+
 
 .onboarding-button-section {
   display: flex;
@@ -62,14 +108,50 @@ h2 {
   margin: 10px;
 }
 
+
+
+
 .onboarding-incomplete-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 167px;
+  height: 43px;
+  left: 598px;
+  top: 582px;
+  gap: 8px;
+  border-radius: 4px;
+
+  p {
+    width: 111px;
+    height: 23px;
+    margin: 0;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+  }
   
 }
 
+.arrow-icon {
+  padding: 13.5px 13.5px 13.5px 8px;
+}
+
+
+/* Onboarding Last Screen */
+
 .onboarding-lastscreen-container {
   display: flex;
-  justify-content: center;
-  margin:auto;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  position: absolute;
+  gap: 65px;
+  width: 675px;
+  height: 547px;
+  left: 382px;
+  top: 147px;
 }
 
 .lastscreen-text-container {
@@ -84,12 +166,22 @@ h2 {
 
 .lastscreen-header {
   display: flex;
+  width: 604px;
+  height: 54px;
+  
   align-items: center;
   justify-content: center;
-  margin: 4rem 0 2rem 0;
-
+  margin: 74px 35.5px 40px 35.5px;
   h1 {
-    font-size: 3.5rem;
+    // position: absolute;
+    width: 456px;
+    height: 54px;
+    left: 74px;
+    top: 0px;
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 53px;
+    text-align: center;
   }
 }
 
@@ -98,11 +190,18 @@ h2 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 40rem;
+  width: 670px;
+  height: 107px;
+  padding: 0px;
+  gap: 5px;
 
   h2 {
-    font-size: 2rem;
-    margin-bottom: 0;
+    width: 150px;
+    height: 34px;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 34px;
+    text-align: center;
   }
 
   p{
@@ -114,11 +213,16 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2rem;
+  margin-top: 65px;
 
   .lastscreen-feedback {
-    font-weight: 800;
-    margin: 0.5rem;
+    width: 650px;
+    height: 23px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    
   }
 
   p {
@@ -131,13 +235,34 @@ h2 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 65px;
+
   p {
-    margin: 3.5rem 0 1.5rem 0
+    margin-bottom: 25px;
   }
 }
 
+.link {
+  text-decoration: none;
+}
+
 .project-details-btn {
-  background-color: orange;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 16px;
+  gap: 8px;
+
+  width: 183px;
+  height: 43px;
+
+  border-radius: 4px;
+
+
+  background-color: #FA9413;
   border:none;
-  font-size: medium;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
 }
