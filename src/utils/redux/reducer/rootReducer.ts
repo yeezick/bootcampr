@@ -1,9 +1,9 @@
 import { combineReducers, Reducer } from 'redux'
 import avatarReducer from 'utils/redux/slices/avatarSlice'
-import notificationReducer from 'utils/redux/slices/notificationSlice'
-import userReducer from 'utils/redux/slices/userSlice'
 import chatReducer from 'utils/redux/slices/chatSlice'
+import notificationReducer from 'utils/redux/slices/notificationSlice'
 import projectReducer from 'utils/redux/slices/projectSlice'
+import userReducer from 'utils/redux/slices/userSlice'
 
 export type RootState = {
   avatar: ReturnType<typeof avatarReducer>

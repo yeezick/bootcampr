@@ -2,26 +2,29 @@ import { TicketInterface } from 'interfaces'
 import dayjs from 'dayjs'
 
 export interface ProjectInterface {
-  _v?: number
+  calendarId: string
+  chats: string[]
   createdAt?: string
-  calendarId?: string
-  duration?: string
-  _id?: string
-  meetingCadence?: number
-  overview: string
+  goal: string
+  meetings: string[]
+  members?: {
+    designers?: string[]
+    engineers?: string[]
+  }
+  problem: ''
   projectTracker?: {
     completed?: TicketInterface[]
     inProgress?: TicketInterface[]
     toDo?: TicketInterface[]
     underReview?: TicketInterface[]
   }
-  members?: {
-    designers?: any
-    engineers?: any
+  timeline: {
+    startDate: ''
+    endDate: ''
   }
-  status?: string
   title?: string
-  tools?: string[]
+  _id?: string
+  _v?: number
 }
 
 export interface DateFieldsInterface {
