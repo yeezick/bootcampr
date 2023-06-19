@@ -39,6 +39,7 @@ const projectslice = createSlice({
   },
 })
 
+export const selectCalendarId = state => state.project.calendarId
 export const { setProjectInfo } = projectslice.actions
 
 export default projectslice.reducer
