@@ -8,8 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { SignInInterface } from 'interfaces/UserInterface'
 import { GoAlert, GoVerified } from 'react-icons/go'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
-import { getOneProject } from 'utils/api'
-import { setProject } from 'utils/redux/slices/projectSlice'
+import { storeUserProject } from 'utils/helpers/stateHelpers'
 
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables
@@ -81,12 +80,8 @@ const SignIn: React.FC = (): JSX.Element => {
       return
     }
 
-    if (response.project) {
-      const userProject = await getOneProject(response.project)
-      dispatch(setProject(userProject))
-    }
-
     dispatch(setAuthUser(response))
+    storeUserProject(dispatch, response.project)
 
     !response.role
       ? navigate(`/users/${response._id}/account-setup`)
