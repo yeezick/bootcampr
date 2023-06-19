@@ -1,3 +1,4 @@
+import { CalendarEvent } from 'interfaces/CalendarInterface'
 import { getOneProject } from 'utils/api'
 import { setProjectInfo } from 'utils/redux/slices/projectSlice'
 
@@ -16,4 +17,17 @@ export const storeUserProject = async (dispatch, projectId) => {
     const randomUserProject = await getOneProject(projectId)
     dispatch(setProjectInfo(randomUserProject))
   }
+}
+
+export const convertGoogleEventsForCalendar = googleEvents => {
+  const convertedEvents = []
+  for (const singleEvent of googleEvents) {
+    let currentEvent: CalendarEvent = {}
+    const { start, end, summary } = singleEvent
+    currentEvent.start = start.dateTime
+    currentEvent.end = end.dateTime
+    currentEvent.title = summary
+    convertedEvents.push(currentEvent)
+  }
+  return convertedEvents
 }

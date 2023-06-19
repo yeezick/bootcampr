@@ -38,7 +38,7 @@ export const CalendarTabs = () => {
   }
 
   return (
-    <Box sx={{ width: '100%' }} className='calendar-body'>
+    <Box className='calendar-body'>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={activeTab} onChange={handleChange}>
           {allTabs.map(tab => (
