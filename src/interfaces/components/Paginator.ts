@@ -30,5 +30,4 @@ export interface PageRouter {
   allPages: { [index: string]: PageItem }
   currentPageId: string
   exitRoute: string
-  paginatorId: string
 }

@@ -24,11 +24,7 @@ export const Onboarding = () => {
   ]
   return (
     <div>
-      <Paginator
-        exitRoute='/'
-        orderedPages={orderedPages}
-        pageTitle='Onboarding'
-      />
+      <Paginator exitRoute='/' orderedPages={orderedPages} />
     </div>
   )
 }

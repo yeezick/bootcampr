@@ -14,7 +14,6 @@ export const ProjectCompletion = () => {
     {
       component: ProjectCompPagTwo,
       title: 'Presentation',
-      props: { backgroundColor: 'yellow' },
     },
     {
       component: ProjectCompPagThree,
@@ -32,11 +31,7 @@ export const ProjectCompletion = () => {
     <div className='projectcompletion'>
       <div className='projectcompletion__empty-header'></div>
       <div className='projectcompletion__pag-container'>
-        <Paginator
-          exitRoute='/'
-          orderedPages={orderedPages}
-          pageTitle='Paginator Example'
-        />
+        <Paginator exitRoute='/' orderedPages={orderedPages} />
       </div>
     </div>
   )

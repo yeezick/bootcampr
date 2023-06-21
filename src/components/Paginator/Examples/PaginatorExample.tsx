@@ -23,11 +23,7 @@ export const PaginatorExample = () => {
   ]
   return (
     <div>
-      <Paginator
-        exitRoute='/'
-        orderedPages={orderedPages}
-        pageTitle='Paginator Example'
-      />
+      <Paginator exitRoute='/' orderedPages={orderedPages} />
     </div>
   )
 }

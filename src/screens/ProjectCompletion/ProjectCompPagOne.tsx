@@ -44,7 +44,7 @@ export const ProjectCompPagOne = ({ handlePageNavigation }) => {
 
   return (
     <div className='projectcompletion__pag-url'>
-      <form className='projectcompletion__form' onSubmit={handleSubmit}>
+      <form className='projectcompletion__form-url' onSubmit={handleSubmit}>
         <h1>Congrats on deploying your project!</h1>
         <p>
           Let’s begin by attaching link to your project site. Make sure all the
@@ -70,7 +70,7 @@ export const ProjectCompPagOne = ({ handlePageNavigation }) => {
             className={nextButtonStyle}
             onClick={() => handlePageNavigation('next')}
           >
-            Next <NextIcon className='projectcompletion__icon' />
+            Next <NextIcon className='projectcompletion__forward-icon' />
           </button>
         </div>
       </form>

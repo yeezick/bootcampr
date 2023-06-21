@@ -12,7 +12,6 @@ export const initialCurrentPage = {
 export const initialPageRouter = {
   currentPageId: 'one',
   exitRoute: '/',
-  paginatorId: 'Onboarding',
   allPages: {
     one: {
       completed: false,
