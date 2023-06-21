@@ -6,6 +6,7 @@ export interface AvatarProps {
   uploadedImage?: string | null
   clickable?: boolean | undefined
   openModal?: React.MouseEventHandler<HTMLImageElement>
+  setAnchorEl?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface ImageEditorModalProps {
