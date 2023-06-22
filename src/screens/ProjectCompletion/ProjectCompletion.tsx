@@ -18,7 +18,6 @@ export const ProjectCompletion = () => {
     {
       component: ProjectCompPagThree,
       title: 'Confirmation',
-      props: { backgroundColor: 'green' },
     },
     {
       component: ProjectCompPagFour,

@@ -331,16 +331,159 @@
   &__pag-confirmation {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 675px;
     height: 556px;
     margin: 88px auto auto;
   }
 
   &__confirmation-form {
+    width: 512px;
+    height: 321px;
+    padding: 0;
+  }
+
+  &__confir-contents {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     width: 512px;
     height: 321px;
+    padding: 0;
+  }
+
+  &__confir-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    width: 512px;
+    height: 65px;
+    margin: 0 0 32px 0;
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 34px;
+      margin: 0 0  8px 0;
+    }
+
+    p {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 22px;
+      margin: 0;
+    }
+  }
+
+  &__confir-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    width: 194px;
+    height: 224px;
+
+    p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 17px;
+      font-weight: 400;
+    }
+  }
+
+  &__confir-url {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    width: 154px;
+    height: 45px;
+    margin: 0 0 32px 0;
+  }
+
+  &__confir-time {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    width: 125px;
+    height: 45px;
+    margin: 0 0 32px 0;
+  }
+
+  &__confir-part {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    width: 194px;
+    height: 70px;
+  }
+
+  &__confir-header {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    padding: 0;
+    width: 194px;
+    height: 20px;
+    margin: 0 0 8px 0;
+
+    h3 {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      margin: 0 16px 0 0;
+    }
+
+    p {
+      font-size: 11px;
+      color: #022888;
+    }
+  }
+
+  &__confir-members {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0;
+    width: 191px;
+    height: 42px;
+
+    p {
+      margin: 0 0 8px 0;
+    }
+  }
+
+  &__confir-mem-group1 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;  
+  }
+
+  &__confir-mem-group2 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0 0 0 32px;
+  }
+
+  &__confir-next-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 102px;
+    height: 35px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+    border: none;
+    background-color: #fa9413;
+    margin-left: 8px;
   }
 }
