@@ -22,7 +22,6 @@ export const ProjectCompletion = () => {
     {
       component: ProjectCompPagFour,
       title: "What's next",
-      props: { backgroundColor: 'purple' },
     },
   ]
 
