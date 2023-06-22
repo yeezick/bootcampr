@@ -133,12 +133,6 @@ export const CreateTicket = ({
                     handleOnChange={handleOnChange}
                     ticketsStatus={ticketsStatus}
                   />
-
-                  <SelectAssignee
-                    ticketDetail='test'
-                    setAssignees={() => console.log('setting assignee')}
-                  />
-                  {/* Assignee here */}
                   <UserAssignee text='Assignee' detailIcon={<RxPerson />} />
                   <SelectDate handleOnChange={handleOnChange} />
 

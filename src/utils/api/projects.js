@@ -71,3 +71,12 @@ export const getProjectByUser = async userId => {
     throw error
   }
 }
+
+export const getMembersByProjectId = async projectId => {
+  try {
+    const res = await api.get(`/project/${projectId}/members`)
+    return res.data
+  } catch (err) {
+    console.error(err)
+  }
+}

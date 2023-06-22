@@ -131,12 +131,12 @@ export const TicketDetail = ({
                   />
                 </Box>
 
-                <Box sx={{ width: '50%' }}>
-                  <SelectStatus
+                <Box>
+                  {/* <SelectStatus
                     handleOnChange={handleEditChange}
                     ticketDetail={ticketDetail}
                     splitCamelCaseToWords={splitCamelCaseToWords}
-                  />
+                  /> */}
                   {/* 
                   <UserAssignee
                     text='Created by'
@@ -146,10 +146,10 @@ export const TicketDetail = ({
                     userImage={ticketDetail?.createdBy?.profilePicture}
                   /> */}
 
-                  <SelectAssignee
+                  {/* <SelectAssignee
                     ticketDetail='testing'
                     setAssignees={() => console.log('what')}
-                  />
+                  /> */}
                   {/* <UserAssignee
                     text='Assignee'
                     detailIcon={<RxPerson />}
