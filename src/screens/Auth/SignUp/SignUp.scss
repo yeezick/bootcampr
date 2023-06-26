@@ -13,6 +13,17 @@
   @include alert-banners($alert-success-background, $alert-success-text-color)
 }
 
+.signup-screen {
+  display:flex;
+  flex-direction: column;
+}
+
+.signup-banner {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
 .pwd-match {
   color: rgb(48, 161, 192);
   margin-top: 16px;
@@ -35,27 +46,50 @@
   }
 }
 
+.signup-header {
+  align-self: center;
+
+  h1 {
+    font-size: 48px;
+    margin: 30px 0;
+  }
+
+  h2 {
+    font-size: 30px;
+    margin: 0;
+  }
+}
+
 .signup-container {
   border-radius: 2% / 1%;
-  box-shadow: 0 8px 17px -6px rgba(0, 0, 0, 0.7);
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  margin-top: 48px;
-  padding: 32px;
-  width: 320px;
-
-  // button {
-  //   @include form-buttons();
-  // }
+  padding: 30px;
+  width: 450px;
 
   form {
     padding: 36.8px 24px 16px 8px;
   }
 
-  // input {
-  //   @include input-fields(4.8px 6.4px, 100%);
-  // }
+  form input {
+    background-color: rgb(241, 241, 241);
+    border-radius: 5px;
+    border-style: none;
+    height: 38px;
+    font-size: 16px;
+    margin: 5px 0 15px 0;
+    padding: 0 10px;
+    width: 400px;
+  }
+
+  form input:focus {
+    border-style: none;
+    outline: none;
+  }
+}
+
+.adorned-input {
+  display: flex;
 }
 
 h3, h4 {
@@ -63,9 +97,17 @@ h3, h4 {
   text-align: center;
 }
 
-.form-input {
-  margin: 0 16px 16px 16px;
-  position: relative;
+.honeycomb {
+  margin-top: -100px;
+  margin-left: -100px;
+  margin-right: 100px;
+
+  img {
+    height: 400px;
+    object-fit: cover;
+    width: 400px;
+  }
+
 }
 
 .pwd-input {
@@ -76,6 +118,62 @@ h3, h4 {
   margin: 0 0 16px 16px;
 }
 
+.eyecon {
+  bottom: 5px;
+  position: relative;
+  right: 55px;
+}
+
 .form-btn {
   margin: 24px 16px 0 16px;
+
+  button {
+    background-color: #FA9413;
+    border: none;
+    border-radius: 3px;
+    box-sizing: border-box;
+    font-size: 18px;
+    margin-top: 5px;
+    margin-left: -15px;
+    padding: 13px;
+    width: 415px;
+  }
+
+  button:disabled {
+    color: black;
+    background-color: #ECEBEB;
+  }
+}
+
+#signup-agreement {
+  margin: 20px 0;
+}
+
+.password-errors {
+  margin: -8px 0 10px 0;
+}
+
+.password-criteria {
+  display: flex;
+  font-size: 14px;
+
+  p {
+    margin: 2px 0;
+  }
+}
+
+.criteria-not-met {
+  color: #D90000;
+  margin: 2px 0;
+}
+
+.criteria-met {
+  color: #23A6A1;
+  margin: 2px 0;
+}
+
+.criteria-check {
+  height: 10px;
+  margin-right: 5px;
+  width: 10px;
 }

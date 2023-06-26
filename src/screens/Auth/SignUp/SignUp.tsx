@@ -10,6 +10,7 @@ import { emptySignUp } from 'utils/data/userConstants'
 import { Email, Text, PasswordInputs } from 'components/Inputs'
 import './SignUp.scss'
 import { Checkbox, FormControlLabel } from '@mui/material'
+
 export const SignUp: React.FC = () => {
   const dispatch = useAppDispatch()
   const status = useAppSelector(uiStatus)
@@ -35,8 +36,8 @@ export const SignUp: React.FC = () => {
     const validateForm = () => {
       const { confirmPassword, password } = formValues
       const emptyForm = Object.values(formValues).some(value => value === '')
-      const passwordHasErrors = Object.values(passwordErrors).some(
-        error => error === true || typeof error === 'string'
+      const passwordHasErrors = Object.values(passwordErrors).some(error =>
+        ['neutral', 'criteria-not-met'].includes(error)
       )
       const passwordsMatch = () => {
         if (confirmPassword === '' || password === '' || passwordHasErrors) {
@@ -83,51 +84,59 @@ export const SignUp: React.FC = () => {
   }
 
   return (
-    <div>
-      {alertBanner.status ? (
+    <div className='signup-screen'>
+      {alertBanner.status && (
         <div className={alertBanner.type}>
           {alertBanner.icon}
           <p>{alertBanner.text}</p>
         </div>
-      ) : null}
+      )}
 
-      <div className='signup-container'>
-        <h3>User Register</h3>
-        <form onSubmit={handleSubmit} autoComplete='off'>
-          <Text
-            label='First Name'
-            name='firstName'
-            required
-            setFormValues={setFormValues}
-          />
+      <div className='signup-header'>
+        <h1>Join Bootcampr today.</h1>
+        <h2>Get the experience. Get the job.</h2>
+      </div>
+      <div className='signup-banner'>
+        <div className='honeycomb'>
+          <img src='./drawing-wireframes.jpg' />
+        </div>
 
-          <Text
-            label='Last Name'
-            name='lastName'
-            required
-            setFormValues={setFormValues}
-          />
+        <div className='signup-container'>
+          <form onSubmit={handleSubmit} autoComplete='off'>
+            <Text
+              label='First Name'
+              name='firstName'
+              required
+              setFormValues={setFormValues}
+            />
 
-          <Email setFormValues={setFormValues} />
-          <PasswordInputs
-            formValues={formValues}
-            password={password}
-            passwordErrors={passwordErrors}
-            setPasswordErrors={setPasswordErrors}
-            setFormValues={setFormValues}
-          />
+            <Text
+              label='Last Name'
+              name='lastName'
+              required
+              setFormValues={setFormValues}
+            />
+            <Email setFormValues={setFormValues} />
+            <PasswordInputs
+              formValues={formValues}
+              password={password}
+              passwordErrors={passwordErrors}
+              setPasswordErrors={setPasswordErrors}
+              setFormValues={setFormValues}
+            />
 
-          <AcceptTermsCheckbox
-            isAccepted={isAccepted}
-            setIsAccepted={setIsAccepted}
-          />
+            <AcceptTermsCheckbox
+              isAccepted={isAccepted}
+              setIsAccepted={setIsAccepted}
+            />
 
-          <div className='form-btn'>
-            <button type='submit' disabled={disabledForm}>
-              Create Account
-            </button>
-          </div>
-        </form>
+            <div className='form-btn'>
+              <button type='submit' disabled={disabledForm}>
+                Sign up
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   )
@@ -146,7 +155,7 @@ const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
   }
 
   return (
-    <div>
+    <div id='signup-agreement'>
       <FormControlLabel
         sx={checkboxStyles}
         control={<Checkbox checked={isAccepted} onChange={handleCheckbox} />}
