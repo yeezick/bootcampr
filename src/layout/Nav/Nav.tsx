@@ -13,7 +13,7 @@ import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
 import { NotificationModal } from 'components/Notifications/NotificationModal'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
-import { Socket } from 'components/Notifications/Socket'
+import { useSocket } from 'components/Notifications/Socket'
 import Avatar from 'components/Avatar/Avatar'
 import './Nav.scss'
 import {
@@ -28,11 +28,12 @@ export const Nav = () => {
   const [colored, setColored] = useState(false)
   const [notificationCount, setNotificationCount] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [isChatBadgeUpdated, setIsChatBadgeUpdated] = useState(false)
   const reduxUploadedImage = useSelector(getUserProfileImage)
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId } = authUser
   const dispatch = useAppDispatch()
-  const { socketConnection } = Socket()
+  const socketConnection = useSocket()
   const visibleChat = useAppSelector(chatStatus)
   const chatRef = useRef(null)
   const location = useLocation()
@@ -112,7 +113,12 @@ export const Nav = () => {
               className='chat-icon'
               onClick={() => toggleChatBox()}
             />
-            <ChatIconBadge />
+            {(visibleChat || !visibleChat) && (
+              <ChatIconBadge
+                isChatBadgeUpdated={isChatBadgeUpdated}
+                setIsChatBadgeUpdated={setIsChatBadgeUpdated}
+              />
+            )}
             {visibleChat && <ChatDialogMain />}
           </div>
           <div className='notification-badge link'>
