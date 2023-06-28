@@ -1,17 +1,9 @@
 import { useState, useEffect } from 'react'
-import { io } from 'socket.io-client'
+import { Socket as SocketIOClient, io } from 'socket.io-client'
 const ENDPOINT = `${process.env.REACT_APP_LOCAL_URL}`
-const socket = io(ENDPOINT, { transports: ['websocket'] })
 
-interface ISocket {
-  name?: string
-  on?: any
-  emit?: any
-  off?: any
-}
-
-export const Socket = () => {
-  const [socketConnection, setSocketConnection] = useState<ISocket | any>()
+export const useSocket = () => {
+  const [socket, setSocket] = useState<SocketIOClient | null>(null)
 
   useEffect(() => {
     // Todo: this breaks jest test, is it necessary at all?
@@ -21,11 +13,8 @@ export const Socket = () => {
     // }
     // askUserPermission()
 
-    const connection = socket.on('connection', () => {
-      return socket.connected
-    })
-    setSocketConnection(connection)
+    setSocket(io(ENDPOINT, { transports: ['websocket'] }))
   }, [])
 
-  return { socketConnection }
+  return socket
 }

@@ -7,6 +7,7 @@ import {
   getAllGroupMessages,
   getAllPrivateMessages,
 } from 'utils/api/chat'
+import { useSocket } from 'components/Notifications/Socket'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { selectConversation } from 'utils/redux/slices/chatSlice'
@@ -25,6 +26,7 @@ import {
 import './Messages.scss'
 
 export const Messages = ({ setChatRecipientId }) => {
+  const socket = useSocket()
   const authUser = useAppSelector(selectAuthUser)
   const currentConversation = useAppSelector(selectConversation)
   const [messages, setMessages] = useState([])
@@ -34,6 +36,15 @@ export const Messages = ({ setChatRecipientId }) => {
   const [textForm, setTextForm] = useState<ChatMessageInterface>(emptyChatText)
   const [newMessage, setNewMessage] = useState(false)
   const containerRef = useRef(null)
+  const [receivedMessages, setReceivedMessages] = useState({})
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('message-from-server', data => {
+        setReceivedMessages(data)
+      })
+    }
+  }, [socket])
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -74,6 +85,7 @@ export const Messages = ({ setChatRecipientId }) => {
     currentConversation._id,
     currentConversation.isGroup,
     newMessage,
+    receivedMessages,
   ])
 
   useEffect(() => {
@@ -115,21 +127,35 @@ export const Messages = ({ setChatRecipientId }) => {
 
     if (textForm.text === '') return // Message will not send if textarea is empty
 
-    if (currentConversation.isGroup) {
-      await createGroupMessage(
-        authUser._id,
-        currentConversation._id,
-        textForm.text
-      )
-    } else {
-      await createPrivateMessage(
-        authUser._id,
-        currentConversation._id,
-        textForm.text
-      )
+    try {
+      let res
+
+      if (currentConversation.isGroup) {
+        res = await createGroupMessage(
+          authUser._id,
+          currentConversation._id,
+          textForm.text
+        )
+      } else {
+        res = await createPrivateMessage(
+          authUser._id,
+          currentConversation._id,
+          textForm.text
+        )
+      }
+
+      // Emit Socket.IO event: sends message data to backend socket server
+      socket.emit('send-message', {
+        authUser: authUser,
+        chatRoom: currentConversation._id,
+        newMessage: res.newMessage,
+      })
+
+      setTextForm(emptyChatText)
+      setNewMessage(true)
+    } catch (error) {
+      console.error('Error sending message:', error)
     }
-    setTextForm(emptyChatText)
-    setNewMessage(true)
   }
 
   const handleKeyDown = e => {
