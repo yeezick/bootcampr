@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
+  getUserProfileImage,
   selectAuthUser,
   toggleSidebar,
   toggleSidebarClose,
@@ -11,7 +12,7 @@ import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
 import { NotificationModal } from 'components/Notifications/NotificationModal'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
-import { Socket } from 'components/Notifications/Socket'
+import { useSocket } from 'components/Notifications/Socket'
 import Avatar from 'components/Avatar/Avatar'
 import './Nav.scss'
 import {
@@ -25,11 +26,16 @@ import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
 export const Nav = () => {
   const [colored, setColored] = useState(false)
   const [notificationCount, setNotificationCount] = useState(0)
-  const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [isChatBadgeUpdated, setIsChatBadgeUpdated] = useState(false)
+  const reduxUploadedImage = useAppSelector(getUserProfileImage)
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId } = authUser
   const dispatch = useAppDispatch()
-  const { socketConnection } = Socket()
+  const socketConnection = useSocket()
+  const visibleChat = useAppSelector(chatStatus)
+  const chatRef = useRef(null)
+  const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const location = useLocation()
   const closeDropdown = () => setAnchorEl(null)
   const toggleSidebarHandler = () => dispatch(toggleSidebar())
@@ -89,6 +95,8 @@ export const Nav = () => {
         <AuthorizedNavLinks
           notificationCount={notificationCount}
           setAnchorEl={setAnchorEl}
+          isChatBadgeUpdated={isChatBadgeUpdated}
+          setIsChatBadgeUpdated={setIsChatBadgeUpdated}
         />
       ) : (
         <UnauthorizedNavLinks />
@@ -99,7 +107,12 @@ export const Nav = () => {
   )
 }
 
-const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
+const AuthorizedNavLinks = ({
+  notificationCount,
+  setAnchorEl,
+  isChatBadgeUpdated,
+  setIsChatBadgeUpdated,
+}) => {
   const visibleChat = useAppSelector(chatStatus)
   const chatRef = useRef(null)
   const dispatch = useAppDispatch()
@@ -115,7 +128,12 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
           className='chat-icon'
           onClick={() => toggleChatBox()}
         />
-        <ChatIconBadge />
+        {(visibleChat || !visibleChat) && (
+          <ChatIconBadge
+            isChatBadgeUpdated={isChatBadgeUpdated}
+            setIsChatBadgeUpdated={setIsChatBadgeUpdated}
+          />
+        )}
         {visibleChat && <ChatDialogMain />}
       </div>
       <div className='notification-badge link'>
