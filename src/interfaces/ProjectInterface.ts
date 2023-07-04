@@ -13,6 +13,7 @@ export interface ProjectInterface {
     toDo?: TicketInterface[]
     underReview?: TicketInterface[]
   }
+  deployedUrl?: string
   members?: {
     design?: any
     engineer?: any
