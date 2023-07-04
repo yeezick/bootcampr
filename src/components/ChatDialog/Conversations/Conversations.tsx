@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useSocket } from 'components/Notifications/Socket'
 import { MdOutlineSearch } from 'react-icons/md'
 import { RxDotFilled } from 'react-icons/rx'
 import {
@@ -9,6 +10,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
+  selectConversation,
   setCurrentConversation,
   setSelectedMember,
 } from 'utils/redux/slices/chatSlice'
@@ -19,10 +21,27 @@ import { DefaultIcons } from 'utils/data/chatConstants'
 import './Conversations.scss'
 
 export const Conversations = ({ handleConversationClick }) => {
+  const socket = useSocket()
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
+  const currentConversation = useAppSelector(selectConversation)
   const [threads, setThreads] = useState([])
   const [listResults, setListResults] = useState('empty')
+  const [receivedMessages, setReceivedMessages] = useState({})
+
+  useEffect(() => {
+    if (socket) {
+      // Updates conversation thumbnails when new message is received
+      socket.on('message-from-server', data => {
+        setReceivedMessages(data)
+      })
+
+      // Checks for any unread messages in all conversations onMount
+      socket.emit('check-any-unread-messages', {
+        authUser: authUser._id,
+      })
+    }
+  }, [socket])
 
   useEffect(() => {
     const getThreads = async () => {
@@ -39,7 +58,7 @@ export const Conversations = ({ handleConversationClick }) => {
       }
     }
     getThreads()
-  }, [authUser._id])
+  }, [authUser._id, receivedMessages])
 
   const handleConvoClick = async (
     chatId: string,
@@ -80,6 +99,16 @@ export const Conversations = ({ handleConversationClick }) => {
       updatePrivateMessageReadStatus(authUser._id, chatId)
     }
 
+    // Socket.IO Emit event: sends conversation room to join to socket server
+    socket.emit('join-conversation', {
+      authUser: authUser._id,
+      chatRoom: currentConversation._id,
+    })
+    // Checks for unread message when a conversation is opened
+    socket.emit('read-message', {
+      authUser: authUser._id,
+      chatRoom: currentConversation._id,
+    })
     await handleConversationClick()
   }
 
