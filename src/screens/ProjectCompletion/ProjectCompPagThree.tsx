@@ -1,13 +1,8 @@
-// import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { FiRepeat } from 'react-icons/fi'
 
 export const ProjectCompPagThree = ({ handlePageNavigation }) => {
-  const navigate = useNavigate()
-
   const handleCancel = () => {
-    // updateUserForm({ ...authUser })
-    navigate(`/`)
+    handlePageNavigation('previous')
   }
 
   return (

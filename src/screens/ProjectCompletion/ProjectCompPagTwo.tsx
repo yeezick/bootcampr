@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { FiRepeat } from 'react-icons/fi'
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined'
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined'
@@ -8,9 +7,17 @@ import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
 export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
   const [checked, setChecked] = useState(false)
   const [selectedRadio, setSelectedRadio] = useState('')
-  const navigate = useNavigate()
 
-  const handleSubmit = async () => {}
+  const handleSubmit = async e => {
+    e.preventDefault()
+    if (isValidForm()) {
+      handlePageNavigation('next')
+    } else {
+      alert(
+        `Please select "Participate" and "Select All Members" or select "Don't participate" before submitting.`
+      )
+    }
+  }
 
   const handleCheckBox = e => {
     setChecked(e.target.checked)
@@ -21,13 +28,23 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
   }
 
   const handleCancel = () => {
-    // updateUserForm({ ...authUser })
-    navigate(`/`)
+    setChecked(false)
+    setSelectedRadio('')
+    handlePageNavigation('previous')
   }
 
-  // const nextButtonStyle = isUrl(inputChange)
-  //   ? 'projectcompletion__next-btn-ready'
-  //   : 'projectcompletion__next-btn'
+  const isValidForm = () => {
+    return (
+      (selectedRadio === 'option1' && checked) || selectedRadio === 'option2'
+    )
+  }
+
+  const getButtonClassName = () => {
+    if (!selectedRadio && !checked) return 'projectcompletion__next-btn'
+    return isValidForm()
+      ? 'projectcompletion__next-btn-ready'
+      : 'projectcompletion__next-btn'
+  }
 
   return (
     <div className='projectcompletion__pag-presentation'>
@@ -114,10 +131,7 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
           >
             <FiRepeat className='projectcompletion__back-icon' /> Back
           </button>
-          <button
-            className='projectcompletion__next-btn'
-            onClick={() => handlePageNavigation('next')}
-          >
+          <button type='submit' className={getButtonClassName()}>
             Next <FiRepeat className='projectcompletion__forward-icon' />
           </button>
         </div>

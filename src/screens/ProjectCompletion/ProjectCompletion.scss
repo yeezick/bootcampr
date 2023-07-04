@@ -156,6 +156,10 @@
       border-radius: 4px;
     }
 
+    input[type='checkbox'] {
+      accent-color: #022888;
+    }
+
     p {
       font-size: 12px;
       padding: 0;
@@ -299,6 +303,10 @@
       height: 13.33px;
     }
 
+    input[type='radio'] {
+      accent-color: black;
+    }
+
     p {
       font-size: 12px;
     }
@@ -312,6 +320,10 @@
       margin: 0 8px 0 0;
       width: 13.33px;
       height: 13.33px;
+    }
+
+    input[type='radio'] {
+      accent-color: black;
     }
   }
 

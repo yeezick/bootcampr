@@ -1,18 +1,29 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { createProject } from 'utils/api'
 import { FiRepeat, FiArrowRight } from 'react-icons/fi'
 
 export const ProjectCompPagOne = ({ handlePageNavigation }) => {
+  const authUser = useSelector(selectAuthUser)
   const [inputChange, setInputChange] = useState('')
   const navigate = useNavigate()
 
-  const handleSubmit = async () => {
-    const createdProject = {
-      projectOwner: '',
-      title: 'inputChange',
+  const handleSubmit = async e => {
+    e.preventDefault()
+    if (isUrl(inputChange)) {
+      const createdProject = {
+        projectOwner: authUser._id,
+        deployedURL: inputChange,
+      }
+      const response = await createProject(createdProject)
+      if (response) {
+        handlePageNavigation('next') // navigate to the next page here
+      }
+    } else {
+      alert('Please enter a valid URL')
     }
-    await createProject(createdProject)
   }
 
   const handleInputChange = e => {
@@ -20,7 +31,7 @@ export const ProjectCompPagOne = ({ handlePageNavigation }) => {
   }
 
   const handleCancel = () => {
-    // updateUserForm({ ...authUser })
+    setInputChange('')
     navigate(`/`)
   }
 
@@ -40,6 +51,7 @@ export const ProjectCompPagOne = ({ handlePageNavigation }) => {
   const nextButtonStyle = isUrl(inputChange)
     ? 'projectcompletion__next-btn-ready'
     : 'projectcompletion__next-btn'
+
   const NextIcon = isUrl(inputChange) ? FiArrowRight : FiRepeat
 
   return (
@@ -66,10 +78,7 @@ export const ProjectCompPagOne = ({ handlePageNavigation }) => {
           >
             Cancel
           </button>
-          <button
-            className={nextButtonStyle}
-            onClick={() => handlePageNavigation('next')}
-          >
+          <button type='submit' className={nextButtonStyle}>
             Next <NextIcon className='projectcompletion__forward-icon' />
           </button>
         </div>
