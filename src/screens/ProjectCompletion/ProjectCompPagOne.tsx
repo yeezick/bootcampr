@@ -2,24 +2,30 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { createProject } from 'utils/api'
+import { editProject } from 'utils/api'
 import { FiRepeat, FiArrowRight } from 'react-icons/fi'
 
 export const ProjectCompPagOne = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
   const [inputChange, setInputChange] = useState('')
   const navigate = useNavigate()
+  console.log(typeof authUser.project)
+  const projectID = authUser.project
 
   const handleSubmit = async e => {
     e.preventDefault()
     if (isUrl(inputChange)) {
-      const createdProject = {
-        projectOwner: authUser._id,
+      const updatedProject = {
         deployedURL: inputChange,
       }
-      const response = await createProject(createdProject)
-      if (response) {
-        handlePageNavigation('next') // navigate to the next page here
+
+      try {
+        const response = await editProject(projectID, updatedProject)
+        if (response) {
+          handlePageNavigation('next') // navigate to the next page here
+        }
+      } catch (error) {
+        console.error(error)
       }
     } else {
       alert('Please enter a valid URL')

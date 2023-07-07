@@ -6,7 +6,7 @@ export interface ProjectInterface {
   duration?: string
   _id?: string
   meetingCadence?: number
-  overview: string
+  overview?: string
   projectTracker?: {
     completed?: TicketInterface[]
     inProgress?: TicketInterface[]
@@ -22,3 +22,12 @@ export interface ProjectInterface {
   title?: string
   tools?: string[]
 }
+
+// ...project
+// completedInfo: {
+//   participatingMembers: ['userId'], array of objectIds
+//   deployedUrl: {
+//     'userId': 'www'
+//   }
+// }
+// }

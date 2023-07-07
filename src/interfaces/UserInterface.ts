@@ -13,6 +13,7 @@ export interface UserInterface {
     linkedinUrl: string
     portfolioUrl: string
   }
+  project?: string
   memberOfProjects?: ProjectInterface[]
   ownerOfProjects?: ProjectInterface[]
   portfolioProjects?: ProjectInterface[]
