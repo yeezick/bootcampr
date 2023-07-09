@@ -1,11 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ProjectInterface } from 'interfaces'
 import { AvatarState } from 'interfaces/ProfileImageInterfaces'
-// todo: may be preferable to move projet tracker into its own model and slice?
+// todo: may be preferable to move project tracker into its own model and slice?
 
-/**
- * Creates a slice for avatar with a single reducer to set the image URL.
- */
 const initialState: ProjectInterface = {
   chats: [],
   calendarId: '',
