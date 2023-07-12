@@ -103,7 +103,7 @@
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: fit-content;
+  width: 850px;
 
   .close-x {
     font-size: 18px;
@@ -153,25 +153,35 @@
     background-color: white;
     border-radius: 0.4rem;
     display: flex;
-    height: 4rem;
     margin-left: 2rem;
-    width: 90%;
+    width: 310px;
+    padding: 0px;
 
-    .assignee-thumbnail {
-      border-radius: 50%;
-      height: 50px;
-      margin: 5px;
-      width: 50px;
-      object-fit: cover;
+    .MuiSelect-select {
+      padding: 0;
     }
+  }
+
+  .user-card {
+    width: fit-content;
+  }
+
+  .assignee-metadata {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .assignee-thumbnail {
+    height: 60px;
+    margin: 5px;
+    width: 60px;
+    object-fit: cover;
   }
 
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  img {
-    width: 3rem;
-  }
 
   p {
     margin: 0;

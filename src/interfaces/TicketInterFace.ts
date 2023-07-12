@@ -51,6 +51,7 @@ export interface CreateTicketInterface {
   ticketsStatus?: string
   buttonText?: string
   buttonClassName?: string
+  projectMembers: object
 }
 
 export interface TicketStatusChangeFunc {

@@ -5,7 +5,6 @@ import Modal from '@mui/material/Modal'
 import TextField from '@mui/material/TextField'
 import { SelectStatus } from 'components/Kanban'
 import AddIcon from '@mui/icons-material/Add'
-
 import {
   CreateTicketInterface,
   TaskInterface,
@@ -15,13 +14,13 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import '../Ticket.scss'
 import TextFieldData from './TextFieldData'
-import { MdOutlineTitle } from 'react-icons/md'
 import { BiLink } from 'react-icons/bi'
 import { UserAssignee } from '../TicketDetail/UserAssignee'
 import { RxPerson, RxText } from 'react-icons/rx'
 import { SelectDate } from '../TicketDetail/SelectDate'
 import { TbPencilMinus } from 'react-icons/tb'
 import { SelectAssignee } from './SelectAssignee'
+import { getMembersAttributesByProjectId } from 'utils/api'
 
 export const CreateTicket = ({
   setGetAllTicket,
@@ -31,6 +30,7 @@ export const CreateTicket = ({
   projectId,
   buttonText,
   buttonClassName,
+  projectMembers,
 }: CreateTicketInterface) => {
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
   const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()
@@ -39,10 +39,18 @@ export const CreateTicket = ({
   const authUser = useAppSelector(selectAuthUser)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
+  const [assigneesOptions, setAssigneesOptions] = useState([])
+  const [newAssignee, setNewAssignee] = useState('Unassigned')
+
+  const getAssignees = async (projectId, attributes) => {
+    let assignees = await getMembersAttributesByProjectId(projectId, attributes)
+    setAssigneesOptions(assignees)
+  }
 
   useEffect(() => {
-    console.log(projectId)
-  }, [])
+    const attributesForAssignees = 'firstName,lastName,role,profilePicture'
+    getAssignees(projectId, attributesForAssignees)
+  }, [projectId])
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -62,6 +70,7 @@ export const CreateTicket = ({
       projectId: projectId,
       status: newStatus,
       createdBy: authUser._id,
+      assignee: newAssignee,
     })
 
     setGetAllTicket({
@@ -133,7 +142,13 @@ export const CreateTicket = ({
                     handleOnChange={handleOnChange}
                     ticketsStatus={ticketsStatus}
                   />
-                  <UserAssignee text='Assignee' detailIcon={<RxPerson />} />
+                  <UserAssignee
+                    text='Assignee'
+                    detailIcon={<RxPerson />}
+                    projectMembers={assigneesOptions}
+                    setNewAssignee={setNewAssignee}
+                    newAssignee={newAssignee}
+                  />
                   <SelectDate handleOnChange={handleOnChange} />
 
                   <Box className='ticketDetail-openModal-box-button '>
@@ -146,11 +161,11 @@ export const CreateTicket = ({
                     </button>
                     <button
                       disabled={false}
-                      onClick={() => addTickets()}
+                      onClick={addTickets}
                       className='button2'
                       style={{ backgroundColor: '#FA9413', color: 'black' }}
                     >
-                      Add a ticket
+                      Create task
                     </button>
                   </Box>
                 </Box>

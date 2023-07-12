@@ -72,9 +72,14 @@ export const getProjectByUser = async userId => {
   }
 }
 
-export const getMembersByProjectId = async projectId => {
+export const getMembersAttributesByProjectId = async (
+  projectId,
+  attributes
+) => {
   try {
-    const res = await api.get(`/project/${projectId}/members`)
+    const res = await api.get(
+      `/project/${projectId}/members/?attributes=${attributes}`
+    )
     return res.data
   } catch (err) {
     console.error(err)
