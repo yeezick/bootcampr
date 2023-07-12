@@ -68,4 +68,5 @@ export interface TicketDetailPropsInterface {
   splitCamelCaseToWords?: (str: string) => string
   ticketDetail?: TicketInterface
   ticketsStatus?: KeyOfTicketStatusType | string
+  projectId: string
 }

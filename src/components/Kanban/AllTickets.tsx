@@ -151,6 +151,7 @@ export const AllTickets = ({ projectTracker }) => {
                                 ticketsStatus={ticketsStatus}
                                 splitCamelCaseToWords={splitCamelCaseToWords}
                                 concatenatedString={concatenatedString}
+                                projectId={id}
                               />
                             </div>
                           )}

@@ -154,15 +154,13 @@
     border-radius: 0.4rem;
     display: flex;
     margin-left: 2rem;
-    width: 310px;
     padding: 0px;
+    width: 310px;
 
     .MuiSelect-select {
       padding: 0;
     }
   }
-
-  
 
   display: flex;
   flex-direction: column;
@@ -198,17 +196,17 @@
     border-radius: 50%;
     height: 60px;
     margin: 5px;
-    width: 60px;
     object-fit: cover;
     padding: 5px;
+    width: 60px;
   }
 }
 
 .assignee-thumbnail {
   height: 60px;
   margin: 5px;
-  width: 60px;
   object-fit: cover;
+  width: 60px;
 }
 
 .selectStatus {

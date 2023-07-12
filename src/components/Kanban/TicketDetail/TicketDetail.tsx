@@ -20,20 +20,34 @@ import { UserAssignee } from './UserAssignee'
 import { SelectDate } from './SelectDate'
 import '../Ticket.scss'
 import { SelectAssignee } from '../CreateTickets/SelectAssignee'
+import { useEffect } from 'react'
+import { getMembersAttributesByProjectId } from 'utils/api'
 
 export const TicketDetail = ({
   ticketDetail,
   getAllTicket,
-
   setGetAllTicket,
   ticketsStatus,
   splitCamelCaseToWords,
   concatenatedString,
+  projectId,
 }: TicketDetailPropsInterface) => {
   const authUser = useAppSelector(selectAuthUser)
   const [modalIsOpen, setIsOpen] = useState(false)
   const [ticketStatus, setTicketStatus] = useState<string>()
   const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false)
+  const [assigneesOptions, setAssigneesOptions] = useState([])
+  const [newAssignee, setNewAssignee] = useState('Unassigned')
+
+  const getAssignees = async (projectId, attributes) => {
+    let assignees = await getMembersAttributesByProjectId(projectId, attributes)
+    setAssigneesOptions(assignees)
+  }
+
+  useEffect(() => {
+    const attributesForAssignees = 'firstName,lastName,role,profilePicture'
+    getAssignees(projectId, attributesForAssignees)
+  }, [])
 
   const tittleRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
   const dateRef: MutableRefObject<HTMLInputElement | null> = useRef(null)
@@ -132,31 +146,18 @@ export const TicketDetail = ({
                 </Box>
 
                 <Box>
-                  {/* <SelectStatus
+                  <SelectStatus
                     handleOnChange={handleEditChange}
                     ticketDetail={ticketDetail}
                     splitCamelCaseToWords={splitCamelCaseToWords}
-                  /> */}
-                  {/* 
+                  />
                   <UserAssignee
-                    text='Created by'
-                    detailIcon={<RxPerson />}
-                    userName={ticketDetail?.createdBy?.firstName}
-                    userRole={ticketDetail?.createdBy?.role}
-                    userImage={ticketDetail?.createdBy?.profilePicture}
-                  /> */}
-
-                  {/* <SelectAssignee
-                    ticketDetail='testing'
-                    setAssignees={() => console.log('what')}
-                  /> */}
-                  {/* <UserAssignee
                     text='Assignee'
                     detailIcon={<RxPerson />}
-                    userName={ticketDetail?.assignees?.firstName}
-                    userRole={ticketDetail?.assignees?.role}
-                    userImage={ticketDetail?.assignees?.profilePicture}
-                  /> */}
+                    projectMembers={assigneesOptions}
+                    setNewAssignee={setNewAssignee}
+                    newAssignee={newAssignee}
+                  />
 
                   <SelectDate
                     dateRef={dateRef}
