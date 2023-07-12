@@ -1,5 +1,4 @@
 import { useState, useRef, MutableRefObject, useEffect } from 'react'
-// import Modal from '@mui/material/Modal'
 import { Box, Modal } from '@mui/material'
 import { SelectStatus } from 'components/Kanban'
 import { SelectChangeEvent } from '@mui/material/Select'
