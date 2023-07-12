@@ -1,6 +1,7 @@
 import React from 'react'
 import '../Ticket.scss'
 import { Icon } from '@mui/material'
+
 const EditableText = ({ editRef, ticketDetail, text, detailIcon }) => {
   return (
     <div className='EditableText'>

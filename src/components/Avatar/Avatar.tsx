@@ -14,22 +14,31 @@ const Avatar: React.FC<AvatarProps> = ({
   uploadedImage: propUploadedImage,
   clickable = true,
   openModal,
+  setAnchorEl,
 }) => {
   const reduxUploadedImage = useSelector(getUserProfileImage)
   const reduxImageUrl = useSelector((state: RootState) => state.avatar.imageUrl)
-
   const imageUrl = propImageUrl ?? reduxImageUrl
   const uploadedImage = propUploadedImage ?? reduxUploadedImage
-
   const imageSource = uploadedImage || imageUrl
+  const imgClassName = clickable || setAnchorEl ? 'avatar-img' : 'non-clickable'
+
+  const handleClick = e => {
+    if (clickable) {
+      openModal(e)
+      return
+    } else if (setAnchorEl) {
+      setAnchorEl(e.currentTarget)
+    }
+  }
 
   return (
     <>
       <img
-        className={clickable ? 'avatar-img' : 'non-clickable'}
+        className={imgClassName}
         src={imageSource}
         alt='avatar'
-        onClick={clickable ? openModal : undefined}
+        onClick={handleClick}
       />
     </>
   )
