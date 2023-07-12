@@ -19,7 +19,6 @@ import { UserAssignee } from '../TicketDetail/UserAssignee'
 import { RxPerson, RxText } from 'react-icons/rx'
 import { SelectDate } from '../TicketDetail/SelectDate'
 import { TbPencilMinus } from 'react-icons/tb'
-import { SelectAssignee } from './SelectAssignee'
 import { getMembersAttributesByProjectId } from 'utils/api'
 
 export const CreateTicket = ({
