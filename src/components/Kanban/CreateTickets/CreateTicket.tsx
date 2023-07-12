@@ -20,6 +20,7 @@ import { RxPerson, RxText } from 'react-icons/rx'
 import { SelectDate } from '../TicketDetail/SelectDate'
 import { TbPencilMinus } from 'react-icons/tb'
 import { getMembersAttributesByProjectId } from 'utils/api'
+import { IoMdClose } from 'react-icons/io'
 
 export const CreateTicket = ({
   setGetAllTicket,
@@ -95,8 +96,7 @@ export const CreateTicket = ({
             <h1>Creating...</h1>
           ) : (
             <Box className='ticketDetailOpenModalBox'>
-              {/* replace with an icon */}
-              <div className='close-x'>x</div>
+              <IoMdClose className='close-x' onClick={closeModal} />
               <Box className='createTicketBox'>
                 <Box>
                   <TextFieldData
