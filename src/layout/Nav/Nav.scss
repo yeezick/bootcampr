@@ -72,6 +72,9 @@ nav {
   .notifications {
     align-items: center;
     display: flex;
+    justify-content: flex-end;
+    width: 100%;
+
 
     .messages-icon {
       align-items: center;
