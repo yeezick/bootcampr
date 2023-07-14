@@ -9,20 +9,23 @@ export const ProjectCompPagOne = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
   const [inputChange, setInputChange] = useState('')
   const navigate = useNavigate()
-  console.log(typeof authUser.project)
   const projectID = authUser.project
 
   const handleSubmit = async e => {
     e.preventDefault()
     if (isUrl(inputChange)) {
       const updatedProject = {
-        deployedURL: inputChange,
+        completedInfo: [
+          {
+            url: inputChange,
+          },
+        ],
       }
 
       try {
         const response = await editProject(projectID, updatedProject)
         if (response) {
-          handlePageNavigation('next') // navigate to the next page here
+          handlePageNavigation('next')
         }
       } catch (error) {
         console.error(error)

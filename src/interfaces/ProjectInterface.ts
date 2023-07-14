@@ -1,4 +1,5 @@
 import { TicketInterface } from 'interfaces'
+import { UserInterface, ProjectMemberInterface } from 'interfaces/UserInterface'
 
 export interface ProjectInterface {
   _v?: number
@@ -13,7 +14,10 @@ export interface ProjectInterface {
     toDo?: TicketInterface[]
     underReview?: TicketInterface[]
   }
-  deployedUrl?: string
+  completedInfo?: {
+    participatingMembers?: ProjectMemberInterface[]
+    deployedUrl?: CompletedUrl[]
+  }
   members?: {
     design?: any
     engineer?: any
@@ -23,11 +27,7 @@ export interface ProjectInterface {
   tools?: string[]
 }
 
-// ...project
-// completedInfo: {
-//   participatingMembers: ['userId'], array of objectIds
-//   deployedUrl: {
-//     'userId': 'www'
-//   }
-// }
-// }
+export interface CompletedUrl {
+  user: Pick<UserInterface, '_id' | 'firstName' | 'lastName'>
+  url: string
+}

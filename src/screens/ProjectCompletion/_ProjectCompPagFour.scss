@@ -1,0 +1,99 @@
+.projectcompletion {
+  // What's Next
+
+  &__pag-whats-next {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 577px;
+    padding: 0;
+    width: 665px;
+  }
+
+  &__what-btns {
+    background-color: #ffffff;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    height: 78px;
+    justify-content: center;
+    margin: 40px auto 0;
+    width: 208px;
+  }
+
+  &__what-contents {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    text-align: center;
+    width: 665px;
+  }
+
+  &__what-form {
+    height: 577px;
+    padding: 0;
+    width: 665px;
+  }
+
+  &__what-info {
+    margin: 40px 0 0 0;
+
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 34px;
+    }
+
+    p {
+      font-size: 16px;
+      margin: 16px 48px 0;
+      text-align: initial;
+      width: 569px;
+    }
+  }
+
+  &__what-title {
+    margin: 88px 0 0 0;
+
+    h1 {
+      font-size: 38px;
+      font-weight: 600;
+      line-height: 53px;
+      margin: 0;
+    }
+  }
+
+  &__wht-ans-btn {
+    align-items: center;
+    background-color: #fa9413;
+    border: none;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    font-size: 16px;
+    font-weight: 500;
+    height: 78px;
+    justify-content: center;
+    line-height: 22px;
+    margin-bottom: 8px;
+    width: 208px;
+  }
+
+  &__wht-back-btn {
+    align-items: center;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    color: #8048c8;
+    display: flex;
+    flex-direction: row;
+    font-size: 16px;
+    font-weight: 500;
+    height: 78px;
+    justify-content: center;
+    line-height: 22px;
+    margin: 0;
+    width: 208px;
+  }
+}

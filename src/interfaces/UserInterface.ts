@@ -143,10 +143,10 @@ export interface Availability {
 }
 
 export interface ProjectMemberInterface {
-  _id: string
-  firstName: string
-  lastName: string
-  email: string
-  role: string
-  profilePicture: string
+  _id?: string
+  firstName?: string
+  lastName?: string
+  email?: string
+  role?: string
+  profilePicture?: string
 }

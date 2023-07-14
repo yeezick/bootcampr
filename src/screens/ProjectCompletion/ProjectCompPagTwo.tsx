@@ -1,12 +1,41 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { FiRepeat } from 'react-icons/fi'
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined'
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined'
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
+import { getOneProject } from 'utils/api'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
 export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
+  const authUser = useSelector(selectAuthUser)
   const [checked, setChecked] = useState(false)
   const [selectedRadio, setSelectedRadio] = useState('')
+  const [participatingMembers, setParticipatingMembers] = useState([])
+  const projectId = authUser.project
+
+  useEffect(() => {
+    const fetchProjectData = async () => {
+      try {
+        const project = await getOneProject(projectId)
+        console.log('Project Data:', project)
+
+        const members =
+          project &&
+          project.completedInfo &&
+          project.completedInfo.participatingMembers
+            ? project.completedInfo.participatingMembers
+            : []
+
+        setParticipatingMembers(members)
+        console.log('Participating Members:', members)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchProjectData()
+  }, [projectId])
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -45,6 +74,10 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
       ? 'projectcompletion__next-btn-ready'
       : 'projectcompletion__next-btn'
   }
+
+  const memberNames = participatingMembers
+    .map(member => member.firstName)
+    .join(', ')
 
   return (
     <div className='projectcompletion__pag-presentation'>
@@ -120,6 +153,7 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
                   onChange={handleCheckBox}
                 />
                 <p>Select All Members</p>
+                <p>{memberNames}</p>
               </label>
             </div>
           </div>
