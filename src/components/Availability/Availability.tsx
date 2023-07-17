@@ -9,6 +9,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import { IconButton } from '@mui/material'
 import { Navigate } from 'react-router-dom'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 export const Availability: React.FC = (): JSX.Element => {
   let userAvailability = useSelector(getUserAvailability)
   const [days, setDays] = useState(userAvailability)
@@ -33,11 +34,11 @@ export const Availability: React.FC = (): JSX.Element => {
           />
         ))}
       </div>
-      <div className='availability-container'>
+      <div className='availability-container-role-profile-button'>
         <div>
           <IconButton
             aria-label='go back to view profile'
-            className='editprofile__backBtn'
+            className='availability-container-back-button'
             // onClick={() => Navigate(`/users/${userId}`)}
           >
             <ArrowBackIcon />
@@ -45,7 +46,10 @@ export const Availability: React.FC = (): JSX.Element => {
           </IconButton>
         </div>
         <div>
-          <button>Set up profile</button>
+          <button className='availability-container-profile-button'>
+            Set up profile
+            <ArrowForwardIcon className='availability-container-profile-button-arrow' />
+          </button>
         </div>
       </div>
     </div>
