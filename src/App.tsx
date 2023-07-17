@@ -1,12 +1,17 @@
 import { Routes, Route } from 'react-router-dom'
 import { Layout } from 'layout'
-import { EmailVerify, ExpiredLink, SignIn, SignUp } from 'screens/Auth'
+import {
+  EmailVerify,
+  ExpiredLink,
+  Settings,
+  SignIn,
+  SignUp,
+} from 'screens/Auth'
 import { Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { PaginatorExample } from 'components/Paginator/Examples/PaginatorExample'
 import { AllProjects, CreateProject, ProjectDetails } from 'screens/Project'
-// import ProjectPage from 'screens/Project/ProjectPage' // revisit
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 import { Calendar } from 'screens/Project/Calendar'
 import './App.css'
@@ -27,6 +32,7 @@ function App() {
           <Route path='/onboarding/:userId' element={<Onboarding />} />
           <Route path='/users/:id' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />
+          <Route path='/users/:id/settings' element={<Settings />} />
           {/* Todo: Remove once onboarding flow is complete */}
           <Route path='/paginator-example' element={<PaginatorExample />} />
           {/* Project */}

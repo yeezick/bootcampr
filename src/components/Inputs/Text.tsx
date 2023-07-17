@@ -8,8 +8,11 @@ export const Text = ({ label, name, setFormValues, required }) => {
   return (
     <div className={`signup-input-${name}`}>
       <FormControl variant='standard'>
-        <InputLabel htmlFor={name}>{label}</InputLabel>
-        <Input
+        <label className='form-label' htmlFor={name}>
+          {label}
+        </label>
+        <input
+          className='form-input'
           id={name}
           name={name}
           onChange={handleTextChange}

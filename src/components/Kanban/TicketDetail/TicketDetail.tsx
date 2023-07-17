@@ -1,5 +1,5 @@
 import { useState, useRef, MutableRefObject } from 'react'
-import Modal from 'react-modal'
+import Modal from '@mui/material/Modal'
 import { Button, Box } from '@mui/material'
 import { SelectStatus } from 'components/Kanban'
 import { SelectChangeEvent } from '@mui/material/Select'
@@ -11,29 +11,24 @@ import {
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 import { deleteTicketApi } from 'utils/api/tickets'
-
-const customStyles = {
-  content: {
-    top: '50%',
-    width: '40rem',
-    height: '25rem',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '50%',
-    transform: 'translate(-50%, -50%)',
-  },
-}
+import EditableText from './EditableText'
+import { MdOutlineTitle } from 'react-icons/md'
+import { TbPencilMinus } from 'react-icons/tb'
+import { BiLink } from 'react-icons/bi'
+import { RxPerson } from 'react-icons/rx'
+import { UserAssignee } from './UserAssignee'
+import { SelectDate } from './SelectDate'
+import '../Ticket.scss'
 
 export const TicketDetail = ({
   ticketDetail,
   getAllTicket,
+
   setGetAllTicket,
   ticketsStatus,
   splitCamelCaseToWords,
   concatenatedString,
 }: TicketDetailPropsInterface) => {
-  Modal.setAppElement('#root')
   const authUser = useAppSelector(selectAuthUser)
   const [modalIsOpen, setIsOpen] = useState(false)
   const [ticketStatus, setTicketStatus] = useState<string>()
@@ -42,7 +37,6 @@ export const TicketDetail = ({
   const tittleRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
   const dateRef: MutableRefObject<HTMLInputElement | null> = useRef(null)
   const linkRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
-
   const descriptionRef: MutableRefObject<HTMLParagraphElement | null> =
     useRef(null)
   const openModal = () => setIsOpen(true)
@@ -102,97 +96,88 @@ export const TicketDetail = ({
   }
   return (
     <div>
-      <button onClick={openModal}> Ticket Detail</button>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel='Example Modal'
-      >
+      <div onClick={openModal} className='ticketDetailOpenModal'>
+        <div>
+          <h3>{ticketDetail.title}</h3>
+        </div>
+      </div>
+      <Modal open={modalIsOpen} onClose={closeModal} className='modal'>
         {isBeingEdited ? (
           <h1>Saving changes...</h1>
         ) : (
           <>
-            <Button
-              sx={{ marginRight: '10px' }}
-              color='error'
-              disabled={false}
-              size='small'
-              variant='outlined'
-              onClick={closeModal}
-            >
-              close
-            </Button>
-            <Box sx={{ display: 'flex', gap: '30px' }}>
-              <Box sx={{ width: '50%' }}>
-                <h3>Title</h3>
-                <blockquote>
-                  <p
-                    contentEditable='true'
-                    ref={tittleRef}
-                    suppressContentEditableWarning={true}
-                  >
-                    {ticketDetail.title}
-                  </p>
-                </blockquote>
-                <h3>description</h3>
+            <Box className='ticketDetailOpenModalBox'>
+              <Box sx={{ display: 'flex' }}>
+                <Box sx={{ width: '50%' }}>
+                  <EditableText
+                    detailIcon={<MdOutlineTitle />}
+                    text='Title'
+                    editRef={tittleRef}
+                    ticketDetail={ticketDetail.title}
+                  />
+                  <EditableText
+                    detailIcon={<TbPencilMinus />}
+                    text='Description'
+                    editRef={descriptionRef}
+                    ticketDetail={ticketDetail.description}
+                  />
 
-                <blockquote>
-                  <p
-                    contentEditable='true'
-                    ref={descriptionRef}
-                    suppressContentEditableWarning={true}
-                  >
-                    {ticketDetail.description}
-                  </p>
-                </blockquote>
-                <h3>Link</h3>
+                  <EditableText
+                    detailIcon={<BiLink />}
+                    text='Link'
+                    editRef={linkRef}
+                    ticketDetail={ticketDetail.link}
+                  />
+                </Box>
 
-                <blockquote>
-                  <p
-                    contentEditable='true'
-                    ref={linkRef}
-                    suppressContentEditableWarning={true}
-                  >
-                    {ticketDetail.link}
-                  </p>
-                </blockquote>
-              </Box>
+                <Box sx={{ width: '50%' }}>
+                  <SelectStatus
+                    handleOnChange={handleEditChange}
+                    ticketDetail={ticketDetail}
+                    splitCamelCaseToWords={splitCamelCaseToWords}
+                  />
 
-              <Box sx={{ width: '50%' }}>
-                <SelectStatus
-                  handleOnChange={handleEditChange}
-                  ticketDetail={ticketDetail}
-                  splitCamelCaseToWords={splitCamelCaseToWords}
-                />
-                <input
-                  type='date'
-                  name='date'
-                  ref={dateRef}
-                  defaultValue={ticketDetail.dueDate}
-                />
+                  <UserAssignee
+                    text='Created by'
+                    detailIcon={<RxPerson />}
+                    userName={ticketDetail?.createdBy?.firstName}
+                    userRole={ticketDetail?.createdBy?.role}
+                    userImage={ticketDetail?.createdBy?.profilePicture}
+                  />
+
+                  <UserAssignee
+                    text='Assignee'
+                    detailIcon={<RxPerson />}
+                    userName={ticketDetail?.assignees?.firstName}
+                    userRole={ticketDetail?.assignees?.role}
+                    userImage={ticketDetail?.assignees?.profilePicture}
+                  />
+
+                  <SelectDate
+                    dateRef={dateRef}
+                    defaultValue={ticketDetail.dueDate}
+                  />
+
+                  <Box className='ticketDetailOpenModalBoxButton '>
+                    <button
+                      className='ticketDetailOpenModalButton button1'
+                      disabled={false}
+                      onClick={() => deleteTicket(ticketDetail?._id)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className='ticketDetailOpenModalButton button2'
+                      style={{ backgroundColor: '#8048c8', color: 'white' }}
+                      disabled={false}
+                      onClick={() => saveChanges()}
+                    >
+                      Save Changes
+                    </button>
+                  </Box>
+                </Box>
               </Box>
             </Box>
-            <Button
-              sx={{ marginRight: '10px' }}
-              color='error'
-              disabled={false}
-              size='small'
-              variant='outlined'
-              onClick={() => deleteTicket(ticketDetail?._id)}
-            >
-              Delete
-            </Button>
-            <Button
-              sx={{ marginRight: '10px' }}
-              color='success'
-              disabled={false}
-              size='small'
-              variant='outlined'
-              onClick={() => saveChanges()}
-            >
-              Save Changes
-            </Button>
           </>
         )}
       </Modal>

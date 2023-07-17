@@ -1,6 +1,15 @@
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import {
+  Box,
+  FormControl,
+  Icon,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@mui/material'
 import { SelectChangeEvent } from '@mui/material/Select'
 import { TicketInterface } from 'interfaces/TicketInterFace'
+import { FiWatch } from 'react-icons/fi'
+import '../Ticket.scss'
 
 type SelectStatusProps = {
   handleOnChange?: (e: SelectChangeEvent) => void
@@ -15,20 +24,24 @@ export const SelectStatus = ({
   ticketsStatus,
 }: SelectStatusProps) => {
   return (
-    <Box sx={{ minWidth: 10 }}>
-      <FormControl fullWidth sx={{ width: '100%', paddingBottom: '20px' }}>
-        <InputLabel id='demo-simple-select-label'>Status</InputLabel>
+    <Box sx={{ minWidth: 10 }} className='selectStatus'>
+      <div className='selectStatusIconText'>
+        <Icon>
+          <FiWatch />
+        </Icon>
+        <h3>Status</h3>
+      </div>
+      <FormControl className='selectStatusFormControl'>
         <Select
-          labelId='demo-simple-select-label'
-          id='demo-simple-select'
-          label='status'
-          name='status'
+          className='selectStatusSelect'
+          displayEmpty
+          onChange={handleOnChange}
           defaultValue={
             ticketDetail
               ? splitCamelCaseToWords(ticketDetail?.status)
               : ticketsStatus
           }
-          onChange={handleOnChange}
+          inputProps={{ 'aria-label': 'Without label' }}
         >
           <MenuItem value={'to Do'}>To Do</MenuItem>
           <MenuItem value={'in Progress'}>In progress</MenuItem>
