@@ -25,6 +25,7 @@ const initialState: UiSliceInterface = {
         portfolioUrl: null,
       },
       profilePicture: '',
+      project: '',
       role: '',
       __v: 0,
       _id: '',
@@ -152,6 +153,7 @@ const userSlice = createSlice({
 
 export const selectAuthUser = (state: RootState) => state.ui.auth.user
 export const selectUserId = (state: RootState) => state.ui.auth.user._id
+export const selectProjectId = (state: RootState) => state.ui.auth.user.project
 export const getUserAvailability = (state: RootState) =>
   state.ui.auth.user.availability
 export const uiStatus = (state: RootState) => state.ui.status

@@ -6,13 +6,17 @@ import reportWebVitals from './reportWebVitals'
 import { Provider } from 'react-redux'
 import { store } from './utils/redux/store'
 import { NotificationAlerts } from './components/Notifications/NotificationAlerts'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <Router>
     <Provider store={store}>
-      <NotificationAlerts />
-      <App />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <NotificationAlerts />
+        <App />
+      </LocalizationProvider>
     </Provider>
   </Router>
 )

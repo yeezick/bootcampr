@@ -17,6 +17,7 @@ export interface UserInterface {
   ownerOfProjects?: ProjectInterface[]
   portfolioProjects?: ProjectInterface[]
   profilePicture?: string | null
+  project?: string
   role?: string
   savedProjects?: ProjectInterface[]
   __v?: number
