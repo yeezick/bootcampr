@@ -1,4 +1,5 @@
 import { TicketInterface } from 'interfaces'
+import dayjs from 'dayjs'
 
 export interface ProjectInterface {
   calendarId: string
@@ -24,4 +25,11 @@ export interface ProjectInterface {
   title?: string
   _id?: string
   _v?: number
+}
+
+export interface DateFieldsInterface {
+  date: dayjs.Dayjs
+  end: dayjs.Dayjs
+  start: dayjs.Dayjs
+  timeZone: string | dayjs.Dayjs
 }
