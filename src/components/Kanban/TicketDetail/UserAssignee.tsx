@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import '../Ticket.scss'
 import { Icon, MenuItem, Select } from '@mui/material'
 
@@ -5,12 +6,19 @@ export const UserAssignee = ({
   text,
   detailIcon,
   projectMembers,
-  setNewAssignee,
-  newAssignee,
+  setAssignee,
+  assignee,
 }) => {
+  const [newAssignee, setNewAssignee] = useState(assignee)
+
   const handleChange = e => {
     setNewAssignee(e.target.value)
+    setAssignee(e.target.value)
   }
+
+  // useEffect(() => {
+  //   console.log('wtf')
+  // }, [assignee])
 
   return (
     <div className='UserAssignee'>

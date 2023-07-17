@@ -40,7 +40,7 @@ export const CreateTicket = ({
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
   const [assigneesOptions, setAssigneesOptions] = useState([])
-  const [newAssignee, setNewAssignee] = useState('Unassigned')
+  const [assignee, setAssignee] = useState('Unassigned')
 
   const getAssignees = async (projectId, attributes) => {
     let assignees = await getMembersAttributesByProjectId(projectId, attributes)
@@ -70,7 +70,7 @@ export const CreateTicket = ({
       projectId: projectId,
       status: newStatus,
       createdBy: authUser._id,
-      assignee: newAssignee,
+      assignee: assignee,
     })
 
     setGetAllTicket({
@@ -145,8 +145,8 @@ export const CreateTicket = ({
                     text='Assignee'
                     detailIcon={<RxPerson />}
                     projectMembers={assigneesOptions}
-                    setNewAssignee={setNewAssignee}
-                    newAssignee={newAssignee}
+                    setAssignee={setAssignee}
+                    assignee={'Unassigned'}
                   />
                   <SelectDate handleOnChange={handleOnChange} />
 

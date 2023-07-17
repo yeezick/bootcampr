@@ -33,11 +33,12 @@ export const TicketDetail = ({
   const [ticketStatus, setTicketStatus] = useState<string>()
   const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false)
   const [assigneesOptions, setAssigneesOptions] = useState([])
-  const [newAssignee, setNewAssignee] = useState('Unassigned')
+  const [assignee, setAssignee] = useState('Unassigned')
 
   const getAssignees = async (projectId, attributes) => {
     let assignees = await getMembersAttributesByProjectId(projectId, attributes)
     setAssigneesOptions(assignees)
+    setAssignee(ticketDetail.assignee)
   }
 
   useEffect(() => {
@@ -151,8 +152,8 @@ export const TicketDetail = ({
                     text='Assignee'
                     detailIcon={<RxPerson />}
                     projectMembers={assigneesOptions}
-                    setNewAssignee={setNewAssignee}
-                    newAssignee={newAssignee}
+                    setAssignee={setAssignee}
+                    assignee={assignee}
                   />
 
                   <SelectDate

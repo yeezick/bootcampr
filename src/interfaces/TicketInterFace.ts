@@ -13,7 +13,7 @@ export interface TaskInterface {
 }
 
 export interface TicketInterface {
-  assignees?: UserInterface
+  assignee?: string
   createAt?: string
   description?: string
   projectId?: string
