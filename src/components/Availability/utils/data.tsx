@@ -8,13 +8,27 @@ export const weekdaysMap = {
   SAT: 'Saturday',
 }
 
-export enum Timezones {
+export enum Timezones2 {
   ET = 'Eastern Standard Time (EST)',
   CT = 'Central Standard Time (CST)',
   MT = 'Mountain Standard Time - (MST)',
   PT = 'Pacific Standard Time - (PST)',
   AT = 'Alaskan Standard Time (AKST)',
   HST = 'Hawaii-Aleutian Standard Time (HST)',
+}
+export enum Timezones {
+  EST = 'Eastern Standard Time (EST)',
+  EDT = 'Eastern Daylight Time (EST)',
+  CST = 'Central Standard Time (CST)',
+  CDT = 'Central Daylight Time (CST)',
+  MST = 'Mountain Standard Time (MST)',
+  MDT = 'Mountain Daylight Time (MST)',
+  PST = 'Pacific Standard Time (PST)',
+  PDT = 'Pacific Daylight Time (PST)',
+  AKST = 'Alaskan Standard Time (AKST)',
+  AKDT = 'Alaskan Daylight Time (AKST)',
+  HST = 'Hawaii-Aleutian Standard Time (HST)',
+  HADT = 'Hawaii-Aleutian Daylight Time (HST)',
 }
 
 export const defaultAvailabilityForm = {

@@ -10,20 +10,29 @@ import { IconButton } from '@mui/material'
 import { Navigate } from 'react-router-dom'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import moment from 'moment-timezone'
 export const Availability: React.FC = (): JSX.Element => {
   let userAvailability = useSelector(getUserAvailability)
   const [days, setDays] = useState(userAvailability)
-  const [timezone, setTimezone] = useState(Timezones.ET)
+  const [timezone, setTimezone] = useState(getCurrentTimeZone())
 
   useEffect(() => {
     setDays(userAvailability)
   }, [userAvailability])
+
+  function getCurrentTimeZone() {
+    const currentDateArray = moment().toArray()
+    const userTimeZone = moment.tz.guess()
+    let time = moment.tz(currentDateArray.slice(0, 2), userTimeZone).format('z')
+    return time
+  }
 
   return (
     <div>
       <div className='availability-container'>
         <TimeZoneInputBanner timezone={timezone} setTimezone={setTimezone} />
         <p>Set weekly availability</p>
+        <button>submit availability </button>
         <hr />
         {Object.keys(weekdaysMap).map(day => (
           <DayAvailabilityInputBanner
