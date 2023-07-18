@@ -4,18 +4,24 @@ import { useSelector } from 'react-redux'
 import { Timezones, weekdaysMap } from './utils/data'
 import { DayAvailabilityInputBanner } from './subcomponents/DayAvailabilityInputBanner'
 import { TimeZoneInputBanner } from './subcomponents/TimezoneInputBanner'
-import { getUserAvailability } from 'utils/redux/slices/userSlice'
+import {
+  getUserAvailability,
+  selectAuthUser,
+} from 'utils/redux/slices/userSlice'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import { IconButton } from '@mui/material'
-import { Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import moment from 'moment-timezone'
+import { updateUser } from 'utils/api'
+import { useAppSelector } from 'utils/redux/hooks'
 export const Availability: React.FC = (): JSX.Element => {
+  const authUser = useAppSelector(selectAuthUser)
   let userAvailability = useSelector(getUserAvailability)
   const [days, setDays] = useState(userAvailability)
   const [timezone, setTimezone] = useState(getCurrentTimeZone())
-
+  const navigate = useNavigate()
   useEffect(() => {
     setDays(userAvailability)
   }, [userAvailability])
@@ -23,16 +29,23 @@ export const Availability: React.FC = (): JSX.Element => {
   function getCurrentTimeZone() {
     const currentDateArray = moment().toArray()
     const userTimeZone = moment.tz.guess()
-    let time = moment.tz(currentDateArray.slice(0, 2), userTimeZone).format('z')
-    return time
+    let timeZone = moment
+      .tz(currentDateArray.slice(0, 2), userTimeZone)
+      .format('z')
+    return timeZone
   }
-
+  const addUserAvailability = async () => {
+    await updateUser(authUser._id, { availability: days })
+  }
+  const navigateToRoles = () => {
+    navigate(`/users/${authUser?._id}`)
+  }
   return (
     <div>
       <div className='availability-container'>
         <TimeZoneInputBanner timezone={timezone} setTimezone={setTimezone} />
         <p>Set weekly availability</p>
-        <button>submit availability </button>
+        <button onClick={addUserAvailability}>submit availability </button>
         <hr />
         {Object.keys(weekdaysMap).map(day => (
           <DayAvailabilityInputBanner
@@ -48,7 +61,7 @@ export const Availability: React.FC = (): JSX.Element => {
           <IconButton
             aria-label='go back to view profile'
             className='availability-container-back-button'
-            // onClick={() => Navigate(`/users/${userId}`)}
+            onClick={navigateToRoles}
           >
             <ArrowBackIcon />
             <p>Role</p>

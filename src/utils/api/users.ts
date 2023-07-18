@@ -25,7 +25,8 @@ export const getOneUser = async (id: any) => {
 
 export const updateUser = async (id: any, userUpdate: any) => {
   try {
-    const res = await api.put(`/users/${id}`, userUpdate)
+    console.log(id, userUpdate)
+    const res = await api.post(`/users/${id}`, userUpdate)
     return res.data
   } catch (error) {
     throw error
@@ -40,6 +41,7 @@ export const addPortfolioProject = async (id: any, newProject: any) => {
     throw error
   }
 }
+console.log('64b5ef04b9251d92245c1209'.length)
 
 export const signUp = async (credentials: any) => {
   try {
