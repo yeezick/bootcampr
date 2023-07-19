@@ -19,6 +19,7 @@ import { RxPerson } from 'react-icons/rx'
 import { UserAssignee } from './UserAssignee'
 import { SelectDate } from './SelectDate'
 import '../Ticket.scss'
+import { Comments } from '../Components/Comments'
 
 export const TicketDetail = ({
   ticketDetail,
@@ -128,6 +129,7 @@ export const TicketDetail = ({
                     editRef={linkRef}
                     ticketDetail={ticketDetail.link}
                   />
+                  <Comments ticketId={ticketDetail._id} />
                 </Box>
 
                 <Box sx={{ width: '50%' }}>

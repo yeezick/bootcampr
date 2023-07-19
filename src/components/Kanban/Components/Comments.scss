@@ -1,0 +1,64 @@
+.ticket-icon {
+    font-size: 22px;
+}
+
+.comments-section-label {
+    display: flex;
+    column-gap: 12px;
+}
+
+.comment-input-banner {
+    input {
+        border-radius: 5px;
+        border-style: none;
+        box-sizing: border-box;
+        padding: 3px 8px;
+        margin-top: 10px;
+        width: 95%;
+        height: 30px;
+        font-size: 14px;
+    }
+
+    input:focus {
+        outline: none;
+    }
+}
+
+.comment-thumbnail {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 8px;
+}
+
+.comment-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+.comment-card {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    width: 90%;
+    padding: 10px;
+    border-radius: 5px;
+
+    p {
+        margin: 0;
+    }
+}
+
+.comment-top-banner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.comment-actions {
+    display: flex;
+    flex-direction: row;
+    column-gap: 15px;
+}

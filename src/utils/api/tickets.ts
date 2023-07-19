@@ -40,3 +40,20 @@ export const deleteTicketApi = async ticketData => {
   await api.post(`/deleteTicket`, ticketData)
 }
 export const getOneTicketById = async () => {}
+
+export const getTicketComments = async ticketId => {
+  const response = await api.get(`/ticket/${ticketId}/comments`)
+
+  return response.data
+}
+
+// Comments
+export const createComment = async commentData => {
+  const ticketData = await api.post('/createComment', commentData)
+  return ticketData.data
+}
+
+export const deleteComment = async commentId => {
+  const response = await api.delete(`/comments/${commentId}`)
+  console.log(response)
+}

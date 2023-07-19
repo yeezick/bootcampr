@@ -99,6 +99,8 @@
   flex-direction: column;
   left: 50%;
   min-height: 70%;
+  max-height: 80%;
+  overflow-y: scroll;
   padding: 16px;
   position: absolute;
   top: 50%;
