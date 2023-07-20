@@ -1,8 +1,5 @@
-import React, { useState } from 'react'
-import Button from '@mui/material/Button'
+import React from 'react'
 import Snackbar from '@mui/material/Snackbar'
-import IconButton from '@mui/material/IconButton'
-import CloseIcon from '@mui/icons-material/Close'
 import { SnackBarToastInterface } from 'interfaces/SnackBarToast'
 
 export interface SnackBarToastProps {
@@ -34,8 +31,8 @@ export const SnackBarToast = ({
         onClose={handleClose}
         message={snackBar.message}
         anchorOrigin={{
-          vertical: snackBar.vertical ?? 'top',
-          horizontal: snackBar.horizontal ?? 'right',
+          vertical: snackBar.vertical ?? 'bottom',
+          horizontal: snackBar.horizontal ?? 'left',
         }}
       />
     </div>

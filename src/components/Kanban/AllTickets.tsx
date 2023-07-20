@@ -202,12 +202,10 @@ export const AllTickets = ({ projectTracker }) => {
           </div>
         </div>
       ) : null}
-      {openSnackBar.isOpen ? (
-        <SnackBarToast
-          snackBar={openSnackBar}
-          snackbarDescription={setOpenSnackBar}
-        />
-      ) : null}
+      <SnackBarToast
+        snackBar={openSnackBar}
+        snackbarDescription={setOpenSnackBar}
+      />
     </div>
   )
 }
