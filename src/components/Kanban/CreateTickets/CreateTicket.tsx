@@ -30,6 +30,7 @@ export const CreateTicket = ({
   projectId,
   buttonText,
   buttonClassName,
+  setOpenSnackBar,
 }: CreateTicketInterface) => {
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
   const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()
@@ -51,19 +52,18 @@ export const CreateTicket = ({
     setIsBeingCreated(true)
     const status = addTicketForm?.status ?? ticketsStatus
     const newStatus = concatenatedString(status)
-
     const createdTicket = await createTicketApi({
       ...addTicketForm,
       projectId: projectId,
       status: newStatus,
       createdBy: authUser._id,
     })
-
     setGetAllTicket({
       ...getAllTicket,
       [newStatus]: [...getAllTicket[newStatus], { ...createdTicket }],
     })
     setIsBeingCreated(false)
+    setOpenSnackBar({ isOpen: true, message: 'Ticket created', duration: 2000 })
     closeModal()
   }
 
@@ -138,13 +138,13 @@ export const CreateTicket = ({
                   <Box className='ticketDetail-openModal-box-button '>
                     <button
                       className='button1'
-                      disabled={false}
+                      disabled={isBeingCreated}
                       onClick={closeModal}
                     >
                       Cancel
                     </button>
                     <button
-                      disabled={false}
+                      disabled={isBeingCreated}
                       onClick={() => addTickets()}
                       className='button2'
                       style={{ backgroundColor: '#FA9413', color: 'black' }}

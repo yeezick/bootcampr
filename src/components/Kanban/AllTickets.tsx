@@ -12,10 +12,16 @@ import {
 import { updateTicketInformationAndStatus } from 'utils/api/tickets'
 import kanbanImage from './svg/bootcampr.png'
 import './Ticket.scss'
+import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
+import { SnackBarToastInterface } from 'interfaces/SnackBarToast'
 
 export const AllTickets = ({ projectTracker }) => {
   const { id } = useParams()
-
+  const [openSnackBar, setOpenSnackBar] = useState<SnackBarToastInterface>({
+    isOpen: false,
+    message: '',
+    duration: 0,
+  })
   const [getAllTicket, setGetAllTicket] = useState(
     projectTracker?.projectTracker
   )
@@ -114,6 +120,8 @@ export const AllTickets = ({ projectTracker }) => {
                   </div>
                   <div>
                     <CreateTicket
+                      openSnackBar={openSnackBar}
+                      setOpenSnackBar={setOpenSnackBar}
                       projectId={id}
                       setGetAllTicket={setGetAllTicket}
                       getAllTicket={getAllTicket}
@@ -181,6 +189,8 @@ export const AllTickets = ({ projectTracker }) => {
           </div>
           <div>
             <CreateTicket
+              openSnackBar={openSnackBar}
+              setOpenSnackBar={setOpenSnackBar}
               projectId={id}
               setGetAllTicket={setGetAllTicket}
               getAllTicket={getAllTicket}
@@ -191,6 +201,12 @@ export const AllTickets = ({ projectTracker }) => {
             />
           </div>
         </div>
+      ) : null}
+      {openSnackBar.isOpen ? (
+        <SnackBarToast
+          snackBar={openSnackBar}
+          snackbarDescription={setOpenSnackBar}
+        />
       ) : null}
     </div>
   )
