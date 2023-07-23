@@ -11,7 +11,7 @@ export interface ProjectInterface {
     designers?: string[]
     engineers?: string[]
   }
-  problem: ''
+  problem: string
   projectTracker?: {
     completed?: TicketInterface[]
     inProgress?: TicketInterface[]
@@ -19,8 +19,8 @@ export interface ProjectInterface {
     underReview?: TicketInterface[]
   }
   timeline: {
-    startDate: ''
-    endDate: ''
+    startDate: string
+    endDate: string
   }
   title?: string
   _id?: string

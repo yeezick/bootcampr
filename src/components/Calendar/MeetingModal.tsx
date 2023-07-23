@@ -21,6 +21,8 @@ import { DateFieldsInterface, StringToBooleanObject } from 'interfaces'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectProjectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -45,10 +47,10 @@ export const MeetingModal = props => {
     timeZone: dayjs.tz.guess(),
     end: dayjs(),
   })
-  const [projectMembers, setProjectMembers] = useState(null)
   const [attendees, setAttendees] = useState<StringToBooleanObject>({})
   const [inviteAll, toggleInviteAll] = useState(false)
   const radioGroupRef = useRef(null)
+  const projectMembers = useAppSelector(selectProjectMembersAsTeam)
 
   const handleEntering = () => {
     if (radioGroupRef.current != null) {
@@ -141,10 +143,10 @@ const sampleNewEvent = {
       <DialogContent>
         <TextField
           label='Title'
-          name='title'
+          name='summary'
           placeholder='Add title'
           onChange={handleMeetingText}
-          value={meetingText.title}
+          value={meetingText.summary}
           variant='standard'
         />
         <DateFields dateFields={dateFields} setDateFields={setDateFields} />
@@ -160,7 +162,6 @@ const sampleNewEvent = {
             attendees={attendees}
             setAttendees={setAttendees}
             projectMembers={projectMembers}
-            setProjectMembers={setProjectMembers}
           />
         </div>
         <p>divider</p>
@@ -225,22 +226,7 @@ const DateFields = ({ dateFields, setDateFields }) => {
   )
 }
 
-const SelectAttendees = ({
-  attendees,
-  setAttendees,
-  projectMembers,
-  setProjectMembers,
-}) => {
-  const projectId = useSelector(selectProjectId)
-
-  useEffect(() => {
-    const fetchProjectMembers = async () => {
-      const res = await getProjectMembers(projectId)
-      setProjectMembers([...res.engineers, ...res.designers])
-    }
-    fetchProjectMembers()
-  }, [])
-
+const SelectAttendees = ({ attendees, setAttendees, projectMembers }) => {
   const handleMemberSelection = e => {
     setAttendees(state => {
       return { ...state, [e.target.name]: e.target.checked }
@@ -259,6 +245,7 @@ const SelectAttendees = ({
                 name={member.email}
               />
             }
+            key={`select-member-${member._id}`}
             label={`${member.firstName} ${member.lastName}`}
           />
         ))}

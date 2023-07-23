@@ -42,12 +42,12 @@ export const CalendarTabs = () => {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={activeTab} onChange={handleChange}>
           {allTabs.map(tab => (
-            <Tab label={tab.label} />
+            <Tab label={tab.label} key={`tab-label-${tab.label}`} />
           ))}
         </Tabs>
       </Box>
       {allTabs.map((tab, index) => (
-        <TabContent activeTab={activeTab} index={index}>
+        <TabContent activeTab={activeTab} key={`tab-body-${index}`}>
           {tab.component}
         </TabContent>
       ))}
