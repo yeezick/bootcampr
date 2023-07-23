@@ -11,16 +11,16 @@ export interface ProjectInterface {
     designers?: string[]
     engineers?: string[]
   }
-  problem: ''
+  problem: string
   projectTracker?: {
     completed?: TicketInterface[]
     inProgress?: TicketInterface[]
     toDo?: TicketInterface[]
     underReview?: TicketInterface[]
   }
-  members?: {
-    designers?: any
-    engineers?: any
+  timeline: {
+    startDate: string
+    endDate: string
   }
   title?: string
   _id?: string
