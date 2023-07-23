@@ -76,21 +76,22 @@ export const Nav = () => {
 
   return (
     <nav className={navClassName}>
-      <div className='nav-container'>
-        {userId !== '' ? (
-          <div className='menu-btn' onClick={toggleSidebarHandler}>
-            <i></i>
-            <i></i>
-            <i></i>
+      <div className='navbar-wrapper'>
+        <div className='nav-container'>
+          {userId !== '' ? (
+            <div className='menu-btn' onClick={toggleSidebarHandler}>
+              <i></i>
+              <i></i>
+              <i></i>
+            </div>
+          ) : null}
+          <div className='logo'>
+            <Link to='/'>
+              <img src={Logo} alt='logo' />
+            </Link>
           </div>
-        ) : null}
-        <div className='logo'>
-          <Link to='/'>
-            <img src={Logo} alt='logo' />
-          </Link>
         </div>
-      </div>
-
+        
       {userId ? (
         <AuthorizedNavLinks
           notificationCount={notificationCount}
