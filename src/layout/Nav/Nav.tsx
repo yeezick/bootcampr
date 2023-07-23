@@ -94,6 +94,8 @@ export const Nav = () => {
           <AuthorizedNavLinks
             notificationCount={notificationCount}
             setAnchorEl={setAnchorEl}
+            isChatBadgeUpdated={isChatBadgeUpdated}
+            setIsChatBadgeUpdated={setIsChatBadgeUpdated}
           />
         ) : (
           <UnauthorizedNavLinks />
@@ -124,14 +126,6 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
         <ChatIconBadge />
         {visibleChat && <ChatDialogMain />}
       </div>
-<<<<<<< HEAD
-      <div className='notification-badge link'>
-        <NotificationModal />
-      </div>
-      {notificationCount > 0 && (
-        <div className='notification-count'>
-          <span>{notificationCount}</span>
-=======
 
       {userId && (
         <div className='notifications'>
@@ -161,7 +155,6 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
           <Link className='link' to='/'>
             <MdArrowDropDown size={25} />
           </Link>
->>>>>>> 597ea06 (enable real-time messaging with socket.io server, including icon badge unread count)
         </div>
       )}
       <Avatar clickable={false} setAnchorEl={setAnchorEl} />
