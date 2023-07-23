@@ -1,3 +1,12 @@
+.navbar {
+  background-color: #35313100;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: 0.2s;
+}
+
 .navbar-colored {
   background-color: #353131e8;
   left: 0;
@@ -7,13 +16,10 @@
   transition: 0.3s;
 }
 
-.navbar {
-  background-color: #35313100;
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
-  transition: 0.2s;
+.navbar-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 nav {
@@ -27,7 +33,7 @@ nav {
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 1;
+  z-index: 10;
 
   .menu-btn {
     cursor: pointer;
@@ -75,7 +81,6 @@ nav {
     justify-content: flex-end;
     width: 100%;
 
-
     .messages-icon {
       align-items: center;
       background-color: #ecebeb;
@@ -113,7 +118,6 @@ nav {
     display: flex;
     flex-wrap: wrap;
     gap: 22px;
-    width: 30%;
   }
 
   .sign-up {
