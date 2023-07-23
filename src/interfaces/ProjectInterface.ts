@@ -15,8 +15,8 @@ export interface ProjectInterface {
     underReview?: TicketInterface[]
   }
   members?: {
-    design?: any
-    engineer?: any
+    designers?: any
+    engineers?: any
   }
   status?: string
   title?: string
