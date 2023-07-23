@@ -18,9 +18,9 @@ export interface ProjectInterface {
     toDo?: TicketInterface[]
     underReview?: TicketInterface[]
   }
-  timeline: {
-    startDate: ''
-    endDate: ''
+  members?: {
+    designers?: any
+    engineers?: any
   }
   title?: string
   _id?: string
