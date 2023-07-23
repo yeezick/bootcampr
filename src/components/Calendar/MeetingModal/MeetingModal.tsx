@@ -4,25 +4,18 @@ import {
   DialogContent,
   DialogActions,
   TextField,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  FormGroup,
   FormControlLabel,
   Checkbox,
 } from '@mui/material'
-import { DatePicker, TimePicker } from '@mui/x-date-pickers'
-import { useEffect, useRef, useState } from 'react'
-import { getProjectMembers } from 'utils/api'
-import { useSelector } from 'react-redux'
-import { selectProjectId } from 'utils/redux/slices/userSlice'
+import { useRef, useState } from 'react'
 import { DateFieldsInterface, StringToBooleanObject } from 'interfaces'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectProjectMembersAsTeam } from 'utils/redux/slices/projectSlice'
+import { SelectAttendees } from './SelectAttendees'
+import { DateFields } from './DateFields'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -82,7 +75,6 @@ export const MeetingModal = props => {
   const handleSubmit = () => {
     // Package request to fit calendar event
     // Fetch calendarId from backend during submission
-    console.log({ dateFields, meetingText, attendees })
     const { end, start, timeZone } = dateFields
     const { description, summary } = meetingText
     const attendeeList = []
@@ -97,15 +89,16 @@ export const MeetingModal = props => {
       description,
       summary,
       start: {
-        dateTime: start,
+        dateTime: dayjs(start).format('YYYY-MM-DDTHH:mm:ssZ[Z]'),
         timeZone,
       },
       end: {
-        dateTime: end,
+        dateTime: dayjs(end).format('YYYY-MM-DDTHH:mm:ssZ[Z]'),
         timeZone,
       },
       attendees: attendeeList,
     }
+    console.log(requestBody)
   }
 
   /*
@@ -189,90 +182,3 @@ const sampleNewEvent = {
     </Dialog>
   )
 }
-
-const DateFields = ({ dateFields, setDateFields }) => {
-  const handleDate = newDate => setDateFields({ ...dateFields, date: newDate })
-  const handleFrom = newDate => setDateFields({ ...dateFields, start: newDate })
-  const handleTo = newDate => setDateFields({ ...dateFields, end: newDate })
-  const handleTimeZone = newTimeZone =>
-    setDateFields({ ...dateFields, timeZone: newTimeZone })
-  return (
-    <div>
-      <DatePicker
-        value={dateFields.date}
-        label='date picker'
-        onChange={handleDate}
-      />
-      <TimePicker
-        value={dateFields.start}
-        label='time picker'
-        onChange={handleFrom}
-      />
-      <span>-</span>
-      <TimePicker
-        value={dateFields.end}
-        label='time picker'
-        onChange={handleTo}
-      />
-      <FormControl>
-        <InputLabel>TimeZone</InputLabel>
-        <Select onChange={handleTimeZone}>
-          {usTimeZones.map(timeZone => (
-            <MenuItem key={timeZone.value}>{timeZone.name}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
-  )
-}
-
-const SelectAttendees = ({ attendees, setAttendees, projectMembers }) => {
-  const handleMemberSelection = e => {
-    setAttendees(state => {
-      return { ...state, [e.target.name]: e.target.checked }
-    })
-  }
-
-  if (projectMembers) {
-    return (
-      <FormGroup>
-        {projectMembers.map(member => (
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={attendees[member.email] || false}
-                onChange={handleMemberSelection}
-                name={member.email}
-              />
-            }
-            key={`select-member-${member._id}`}
-            label={`${member.firstName} ${member.lastName}`}
-          />
-        ))}
-      </FormGroup>
-    )
-  } else return null
-}
-
-const modalStyles = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-}
-
-const usTimeZones = [
-  { value: 'America/Puerto_Rico', name: 'Puerto Rico (Atlantic)' },
-  { value: 'America/New_York', name: 'New York (Eastern)' },
-  { value: 'America/Chicago', name: 'Chicago (Central)' },
-  { value: 'America/Denver', name: 'Denver (Mountain)' },
-  { value: 'America/Phoenix', name: 'Phoenix (MST)' },
-  { value: 'America/Los_Angeles', name: 'Los Angeles (Pacific)' },
-  { value: 'America/Anchorage', name: 'Anchorage (Alaska)' },
-  { value: 'Pacific/Honolulu', name: 'Honolulu (Hawaii)' },
-]
