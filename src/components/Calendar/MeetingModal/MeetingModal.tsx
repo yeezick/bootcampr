@@ -13,9 +13,13 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectProjectMembersAsTeam } from 'utils/redux/slices/projectSlice'
+import {
+  selectCalendarId,
+  selectProjectMembersAsTeam,
+} from 'utils/redux/slices/projectSlice'
 import { SelectAttendees } from './SelectAttendees'
 import { DateFields } from './DateFields'
+import { createEvent } from 'utils/api/events'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -44,6 +48,7 @@ export const MeetingModal = props => {
   const [inviteAll, toggleInviteAll] = useState(false)
   const radioGroupRef = useRef(null)
   const projectMembers = useAppSelector(selectProjectMembersAsTeam)
+  const calendarId = useAppSelector(selectCalendarId)
 
   const handleEntering = () => {
     if (radioGroupRef.current != null) {
@@ -72,7 +77,7 @@ export const MeetingModal = props => {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Package request to fit calendar event
     // Fetch calendarId from backend during submission
     const { end, start, timeZone } = dateFields
@@ -85,20 +90,29 @@ export const MeetingModal = props => {
       }
     }
 
-    const requestBody = {
+    const eventInfo = {
       description,
       summary,
       start: {
-        dateTime: dayjs(start).format('YYYY-MM-DDTHH:mm:ssZ[Z]'),
+        dateTime: dayjs(start).format('YYYY-MM-DDTHH:mm:ssZ'),
         timeZone,
       },
       end: {
-        dateTime: dayjs(end).format('YYYY-MM-DDTHH:mm:ssZ[Z]'),
+        dateTime: dayjs(end).format('YYYY-MM-DDTHH:mm:ssZ'),
         timeZone,
       },
       attendees: attendeeList,
     }
-    console.log(requestBody)
+
+    try {
+      const newEvent = await createEvent(calendarId, eventInfo)
+      console.log('newEvent', newEvent)
+    } catch (error) {
+      console.error(
+        `Error creating event for calendar (${calendarId}): `,
+        error
+      )
+    }
   }
 
   /*

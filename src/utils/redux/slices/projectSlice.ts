@@ -22,7 +22,6 @@ const projectSlice = createSlice({
   },
 })
 
-export const { setProject } = projectSlice.actions
 export const selectProjectMembersAsTeam = (state: RootState) => {
   return [
     ...state.project.members.designers,
@@ -31,4 +30,7 @@ export const selectProjectMembersAsTeam = (state: RootState) => {
 }
 export const selectProjectMembersByRole = (state: RootState) =>
   state.project.members
+export const selectCalendarId = (state: RootState) => state.project.calendarId
+
+export const { setProject } = projectSlice.actions
 export default projectSlice.reducer
