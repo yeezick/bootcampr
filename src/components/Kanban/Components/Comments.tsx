@@ -143,7 +143,7 @@ export const Comment = ({ comment, fetchComments, toggleFetchComments }) => {
           <p>{content}</p>
         </div>
         <div className='comment-actions'>
-          <div>reply</div>
+          <div>Reply</div>
           <div>Edit</div>
           <div onClick={deleteThisComment}>
             <p>Delete</p>
