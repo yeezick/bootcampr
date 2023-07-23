@@ -13,15 +13,19 @@ import { timeOptions } from '../utils/data'
  * @returns new consolidate availability (array)
  */
 export const consolidateAvailability = availability => {
-  for (let i = 1; i < availability.length; i++) {
-    const timeA = availability[i][0]
-    const timeB = availability[i - 1][1]
+  let consolidatedAvail = [...availability]
+  for (let i = 1; i < consolidatedAvail.length; i++) {
+    const timeA = consolidatedAvail[i][0]
+    const timeB = consolidatedAvail[i - 1][1]
     if (timeOptions.indexOf(timeA) <= timeOptions.indexOf(timeB)) {
-      availability[i - 1] = [availability[i - 1][0], availability[i][1]]
-      availability.splice(i, 1)
+      consolidatedAvail[i - 1] = [
+        consolidatedAvail[i - 1][0],
+        consolidatedAvail[i][1],
+      ]
+      consolidatedAvail.splice(i, 1)
     }
   }
-  return availability
+  return consolidatedAvail
 }
 
 /**
