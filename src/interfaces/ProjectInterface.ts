@@ -3,7 +3,8 @@ import dayjs from 'dayjs'
 
 export interface ProjectInterface {
   _v?: number
-  createAt?: string
+  createdAt?: string
+  calendarId?: string
   duration?: string
   _id?: string
   meetingCadence?: number
