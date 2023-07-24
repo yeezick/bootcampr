@@ -91,17 +91,18 @@ export const Nav = () => {
             </Link>
           </div>
         </div>
-        
-      {userId ? (
-        <AuthorizedNavLinks
-          notificationCount={notificationCount}
-          setAnchorEl={setAnchorEl}
-          isChatBadgeUpdated={isChatBadgeUpdated}
-          setIsChatBadgeUpdated={setIsChatBadgeUpdated}
-        />
-      ) : (
-        <UnauthorizedNavLinks />
-      )}
+
+        {userId ? (
+          <AuthorizedNavLinks
+            notificationCount={notificationCount}
+            setAnchorEl={setAnchorEl}
+            isChatBadgeUpdated={isChatBadgeUpdated}
+            setIsChatBadgeUpdated={setIsChatBadgeUpdated}
+          />
+        ) : (
+          <UnauthorizedNavLinks />
+        )}
+      </div>
 
       <AccountDropdown anchorEl={anchorEl} closeDropdown={closeDropdown} />
     </nav>

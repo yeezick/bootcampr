@@ -57,3 +57,8 @@ export const deleteComment = async commentId => {
   const response = await api.delete(`/comments/${commentId}`)
   console.log(response)
 }
+
+export const updateComment = async (commentId, commentUpdates) => {
+  const response = await api.post(`updateComment/${commentId}`, commentUpdates)
+  console.log(response)
+}

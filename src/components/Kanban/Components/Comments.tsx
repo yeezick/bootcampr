@@ -1,9 +1,10 @@
-import { BiComment } from 'react-icons/bi'
+import { BiComment, BiLike } from 'react-icons/bi'
 import './Comments.scss'
 import {
   createComment,
   getTicketComments,
   deleteComment,
+  updateComment,
 } from 'utils/api/tickets'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -45,6 +46,7 @@ export const Comments = ({ ticketId }) => {
             comment={comment}
             toggleFetchComments={toggleFetchComments}
             fetchComments={fetchComments}
+            currentUser={user}
           />
         ))}
       </div>
@@ -113,8 +115,17 @@ export const CommentInputBanner = ({
   )
 }
 
-export const Comment = ({ comment, fetchComments, toggleFetchComments }) => {
+export const Comment = ({
+  comment,
+  fetchComments,
+  toggleFetchComments,
+  currentUser,
+}) => {
   const { author, content, createdAt, isReply, likes, replies, _id } = comment
+  const [editMode, toggleEditMode] = useState(false)
+  const [editedComment, setEditedComment] = useState(content)
+
+  const userFriendlyTimeStamp = convertTimeToStampUserFriendly(createdAt)
 
   const deleteThisComment = async () => {
     console.log('deleting comment: ' + _id)
@@ -122,8 +133,38 @@ export const Comment = ({ comment, fetchComments, toggleFetchComments }) => {
     toggleFetchComments(!fetchComments)
   }
 
+  const allowEditComment = () => {
+    console.log('User would like to edit comment')
+    toggleEditMode(!editMode)
+  }
+
+  // change name to update content
+  const saveUpdatedComment = async e => {
+    console.log(e.key)
+    if (e.key === 'Enter') {
+      const commentUpdates = {
+        content: editedComment,
+      }
+      await updateComment(_id, commentUpdates)
+      toggleFetchComments(!fetchComments)
+      toggleEditMode(false)
+    }
+  }
+
+  const likeComment = async () => {
+    console.log(`${currentUser._id} wants to like commment: ${_id}`)
+    console.log(likes)
+    console.log(currentUser._id)
+    const updatedLikes = {
+      likes: [...likes, currentUser._id],
+    }
+    console.log(updatedLikes)
+    await updateComment(_id, updatedLikes)
+    toggleFetchComments(!fetchComments)
+  }
+
   useEffect(() => {
-    console.log(comment)
+    // console.log(currentUser)
   })
   return (
     <div className='comment-container'>
@@ -136,20 +177,40 @@ export const Comment = ({ comment, fetchComments, toggleFetchComments }) => {
             </p>
           </div>
           <div className='comment-date-time'>
-            <p>{createdAt}</p>
+            <p>{userFriendlyTimeStamp}</p>
           </div>
         </div>
         <div className='comment-content'>
-          <p>{content}</p>
+          {editMode ? (
+            <input
+              type='text'
+              value={editedComment}
+              onChange={e => setEditedComment(e.target.value)}
+              onKeyUp={saveUpdatedComment}
+            />
+          ) : (
+            <p>{content}</p>
+          )}
         </div>
         <div className='comment-actions'>
           <div>Reply</div>
-          <div>Edit</div>
-          <div onClick={deleteThisComment}>
-            <p>Delete</p>
+          {author.userId === currentUser._id && (
+            <>
+              <div onClick={allowEditComment}>
+                <p>Edit</p>
+              </div>
+              <div onClick={deleteThisComment}>
+                <p>Delete</p>
+              </div>
+            </>
+          )}
+          <div onClick={likeComment}>
+            {/* make this conditionally filled or not depending on users like status */}
+            <BiLike />
           </div>
-          <div>Like</div>
-          <div>Likes</div>
+          <div>
+            {likes.length} Like{likes.length > 1 && 's'}
+          </div>
         </div>
       </div>
     </div>
@@ -178,11 +239,22 @@ export const Comment = ({ comment, fetchComments, toggleFetchComments }) => {
   )
 }
 
-const sampleParentComment = {
-  author: 'Jeanine Bootcampr',
-  thumbnail: '',
-  timestamp: '',
-  content: '',
-  likes: [],
-  replies: [],
+const convertTimeToStampUserFriendly = timestamp => {
+  let userFriendlyTimeStamp = 'MM/DD/YYYY HH:MM xm'
+  const splitTimeStamp = timestamp.split('T')
+  const rawDate = splitTimeStamp[0]
+  const rawTime = splitTimeStamp[1]
+  const splitRawDate = rawDate.split('-')
+  const userFriendlyDate = `${splitRawDate[1]}/${splitRawDate[2]}/${splitRawDate[0]}`
+
+  // convert to user's timezone before adjusting hours and meridiem
+  const splitRawTime = rawTime.split(':')
+  const rawHour = splitRawTime[0]
+  const meridiem = rawHour >= 12 && rawHour !== 24 ? 'PM' : 'AM'
+  const hour = rawHour <= 12 ? rawHour : rawHour - 12
+  const minutes = splitRawTime[1]
+
+  const userFriendlyTime = `${hour}:${minutes} ${meridiem}`
+
+  return `${userFriendlyDate} ${userFriendlyTime}`
 }
