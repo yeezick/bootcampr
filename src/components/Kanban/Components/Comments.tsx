@@ -193,7 +193,8 @@ export const Comment = ({
           )}
         </div>
         <div className='comment-actions'>
-          <div>Reply</div>
+          {/* since this check is happening twice, make this render as an either or */}
+          {author.userId !== currentUser._id && <div>Reply</div>}
           {author.userId === currentUser._id && (
             <>
               <div onClick={allowEditComment}>
