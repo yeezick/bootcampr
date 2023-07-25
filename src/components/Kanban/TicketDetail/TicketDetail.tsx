@@ -109,7 +109,7 @@ export const TicketDetail = ({
           <>
             <Box className='ticketDetailOpenModalBox'>
               <Box sx={{ display: 'flex' }}>
-                <Box sx={{ width: '50%' }}>
+                <Box sx={{ width: '50%', margin: '25px' }}>
                   <EditableText
                     detailIcon={<MdOutlineTitle />}
                     text='Title'

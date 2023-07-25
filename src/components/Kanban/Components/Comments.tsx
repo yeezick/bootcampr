@@ -5,10 +5,13 @@ import {
   getTicketComments,
   deleteComment,
   updateComment,
+  getReplies,
 } from 'utils/api/tickets'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectAuthUser, selectUserId } from 'utils/redux/slices/userSlice'
+import { current } from 'immer'
+import { render } from '@testing-library/react'
 
 export const Comments = ({ ticketId }) => {
   const user = useSelector(selectAuthUser)
@@ -62,11 +65,14 @@ enum CommentType {
 // TODO: figure out how to properly add the CommentType Enum to type this
 export const CommentInputBanner = ({
   commentType,
+  // condense this to a single 'parentID' represetnating ticket or comment parent
   parentComment = undefined,
-  ticketId,
+  ticketId = undefined,
   user,
   fetchComments,
   toggleFetchComments,
+  renderReplyInput = undefined,
+  toggleRenderReplyInput = undefined,
 }) => {
   let placeholderText =
     commentType === CommentType.Parent
@@ -74,14 +80,15 @@ export const CommentInputBanner = ({
       : 'Reply to this comment.'
 
   const [inputText, setInputText] = useState('')
+  const { _id, firstName, lastName, profilePicture } = user
 
   const createNewComment = async e => {
+    console.log(user)
+    console.log(parentComment)
     if (e.key === 'Enter') {
-      const author = {}
+      // const author = {}
       const content = e.target.value
       const isReply = commentType === CommentType.Reply
-
-      const { _id, firstName, lastName, profilePicture } = user
 
       const response = await createComment({
         author: {
@@ -97,13 +104,16 @@ export const CommentInputBanner = ({
       })
 
       setInputText('')
+      if (isReply) {
+        toggleRenderReplyInput(false)
+      }
     }
     toggleFetchComments(!fetchComments)
   }
 
   return (
-    <div className='comment-input-banner'>
-      <img src='' />
+    <div className={`comment-input-banner ${commentType}`}>
+      <img src={profilePicture} />
       <input
         onKeyUp={createNewComment}
         type='text'
@@ -124,6 +134,7 @@ export const Comment = ({
   const { author, content, createdAt, isReply, likes, replies, _id } = comment
   const [editMode, toggleEditMode] = useState(false)
   const [editedComment, setEditedComment] = useState(content)
+  const [renderReplyInput, toggleRenderReplyInput] = useState(false)
 
   const userFriendlyTimeStamp = convertTimeToStampUserFriendly(createdAt)
 
@@ -155,67 +166,115 @@ export const Comment = ({
     console.log(`${currentUser._id} wants to like commment: ${_id}`)
     console.log(likes)
     console.log(currentUser._id)
-    const updatedLikes = {
-      likes: [...likes, currentUser._id],
+    let updatedLikes
+    if (likes.includes(currentUser._id)) {
+      console.log('user already liked')
+      const idx = likes.indexOf(currentUser._id)
+      updatedLikes = {
+        likes: likes.splice(idx, 1),
+      }
+    } else {
+      console.log('user has not liked')
+      updatedLikes = {
+        likes: [...likes, currentUser._id],
+      }
     }
+
     console.log(updatedLikes)
     await updateComment(_id, updatedLikes)
     toggleFetchComments(!fetchComments)
+  }
+
+  const renderReplyInputBar = () => {
+    console.log('reply clicked - lets render an input bar')
+    console.log('comment id: ' + _id)
+    toggleRenderReplyInput(!renderReplyInput)
   }
 
   useEffect(() => {
     // console.log(currentUser)
   })
   return (
-    <div className='comment-container'>
-      <img className='comment-thumbnail' src={author.profilePicture} />
-      <div className='comment-card'>
-        <div className='comment-top-banner'>
-          <div className='comment-author'>
-            <p>
-              {author.firstName} {author.lastName}
-            </p>
+    <div className='comment-replies-container'>
+      <div className='comment-container'>
+        <img className='comment-thumbnail' src={author.profilePicture} />
+        <div className='comment-card'>
+          <div className='comment-top-banner'>
+            <div className='comment-author'>
+              <p>
+                {author.firstName} {author.lastName}
+              </p>
+            </div>
+            <div className='comment-date-time'>
+              <p>{userFriendlyTimeStamp}</p>
+            </div>
           </div>
-          <div className='comment-date-time'>
-            <p>{userFriendlyTimeStamp}</p>
+          <div className='comment-content'>
+            {editMode ? (
+              <input
+                type='text'
+                value={editedComment}
+                onChange={e => setEditedComment(e.target.value)}
+                onKeyUp={saveUpdatedComment}
+              />
+            ) : (
+              <p>{content}</p>
+            )}
           </div>
-        </div>
-        <div className='comment-content'>
-          {editMode ? (
-            <input
-              type='text'
-              value={editedComment}
-              onChange={e => setEditedComment(e.target.value)}
-              onKeyUp={saveUpdatedComment}
-            />
-          ) : (
-            <p>{content}</p>
-          )}
-        </div>
-        <div className='comment-actions'>
-          {/* since this check is happening twice, make this render as an either or */}
-          {author.userId !== currentUser._id && <div>Reply</div>}
-          {author.userId === currentUser._id && (
-            <>
-              <div onClick={allowEditComment}>
-                <p>Edit</p>
+          <div className='comment-actions'>
+            {/* since this check is happening twice, make this render as an either or */}
+            {author.userId !== currentUser._id && (
+              <div onClick={renderReplyInputBar}>
+                <p>Reply</p>
               </div>
-              <div onClick={deleteThisComment}>
-                <p>Delete</p>
-              </div>
-            </>
-          )}
-          <div onClick={likeComment}>
-            {/* make this conditionally filled or not depending on users like status */}
-            <BiLike />
-          </div>
-          <div>
-            {likes.length} Like{likes.length > 1 && 's'}
+            )}
+            {author.userId === currentUser._id && (
+              <>
+                <div onClick={allowEditComment}>
+                  <p>Edit</p>
+                </div>
+                <div onClick={deleteThisComment}>
+                  <p>Delete</p>
+                </div>
+              </>
+            )}
+            <div onClick={likeComment}>
+              {/* make this conditionally filled or not depending on users like status */}
+              <BiLike />
+            </div>
+            <div>
+              {likes.length} Like{likes.length > 1 && 's'}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    // <div className='single-comment'>
+      <div>
+        <Replies
+          commentId={_id}
+          toggleFetchComments={toggleFetchComments}
+          fetchComments={fetchComments}
+          currentUser={currentUser}
+        />
+        {/* {replies.map((reply) => {
+        return (
+          <p>{reply}</p>
+        )
+      })} */}
+      </div>
+      {renderReplyInput && (
+        <div>
+          <CommentInputBanner
+            commentType={CommentType.Reply}
+            user={currentUser}
+            toggleFetchComments={toggleFetchComments}
+            fetchComments={fetchComments}
+            parentComment={_id}
+            renderReplyInput={renderReplyInput}
+            toggleRenderReplyInput={toggleRenderReplyInput}
+          />
+        </div>
+      )}
+      {/* // <div className='single-comment'>
     //     Single comment component
     //     <div>
     //         Base/Core/Parent Comment
@@ -236,7 +295,45 @@ export const Comment = ({
     //         the reply button on a reply comment will still reference its parent commentId so that the reply remains a single nested response, and will automatically be in the right order thanks to timestamp
     //         if reply button is clicked, a nested comment input bar will appear under said comment
     //     </div>
-    // </div>
+    // </div> */}
+    </div>
+  )
+}
+
+const Replies = ({
+  commentId,
+  currentUser,
+  toggleFetchComments,
+  fetchComments,
+}) => {
+  const [replies, setReplies] = useState([])
+
+  const getCommentReplies = async commentId => {
+    const response = await getReplies(commentId)
+    setReplies(response)
+  }
+
+  useEffect(() => {
+    getCommentReplies(commentId)
+    console.log(replies)
+  }, [])
+
+  return (
+    <div className='replies-container'>
+      {replies.map(reply => {
+        return (
+          // <div className='reply-comment'>
+          <Comment
+            comment={reply}
+            toggleFetchComments={toggleFetchComments}
+            fetchComments={fetchComments}
+            currentUser={currentUser}
+          />
+          // </div>
+          // <p>{reply.content}</p>
+        )
+      })}
+    </div>
   )
 }
 
@@ -257,5 +354,5 @@ const convertTimeToStampUserFriendly = timestamp => {
 
   const userFriendlyTime = `${hour}:${minutes} ${meridiem}`
 
-  return `${userFriendlyDate} ${userFriendlyTime}`
+  return `${userFriendlyDate}  ${userFriendlyTime}`
 }
