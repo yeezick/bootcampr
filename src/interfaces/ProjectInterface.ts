@@ -1,7 +1,8 @@
 import { TicketInterface } from 'interfaces'
-import { UserInterface, ProjectMemberInterface } from 'interfaces/UserInterface'
+import { ProjectMemberInterface } from 'interfaces/UserInterface'
 
 export interface ProjectInterface {
+  loading?: boolean
   _v?: number
   createAt?: string
   duration?: string
@@ -15,7 +16,7 @@ export interface ProjectInterface {
     underReview?: TicketInterface[]
   }
   completedInfo?: {
-    participatingMembers?: ProjectMemberInterface[]
+    participatingMembers?: { user: ProjectMemberInterface; decision: string }[]
     deployedUrl?: CompletedUrl[]
   }
   members?: {
@@ -28,6 +29,6 @@ export interface ProjectInterface {
 }
 
 export interface CompletedUrl {
-  user: Pick<UserInterface, '_id' | 'firstName' | 'lastName'>
+  user: ProjectMemberInterface
   url: string
 }

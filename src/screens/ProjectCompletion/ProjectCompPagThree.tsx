@@ -1,6 +1,10 @@
+import { useSelector } from 'react-redux'
+import { selectCompletedInfo } from 'utils/redux/slices/projectSlice'
 import { FiRepeat } from 'react-icons/fi'
 
 export const ProjectCompPagThree = ({ handlePageNavigation }) => {
+  const completedInfo = useSelector(selectCompletedInfo)
+
   const handleCancel = () => {
     handlePageNavigation('previous')
   }
@@ -22,6 +26,7 @@ export const ProjectCompPagThree = ({ handlePageNavigation }) => {
                 <p>Edit</p>
               </div>
               <p>www.awesomeproject.com</p>
+              {completedInfo.deployedUrl[0]?.url}
             </div>
             <div className='projectcompletion__confir-time'>
               <div className='projectcompletion__confir-header'>
@@ -29,6 +34,7 @@ export const ProjectCompPagThree = ({ handlePageNavigation }) => {
                 <p>Edit</p>
               </div>
               <p>Participating</p>
+              <p>{completedInfo.participatingMembers[0]?.decision}</p>
             </div>
             <div className='projectcompletion__confir-part'>
               <div className='projectcompletion__confir-header'>
@@ -39,6 +45,12 @@ export const ProjectCompPagThree = ({ handlePageNavigation }) => {
                 <div className='projectcompletion__confir-mem-group1'>
                   <p>Lisa Grimm</p>
                   <p>Victor Castigla</p>
+                  {completedInfo.participatingMembers.map(member => (
+                    <div key={member.user._id}>
+                      <p>{`${member.user.firstName} ${member.user.lastName}`}</p>
+                      <p>{member.decision}</p>
+                    </div>
+                  ))}
                 </div>
                 <div className='projectcompletion__confir-mem-group2'>
                   <p>Jean Dickens</p>

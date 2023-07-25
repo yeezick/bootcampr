@@ -1,46 +1,100 @@
-import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { AppDispatch } from 'utils/redux/store'
+import { getOneProject } from 'utils/api'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import {
+  selectCompletedInfo,
+  updateProject,
+} from 'utils/redux/slices/projectSlice'
 import { FiRepeat } from 'react-icons/fi'
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined'
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined'
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
-import { getOneProject } from 'utils/api'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
 export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
+  const completedInfo = useSelector(selectCompletedInfo)
+  const dispatch: AppDispatch = useDispatch()
   const [checked, setChecked] = useState(false)
   const [selectedRadio, setSelectedRadio] = useState('')
-  const [participatingMembers, setParticipatingMembers] = useState([])
   const projectId = authUser.project
-
-  useEffect(() => {
-    const fetchProjectData = async () => {
-      try {
-        const project = await getOneProject(projectId)
-        console.log('Project Data:', project)
-
-        const members =
-          project &&
-          project.completedInfo &&
-          project.completedInfo.participatingMembers
-            ? project.completedInfo.participatingMembers
-            : []
-
-        setParticipatingMembers(members)
-        console.log('Participating Members:', members)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    fetchProjectData()
-  }, [projectId])
 
   const handleSubmit = async e => {
     e.preventDefault()
+
     if (isValidForm()) {
-      handlePageNavigation('next')
+      try {
+        const project = await getOneProject(projectId)
+        console.log('Project after fetch: ', project)
+
+        const member = {
+          user: {
+            _id: authUser._id,
+            firstName: authUser.firstName,
+            lastName: authUser.lastName,
+            role: authUser.role,
+          },
+          decision:
+            selectedRadio === 'option1' ? 'Participate' : "Don't participate",
+        }
+
+        let updatedMembers = project.completedInfo.participatingMembers || []
+
+        console.log(
+          'Project after ensuring completedInfo and participatingMembers are defined: ',
+          project
+        )
+
+        // If the user selected "Don't participate", remove them from the participatingMembers array.
+        if (selectedRadio === 'option2') {
+          // Check if the user is already a participating member.
+          const isParticipant = updatedMembers.some(
+            pm => pm.userId === authUser._id
+          )
+
+          // If the user is a participating member, remove them from the array.
+          if (isParticipant) {
+            updatedMembers = updatedMembers.filter(
+              pm => pm.userId !== authUser._id
+            )
+          }
+        }
+        // If the user selected "Participate", add them to the participatingMembers array.
+        else if (selectedRadio === 'option1') {
+          // Check if the user is already a participating member.
+          const isParticipant = updatedMembers.some(
+            pm => pm.userId === authUser._id
+          )
+
+          // If the user is not a participating member, add them to the array.
+          if (!isParticipant) {
+            console.log(
+              'About to push member, participatingMembers: ',
+              updatedMembers
+            )
+            updatedMembers.push(member)
+          }
+        }
+
+        const updateProjectData = {
+          completedInfo: {
+            ...completedInfo,
+            participatingMembers: updatedMembers,
+          },
+        }
+
+        console.log(
+          'About to call dispatch with both URL and Members: ',
+          projectId,
+          updateProjectData
+        )
+        dispatch(updateProject(updateProjectData))
+
+        handlePageNavigation('next')
+      } catch (error) {
+        console.error(error)
+      }
     } else {
       alert(
         `Please select "Participate" and "Select All Members" or select "Don't participate" before submitting.`
@@ -48,9 +102,9 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
     }
   }
 
-  const handleCheckBox = e => {
-    setChecked(e.target.checked)
-  }
+  // const handleCheckBox = e => {
+  //   setChecked(e.target.checked)
+  // }
 
   const handleRadioChange = e => {
     setSelectedRadio(e.target.value)
@@ -63,9 +117,7 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
   }
 
   const isValidForm = () => {
-    return (
-      (selectedRadio === 'option1' && checked) || selectedRadio === 'option2'
-    )
+    return selectedRadio === 'option1' || selectedRadio === 'option2'
   }
 
   const getButtonClassName = () => {
@@ -74,10 +126,6 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
       ? 'projectcompletion__next-btn-ready'
       : 'projectcompletion__next-btn'
   }
-
-  const memberNames = participatingMembers
-    .map(member => member.firstName)
-    .join(', ')
 
   return (
     <div className='projectcompletion__pag-presentation'>
@@ -142,7 +190,7 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
                 </div>
               </label>
             </div>
-            <div className='projectcompletion__pre-check-container'>
+            {/* <div className='projectcompletion__pre-check-container'>
               <div className='projectcompletion__pre-check-title'>
                 <h3>Who’s participating from your team?</h3>
               </div>
@@ -153,9 +201,8 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
                   onChange={handleCheckBox}
                 />
                 <p>Select All Members</p>
-                <p>{memberNames}</p>
               </label>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className='projectcompletion__btns'>

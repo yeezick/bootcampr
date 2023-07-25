@@ -1,31 +1,57 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { useState, useEffect } from 'react'
 import { editProject } from 'utils/api'
+import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { AppDispatch } from 'utils/redux/store'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { selectProject, updateProject } from 'utils/redux/slices/projectSlice'
 import { FiRepeat, FiArrowRight } from 'react-icons/fi'
 
 export const ProjectCompPagOne = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
+  const project = useSelector(selectProject)
   const [inputChange, setInputChange] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
-  const projectID = authUser.project
+  const dispatch: AppDispatch = useDispatch()
+  const projectID = project._id
+
+  console.log('Full Project info: ', project)
+  console.log('Project ID', projectID)
+
+  useEffect(() => {
+    setIsLoading(false)
+  }, [])
 
   const handleSubmit = async e => {
     e.preventDefault()
     if (isUrl(inputChange)) {
       const updatedProject = {
-        completedInfo: [
-          {
-            url: inputChange,
-          },
-        ],
+        completedInfo: {
+          ...project.completedInfo,
+          deployedUrl: [
+            ...(project.completedInfo?.deployedUrl || []),
+            {
+              user: {
+                _id: authUser._id,
+              },
+              url: inputChange,
+            },
+          ],
+        },
       }
 
+      console.log('Updated URL: ', updatedProject)
+
       try {
+        setIsLoading(true)
         const response = await editProject(projectID, updatedProject)
+        console.log('response: ', response)
+
         if (response) {
+          dispatch(updateProject(updatedProject.completedInfo))
           handlePageNavigation('next')
+          setIsLoading(false)
         }
       } catch (error) {
         console.error(error)
