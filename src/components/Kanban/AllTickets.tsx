@@ -151,6 +151,8 @@ export const AllTickets = ({ projectTracker }) => {
                               {...provided.dragHandleProps}
                             >
                               <TicketDetail
+                                openSnackBar={openSnackBar}
+                                setOpenSnackBar={setOpenSnackBar}
                                 ticketDetail={ticketDetail}
                                 getAllTicket={getAllTicket}
                                 setGetAllTicket={setGetAllTicket}

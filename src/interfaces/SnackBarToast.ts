@@ -5,4 +5,5 @@ export interface SnackBarToastInterface {
   vertical?: 'top' | 'bottom'
   horizontal?: 'left' | 'center' | 'right'
   snackbarStyle?: string
+  severity?: 'success' | 'error' | 'warning' | 'info'
 }

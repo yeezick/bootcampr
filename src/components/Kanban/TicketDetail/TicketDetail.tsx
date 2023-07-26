@@ -28,6 +28,7 @@ export const TicketDetail = ({
   ticketsStatus,
   splitCamelCaseToWords,
   concatenatedString,
+  setOpenSnackBar,
 }: TicketDetailPropsInterface) => {
   const authUser = useAppSelector(selectAuthUser)
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -91,7 +92,12 @@ export const TicketDetail = ({
     })
     setGetAllTicket({ ...getAllTicket, [ticketsStatus]: [...deletedTicket] })
     setIsBeingEdited(false)
-
+    setOpenSnackBar({
+      isOpen: true,
+      message: 'Ticket deleted',
+      duration: 3000,
+      severity: 'success',
+    })
     closeModal()
   }
   return (

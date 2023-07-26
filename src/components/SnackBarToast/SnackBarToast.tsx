@@ -1,7 +1,10 @@
 import React from 'react'
 import Snackbar from '@mui/material/Snackbar'
 import { SnackBarToastInterface } from 'interfaces/SnackBarToast'
-
+import { Alert } from '@mui/material'
+import CheckIcon from '@mui/icons-material/Check'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
+import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 export interface SnackBarToastProps {
   snackbarDescription?: React.Dispatch<
     React.SetStateAction<SnackBarToastInterface>
@@ -15,7 +18,10 @@ export const SnackBarToast = ({
   snackBar,
   snackbarStyle,
 }: SnackBarToastProps) => {
-  const handleClose = (event, reason) => {
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
     if (reason === 'clickaway') {
       return
     }
@@ -29,12 +35,24 @@ export const SnackBarToast = ({
         open={snackBar.isOpen}
         autoHideDuration={snackBar.duration ?? 6000}
         onClose={handleClose}
-        message={snackBar.message}
         anchorOrigin={{
           vertical: snackBar.vertical ?? 'bottom',
           horizontal: snackBar.horizontal ?? 'left',
         }}
-      />
+      >
+        <Alert
+          onClose={handleClose}
+          severity={snackBar.severity}
+          iconMapping={{
+            error: <ErrorOutlineIcon fontSize='inherit' />,
+            success: <CheckIcon fontSize='inherit' />,
+            warning: <WarningAmberIcon fontSize='inherit' />,
+          }}
+          sx={{ width: '100%' }}
+        >
+          {snackBar.message}
+        </Alert>
+      </Snackbar>
     </div>
   )
 }

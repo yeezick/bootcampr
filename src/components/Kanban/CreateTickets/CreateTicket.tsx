@@ -63,7 +63,12 @@ export const CreateTicket = ({
       [newStatus]: [...getAllTicket[newStatus], { ...createdTicket }],
     })
     setIsBeingCreated(false)
-    setOpenSnackBar({ isOpen: true, message: 'Ticket created', duration: 2000 })
+    setOpenSnackBar({
+      isOpen: true,
+      message: 'Ticket Created',
+      duration: 2000,
+      severity: 'success',
+    })
     closeModal()
   }
 

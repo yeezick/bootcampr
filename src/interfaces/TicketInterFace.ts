@@ -70,4 +70,6 @@ export interface TicketDetailPropsInterface {
   splitCamelCaseToWords?: (str: string) => string
   ticketDetail?: TicketInterface
   ticketsStatus?: KeyOfTicketStatusType | string
+  openSnackBar?: SnackBarToastInterface
+  setOpenSnackBar?: React.Dispatch<React.SetStateAction<SnackBarToastInterface>>
 }
