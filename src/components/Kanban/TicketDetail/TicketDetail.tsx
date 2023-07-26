@@ -94,7 +94,7 @@ export const TicketDetail = ({
     setIsBeingEdited(false)
     setOpenSnackBar({
       isOpen: true,
-      message: 'Ticket deleted',
+      message: 'Ticket Deleted',
       duration: 3000,
       severity: 'success',
     })

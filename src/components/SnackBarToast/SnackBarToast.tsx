@@ -44,9 +44,9 @@ export const SnackBarToast = ({
           onClose={handleClose}
           severity={snackBar.severity}
           iconMapping={{
-            error: <ErrorOutlineIcon fontSize='inherit' />,
             success: <CheckIcon fontSize='inherit' />,
             warning: <WarningAmberIcon fontSize='inherit' />,
+            error: <ErrorOutlineIcon fontSize='inherit' />,
           }}
           sx={{ width: '100%' }}
         >
