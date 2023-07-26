@@ -9,8 +9,6 @@ import { SignInInterface } from 'interfaces/UserInterface'
 import { GoAlert, GoVerified } from 'react-icons/go'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
-import { getOneProject } from 'utils/api'
-import { setProject } from 'utils/redux/slices/projectSlice'
 
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables
@@ -80,11 +78,6 @@ const SignIn: React.FC = (): JSX.Element => {
         setAlertBanner({ status: false })
       }, 12000)
       return
-    }
-
-    if (response.project) {
-      const userProject = await getOneProject(response.project)
-      dispatch(setProject(userProject))
     }
 
     dispatch(setAuthUser(response))

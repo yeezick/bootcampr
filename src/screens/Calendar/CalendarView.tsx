@@ -5,34 +5,44 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import { useSelector } from 'react-redux'
 import { fetchProjectCalendar } from 'utils/api/calendar'
 import { selectCalendarId } from 'utils/redux/slices/projectSlice'
-import { convertGoogleEventsForCalendar } from 'utils/helpers/stateHelpers'
-import { CalendarEvent } from 'interfaces/CalendarInterface'
+import { convertGoogleEventsForCalendar } from 'utils/helpers/calendarHelpers'
 
-export const CalendarView = () => {
+export const CalendarView = ({ events, setEvents }) => {
   const calendarId = useSelector(selectCalendarId)
-  const [events, setEvents] = useState<CalendarEvent[]>([])
-  const [viewMonth, setViewMonth] = useState(false)
-  // todo: should calendar be hydrated with full team events or only events in user.meetings?
+  const [isLoading, setIsLoading] = useState(true)
+  const [convertedEvents, setConvertedEvents] = useState([])
+
+  // TODO: only hydrate calendar with events in user.meetings
   useEffect(() => {
     const fetchAllEvents = async () => {
       const res = await fetchProjectCalendar(calendarId)
-      setEvents(convertGoogleEventsForCalendar(res))
+      setEvents(res)
+      setConvertedEvents(convertGoogleEventsForCalendar(res))
+      setIsLoading(false)
     }
     fetchAllEvents()
-  }, [])
+  }, [calendarId])
+
+  useEffect(() => {
+    setConvertedEvents(convertGoogleEventsForCalendar(events))
+  }, [events])
 
   return (
     <div>
-      <FullCalendar
-        headerToolbar={{
-          start: 'dayGridMonth timeGridWeek today',
-          center: 'title',
-          end: 'prev next',
-        }}
-        events={events}
-        plugins={[dayGridPlugin, timeGridPlugin]}
-        initialView='timeGridWeek'
-      />
+      {isLoading ? (
+        <p>LOADING</p>
+      ) : (
+        <FullCalendar
+          headerToolbar={{
+            start: 'dayGridMonth timeGridWeek today',
+            center: 'title',
+            end: 'prev next',
+          }}
+          events={convertedEvents}
+          plugins={[dayGridPlugin, timeGridPlugin]}
+          initialView='timeGridWeek'
+        />
+      )}
     </div>
   )
 }

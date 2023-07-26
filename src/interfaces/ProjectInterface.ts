@@ -1,4 +1,4 @@
-import { TicketInterface } from 'interfaces'
+import { TicketInterface, UserInterface } from 'interfaces'
 import dayjs from 'dayjs'
 
 export interface ProjectInterface {
@@ -8,8 +8,8 @@ export interface ProjectInterface {
   goal: string
   meetings: string[]
   members?: {
-    designers?: string[]
-    engineers?: string[]
+    designers?: string[] | UserInterface[]
+    engineers?: string[] | UserInterface[]
   }
   problem: string
   projectTracker?: {
