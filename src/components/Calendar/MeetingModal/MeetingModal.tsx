@@ -53,9 +53,9 @@ export const MeetingModal = ({
       projectMembers.forEach(member => {
         // `inviteAll` is its current state; not yet updated
         if (inviteAll === false) {
-          // updatedAttendance[member.email] = true
+          updatedAttendance[member.email] = true
         } else {
-          // updatedAttendance[member.email] = false
+          updatedAttendance[member.email] = false
         }
       })
       setAttendees(updatedAttendance)

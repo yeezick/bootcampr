@@ -8,8 +8,8 @@ export interface ProjectInterface {
   goal: string
   meetings: string[]
   members?: {
-    designers?: string[] | UserInterface[]
-    engineers?: string[] | UserInterface[]
+    designers?: UserInterface[]
+    engineers?: UserInterface[]
   }
   problem: string
   projectTracker?: {
