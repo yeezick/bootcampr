@@ -3,10 +3,18 @@ import { ProjectInterface } from 'interfaces/ProjectInterface'
 import { RootState } from 'utils/redux/store'
 
 const initialState: ProjectInterface = {
-  overview: '',
+  calendarId: '',
+  chats: [],
+  goal: '',
   members: {
     designers: [],
     engineers: [],
+  },
+  meetings: [],
+  problem: '',
+  timeline: {
+    startDate: '',
+    endDate: '',
   },
 }
 /**

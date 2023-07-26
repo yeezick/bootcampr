@@ -9,8 +9,7 @@ import './Layout.scss'
 import { Footer } from 'layout/Footer/Footer'
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
 import { useLocation } from 'react-router-dom'
-import { setProject } from 'utils/redux/slices/projectSlice'
-import { getOneProject } from 'utils/api'
+import { storeUserProject } from 'utils/helpers/stateHelpers'
 
 type Props = {
   children: React.ReactNode
@@ -28,10 +27,7 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
     const verifyUser = async () => {
       const authUser = await verify()
       if (authUser) {
-        if (authUser.project) {
-          const userProject = await getOneProject(authUser.project)
-          dispatch(setProject(userProject))
-        }
+        storeUserProject(dispatch, authUser.project)
         dispatch(updateAuthUser(authUser))
       }
     }

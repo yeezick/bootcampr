@@ -20,30 +20,21 @@ import {
 import { SelectAttendees } from './SelectAttendees'
 import { DateFields } from './DateFields'
 import { createEvent } from 'utils/api/events'
+import { combineDateWithTime } from 'utils/helpers/calendarHelpers'
+import { handleFormInputChange } from 'utils/helpers/stateHelpers'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-export const MeetingModal = props => {
-  const {
-    toggleMeetingModal,
-    visibleMeeting,
-    onClose,
-    value: valueProp,
-    open,
-    ...other
-  } = props
-  const [meetingText, setMeetingText] = useState({
-    summary: '',
-    description: '',
-    meetingLink: '',
-  })
-  const [dateFields, setDateFields] = useState<DateFieldsInterface>({
-    date: dayjs(),
-    start: dayjs(),
-    timeZone: dayjs.tz.guess(),
-    end: dayjs(),
-  })
+export const MeetingModal = ({
+  events,
+  setEvents,
+  toggleMeetingModal,
+  visibleMeeting,
+}) => {
+  const [meetingText, setMeetingText] = useState(initialMeetingText)
+  const [dateFields, setDateFields] =
+    useState<DateFieldsInterface>(initialDateFields)
   const [attendees, setAttendees] = useState<StringToBooleanObject>({})
   const [inviteAll, toggleInviteAll] = useState(false)
   const radioGroupRef = useRef(null)
@@ -56,20 +47,15 @@ export const MeetingModal = props => {
     }
   }
 
-  const handleMeetingText = e => {
-    const { name, value } = e.target
-    setMeetingText({ ...meetingText, [name]: value })
-  }
-
   const handleInviteAll = () => {
     if (projectMembers) {
       const updatedAttendance = {}
       projectMembers.forEach(member => {
         // `inviteAll` is its current state; not yet updated
         if (inviteAll === false) {
-          updatedAttendance[member.email] = true
+          // updatedAttendance[member.email] = true
         } else {
-          updatedAttendance[member.email] = false
+          // updatedAttendance[member.email] = false
         }
       })
       setAttendees(updatedAttendance)
@@ -80,7 +66,7 @@ export const MeetingModal = props => {
   const handleSubmit = async () => {
     // Package request to fit calendar event
     // Fetch calendarId from backend during submission
-    const { end, start, timeZone } = dateFields
+    const { date, end, start, timeZone } = dateFields
     const { description, summary } = meetingText
     const attendeeList = []
 
@@ -94,11 +80,11 @@ export const MeetingModal = props => {
       description,
       summary,
       start: {
-        dateTime: dayjs(start).format('YYYY-MM-DDTHH:mm:ssZ'),
+        dateTime: combineDateWithTime(start, date),
         timeZone,
       },
       end: {
-        dateTime: dayjs(end).format('YYYY-MM-DDTHH:mm:ssZ'),
+        dateTime: combineDateWithTime(end, date),
         timeZone,
       },
       attendees: attendeeList,
@@ -106,7 +92,12 @@ export const MeetingModal = props => {
 
     try {
       const newEvent = await createEvent(calendarId, eventInfo)
-      console.log('newEvent', newEvent)
+      setEvents([...events, newEvent.data])
+      setMeetingText(initialMeetingText)
+      setDateFields(initialDateFields)
+      setAttendees({})
+      toggleInviteAll(false)
+      toggleMeetingModal(false)
     } catch (error) {
       console.error(
         `Error creating event for calendar (${calendarId}): `,
@@ -145,14 +136,13 @@ const sampleNewEvent = {
       maxWidth='xs'
       TransitionProps={{ onEntering: handleEntering }}
       open={visibleMeeting}
-      {...other}
     >
       <DialogContent>
         <TextField
           label='Title'
           name='summary'
           placeholder='Add title'
-          onChange={handleMeetingText}
+          onChange={e => handleFormInputChange(e, setMeetingText)}
           value={meetingText.summary}
           variant='standard'
         />
@@ -175,14 +165,14 @@ const sampleNewEvent = {
         <TextField
           label='Description'
           name='description'
-          onChange={handleMeetingText}
+          onChange={e => handleFormInputChange(e, setMeetingText)}
           value={meetingText.description}
           variant='standard'
         />
         <TextField
           label='Meeting link'
           name='meetingLink'
-          onChange={handleMeetingText}
+          onChange={e => handleFormInputChange(e, setMeetingText)}
           value={meetingText.meetingLink}
           variant='standard'
         />
@@ -195,4 +185,17 @@ const sampleNewEvent = {
       </DialogActions>
     </Dialog>
   )
+}
+
+const initialMeetingText = {
+  summary: '',
+  description: '',
+  meetingLink: '',
+}
+
+const initialDateFields = {
+  date: dayjs(),
+  start: dayjs(),
+  timeZone: dayjs.tz.guess(),
+  end: dayjs(),
 }
