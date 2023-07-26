@@ -1,43 +1,33 @@
 import { Paginator } from 'components/Paginator/Paginator'
-import { One } from 'components/Paginator/Examples/One'
-import { Two } from 'components/Paginator/Examples/Two'
-import { Three } from 'components/Paginator/Examples/Three'
 import './Onboarding.scss'
 import { OnboardingIncomplete } from './OnboardingIncomplete'
 import { OnboardingLastScreen } from './OnboardingLastScreen'
-import { OneKPlusRounded } from '@mui/icons-material'
+import { Two } from './Two'
+import { Three } from './Three'
+import { OneKPlusRounded, ThreeDRotation } from '@mui/icons-material'
 
 export const Onboarding = () => {
-  // Todo: replace with proper components for onboarding
   const orderedPages = [
     {
       component: OnboardingIncomplete,
       title: 'Role',
-      props: { backgroundColor: 'red' },
     },
     {
       component: Two,
       title: 'Two',
-      props: { backgroundColor: 'yellow' },
     },
     {
       component: Three,
-      title: 'Three Word Title',
-      props: { backgroundColor: 'green' },
+      title: 'Three',
     },
     {
       component: OnboardingLastScreen,
-      title: "What's Next",
-      props: { backgroundColor: 'green' },
+      title: "What's next",
     },
   ]
   return (
-    <div>
-      <Paginator
-        exitRoute='/'
-        orderedPages={orderedPages}
-        pageTitle='Onboarding'
-      />
+    <div className='progress-bar'>
+      <Paginator exitRoute='/' orderedPages={orderedPages} />
     </div>
   )
 }

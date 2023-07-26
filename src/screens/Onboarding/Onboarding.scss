@@ -1,43 +1,48 @@
 /* onboarding incomplete */
 
-.onboarding-incomplete-text-container {
-  display: flex;
-  flex-direction: column;
-  margin: 50px 382px 400px 382px;
+.progress-bar {
   width: 675px;
+  height: 24px;
+  border: 0 none;
+  margin: 50px auto 0;
+}
+
+.onboarding-incomplete-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
 }
 
 .welcome-container {
   align-items: flex-start;
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   gap: 5px;
-  height: 86px;
   justify-content: center;
-  left: 451px;
   padding: 0px;
-  top: 221px;
-  width: 538px;
+
 
   h1 {
     height: 54px;
     font-size: 38px;
+    font-style: normal;
     font-weight: 600;
     line-height: 53.2px;
     margin: 0;
     text-align: left;
-    width: 347px;
+    // width: 347px;
   }
 
   p {
-    line-height: 22px;
-    margin-top: 10px;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
+    line-height: 22px;
+    margin: 0px;
     text-align: left;
   }
-  
+
 }
 
 
@@ -45,47 +50,126 @@
   align-items: flex-start;
   display: flex;
   flex-direction: column;
+  gap: 15px;
   justify-content: center;
+  margin-top: 50px;
   padding: 0px;
 
-  .tell-role{
+  .select-role {
+    margin: 0;
+  }
+
+  ul {
+    margin: 0;
+  }
+
+  h2 {
+    gap: 6px;
+  }
+}
+
+.role-title-explanation {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .tell-role {
     height: 34px;
     font-size: 24px;
     font-style: normal;
     font-weight: 600;
     line-height: 34px;
+    margin: 0;
     width: 250px;
   }
 
-  p {
-    margin-top: 0.75rem;
+  .tell-role-content {
+    width: 462px;
+    height: 48px;
+
+    p {
+
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 22px;
+      margin: 0px;
+    }
   }
 
-  .select-role{
-    margin: 2rem 0 0 0;
-  }
-
-  ul{
-    margin:0;
-  }
 }
 
 .onboarding-form-container {
   display: flex;
   flex-direction: column;
+  height: 25.25rem;
+  width: 33.625rem;
+  margin: 0 auto;
 }
 
 .radio-btn {
-  display:flex;
+  display: flex;
   flex-direction: row;
+
+  .ux-designer-btn {
+    width: 144px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22.4px;
+    display: flex;
+    flex-direction: row;
+  
+
+    input {
+      margin: 0 8px 0 0;
+      height: 24px;
+      width: 24px;
+    }
+
+    p{
+      margin:0
+    }
+  }
+
+  .software-engineer-btn {
+    margin-left: 16px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22.4px;
+    display: flex;
+    flex-direction: row;
+    width: 516px;
+
+    input {
+      margin: 0 8px 0 0;
+      height: 24px;
+      width: 24px;
+    }
+
+  }
+
+  .software-eng-p1 {
+    margin: 0;
+  }
+
+  .software-eng-p2 {
+    margin: 0;
+  }
+
+
+
 }
 
-.software-engineer-btn {
-  padding-left:120px;
-}
 
 .software-engineer-msg {
-  padding-left: 270px
+  padding-left: 250px;
+
+
+  p {
+    margin: 0;
+  }
 }
 
 
@@ -95,7 +179,7 @@
   flex-direction: row;
   gap: 8px;
   justify-content: center;
-  margin: 10px;
+  margin: 13px 22% 0;
 }
 
 
@@ -113,19 +197,20 @@
   left: 598px;
   top: 582px;
   width: 167px;
+  padding: 0;
 
   p {
     font-size: 16px;
     font-weight: 500;
-    height: 23px;
     line-height: 22px;
     margin: 0;
-    width: 111px;
   }
 }
 
 .arrow-icon {
-  padding: 13.5px 13.5px 13.5px 8px;
+  width: 16px;
+  height: 16px;
+  margin: 10px 0 10px 0;
 }
 
 
@@ -160,7 +245,7 @@
   justify-content: center;
   margin: 74px 35.5px 40px 35.5px;
   width: 604px;
-  
+
   h1 {
     font-size: 38px;
     font-weight: 600;
@@ -192,7 +277,7 @@
     width: 150px;
   }
 
-  p{
+  p {
     text-align: center;
   }
 }
@@ -210,7 +295,7 @@
     line-height: 22px;
     text-align: center;
     width: 650px;
-    
+
   }
 
   p {
@@ -220,7 +305,7 @@
 
 .project-details {
   align-items: center;
-  display:flex;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   margin-top: 65px;
@@ -237,7 +322,7 @@
 .project-details-btn {
   align-items: center;
   background-color: #FA9413;
-  border:none;
+  border: none;
   border-radius: 4px;
   display: flex;
   flex-direction: row;

@@ -25,6 +25,7 @@ const initialState: UiSliceInterface = {
         portfolioUrl: null,
       },
       profilePicture: '',
+      project: '',
       role: '',
       __v: 0,
       _id: '',

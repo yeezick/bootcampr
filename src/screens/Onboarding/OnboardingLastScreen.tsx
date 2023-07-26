@@ -7,8 +7,6 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 export const OnboardingLastScreen = ({ handlePageNavigation }) => {
   const authUser = useAppSelector(selectAuthUser)
 
-  const handleViewProjectDetails = () => {}
-
   const handlePrevious = () => {
     handlePageNavigation('previous')
   }
