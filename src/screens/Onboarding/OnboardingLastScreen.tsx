@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
+//TODO: make CSS true to Figma, inspect margins//
+
 export const OnboardingLastScreen = ({ handlePageNavigation }) => {
   const authUser = useAppSelector(selectAuthUser)
 
@@ -27,7 +29,8 @@ export const OnboardingLastScreen = ({ handlePageNavigation }) => {
         </div>
         <div className='lastscreen-survey'>
           <p className='lastscreen-feedback'>
-            We love feedback. Please take this short survey so we can improve.
+            We love feedback. Please take <span> this short survey </span> so we
+            can improve.
           </p>
           <p>Your answers will be kept confidential. Thank you!</p>
         </div>

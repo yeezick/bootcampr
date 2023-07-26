@@ -1,10 +1,10 @@
 /* onboarding incomplete */
 
 .progress-bar {
-  width: 675px;
-  height: 24px;
   border: 0 none;
+  height: 24px;
   margin: 50px auto 0;
+  width: 675px;
 }
 
 .onboarding-incomplete-container {
@@ -31,7 +31,6 @@
     line-height: 53.2px;
     margin: 0;
     text-align: left;
-    // width: 347px;
   }
 
   p {
@@ -96,7 +95,6 @@
       margin: 0px;
     }
   }
-
 }
 
 .onboarding-form-container {
@@ -112,34 +110,33 @@
   flex-direction: row;
 
   .ux-designer-btn {
-    width: 144px;
+    display: flex;
+    flex-direction: row;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 22.4px;
-    display: flex;
-    flex-direction: row;
-  
+    width: 144px;
 
     input {
-      margin: 0 8px 0 0;
       height: 24px;
+      margin: 0 8px 0 0;
       width: 24px;
     }
 
-    p{
-      margin:0
+    p {
+      margin: 0
     }
   }
 
   .software-engineer-btn {
-    margin-left: 16px;
+    display: flex;
+    flex-direction: row;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 22.4px;
-    display: flex;
-    flex-direction: row;
+    margin-left: 16px;
     width: 516px;
 
     input {
@@ -157,21 +154,16 @@
   .software-eng-p2 {
     margin: 0;
   }
-
-
-
 }
 
 
 .software-engineer-msg {
   padding-left: 250px;
 
-
   p {
     margin: 0;
   }
 }
-
 
 .onboarding-button-section {
   align-items: center;
@@ -181,9 +173,6 @@
   justify-content: center;
   margin: 13px 22% 0;
 }
-
-
-
 
 .onboarding-incomplete-btn {
   align-items: center;
@@ -208,11 +197,19 @@
 }
 
 .arrow-icon {
-  width: 16px;
   height: 16px;
   margin: 10px 0 10px 0;
+  width: 16px;
 }
 
+#set-availability {
+  background-color: #ecebeb;
+  color: #313335
+}
+
+#set-availability.enabled {
+  background-color: #FA9413;
+}
 
 /* Onboarding Last Screen */
 
@@ -220,12 +217,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  gap: 65px;
   height: 547px;
-  left: 382px;
-  padding: 0px;
-  position: absolute;
-  top: 147px;
   width: 675px;
 }
 
@@ -241,20 +233,19 @@
 .lastscreen-header {
   align-items: center;
   display: flex;
-  height: 54px;
   justify-content: center;
-  margin: 74px 35.5px 40px 35.5px;
-  width: 604px;
+  margin: 50px 0 0;
+  padding: 0 74px;
+
 
   h1 {
+    color: #000;
     font-size: 38px;
     font-weight: 600;
-    height: 54px;
-    left: 74px;
-    line-height: 53px;
+    font-style: normal;
+    line-height: 53.2px;
+    margin: 0;
     text-align: center;
-    top: 0px;
-    width: 456px;
   }
 }
 
@@ -263,22 +254,30 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  height: 107px;
   justify-content: center;
-  padding: 0px;
+  margin: 40px 0 0;
   width: 670px;
 
+
   h2 {
+    color: #000;
     font-size: 24px;
+    font-style: normal;
     font-weight: 600;
-    height: 34px;
-    line-height: 34px;
+    line-height: 33.6px;
+    margin: 0;
     text-align: center;
-    width: 150px;
   }
 
   p {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22.4px;
+    margin: 0;
     text-align: center;
+    width: 528px;
   }
 }
 
@@ -286,20 +285,34 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  margin-top: 65px;
+  margin: 65px 0 0;
 
   .lastscreen-feedback {
-    height: 23px;
     font-size: 16px;
+    font-style: normal;
     font-weight: 700;
-    line-height: 22px;
+    line-height: 22.4px;
     text-align: center;
     width: 650px;
 
   }
 
   p {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22.4px;
     margin: 0;
+    text-align: center;
+  }
+
+  span {
+    color: #022888;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22.4px;
+    text-decoration-line: underline;
   }
 }
 
@@ -308,10 +321,15 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 65px;
+  margin: 65px 0 0;
 
   p {
-    margin-bottom: 25px;
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22.4px;
+    margin: 0 0 25px 0;
   }
 }
 
@@ -324,14 +342,13 @@
   background-color: #FA9413;
   border: none;
   border-radius: 4px;
+  color: #313335;
   display: flex;
-  flex-direction: row;
   font-size: 16px;
   font-weight: 500;
   gap: 8px;
-  height: 43px;
   justify-content: center;
-  line-height: 22px;
+  line-height: 22.4px;
   padding: 10px 16px;
   width: 183px;
 }

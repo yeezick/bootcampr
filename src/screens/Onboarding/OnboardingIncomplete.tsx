@@ -94,6 +94,7 @@ export const OnboardingIncomplete = ({ handlePageNavigation }) => {
               disabled={!buttonEnabled}
               onClick={handleSubmit}
               className='onboarding-incomplete-btn'
+              id='set-availability'
             >
               <p>Set availability </p> <FiArrowRight className='arrow-icon' />
             </button>
