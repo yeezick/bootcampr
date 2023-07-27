@@ -9,6 +9,16 @@ export interface ProjectInterface {
   _id?: string
   meetingCadence?: number
   overview?: string
+  calendarId?: string
+  chats?: string[]
+  createdAt?: string
+  goal?: string
+  meetings?: string[]
+  members?: {
+    designers?: string[]
+    engineers?: string[]
+  }
+  problem?: ''
   projectTracker?: {
     completed?: TicketInterface[]
     inProgress?: TicketInterface[]
@@ -19,13 +29,11 @@ export interface ProjectInterface {
     participatingMembers?: { user: ProjectMemberInterface; decision: string }[]
     deployedUrl?: CompletedUrl[]
   }
-  members?: {
-    design?: any
-    engineer?: any
+  timeline?: {
+    startDate?: ''
+    endDate?: ''
   }
-  status?: string
   title?: string
-  tools?: string[]
 }
 
 export interface CompletedUrl {

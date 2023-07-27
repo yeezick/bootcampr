@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { SignInInterface } from 'interfaces/UserInterface'
 import { GoAlert, GoVerified } from 'react-icons/go'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
+import { storeUserProject } from 'utils/helpers/stateHelpers'
 
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables
@@ -89,6 +90,7 @@ const SignIn: React.FC = (): JSX.Element => {
     }
 
     dispatch(setAuthUser(response))
+    storeUserProject(dispatch, response.project)
 
     !response.role
       ? navigate(`/users/${response._id}/account-setup`)

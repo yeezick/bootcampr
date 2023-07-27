@@ -11,6 +11,10 @@ import { defaultAvailability } from 'utils/data/userConstants'
 import { RootState } from 'utils/redux/store'
 import PersonIcon from '@mui/icons-material/Person'
 
+// todo: auth.status should be its own slice
+// todo: sidebar & ui like notifications should be its own slice
+// todo: avatar should be consolidated with user slice
+
 const initialState: UiSliceInterface = {
   auth: {
     user: {
@@ -25,6 +29,7 @@ const initialState: UiSliceInterface = {
         portfolioUrl: null,
       },
       profilePicture: '',
+      project: '', // should be projetId
       role: '',
       __v: 0,
       _id: '',

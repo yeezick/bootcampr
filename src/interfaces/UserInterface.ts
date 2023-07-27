@@ -17,9 +17,11 @@ export interface UserInterface {
   memberOfProjects?: ProjectInterface[]
   ownerOfProjects?: ProjectInterface[]
   portfolioProjects?: ProjectInterface[]
+  onboarded?: boolean
   profilePicture?: string | null
   role?: string
   savedProjects?: ProjectInterface[]
+  verified?: Boolean
   __v?: number
   _id?: string
 }

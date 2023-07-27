@@ -8,8 +8,17 @@ const initialState: ProjectInterface = {
   createAt: '',
   duration: '',
   _id: '',
+  chats: [],
+  calendarId: '',
+  goal: '',
+  meetings: [],
   meetingCadence: 0,
+  problem: '',
   overview: '',
+  timeline: {
+    startDate: '',
+    endDate: '',
+  },
   projectTracker: {
     completed: [],
     inProgress: [],
@@ -21,12 +30,10 @@ const initialState: ProjectInterface = {
     deployedUrl: [],
   },
   members: {
-    design: [],
-    engineer: [],
+    designers: [],
+    engineers: [],
   },
-  status: '',
   title: '',
-  tools: [],
 }
 
 const projectSlice = createSlice({
@@ -61,6 +68,8 @@ export const selectProjectId = (state: RootState) => state.project._id
 
 export const selectCompletedInfo = (state: RootState) =>
   state.project.completedInfo
+
+export const selectCalendarId = state => state.project.calendarId
 
 export const {
   setProject,
