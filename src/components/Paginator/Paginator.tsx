@@ -23,6 +23,10 @@ export const Paginator = ({ exitRoute, orderedPages }) => {
   const { component: CurrentPageComponent, props: currentPageProps } =
     currentPage
 
+  //TODO: See if i can make the paginator only be accessiable
+  // if the user has already progressed to it and can't be skip
+  // unless they completed the current paginator
+
   useEffect(() => {
     const buildPageRouter = (): PageRouter => {
       const allPages = {}

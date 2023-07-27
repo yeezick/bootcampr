@@ -55,10 +55,7 @@ const projectSlice = createSlice({
   },
 })
 
-export const selectProject = (state: RootState) => {
-  // console.log('selectProject action state', state.project)
-  return state.project
-}
+export const selectProject = (state: RootState) => state.project
 
 export const selectProjectId = (state: RootState) => state.project._id
 

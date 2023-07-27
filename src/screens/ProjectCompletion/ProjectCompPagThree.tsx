@@ -5,13 +5,30 @@ import { FiRepeat } from 'react-icons/fi'
 export const ProjectCompPagThree = ({ handlePageNavigation }) => {
   const completedInfo = useSelector(selectCompletedInfo)
 
+  const handleSubmit = e => {
+    e.preventDefault()
+    handlePageNavigation('next')
+  }
+
   const handleCancel = () => {
     handlePageNavigation('previous')
   }
 
+  const latestMemberIndex = completedInfo.participatingMembers.length - 1
+  const latestMember = completedInfo.participatingMembers[latestMemberIndex]
+  const shouldDisplayTime = latestMember?.decision === 'Participate'
+  const latestUrl = completedInfo.deployedUrl[latestMemberIndex]?.url
+
+  //TODO: Look into how to use the "specific" navigation to jump
+  // to certain paginators components - ask Eric
+  //TODO: Would the "specific" nav be attached to the Edit text?
+
   return (
     <div className='projectcompletion__pag-confirmation'>
-      <form className='projectcompletion__confirmation-form'>
+      <form
+        className='projectcompletion__confirmation-form'
+        onSubmit={handleSubmit}
+      >
         <div className='projectcompletion__confir-contents'>
           <div className='projectcompletion__confir-title'>
             <h1>Great! You’re almost done!</h1>
@@ -25,17 +42,17 @@ export const ProjectCompPagThree = ({ handlePageNavigation }) => {
                 <h3>Project URL</h3>
                 <p>Edit</p>
               </div>
-              <p>www.awesomeproject.com</p>
-              {completedInfo.deployedUrl[0]?.url}
+              <p>{latestUrl}</p>
             </div>
-            <div className='projectcompletion__confir-time'>
-              <div className='projectcompletion__confir-header'>
-                <h3>Presentation</h3>
-                <p>Edit</p>
+            {shouldDisplayTime && (
+              <div className='projectcompletion__confir-time'>
+                <div className='projectcompletion__confir-header'>
+                  <h3>Presentation</h3>
+                  <p>Edit</p>
+                </div>
+                <p>{latestMember?.decision}</p>
               </div>
-              <p>Participating</p>
-              <p>{completedInfo.participatingMembers[0]?.decision}</p>
-            </div>
+            )}
             <div className='projectcompletion__confir-part'>
               <div className='projectcompletion__confir-header'>
                 <h3>Participating Members</h3>
@@ -43,18 +60,11 @@ export const ProjectCompPagThree = ({ handlePageNavigation }) => {
               </div>
               <div className='projectcompletion__confir-members'>
                 <div className='projectcompletion__confir-mem-group1'>
-                  <p>Lisa Grimm</p>
-                  <p>Victor Castigla</p>
                   {completedInfo.participatingMembers.map(member => (
                     <div key={member.user._id}>
                       <p>{`${member.user.firstName} ${member.user.lastName}`}</p>
-                      <p>{member.decision}</p>
                     </div>
                   ))}
-                </div>
-                <div className='projectcompletion__confir-mem-group2'>
-                  <p>Jean Dickens</p>
-                  <p>John Doe</p>
                 </div>
               </div>
             </div>
@@ -67,10 +77,7 @@ export const ProjectCompPagThree = ({ handlePageNavigation }) => {
           >
             <FiRepeat className='projectcompletion__back-icon' /> Back
           </button>
-          <button
-            className='projectcompletion__confir-next-btn'
-            onClick={() => handlePageNavigation('next')}
-          >
+          <button className='projectcompletion__confir-next-btn'>
             Submit <FiRepeat className='projectcompletion__forward-icon' />
           </button>
         </div>

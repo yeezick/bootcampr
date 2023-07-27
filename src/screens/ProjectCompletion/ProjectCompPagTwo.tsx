@@ -16,9 +16,10 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
   const completedInfo = useSelector(selectCompletedInfo)
   const dispatch: AppDispatch = useDispatch()
-  const [checked, setChecked] = useState(false)
   const [selectedRadio, setSelectedRadio] = useState('')
   const projectId = authUser.project
+
+  //TODO: convert alerts to MUI toast to match Figma designs
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -26,7 +27,6 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
     if (isValidForm()) {
       try {
         const project = await getOneProject(projectId)
-        console.log('Project after fetch: ', project)
 
         const member = {
           user: {
@@ -41,38 +41,22 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
 
         let updatedMembers = project.completedInfo.participatingMembers || []
 
-        console.log(
-          'Project after ensuring completedInfo and participatingMembers are defined: ',
-          project
-        )
-
-        // If the user selected "Don't participate", remove them from the participatingMembers array.
         if (selectedRadio === 'option2') {
-          // Check if the user is already a participating member.
           const isParticipant = updatedMembers.some(
             pm => pm.userId === authUser._id
           )
 
-          // If the user is a participating member, remove them from the array.
           if (isParticipant) {
             updatedMembers = updatedMembers.filter(
               pm => pm.userId !== authUser._id
             )
           }
-        }
-        // If the user selected "Participate", add them to the participatingMembers array.
-        else if (selectedRadio === 'option1') {
-          // Check if the user is already a participating member.
+        } else if (selectedRadio === 'option1') {
           const isParticipant = updatedMembers.some(
             pm => pm.userId === authUser._id
           )
 
-          // If the user is not a participating member, add them to the array.
           if (!isParticipant) {
-            console.log(
-              'About to push member, participatingMembers: ',
-              updatedMembers
-            )
             updatedMembers.push(member)
           }
         }
@@ -84,11 +68,6 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
           },
         }
 
-        console.log(
-          'About to call dispatch with both URL and Members: ',
-          projectId,
-          updateProjectData
-        )
         dispatch(updateProject(updateProjectData))
 
         handlePageNavigation('next')
@@ -102,16 +81,11 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
     }
   }
 
-  // const handleCheckBox = e => {
-  //   setChecked(e.target.checked)
-  // }
-
   const handleRadioChange = e => {
     setSelectedRadio(e.target.value)
   }
 
   const handleCancel = () => {
-    setChecked(false)
     setSelectedRadio('')
     handlePageNavigation('previous')
   }
@@ -121,7 +95,7 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
   }
 
   const getButtonClassName = () => {
-    if (!selectedRadio && !checked) return 'projectcompletion__next-btn'
+    if (!selectedRadio) return 'projectcompletion__next-btn'
     return isValidForm()
       ? 'projectcompletion__next-btn-ready'
       : 'projectcompletion__next-btn'
@@ -190,19 +164,6 @@ export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
                 </div>
               </label>
             </div>
-            {/* <div className='projectcompletion__pre-check-container'>
-              <div className='projectcompletion__pre-check-title'>
-                <h3>Who’s participating from your team?</h3>
-              </div>
-              <label className='projectcompletion__pre-check-label'>
-                <input
-                  type='checkbox'
-                  checked={checked}
-                  onChange={handleCheckBox}
-                />
-                <p>Select All Members</p>
-              </label>
-            </div> */}
           </div>
         </div>
         <div className='projectcompletion__btns'>

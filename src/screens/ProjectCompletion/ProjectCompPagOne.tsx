@@ -16,16 +16,24 @@ export const ProjectCompPagOne = ({ handlePageNavigation }) => {
   const dispatch: AppDispatch = useDispatch()
   const projectID = project._id
 
-  console.log('Full Project info: ', project)
-  console.log('Project ID', projectID)
-
   useEffect(() => {
     setIsLoading(false)
   }, [])
 
+  //TODO: convert alerts to MUI toast to match Figma designs
+
   const handleSubmit = async e => {
     e.preventDefault()
     if (isUrl(inputChange)) {
+      const isDuplicate = project.completedInfo.deployedUrl.some(
+        item => item.user._id === authUser._id && item.url === inputChange
+      )
+
+      if (isDuplicate) {
+        alert('URL already exists in the list.')
+        return
+      }
+
       const updatedProject = {
         completedInfo: {
           ...project.completedInfo,
@@ -41,12 +49,9 @@ export const ProjectCompPagOne = ({ handlePageNavigation }) => {
         },
       }
 
-      console.log('Updated URL: ', updatedProject)
-
       try {
         setIsLoading(true)
         const response = await editProject(projectID, updatedProject)
-        console.log('response: ', response)
 
         if (response) {
           dispatch(updateProject(updatedProject.completedInfo))
@@ -72,14 +77,14 @@ export const ProjectCompPagOne = ({ handlePageNavigation }) => {
 
   const isUrl = string => {
     const urlPattern = new RegExp(
-      '^(https?:\\/\\/)?' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '^(https?:\\/\\/)?' +
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' +
+        '((\\d{1,3}\\.){3}\\d{1,3}))' +
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' +
+        '(\\?[;&a-z\\d%_.~+=-]*)?' +
         '(\\#[-a-z\\d_]*)?$',
       'i'
-    ) // fragment locator
+    )
     return urlPattern.test(string)
   }
 
