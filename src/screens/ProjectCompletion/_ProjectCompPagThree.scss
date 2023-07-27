@@ -1,28 +1,37 @@
 .projectcompletion {
   // Confirmation page
 
+  &__confir-contents,
+  &__confir-info,
+  &__confir-mem-group1,
+  &__confir-part,
+  &__confir-time,
+  &__confir-title,
+  &__confir-url {
+    @include flex(column);
+  }
+
   &__confir-contents {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
     height: 321px;
     padding: 0;
     width: 512px;
   }
 
   &__confir-header {
-    align-items: baseline;
-    display: flex;
-    flex-direction: row;
+    @include flex(row, inherit, baseline);
     height: 20px;
     margin: 0 0 8px 0;
     padding: 0;
     width: 194px;
 
     h3 {
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 20px;
+      @include font-properties(
+        (
+          size: 14px,
+          weight: 700,
+          line-height: 20px,
+        )
+      );
       margin: 0 15px 0 0;
     }
 
@@ -33,32 +42,28 @@
   }
 
   &__confir-info {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
     height: 224px;
     padding: 0;
     width: 194px;
 
     p {
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 17px;
+      @include font-properties(
+        (
+          size: 12px,
+          weight: 400,
+          line-height: 17px,
+        )
+      );
       margin: 0;
     }
   }
 
   &__confir-mem-group1 {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
     padding: 0;
   }
 
   &__confir-members {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: row;
+    @include flex();
     height: 42px;
     padding: 0;
     width: 191px;
@@ -69,34 +74,33 @@
   }
 
   &__confir-next-btn {
-    align-items: center;
-    background-color: #fa9413;
-    border: none;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: row;
-    font-size: 16px;
-    font-weight: 500;
-    height: 35px;
-    justify-content: center;
-    line-height: 22px;
+    @include container-properties(
+      (
+        background-color: #fa9413,
+        border: none,
+        border-radius: 4px,
+        height: 35px,
+        width: 102px,
+      )
+    );
+    @include flex(row, center, center);
+    @include font-properties(
+      (
+        size: 16px,
+        weight: 500,
+        line-height: 22px,
+      )
+    );
     margin-left: 8px;
-    width: 102px;
   }
 
   &__confir-part {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
     height: 70px;
     padding: 0;
     width: 194px;
   }
 
   &__confir-time {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
     height: 45px;
     margin: 0 0 32px 0;
     padding: 0;
@@ -104,33 +108,35 @@
   }
 
   &__confir-title {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
     height: 65px;
     margin: 0 0 32px 0;
     padding: 0;
     width: 512px;
 
     h1 {
-      font-size: 24px;
-      font-weight: 600;
-      line-height: 34px;
+      @include font-properties(
+        (
+          size: 24px,
+          weight: 600,
+          line-height: 34px,
+        )
+      );
       margin: 0 0 8px 0;
     }
 
     p {
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 22px;
+      @include font-properties(
+        (
+          size: 16px,
+          weight: 400,
+          line-height: 22px,
+        )
+      );
       margin: 0;
     }
   }
 
   &__confir-url {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
     height: 45px;
     margin: 0 0 32px 0;
     padding: 0;
@@ -144,9 +150,7 @@
   }
 
   &__pag-confirmation {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
+    @include flex(column, center, center);
     height: 556px;
     margin: 88px auto auto;
     width: 675px;

@@ -1,44 +1,62 @@
 .projectcompletion {
   // Presentation page
-  
-  &__pag-presentation {
-    display: flex;
-    flex-direction: row;
-    height: 731px;
-    margin-top: 88px;
+
+  &__pag-presentation,
+  &__pre-contents,
+  &__presentation-form {
+    height: 222px;
     width: 754px;
   }
 
-  &__pre-contents {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: row;
-    height: 496px;
+  &__pag-presentation {
+    @include flex(row, center, center);
+    margin-top: 88px;
+  }
+
+  &__pre-contents,
+  &__pre-part-label1,
+  &__pre-part-label2 {
+    @include flex();
+  }
+
+  &__pre-contents,
+  &__presentation-form {
     padding: 0;
-    width: 754px;
+  }
+
+  &__pre-details,
+  &__pre-icons-containter,
+  &__pre-part-container,
+  &__pre-part-radios {
+    @include flex(column);
   }
 
   &__pre-details {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
     height: 222px;
     margin-right: 44px;
     width: 316px;
 
     h1 {
-      font-size: 24px;
-      font-weight: 600;
+      @include font-properties(
+        (
+          size: 24px,
+          weight: 600,
+          line-height: 34px,
+        )
+      );
       height: 34px;
-      line-height: 34px;
       margin: 0 0 8px;
       width: 237px;
     }
 
     p {
-      font-size: 12px;
-      font-weight: 400 !important;
-      line-height: 17px;
+      @include font-properties(
+        (
+          size: 12px,
+          weight: 400,
+          line-height: 17px,
+        )
+      );
       margin: 0;
     }
   }
@@ -50,34 +68,23 @@
   }
 
   &__pre-icon-content {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
+    @include flex(row, center, center);
     margin-bottom: 8px;
   }
 
   &__pre-icons-containter {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
     margin: 8px 0 8px;
     width: 316px;
   }
 
   &__pre-part-container {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-    height: 496px;
+    height: 222px;
     margin-left: 44px;
     padding: 0;
     width: 350px;
   }
 
   &__pre-part-label1 {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
     margin: 0 0 12.5px 0;
 
     input {
@@ -96,9 +103,6 @@
   }
 
   &__pre-part-label2 {
-    display: flex;
-    flex-direction: row;
-
     input {
       height: 13.33px;
       margin: 0 8px 0 0;
@@ -121,9 +125,6 @@
   }
 
   &__pre-part-radios {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
     height: 62px;
     margin-bottom: 16px;
     padding: 0;
@@ -149,11 +150,5 @@
   &__pre-para-content {
     height: 68px;
     width: 287px;
-  }
-
-  &__presentation-form {
-    height: 496px;
-    padding: 0;
-    width: 754px;
   }
 }

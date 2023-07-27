@@ -44,30 +44,30 @@ export const ProjectCompPagThree = ({ handlePageNavigation }) => {
               </div>
               <p>{latestUrl}</p>
             </div>
-            {shouldDisplayTime && (
-              <div className='projectcompletion__confir-time'>
-                <div className='projectcompletion__confir-header'>
-                  <h3>Presentation</h3>
-                  <p>Edit</p>
-                </div>
-                <p>{latestMember?.decision}</p>
-              </div>
-            )}
-            <div className='projectcompletion__confir-part'>
+            <div className='projectcompletion__confir-time'>
               <div className='projectcompletion__confir-header'>
-                <h3>Participating Members</h3>
+                <h3>Presentation</h3>
                 <p>Edit</p>
               </div>
-              <div className='projectcompletion__confir-members'>
-                <div className='projectcompletion__confir-mem-group1'>
-                  {completedInfo.participatingMembers.map(member => (
-                    <div key={member.user._id}>
-                      <p>{`${member.user.firstName} ${member.user.lastName}`}</p>
-                    </div>
-                  ))}
+              <p>{latestMember?.decision}</p>
+            </div>
+            {shouldDisplayTime && (
+              <div className='projectcompletion__confir-part'>
+                <div className='projectcompletion__confir-header'>
+                  <h3>Participating Members</h3>
+                  <p>Edit</p>
+                </div>
+                <div className='projectcompletion__confir-members'>
+                  <div className='projectcompletion__confir-mem-group1'>
+                    {completedInfo.participatingMembers.map(member => (
+                      <div key={member.user._id}>
+                        <p>{`${member.user.firstName} ${member.user.lastName}`}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         <div className='projectcompletion__btns'>

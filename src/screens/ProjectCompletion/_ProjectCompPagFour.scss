@@ -1,30 +1,35 @@
 .projectcompletion {
   // What's Next
 
+  &__pag-whats-next,
+  &__what-btns,
+  &__what-contents {
+    @include flex(column, center, center);
+  }
+
   &__pag-whats-next {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
     height: 577px;
     padding: 0;
     width: 665px;
   }
 
+  &__what-btns,
+  &__wht-back-btn {
+    @include container-properties(
+      (
+        background-color: #ffffff,
+        border-radius: 4px,
+        height: 78px,
+        width: 208px,
+      )
+    );
+  }
+
   &__what-btns {
-    background-color: #ffffff;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    height: 78px;
-    justify-content: center;
     margin: 40px auto 0;
-    width: 208px;
   }
 
   &__what-contents {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
     padding: 0;
     text-align: center;
     width: 665px;
@@ -40,9 +45,13 @@
     margin: 40px 0 0 0;
 
     h2 {
-      font-size: 24px;
-      font-weight: 600;
-      line-height: 34px;
+      @include font-properties(
+        (
+          size: 24px,
+          weight: 600,
+          line-height: 34px,
+        )
+      );
     }
 
     p {
@@ -57,43 +66,45 @@
     margin: 88px 0 0 0;
 
     h1 {
-      font-size: 38px;
-      font-weight: 600;
-      line-height: 53px;
+      @include font-properties(
+        (
+          size: 38px,
+          weight: 600,
+          line-height: 53px,
+        )
+      );
       margin: 0;
     }
   }
 
+  &__wht-ans-btn,
+  &__wht-back-btn {
+    @include flex(row, center, center);
+    @include font-properties(
+      (
+        size: 16px,
+        weight: 500,
+        line-height: 22px,
+      )
+    );
+  }
+
   &__wht-ans-btn {
-    align-items: center;
-    background-color: #fa9413;
-    border: none;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: row;
-    font-size: 16px;
-    font-weight: 500;
-    height: 78px;
-    justify-content: center;
-    line-height: 22px;
+    @include container-properties(
+      (
+        background-color: #fa9413,
+        border: none,
+        border-radius: 4px,
+        height: 78px,
+        width: 208px,
+      )
+    );
     margin-bottom: 8px;
-    width: 208px;
   }
 
   &__wht-back-btn {
-    align-items: center;
-    background-color: #ffffff;
     border: 1px solid #8048c8;
-    border-radius: 4px;
     color: #8048c8;
-    display: flex;
-    flex-direction: row;
-    font-size: 16px;
-    font-weight: 500;
-    height: 78px;
-    justify-content: center;
-    line-height: 22px;
     margin: 0;
-    width: 208px;
   }
 }

@@ -8,22 +8,54 @@
 .projectcompletion {
   // Main Pag
 
+  &__back-btn,
+  &__btns,
+  &__next-btn,
+  &__next-btn-ready {
+    @include flex(row, center, center);
+  }
+
+  &__back-btn,
+  &__cancel-btn,
+  &__next-btn,
+  &__next-btn-ready {
+    @include font-properties(
+      (
+        size: 16px,
+        weight: 500,
+        line-height: 22px,
+      )
+    );
+  }
+
+  &__back-btn,
+  &__cancel-btn {
+    @include container-properties(
+      (
+        background-color: #ffffff,
+        border: 1px solid #8048c8,
+        border-radius: 4px,
+        color: #8048c8,
+      )
+    );
+  }
+
+  &__next-btn,
+  &__next-btn-ready {
+    @include container-properties(
+      (
+        border: none,
+        border-radius: 4px,
+        height: 35px,
+        width: 84px,
+      )
+    );
+  }
+
   &__back-btn {
-    align-items: center;
-    background-color: #ffffff;
-    border: 1px solid #8048c8 !important;
-    border: none;
-    border-radius: 4px;
-    color: #8048c8;
-    display: flex;
-    flex-direction: row;
-    font-size: 16px;
-    font-weight: 500;
     height: 35px;
-    justify-content: center;
-    line-height: 22px;
-    margin-right: 8px;
     width: 84px;
+    margin-right: 8px;
   }
 
   &__back-icon {
@@ -32,21 +64,11 @@
 
   &__btns {
     background-color: #ffffff;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
     margin-top: 88px;
   }
 
   &__cancel-btn {
-    background-color: #ffffff;
-    border: 1px solid #8048c8;
-    border-radius: 4px;
-    color: #8048c8;
-    font-size: 16px;
-    font-weight: 500;
     height: 35px;
-    line-height: 22px;
     margin-right: 8px;
     width: 77px;
   }
@@ -56,43 +78,24 @@
   }
 
   &__next-btn {
-    align-items: center;
     background-color: #ecebeb;
-    border: none;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: row;
-    font-size: 16px;
-    font-weight: 500;
-    height: 35px;
-    justify-content: center;
-    line-height: 22px;
     margin-left: 8px;
-    width: 84px;
   }
 
   &__next-btn-ready {
-    align-items: center;
     background-color: #fa9413;
-    border: none;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: row;
-    font-size: 16px;
-    font-weight: 500;
-    height: 35px;
-    justify-content: center;
-    line-height: 22px;
     margin-left: 8px;
-    width: 84px;
   }
 
   &__pag-container {
-    background-color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    height: 800px;
+    @include container-properties(
+      (
+        background-color: #ffffff,
+        height: 800px,
+        width: 800px,
+      )
+    );
+    @include flex(column);
     margin: 64px auto auto;
-    width: 800px;
   }
 }

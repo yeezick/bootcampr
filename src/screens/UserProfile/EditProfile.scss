@@ -43,7 +43,6 @@ body {
 
   &__btns {
     @include flex(row, space-evenly, center);
-    background-color: #e5e5e5;
     margin-top: 10px;
     padding-top: 30px;
   }
