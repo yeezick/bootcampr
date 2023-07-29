@@ -12,7 +12,7 @@ import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined'
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
 
-export const ProjectCompPagTwo = ({ handlePageNavigation }) => {
+export const PresentationPage = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
   const completedInfo = useSelector(selectCompletedInfo)
   const dispatch: AppDispatch = useDispatch()

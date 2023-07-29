@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectCompletedInfo } from 'utils/redux/slices/projectSlice'
 
-export const ProjectCompPagFour = () => {
+export const WhatsNextPage = () => {
   const completedInfo = useSelector(selectCompletedInfo)
   const navigate = useNavigate()
 

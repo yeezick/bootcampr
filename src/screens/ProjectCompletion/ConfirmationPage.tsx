@@ -2,12 +2,18 @@ import { useSelector } from 'react-redux'
 import { selectCompletedInfo } from 'utils/redux/slices/projectSlice'
 import { FiRepeat } from 'react-icons/fi'
 
-export const ProjectCompPagThree = ({ handlePageNavigation }) => {
+export const ConfirmationPage = ({ handlePageNavigation }) => {
   const completedInfo = useSelector(selectCompletedInfo)
 
   const handleSubmit = e => {
     e.preventDefault()
     handlePageNavigation('next')
+  }
+
+  const handleGoToSelectedPage = id => {
+    return () => {
+      handlePageNavigation('specific', id)
+    }
   }
 
   const handleCancel = () => {
@@ -18,10 +24,6 @@ export const ProjectCompPagThree = ({ handlePageNavigation }) => {
   const latestMember = completedInfo.participatingMembers[latestMemberIndex]
   const shouldDisplayTime = latestMember?.decision === 'Participate'
   const latestUrl = completedInfo.deployedUrl[latestMemberIndex]?.url
-
-  //TODO: Look into how to use the "specific" navigation to jump
-  // to certain paginators components - ask Eric
-  //TODO: Would the "specific" nav be attached to the Edit text?
 
   return (
     <div className='projectcompletion__pag-confirmation'>
@@ -40,14 +42,14 @@ export const ProjectCompPagThree = ({ handlePageNavigation }) => {
             <div className='projectcompletion__confir-url'>
               <div className='projectcompletion__confir-header'>
                 <h3>Project URL</h3>
-                <p>Edit</p>
+                <p onClick={handleGoToSelectedPage('url')}>Edit</p>
               </div>
               <p>{latestUrl}</p>
             </div>
             <div className='projectcompletion__confir-time'>
               <div className='projectcompletion__confir-header'>
                 <h3>Presentation</h3>
-                <p>Edit</p>
+                <p onClick={handleGoToSelectedPage('presentation')}>Edit</p>
               </div>
               <p>{latestMember?.decision}</p>
             </div>
@@ -55,7 +57,7 @@ export const ProjectCompPagThree = ({ handlePageNavigation }) => {
               <div className='projectcompletion__confir-part'>
                 <div className='projectcompletion__confir-header'>
                   <h3>Participating Members</h3>
-                  <p>Edit</p>
+                  <p onClick={handleGoToSelectedPage('presentation')}>Edit</p>
                 </div>
                 <div className='projectcompletion__confir-members'>
                   <div className='projectcompletion__confir-mem-group1'>

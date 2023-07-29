@@ -1,26 +1,26 @@
 import { Paginator } from 'components/Paginator/Paginator'
-import { ProjectCompPagOne } from './ProjectCompPagOne'
-import { ProjectCompPagTwo } from './ProjectCompPagTwo'
-import { ProjectCompPagThree } from './ProjectCompPagThree'
-import { ProjectCompPagFour } from './ProjectCompPagFour'
+import { UrlPage } from './UrlPage'
+import { PresentationPage } from './PresentationPage'
+import { ConfirmationPage } from './ConfirmationPage'
+import { WhatsNextPage } from './WhatsNextPage'
 import './ProjectCompletion.scss'
 
 export const ProjectCompletion = () => {
   const orderedPages = [
     {
-      component: ProjectCompPagOne,
+      component: UrlPage,
       title: 'URL',
     },
     {
-      component: ProjectCompPagTwo,
+      component: PresentationPage,
       title: 'Presentation',
     },
     {
-      component: ProjectCompPagThree,
+      component: ConfirmationPage,
       title: 'Confirmation',
     },
     {
-      component: ProjectCompPagFour,
+      component: WhatsNextPage,
       title: "What's next",
     },
   ]

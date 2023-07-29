@@ -1,9 +1,9 @@
 @import 'scss/variables';
 @import 'scss/mixins';
-@import 'ProjectCompPagOne';
-@import 'ProjectCompPagTwo';
-@import 'ProjectCompPagThree';
-@import 'ProjectCompPagFour';
+@import 'UrlPage';
+@import 'PresentationPage';
+@import 'ConfirmationPage';
+@import 'WhatsNextPage';
 
 .projectcompletion {
   // Main Pag
@@ -26,6 +26,7 @@
         line-height: 22px,
       )
     );
+    cursor: pointer;
   }
 
   &__back-btn,

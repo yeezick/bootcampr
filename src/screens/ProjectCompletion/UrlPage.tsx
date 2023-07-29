@@ -7,7 +7,7 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { selectProject, updateProject } from 'utils/redux/slices/projectSlice'
 import { FiRepeat, FiArrowRight } from 'react-icons/fi'
 
-export const ProjectCompPagOne = ({ handlePageNavigation }) => {
+export const UrlPage = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
   const project = useSelector(selectProject)
   const [inputChange, setInputChange] = useState('')
