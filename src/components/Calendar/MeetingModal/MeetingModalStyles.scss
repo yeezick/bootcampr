@@ -1,0 +1,51 @@
+.meeting-modal {
+  overflow-x:hidden;
+
+  .meeting-modal-divider {
+    height: 1px;
+    background-color: #313335;
+    position: relative;
+    width: 120%;
+    right: 24px;
+  }
+}
+
+
+/* Date Fields */
+.fields-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+}
+
+.time-fields {
+  display: flex;
+  flex-direction: row;
+}
+
+.timezone-wrapper {
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+   p {
+    font-size: 14px;
+    margin-right: 19px;
+   }
+}
+
+/* Select Attendees */
+.select-attendees-section {
+  display: flex;
+  flex-direction: row;
+
+  :first-child {
+    margin-right: 20px;
+  }
+
+  .select-attendees-helper-text {
+    font-size: 12px;
+    font-style: italic;
+  }
+}

@@ -1,7 +1,11 @@
+import { People } from '@mui/icons-material'
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
+import './MeetingModal'
 
 export const SelectAttendees = ({
   attendees,
+  inviteAll,
+  handleInviteAll,
   setAttendees,
   projectMembers,
 }) => {
@@ -13,21 +17,35 @@ export const SelectAttendees = ({
 
   if (projectMembers) {
     return (
-      <FormGroup>
-        {projectMembers.map(member => (
+      <div className='select-attendees-section'>
+        <People sx={{ color: '#86888A', marginTop: '8px' }} />
+        <div className='select-attendees-wrapper'>
           <FormControlLabel
             control={
-              <Checkbox
-                checked={attendees[member.email] || false}
-                onChange={handleMemberSelection}
-                name={member.email}
-              />
+              <Checkbox checked={inviteAll} onChange={handleInviteAll} />
             }
-            key={`select-member-${member._id}`}
-            label={`${member.firstName} ${member.lastName}`}
+            label='Invite all'
           />
-        ))}
-      </FormGroup>
+          <FormGroup>
+            {projectMembers.map(member => (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={attendees[member.email] || false}
+                    onChange={handleMemberSelection}
+                    name={member.email}
+                  />
+                }
+                key={`select-member-${member._id}`}
+                label={`${member.firstName} ${member.lastName}`}
+              />
+            ))}
+          </FormGroup>
+          <span className='select-attendees-helper-text'>
+            Email invite will be sent to selected members
+          </span>
+        </div>
+      </div>
     )
   } else return null
 }
