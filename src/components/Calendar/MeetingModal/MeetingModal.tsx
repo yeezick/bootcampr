@@ -20,8 +20,8 @@ import {
 import { SelectAttendees } from './SelectAttendees'
 import { DateFields } from './DateFields'
 import { createEvent } from 'utils/api/events'
-import { combineDateWithTime } from 'utils/helpers/calendarHelpers'
-import { handleFormInputChange } from 'utils/helpers/stateHelpers'
+import { combineDateWithTime, handleFormInputChange } from 'utils/helpers'
+import './MeetingModalStyles.scss'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -132,36 +132,30 @@ const sampleNewEvent = {
 
   return (
     <Dialog
-      sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
+      className='meeting-modal'
       maxWidth='xs'
       TransitionProps={{ onEntering: handleEntering }}
       open={visibleMeeting}
     >
-      <DialogContent>
+      <DialogContent sx={{ overflowX: 'hidden' }}>
         <TextField
-          label='Title'
+          label='Add Title'
           name='summary'
-          placeholder='Add title'
           onChange={e => handleFormInputChange(e, setMeetingText)}
+          sx={{ marginBottom: '32px', width: '100%' }}
           value={meetingText.summary}
           variant='standard'
         />
         <DateFields dateFields={dateFields} setDateFields={setDateFields} />
-        <div>
-          invite team
-          <FormControlLabel
-            control={
-              <Checkbox checked={inviteAll} onChange={handleInviteAll} />
-            }
-            label='Invite all'
-          />
-          <SelectAttendees
-            attendees={attendees}
-            setAttendees={setAttendees}
-            projectMembers={projectMembers}
-          />
-        </div>
-        <p>divider</p>
+
+        <SelectAttendees
+          attendees={attendees}
+          inviteAll={inviteAll}
+          handleInviteAll={handleInviteAll}
+          setAttendees={setAttendees}
+          projectMembers={projectMembers}
+        />
+        <div className='meeting-modal-divider' />
         <TextField
           label='Description'
           name='description'
