@@ -7,7 +7,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@mui/material'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { DateFieldsInterface, StringToBooleanObject } from 'interfaces'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -22,7 +22,7 @@ import { DateFields } from './DateFields'
 import { createEvent } from 'utils/api/events'
 import { combineDateWithTime, handleFormInputChange } from 'utils/helpers'
 import './MeetingModalStyles.scss'
-import { Clear } from '@mui/icons-material'
+import { Clear, EditNote, Link } from '@mui/icons-material'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -38,9 +38,22 @@ export const MeetingModal = ({
     useState<DateFieldsInterface>(initialDateFields)
   const [attendees, setAttendees] = useState<StringToBooleanObject>({})
   const [inviteAll, toggleInviteAll] = useState(false)
+  const [disabledButton, setDisabledButton] = useState(true)
   const radioGroupRef = useRef(null)
   const projectMembers = useAppSelector(selectProjectMembersAsTeam)
   const calendarId = useAppSelector(selectCalendarId)
+
+  useEffect(() => {
+    if (
+      dateFields === initialDateFields &&
+      meetingText.summary === '' &&
+      meetingText.meetingLink === ''
+    ) {
+      setDisabledButton(false)
+    } else {
+      setDisabledButton(true)
+    }
+  }, [meetingText.summary, meetingText.meetingLink, dateFields])
 
   const handleEntering = () => {
     if (radioGroupRef.current != null) {
@@ -48,11 +61,19 @@ export const MeetingModal = ({
     }
   }
 
+  const handleClose = () => {
+    setMeetingText(initialMeetingText)
+    setDateFields(initialDateFields)
+    setAttendees({})
+    toggleInviteAll(false)
+    toggleMeetingModal(false)
+  }
+
   const handleInviteAll = () => {
     if (projectMembers) {
       const updatedAttendance = {}
       projectMembers.forEach(member => {
-        // `inviteAll` is its current state; not yet updated
+        // inviteAll is the current state,
         if (inviteAll === false) {
           updatedAttendance[member.email] = true
         } else {
@@ -65,8 +86,6 @@ export const MeetingModal = ({
   }
 
   const handleSubmit = async () => {
-    // Package request to fit calendar event
-    // Fetch calendarId from backend during submission
     const { date, end, start, timeZone } = dateFields
     const { description, summary } = meetingText
     const attendeeList = []
@@ -94,48 +113,13 @@ export const MeetingModal = ({
     try {
       const newEvent = await createEvent(calendarId, eventInfo)
       setEvents([...events, newEvent.data])
-      setMeetingText(initialMeetingText)
-      setDateFields(initialDateFields)
-      setAttendees({})
-      toggleInviteAll(false)
-      toggleMeetingModal(false)
+      handleClose()
     } catch (error) {
       console.error(
         `Error creating event for calendar (${calendarId}): `,
         error
       )
     }
-  }
-
-  /*
-const sampleNewEvent = {
-    "calendarId": "{{CALENDAR_ID}}@group.calendar.google.com",
-    "resource": {
-        "description": "description",
-        "summary": "1",
-        "start": {
-            "dateTime": "2023-05-29T16:00:00Z",
-            "timeZone": "America/New_York"
-        },
-        "end": {
-            "dateTime": "2023-05-29T17:00:00Z",
-            "timeZone": "America/New_York"
-        },
-        "attendees": [
-            {
-                "email": "{{USER_EMAIL}}@gmail.com"
-            }
-        ]
-    },
-    "sendUpdates": "all"
-};
-*/
-  const handleClose = () => {
-    setMeetingText(initialMeetingText)
-    setDateFields(initialDateFields)
-    setAttendees({})
-    toggleInviteAll(false)
-    toggleMeetingModal(false)
   }
 
   return (
@@ -149,46 +133,97 @@ const sampleNewEvent = {
         <div className='close-icon' onClick={handleClose}>
           <Clear />
         </div>
-        <TextField
-          label='Add Title'
-          name='summary'
-          onChange={e => handleFormInputChange(e, setMeetingText)}
-          sx={{ marginBottom: '32px', width: '100%' }}
-          value={meetingText.summary}
-          variant='standard'
-        />
-        <DateFields dateFields={dateFields} setDateFields={setDateFields} />
+        <div style={{ marginTop: '20px' }}>
+          <TextField
+            label='Add Title'
+            name='summary'
+            InputLabelProps={{ sx: { fontSize: '32px' } }}
+            onChange={e => handleFormInputChange(e, setMeetingText)}
+            required
+            sx={{
+              marginBottom: '32px',
+              width: '100%',
+              '& .MuiInputLabel-asterisk': {
+                color: 'orange',
+              },
+              '& .MuiInput-underline': {
+                paddingTop: '17px',
+              },
+            }}
+            value={meetingText.summary}
+            variant='standard'
+          />
+          <DateFields dateFields={dateFields} setDateFields={setDateFields} />
 
-        <SelectAttendees
-          attendees={attendees}
-          inviteAll={inviteAll}
-          handleInviteAll={handleInviteAll}
-          setAttendees={setAttendees}
-          projectMembers={projectMembers}
-        />
-        <div className='meeting-modal-divider' />
-        <TextField
-          label='Description'
-          name='description'
-          onChange={e => handleFormInputChange(e, setMeetingText)}
-          value={meetingText.description}
-          variant='standard'
-        />
-        <TextField
-          label='Meeting link'
-          name='meetingLink'
-          onChange={e => handleFormInputChange(e, setMeetingText)}
-          value={meetingText.meetingLink}
-          variant='standard'
-        />
+          <SelectAttendees
+            attendees={attendees}
+            inviteAll={inviteAll}
+            handleInviteAll={handleInviteAll}
+            setAttendees={setAttendees}
+            projectMembers={projectMembers}
+          />
+          <div className='meeting-modal-divider' />
+          <MeetingTextField
+            label='Add description'
+            name='description'
+            setMeetingText={setMeetingText}
+            value={meetingText.description}
+          />
+          <MeetingTextField
+            label='Add meeting link'
+            name='meetingLink'
+            setMeetingText={setMeetingText}
+            value={meetingText.meetingLink}
+          />
+        </div>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={handleClose}>
-          Cancel
+        <Button
+          disabled={disabledButton}
+          onClick={handleSubmit}
+          sx={{ backgroundColor: '#8048c8', textTransform: 'none' }}
+          variant='contained'
+        >
+          Send
         </Button>
-        <Button onClick={handleSubmit}>Ok</Button>
       </DialogActions>
     </Dialog>
+  )
+}
+
+const MeetingTextField = ({ label, name, setMeetingText, value }) => {
+  const handleMeetingTextField = e => handleFormInputChange(e, setMeetingText)
+
+  let MeetingTextIcon = null
+  if (name === 'description') {
+    MeetingTextIcon = EditNote
+  } else if (name === 'meetingLink') {
+    MeetingTextIcon = Link
+  }
+
+  return (
+    <div className='meeting-text-field'>
+      {MeetingTextIcon && (
+        <MeetingTextIcon
+          sx={{ alignSelf: 'flex-end', padding: '5px 10px 5px 0px' }}
+        />
+      )}
+      <TextField
+        label={label}
+        InputLabelProps={{ sx: { fontSize: '14px' } }}
+        name={name}
+        fullWidth
+        onChange={handleMeetingTextField}
+        required={name !== 'description' && true}
+        sx={{
+          '& .MuiInputLabel-asterisk': {
+            color: 'orange',
+          },
+        }}
+        value={value}
+        variant='standard'
+      />
+    </div>
   )
 }
 
