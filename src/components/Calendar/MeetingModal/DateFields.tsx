@@ -64,6 +64,9 @@ export const DateFields = ({ dateFields, setDateFields }) => {
             sx={{
               color: '#022888',
               fontSize: '14px',
+              '& .MuiSelect-select.MuiInputBase-input': {
+                paddingRight: '0px',
+              },
             }}
             variant='standard'
           >
