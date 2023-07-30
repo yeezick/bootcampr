@@ -1,23 +1,27 @@
 import { TicketInterface } from 'interfaces'
 
 export interface ProjectInterface {
-  _v?: number
-  createAt?: string
-  duration?: string
-  _id?: string
-  meetingCadence?: number
-  overview: string
+  calendarId: string
+  chats: string[]
+  createdAt?: string
+  goal: string
+  meetings: string[]
+  members?: {
+    designers?: string[]
+    engineers?: string[]
+  }
+  problem: ''
   projectTracker?: {
     completed?: TicketInterface[]
     inProgress?: TicketInterface[]
     toDo?: TicketInterface[]
     underReview?: TicketInterface[]
   }
-  members?: {
-    design?: any
-    engineer?: any
+  timeline: {
+    startDate: ''
+    endDate: ''
   }
-  status?: string
   title?: string
-  tools?: string[]
+  _id?: string
+  _v?: number
 }
