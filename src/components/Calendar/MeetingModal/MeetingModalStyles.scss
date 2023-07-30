@@ -1,6 +1,11 @@
 .meeting-modal {
   overflow-x:hidden;
 
+  .close-icon {
+    position: relative;
+    left: 95%;
+  }
+
   .meeting-modal-divider {
     height: 1px;
     background-color: #313335;
@@ -8,8 +13,8 @@
     width: 120%;
     right: 24px;
   }
+  
 }
-
 
 /* Date Fields */
 .fields-wrapper {

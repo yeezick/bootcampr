@@ -22,6 +22,7 @@ import { DateFields } from './DateFields'
 import { createEvent } from 'utils/api/events'
 import { combineDateWithTime, handleFormInputChange } from 'utils/helpers'
 import './MeetingModalStyles.scss'
+import { Clear } from '@mui/icons-material'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -129,6 +130,13 @@ const sampleNewEvent = {
     "sendUpdates": "all"
 };
 */
+  const handleClose = () => {
+    setMeetingText(initialMeetingText)
+    setDateFields(initialDateFields)
+    setAttendees({})
+    toggleInviteAll(false)
+    toggleMeetingModal(false)
+  }
 
   return (
     <Dialog
@@ -138,6 +146,9 @@ const sampleNewEvent = {
       open={visibleMeeting}
     >
       <DialogContent sx={{ overflowX: 'hidden' }}>
+        <div className='close-icon' onClick={handleClose}>
+          <Clear />
+        </div>
         <TextField
           label='Add Title'
           name='summary'
@@ -172,7 +183,7 @@ const sampleNewEvent = {
         />
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={toggleMeetingModal}>
+        <Button autoFocus onClick={handleClose}>
           Cancel
         </Button>
         <Button onClick={handleSubmit}>Ok</Button>
