@@ -50,8 +50,11 @@ body {
 
   &__cameraIcon {
     background-color: #ecebeb !important;
-    left: 70px;
-    top: 58px;
+    left: 87px;
+    top: -37px;
+    width: 32px;
+    height: 32px;
+    transform: scaleX(-1);
   }
 
   &__cancelBtn, &__saveBtn {
@@ -88,20 +91,26 @@ body {
   }
 
   &__image {
-    background-color: #c4c4c4;
-    border-radius: 100%;
-    height: 100px;
-    margin: 20px 0 10px 20px;
-    width: 100px;
+    height: 121px;
+    width: min-content;
+
+    .non-clickable {
+      border: none;
+      border-radius: 100%;
+      height: 100px;
+      margin: 20px 20px 0 20px;
+      width: 100px;
+    }
   }
 
   &__imageChange {
     color: #121212;
+    font-size: 16px !important;
   }
 
   &__label {
     @include font-properties((size: 16px, line-height: 22px));
-    margin: 10px 20px;
+    margin: 20px 20px 10px;
 
     input, textarea {
       @include font-properties((

@@ -33,8 +33,11 @@ body {
 
   &__cameraIcon {
     background-color: #ecebeb !important;
-    left: 70px;
-    top: 58px;
+    left: 87px;
+    top: -37px;
+    width: 32px;
+    height: 32px;
+    transform: scaleX(-1);
   }
 
   &__container {
@@ -76,15 +79,21 @@ body {
   }
 
   &__image {
-    background-color: #c4c4c4;
-    border-radius: 100%;
-    height: 100px;
-    margin: $vep-margin 19px 0 $vep-margin;
-    width: 100px;
+    height: 121px;
+    width: min-content;
+
+    .non-clickable {
+      border: none;
+      border-radius: 100%;
+      height: 100px;
+      margin: $vep-margin 19px 0 $vep-margin;
+      width: 100px;
+    }
   }
 
   &__imageChange {
     color: nth($vep-default-color, 1) !important;
+    font-size: 16px !important;
   }
 
   &__infoContainer, &__linksContainer, &__title {

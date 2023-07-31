@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import Avatar from 'components/Avatar/Avatar'
+// import ImageEditorModal from 'components/ImageEditorModal/ImageEditorModal'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { IconButton } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
-import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined'
 import { BsLink45Deg } from 'react-icons/bs'
 import { RiGithubLine } from 'react-icons/ri'
 import { FiLinkedin } from 'react-icons/fi'
@@ -38,12 +39,12 @@ export const UserProfile: React.FC = () => {
       <div className='userProfile__container'>
         <div className='userProfile__titleContainer'>
           <div className='userProfile__image'>
-            <IconButton
-              aria-label='change profile pic'
-              className='userProfile__cameraIcon'
-            >
-              <CameraAltOutlinedIcon className='userProfile__imageChange' />
-            </IconButton>
+            <Avatar
+              hasIcon={true}
+              clickable={false}
+              iconButtonClassName='userProfile__cameraIcon'
+              addPhotoIconClassName='userProfile__imageChange'
+            />
           </div>
           <div className='userProfile__title'>
             {authUser.firstName && authUser.lastName && (

@@ -1,12 +1,15 @@
-import { RefObject } from 'react'
+import React, { RefObject } from 'react'
 import { Area, Point } from 'react-easy-crop/types'
 
 export interface AvatarProps {
   imageUrl?: string | null
   uploadedImage?: string | null
   clickable?: boolean | undefined
-  openModal?: React.MouseEventHandler<HTMLImageElement>
+  openModal?: (() => void) | undefined
   setAnchorEl?: React.Dispatch<React.SetStateAction<boolean>>
+  hasIcon?: boolean
+  iconButtonClassName?: string
+  addPhotoIconClassName?: string
 }
 
 export interface ImageEditorModalProps {

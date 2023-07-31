@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import Avatar from 'components/Avatar/Avatar'
 import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
 import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
@@ -10,7 +11,6 @@ import { useNotification } from 'utils/redux/slices/notificationSlice'
 import TextareaAutosize from 'react-textarea-autosize'
 import { IconButton } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
-import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined'
 import './EditProfile.scss'
 
 export const EditProfile: React.FC = () => {
@@ -107,14 +107,13 @@ export const EditProfile: React.FC = () => {
       <div className='editprofile__container'>
         <form onSubmit={handleUserUpdate} className='editprofile__form'>
           <div className='editprofile__image'>
-            <IconButton
-              aria-label='change profile pic'
-              className='editprofile__cameraIcon'
-            >
-              <CameraAltOutlinedIcon className='editprofile__imageChange' />
-            </IconButton>
+            <Avatar
+              hasIcon={true}
+              clickable={false}
+              iconButtonClassName='editprofile__cameraIcon'
+              addPhotoIconClassName='editprofile__imageChange'
+            />
           </div>
-
           <label className='editprofile__label'>
             First name
             <input
