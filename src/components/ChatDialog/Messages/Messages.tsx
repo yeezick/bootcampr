@@ -24,6 +24,7 @@ import {
   isSameSenderAsPrevious,
 } from 'utils/functions/chatLogic'
 import './Messages.scss'
+import { setUnreadMessages } from 'utils/api'
 
 export const Messages = ({ setChatRecipientId }) => {
   const socket = useSocket()
@@ -37,6 +38,9 @@ export const Messages = ({ setChatRecipientId }) => {
   const [newMessage, setNewMessage] = useState(false)
   const containerRef = useRef(null)
   const [receivedMessages, setReceivedMessages] = useState({})
+  const [membersWithUnreadMessages, setMembersWithUnreadMessages] = useState<
+    string[]
+  >([])
 
   useEffect(() => {
     if (socket) {
@@ -105,6 +109,37 @@ export const Messages = ({ setChatRecipientId }) => {
     }
   }, [authUser._id, setChatRecipientId, chatParticipants])
 
+  useEffect(() => {
+    // Extracting all particpants in chat, excluding authUser
+    // Will be appended to embersWithUnreadMessages array
+    let users: string[]
+
+    if (currentConversation?.participants) {
+      if (currentConversation?.isGroup) {
+        users = currentConversation.participants
+          .filter(
+            (participant: { participant: { _id: string } }) =>
+              participant.participant &&
+              participant.participant._id !== authUser._id
+          )
+          .map(
+            (particpant: { participant: { _id: string } }) =>
+              particpant.participant._id
+          )
+      } else {
+        users = currentConversation?.participants
+          .filter(
+            (participant: { _id: string }) =>
+              participant && participant._id !== authUser._id
+          )
+          .map((participant: { _id: string }) => participant._id)
+      }
+      setMembersWithUnreadMessages([...users])
+    }
+  }, [authUser._id, currentConversation])
+
+  console.log('members unread:', membersWithUnreadMessages)
+  // console.log('current convo memberss:', currentConversation.participants)
   const handleTimestampClick = (message: any) => {
     // Logic to display/hide timestamp on message click:
     // Check if selected message is already present in selectedMessages array
@@ -141,6 +176,13 @@ export const Messages = ({ setChatRecipientId }) => {
           authUser._id,
           currentConversation._id,
           textForm.text
+        )
+      }
+
+      if (membersWithUnreadMessages.length > 0) {
+        await setUnreadMessages(
+          currentConversation._id,
+          membersWithUnreadMessages
         )
       }
 

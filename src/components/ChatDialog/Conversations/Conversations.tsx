@@ -19,6 +19,7 @@ import { AvatarGrid } from 'components/ChatDialog/AvatarGrid/AvatarGrid'
 import { extractConversationAvatars } from 'utils/functions/chatLogic'
 import { DefaultIcons } from 'utils/data/chatConstants'
 import './Conversations.scss'
+import { markConversationAsRead } from 'utils/api'
 
 export const Conversations = ({ handleConversationClick }) => {
   const socket = useSocket()
@@ -97,6 +98,7 @@ export const Conversations = ({ handleConversationClick }) => {
         })
       )
       updatePrivateMessageReadStatus(authUser._id, chatId)
+      markConversationAsRead(authUser._id, currentConversation._id)
     }
 
     // Socket.IO Emit event: sends conversation room to join to socket server

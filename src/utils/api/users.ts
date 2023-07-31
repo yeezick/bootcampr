@@ -112,3 +112,36 @@ export const updateUsersPassword = async (
     return { error: { status: 500, message: 'Something went wrong' } }
   }
 }
+
+export const setUnreadMessages = async (
+  chatId: string,
+  usersArray: string[]
+) => {
+  try {
+    const res = await api.post(`/messages/setUnreadMessages`, {
+      chatId: chatId,
+      usersArray,
+    })
+    console.log('post req', chatId)
+    return res.data
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
+
+export const markConversationAsRead = async (
+  authUserId: string,
+  chatId: string
+) => {
+  try {
+    const res = await api.post(
+      `/users/${authUserId}/messages/markConversationAsRead`,
+      { chatId }
+    )
+    return res.data
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
