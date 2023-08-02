@@ -27,11 +27,20 @@
     }
 
     img {
-        width: 30px;
-        height: 30px;
+        width: 35px;
+        height: 35px;
         border-radius: 50%;
         margin: 12px 10px 0 0;
     }
+}
+
+.edit-comment {
+    height: 20px;
+    border-radius: 5px;
+    border-color: rgb(185, 185, 185);
+    border-style: solid;
+    padding: 3px 5px;
+    width: 95%;
 }
 
 .REPLY {
@@ -61,8 +70,8 @@
 }
 
 .comment-thumbnail {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     margin: 8px 10px 0 0;
 }

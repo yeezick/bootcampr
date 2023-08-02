@@ -9,9 +9,7 @@ import {
 } from 'utils/api/tickets'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { selectAuthUser, selectUserId } from 'utils/redux/slices/userSlice'
-import { current } from 'immer'
-import { render } from '@testing-library/react'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
 export const Comments = ({ ticketId }) => {
   const user = useSelector(selectAuthUser)
@@ -21,12 +19,10 @@ export const Comments = ({ ticketId }) => {
   const getComments = async () => {
     const response = await getTicketComments(ticketId)
     setComments(response.comments)
-    console.log(comments)
   }
 
   useEffect(() => {
     getComments()
-    console.log(user)
   }, [fetchComments])
 
   return (
@@ -83,12 +79,13 @@ export const CommentInputBanner = ({
   const { _id, firstName, lastName, profilePicture } = user
 
   const createNewComment = async e => {
-    console.log(user)
-    console.log(parentComment)
     if (e.key === 'Enter') {
-      // const author = {}
       const content = e.target.value
       const isReply = commentType === CommentType.Reply
+
+      // If we're creating a new comment, based on a reply to a Reply, we want
+      // to update the replies array of the Reply's parent
+      // Need to make sure when a Reply renders an input bar, its render the "parentId" as its own parentId
 
       const response = await createComment({
         author: {
@@ -145,7 +142,6 @@ export const Comment = ({
   }
 
   const allowEditComment = () => {
-    console.log('User would like to edit comment')
     toggleEditMode(!editMode)
   }
 
@@ -164,8 +160,6 @@ export const Comment = ({
 
   const likeComment = async () => {
     console.log(`${currentUser._id} wants to like commment: ${_id}`)
-    console.log(likes)
-    console.log(currentUser._id)
     let updatedLikes
     if (likes.includes(currentUser._id)) {
       console.log('user already liked')
@@ -192,7 +186,8 @@ export const Comment = ({
   }
 
   useEffect(() => {
-    // console.log(currentUser)
+    console.log('comment')
+    console.log(comment)
   })
   return (
     <div className='comment-replies-container'>
@@ -212,6 +207,7 @@ export const Comment = ({
           <div className='comment-content'>
             {editMode ? (
               <input
+                className='edit-comment'
                 type='text'
                 value={editedComment}
                 onChange={e => setEditedComment(e.target.value)}
@@ -223,7 +219,7 @@ export const Comment = ({
           </div>
           <div className='comment-actions'>
             {/* since this check is happening twice, make this render as an either or */}
-            {author.userId !== currentUser._id && (
+            {author.userId !== currentUser._id && !isReply && (
               <div onClick={renderReplyInputBar}>
                 <p>Reply</p>
               </div>
@@ -249,12 +245,14 @@ export const Comment = ({
         </div>
       </div>
       <div>
-        <Replies
-          commentId={_id}
-          toggleFetchComments={toggleFetchComments}
-          fetchComments={fetchComments}
-          currentUser={currentUser}
-        />
+        {!isReply && (
+          <Replies
+            commentId={_id}
+            toggleFetchComments={toggleFetchComments}
+            fetchComments={fetchComments}
+            currentUser={currentUser}
+          />
+        )}
         {/* {replies.map((reply) => {
         return (
           <p>{reply}</p>
@@ -274,28 +272,6 @@ export const Comment = ({
           />
         </div>
       )}
-      {/* // <div className='single-comment'>
-    //     Single comment component
-    //     <div>
-    //         Base/Core/Parent Comment
-    //         Contains:
-    //         - author thumbnail
-    //         - author userName
-    //         - date and time Created
-    //         - comment text / content
-    //         - edit if user is author
-    //         - delete if user is author
-    //         - like if user is author?
-    //         - reply if user is not author
-    //         - like if user is not author
-    //     </div>
-    //     <div>
-    //         Replies
-    //         Replies will look the same as a base comment, but shifted visual to the right (indented)
-    //         the reply button on a reply comment will still reference its parent commentId so that the reply remains a single nested response, and will automatically be in the right order thanks to timestamp
-    //         if reply button is clicked, a nested comment input bar will appear under said comment
-    //     </div>
-    // </div> */}
     </div>
   )
 }
@@ -315,24 +291,26 @@ const Replies = ({
 
   useEffect(() => {
     getCommentReplies(commentId)
+    console.log('replies')
     console.log(replies)
-  }, [])
+  }, [fetchComments])
 
   return (
     <div className='replies-container'>
-      {replies.map(reply => {
-        return (
-          // <div className='reply-comment'>
-          <Comment
-            comment={reply}
-            toggleFetchComments={toggleFetchComments}
-            fetchComments={fetchComments}
-            currentUser={currentUser}
-          />
-          // </div>
-          // <p>{reply.content}</p>
-        )
-      })}
+      {replies &&
+        replies.map(reply => {
+          return (
+            // <div className='reply-comment'>
+            <Comment
+              comment={reply}
+              toggleFetchComments={toggleFetchComments}
+              fetchComments={fetchComments}
+              currentUser={currentUser}
+            />
+            // </div>
+            // <p>{reply.content}</p>
+          )
+        })}
     </div>
   )
 }
@@ -349,7 +327,7 @@ const convertTimeToStampUserFriendly = timestamp => {
   const splitRawTime = rawTime.split(':')
   const rawHour = splitRawTime[0]
   const meridiem = rawHour >= 12 && rawHour !== 24 ? 'PM' : 'AM'
-  const hour = rawHour <= 12 ? rawHour : rawHour - 12
+  const hour = rawHour < 12 ? rawHour : rawHour - 12
   const minutes = splitRawTime[1]
 
   const userFriendlyTime = `${hour}:${minutes} ${meridiem}`
