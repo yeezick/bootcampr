@@ -43,7 +43,6 @@ export const getOneTicketById = async () => {}
 
 export const getTicketComments = async ticketId => {
   const response = await api.get(`/ticket/${ticketId}/comments`)
-
   return response.data
 }
 
@@ -55,7 +54,7 @@ export const createComment = async commentData => {
 
 export const deleteComment = async commentId => {
   const response = await api.delete(`/comments/${commentId}`)
-  console.log(response)
+  return response.status
 }
 
 export const updateComment = async (commentId, commentUpdates) => {
@@ -63,11 +62,10 @@ export const updateComment = async (commentId, commentUpdates) => {
     `/updateComment/${commentId}`,
     commentUpdates
   )
-  console.log(response)
+  return response.data
 }
 
 export const getReplies = async commentId => {
   const response = await api.get(`/comment/${commentId}/replies`)
-  console.log(response)
   return response.data
 }
