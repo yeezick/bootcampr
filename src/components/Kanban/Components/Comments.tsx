@@ -1,5 +1,5 @@
-import { BiComment, BiLike } from 'react-icons/bi'
 import './Comments.scss'
+import { BiComment, BiLike } from 'react-icons/bi'
 import {
   createComment,
   getTicketComments,
@@ -58,23 +58,20 @@ enum CommentType {
   Reply = 'REPLY',
 }
 
-// TODO: figure out how to properly add the CommentType Enum to type this
 export const CommentInputBanner = ({
   commentType,
-  // condense this to a single 'parentID' represetnating ticket or comment parent
   parentComment = undefined,
   ticketId = undefined,
   user,
   fetchComments,
   toggleFetchComments,
-  renderReplyInput = undefined,
+  // renderReplyInput = undefined,
   toggleRenderReplyInput = undefined,
 }) => {
   let placeholderText =
     commentType === CommentType.Parent
       ? 'Give your feedback here.'
       : 'Reply to this comment.'
-
   const [inputText, setInputText] = useState('')
   const { _id, firstName, lastName, profilePicture } = user
 
@@ -83,11 +80,7 @@ export const CommentInputBanner = ({
       const content = e.target.value
       const isReply = commentType === CommentType.Reply
 
-      // If we're creating a new comment, based on a reply to a Reply, we want
-      // to update the replies array of the Reply's parent
-      // Need to make sure when a Reply renders an input bar, its render the "parentId" as its own parentId
-
-      const response = await createComment({
+      await createComment({
         author: {
           userId: _id,
           firstName,
@@ -99,8 +92,8 @@ export const CommentInputBanner = ({
         ticketId,
         isReply,
       })
-
       setInputText('')
+
       if (isReply) {
         toggleRenderReplyInput(false)
       }
@@ -128,15 +121,13 @@ export const Comment = ({
   toggleFetchComments,
   currentUser,
 }) => {
-  const { author, content, createdAt, isReply, likes, replies, _id } = comment
+  const { author, content, createdAt, isReply, likes, _id } = comment
   const [editMode, toggleEditMode] = useState(false)
   const [editedComment, setEditedComment] = useState(content)
   const [renderReplyInput, toggleRenderReplyInput] = useState(false)
-
   const userFriendlyTimeStamp = convertTimeToStampUserFriendly(createdAt)
 
   const deleteThisComment = async () => {
-    console.log('deleting comment: ' + _id)
     await deleteComment(_id)
     toggleFetchComments(!fetchComments)
   }
@@ -145,9 +136,7 @@ export const Comment = ({
     toggleEditMode(!editMode)
   }
 
-  // change name to update content
   const saveUpdatedComment = async e => {
-    console.log(e.key)
     if (e.key === 'Enter') {
       const commentUpdates = {
         content: editedComment,
@@ -159,36 +148,25 @@ export const Comment = ({
   }
 
   const likeComment = async () => {
-    console.log(`${currentUser._id} wants to like commment: ${_id}`)
     let updatedLikes
     if (likes.includes(currentUser._id)) {
-      console.log('user already liked')
       const idx = likes.indexOf(currentUser._id)
       updatedLikes = {
         likes: likes.splice(idx, 1),
       }
     } else {
-      console.log('user has not liked')
       updatedLikes = {
         likes: [...likes, currentUser._id],
       }
     }
-
-    console.log(updatedLikes)
     await updateComment(_id, updatedLikes)
     toggleFetchComments(!fetchComments)
   }
 
   const renderReplyInputBar = () => {
-    console.log('reply clicked - lets render an input bar')
-    console.log('comment id: ' + _id)
     toggleRenderReplyInput(!renderReplyInput)
   }
 
-  useEffect(() => {
-    console.log('comment')
-    console.log(comment)
-  })
   return (
     <div className='comment-replies-container'>
       <div className='comment-container'>
@@ -218,7 +196,6 @@ export const Comment = ({
             )}
           </div>
           <div className='comment-actions'>
-            {/* since this check is happening twice, make this render as an either or */}
             {author.userId !== currentUser._id && !isReply && (
               <div onClick={renderReplyInputBar}>
                 <p>Reply</p>
@@ -253,11 +230,6 @@ export const Comment = ({
             currentUser={currentUser}
           />
         )}
-        {/* {replies.map((reply) => {
-        return (
-          <p>{reply}</p>
-        )
-      })} */}
       </div>
       {renderReplyInput && (
         <div>
@@ -267,7 +239,6 @@ export const Comment = ({
             toggleFetchComments={toggleFetchComments}
             fetchComments={fetchComments}
             parentComment={_id}
-            renderReplyInput={renderReplyInput}
             toggleRenderReplyInput={toggleRenderReplyInput}
           />
         </div>
@@ -291,8 +262,6 @@ const Replies = ({
 
   useEffect(() => {
     getCommentReplies(commentId)
-    console.log('replies')
-    console.log(replies)
   }, [fetchComments])
 
   return (
@@ -300,15 +269,12 @@ const Replies = ({
       {replies &&
         replies.map(reply => {
           return (
-            // <div className='reply-comment'>
             <Comment
               comment={reply}
               toggleFetchComments={toggleFetchComments}
               fetchComments={fetchComments}
               currentUser={currentUser}
             />
-            // </div>
-            // <p>{reply.content}</p>
           )
         })}
     </div>
@@ -316,20 +282,21 @@ const Replies = ({
 }
 
 const convertTimeToStampUserFriendly = timestamp => {
-  let userFriendlyTimeStamp = 'MM/DD/YYYY HH:MM xm'
   const splitTimeStamp = timestamp.split('T')
   const rawDate = splitTimeStamp[0]
   const rawTime = splitTimeStamp[1]
+
+  // make date user friendly
   const splitRawDate = rawDate.split('-')
   const userFriendlyDate = `${splitRawDate[1]}/${splitRawDate[2]}/${splitRawDate[0]}`
 
-  // convert to user's timezone before adjusting hours and meridiem
+  // TODO: convert to user's timezone before adjusting hours and meridiem
+  // make time user friendly
   const splitRawTime = rawTime.split(':')
   const rawHour = splitRawTime[0]
   const meridiem = rawHour >= 12 && rawHour !== 24 ? 'PM' : 'AM'
   const hour = rawHour < 12 ? rawHour : rawHour - 12
   const minutes = splitRawTime[1]
-
   const userFriendlyTime = `${hour}:${minutes} ${meridiem}`
 
   return `${userFriendlyDate}  ${userFriendlyTime}`
