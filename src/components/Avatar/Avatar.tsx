@@ -1,8 +1,12 @@
-import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import ProfilePreviewImage from 'screens/ProfilePreviewImage/ProfilePreviewImage'
 import { RootState } from 'utils/redux/store'
-import { getUserProfileImage } from 'utils/redux/slices/userSlice'
+import {
+  getUserProfileImage,
+  setDefaultProfilePicture,
+  selectHasUploadedProfilePicture,
+} from 'utils/redux/slices/userSlice'
 import { AvatarProps } from 'interfaces/ProfileImageInterfaces'
 import { IconButton } from '@mui/material'
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined'
@@ -26,10 +30,19 @@ const Avatar: React.FC<AvatarProps> = ({
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const reduxUploadedImage = useSelector(getUserProfileImage)
   const reduxImageUrl = useSelector((state: RootState) => state.avatar.imageUrl)
+  const hasUploadedProfilePicture = useSelector(selectHasUploadedProfilePicture)
+  const dispatch = useDispatch()
   const imageUrl = propImageUrl ?? reduxImageUrl
   const uploadedImage = propUploadedImage ?? reduxUploadedImage
   const imageSource = uploadedImage || imageUrl
   const imgClassName = clickable || setAnchorEl ? 'avatar-img' : 'non-clickable'
+
+  useEffect(() => {
+    dispatch(setDefaultProfilePicture())
+  }, [dispatch])
+
+  console.log('If uploaded: ', hasUploadedProfilePicture)
+  console.log('Profile Picture: ', reduxUploadedImage)
 
   const handleClick = e => {
     if (clickable && openModal) {
@@ -46,7 +59,8 @@ const Avatar: React.FC<AvatarProps> = ({
   return (
     <>
       <div className='avatar-container'>
-        {hasIcon ? (
+        {hasUploadedProfilePicture ? (
+          // Display the custom profile picture or uploaded image
           <div className='avatar-icon'>
             <img
               className={imgClassName}
@@ -54,21 +68,31 @@ const Avatar: React.FC<AvatarProps> = ({
               alt='avatar'
               onClick={handleClick}
             />
-            <IconButton
-              aria-label='change profile pic'
-              className={iconButtonClassName}
-              onClick={handleOpenModal}
-            >
-              <AddAPhotoOutlinedIcon className={addPhotoIconClassName} />
-            </IconButton>
+            {hasIcon && ( // Display the add photo icon if hasIcon is true
+              <IconButton
+                aria-label='change profile pic'
+                className={iconButtonClassName}
+                onClick={handleOpenModal}
+              >
+                <AddAPhotoOutlinedIcon className={addPhotoIconClassName} />
+              </IconButton>
+            )}
           </div>
         ) : (
-          <img
-            className={imgClassName}
-            src={imageSource}
-            alt='avatar'
-            onClick={handleClick}
-          />
+          // Display the default profile picture (initials)
+          <div className='avatar-default-picture'>
+            {/* Render the initials here */}
+            <p>{reduxUploadedImage}</p>
+            {hasIcon && ( // Display the add photo icon if hasIcon is true
+              <IconButton
+                aria-label='change profile pic'
+                className='avatar-default-cameraIcon'
+                onClick={handleOpenModal}
+              >
+                <AddAPhotoOutlinedIcon className={addPhotoIconClassName} />
+              </IconButton>
+            )}
+          </div>
         )}
       </div>
 
@@ -82,3 +106,11 @@ const Avatar: React.FC<AvatarProps> = ({
 }
 
 export default Avatar
+
+/* 
+<div className="userProfile__defaultPic">
+  <p>
+    {intitials}
+  </p>
+</div>
+*/

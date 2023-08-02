@@ -5,7 +5,7 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { setImageUrl } from 'utils/redux/slices/avatarSlice'
 import {
   setUploadedImage,
-  removeUploadedImage,
+  setDefaultProfilePicture,
 } from 'utils/redux/slices/userSlice'
 import { updateUserImage, deleteUserImage } from '../../utils/api/services'
 import ImageEditorModal from 'components/ImageEditorModal/ImageEditorModal'
@@ -93,7 +93,7 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
     try {
       const res = await deleteUserImage(userId)
       if (res.success) {
-        dispatch(removeUploadedImage())
+        dispatch(setDefaultProfilePicture())
         dispatch(setImageUrl(null))
       } else {
         throw new Error('Failed to delete image')
@@ -137,7 +137,8 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
                 </div>
               ) : (
                 // If uploadedImage is not available, use Avatar
-                <Avatar clickable={false} />
+                //TODO: Check why its not working
+                <Avatar clickable={false} hasIcon={false} />
               )}
             </Box>
           </DialogContent>

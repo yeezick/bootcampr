@@ -64,7 +64,7 @@ const ImageEditorContent: React.FC<ImageEditorContentProps> = ({
         />
       ) : (
         <Box className='image-modal__empty-avatar'>
-          <Avatar clickable={false} />
+          <Avatar clickable={false} hasIcon={false} />
         </Box>
       )}
     </DialogContent>

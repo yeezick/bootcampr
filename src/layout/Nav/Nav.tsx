@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
-  getUserProfileImage,
   selectAuthUser,
   toggleSidebar,
   toggleSidebarClose,
@@ -26,9 +25,7 @@ import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
 export const Nav = () => {
   const [colored, setColored] = useState(false)
   const [notificationCount, setNotificationCount] = useState(0)
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isChatBadgeUpdated, setIsChatBadgeUpdated] = useState(false)
-  const reduxUploadedImage = useAppSelector(getUserProfileImage)
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId } = authUser
   const dispatch = useAppDispatch()

@@ -23,6 +23,9 @@ export const UserProfile: React.FC = () => {
     navigate(`/users/${authUser._id}/edit`)
   }
 
+  const intitials = authUser.firstName.charAt(0) + authUser.lastName.charAt(0)
+  console.log(intitials)
+
   return (
     <div className='userProfile'>
       <div className='userProfile__backContainer'>

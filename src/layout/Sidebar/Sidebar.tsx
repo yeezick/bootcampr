@@ -37,7 +37,7 @@ export const Sidebar = () => {
       </div>
 
       <div className='current-user'>
-        <Avatar />
+        <Avatar clickable={false} hasIcon={false} />
         <div>
           <p className='user-name'>
             {firstName} {lastName}

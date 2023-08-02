@@ -34,6 +34,29 @@
     display: flex;
     margin: 133px 27px 50px 0px;
     padding: 19px;
+
+    .avatar-default-picture{
+      background-color: #FFA726;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      height: 75px;
+      justify-content: center;
+      margin: 0 20px 0 0;
+      text-align: center;
+      width: 75px;
+      cursor: default;
+    
+      p {
+        color: #1A237E;
+        font-size: 26px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 20px;
+        margin: 0;
+        text-align: center;
+      }
+    }
   }
 
   .user-name {

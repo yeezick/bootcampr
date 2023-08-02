@@ -15,6 +15,7 @@ export interface UserInterface {
   }
   onboarded?: boolean
   profilePicture?: string | null
+  hasUploadedProfilePicture?: Boolean
   project?: string
   role?: string
   savedProjects?: ProjectInterface[]

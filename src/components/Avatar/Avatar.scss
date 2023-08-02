@@ -5,12 +5,43 @@
 
 .avatar-img,
 .non-clickable {
-  background-color: #c4c4c4;
   border-radius: 50%;
   cursor: pointer;
   height: 75px;
   object-fit: cover;
   width: 75px;
+}
+
+.avatar-default-picture {
+  background-color: #FFA726;
+  border-radius: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  justify-content: flex-end;
+  margin: 20px 19px 0 20px;
+  text-align: center;
+  width: 100px;
+  cursor: default;
+
+  p {
+    color: #1A237E;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px;
+    margin: 0;
+    text-align: center;
+  }
+}
+
+.avatar-default-cameraIcon {
+  background-color: #ecebeb !important;
+  left: 68px;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  transform: scaleX(-1);
 }
 
 .non-clickable {

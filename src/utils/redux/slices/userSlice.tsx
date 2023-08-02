@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { renderToStaticMarkup } from 'react-dom/server'
 import {
   Availability,
   SignUpInterface,
@@ -9,7 +8,6 @@ import {
 import { signUp, updateUser } from 'utils/api/users'
 import { defaultAvailability } from 'utils/data/userConstants'
 import { RootState } from 'utils/redux/store'
-import PersonIcon from '@mui/icons-material/Person'
 
 // todo: auth.status should be its own slice
 // todo: sidebar & ui like notifications should be its own slice
@@ -29,6 +27,7 @@ const initialState: UiSliceInterface = {
         portfolioUrl: null,
       },
       profilePicture: '',
+      hasUploadedProfilePicture: false,
       project: '', // should be projetId
       role: '',
       __v: 0,
@@ -110,17 +109,14 @@ const userSlice = createSlice({
     setUploadedImage: (state, action: PayloadAction<string | null>) => {
       state.auth.user.profilePicture = action.payload
     },
-    removeUploadedImage: state => {
-      const personIconSvg = renderToStaticMarkup(
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
-          <PersonIcon fill='#afadad' />
-        </svg>
-      )
-
-      const personIconUrl = `data:image/svg+xml;utf8,${encodeURIComponent(
-        personIconSvg
-      )}`
-      state.auth.user.profilePicture = personIconUrl
+    setDefaultProfilePicture: state => {
+      if (!state.auth.user.profilePicture) {
+        const defaultProfilePicture = `${state.auth.user.firstName.charAt(
+          0
+        )}${state.auth.user.lastName.charAt(0)}`
+        state.auth.user.profilePicture = defaultProfilePicture
+        state.auth.user.hasUploadedProfilePicture = false
+      }
     },
   },
   extraReducers: builder => {
@@ -162,6 +158,8 @@ export const getUserAvailability = (state: RootState) =>
 export const uiStatus = (state: RootState) => state.ui.status
 export const getUserProfileImage = (state: RootState) =>
   state.ui.auth.user.profilePicture
+export const selectHasUploadedProfilePicture = (state: RootState) =>
+  state.ui.auth.user.hasUploadedProfilePicture
 export const {
   setAuthUser,
   updateAuthUser,
@@ -171,6 +169,6 @@ export const {
   toggleSidebar,
   toggleSidebarClose,
   setUploadedImage,
-  removeUploadedImage,
+  setDefaultProfilePicture,
 } = userSlice.actions
 export default userSlice.reducer
