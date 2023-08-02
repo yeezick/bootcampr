@@ -266,7 +266,7 @@ const Replies = ({
 
   return (
     <div className='replies-container'>
-      {replies &&
+      {replies.length > 0 &&
         replies.map(reply => {
           return (
             <Comment
