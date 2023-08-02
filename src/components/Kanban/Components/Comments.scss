@@ -10,16 +10,15 @@
 .comment-input-banner {
     display: flex;
 
-
     input {
         border-radius: 5px;
         border-style: none;
         box-sizing: border-box;
+        font-size: 14px;
+        height: 40px;
         padding: 3px 8px;
         margin-top: 10px;
         width: 90%;
-        height: 40px;
-        font-size: 14px;
     }
 
     input:focus {
@@ -27,36 +26,24 @@
     }
 
     img {
-        width: 35px;
-        height: 35px;
         border-radius: 50%;
+        height: 35px;
         margin: 12px 10px 0 0;
+        width: 35px;
     }
-}
-
-.edit-comment {
-    height: 20px;
-    border-radius: 5px;
-    border-color: rgb(185, 185, 185);
-    border-style: solid;
-    padding: 3px 5px;
-    width: 95%;
-}
-
-.REPLY {
-    margin-left: 45px;
 }
 
 .comment-author {
     p {
+        font-size: 16px;
         font-weight: 600;
         letter-spacing: .5px;
-        font-size: 16px;
     }
 }
 
 .comment-content {
     margin: 5px 0;
+
     p {
         font-size: 16px;
     }
@@ -64,37 +51,32 @@
 
 .comment-date-time {
     p {
-        font-size: 15px;
         color: rgb(87, 87, 87);
+        font-size: 15px;
     }
 }
 
 .comment-thumbnail {
-    width: 35px;
-    height: 35px;
     border-radius: 50%;
     margin: 8px 10px 0 0;
+    height: 35px;
+    width: 35px;
 }
 
 .comment-container {
     display: flex;
     flex-direction: row;
     margin-top: 15px;
-
-}
-
-.replies-container {
-    padding-left: 45px;
 }
 
 .comment-card {
     background-color: white;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     row-gap: 10px;
-    width: 90%;
     padding: 12px ;
-    border-radius: 5px;
+    width: 90%;
 
     p {
         margin: 0;
@@ -103,12 +85,29 @@
 
 .comment-top-banner {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
+    flex-direction: row;
 }
 
 .comment-actions {
+    column-gap: 15px;
     display: flex;
     flex-direction: row;
-    column-gap: 15px;
+}
+
+.edit-comment {
+    border-radius: 5px;
+    border-color: rgb(185, 185, 185);
+    border-style: solid;
+    height: 20px;
+    padding: 3px 5px;
+    width: 95%;
+}
+
+.REPLY {
+    margin-left: 45px;
+}
+
+.replies-container {
+    padding-left: 45px;
 }
