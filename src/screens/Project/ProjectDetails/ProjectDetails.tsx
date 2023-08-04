@@ -1,7 +1,9 @@
 import { ProjectDetailsSidebar } from './ProjectDetailsSidebar'
 import './ProjectDetails.scss'
+import ProjectDetailsBanner from '../../../assets/Image/project-details-banner.png'
 
-//TODO: fix brief overview box, get images to work,
+//TODO: fix brief overview box,
+//TODO: get images to work,
 
 export const ProjectDetails = () => {
   return (
@@ -10,7 +12,7 @@ export const ProjectDetails = () => {
         <ProjectDetailsSidebar />
         <div className='page-container'>
           <div className='header-container'>
-            <img src='project-details-header-1.png' alt='bee'></img>
+            <img src={ProjectDetailsBanner} alt='bee'></img>
           </div>
           <div className='banner-box-container'>
             <div className='banner-text-container'>

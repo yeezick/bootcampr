@@ -7,6 +7,8 @@ import { ProjectInterface } from 'interfaces'
 import { getOneProject } from 'utils/api'
 
 //TODO: incorporate projectId in links
+//TODO: add hover affect on links
+//TODO: ask question about hiding the hamburger button for original sidebar
 
 export const ProjectDetailsSidebar = () => {
   const { id } = useParams()

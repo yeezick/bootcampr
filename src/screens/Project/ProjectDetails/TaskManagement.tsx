@@ -2,9 +2,9 @@ import { AllTickets } from 'components/Kanban'
 import { ProjectInterface } from 'interfaces'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import './Project.scss'
 import { getOneProject } from 'utils/api'
 import { Checkbox } from '@mui/material'
+import '../Project.scss'
 
 export const TaskManagement = () => {
   const { id } = useParams()

@@ -1,4 +1,5 @@
 import { ProjectDetailsSidebar } from './ProjectDetailsSidebar'
+import TeamBanner from '../../../assets/Image/team-header.png'
 
 //TODO: add three dots to the Team Members banner,
 //TODO: add project id
@@ -10,7 +11,7 @@ export const Team = () => {
         <ProjectDetailsSidebar />
         <div className='page-container'>
           <div className='header-container'>
-            <img src='team-header.png' alt='man working on computer'></img>
+            <img src={TeamBanner} alt='man working on computer'></img>
           </div>
           <div className='banner-box-container'>
             <div className='banner-text-container'>

@@ -1,3 +1,5 @@
+@import 'scss/variables';
+@import 'scss/mixins';
 
 .project-details-container {
   display: flex
@@ -35,6 +37,7 @@
 
     h1 {
       color:#000;
+      font-family: $vep-font-family;
       font-size: 24px;
       font-style: normal;
       font-weight: 600;
@@ -153,6 +156,7 @@
 
     h1 {
       color: #313335;
+      font-family: $vep-font-family;
       font-size: 48px;
       font-style: normal;
       font-weight: 700;
@@ -187,6 +191,7 @@
   align-self: stretch;
 
   h1 {
+    font-family: $pdt-font-family-2;
     color: #313335;
     font-size: 24px;
     font-style: normal;
