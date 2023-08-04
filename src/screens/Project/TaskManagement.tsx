@@ -6,9 +6,9 @@ import './Project.scss'
 import { getOneProject } from 'utils/api'
 import { Checkbox } from '@mui/material'
 
-export const ProjectDetails = () => {
+export const TaskManagement = () => {
   const { id } = useParams()
-  const [projectDetail, setProjectDetails] = useState<ProjectInterface | null>(
+  const [taskManagement, setTaskManagement] = useState<ProjectInterface | null>(
     null
   )
 
@@ -16,7 +16,7 @@ export const ProjectDetails = () => {
     const getProject = async () => {
       try {
         const project = await getOneProject(id)
-        setProjectDetails(project)
+        setTaskManagement(project)
       } catch (error) {
         console.error('Failed to fetch project details:', error)
       }
@@ -43,7 +43,7 @@ export const ProjectDetails = () => {
       </div>
 
       <div>
-        {projectDetail && <AllTickets projectTracker={projectDetail} />}
+        {taskManagement && <AllTickets projectTracker={taskManagement} />}
       </div>
     </div>
   )

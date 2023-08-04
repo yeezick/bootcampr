@@ -10,9 +10,11 @@ import {
 import { Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
-import { AllProjects, CreateProject, ProjectDetails } from 'screens/Project'
+import { AllProjects, CreateProject, TaskManagement } from 'screens/Project'
+import { ProjectDetails } from 'screens/Project/ProjectDetails/ProjectDetails'
+import { Team } from 'screens/Project/ProjectDetails/Team'
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
-import { Calendar } from 'screens/Project/Calendar'
+import { Calendar } from 'screens/Project/ProjectDetails/Calendar'
 import './App.css'
 
 function App() {
@@ -35,8 +37,13 @@ function App() {
           {/* Project */}
           <Route path='/all-projects' element={<AllProjects />} />
           <Route path='/create-project' element={<CreateProject />} />
-          <Route path='/project/:id' element={<ProjectDetails />} />
           <Route path='/project/:id/calendar' element={<Calendar />} />
+          <Route path='/project/:id/details' element={<ProjectDetails />} />
+          <Route path='/project/team' element={<Team />} />
+          <Route
+            path='/project/:id/task-management'
+            element={<TaskManagement />}
+          />
         </Routes>
       </Layout>
     </>

@@ -1,0 +1,237 @@
+
+.project-details-container {
+  display: flex
+}
+
+/*ProjectDetailsSidebar */
+
+.project-details-sidebar {
+  // align-items: center;
+  background-color: #ffffff;
+  display: flex;
+  height: 927px;
+  flex-direction: column;
+  flex-shrink: 0;
+  justify-content: space-between;
+  padding: 32px 0px;
+  width: 248px;
+}
+
+  .nav-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px 16px;
+    gap: 24px;
+    align-items: stretch;
+    margin: 24px 0 0;
+  }
+
+  .nav-header {
+    display: flex;
+    align-items: center;
+    gap:24px;
+    align-self: stretch;
+
+    h1 {
+      color:#000;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 33.6px;
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    width: 216px;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 24px 0 0;
+  }
+
+  .link {
+    color: #000;
+    // font-size: 14px;
+    // font-style: normal;
+    // font-weight: 400;
+    // line-height: 400;
+}
+
+.project-details-link {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.team-link {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.calendar-link {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.task-management-link {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.submit-project-container {
+  display: flex;
+  padding: 0px 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
+  margin: auto;
+
+    .submit-btn {
+      display: flex;
+      padding: 14px 24px;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      align-self: stretch;
+      background-color: #FA9413;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 22.4px;;
+    }
+  }
+
+  /* ProjectDetails */
+
+  .page-container {
+
+
+  }
+
+  .header-container {
+    width: 1192px;
+    height: 278px;
+    flex-shrink: 0;
+    background-color: #FA9413;
+  }
+
+  .banner-box-container {
+    display: flex;
+    width: 1092px;
+    padding: 16px 32px;
+    align-items: center;
+    gap: 16px;
+    border-radius: 16px 0 0 16px;
+    background: #ffead0;
+  }
+
+  .banner-text-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1 0 0;
+  }
+
+  .banner-text {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+
+    h1 {
+      color: #313335;
+      font-size: 48px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 67.2px;
+    }
+  }
+
+  .overview-box-container {
+  display: flex;
+  width: 992px;
+  padding: 16px 32px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 56px;
+  margin: 40px 100px 59px 100px;
+}
+
+.overview-text-container {
+  display: flex;
+  background-color: #ffffff;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  align-items: stretch;
+  margin: 16px 32px;
+}
+
+.brief-overview-header-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+
+  h1 {
+    color: #313335;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 33.6px;
+  }
+}
+
+.brief-overview-text-container {
+  display: flex;
+  padding-left: 0px;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
+  font-size: 16px;
+}
+
+
+
+/*team screen */
+
+.team-container {
+  display: flex
+}
+
+.software-engineer-container {
+  display: inline-flex;
+  padding: 32px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.swe-text-container {
+
+  border-radius: 16px;
+  
+  h1 {
+    color: #000;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 44.8px;
+  }
+
+
+
+}

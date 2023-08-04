@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
-//TODO: make CSS true to Figma, inspect margins//
-
 export const OnboardingLastScreen = ({ handlePageNavigation }) => {
   const authUser = useAppSelector(selectAuthUser)
 
