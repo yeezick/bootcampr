@@ -13,12 +13,12 @@ export interface UserInterface {
     linkedinUrl: string
     portfolioUrl: string
   }
-  memberOfProjects?: ProjectInterface[]
-  ownerOfProjects?: ProjectInterface[]
-  portfolioProjects?: ProjectInterface[]
+  onboarded?: boolean
   profilePicture?: string | null
+  project?: string
   role?: string
   savedProjects?: ProjectInterface[]
+  verified?: Boolean
   __v?: number
   _id?: string
 }
