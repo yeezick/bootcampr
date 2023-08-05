@@ -38,6 +38,15 @@ export const convertGoogleEventsForCalendar = googleEvents => {
   return convertedEvents
 }
 
+export const initialDateFields = () => {
+  return {
+    date: dayjs(),
+    start: dayjs(),
+    timeZone: dayjs.tz.guess(),
+    end: dayjs(),
+  }
+}
+
 export const roundToNearestHalfHour = timeStr => {
   const [time, period] = timeStr.split(/\s/)
   const [hourStr, minuteStr] = time.split(':')

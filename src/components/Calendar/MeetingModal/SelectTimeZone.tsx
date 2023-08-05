@@ -1,8 +1,11 @@
 import { KeyboardArrowDown } from '@mui/icons-material'
 import { FormControl, MenuItem, Select } from '@mui/material'
+import { useRef, useState } from 'react'
 import { usTimeZones } from 'utils/data/calendarConstants'
 
 export const SelectTimeZone = ({ dateFields, setDateFields, timeZone }) => {
+  const [openSelect, setOpenSelect] = useState(false)
+  const toggleSelect = () => setOpenSelect(!openSelect)
   const handleTimeZone = e =>
     setDateFields({ ...dateFields, timeZone: e.target.value })
 
@@ -20,13 +23,18 @@ export const SelectTimeZone = ({ dateFields, setDateFields, timeZone }) => {
         <Select
           defaultValue={timeZone}
           disableUnderline={true}
-          IconComponent={CustomArrowDown}
+          IconComponent={CustomArrowDown(toggleSelect)}
           onChange={handleTimeZone}
+          onClick={toggleSelect}
+          open={openSelect}
           sx={{
             color: '#022888',
             fontSize: '14px',
             '& .MuiSelect-select.MuiInputBase-input': {
               paddingRight: '0px',
+            },
+            ':hover': {
+              cursor: 'pointer',
             },
           }}
           variant='standard'
@@ -42,4 +50,8 @@ export const SelectTimeZone = ({ dateFields, setDateFields, timeZone }) => {
   )
 }
 
-const CustomArrowDown = () => <KeyboardArrowDown sx={{ color: '#022888' }} />
+const CustomArrowDown = toggleSelect => {
+  return () => (
+    <KeyboardArrowDown onClick={toggleSelect} sx={{ color: '#022888' }} />
+  )
+}

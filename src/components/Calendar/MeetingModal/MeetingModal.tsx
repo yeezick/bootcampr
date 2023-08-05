@@ -18,7 +18,7 @@ import {
 import { SelectAttendees } from './SelectAttendees'
 import { DateFields } from './DateFields'
 import { createEvent } from 'utils/api/events'
-import { handleFormInputChange } from 'utils/helpers'
+import { handleFormInputChange, initialDateFields } from 'utils/helpers'
 import './MeetingModalStyles.scss'
 import { Clear } from '@mui/icons-material'
 import { MeetingTextField } from './MeetingTextField'
@@ -34,8 +34,9 @@ export const MeetingModal = ({
   visibleMeeting,
 }) => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
-  const [dateFields, setDateFields] =
-    useState<DateFieldsInterface>(initialDateFields)
+  const [dateFields, setDateFields] = useState<DateFieldsInterface>(
+    initialDateFields()
+  )
   const [attendees, setAttendees] = useState<BooleanObject>({})
   const [inviteAll, toggleInviteAll] = useState(false)
   const radioGroupRef = useRef(null)
@@ -50,7 +51,7 @@ export const MeetingModal = ({
 
   const handleClose = () => {
     setMeetingText(initialMeetingText)
-    setDateFields(initialDateFields)
+    setDateFields(initialDateFields())
     setAttendees({})
     toggleInviteAll(false)
     toggleMeetingModal(false)
@@ -74,7 +75,7 @@ export const MeetingModal = ({
 
   const handleSubmit = async e => {
     e.preventDefault()
-    const { date, end, start, timeZone } = dateFields
+    const { end, start, timeZone } = dateFields
     const { description, summary } = meetingText
     const attendeeList = []
 
@@ -172,7 +173,6 @@ export const MeetingModal = ({
         </DialogContent>
         <DialogActions>
           <Button
-            // disabled={disabledButton}
             sx={{ backgroundColor: '#8048c8', textTransform: 'none' }}
             type='submit'
             variant='contained'
@@ -183,11 +183,4 @@ export const MeetingModal = ({
       </form>
     </Dialog>
   )
-}
-
-const initialDateFields = {
-  date: dayjs(),
-  start: dayjs(),
-  timeZone: dayjs.tz.guess(),
-  end: dayjs(),
 }
