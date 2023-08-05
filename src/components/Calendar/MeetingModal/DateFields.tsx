@@ -1,19 +1,18 @@
-import {
-  AccessTime,
-  ArrowDropDown,
-  KeyboardArrowDown,
-} from '@mui/icons-material'
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-import { DatePicker, TimePicker } from '@mui/x-date-pickers'
+import { AccessTime, ArrowDropDown } from '@mui/icons-material'
+import { DatePicker } from '@mui/x-date-pickers'
+import { combineDateWithTime } from 'utils/helpers'
+import { SelectTimeZone } from './SelectTimeZone'
+import { SelectTime } from './SelectTime'
 import './MeetingModalStyles.scss'
-import { SelectTimeInput } from 'components/Availability/subcomponents/SelectTimeInput'
 
-export const DateFields = ({ dateFields, setDateFields }) => {
-  const handleDate = newDate => setDateFields({ ...dateFields, date: newDate })
-  const handleFrom = newDate => setDateFields({ ...dateFields, start: newDate })
-  const handleTo = newDate => setDateFields({ ...dateFields, end: newDate })
-  const handleTimeZone = e =>
-    setDateFields({ ...dateFields, timeZone: e.target.value })
+export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
+  const handleDate = newDate =>
+    setDateFields({
+      ...dateFields,
+      date: newDate,
+      end: combineDateWithTime(newDate, dateFields.end.format('hh:mm A')),
+      start: combineDateWithTime(newDate, dateFields.start.format('hh:mm A')),
+    })
 
   return (
     <div className='fields-wrapper'>
@@ -29,68 +28,26 @@ export const DateFields = ({ dateFields, setDateFields }) => {
           value={dateFields.date}
         />
         <span>from</span>
-        <TimePicker
-          disablePast
-          label='time picker'
-          onChange={handleFrom}
-          slots={{ openPickerIcon: ArrowDropDown }}
-          value={dateFields.start}
+        <SelectTime
+          dateFields={dateFields}
+          dayjs={dayjs}
+          setDateFields={setDateFields}
+          type={'start'}
         />
         <span>-</span>
-        <TimePicker
-          disablePast
-          label='time picker'
-          onChange={handleTo}
-          slots={{ openPickerIcon: ArrowDropDown }}
-          value={dateFields.end}
+        <SelectTime
+          dateFields={dateFields}
+          dayjs={dayjs}
+          setDateFields={setDateFields}
+          type={'end'}
         />
       </div>
 
-      <div className='timezone-wrapper'>
-        <p>TimeZone </p>
-        <FormControl
-          aria-label='timezone'
-          hiddenLabel={true}
-          sx={{
-            alignSelf: 'center',
-            fontSize: '14px',
-          }}
-        >
-          <Select
-            defaultValue={dateFields.timeZone}
-            disableUnderline={true}
-            IconComponent={CustomArrowDown}
-            onChange={handleTimeZone}
-            sx={{
-              color: '#022888',
-              fontSize: '14px',
-              '& .MuiSelect-select.MuiInputBase-input': {
-                paddingRight: '0px',
-              },
-            }}
-            variant='standard'
-          >
-            {usTimeZones.map(timeZone => (
-              <MenuItem value={timeZone.value} key={timeZone.value}>
-                {timeZone.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
+      <SelectTimeZone
+        dateFields={dateFields}
+        setDateFields={setDateFields}
+        timeZone={dateFields.timeZone}
+      />
     </div>
   )
 }
-
-const CustomArrowDown = () => <KeyboardArrowDown sx={{ color: '#022888' }} />
-
-const usTimeZones = [
-  { value: 'America/Puerto_Rico', name: 'Puerto Rico (Atlantic)' },
-  { value: 'America/New_York', name: 'New York (Eastern)' },
-  { value: 'America/Chicago', name: 'Chicago (Central)' },
-  { value: 'America/Denver', name: 'Denver (Mountain)' },
-  { value: 'America/Phoenix', name: 'Phoenix (MST)' },
-  { value: 'America/Los_Angeles', name: 'Los Angeles (Pacific)' },
-  { value: 'America/Anchorage', name: 'Anchorage (Alaska)' },
-  { value: 'Pacific/Honolulu', name: 'Honolulu (Hawaii)' },
-]

@@ -1,3 +1,3 @@
-export interface StringToBooleanObject {
+export interface BooleanObject {
   [key: string]: boolean
 }
