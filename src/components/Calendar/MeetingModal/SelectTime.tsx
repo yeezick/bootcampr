@@ -22,8 +22,14 @@ export const SelectTime = ({ dateFields, dayjs, setDateFields, type }) => {
     <Select
       onChange={handleTimeChange}
       size='small'
+      sx={{
+        background: '#ECEBEB',
+        border: 'none',
+        '& .MuiOutlinedInput-notchedOutline': {
+          border: 'none',
+        },
+      }}
       value={selectedTime}
-      variant='filled'
     >
       {timeOptions.map(time => (
         <MenuItem key={`${type}-option-${time}`} value={time}>

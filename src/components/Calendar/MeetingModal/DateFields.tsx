@@ -17,14 +17,23 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
   return (
     <div className='fields-wrapper'>
       <div className='time-fields'>
-        <AccessTime />
         <DatePicker
           disablePast
-          dayOfWeekFormatter={day => day.charAt(0).toUpperCase()}
+          format='dddd, MM/DD/YY'
           onChange={handleDate}
-          label='date picker'
           slots={{ openPickerIcon: ArrowDropDown }}
-          sx={{ fontSize: '10px' }}
+          slotProps={{
+            textField: { size: 'small' },
+            openPickerIcon: { sx: { position: 'absolute', right: '5px' } },
+          }}
+          sx={{
+            fontSize: '10px',
+            background: '#ECEBEB',
+            border: 'none',
+            '& .MuiOutlinedInput-notchedOutline': {
+              border: 'none',
+            },
+          }}
           value={dateFields.date}
         />
         <span>from</span>
@@ -34,7 +43,7 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
           setDateFields={setDateFields}
           type={'start'}
         />
-        <span>-</span>
+        <span className='span-dash'>-</span>
         <SelectTime
           dateFields={dateFields}
           dayjs={dayjs}

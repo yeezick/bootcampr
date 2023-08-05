@@ -2,23 +2,43 @@
   overflow-x:hidden;
 
   .close-icon {
-    display:flex;
     align-items: flex-end;
-    justify-content: flex-end;
     background-color: white;
+    display:flex;
+    height: 44px;
+    justify-content: flex-end;
     position: absolute;
     top: 0px;
-    height: 44px;
     width: 87%;
     z-index: 2;
   }
 
+  .date-attendee-wrapper {
+    display:grid;
+    grid-template-areas: 
+    "clock dateFields"
+    "people selectAttendees";
+    flex-direction: row;
+
+    .clock-icon {
+      grid-area: clock;
+      margin-right: 10px;
+      padding-top: 5px;
+    }
+
+    .people-icon {
+      grid-area: people;
+      margin-right: 10px;
+
+    }
+  }
+
   .meeting-modal-divider {
-    height: 1px;
     background-color: #313335;
+    height: 1px;
     position: relative;
-    width: 120%;
     right: 24px;
+    width: 120%;
   }
 }
 
@@ -26,12 +46,32 @@
 .fields-wrapper {
   display: flex;
   flex-direction: column;
+  grid-area: dateFields;
   justify-content:center;
 }
 
 .time-fields {
+  align-items: center;
   display: flex;
   flex-direction: row;
+  height: 40px;
+
+  .time-icon {
+    position: relative;
+    right: 17px;
+    width: 17px;
+  }
+
+  span {
+    padding: 0 5px;
+  }
+  .span-dash {
+    font-size: large;
+    font-weight: 900;
+    background-color: 'black';
+    height: 15px;
+    width: 8px;
+  }
 }
 
 .timezone-wrapper {
@@ -56,6 +96,7 @@
 .select-attendees-section {
   display: flex;
   flex-direction: row;
+  grid-area: selectAttendees;
   margin-bottom: 32px;
 
   :first-child {
