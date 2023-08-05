@@ -19,7 +19,12 @@ export const SelectTime = ({ dateFields, dayjs, setDateFields, type }) => {
   }
 
   return (
-    <Select onChange={handleTimeChange} size='small' value={selectedTime}>
+    <Select
+      onChange={handleTimeChange}
+      size='small'
+      value={selectedTime}
+      variant='filled'
+    >
       {timeOptions.map(time => (
         <MenuItem key={`${type}-option-${time}`} value={time}>
           {time}
