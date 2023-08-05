@@ -18,7 +18,6 @@ export const SelectAttendees = ({
   if (projectMembers) {
     return (
       <div className='select-attendees-section'>
-        <People sx={{ color: '#86888A', marginTop: '8px' }} />
         <div className='select-attendees-wrapper'>
           <FormControlLabel
             control={

@@ -20,7 +20,7 @@ import { DateFields } from './DateFields'
 import { createEvent } from 'utils/api/events'
 import { handleFormInputChange, initialDateFields } from 'utils/helpers'
 import './MeetingModalStyles.scss'
-import { Clear } from '@mui/icons-material'
+import { AccessTime, Clear, People } from '@mui/icons-material'
 import { MeetingTextField } from './MeetingTextField'
 import { initialMeetingText } from 'utils/data/calendarConstants'
 
@@ -114,14 +114,14 @@ export const MeetingModal = ({
   return (
     <Dialog
       className='meeting-modal'
-      maxWidth='xs'
+      maxWidth='lg'
       TransitionProps={{ onEntering: handleEntering }}
       open={visibleMeeting}
     >
       <form onSubmit={handleSubmit}>
         <DialogContent sx={{ overflowX: 'hidden' }}>
-          <div className='close-icon' onClick={handleClose}>
-            <Clear />
+          <div className='close-icon'>
+            <Clear onClick={handleClose} sx={{ cursor: 'pointer' }} />
           </div>
           <div style={{ marginTop: '20px' }}>
             <TextField
@@ -143,19 +143,33 @@ export const MeetingModal = ({
               value={meetingText.summary}
               variant='standard'
             />
-            <DateFields
-              dateFields={dateFields}
-              setDateFields={setDateFields}
-              dayjs={dayjs}
-            />
+            <div className='date-attendee-wrapper'>
+              <div className='clock-icon'>
+                <AccessTime className='clock-icon' sx={{ color: '#86888A' }} />
+              </div>
+              <div className='people-icon'>
+                <People
+                  className='people-icon'
+                  sx={{ color: '#86888A', marginTop: '8px' }}
+                />
+              </div>
 
-            <SelectAttendees
-              attendees={attendees}
-              inviteAll={inviteAll}
-              handleInviteAll={handleInviteAll}
-              setAttendees={setAttendees}
-              projectMembers={projectMembers}
-            />
+              <DateFields
+                dateFields={dateFields}
+                setDateFields={setDateFields}
+                dayjs={dayjs}
+              />
+
+              <SelectAttendees
+                attendees={attendees}
+                inviteAll={inviteAll}
+                handleInviteAll={handleInviteAll}
+                setAttendees={setAttendees}
+                projectMembers={projectMembers}
+              />
+              {/* </div> */}
+            </div>
+
             <div className='meeting-modal-divider' />
             <MeetingTextField
               label='Add description'
