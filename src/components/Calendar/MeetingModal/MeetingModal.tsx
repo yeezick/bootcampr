@@ -123,7 +123,7 @@ export const MeetingModal = ({
           <div className='close-icon'>
             <Clear onClick={handleClose} sx={{ cursor: 'pointer' }} />
           </div>
-          <div style={{ marginTop: '20px' }}>
+          <div className='content-wrapper'>
             <TextField
               label='Add Title'
               name='summary'
@@ -167,7 +167,6 @@ export const MeetingModal = ({
                 setAttendees={setAttendees}
                 projectMembers={projectMembers}
               />
-              {/* </div> */}
             </div>
 
             <div className='meeting-modal-divider' />
