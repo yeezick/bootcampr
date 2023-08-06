@@ -7,6 +7,7 @@ import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { getRandomInt } from 'screens/AccountSettings/helper/data'
+import { storeUserProject } from 'utils/helpers/stateHelpers'
 import './Landing.scss'
 
 export const Landing: React.FC = () => {
@@ -26,6 +27,7 @@ export const Landing: React.FC = () => {
       if (gettingAllUser && gettingAllUser.length > 0) {
         const randomUser = gettingAllUser[getRandomInt(gettingAllUser.length)]
         dispatch(setAuthUser(randomUser))
+        storeUserProject(dispatch, randomUser.project)
         setLoginStatus(true)
       } else {
         setLoginStatus(false)
