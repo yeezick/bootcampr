@@ -91,7 +91,17 @@ export const Nav = () => {
             </Link>
           </div>
         </div>
-
+        <div>
+          <Link className='link' to='/project-portal'>
+            Project Portal
+          </Link>
+          <Link className='link' to='/how-to'>
+            How Bootcamper works
+          </Link>
+          <Link className='link' to='/about-us'>
+            About us
+          </Link>
+        </div>
         {userId ? (
           <AuthorizedNavLinks
             notificationCount={notificationCount}
@@ -152,17 +162,6 @@ const AuthorizedNavLinks = ({
 }
 const UnauthorizedNavLinks = () => (
   <div className='auth-btn'>
-    <div>
-      <Link className='link' to='/project-portal'>
-        Project Portal
-      </Link>
-      <Link className='link' to='how-to'>
-        How Bootcamper works
-      </Link>
-      <Link className='link' to='about-us'>
-        About us
-      </Link>
-    </div>
     <div>
       <Link className='link sign-up' to='/sign-up'>
         Sign up

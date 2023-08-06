@@ -22,6 +22,8 @@ function App() {
       <Layout>
         <Routes>
           <Route path='/' element={<Landing />} />
+          <Route path='/about-us' element />
+          <Route path='/how-to' element />
           {/* Auth */}
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/sign-in' element={<SignIn />} />
@@ -39,6 +41,7 @@ function App() {
           <Route path='/all-projects' element={<AllProjects />} />
           <Route path='/create-project' element={<CreateProject />} />
           <Route path='/project/:id' element={<ProjectDetails />} />
+          <Route path='/project-portal' element />
           <Route path='/project/:id/calendar' element={<CalendarScreen />} />
         </Routes>
       </Layout>
