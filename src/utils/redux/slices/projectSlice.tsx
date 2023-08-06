@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ProjectInterface } from 'interfaces'
+import { ProjectInterface } from '../../../interfaces'
 // todo: may be preferable to move project tracker into its own model and slice?
 
 const initialState: ProjectInterface = {
