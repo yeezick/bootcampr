@@ -29,7 +29,6 @@ export const PresentationPage = ({ handlePageNavigation }) => {
             _id: authUser._id,
             firstName: authUser.firstName,
             lastName: authUser.lastName,
-            role: authUser.role,
           },
           decision:
             selectedRadio === 'option1' ? 'Participate' : "Don't participate",
@@ -71,7 +70,7 @@ export const PresentationPage = ({ handlePageNavigation }) => {
           handlePageNavigation('next')
         }
       } catch (error) {
-        console.error(error)
+        console.error('An error occurred while saving the decision.', error)
       }
     } else {
       alert(

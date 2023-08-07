@@ -28,8 +28,8 @@ export const UrlPage = ({ handlePageNavigation }) => {
   const handleSubmit = async e => {
     e.preventDefault()
     if (isUrl(inputChange)) {
-      const isDuplicate = project.completedInfo?.deployedUrl?.some(
-        item => item.user._id === authUser._id && item.url === inputChange
+      const isDuplicate = project.completedInfo?.deployedUrl?.hasOwnProperty(
+        authUser._id
       )
 
       if (isDuplicate) {
@@ -40,15 +40,10 @@ export const UrlPage = ({ handlePageNavigation }) => {
       const updatedProject = {
         completedInfo: {
           ...project.completedInfo,
-          deployedUrl: [
-            ...(project.completedInfo?.deployedUrl || []),
-            {
-              user: {
-                _id: authUser._id,
-              },
-              url: inputChange,
-            },
-          ],
+          deployedUrl: {
+            ...project.completedInfo?.deployedUrl,
+            [authUser._id]: inputChange,
+          },
         },
       }
 
@@ -62,7 +57,8 @@ export const UrlPage = ({ handlePageNavigation }) => {
           setIsLoading(false)
         }
       } catch (error) {
-        console.error(error)
+        console.error('An error occurred while saving the URL.', error)
+        setIsLoading(false)
       }
     } else {
       alert('Please enter a valid URL')
@@ -81,11 +77,8 @@ export const UrlPage = ({ handlePageNavigation }) => {
   const isUrl = string => {
     const urlPattern = new RegExp(
       '^(https?:\\/\\/)?' +
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' +
-        '((\\d{1,3}\\.){3}\\d{1,3}))' +
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' +
-        '(\\?[;&a-z\\d%_.~+=-]*)?' +
-        '(\\#[-a-z\\d_]*)?$',
+        '(www\\.)' +
+        '(([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}$',
       'i'
     )
     return urlPattern.test(string)

@@ -85,7 +85,6 @@ const SignIn: React.FC = (): JSX.Element => {
       const teamProject = await getOneProject(response.project)
       if (teamProject) {
         await dispatch(setProject(teamProject))
-        console.log('teamproject', teamProject)
       }
     }
 
