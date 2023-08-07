@@ -16,10 +16,6 @@ export const UserAssignee = ({
     setAssignee(e.target.value)
   }
 
-  // useEffect(() => {
-  //   console.log('wtf')
-  // }, [assignee])
-
   return (
     <div className='UserAssignee'>
       <div className='UserAssigneeIconText'>
