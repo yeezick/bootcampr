@@ -45,7 +45,7 @@
   &__confir-info {
     height: 224px;
     padding: 0;
-    width: 194px;
+    width: 350px;
 
     p {
       @include font-properties(
@@ -59,19 +59,38 @@
     }
   }
 
-  &__confir-mem-group1 {
-    padding: 0;
-  }
-
   &__confir-members {
     @include flex();
+    flex-wrap: wrap;
     height: 42px;
     padding: 0;
-    width: 191px;
+    width: 350px;
 
     p {
       margin: 0 0 8px 0;
     }
+  }
+
+  &__confir-mem-group,
+  &__confir-mem-group2 {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    width: 100%;
+
+    &.with-margin {
+      margin: 0 32px;
+    }
+
+    &.no-margin {
+      margin: 0;
+    }
+  }
+
+  &__confir-mem-row-break {
+    height: 0;
+    width: 100%;
   }
 
   &__confir-next-btn {
@@ -99,7 +118,7 @@
   &__confir-part {
     height: 70px;
     padding: 0;
-    width: 194px;
+    width: 350px;
   }
 
   &__confir-time {

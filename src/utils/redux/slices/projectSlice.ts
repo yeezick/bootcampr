@@ -44,10 +44,24 @@ const projectSlice = createSlice({
       return action.payload
     },
     updateProject: (state, action: PayloadAction<ProjectInterface>) => {
-      state = {
+      return {
         ...state,
         ...action.payload,
       }
+    },
+    updateParticipatingMembers: (
+      state,
+      action: PayloadAction<
+        ProjectInterface['completedInfo']['participatingMembers']
+      >
+    ) => {
+      state.completedInfo.participatingMembers = action.payload
+    },
+    updateDeployedUrl: (
+      state,
+      action: PayloadAction<ProjectInterface['completedInfo']['deployedUrl']>
+    ) => {
+      state.completedInfo.deployedUrl = action.payload
     },
     setProjectStart: state => {
       state.loading = true
@@ -74,6 +88,8 @@ export const selectCalendarId = state => state.project.calendarId
 export const {
   setProject,
   updateProject,
+  updateParticipatingMembers,
+  updateDeployedUrl,
   setProjectStart,
   setProjectSuccess,
   setProjectFailure,

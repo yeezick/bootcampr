@@ -1,12 +1,9 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch } from 'utils/redux/store'
-import { getOneProject } from 'utils/api'
+import { getOneProject, editProject } from 'utils/api'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import {
-  selectCompletedInfo,
-  updateProject,
-} from 'utils/redux/slices/projectSlice'
+import { updateParticipatingMembers } from 'utils/redux/slices/projectSlice'
 import { FiRepeat } from 'react-icons/fi'
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined'
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined'
@@ -14,7 +11,6 @@ import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
 
 export const PresentationPage = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
-  const completedInfo = useSelector(selectCompletedInfo)
   const dispatch: AppDispatch = useDispatch()
   const [selectedRadio, setSelectedRadio] = useState('')
   const projectId = authUser.project
@@ -43,17 +39,17 @@ export const PresentationPage = ({ handlePageNavigation }) => {
 
         if (selectedRadio === 'option2') {
           const isParticipant = updatedMembers.some(
-            pm => pm.userId === authUser._id
+            pm => pm.user._id === authUser._id
           )
 
           if (isParticipant) {
             updatedMembers = updatedMembers.filter(
-              pm => pm.userId !== authUser._id
+              pm => pm.user._id !== authUser._id
             )
           }
         } else if (selectedRadio === 'option1') {
           const isParticipant = updatedMembers.some(
-            pm => pm.userId === authUser._id
+            pm => pm.user._id === authUser._id
           )
 
           if (!isParticipant) {
@@ -61,22 +57,25 @@ export const PresentationPage = ({ handlePageNavigation }) => {
           }
         }
 
-        const updateProjectData = {
+        const updatedProject = {
           completedInfo: {
-            ...completedInfo,
+            ...project.completedInfo,
             participatingMembers: updatedMembers,
           },
         }
 
-        dispatch(updateProject(updateProjectData))
+        const response = await editProject(projectId, updatedProject)
 
-        handlePageNavigation('next')
+        if (response) {
+          dispatch(updateParticipatingMembers(updatedMembers))
+          handlePageNavigation('next')
+        }
       } catch (error) {
         console.error(error)
       }
     } else {
       alert(
-        `Please select "Participate" and "Select All Members" or select "Don't participate" before submitting.`
+        `Please select "Participate" or select "Don't participate" before submitting.`
       )
     }
   }

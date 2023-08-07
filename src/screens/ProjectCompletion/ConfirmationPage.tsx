@@ -60,13 +60,16 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
                   <p onClick={handleGoToSelectedPage('presentation')}>Edit</p>
                 </div>
                 <div className='projectcompletion__confir-members'>
-                  <div className='projectcompletion__confir-mem-group1'>
-                    {completedInfo.participatingMembers.map(member => (
-                      <div key={member.user._id}>
+                  {completedInfo.participatingMembers.map((member, index) => (
+                    <div key={member.user._id}>
+                      <div className={getGroupClassName(index)}>
                         <p>{`${member.user.firstName} ${member.user.lastName}`}</p>
                       </div>
-                    ))}
-                  </div>
+                      {getRowBreak(index) && (
+                        <div className='projectcompletion__confir-mem-row-break' />
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
@@ -87,3 +90,17 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
     </div>
   )
 }
+
+const getGroupClassName = index => {
+  const isFirstOrFourthOrSeventh =
+    index % 8 === 1 || index % 8 === 4 || index % 8 === 7
+  return index % 2 === 0
+    ? isFirstOrFourthOrSeventh
+      ? 'projectcompletion__confir-mem-group with-margin'
+      : 'projectcompletion__confir-mem-group no-margin'
+    : isFirstOrFourthOrSeventh
+    ? 'projectcompletion__confir-mem-group2 with-margin'
+    : 'projectcompletion__confir-mem-group2 no-margin'
+}
+
+const getRowBreak = index => index % 4 === 3

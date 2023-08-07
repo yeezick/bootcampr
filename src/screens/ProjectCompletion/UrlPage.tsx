@@ -4,7 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch } from 'utils/redux/store'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { selectProject, updateProject } from 'utils/redux/slices/projectSlice'
+import {
+  selectProject,
+  updateDeployedUrl,
+} from 'utils/redux/slices/projectSlice'
 import { FiRepeat, FiArrowRight } from 'react-icons/fi'
 
 export const UrlPage = ({ handlePageNavigation }) => {
@@ -25,7 +28,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
   const handleSubmit = async e => {
     e.preventDefault()
     if (isUrl(inputChange)) {
-      const isDuplicate = project.completedInfo.deployedUrl.some(
+      const isDuplicate = project.completedInfo?.deployedUrl?.some(
         item => item.user._id === authUser._id && item.url === inputChange
       )
 
@@ -54,7 +57,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
         const response = await editProject(projectID, updatedProject)
 
         if (response) {
-          dispatch(updateProject(updatedProject.completedInfo))
+          dispatch(updateDeployedUrl(updatedProject.completedInfo.deployedUrl))
           handlePageNavigation('next')
           setIsLoading(false)
         }
