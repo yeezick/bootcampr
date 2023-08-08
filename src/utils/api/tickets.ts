@@ -65,7 +65,10 @@ export const deleteComment = async commentId => {
   return response.status
 }
 
-export const updateComment = async (commentId, commentUpdates) => {
+export const updateComment = async (
+  commentId: number,
+  commentUpdates: Comment
+): Promise<Comment> => {
   const response = await api.patch(
     `/updateComment/${commentId}`,
     commentUpdates
@@ -73,7 +76,7 @@ export const updateComment = async (commentId, commentUpdates) => {
   return response.data
 }
 
-export const getReplies = async commentId => {
+export const getReplies = async (commentId: number): Promise<Comment[]> => {
   const response = await api.get(`/comment/${commentId}/replies`)
   return response.data
 }
