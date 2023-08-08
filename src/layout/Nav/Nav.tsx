@@ -91,7 +91,6 @@ export const Nav = () => {
             </Link>
           </div>
         </div>
-
         {userId ? (
           <AuthorizedNavLinks
             notificationCount={notificationCount}
@@ -103,7 +102,6 @@ export const Nav = () => {
           <UnauthorizedNavLinks />
         )}
       </div>
-
       <AccountDropdown anchorEl={anchorEl} closeDropdown={closeDropdown} />
     </nav>
   )
