@@ -46,6 +46,7 @@ export const Comments = ({ ticketId }) => {
             toggleFetchComments={toggleFetchComments}
             fetchComments={fetchComments}
             currentUser={user}
+            key={comment._id}
           />
         ))}
       </div>
@@ -274,6 +275,7 @@ const Replies = ({
               toggleFetchComments={toggleFetchComments}
               fetchComments={fetchComments}
               currentUser={currentUser}
+              key={reply._id}
             />
           )
         })}
