@@ -1,3 +1,4 @@
+import { TicketInterface } from 'interfaces'
 import { api } from './apiConfig'
 
 export const createTicketApi = async ticketBody => {
@@ -54,7 +55,7 @@ export const getTicketComments = async (
 }
 
 // Comments
-export const createComment = async commentData => {
+export const createComment = async (commentData: Comment): Promise<Comment> => {
   const ticketData = await api.post('/createComment', commentData)
   return ticketData.data
 }
