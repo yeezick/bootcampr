@@ -47,7 +47,7 @@ export const getTicketComments = async (
 ): Promise<Comment[]> => {
   try {
     const response = await api.get(`/ticket/${ticketId}/comments`)
-    return response.data
+    return response.data.comments
   } catch (err) {
     console.error(err)
     return []
@@ -55,7 +55,7 @@ export const getTicketComments = async (
 }
 
 // Comments
-export const createComment = async (commentData: Comment): Promise<Comment> => {
+export const createComment = async commentData => {
   const ticketData = await api.post('/createComment', commentData)
   return ticketData.data
 }
@@ -65,10 +65,7 @@ export const deleteComment = async commentId => {
   return response.status
 }
 
-export const updateComment = async (
-  commentId: number,
-  commentUpdates: Comment
-): Promise<Comment> => {
+export const updateComment = async (commentId, commentUpdates) => {
   const response = await api.patch(
     `/updateComment/${commentId}`,
     commentUpdates

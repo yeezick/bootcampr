@@ -18,7 +18,7 @@ export const Comments = ({ ticketId }) => {
 
   const getComments = async () => {
     const response = await getTicketComments(ticketId)
-    setComments(response.comments)
+    setComments(response)
   }
 
   useEffect(() => {
