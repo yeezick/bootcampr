@@ -41,9 +41,16 @@ export const deleteTicketApi = async ticketData => {
 }
 export const getOneTicketById = async () => {}
 
-export const getTicketComments = async ticketId => {
-  const response = await api.get(`/ticket/${ticketId}/comments`)
-  return response.data
+export const getTicketComments = async (
+  ticketId: number
+): Promise<Comment[]> => {
+  try {
+    const response = await api.get(`/ticket/${ticketId}/comments`)
+    return response.data
+  } catch (err) {
+    console.error(err)
+    return []
+  }
 }
 
 // Comments
