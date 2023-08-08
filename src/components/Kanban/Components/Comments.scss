@@ -3,8 +3,8 @@
 }
 
 .comments-section-label {
-    display: flex;
     column-gap: 12px;
+    display: flex;
 }
 
 .comment-input-banner {
@@ -85,8 +85,8 @@
 
 .comment-top-banner {
     display: flex;
-    justify-content: space-between;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .comment-actions {
