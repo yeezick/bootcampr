@@ -1,20 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-
 import { SnackBarToastInterface } from 'interfaces/SnackBarToast'
 
 const initialState: SnackBarToastInterface = {
   isOpen: false,
   message: '',
   duration: 3000,
-  vertical: 'top',
-  horizontal: 'center',
+  vertical: 'bottom',
+  horizontal: 'left',
   snackbarStyle: '',
   severity: 'success',
 }
 
-/**
- * Creates a slice for avatar with a single reducer to set the image URL.
- */
 const snackBarSlice = createSlice({
   name: 'snackBar',
   initialState,
