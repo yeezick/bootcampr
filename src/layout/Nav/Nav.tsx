@@ -76,32 +76,32 @@ export const Nav = () => {
 
   return (
     <nav className={navClassName}>
-      <div className='nav-container'>
-        {userId !== '' ? (
-          <div className='menu-btn' onClick={toggleSidebarHandler}>
-            <i></i>
-            <i></i>
-            <i></i>
+      <div className='navbar-wrapper'>
+        <div className='nav-container'>
+          {userId !== '' ? (
+            <div className='menu-btn' onClick={toggleSidebarHandler}>
+              <i></i>
+              <i></i>
+              <i></i>
+            </div>
+          ) : null}
+          <div className='logo'>
+            <Link to='/'>
+              <img src={Logo} alt='logo' />
+            </Link>
           </div>
-        ) : null}
-        <div className='logo'>
-          <Link to='/'>
-            <img src={Logo} alt='logo' />
-          </Link>
         </div>
+        {userId ? (
+          <AuthorizedNavLinks
+            notificationCount={notificationCount}
+            setAnchorEl={setAnchorEl}
+            isChatBadgeUpdated={isChatBadgeUpdated}
+            setIsChatBadgeUpdated={setIsChatBadgeUpdated}
+          />
+        ) : (
+          <UnauthorizedNavLinks />
+        )}
       </div>
-
-      {userId ? (
-        <AuthorizedNavLinks
-          notificationCount={notificationCount}
-          setAnchorEl={setAnchorEl}
-          isChatBadgeUpdated={isChatBadgeUpdated}
-          setIsChatBadgeUpdated={setIsChatBadgeUpdated}
-        />
-      ) : (
-        <UnauthorizedNavLinks />
-      )}
-
       <AccountDropdown anchorEl={anchorEl} closeDropdown={closeDropdown} />
     </nav>
   )
