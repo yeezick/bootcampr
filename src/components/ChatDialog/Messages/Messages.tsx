@@ -109,37 +109,45 @@ export const Messages = ({ setChatRecipientId }) => {
     }
   }, [authUser._id, setChatRecipientId, chatParticipants])
 
+  const isArrayOfStrings = (arr: []) => {
+    return arr.every(element => typeof element === 'string')
+  }
+
   useEffect(() => {
     // Extracting all particpants in chat, excluding authUser
-    // Will be appended to embersWithUnreadMessages array
-    let users: string[]
+    // Will be appended to membersWithUnreadMessages array
+    const getParticipantIds = () => {
+      const participants = currentConversation?.participants
+      if (!participants) return []
 
-    if (currentConversation?.participants) {
-      if (currentConversation?.isGroup) {
-        users = currentConversation.participants
-          .filter(
-            (participant: { participant: { _id: string } }) =>
-              participant.participant &&
-              participant.participant._id !== authUser._id
-          )
-          .map(
-            (particpant: { participant: { _id: string } }) =>
-              particpant.participant._id
-          )
-      } else {
-        users = currentConversation?.participants
-          .filter(
-            (participant: { _id: string }) =>
-              participant && participant._id !== authUser._id
-          )
-          .map((participant: { _id: string }) => participant._id)
+      if (isArrayOfStrings(participants)) {
+        return participants.filter(userId => userId !== authUser._id)
       }
-      setMembersWithUnreadMessages([...users])
-    }
-  }, [authUser._id, currentConversation])
 
-  console.log('members unread:', membersWithUnreadMessages)
-  // console.log('current convo memberss:', currentConversation.participants)
+      if (currentConversation.isGroup) {
+        return participants
+          .filter((participant: { participant: { _id: string } }) => {
+            const participantId = participant.participant?._id
+            return participantId && participantId !== authUser._id
+          })
+          .map(
+            (participant: { participant: { _id: string } }) =>
+              participant.participant._id
+          )
+      }
+
+      return participants
+        .filter(
+          (participant: { _id: string }) =>
+            participant && participant._id !== authUser._id
+        )
+        .map((participant: { _id: string }) => participant._id)
+    }
+
+    const participantIds = getParticipantIds()
+    setMembersWithUnreadMessages(participantIds)
+  }, [authUser._id, currentConversation.participants])
+
   const handleTimestampClick = (message: any) => {
     // Logic to display/hide timestamp on message click:
     // Check if selected message is already present in selectedMessages array

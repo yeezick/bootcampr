@@ -122,7 +122,6 @@ export const setUnreadMessages = async (
       chatId: chatId,
       usersArray,
     })
-    console.log('post req', chatId)
     return res.data
   } catch (error) {
     console.error(error)
