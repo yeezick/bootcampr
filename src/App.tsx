@@ -18,6 +18,7 @@ import './App.css'
 import Email from 'screens/Auth/Settings/Email'
 import Password from 'screens/Auth/Settings/Password'
 import Account from 'screens/Auth/Settings/Account'
+import UpdateEmailConfirmation from 'screens/Auth/UpdateEmail/UpdateEmailConfirmation'
 
 function App() {
   return (
@@ -35,6 +36,10 @@ function App() {
           <Route path='/onboarding/:userId' element={<Onboarding />} />
           <Route path='/users/:id' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />
+          <Route
+            path='/users/:id/update-email-confirmation'
+            element={<UpdateEmailConfirmation />}
+          />
           <Route path='/users/:id/settings' element={<Settings />} />
           <Route path='/users/:id/settings/:screen' element={<Settings />} />
           {/* Todo: Remove once onboarding flow is complete */}

@@ -18,8 +18,7 @@ export const MenuItem = ({ item }) => {
 
   const renderItemScreen = item => {
     console.log(item)
-    // navigate
-    // should this be like layout?
+    // TODO: swap blah for curent user id
     navigate(`/users/blah/settings/${item}`)
   }
 

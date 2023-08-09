@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import './Settings.scss'
+import { useNavigate } from 'react-router-dom'
 
 export default function Email() {
   const authUser = useAppSelector(selectAuthUser)
@@ -11,6 +12,8 @@ export default function Email() {
   const [reEnterNewEmail, setReEnterNewEmail] = useState('')
   const [emailMatch, setEmailMatch] = useState(false)
   const [nonEmpty, setNonEmpty] = useState(false)
+  const [buttonState, setButtonState] = useState(false)
+  const navigate = useNavigate()
 
   const refreshForm = () => {
     setNewEmail('')
@@ -22,12 +25,22 @@ export default function Email() {
     setEmailMatch(validation)
   }
 
+  const updateEmailAddress = () => {
+    // send email
+    // ensure link "expires" in 30 minutes
+    // onclick of email redirects to login and updates email on backend
+    // look into existing verify logic
+    // redirect to info page
+    navigate(`/users/:userId/update-email-confirmation`)
+    // don't change mail in databse until they've verified with new email click
+  }
+
   useEffect(() => {
     setNonEmpty(newEmail.length > 1 && reEnterNewEmail.length > 1)
     console.log(newEmail)
     console.log(reEnterNewEmail)
     checkIfEmailsMatch()
-  }, [newEmail, reEnterNewEmail])
+  }, [newEmail, reEnterNewEmail, buttonState])
 
   return (
     <div className='settings-card'>
@@ -55,7 +68,14 @@ export default function Email() {
         <button className='cancel' onClick={refreshForm}>
           Cancel
         </button>
-        <button className='update'>Update email address</button>
+        {/* todo: figure out best way to endable and disable button dynamically */}
+        <button
+          className='update'
+          disabled={buttonState}
+          onClick={updateEmailAddress}
+        >
+          Update email address
+        </button>
       </div>
     </div>
   )
