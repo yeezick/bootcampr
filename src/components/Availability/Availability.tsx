@@ -59,6 +59,7 @@ export const Availability: React.FC = ({
       <div className='availability-container-role-profile-button'>
         <div>
           <IconButton
+            onClick={() => handlePageNavigation('previous')}
             aria-label='go back to view profile'
             className='availability-container-back-button'
           >
