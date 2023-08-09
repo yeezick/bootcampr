@@ -1,7 +1,7 @@
 import './Availability.scss'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { Timezones, weekdaysMap } from './utils/data'
+import { weekdaysMap } from './utils/data'
 import { DayAvailabilityInputBanner } from './subcomponents/DayAvailabilityInputBanner'
 import { TimeZoneInputBanner } from './subcomponents/TimezoneInputBanner'
 import {
@@ -9,21 +9,20 @@ import {
   selectAuthUser,
 } from 'utils/redux/slices/userSlice'
 
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import { IconButton } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import moment from 'moment-timezone'
 import { updateUser } from 'utils/api'
 import { useAppSelector } from 'utils/redux/hooks'
 
-export const Availability: React.FC = (): JSX.Element => {
+export const Availability: React.FC = ({
+  handlePageNavigation,
+}: any): JSX.Element => {
   const authUser = useAppSelector(selectAuthUser)
   let userAvailability = useSelector(getUserAvailability)
   const [days, setDays] = useState(userAvailability)
   const [timezone, setTimezone] = useState(getCurrentTimeZone())
-  const navigate = useNavigate()
   useEffect(() => {
     setDays(userAvailability)
   }, [userAvailability])
@@ -39,10 +38,6 @@ export const Availability: React.FC = (): JSX.Element => {
 
   const addUserAvailability = async () => {
     await updateUser(authUser._id, { availability: days })
-  }
-
-  const navigateToRoles = () => {
-    navigate(`/users/${authUser?._id}`)
   }
 
   return (
@@ -66,14 +61,16 @@ export const Availability: React.FC = (): JSX.Element => {
           <IconButton
             aria-label='go back to view profile'
             className='availability-container-back-button'
-            onClick={navigateToRoles}
           >
             <ArrowBackIcon />
             <p>Role</p>
           </IconButton>
         </div>
         <div>
-          <button className='availability-container-profile-button'>
+          <button
+            className='availability-container-profile-button'
+            onClick={() => handlePageNavigation('next')}
+          >
             Set up profile
             <ArrowForwardIcon className='availability-container-profile-button-arrow' />
           </button>

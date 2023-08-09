@@ -20,7 +20,7 @@ export enum Timezones {
   AKST = 'Alaskan Standard Time (AKST)',
   AKDT = 'Alaskan Daylight Time (AKDT)',
   HST = 'Hawaii-Aleutian Standard Time (HST)',
-  HADT = 'Hawaii-Aleutian Daylight Time (HDT)',
+  HDT = 'Hawaii-Aleutian Daylight Time (HDT)',
 }
 
 export const defaultAvailabilityForm = {

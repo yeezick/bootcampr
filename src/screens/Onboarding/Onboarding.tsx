@@ -2,6 +2,7 @@ import { Paginator } from 'components/Paginator/Paginator'
 import { One } from 'components/Paginator/Examples/One'
 import { Two } from 'components/Paginator/Examples/Two'
 import { Three } from 'components/Paginator/Examples/Three'
+import { Availability } from 'components/Availability/Availability'
 
 export const Onboarding = () => {
   // Todo: replace with proper components for onboarding
@@ -12,8 +13,8 @@ export const Onboarding = () => {
       props: { backgroundColor: 'red' },
     },
     {
-      component: Two,
-      title: 'Two',
+      component: Availability,
+      title: 'Add your availability',
       props: { backgroundColor: 'yellow' },
     },
     {

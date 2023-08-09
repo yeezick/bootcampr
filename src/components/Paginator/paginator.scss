@@ -1,14 +1,14 @@
 .complete-page-bar-item {
-  background-color: black ;
+  background-color: black;
 }
 
 .incomplete-page-bar-item {
-  background-color: #86888A;
+  background-color: #86888a;
 }
 
 .page-bar {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   justify-content: space-evenly;
 }
 
@@ -21,7 +21,7 @@
     border-radius: 25px;
     height: 6px;
     margin-bottom: 4px;
-    width: 150px
+    width: 150px;
   }
 
   span {
@@ -32,6 +32,8 @@
 }
 
 .current-page-wrapper {
+  display: flex;
+  justify-content: center;
   height: 100%;
   width: 100%;
 }

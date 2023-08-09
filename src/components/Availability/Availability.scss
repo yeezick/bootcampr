@@ -24,11 +24,20 @@
     column-gap: 60px;
     display: flex;
     flex-direction: row;
-
+    display: flex;
+    align-items: baseline;
     .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon {
       height: 0.8em;
       top: 3.5px;
       width: 0.8em;
+    }
+    .timezone-input-select {
+      display: flex;
+      align-items: baseline;
+    }
+    .MuiSelect-select {
+      min-width: 0;
+      padding: 0;
     }
   }
 

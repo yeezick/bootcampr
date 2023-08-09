@@ -6,23 +6,24 @@ export const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
   return (
     <div className='timezone-input-container'>
       <h1>Time zone</h1>
-      <Typography sx={tzSelectSx}>{Timezones[timezone]}</Typography>
-      <Select
-        style={{ border: '1px solid' }}
-        defaultValue={timezone}
-        disableUnderline
-        IconComponent={ExpandMoreRounded}
-        sx={tzSelectSx}
-        value={timezone}
-        variant='standard'
-        onChange={e => setTimezone(e.target.value)}
-      >
-        {Object.keys(Timezones).map(zone => (
-          <MenuItem key={zone} value={Timezones[zone]}>
-            {Timezones[zone]}
-          </MenuItem>
-        ))}
-      </Select>
+      <div className='timezone-input-select'>
+        <Typography sx={tzSelectSx}>{Timezones[timezone]}</Typography>
+        <Select
+          // defaultValue={Timezones[timezone]}
+          className='timezone-input-select-dropdown'
+          disableUnderline
+          IconComponent={ExpandMoreRounded}
+          value={timezone}
+          variant='standard'
+          onChange={e => setTimezone(e.target.value)}
+        >
+          {Object.keys(Timezones).map(zone => (
+            <MenuItem key={zone} value={Timezones[zone]} sx={{ minWidth: '0' }}>
+              {Timezones[zone]}
+            </MenuItem>
+          ))}
+        </Select>
+      </div>
     </div>
   )
 }
