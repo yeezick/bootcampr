@@ -15,6 +15,9 @@ import { AllProjects, CreateProject, ProjectDetails } from 'screens/Project'
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import './App.css'
+import Email from 'screens/Auth/Settings/Email'
+import Password from 'screens/Auth/Settings/Password'
+import Account from 'screens/Auth/Settings/Account'
 
 function App() {
   return (
@@ -33,6 +36,7 @@ function App() {
           <Route path='/users/:id' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />
           <Route path='/users/:id/settings' element={<Settings />} />
+          <Route path='/users/:id/settings/:screen' element={<Settings />} />
           {/* Todo: Remove once onboarding flow is complete */}
           <Route path='/paginator-example' element={<PaginatorExample />} />
           {/* Project */}
