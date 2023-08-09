@@ -1,17 +1,10 @@
 import React from 'react'
 import Snackbar from '@mui/material/Snackbar'
-import { SnackBarToastInterface } from 'interfaces/SnackBarToast'
+import { SnackBarToastProps } from 'interfaces/SnackBarToast'
 import { Alert } from '@mui/material'
-import CheckIcon from '@mui/icons-material/Check'
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
+import { CheckCircleOutline } from '@mui/icons-material'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
-export interface SnackBarToastProps {
-  snackbarDescription?: React.Dispatch<
-    React.SetStateAction<SnackBarToastInterface>
-  >
-  snackBar?: SnackBarToastInterface
-  snackbarStyle?: string
-}
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 
 export const SnackBarToast = ({
   snackbarDescription,
@@ -44,7 +37,7 @@ export const SnackBarToast = ({
           onClose={handleClose}
           severity={snackBar.severity}
           iconMapping={{
-            success: <CheckIcon fontSize='inherit' />,
+            success: <CheckCircleOutline fontSize='inherit' />,
             warning: <WarningAmberIcon fontSize='inherit' />,
             error: <ErrorOutlineIcon fontSize='inherit' />,
           }}
