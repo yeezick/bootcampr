@@ -17,11 +17,6 @@ import { SnackBarToastInterface } from 'interfaces/SnackBarToast'
 
 export const AllTickets = ({ projectTracker }) => {
   const { id } = useParams()
-  const [openSnackBar, setOpenSnackBar] = useState<SnackBarToastInterface>({
-    isOpen: false,
-    message: '',
-    duration: 0,
-  })
   const [getAllTicket, setGetAllTicket] = useState(
     projectTracker?.projectTracker
   )
@@ -120,8 +115,6 @@ export const AllTickets = ({ projectTracker }) => {
                   </div>
                   <div>
                     <CreateTicket
-                      openSnackBar={openSnackBar}
-                      setOpenSnackBar={setOpenSnackBar}
                       projectId={id}
                       setGetAllTicket={setGetAllTicket}
                       getAllTicket={getAllTicket}
@@ -151,8 +144,6 @@ export const AllTickets = ({ projectTracker }) => {
                               {...provided.dragHandleProps}
                             >
                               <TicketDetail
-                                openSnackBar={openSnackBar}
-                                setOpenSnackBar={setOpenSnackBar}
                                 ticketDetail={ticketDetail}
                                 getAllTicket={getAllTicket}
                                 setGetAllTicket={setGetAllTicket}
@@ -191,8 +182,6 @@ export const AllTickets = ({ projectTracker }) => {
           </div>
           <div>
             <CreateTicket
-              openSnackBar={openSnackBar}
-              setOpenSnackBar={setOpenSnackBar}
               projectId={id}
               setGetAllTicket={setGetAllTicket}
               getAllTicket={getAllTicket}
@@ -204,10 +193,6 @@ export const AllTickets = ({ projectTracker }) => {
           </div>
         </div>
       ) : null}
-      <SnackBarToast
-        snackBar={openSnackBar}
-        snackbarDescription={setOpenSnackBar}
-      />
     </div>
   )
 }

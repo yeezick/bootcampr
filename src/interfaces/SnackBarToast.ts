@@ -7,10 +7,3 @@ export interface SnackBarToastInterface {
   snackbarStyle?: string
   severity?: 'success' | 'error' | 'warning' | 'info'
 }
-export interface SnackBarToastProps {
-  snackbarDescription?: React.Dispatch<
-    React.SetStateAction<SnackBarToastInterface>
-  >
-  snackBar?: SnackBarToastInterface
-  snackbarStyle?: string
-}

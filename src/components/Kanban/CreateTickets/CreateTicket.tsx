@@ -21,6 +21,8 @@ import { UserAssignee } from '../TicketDetail/UserAssignee'
 import { RxPerson } from 'react-icons/rx'
 import { SelectDate } from '../TicketDetail/SelectDate'
 import { TbPencilMinus } from 'react-icons/tb'
+import { useDispatch } from 'react-redux'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 export const CreateTicket = ({
   setGetAllTicket,
@@ -30,7 +32,6 @@ export const CreateTicket = ({
   projectId,
   buttonText,
   buttonClassName,
-  setOpenSnackBar,
 }: CreateTicketInterface) => {
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
   const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()
@@ -39,6 +40,7 @@ export const CreateTicket = ({
   const authUser = useAppSelector(selectAuthUser)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
+  const dispatch = useDispatch()
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -63,12 +65,14 @@ export const CreateTicket = ({
       [newStatus]: [...getAllTicket[newStatus], { ...createdTicket }],
     })
     setIsBeingCreated(false)
-    setOpenSnackBar({
-      isOpen: true,
-      message: 'Ticket Created',
-      duration: 2000,
-      severity: 'success',
-    })
+    dispatch(
+      createSnackBar({
+        isOpen: true,
+        message: 'Ticket created successfully',
+        duration: 3000,
+        severity: 'success',
+      })
+    )
     closeModal()
   }
 

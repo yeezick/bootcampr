@@ -1,16 +1,17 @@
 import React from 'react'
 import Snackbar from '@mui/material/Snackbar'
-import { SnackBarToastProps } from 'interfaces/SnackBarToast'
 import { Alert } from '@mui/material'
 import { CheckCircleOutline } from '@mui/icons-material'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
+import { useDispatch } from 'react-redux'
+import { useAppSelector } from 'utils/redux/hooks'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
-export const SnackBarToast = ({
-  snackbarDescription,
-  snackBar,
-  snackbarStyle,
-}: SnackBarToastProps) => {
+export const SnackBarToast = () => {
+  const snackBarState = useAppSelector(state => state.snackBar)
+  const dispatch = useDispatch()
+
   const handleClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
@@ -18,24 +19,23 @@ export const SnackBarToast = ({
     if (reason === 'clickaway') {
       return
     }
-    snackbarDescription({ isOpen: false })
+    dispatch(createSnackBar({ isOpen: false }))
   }
 
   return (
     <div>
       <Snackbar
-        className={snackbarStyle}
-        open={snackBar.isOpen}
-        autoHideDuration={snackBar.duration ?? 6000}
+        open={snackBarState.isOpen}
+        autoHideDuration={snackBarState.duration ?? 6000}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: snackBar.vertical ?? 'bottom',
-          horizontal: snackBar.horizontal ?? 'left',
+          vertical: snackBarState.vertical ?? 'bottom',
+          horizontal: snackBarState.horizontal ?? 'left',
         }}
       >
         <Alert
           onClose={handleClose}
-          severity={snackBar.severity}
+          severity={snackBarState.severity}
           iconMapping={{
             success: <CheckCircleOutline fontSize='inherit' />,
             warning: <WarningAmberIcon fontSize='inherit' />,
@@ -43,7 +43,7 @@ export const SnackBarToast = ({
           }}
           sx={{ width: '100%' }}
         >
-          {snackBar.message}
+          {snackBarState.message}
         </Alert>
       </Snackbar>
     </div>
