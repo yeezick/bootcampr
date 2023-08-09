@@ -10,17 +10,17 @@ export const weekdaysMap = {
 
 export enum Timezones {
   EST = 'Eastern Standard Time (EST)',
-  EDT = 'Eastern Daylight Time (EST)',
+  EDT = 'Eastern Daylight Time (EDT)',
   CST = 'Central Standard Time (CST)',
-  CDT = 'Central Daylight Time (CST)',
+  CDT = 'Central Daylight Time (CDT)',
   MST = 'Mountain Standard Time (MST)',
-  MDT = 'Mountain Daylight Time (MST)',
+  MDT = 'Mountain Daylight Time (MDT)',
   PST = 'Pacific Standard Time (PST)',
-  PDT = 'Pacific Daylight Time (PST)',
+  PDT = 'Pacific Daylight Time (PDT)',
   AKST = 'Alaskan Standard Time (AKST)',
-  AKDT = 'Alaskan Daylight Time (AKST)',
+  AKDT = 'Alaskan Daylight Time (AKDT)',
   HST = 'Hawaii-Aleutian Standard Time (HST)',
-  HADT = 'Hawaii-Aleutian Daylight Time (HST)',
+  HADT = 'Hawaii-Aleutian Daylight Time (HDT)',
 }
 
 export const defaultAvailabilityForm = {

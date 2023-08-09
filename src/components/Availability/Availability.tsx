@@ -8,6 +8,7 @@ import {
   getUserAvailability,
   selectAuthUser,
 } from 'utils/redux/slices/userSlice'
+
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import { IconButton } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
@@ -16,6 +17,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import moment from 'moment-timezone'
 import { updateUser } from 'utils/api'
 import { useAppSelector } from 'utils/redux/hooks'
+
 export const Availability: React.FC = (): JSX.Element => {
   const authUser = useAppSelector(selectAuthUser)
   let userAvailability = useSelector(getUserAvailability)
@@ -34,12 +36,15 @@ export const Availability: React.FC = (): JSX.Element => {
       .format('z')
     return timeZone
   }
+
   const addUserAvailability = async () => {
     await updateUser(authUser._id, { availability: days })
   }
+
   const navigateToRoles = () => {
     navigate(`/users/${authUser?._id}`)
   }
+
   return (
     <div>
       <div className='availability-container'>
