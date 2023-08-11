@@ -1,10 +1,9 @@
 import styles from './SignIn.module.css'
 import { useState, useEffect } from 'react'
-import { getOneProject, signIn } from 'utils/api'
+import { signIn } from 'utils/api'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from 'utils/redux/store'
 import { setAuthUser } from 'utils/redux/slices/userSlice'
-import { setProject } from 'utils/redux/slices/projectSlice'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { SignInInterface } from 'interfaces/UserInterface'
 import { GoAlert, GoVerified } from 'react-icons/go'
@@ -79,13 +78,6 @@ const SignIn: React.FC = (): JSX.Element => {
         setAlertBanner({ status: false })
       }, 12000)
       return
-    }
-
-    if (response.project) {
-      const teamProject = await getOneProject(response.project)
-      if (teamProject) {
-        await dispatch(setProject(teamProject))
-      }
     }
 
     dispatch(setAuthUser(response))
