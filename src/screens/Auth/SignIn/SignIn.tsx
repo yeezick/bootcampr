@@ -11,7 +11,6 @@ import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
 
 const SignIn: React.FC = (): JSX.Element => {
-  // State Variables
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
   const [formData, setFormData] = useState<SignInInterface>({
     email: '',
@@ -23,7 +22,6 @@ const SignIn: React.FC = (): JSX.Element => {
     type: '',
   })
 
-  // Constants
   const VALID_EMAIL_REGEX =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
   const dispatch: AppDispatch = useDispatch()
@@ -88,7 +86,6 @@ const SignIn: React.FC = (): JSX.Element => {
       : navigate(`/users/${response._id}`)
   }
 
-  // Side Effects
   useEffect(() => {
     formValidation()
   }, [formData])
