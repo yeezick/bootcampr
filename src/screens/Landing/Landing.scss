@@ -2,6 +2,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+  padding-left: 272px;
 
   .header-container {
     align-items: center;
@@ -88,7 +89,8 @@
       }
     }
 
-    .logged-in, .logged-out {
+    .logged-in,
+    .logged-out {
       margin-top: 25px;
       min-height: 25px;
       min-width: 25px;
