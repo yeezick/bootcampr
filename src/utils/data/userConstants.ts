@@ -56,9 +56,6 @@ export const initialState: UiSliceInterface = {
   auth: {
     user: emptyUser,
   },
-  sidebar: {
-    visibleSidebar: false,
-  },
   status: {
     isAuthenticated: false,
     isLoading: false,

@@ -18,9 +18,7 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
   const location = useLocation()
   const dispatch = useAppDispatch()
   const status = useAppSelector(uiStatus)
-  const visibleSidebar = useAppSelector(
-    state => state.ui.sidebar.visibleSidebar
-  )
+  const userId = useAppSelector(state => state.ui.auth.user._id)
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -38,8 +36,8 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
     <>
       <ScrollToTop />
       <Nav />
-      <Sidebar />
-      <div className={visibleSidebar ? 'layout-container active' : ''}>
+      {userId ? <Sidebar /> : null}
+      <div className={userId ? 'layout-container active' : ''}>
         <div
           className={
             location.pathname !== '/'

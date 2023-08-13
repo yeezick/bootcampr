@@ -2,11 +2,7 @@ import { Link } from 'react-router-dom'
 import { AiFillStar } from 'react-icons/ai'
 import { logOut } from 'utils/api/users'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import {
-  logoutAuthUser,
-  selectAuthUser,
-  toggleSidebar,
-} from 'utils/redux/slices/userSlice'
+import { logoutAuthUser, selectAuthUser } from 'utils/redux/slices/userSlice'
 import './Sidebar.scss'
 import Avatar from 'components/Avatar/Avatar'
 
@@ -14,28 +10,14 @@ export const Sidebar = () => {
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId, firstName, lastName } = authUser
   const dispatch = useAppDispatch()
-  const visibleSidebar = useAppSelector(
-    state => state.ui.sidebar.visibleSidebar
-  )
 
   const handleLogout = () => {
     logOut()
     dispatch(logoutAuthUser())
-    dispatch(toggleSidebar())
-  }
-
-  const toggleSidebarHandler = () => {
-    dispatch(toggleSidebar())
   }
 
   return (
-    <div className={visibleSidebar ? 'sidebar-container' : 'hide-sidebar'}>
-      <div className='menu-btn' onClick={toggleSidebarHandler}>
-        <i></i>
-        <i></i>
-        <i></i>
-      </div>
-
+    <div className='sidebar-container'>
       <div className='current-user'>
         <Avatar />
         <div>

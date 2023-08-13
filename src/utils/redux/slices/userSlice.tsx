@@ -35,9 +35,6 @@ const initialState: UiSliceInterface = {
       _id: '',
     },
   },
-  sidebar: {
-    visibleSidebar: false,
-  },
   status: {
     isAuthenticated: false,
     isLoading: false,
@@ -95,12 +92,6 @@ const userSlice = createSlice({
     },
     setUserAvailability: (state, action: PayloadAction<Availability>) => {
       state.auth.user.availability = action.payload
-    },
-    toggleSidebar: state => {
-      state.sidebar.visibleSidebar = !state.sidebar.visibleSidebar
-    },
-    toggleSidebarClose: state => {
-      state.sidebar.visibleSidebar = false
     },
     reset: state => {
       state.status.isLoading = false
@@ -168,8 +159,6 @@ export const {
   setUserAvailability,
   reset,
   logoutAuthUser,
-  toggleSidebar,
-  toggleSidebarClose,
   setUploadedImage,
   removeUploadedImage,
 } = userSlice.actions

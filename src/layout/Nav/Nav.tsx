@@ -3,8 +3,6 @@ import { Link, useLocation } from 'react-router-dom'
 import {
   getUserProfileImage,
   selectAuthUser,
-  toggleSidebar,
-  toggleSidebarClose,
 } from 'utils/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { MdArrowDropDown } from 'react-icons/md'
@@ -38,12 +36,6 @@ export const Nav = () => {
   const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const location = useLocation()
   const closeDropdown = () => setAnchorEl(null)
-  const toggleSidebarHandler = () => dispatch(toggleSidebar())
-  // const ChangeNavbarColor = () =>
-  //   window.scrollY >= 100 ? setColored(true) : setColored(false)
-  // window.addEventListener('scroll', ChangeNavbarColor)
-  // const navClassName =
-  //   location.pathname === '/' ? (colored ? 'navbar-colored' : 'navbar') : ''
 
   useEffect(() => {
     if (socketConnection) {
@@ -71,19 +63,11 @@ export const Nav = () => {
   useEffect(() => {
     // Close chat dialog and sidebar when URL path changes
     dispatch(toggleChatClose())
-    dispatch(toggleSidebarClose())
   }, [dispatch, location])
 
   return (
     <nav>
       <div className='nav-container'>
-        {/* {userId !== '' ? (
-          <div className='menu-btn' onClick={toggleSidebarHandler}>
-            <i></i>
-            <i></i>
-            <i></i>
-          </div>
-        ) : null} */}
         <div className='logo'>
           <Link to='/'>
             <img src={Logo} alt='logo' />
