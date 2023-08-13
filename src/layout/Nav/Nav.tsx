@@ -39,11 +39,11 @@ export const Nav = () => {
   const location = useLocation()
   const closeDropdown = () => setAnchorEl(null)
   const toggleSidebarHandler = () => dispatch(toggleSidebar())
-  const ChangeNavbarColor = () =>
-    window.scrollY >= 100 ? setColored(true) : setColored(false)
-  window.addEventListener('scroll', ChangeNavbarColor)
-  const navClassName =
-    location.pathname === '/' ? (colored ? 'navbar-colored' : 'navbar') : ''
+  // const ChangeNavbarColor = () =>
+  //   window.scrollY >= 100 ? setColored(true) : setColored(false)
+  // window.addEventListener('scroll', ChangeNavbarColor)
+  // const navClassName =
+  //   location.pathname === '/' ? (colored ? 'navbar-colored' : 'navbar') : ''
 
   useEffect(() => {
     if (socketConnection) {
@@ -75,30 +75,30 @@ export const Nav = () => {
   }, [dispatch, location])
 
   return (
-    <nav className={navClassName}>
-      <div className='navbar-wrapper'>
-        <div className='nav-container'>
-          {userId !== '' ? (
-            <div className='menu-btn' onClick={toggleSidebarHandler}>
-              <i></i>
-              <i></i>
-              <i></i>
-            </div>
-          ) : null}
-          <div className='logo'>
-            <Link to='/'>
-              <img src={Logo} alt='logo' />
-            </Link>
+    <nav>
+      <div className='nav-container'>
+        {/* {userId !== '' ? (
+          <div className='menu-btn' onClick={toggleSidebarHandler}>
+            <i></i>
+            <i></i>
+            <i></i>
           </div>
-        </div>
-        <div>
-          <Link className='link' to='/project-portal'>
-            Project Portal
+        ) : null} */}
+        <div className='logo'>
+          <Link to='/'>
+            <img src={Logo} alt='logo' />
           </Link>
-          <Link className='link' to='/how-to'>
+        </div>
+      </div>
+      <div className='navbar-wrapper'>
+        <div className='header-list'>
+          <Link className='header-link' to='/project-portal'>
+            Project portal
+          </Link>
+          <Link className='header-link' to='/how-to'>
             How Bootcamper works
           </Link>
-          <Link className='link' to='/about-us'>
+          <Link className='header-link' to='/about-us'>
             About us
           </Link>
         </div>
@@ -163,14 +163,13 @@ const AuthorizedNavLinks = ({
 const UnauthorizedNavLinks = () => (
   <div className='auth-btn'>
     <div>
-      <Link className='link sign-up' to='/sign-up'>
-        Sign up
+      <Link className='log-in' to='/sign-in'>
+        Log in
       </Link>
     </div>
-
     <div>
-      <Link className='link log-in' to='/sign-in'>
-        Log in
+      <Link className='sign-up' to='/sign-up'>
+        Sign up
       </Link>
     </div>
   </div>

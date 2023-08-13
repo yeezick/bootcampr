@@ -1,35 +1,36 @@
-.navbar {
-  background-color: #35313100;
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
-  transition: 0.2s;
-}
+// .navbar {
+//   background-color: #313335;
+//   left: 0;
+//   position: fixed;
+//   right: 0;
+//   top: 0;
+//   // transition: 0.2s;
+// }
 
-.navbar-colored {
-  background-color: #353131e8;
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
-  transition: 0.3s;
-}
+// .navbar-colored {
+//   background-color: #313335;
+//   left: 0;
+//   position: fixed;
+//   right: 0;
+//   top: 0;
+//   // transition: 0.3s;
+// }
 
 .navbar-wrapper {
   display: flex;
-  justify-content: space-between;
+  gap: 58px;
+  justify-content: flex-end;
   width: 100%;
 }
 
 nav {
   align-items: center;
-  background-color: #353131;
+  background-color: #313335;
   display: flex;
-  height: 53px;
+  height: 65px;
   justify-content: space-between;
   left: 0;
-  padding: 20px;
+  padding: 16px 32px;
   position: fixed;
   right: 0;
   top: 0;
@@ -52,6 +53,21 @@ nav {
     width: 32px;
   }
 
+  .header-list {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+    // padding: 0px 58px 0px 40%;
+  }
+
+  .header-link {
+    color: var(--white-ffffff, #fefefe);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 22.4px;
+    text-decoration: none;
+  }
+
   .nav-links {
     align-items: center;
     display: flex;
@@ -61,10 +77,6 @@ nav {
     & .link:hover {
       color: #f29e34;
     }
-  }
-
-  img {
-    padding-left: 65px;
   }
 
   .link {
@@ -117,20 +129,31 @@ nav {
     align-items: center;
     display: flex;
     flex-wrap: wrap;
-    gap: 22px;
+    gap: 16px;
   }
 
   .sign-up {
-    background-color: #f29e34;
-    border-radius: 10px;
-    color: #000;
-    padding: 15px 30px;
+    background: var(--apricot-fa-9413, #fa9413);
+    border-radius: 4px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: var(--charcoal-313335, #313335);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22.4px;
+    padding: 6px 12px;
+    text-decoration: none;
   }
 
   .log-in {
-    background-color: #fefefe;
-    border-radius: 10px;
-    color: #000;
-    padding: 15px 30px;
+    background: var(--white-ffffff, #fefefe);
+    border: 1px solid var(--orchid-8048-c-8, #8048c8);
+    border-radius: 4px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: var(--orchid-8048-c-8, #8048c8);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22.4px;
+    padding: 6px 12px;
+    text-decoration: none;
   }
 }
