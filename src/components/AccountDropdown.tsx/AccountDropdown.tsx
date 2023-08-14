@@ -43,6 +43,17 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
         anchorEl={anchorEl}
         open={open}
         onClose={e => handleClose(e, false)}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        classes={{
+          paper: 'custom-menu-paper',
+        }}
       >
         <MenuItem onClick={handleClose}>View Profile</MenuItem>
         <MenuItem onClick={handleClose}>Settings</MenuItem>

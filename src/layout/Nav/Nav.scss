@@ -1,20 +1,6 @@
-// .navbar {
-//   background-color: #313335;
-//   left: 0;
-//   position: fixed;
-//   right: 0;
-//   top: 0;
-//   // transition: 0.2s;
-// }
-
-// .navbar-colored {
-//   background-color: #313335;
-//   left: 0;
-//   position: fixed;
-//   right: 0;
-//   top: 0;
-//   // transition: 0.3s;
-// }
+.custom-menu-paper {
+  margin: 70px 10px !important;
+}
 
 .navbar-wrapper {
   display: flex;
@@ -40,7 +26,6 @@ nav {
     align-items: center;
     display: flex;
     gap: 16px;
-    // padding: 0px 58px 0px 40%;
   }
 
   .header-link {
@@ -74,7 +59,36 @@ nav {
     align-items: center;
     display: flex;
     justify-content: flex-end;
-    width: 100%;
+    gap: 24px;
+
+    .message-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .avatar {
+      margin-left: 16px;
+      height: 50px;
+    }
+
+    .account {
+      color: var(--frost-f-5-f-5-f-5, #f5f5f5);
+      font-family: Inter;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 16.8px;
+      margin: 0px;
+    }
+
+    .drop-down {
+      color: var(--frost-f-5-f-5-f-5, #f5f5f5);
+      position: absolute;
+      right: 5px;
+      top: 59px;
+    }
 
     .messages-icon {
       align-items: center;
@@ -92,20 +106,6 @@ nav {
         background-color: #d0d0d0;
       }
     }
-  }
-
-  .notification-count {
-    background-color: #f29e34;
-    border-radius: 50%;
-    color: #fff;
-    display: flex;
-    font-weight: 700;
-    height: 20px;
-    justify-content: center;
-    position: absolute;
-    right: 120px;
-    top: 21px;
-    width: 20px;
   }
 
   .auth-btn {

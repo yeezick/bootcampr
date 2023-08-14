@@ -36,7 +36,7 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
     <>
       <ScrollToTop />
       <Nav />
-      {userId ? <Sidebar /> : null}
+      {userId && <Sidebar />}
       <div className={userId ? 'layout-container active' : ''}>
         <div
           className={

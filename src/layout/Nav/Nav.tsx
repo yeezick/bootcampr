@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { MdArrowDropDown } from 'react-icons/md'
 import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
-import { NotificationModal } from 'components/Notifications/NotificationModal'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
 import { useSocket } from 'components/Notifications/Socket'
 import Avatar from 'components/Avatar/Avatar'
@@ -117,30 +116,32 @@ const AuthorizedNavLinks = ({
 
   return (
     <div className='notifications'>
-      <div className='messages-icon' ref={chatRef}>
-        <BsFillChatLeftTextFill
-          size={23}
-          className='chat-icon'
-          onClick={() => toggleChatBox()}
-        />
-        {(visibleChat || !visibleChat) && (
-          <ChatIconBadge
-            isChatBadgeUpdated={isChatBadgeUpdated}
-            setIsChatBadgeUpdated={setIsChatBadgeUpdated}
+      <div className='message-container'>
+        <div className='messages-icon' ref={chatRef}>
+          <BsFillChatLeftTextFill
+            size={23}
+            className='chat-icon'
+            onClick={() => toggleChatBox()}
           />
-        )}
-        {visibleChat && <ChatDialogMain />}
-      </div>
-      <div className='notification-badge link'>
-        <NotificationModal />
-      </div>
-      {notificationCount > 0 && (
-        <div className='notification-count'>
-          <span>{notificationCount}</span>
+          {(visibleChat || !visibleChat) && (
+            <ChatIconBadge
+              isChatBadgeUpdated={isChatBadgeUpdated}
+              setIsChatBadgeUpdated={setIsChatBadgeUpdated}
+            />
+          )}
+          {visibleChat && <ChatDialogMain />}
         </div>
-      )}
-      <Avatar clickable={false} setAnchorEl={setAnchorEl} />
-      <MdArrowDropDown size={25} />
+        <p className='account'>Messages</p>
+      </div>
+      <div className='message-container'>
+        <div className='avatar'>
+          <Avatar clickable={false} setAnchorEl={setAnchorEl} />
+        </div>
+        <div onClick={setAnchorEl}>
+          <p className='account'>My Account </p>
+          <MdArrowDropDown size={33} className='drop-down' />
+        </div>
+      </div>
     </div>
   )
 }
