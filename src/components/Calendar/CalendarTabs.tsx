@@ -24,7 +24,6 @@ export const CalendarTabs = ({ events, setEvents }) => {
     setActiveTab(newValue)
   }
 
-  // If components need props, create this object inside CalendarTabs instead
   const allTabs = [
     {
       label: 'Calendar',

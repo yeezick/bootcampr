@@ -1,26 +1,38 @@
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import { CalendarEvent } from 'interfaces/CalendarInterface'
+import { DateFieldsInterface } from 'interfaces'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
+/**
+ * Combines the user's date selection with their selected start/end times.
+ * @param {Dayjs} date
+ * @param {string} selectedTime (Ex: "1:30 PM")
+ * @returns The updated DayJS object with user's selection
+ */
 export const combineDateWithTime = (date, selectedTime) => {
   const [time, period] = selectedTime.split(/\s/)
   const [hours, minutes] = time.split(':').map(Number)
   let newDate = date.set('hour', hours)
-  // Adjust for AM/PM period
+
   if (period === 'PM' && hours !== 12) {
     newDate = newDate.add(12, 'hour')
   } else if (period === 'AM' && hours === 12) {
     newDate = newDate.set('hour', 0)
   }
-  newDate = newDate.set('minute', minutes)
 
+  newDate = newDate.set('minute', minutes)
   return newDate
 }
 
+/**
+ * Translates raw google calendar events into objects that are consumable by FullCalendarJS
+ * @param {CalendarEvent[]} googleEvents
+ * @returns Array of converted events
+ */
 export const convertGoogleEventsForCalendar = googleEvents => {
   if (!googleEvents) {
     return []
@@ -38,7 +50,11 @@ export const convertGoogleEventsForCalendar = googleEvents => {
   return convertedEvents
 }
 
-export const initialDateFields = () => {
+/**
+ * Generate a new set of DayJS objects for current times/timezone
+ * @returns An empty & current object for DateField state.
+ */
+export const initialDateFields = (): DateFieldsInterface => {
   return {
     date: dayjs(),
     start: dayjs(),
@@ -47,6 +63,12 @@ export const initialDateFields = () => {
   }
 }
 
+/**
+ * Takes the "00:00 PM" format from DayJS & converts it to the nearest half hour
+ * Ex: "1:11 AM" => "1:30 AM"
+ * @param {string} timeStr (Ex: "1:11 AM")
+ * @returns
+ */
 export const roundToNearestHalfHour = timeStr => {
   const [time, period] = timeStr.split(/\s/)
   const [hourStr, minuteStr] = time.split(':')

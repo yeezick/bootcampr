@@ -10,7 +10,11 @@ export const SelectTime = ({ dateFields, dayjs, setDateFields, type }) => {
   const [availableOptions, setAvailableOptions] = useState(timeOptions)
   const { date } = dateFields
 
-  // update available options for end type to be next option after start time
+  /* 
+  Handles end time in following cases:
+    - If start > time, set end time to be next option in select
+    - If new start < time, keep current end time selection
+  */
   useEffect(() => {
     const currStartTime = roundToNearestHalfHour(
       dateFields.start.format('h:mm A')
@@ -42,16 +46,7 @@ export const SelectTime = ({ dateFields, dayjs, setDateFields, type }) => {
       onChange={handleTimeChange}
       MenuProps={{ sx: { marginTop: '3px', height: '400px' } }}
       size='small'
-      sx={{
-        background: '#ECEBEB',
-        border: 'none',
-        '& .MuiOutlinedInput-notchedOutline': {
-          border: 'none',
-        },
-        '& .Mui-Paper-root': {
-          height: '50px',
-        },
-      }}
+      sx={selectTimeStyles}
       value={selectedTime}
     >
       {availableOptions.map(time => (
@@ -61,4 +56,15 @@ export const SelectTime = ({ dateFields, dayjs, setDateFields, type }) => {
       ))}
     </Select>
   )
+}
+
+const selectTimeStyles = {
+  background: '#ECEBEB',
+  border: 'none',
+  '& .MuiOutlinedInput-notchedOutline': {
+    border: 'none',
+  },
+  '& .Mui-Paper-root': {
+    height: '50px',
+  },
 }

@@ -1,5 +1,7 @@
 .meeting-modal {
-  overflow-x:hidden;
+  .modal-dialog-content {
+    overflow-x:hidden;
+  }
 
   .close-icon {
     align-items: flex-end;
@@ -11,10 +13,18 @@
     top: 0px;
     width: 87%;
     z-index: 2;
+
+    .clear-icon {
+      cursor: pointer;
+    }
   }
 
   .content-wrapper {
     margin-top: 20px;
+
+    .title-input-label {
+      font-size: 32px;
+    }
   }
 
   .date-attendee-wrapper {

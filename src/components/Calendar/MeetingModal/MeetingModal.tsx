@@ -61,12 +61,8 @@ export const MeetingModal = ({
     if (projectMembers) {
       const updatedAttendance = {}
       projectMembers.forEach(member => {
-        // inviteAll is the current state,
-        if (inviteAll === false) {
-          updatedAttendance[member.email] = true
-        } else {
-          updatedAttendance[member.email] = false
-        }
+        // inviteAll is the current state
+        updatedAttendance[member.email] = inviteAll === false
       })
       setAttendees(updatedAttendance)
       toggleInviteAll(!inviteAll)
@@ -119,39 +115,27 @@ export const MeetingModal = ({
       open={visibleMeeting}
     >
       <form onSubmit={handleSubmit}>
-        <DialogContent sx={{ overflowX: 'hidden' }}>
+        <DialogContent className='modal-dialog-content'>
           <div className='close-icon'>
-            <Clear onClick={handleClose} sx={{ cursor: 'pointer' }} />
+            <Clear className='clear-icon' onClick={handleClose} />
           </div>
           <div className='content-wrapper'>
             <TextField
               label='Add Title'
               name='summary'
-              InputLabelProps={{ sx: { fontSize: '32px' } }}
+              InputLabelProps={{ className: 'title-input-label' }}
               onChange={e => handleFormInputChange(e, setMeetingText)}
               required
-              sx={{
-                marginBottom: '32px',
-                width: '100%',
-                '& .MuiInputLabel-asterisk': {
-                  color: 'orange',
-                },
-                '& .MuiInput-underline': {
-                  paddingTop: '17px',
-                },
-              }}
+              sx={titleInputFieldStyles}
               value={meetingText.summary}
               variant='standard'
             />
             <div className='date-attendee-wrapper'>
               <div className='clock-icon'>
-                <AccessTime className='clock-icon' sx={{ color: '#86888A' }} />
+                <AccessTime sx={{ color: iconColor }} />
               </div>
               <div className='people-icon'>
-                <People
-                  className='people-icon'
-                  sx={{ color: '#86888A', marginTop: '8px' }}
-                />
+                <People sx={{ color: iconColor, marginTop: '8px' }} />
               </div>
 
               <DateFields
@@ -190,10 +174,23 @@ export const MeetingModal = ({
             type='submit'
             variant='contained'
           >
-            Send
+            CREATE
           </Button>
         </DialogActions>
       </form>
     </Dialog>
   )
 }
+
+const titleInputFieldStyles = {
+  marginBottom: '32px',
+  width: '100%',
+  '& .MuiInputLabel-asterisk': {
+    color: 'orange',
+  },
+  '& .MuiInput-underline': {
+    paddingTop: '17px',
+  },
+}
+
+const iconColor = '#86888A'

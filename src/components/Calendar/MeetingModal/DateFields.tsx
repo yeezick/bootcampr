@@ -26,14 +26,7 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
             textField: { size: 'small' },
             openPickerIcon: { sx: { position: 'absolute', right: '5px' } },
           }}
-          sx={{
-            fontSize: '10px',
-            background: '#ECEBEB',
-            border: 'none',
-            '& .MuiOutlinedInput-notchedOutline': {
-              border: 'none',
-            },
-          }}
+          sx={datePickerStyles}
           value={dateFields.date}
         />
         <span>from</span>
@@ -59,4 +52,13 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
       />
     </div>
   )
+}
+
+const datePickerStyles = {
+  fontSize: '10px',
+  background: '#ECEBEB',
+  border: 'none',
+  '& .MuiOutlinedInput-notchedOutline': {
+    border: 'none',
+  },
 }

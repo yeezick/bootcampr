@@ -29,13 +29,13 @@ const projectslice = createSlice({
   name: 'project',
   initialState,
   reducers: {
-    setProjectInfo: (state, action: PayloadAction<ProjectInterface>) => {
+    setProject: (state, action: PayloadAction<ProjectInterface>) => {
       return action.payload
     },
   },
 })
 
 export const selectCalendarId = state => state.project.calendarId
-export const { setProjectInfo } = projectslice.actions
+export const { setProject } = projectslice.actions
 
 export default projectslice.reducer
