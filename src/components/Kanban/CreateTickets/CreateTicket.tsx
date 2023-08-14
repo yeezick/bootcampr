@@ -21,6 +21,8 @@ import { UserAssignee } from '../TicketDetail/UserAssignee'
 import { RxPerson } from 'react-icons/rx'
 import { SelectDate } from '../TicketDetail/SelectDate'
 import { TbPencilMinus } from 'react-icons/tb'
+import { useDispatch } from 'react-redux'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 export const CreateTicket = ({
   setGetAllTicket,
@@ -38,6 +40,7 @@ export const CreateTicket = ({
   const authUser = useAppSelector(selectAuthUser)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
+  const dispatch = useDispatch()
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -51,19 +54,25 @@ export const CreateTicket = ({
     setIsBeingCreated(true)
     const status = addTicketForm?.status ?? ticketsStatus
     const newStatus = concatenatedString(status)
-
     const createdTicket = await createTicketApi({
       ...addTicketForm,
       projectId: projectId,
       status: newStatus,
       createdBy: authUser._id,
     })
-
     setGetAllTicket({
       ...getAllTicket,
       [newStatus]: [...getAllTicket[newStatus], { ...createdTicket }],
     })
     setIsBeingCreated(false)
+    dispatch(
+      createSnackBar({
+        isOpen: true,
+        message: 'Ticket created successfully',
+        duration: 3000,
+        severity: 'success',
+      })
+    )
     closeModal()
   }
 
@@ -138,13 +147,13 @@ export const CreateTicket = ({
                   <Box className='ticketDetail-openModal-box-button '>
                     <button
                       className='button1'
-                      disabled={false}
+                      disabled={isBeingCreated}
                       onClick={closeModal}
                     >
                       Cancel
                     </button>
                     <button
-                      disabled={false}
+                      disabled={isBeingCreated}
                       onClick={() => addTickets()}
                       className='button2'
                       style={{ backgroundColor: '#FA9413', color: 'black' }}
