@@ -195,6 +195,12 @@ const ConversationThumbnail = ({
   lastActive,
   messageIsUnread,
 }) => {
+  const thumbnailTextClass =
+    lastMessage && messageIsUnread ? 'unread-message' : ''
+  const thumbnailUnreadDotClass = messageIsUnread
+    ? 'unread-dot-visible'
+    : 'unread-dot-hidden'
+
   if (participants.length > 2) {
     const pictures = extractConversationAvatars(participants, authUser._id)
 
@@ -209,11 +215,7 @@ const ConversationThumbnail = ({
         </div>
         <div className='thumbnail-right'>
           <div className='thread-details-grid'>
-            <h5
-              className={lastMessage && messageIsUnread ? 'unread-message' : ''}
-            >
-              {groupName || 'Group Chat'}
-            </h5>
+            <h5 className={thumbnailTextClass}>{groupName || 'Group Chat'}</h5>
             <LastMessageText
               lastMessage={lastMessage}
               authUser={authUser}
@@ -224,12 +226,7 @@ const ConversationThumbnail = ({
             {lastMessage ? (
               <>
                 <p>{formatLastMessageTimestamp(lastMessage.timestamp)}</p>
-                <RxDotFilled
-                  size={26}
-                  className={
-                    messageIsUnread ? 'unread-dot-visible' : 'unread-dot-hidden'
-                  }
-                />
+                <RxDotFilled size={26} className={thumbnailUnreadDotClass} />
               </>
             ) : (
               <>
@@ -256,9 +253,7 @@ const ConversationThumbnail = ({
         />
         <div className='thumbnail-right'>
           <div className='thread-details-grid'>
-            <h5
-              className={lastMessage && messageIsUnread ? 'unread-message' : ''}
-            >
+            <h5 className={thumbnailTextClass}>
               {recipient[0].firstName} {recipient[0].lastName}
             </h5>
             <LastMessageText
@@ -271,12 +266,7 @@ const ConversationThumbnail = ({
             {lastMessage ? (
               <>
                 <p>{formatLastMessageTimestamp(lastMessage.timestamp)}</p>
-                <RxDotFilled
-                  size={26}
-                  className={
-                    messageIsUnread ? 'unread-dot-visible' : 'unread-dot-hidden'
-                  }
-                />
+                <RxDotFilled size={26} className={thumbnailUnreadDotClass} />
               </>
             ) : (
               <>
