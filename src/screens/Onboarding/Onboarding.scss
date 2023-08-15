@@ -43,7 +43,6 @@
     margin: 0px;
     text-align: left;
   }
-
 }
 
 .role-selection-container {
@@ -88,7 +87,6 @@
     height: 48px;
 
     p {
-
       font-size: 16px;
       font-style: normal;
       font-weight: 400;
@@ -126,7 +124,7 @@
     }
 
     p {
-      margin: 0
+      margin: 0;
     }
   }
 
@@ -145,7 +143,6 @@
       height: 24px;
       width: 24px;
     }
-
   }
 
   .software-eng-p1 {
@@ -156,7 +153,6 @@
     margin: 0;
   }
 }
-
 
 .software-engineer-msg {
   padding-left: 250px;
@@ -205,15 +201,18 @@
 
 #set-availability {
   background-color: #ecebeb;
-  color: #313335
+  color: #313335;
 }
 
 #set-availability.enabled {
-  background-color: #FA9413;
+  background-color: #fa9413;
 }
 
 /* Set up profile Screen */
 .onboarding {
+  margin: 50px auto 0;
+  width: 488px;
+
   $this: &;
 
   &__profile-backArrow {
@@ -222,25 +221,22 @@
   }
 
   &__profile-backBtn {
-    color: #470D91 !important;
+    color: #470d91 !important;
   }
 
-  &__profile-container, &__profile-form, &__profile-label {
+  &__profile-container,
+  &__profile-form,
+  &__profile-label {
     @include flex(column, inherit, inherit);
   }
 
-  &__profile-backContainer {
-    @include flex();
-    margin: 17px 0 0 24px;
-
-    p {
-      @include font-properties((size: 14px, line-height: 16px));
-      margin: 0 0 0 12px;
-    }
-  }
-
   &__profile-bioCharCount {
-    @include font-properties((size: 12px, line-height: 21px));
+    @include font-properties(
+      (
+        size: 12px,
+        line-height: 21px,
+      )
+    );
     background-color: #f5f5f5;
     color: #313335;
     padding-right: 5px;
@@ -261,8 +257,15 @@
     top: 58px;
   }
 
-  &__profile-cancelBtn, &__profile-saveBtn {
-    @include font-properties((size: 16px, weight: 500, line-height: 22px));
+  &__profile-cancelBtn,
+  &__profile-saveBtn {
+    @include font-properties(
+      (
+        size: 16px,
+        weight: 500,
+        line-height: 22px,
+      )
+    );
     border-radius: 4px;
     box-sizing: border-box;
     gap: 8px;
@@ -273,9 +276,14 @@
 
   &__profile-cancelBtn {
     background-color: #fefefe;
-    border: 1px solid #8048C8;
-    color: #8048C8;
-    width: 85px;
+    border: 1px solid #8048c8;
+    color: #8048c8;
+    width: 139px;
+    height: 43px;
+    display: inline-flex;
+    justify-content: center;
+    position: relative;
+    align-items: center;
   }
 
   &__profile-container {
@@ -285,13 +293,38 @@
     max-width: 488px;
   }
 
-  &__profile-heading {
-    @include flex(row);
-    @include font-properties((size: 32px, weight: 500, line-height: 45px));
-    margin: 0 auto 10px auto;
-    max-height: 45px;
-    max-width: 488px;
-    text-align: left;
+  &__profile-header-cont {
+    margin-bottom: 20px;
+    width: 100%;
+
+    h2 {
+      @include flex(row);
+      @include font-properties(
+        (
+          size: 24px,
+          weight: 600,
+          line-height: 33.6px,
+        )
+      );
+      margin: 0 auto 5px;
+      max-height: 45px;
+      max-width: 100%;
+      text-align: left;
+    }
+
+    p {
+      @include font-properties(
+        (
+          size: 16px,
+          weight: 400,
+          line-height: 22.4px,
+        )
+      );
+      left: 0;
+      letter-spacing: 0;
+      margin: 0;
+      top: 0;
+    }
   }
 
   &__profile-image {
@@ -307,12 +340,23 @@
   }
 
   &__profile-label {
-    @include font-properties((size: 16px, line-height: 22px));
+    @include font-properties(
+      (
+        size: 16px,
+        line-height: 22px,
+      )
+    );
     margin: 10px 20px;
 
-    input, textarea {
-      @include font-properties((
-        family: "Inter", size: 14px, line-height: 20px));
+    input,
+    textarea {
+      @include font-properties(
+        (
+          family: 'Inter',
+          size: 14px,
+          line-height: 20px,
+        )
+      );
       background-color: #f5f5f5;
       border: none;
       border-radius: 4px;
@@ -329,10 +373,19 @@
     }
   }
 
+  &__profile-link {
+    margin: 50px auto 0;
+  }
+
   &__profile-saveBtn {
-    background-color: #FA9413;
+    background-color: #fa9413;
     border: none;
-    width: 123px;
+    width: 147px;
+    height: 43px;
+    display: inline-flex;
+    justify-content: center;
+    position: relative;
+    align-items: center;
   }
 }
 
@@ -362,7 +415,6 @@
   margin: 50px 0 0;
   padding: 0 74px;
 
-
   h1 {
     color: #000;
     font-size: 38px;
@@ -382,7 +434,6 @@
   justify-content: center;
   margin: 40px 0 0;
   width: 670px;
-
 
   h2 {
     color: #000;
@@ -419,7 +470,6 @@
     line-height: 22.4px;
     text-align: center;
     width: 650px;
-
   }
 
   p {
@@ -464,7 +514,7 @@
 
 .project-details-btn {
   align-items: center;
-  background-color: #FA9413;
+  background-color: #fa9413;
   border: none;
   border-radius: 4px;
   color: #313335;
