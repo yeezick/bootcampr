@@ -30,7 +30,6 @@ const initialState: UiSliceInterface = {
       },
       profilePicture: '',
       project: '', // should be projetId
-      development
       role: '',
       __v: 0,
       _id: '',
