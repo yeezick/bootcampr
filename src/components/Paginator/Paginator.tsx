@@ -17,7 +17,7 @@ import {
 } from 'interfaces/components/Paginator'
 import './paginator.scss'
 
-export const Paginator = ({ exitRoute, orderedPages, pageTitle }) => {
+export const Paginator = ({ exitRoute, orderedPages }) => {
   const [currentPage, setCurrentPage] = useState<PageItem>(initialCurrentPage)
   const [pageRouter, setPageRouter] = useState<PageRouter>(initialPageRouter)
   const { component: CurrentPageComponent, props: currentPageProps } =
@@ -40,7 +40,6 @@ export const Paginator = ({ exitRoute, orderedPages, pageTitle }) => {
         allPages,
         currentPageId: pageRouter.currentPageId,
         exitRoute,
-        paginatorId: convertTitleToId(pageTitle),
       }
     }
 
@@ -69,7 +68,6 @@ export const Paginator = ({ exitRoute, orderedPages, pageTitle }) => {
 
   return (
     <div className='paginator'>
-      <h2>{pageTitle}</h2>
       <PageBar
         currentPageId={currentPage.id}
         handlePageNavigation={handlePageNavigation}
