@@ -23,6 +23,8 @@ export const SelectAttendees = ({
     const allMembersInvited = invitedMembers.length === projectMembers.length
     if (inviteAll && !allMembersInvited) {
       toggleInviteAll(false)
+    } else if (!inviteAll && allMembersInvited) {
+      toggleInviteAll(true)
     }
   }, [attendees])
 
