@@ -1,19 +1,30 @@
-import { People } from '@mui/icons-material'
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
 import './MeetingModal'
+import { useEffect } from 'react'
 
 export const SelectAttendees = ({
   attendees,
   inviteAll,
   handleInviteAll,
   setAttendees,
+  toggleInviteAll,
   projectMembers,
 }) => {
-  const handleMemberSelection = e => {
-    setAttendees(state => {
-      return { ...state, [e.target.name]: e.target.checked }
-    })
-  }
+  /** Context
+   * Unselect inviteAll checkbox if user has unselected members
+   */
+  useEffect(() => {
+    const invitedMembers = []
+    for (const member in attendees) {
+      if (attendees[member] === true) {
+        invitedMembers.push(true)
+      }
+    }
+    const allMembersInvited = invitedMembers.length === projectMembers.length
+    if (inviteAll && !allMembersInvited) {
+      toggleInviteAll(false)
+    }
+  }, [attendees])
 
   if (projectMembers) {
     return (
@@ -26,17 +37,11 @@ export const SelectAttendees = ({
             label='Invite all'
           />
           <FormGroup>
-            {projectMembers.map(member => (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={attendees[member.email] || false}
-                    onChange={handleMemberSelection}
-                    name={member.email}
-                  />
-                }
-                key={`select-member-${member._id}`}
-                label={`${member.firstName} ${member.lastName}`}
+            {projectMembers.map(currMember => (
+              <MemberCheckbox
+                attendees={attendees}
+                currMember={currMember}
+                setAttendees={setAttendees}
               />
             ))}
           </FormGroup>
@@ -47,4 +52,26 @@ export const SelectAttendees = ({
       </div>
     )
   } else return null
+}
+
+const MemberCheckbox = ({ attendees, currMember, setAttendees }) => {
+  const handleMemberSelection = e => {
+    setAttendees(state => {
+      return { ...state, [e.target.name]: e.target.checked }
+    })
+  }
+
+  return (
+    <FormControlLabel
+      control={
+        <Checkbox
+          checked={attendees[currMember.email] || false}
+          onChange={handleMemberSelection}
+          name={currMember.email}
+        />
+      }
+      key={`select-member-${currMember._id}`}
+      label={`${currMember.firstName} ${currMember.lastName}`}
+    />
+  )
 }

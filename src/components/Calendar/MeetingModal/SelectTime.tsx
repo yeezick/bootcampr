@@ -10,7 +10,7 @@ export const SelectTime = ({ dateFields, dayjs, setDateFields, type }) => {
   const [availableOptions, setAvailableOptions] = useState(timeOptions)
   const { date } = dateFields
 
-  /* 
+  /* CONTEXT (useEffect)
   Handles end time in following cases:
     - If start > time, set end time to be next option in select
     - If new start < time, keep current end time selection

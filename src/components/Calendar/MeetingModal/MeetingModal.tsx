@@ -62,7 +62,7 @@ export const MeetingModal = ({
       const updatedAttendance = {}
       projectMembers.forEach(member => {
         // inviteAll is the current state
-        updatedAttendance[member.email] = inviteAll === false
+        updatedAttendance[member.email] = !inviteAll
       })
       setAttendees(updatedAttendance)
       toggleInviteAll(!inviteAll)
@@ -149,6 +149,7 @@ export const MeetingModal = ({
                 inviteAll={inviteAll}
                 handleInviteAll={handleInviteAll}
                 setAttendees={setAttendees}
+                toggleInviteAll={toggleInviteAll}
                 projectMembers={projectMembers}
               />
             </div>
