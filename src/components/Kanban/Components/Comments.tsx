@@ -40,7 +40,7 @@ export const Comments = ({ ticketId }) => {
         fetchComments={fetchComments}
       />
       <div className='render-comments'>
-        {comments.map(comment => (
+        {comments?.map(comment => (
           <Comment
             comment={comment}
             toggleFetchComments={toggleFetchComments}
@@ -268,7 +268,7 @@ const Replies = ({
   return (
     <div className='replies-container'>
       {replies.length > 0 &&
-        replies.map(reply => {
+        replies?.map(reply => {
           return (
             <Comment
               comment={reply}

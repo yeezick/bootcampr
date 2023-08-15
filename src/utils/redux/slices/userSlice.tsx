@@ -31,6 +31,7 @@ const initialState: UiSliceInterface = {
       profilePicture: '',
       project: '',
       role: '',
+      unreadMessages: {},
       __v: 0,
       _id: '',
     },
@@ -102,6 +103,9 @@ const userSlice = createSlice({
     toggleSidebarClose: state => {
       state.sidebar.visibleSidebar = false
     },
+    updateUnreadMessagesObj: (state, action: PayloadAction<object>) => {
+      state.auth.user.unreadMessages = action.payload
+    },
     reset: state => {
       state.status.isLoading = false
       state.status.isSuccess = false
@@ -171,6 +175,7 @@ export const {
   logoutAuthUser,
   toggleSidebar,
   toggleSidebarClose,
+  updateUnreadMessagesObj,
   setUploadedImage,
   removeUploadedImage,
 } = userSlice.actions
