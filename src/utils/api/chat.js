@@ -91,30 +91,6 @@ export const getGroupChatByChatId = async groupChatId => {
   }
 }
 
-export const updatePrivateMessageReadStatus = async (userId, privateChatId) => {
-  try {
-    const res = await api.put(
-      `/users/${userId}/privateChats/${privateChatId}/lastMessage`
-    )
-    return res.data
-  } catch (error) {
-    console.error(error)
-    return false
-  }
-}
-
-export const updateGroupMessageReadStatus = async (userId, groupChatId) => {
-  try {
-    const res = await api.put(
-      `/users/${userId}/groupChats/${groupChatId}/lastMessage`
-    )
-    return res.data
-  } catch (error) {
-    console.error(error)
-    return false
-  }
-}
-
 export const updateGroupChat = async (userId, groupChatId, data) => {
   try {
     const res = await api.put(`/${userId}/groupChats/${groupChatId}`, data)

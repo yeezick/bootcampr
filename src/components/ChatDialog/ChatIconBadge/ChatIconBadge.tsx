@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { useSocket } from 'components/Notifications/Socket'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { getAllConversations } from 'utils/api/chat'
 import {
   selectConversation,
   setUnreadMessages,
 } from 'utils/redux/slices/chatSlice'
 import './ChatIconBadge.scss'
+import { getOneUser } from 'utils/api'
 
 export const ChatIconBadge = ({
   isChatBadgeUpdated,
@@ -39,22 +39,12 @@ export const ChatIconBadge = ({
   }, [socket, setIsChatBadgeUpdated])
 
   useEffect(() => {
-    const getConversations = async () => {
+    const getAuthUserUnreadMessages = async () => {
       try {
-        const res = await getAllConversations(authUser._id)
-        let unreadCount = 0
+        const res = await getOneUser(authUser._id)
 
         if (res) {
-          res.forEach(conversation => {
-            if (
-              conversation.lastMessage &&
-              !conversation.lastMessage.readBy.some(
-                participant => participant.user === authUser._id
-              )
-            ) {
-              unreadCount++
-            }
-          })
+          const unreadCount = Object.keys(res.unreadMessages).length
 
           dispatch(setUnreadMessages(unreadCount))
           setIsChatBadgeUpdated(true)
@@ -63,7 +53,7 @@ export const ChatIconBadge = ({
         console.error('Error fetching chats', error)
       }
     }
-    getConversations()
+    getAuthUserUnreadMessages()
   }, [
     receivedMessages,
     badgeUpdateMessage,
