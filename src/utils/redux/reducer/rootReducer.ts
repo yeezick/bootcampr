@@ -4,6 +4,7 @@ import chatReducer from 'utils/redux/slices/chatSlice'
 import notificationReducer from 'utils/redux/slices/notificationSlice'
 import projectReducer from 'utils/redux/slices/projectSlice'
 import userReducer from 'utils/redux/slices/userSlice'
+import snackBarSlice from '../slices/snackBarSlice'
 
 export type RootState = {
   avatar: ReturnType<typeof avatarReducer>
@@ -11,6 +12,7 @@ export type RootState = {
   project: ReturnType<typeof projectReducer>
   chat: ReturnType<typeof chatReducer>
   notification: ReturnType<typeof notificationReducer>
+  snackBar: ReturnType<typeof snackBarSlice>
 }
 
 /**
@@ -22,6 +24,7 @@ const rootReducer: Reducer<RootState> = combineReducers({
   notification: notificationReducer,
   project: projectReducer,
   ui: userReducer,
+  snackBar: snackBarSlice,
 })
 
 export default rootReducer

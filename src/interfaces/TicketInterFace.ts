@@ -1,4 +1,5 @@
 import { UserInterface } from 'interfaces'
+import { SnackBarToastInterface } from './SnackBarToast'
 
 export interface TaskInterface {
   assignees?: UserInterface | string
@@ -51,6 +52,8 @@ export interface CreateTicketInterface {
   ticketsStatus?: string
   buttonText?: string
   buttonClassName?: string
+  openSnackBar?: SnackBarToastInterface
+  setOpenSnackBar?: React.Dispatch<React.SetStateAction<SnackBarToastInterface>>
 }
 
 export interface TicketStatusChangeFunc {
@@ -67,4 +70,6 @@ export interface TicketDetailPropsInterface {
   splitCamelCaseToWords?: (str: string) => string
   ticketDetail?: TicketInterface
   ticketsStatus?: KeyOfTicketStatusType | string
+  openSnackBar?: SnackBarToastInterface
+  setOpenSnackBar?: React.Dispatch<React.SetStateAction<SnackBarToastInterface>>
 }

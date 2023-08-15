@@ -16,6 +16,7 @@ import { ProjectCompletion } from './screens/ProjectCompletion/ProjectCompletion
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import './App.css'
+import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route path='/project/:id/calendar' element={<CalendarScreen />} />
         </Routes>
       </Layout>
+      <SnackBarToast />
     </>
   )
 }
