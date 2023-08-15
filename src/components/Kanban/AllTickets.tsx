@@ -12,10 +12,11 @@ import {
 import { updateTicketInformationAndStatus } from 'utils/api/tickets'
 import kanbanImage from './svg/bootcampr.png'
 import './Ticket.scss'
+import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
+import { SnackBarToastInterface } from 'interfaces/SnackBarToast'
 
 export const AllTickets = ({ projectTracker }) => {
   const { id } = useParams()
-
   const [getAllTicket, setGetAllTicket] = useState(
     projectTracker?.projectTracker
   )
