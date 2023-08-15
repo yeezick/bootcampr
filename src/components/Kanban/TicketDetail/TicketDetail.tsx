@@ -18,6 +18,9 @@ import { UserAssignee } from './UserAssignee'
 import { SelectDate } from './SelectDate'
 import '../Ticket.scss'
 import { getMembersAttributesByProjectId } from 'utils/api'
+import { Comments } from '../Components/Comments'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import { useDispatch } from 'react-redux'
 
 export const TicketDetail = ({
   ticketDetail,
@@ -51,6 +54,7 @@ export const TicketDetail = ({
   const linkRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
   const descriptionRef: MutableRefObject<HTMLParagraphElement | null> =
     useRef(null)
+  const dispatch = useDispatch()
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
 
@@ -103,7 +107,17 @@ export const TicketDetail = ({
     })
     setGetAllTicket({ ...getAllTicket, [ticketsStatus]: [...deletedTicket] })
     setIsBeingEdited(false)
-
+    dispatch(
+      createSnackBar({
+        isOpen: true,
+        message: 'Ticket deleted successfully',
+        duration: 3000,
+        vertical: 'bottom',
+        horizontal: 'right',
+        snackbarStyle: { background: 'green', color: 'white' },
+        severity: 'success',
+      })
+    )
     closeModal()
   }
   return (
@@ -120,7 +134,7 @@ export const TicketDetail = ({
           <>
             <Box className='ticketDetailOpenModalBox'>
               <Box sx={{ display: 'flex' }}>
-                <Box sx={{ width: '50%' }}>
+                <Box sx={{ width: '50%', margin: '25px' }}>
                   <EditableText
                     detailIcon={<RxText />}
                     text='Title'
@@ -140,6 +154,7 @@ export const TicketDetail = ({
                     editRef={linkRef}
                     ticketDetail={ticketDetail.link}
                   />
+                  <Comments ticketId={ticketDetail._id} />
                 </Box>
 
                 <Box>

@@ -21,6 +21,8 @@ import { SelectDate } from '../TicketDetail/SelectDate'
 import { TbPencilMinus } from 'react-icons/tb'
 import { getMembersAttributesByProjectId } from 'utils/api'
 import { IoMdClose } from 'react-icons/io'
+import { useDispatch } from 'react-redux'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 export const CreateTicket = ({
   setGetAllTicket,
@@ -51,6 +53,7 @@ export const CreateTicket = ({
     const attributesForAssignees = 'firstName,lastName,role,profilePicture'
     getAssignees(projectId, attributesForAssignees)
   }, [projectId])
+  const dispatch = useDispatch()
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -64,7 +67,6 @@ export const CreateTicket = ({
     setIsBeingCreated(true)
     const status = addTicketForm?.status ?? ticketsStatus
     const newStatus = concatenatedString(status)
-
     const createdTicket = await createTicketApi({
       ...addTicketForm,
       projectId: projectId,
@@ -72,12 +74,19 @@ export const CreateTicket = ({
       createdBy: authUser._id,
       assignee: assignee,
     })
-
     setGetAllTicket({
       ...getAllTicket,
       [newStatus]: [...getAllTicket[newStatus], { ...createdTicket }],
     })
     setIsBeingCreated(false)
+    dispatch(
+      createSnackBar({
+        isOpen: true,
+        message: 'Ticket created successfully',
+        duration: 3000,
+        severity: 'success',
+      })
+    )
     closeModal()
   }
 
@@ -153,14 +162,14 @@ export const CreateTicket = ({
                   <Box className='ticketDetail-openModal-box-button '>
                     <button
                       className='button1'
-                      disabled={false}
+                      disabled={isBeingCreated}
                       onClick={closeModal}
                     >
                       Cancel
                     </button>
                     <button
-                      disabled={false}
                       onClick={addTickets}
+                      disabled={isBeingCreated}
                       className='button2'
                       style={{ backgroundColor: '#FA9413', color: 'black' }}
                     >
