@@ -15,7 +15,7 @@ export const SelectAssignee = ({ ticketDetail = null, setAssignees }: any) => {
     { title: 'Hector', id: 33, image: 'image' },
     { title: 'Zena', id: 1213, image: 'image' },
   ])
-  const [ticketDetailAssignee] = useState(ticketDetail?.assignees.id)
+  const [ticketDetailAssignee] = useState(assigneesData[0].id)
 
   const handleChange = (event: SelectChangeEvent) => {
     const findTheUser = assigneesData.find(

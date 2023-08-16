@@ -49,7 +49,6 @@ export const ProjectDetails = () => {
           </span>
         </div>
       </div>
-
       <div>
         {projectDetail && <AllTickets projectTracker={projectDetail} />}
       </div>

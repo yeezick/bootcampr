@@ -14,7 +14,7 @@ export interface TaskInterface {
 }
 
 export interface TicketInterface {
-  assignees?: UserInterface
+  assignee?: string
   createAt?: string
   description?: string
   projectId?: string
@@ -52,6 +52,7 @@ export interface CreateTicketInterface {
   ticketsStatus?: string
   buttonText?: string
   buttonClassName?: string
+  projectMembers: object
   openSnackBar?: SnackBarToastInterface
   setOpenSnackBar?: React.Dispatch<React.SetStateAction<SnackBarToastInterface>>
 }
@@ -70,6 +71,7 @@ export interface TicketDetailPropsInterface {
   splitCamelCaseToWords?: (str: string) => string
   ticketDetail?: TicketInterface
   ticketsStatus?: KeyOfTicketStatusType | string
+  projectId: string
   openSnackBar?: SnackBarToastInterface
   setOpenSnackBar?: React.Dispatch<React.SetStateAction<SnackBarToastInterface>>
 }
