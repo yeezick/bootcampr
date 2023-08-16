@@ -12,7 +12,7 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { selectConversation } from 'utils/redux/slices/chatSlice'
 import { formatTimestamp } from 'utils/functions/chatLogic'
-import { DefaultIcons, emptyChatText } from 'utils/data/chatConstants'
+import { ChatIcons, emptyChatText } from 'utils/data/chatConstants'
 import { ChatMessageInterface } from 'interfaces/ChatInterface'
 import {
   isFirstMessageBySameUser,
@@ -307,7 +307,7 @@ const MessagesList = ({
   if (listResults === 'noMessages') {
     return (
       <div className='no-results'>
-        <img src={DefaultIcons.NoMessages} alt='no data' />
+        <img src={ChatIcons.NoMessages} alt='no data' />
         <p>Don't be shy! Start a conversation</p>
       </div>
     )

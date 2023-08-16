@@ -15,7 +15,7 @@ import {
   setCurrentConversation,
   setSelectedMember,
 } from 'utils/redux/slices/chatSlice'
-import { ChatScreen, DefaultIcons } from 'utils/data/chatConstants'
+import { ChatIcons, ChatScreen } from 'utils/data/chatConstants'
 import { isMemberSelected } from 'utils/functions/chatLogic'
 import { MemberThumbnail } from 'components/ChatDialog/MemberThumbnail/MemberThumbnail'
 import './NewChatRoom.scss'
@@ -304,7 +304,7 @@ const ProjectMembersList = ({
   } else {
     return (
       <div className='no-remaining-members'>
-        <img src={DefaultIcons.NoMembers} alt='no members' />
+        <img src={ChatIcons.NoMembers} alt='no members' />
         <p>All project members are in current chat!</p>
       </div>
     )
@@ -338,7 +338,7 @@ const SelectAllCheckbox = ({ allMembersSelected, selectAllClick }) => {
 const NoAssignedProject = () => {
   return (
     <div className='no-remaining-members'>
-      <img src={DefaultIcons.NoMembers} alt='no members' />
+      <img src={ChatIcons.NoMembers} alt='no members' />
       <p>Not assigned to a project yet. Hang tight!</p>
     </div>
   )
