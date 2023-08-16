@@ -1,6 +1,5 @@
-import { useState, useRef, MutableRefObject } from 'react'
-import Modal from '@mui/material/Modal'
-import { Button, Box } from '@mui/material'
+import { useState, useRef, MutableRefObject, useEffect } from 'react'
+import { Box, Modal } from '@mui/material'
 import { SelectStatus } from 'components/Kanban'
 import { SelectChangeEvent } from '@mui/material/Select'
 import { TaskInterface, TicketDetailPropsInterface } from 'interfaces'
@@ -12,34 +11,50 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 import { deleteTicketApi } from 'utils/api/tickets'
 import EditableText from './EditableText'
-import { MdOutlineTitle } from 'react-icons/md'
 import { TbPencilMinus } from 'react-icons/tb'
 import { BiLink } from 'react-icons/bi'
-import { RxPerson } from 'react-icons/rx'
+import { RxPerson, RxText } from 'react-icons/rx'
 import { UserAssignee } from './UserAssignee'
 import { SelectDate } from './SelectDate'
 import '../Ticket.scss'
+import { getMembersAttributesByProjectId } from 'utils/api'
 import { Comments } from '../Components/Comments'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import { useDispatch } from 'react-redux'
 
 export const TicketDetail = ({
   ticketDetail,
   getAllTicket,
-
   setGetAllTicket,
   ticketsStatus,
   splitCamelCaseToWords,
   concatenatedString,
+  projectId,
 }: TicketDetailPropsInterface) => {
   const authUser = useAppSelector(selectAuthUser)
   const [modalIsOpen, setIsOpen] = useState(false)
   const [ticketStatus, setTicketStatus] = useState<string>()
   const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false)
+  const [assigneesOptions, setAssigneesOptions] = useState([])
+  const [assignee, setAssignee] = useState('Unassigned')
+
+  const getAssignees = async (projectId, attributes) => {
+    let assignees = await getMembersAttributesByProjectId(projectId, attributes)
+    setAssigneesOptions(assignees)
+    setAssignee(ticketDetail.assignee)
+  }
+
+  useEffect(() => {
+    const attributesForAssignees = 'firstName,lastName,role,profilePicture'
+    getAssignees(projectId, attributesForAssignees)
+  }, [])
 
   const tittleRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
   const dateRef: MutableRefObject<HTMLInputElement | null> = useRef(null)
   const linkRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
   const descriptionRef: MutableRefObject<HTMLParagraphElement | null> =
     useRef(null)
+  const dispatch = useDispatch()
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
 
@@ -92,7 +107,17 @@ export const TicketDetail = ({
     })
     setGetAllTicket({ ...getAllTicket, [ticketsStatus]: [...deletedTicket] })
     setIsBeingEdited(false)
-
+    dispatch(
+      createSnackBar({
+        isOpen: true,
+        message: 'Ticket deleted successfully',
+        duration: 3000,
+        vertical: 'bottom',
+        horizontal: 'right',
+        snackbarStyle: { background: 'green', color: 'white' },
+        severity: 'success',
+      })
+    )
     closeModal()
   }
   return (
@@ -111,7 +136,7 @@ export const TicketDetail = ({
               <Box sx={{ display: 'flex' }}>
                 <Box sx={{ width: '50%', margin: '25px' }}>
                   <EditableText
-                    detailIcon={<MdOutlineTitle />}
+                    detailIcon={<RxText />}
                     text='Title'
                     editRef={tittleRef}
                     ticketDetail={ticketDetail.title}
@@ -132,27 +157,18 @@ export const TicketDetail = ({
                   <Comments ticketId={ticketDetail._id} />
                 </Box>
 
-                <Box sx={{ width: '50%' }}>
+                <Box>
                   <SelectStatus
                     handleOnChange={handleEditChange}
                     ticketDetail={ticketDetail}
                     splitCamelCaseToWords={splitCamelCaseToWords}
                   />
-
-                  <UserAssignee
-                    text='Created by'
-                    detailIcon={<RxPerson />}
-                    userName={ticketDetail?.createdBy?.firstName}
-                    userRole={ticketDetail?.createdBy?.role}
-                    userImage={ticketDetail?.createdBy?.profilePicture}
-                  />
-
                   <UserAssignee
                     text='Assignee'
                     detailIcon={<RxPerson />}
-                    userName={ticketDetail?.assignees?.firstName}
-                    userRole={ticketDetail?.assignees?.role}
-                    userImage={ticketDetail?.assignees?.profilePicture}
+                    projectMembers={assigneesOptions}
+                    setAssignee={setAssignee}
+                    assignee={assignee}
                   />
 
                   <SelectDate
