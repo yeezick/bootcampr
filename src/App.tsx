@@ -15,6 +15,7 @@ import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import './App.css'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
+import { UnassignedProject } from 'screens/Project/UnassignedProject'
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path='/create-project' element={<CreateProject />} />
           <Route path='/project/:id' element={<ProjectDetails />} />
           <Route path='/project/:id/calendar' element={<CalendarScreen />} />
+          <Route path='/project/unassigned' element={<UnassignedProject />} />
         </Routes>
       </Layout>
       <SnackBarToast />

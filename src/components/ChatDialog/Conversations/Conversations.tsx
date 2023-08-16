@@ -16,7 +16,7 @@ import {
 import { formatLastMessageTimestamp } from 'utils/functions/chatLogic'
 import { AvatarGrid } from 'components/ChatDialog/AvatarGrid/AvatarGrid'
 import { extractConversationAvatars } from 'utils/functions/chatLogic'
-import { DefaultIcons } from 'utils/data/chatConstants'
+import { ChatIcons } from 'utils/data/chatConstants'
 import './Conversations.scss'
 import { markConversationAsRead } from 'utils/api'
 
@@ -180,7 +180,7 @@ const ConversationsList = ({
   if (listResults === 'noConversations') {
     return (
       <div className='no-results'>
-        <img src={DefaultIcons.NoConversations} alt='no data' />
+        <img src={ChatIcons.NoConversations} alt='no data' />
         <p>Don't be shy! Start a conversation</p>
       </div>
     )
