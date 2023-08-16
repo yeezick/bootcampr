@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { selectAuthUser, selectUserEmail } from 'utils/redux/slices/userSlice'
 import './Settings.scss'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 export default function Email() {
   const authUser = useAppSelector(selectAuthUser)
@@ -13,6 +14,8 @@ export default function Email() {
   const [emailMatch, setEmailMatch] = useState(false)
   const [nonEmpty, setNonEmpty] = useState(false)
   const [buttonState, setButtonState] = useState(false)
+  const currentUserEmail = useSelector(selectUserEmail)
+
   const navigate = useNavigate()
 
   const refreshForm = () => {
@@ -31,21 +34,19 @@ export default function Email() {
     // onclick of email redirects to login and updates email on backend
     // look into existing verify logic
     // redirect to info page
-    navigate(`/users/:userId/update-email-confirmation`)
+    navigate(`/users/${authUser._id}/update-email-confirmation`)
     // don't change mail in databse until they've verified with new email click
   }
 
   useEffect(() => {
     setNonEmpty(newEmail.length > 1 && reEnterNewEmail.length > 1)
-    console.log(newEmail)
-    console.log(reEnterNewEmail)
     checkIfEmailsMatch()
   }, [newEmail, reEnterNewEmail, buttonState])
 
   return (
     <div className='settings-card'>
       <h4>Current email address</h4>
-      <p>{currentEmail}</p>
+      <p>{currentUserEmail}</p>
       <h4>Enter updated email address (ex. jeanine@bootcampr.io)</h4>
       <input
         type='text'
