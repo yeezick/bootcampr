@@ -18,6 +18,7 @@ export interface UserInterface {
   hasUploadedProfilePicture?: Boolean
   project?: string
   role?: string
+  unreadMessages: {}
   savedProjects?: ProjectInterface[]
   verified?: Boolean
   __v?: number

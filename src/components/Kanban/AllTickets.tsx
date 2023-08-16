@@ -12,13 +12,15 @@ import {
 import { updateTicketInformationAndStatus } from 'utils/api/tickets'
 import kanbanImage from './svg/bootcampr.png'
 import './Ticket.scss'
+import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
+import { SnackBarToastInterface } from 'interfaces/SnackBarToast'
 
 export const AllTickets = ({ projectTracker }) => {
   const { id } = useParams()
-
   const [getAllTicket, setGetAllTicket] = useState(
     projectTracker?.projectTracker
   )
+  const { members } = projectTracker
   const handleOnDragEnd = movingTicket => {
     if (movingTicket) {
       const ticketId = movingTicket.draggableId
@@ -120,6 +122,7 @@ export const AllTickets = ({ projectTracker }) => {
                       ticketsStatus={splitCamelCaseToWords(ticketsStatus)}
                       concatenatedString={concatenatedString}
                       buttonText='Create task'
+                      projectMembers={members}
                     />
                   </div>
                   <div
@@ -149,6 +152,7 @@ export const AllTickets = ({ projectTracker }) => {
                                 ticketsStatus={ticketsStatus}
                                 splitCamelCaseToWords={splitCamelCaseToWords}
                                 concatenatedString={concatenatedString}
+                                projectId={id}
                               />
                             </div>
                           )}
@@ -188,6 +192,7 @@ export const AllTickets = ({ projectTracker }) => {
               concatenatedString={concatenatedString}
               buttonText=' Created first task'
               buttonClassName='button2'
+              projectMembers={members}
             />
           </div>
         </div>

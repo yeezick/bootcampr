@@ -123,7 +123,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
     setAllMembersSelected(!allMembersSelected)
   }
 
-  const handleSubmitAddMembers = async () => {
+  const handleSubmitAddMembersToExistingChat = async () => {
     // Only in Edit Chat Room to add additional members to current conversation:
     const participantsToAdd = selectedMembers.map(member => member._id)
     // PUT request to update current group chat with additional selected members
@@ -181,6 +181,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
       )
       onScreenUpdate(ChatScreen.Messages)
     } else {
+      const participants = selectedMembers.map(member => member._id)
       // Selected member to add to PRIVATE conversation
       const recipientEmail = selectedMembers[0].email
       // POST request to create new private chat with selected participant
@@ -190,6 +191,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
         setCurrentConversation({
           _id: newRoom.chatRoom._id,
           isGroup: false,
+          participants,
           displayName: `${selectedMembers[0].firstName} ${selectedMembers[0].lastName}`,
         })
       )
@@ -234,7 +236,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
         onClick={
           chatScreen === ChatScreen.ComposeNewChat
             ? handleSubmitNewChatRoom
-            : handleSubmitAddMembers
+            : handleSubmitAddMembersToExistingChat
         }
       >
         {chatScreen === ChatScreen.ComposeNewChat

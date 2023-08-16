@@ -38,7 +38,7 @@
 .createTicketBox {
   display: flex;
   flex-direction: row;
-  gap: 30px;
+  gap: 50px;
 }
 
 .ticketStatusProgress {
@@ -98,18 +98,31 @@
   display: flex;
   flex-direction: column;
   left: 50%;
+  max-height: 80%;
   min-height: 70%;
+  padding: 30px;
+  overflow-y: scroll;
   padding: 16px;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 50%;
+  width: 850px;
+
+  .close-x {
+    align-self: end;
+    font-size: 26px;
+  }
 }
 
 .EditableText {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  margin-bottom: 15px;
+
+  h4 {
+    font-size: 18px;
+  }
 }
 
 .EditableText > blockquote {
@@ -140,24 +153,63 @@
 
   .UserAssigneeUserInfo {
     align-items: center;
-    background-color: #f5f5f5;
+    background-color: white;
     border-radius: 0.4rem;
     display: flex;
-    height: 4rem;
     margin-left: 2rem;
-    width: 90%;
+    padding: 0px;
+    width: 310px;
+
+    .MuiSelect-select {
+      padding: 0;
+    }
   }
 
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  img {
-    width: 3rem;
-  }
 
   p {
     margin: 0;
   }
+}
+
+.assignee-metadata {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  h1 {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+.user-card {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+
+  img {
+    border-radius: 50%;
+    height: 60px;
+    margin: 5px;
+    object-fit: cover;
+    padding: 5px;
+    width: 60px;
+  }
+}
+
+.assignee-thumbnail {
+  height: 60px;
+  margin: 5px;
+  object-fit: cover;
+  width: 60px;
 }
 
 .selectStatus {
@@ -217,12 +269,14 @@
 
 .EditableTextTextField {
   background-color: white;
+  width: 400px;
 }
 
 .createTicketStatusUser {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  width: 300px;
 }
 
 .createTicket {

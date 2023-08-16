@@ -63,6 +63,7 @@ export const SignUp: React.FC = () => {
     const validForm = await dispatch(register(formValues))
     const { payload } = validForm
 
+    window.scrollTo(0, 0) // Scroll to top to view alert banner
     if (payload.invalidCredentials && payload.existingAccount) {
       setAlertBanner({
         status: true,

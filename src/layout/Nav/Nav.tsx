@@ -88,7 +88,6 @@ export const Nav = () => {
             </Link>
           </div>
         </div>
-
         {userId ? (
           <AuthorizedNavLinks
             notificationCount={notificationCount}
