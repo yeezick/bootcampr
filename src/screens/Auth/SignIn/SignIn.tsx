@@ -67,7 +67,7 @@ const SignIn: React.FC = (): JSX.Element => {
     e.preventDefault()
 
     const response = await signIn(formData)
-    console.log('response login:', response)
+
     if (response?.message) {
       setAlertBanner({
         status: true,
