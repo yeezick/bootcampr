@@ -10,9 +10,8 @@ import {
 import { Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
-import { PaginatorExample } from 'components/Paginator/Examples/PaginatorExample'
-import { AllProjects, ProjectDetails } from 'screens/Project'
 import { ProjectCompletion } from './screens/ProjectCompletion/ProjectCompletion'
+import { AllProjects, CreateProject, ProjectDetails } from 'screens/Project'
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import './App.css'
@@ -35,8 +34,6 @@ function App() {
           <Route path='/users/:id' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />
           <Route path='/users/:id/settings' element={<Settings />} />
-          {/* Todo: Remove once onboarding flow is complete */}
-          <Route path='/paginator-example' element={<PaginatorExample />} />
           {/* Project */}
           <Route path='/all-projects' element={<AllProjects />} />
           <Route path='/project-completion' element={<ProjectCompletion />} />
