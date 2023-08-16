@@ -30,6 +30,9 @@ const chatSlice = createSlice({
     toggleChat: state => {
       state.visibleChat = !state.visibleChat
     },
+    toggleChatOpen: state => {
+      state.visibleChat = true
+    },
     toggleChatClose: state => {
       state.visibleChat = false
     },
@@ -66,6 +69,7 @@ export const selectSelectedMember = (state: RootState) =>
   state.chat.selectedMember
 export const {
   toggleChat,
+  toggleChatOpen,
   toggleChatClose,
   setCurrentConversation,
   setSelectedMember,
