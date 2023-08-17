@@ -10,19 +10,28 @@ export const SideMenu = ({ title, items }) => {
     <div className='side-menu'>
       <h1>{title}</h1>
       {items.map((item, idx) => {
-        return <MenuItem key={`${item}-${idx}`} item={item} userId={userId} />
+        return (
+          <MenuItem
+            key={`${item}-${idx}`}
+            item={item}
+            userId={userId}
+            title={title}
+          />
+        )
       })}
     </div>
   )
 }
 
-export const MenuItem = ({ item, userId }) => {
+export const MenuItem = ({ item, userId, title }) => {
   const navigate = useNavigate()
 
   const renderItemScreen = item => {
-    console.log(item)
-    // TODO: swap blah for curent user id
-    navigate(`/users/${userId}/settings/${item}`)
+    navigate(
+      `/users/${userId}/${makeStringURLFriendly(title)}/${makeStringURLFriendly(
+        item
+      )}`
+    )
   }
 
   return (
@@ -31,4 +40,8 @@ export const MenuItem = ({ item, userId }) => {
       <h3>{item}</h3>
     </div>
   )
+}
+
+export const makeStringURLFriendly = string => {
+  return string.toLowerCase().replace(' ', '-')
 }

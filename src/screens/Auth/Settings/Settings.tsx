@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom'
 
 export const Settings = () => {
   const pathInfo = useLocation()
-  const [settingsComponent, setSettingsComponent] = useState('Email')
+  const [settingsComponent, setSettingsComponent] = useState('email')
 
   useEffect(() => {
     const { pathname } = pathInfo
@@ -21,9 +21,9 @@ export const Settings = () => {
     <div className='settings-dock'>
       <SideMenu title={'Settings'} items={['Email', 'Password', 'Account']} />
       <div>
-        {settingsComponent === 'Email' && <Email />}
-        {settingsComponent === 'Password' && <Password />}
-        {settingsComponent === 'Account' && <Account />}
+        {settingsComponent === 'email' && <Email />}
+        {settingsComponent === 'password' && <Password />}
+        {settingsComponent === 'account' && <Account />}
       </div>
     </div>
   )
