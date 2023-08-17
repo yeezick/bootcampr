@@ -2,12 +2,12 @@ import { AllTickets } from 'components/Kanban'
 import { ProjectInterface } from 'interfaces'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { getOneProject, getOneUser } from 'utils/api'
+import { getOneProject, getOneUser, verifyTokenExpiration } from 'utils/api'
 import { Checkbox } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
-import './Project.scss'
 import { toggleChatOpen } from 'utils/redux/slices/chatSlice'
+import './Project.scss'
 
 export const ProjectDetails = () => {
   const location = useLocation()
@@ -15,8 +15,8 @@ export const ProjectDetails = () => {
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const queryParams = new URLSearchParams(location.search)
-  const token = queryParams.get('unread')
-  const userId = queryParams.get('user')
+  const queryToken = queryParams.get('unread')
+  const queryUserId = queryParams.get('user')
   const [emailLinkClicked, setEmailLinkClicked] = useState(false)
   const { id } = useParams()
   const [projectDetail, setProjectDetails] = useState<ProjectInterface | null>(
@@ -24,16 +24,30 @@ export const ProjectDetails = () => {
   )
 
   useEffect(() => {
-    if (token) {
+    if (queryToken) {
+      const validateToken = async () => {
+        try {
+          const isTokenExpired = await verifyTokenExpiration(queryToken)
+
+          if (isTokenExpired) {
+            navigate('/sign-in')
+          } else {
+            fetchUser()
+          }
+        } catch (error) {
+          console.error('Failed to verify token expiration:', error)
+        }
+      }
+      validateToken()
+
       const fetchUser = async () => {
-        const user = await getOneUser(userId)
+        const user = await getOneUser(queryUserId)
         dispatch(updateAuthUser(user))
-        localStorage.setItem('bootcamprAuthToken', token)
+        localStorage.setItem('bootcamprAuthToken', queryToken)
 
         navigate(`/project/${user.project}`)
         setEmailLinkClicked(true)
       }
-      fetchUser()
     }
 
     if (authUser._id && !authUser.project) {
