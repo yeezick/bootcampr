@@ -1,24 +1,49 @@
 import { AllTickets } from 'components/Kanban'
 import { ProjectInterface } from 'interfaces'
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { getOneProject } from 'utils/api'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { getOneProject, getOneUser } from 'utils/api'
 import { Checkbox } from '@mui/material'
-import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
 import './Project.scss'
+import { toggleChatOpen } from 'utils/redux/slices/chatSlice'
 
 export const ProjectDetails = () => {
+  const location = useLocation()
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
+  const queryParams = new URLSearchParams(location.search)
+  const token = queryParams.get('unread')
+  const userId = queryParams.get('user')
+  const [emailLinkClicked, setEmailLinkClicked] = useState(false)
   const { id } = useParams()
   const [projectDetail, setProjectDetails] = useState<ProjectInterface | null>(
     null
   )
 
   useEffect(() => {
-    !authUser.project && navigate('/project/unassigned')
+    if (token) {
+      const fetchUser = async () => {
+        const user = await getOneUser(userId)
+        dispatch(updateAuthUser(user))
+        localStorage.setItem('bootcamprAuthToken', token)
+
+        navigate(`/project/${user.project}`)
+        setEmailLinkClicked(true)
+      }
+      fetchUser()
+    }
+
+    if (authUser._id && !authUser.project) {
+      navigate('/project/unassigned')
+    }
   }, [])
+
+  useEffect(() => {
+    emailLinkClicked && dispatch(toggleChatOpen())
+  }, [authUser.project, emailLinkClicked, dispatch])
 
   useEffect(() => {
     const getProject = async () => {
