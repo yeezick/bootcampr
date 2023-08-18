@@ -62,6 +62,10 @@ export const register = createAsyncThunk(
   }
 )
 
+// export const submitChangeEmailVerification = createAsyncThunk(
+
+// )
+
 export const updateProfile = createAsyncThunk(
   'users/updateUser',
   async (user: UserInterface, thunkAPI) => {

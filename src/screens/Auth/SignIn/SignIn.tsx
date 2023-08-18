@@ -22,6 +22,7 @@ const SignIn: React.FC = (): JSX.Element => {
     text: '',
     type: '',
   })
+  const pathInfo = useLocation()
 
   // Constants
   const VALID_EMAIL_REGEX =
@@ -46,6 +47,7 @@ const SignIn: React.FC = (): JSX.Element => {
         location.state = { success: false }
       }, 8000)
     }
+    getEncodedEmail(pathInfo)
   }, [])
 
   const formValidation = (): void => {
@@ -145,6 +147,12 @@ const SignIn: React.FC = (): JSX.Element => {
       </div>
     </div>
   )
+}
+
+const getEncodedEmail = pathInfo => {
+  console.log(pathInfo)
+  const { search } = pathInfo
+  console.log(atob(search.slice(1)))
 }
 
 export { SignIn }
