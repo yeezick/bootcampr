@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { updateAuthUser } from 'utils/redux/slices/userSlice'
 import './EmailVerify.scss'
@@ -10,6 +10,7 @@ export const EmailVerify = () => {
   const dispatch = useDispatch()
   const { id: userId, token: emailToken } = useParams()
   const replaceUrl = path => navigate(path, { replace: true })
+  const pathInfo = useLocation()
 
   useEffect(() => {
     const verifyEmail = async () => {
@@ -18,6 +19,18 @@ export const EmailVerify = () => {
         const { bootcamprNewToken, user } = data
         if (data.isExpired) {
           return replaceUrl(`/users/${userId}/expired-link`)
+        }
+
+        if (pathInfo.search.length > 0) {
+          console.log(pathInfo)
+          // update newEmail in backend
+          const decodedEmail = atob(pathInfo.search.slice(1))
+          const updatedEmail = await api.post(`/users/${userId}`, {
+            email: decodedEmail,
+          })
+          console.log(updatedEmail)
+          // if successful:
+          return replaceUrl(`/sign-in${pathInfo.search}`)
         }
 
         if (bootcamprNewToken && user._id) {

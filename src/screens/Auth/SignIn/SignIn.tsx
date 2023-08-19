@@ -47,7 +47,13 @@ const SignIn: React.FC = (): JSX.Element => {
         location.state = { success: false }
       }, 8000)
     }
-    getEncodedEmail(pathInfo)
+    const newEmail = getEncodedEmail(pathInfo)
+    console.log(newEmail)
+    console.log(formData)
+    setFormData({
+      ...formData,
+      email: newEmail,
+    })
   }, [])
 
   const formValidation = (): void => {
@@ -121,6 +127,7 @@ const SignIn: React.FC = (): JSX.Element => {
                 id='email'
                 type='email'
                 onChange={handleFormDataChange}
+                value={formData.email}
                 required
               />
             </div>
@@ -135,6 +142,7 @@ const SignIn: React.FC = (): JSX.Element => {
                 id='password'
                 type='password'
                 onChange={handleFormDataChange}
+                value={formData.password}
                 required
               />
             </div>
@@ -150,9 +158,8 @@ const SignIn: React.FC = (): JSX.Element => {
 }
 
 const getEncodedEmail = pathInfo => {
-  console.log(pathInfo)
   const { search } = pathInfo
-  console.log(atob(search.slice(1)))
+  return atob(search.slice(1))
 }
 
 export { SignIn }
