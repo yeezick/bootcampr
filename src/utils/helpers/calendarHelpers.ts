@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import { CalendarEvent } from 'interfaces/CalendarInterface'
+import { ConvertedEvent } from 'interfaces/CalendarInterface'
 import { DateFieldsInterface } from 'interfaces'
 
 dayjs.extend(utc)
@@ -30,7 +30,7 @@ export const combineDateWithTime = (date, selectedTime) => {
 
 /**
  * Translates raw google calendar events into objects that are consumable by FullCalendarJS
- * @param {CalendarEvent[]} googleEvents
+ * @param {ConvertedEvent[]} googleEvents
  * @returns Array of converted events
  */
 export const convertGoogleEventsForCalendar = googleEvents => {
@@ -40,13 +40,19 @@ export const convertGoogleEventsForCalendar = googleEvents => {
 
   const convertedEvents = []
   for (const singleEvent of googleEvents) {
-    let currentEvent: CalendarEvent = {}
-    const { start, end, summary } = singleEvent
+    console.log('single', singleEvent)
+    let currentEvent: ConvertedEvent = {}
+    const { attendees, creator, id, end, start, summary } = singleEvent
+    currentEvent.attendees = attendees
+    currentEvent.creator = creator.email
+    currentEvent.id = id
     currentEvent.start = start.dateTime
     currentEvent.end = end.dateTime
+    currentEvent.timeZone = start.timeZone
     currentEvent.title = summary
     convertedEvents.push(currentEvent)
   }
+  console.log('conv', convertedEvents)
   return convertedEvents
 }
 

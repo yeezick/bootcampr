@@ -10,7 +10,7 @@ import { BooleanObject, DateFieldsInterface } from 'interfaces'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import { useAppSelector } from 'utils/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectCalendarId,
   selectProjectMembersAsTeam,
@@ -18,21 +18,21 @@ import {
 import { SelectAttendees } from './SelectAttendees'
 import { DateFields } from './DateFields'
 import { createEvent } from 'utils/api/events'
-import { handleFormInputChange, initialDateFields } from 'utils/helpers'
-import './MeetingModalStyles.scss'
+import {
+  convertGoogleEventsForCalendar,
+  handleFormInputChange,
+  initialDateFields,
+} from 'utils/helpers'
 import { AccessTime, Clear, People } from '@mui/icons-material'
 import { MeetingTextField } from './MeetingTextField'
 import { initialMeetingText } from 'utils/data/calendarConstants'
+import './MeetingModalStyles.scss'
+import { addNewEvent } from 'utils/redux/slices/calendarSlice'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-export const MeetingModal = ({
-  events,
-  setEvents,
-  toggleMeetingModal,
-  visibleMeeting,
-}) => {
+export const MeetingModal = ({ toggleMeetingModal, visibleMeeting }) => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
   const [dateFields, setDateFields] = useState<DateFieldsInterface>(
     initialDateFields()
@@ -42,6 +42,7 @@ export const MeetingModal = ({
   const radioGroupRef = useRef(null)
   const projectMembers = useAppSelector(selectProjectMembersAsTeam)
   const calendarId = useAppSelector(selectCalendarId)
+  const dispatch = useAppDispatch()
 
   const handleEntering = () => {
     if (radioGroupRef.current != null) {
@@ -97,7 +98,7 @@ export const MeetingModal = ({
 
     try {
       const newEvent = await createEvent(calendarId, eventInfo)
-      setEvents([...events, newEvent.data])
+      dispatch(addNewEvent(convertGoogleEventsForCalendar([newEvent.data])))
       handleClose()
     } catch (error) {
       console.error(

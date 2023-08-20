@@ -6,26 +6,40 @@ import { useSelector } from 'react-redux'
 import { fetchProjectCalendar } from 'utils/api/calendar'
 import { selectCalendarId } from 'utils/redux/slices/projectSlice'
 import { convertGoogleEventsForCalendar } from 'utils/helpers/calendarHelpers'
-
-export const CalendarView = ({ events, setEvents }) => {
+import { useAppDispatch } from 'utils/redux/hooks'
+import {
+  selectArrayOfConvertedEvents,
+  storeConvertedEvents,
+} from 'utils/redux/slices/calendarSlice'
+export const CalendarView = () => {
   const calendarId = useSelector(selectCalendarId)
+  const convertedEventsAsArr = useSelector(selectArrayOfConvertedEvents)
   const [isLoading, setIsLoading] = useState(true)
-  const [convertedEvents, setConvertedEvents] = useState([])
+  const dispatch = useAppDispatch()
 
   // TODO: only hydrate calendar with events in user.meetings
   useEffect(() => {
     const fetchAllEvents = async () => {
-      const res = await fetchProjectCalendar(calendarId)
-      setEvents(res)
-      setConvertedEvents(convertGoogleEventsForCalendar(res))
+      const googleCalendarEvents = await fetchProjectCalendar(calendarId)
       setIsLoading(false)
+      dispatch(
+        storeConvertedEvents(
+          convertGoogleEventsForCalendar(googleCalendarEvents)
+        )
+      )
     }
     fetchAllEvents()
   }, [calendarId])
 
-  useEffect(() => {
-    setConvertedEvents(convertGoogleEventsForCalendar(events))
-  }, [events])
+  /** Context
+   * Update calendar view with new events added to calendar from MeetingModal.
+   * *** Might not be needed anymore?
+   */
+  // useEffect(() => {
+  //   dispatch(storeConvertedEvents(convertGoogleEventsForCalendar(events)))
+  // }, [events])
+
+  const handleEventClick = () => {}
 
   return (
     <div>
@@ -33,14 +47,16 @@ export const CalendarView = ({ events, setEvents }) => {
         <p>LOADING</p>
       ) : (
         <FullCalendar
+          events={convertedEventsAsArr}
+          // eventClick={}
           headerToolbar={{
             start: 'dayGridMonth timeGridWeek today',
             center: 'title',
             end: 'prev next',
           }}
-          events={convertedEvents}
-          plugins={[dayGridPlugin, timeGridPlugin]}
           initialView='timeGridWeek'
+          nowIndicator={true}
+          plugins={[dayGridPlugin, timeGridPlugin]}
         />
       )}
     </div>
