@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { CalendarInterface, ConvertedEvent } from 'interfaces/CalendarInterface'
+import {
+  CalendarInterface,
+  ConvertedEvent,
+  MeetingModalInfo,
+  MeetingModalVisibility,
+} from 'interfaces/CalendarInterfaces'
 import { RootState } from 'utils/redux/store'
 /** Context:
  * Used to manage the MeetingModal open/close state & rendered info.
@@ -16,12 +21,6 @@ const calendarSlice = createSlice({
   name: 'calendar',
   initialState,
   reducers: {
-    storeConvertedEvents: (state, action: PayloadAction<ConvertedEvent[]>) => {
-      state.convertedEventsAsArr = action.payload
-      for (const singleEvent of action.payload) {
-        state.convertedEventsById[singleEvent.id] = singleEvent
-      }
-    },
     addNewEvent: (state, action: PayloadAction<ConvertedEvent[]>) => {
       state.convertedEventsAsArr = [
         ...state.convertedEventsAsArr,
@@ -31,10 +30,37 @@ const calendarSlice = createSlice({
         state.convertedEventsById[singleEvent.id] = singleEvent
       }
     },
+    toggleMeetingModal: (
+      state,
+      action: PayloadAction<MeetingModalVisibility>
+    ) => {
+      state.currentEvent.visibility = action.payload
+    },
+    storeConvertedEvents: (state, action: PayloadAction<ConvertedEvent[]>) => {
+      state.convertedEventsAsArr = action.payload
+      for (const singleEvent of action.payload) {
+        state.convertedEventsById[singleEvent.id] = singleEvent
+      }
+    },
+
+    setCurrentEvent: (state, action: PayloadAction<MeetingModalInfo>) => {
+      state.currentEvent = action.payload
+    },
   },
 })
 
-export const selectArrayOfConvertedEvents = (state: RootState) =>
+export const selectConvertedEventsAsArr = (state: RootState) =>
   state.calendar.convertedEventsAsArr
-export const { addNewEvent, storeConvertedEvents } = calendarSlice.actions
+
+export const selectConvertedEventsById = (state: RootState) =>
+  state.calendar.convertedEventsById
+
+export const selectCurrentEvent = (state: RootState) =>
+  state.calendar.currentEvent
+export const {
+  addNewEvent,
+  setCurrentEvent,
+  storeConvertedEvents,
+  toggleMeetingModal,
+} = calendarSlice.actions
 export default calendarSlice.reducer

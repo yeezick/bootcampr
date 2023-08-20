@@ -5,15 +5,22 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import { useSelector } from 'react-redux'
 import { fetchProjectCalendar } from 'utils/api/calendar'
 import { selectCalendarId } from 'utils/redux/slices/projectSlice'
-import { convertGoogleEventsForCalendar } from 'utils/helpers/calendarHelpers'
-import { useAppDispatch } from 'utils/redux/hooks'
 import {
-  selectArrayOfConvertedEvents,
+  convertGoogleEventsForCalendar,
+  parseCalendarEventForMeetingInfo,
+} from 'utils/helpers/calendarHelpers'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import {
+  selectConvertedEventsAsArr,
+  selectCurrentEvent,
+  setCurrentEvent,
   storeConvertedEvents,
+  toggleMeetingModal,
 } from 'utils/redux/slices/calendarSlice'
+import { Dialog, DialogContent } from '@mui/material'
 export const CalendarView = () => {
   const calendarId = useSelector(selectCalendarId)
-  const convertedEventsAsArr = useSelector(selectArrayOfConvertedEvents)
+  const convertedEventsAsArr = useSelector(selectConvertedEventsAsArr)
   const [isLoading, setIsLoading] = useState(true)
   const dispatch = useAppDispatch()
 
@@ -35,11 +42,9 @@ export const CalendarView = () => {
    * Update calendar view with new events added to calendar from MeetingModal.
    * *** Might not be needed anymore?
    */
-  // useEffect(() => {
-  //   dispatch(storeConvertedEvents(convertGoogleEventsForCalendar(events)))
-  // }, [events])
 
-  const handleEventClick = () => {}
+  const handleEventClick = e =>
+    dispatch(setCurrentEvent(parseCalendarEventForMeetingInfo(e)))
 
   return (
     <div>
@@ -48,7 +53,7 @@ export const CalendarView = () => {
       ) : (
         <FullCalendar
           events={convertedEventsAsArr}
-          // eventClick={}
+          eventClick={handleEventClick}
           headerToolbar={{
             start: 'dayGridMonth timeGridWeek today',
             center: 'title',
@@ -59,6 +64,50 @@ export const CalendarView = () => {
           plugins={[dayGridPlugin, timeGridPlugin]}
         />
       )}
+      <DisplayMeetingModal />
     </div>
+  )
+}
+
+const DisplayMeetingModal = () => {
+  const [displayMeeting, setDisplayMeeting] = useState(false)
+  const meetingModalInfo = useAppSelector(selectCurrentEvent)
+  const dispatch = useAppDispatch()
+  console.log(meetingModalInfo)
+  const handleClose = () => dispatch(toggleMeetingModal(false))
+
+  const { attendees, creator, dateFields, meetingText } = meetingModalInfo
+  useEffect(() => {
+    if (meetingModalInfo.visibility === 'display') {
+      setDisplayMeeting(true)
+    } else {
+      setDisplayMeeting(false)
+    }
+  }, [meetingModalInfo.visibility])
+
+  return (
+    <Dialog open={displayMeeting} onClose={handleClose}>
+      <DialogContent>
+        {/* Header */}
+        <div>
+          {/* img */}
+          <h3>{meetingText.summary}</h3>
+          <p>
+            {dateFields.start} - {dateFields.end}
+          </p>
+        </div>
+
+        {/* attendees -- for each attendee, iterate through the project for the team member info */}
+        <div>Render Attendees</div>
+
+        {/* description */}
+        <div>{meetingText.description}</div>
+
+        <div>
+          {' '}
+          <p> Created by: {creator}</p>
+        </div>
+      </DialogContent>
+    </Dialog>
   )
 }

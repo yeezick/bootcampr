@@ -1,8 +1,12 @@
 import dayjs, { Dayjs } from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import { ConvertedEvent } from 'interfaces/CalendarInterface'
-import { DateFieldsInterface } from 'interfaces'
+import {
+  ConvertedEvent,
+  DateFieldsAsDayjs,
+  MeetingModalInfo,
+} from 'interfaces/CalendarInterfaces'
+import { DateFieldsAsString } from 'interfaces'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -42,12 +46,14 @@ export const convertGoogleEventsForCalendar = googleEvents => {
   for (const singleEvent of googleEvents) {
     console.log('single', singleEvent)
     let currentEvent: ConvertedEvent = {}
-    const { attendees, creator, id, end, start, summary } = singleEvent
-    currentEvent.attendees = attendees
+    const { attendees, description, creator, id, end, start, summary } =
+      singleEvent
+    currentEvent.attendees = attendees || null
     currentEvent.creator = creator.email
+    currentEvent.description = description || null
+    currentEvent.end = end.dateTime
     currentEvent.id = id
     currentEvent.start = start.dateTime
-    currentEvent.end = end.dateTime
     currentEvent.timeZone = start.timeZone
     currentEvent.title = summary
     convertedEvents.push(currentEvent)
@@ -60,12 +66,31 @@ export const convertGoogleEventsForCalendar = googleEvents => {
  * Generate a new set of DayJS objects for current times/timezone
  * @returns An empty & current object for DateField state.
  */
-export const initialDateFields = (): DateFieldsInterface => {
+export const initialDateFields = (): DateFieldsAsDayjs => {
   return {
     date: dayjs(),
     start: dayjs(),
     timeZone: dayjs.tz.guess(),
     end: dayjs(),
+  }
+}
+
+export const parseCalendarEventForMeetingInfo = (e): MeetingModalInfo => {
+  const { _def: eventInfo, _instance } = e.event
+  const { end, start } = _instance.range
+  const { extendedProps, title: summary } = eventInfo
+  const { attendees, creator, description, timeZone } = extendedProps
+  return {
+    attendees: attendees,
+    creator,
+    dateFields: {
+      date: dayjs(start).toString(),
+      end: dayjs(end).toString(),
+      start: dayjs(start).toString(),
+      timeZone,
+    },
+    meetingText: { description, summary },
+    visibility: 'display',
   }
 }
 

@@ -6,7 +6,7 @@ import {
   TextField,
 } from '@mui/material'
 import { useRef, useState } from 'react'
-import { BooleanObject, DateFieldsInterface } from 'interfaces'
+import { BooleanObject, DateFieldsAsDayjs } from 'interfaces'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
@@ -34,7 +34,7 @@ dayjs.extend(timezone)
 
 export const MeetingModal = ({ toggleMeetingModal, visibleMeeting }) => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
-  const [dateFields, setDateFields] = useState<DateFieldsInterface>(
+  const [dateFields, setDateFields] = useState<DateFieldsAsDayjs>(
     initialDateFields()
   )
   const [attendees, setAttendees] = useState<BooleanObject>({})

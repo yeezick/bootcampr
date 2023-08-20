@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { CalendarHeader, CalendarTabs, MeetingModal } from 'components/Calendar'
 import 'components/Calendar/Calendar.scss'
-import { ConvertedEvent } from 'interfaces/CalendarInterface'
+import { ConvertedEvent } from 'interfaces/CalendarInterfaces'
 
 export const CalendarScreen = () => {
   const [visibleMeeting, toggleVisibleMeeting] = useState(false)
