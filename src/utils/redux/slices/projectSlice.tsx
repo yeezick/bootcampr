@@ -24,6 +24,9 @@ const initialState: ProjectInterface = {
     underReview: [],
     completed: [],
   },
+  projectPortal: {
+    renderProjectPortal: false,
+  },
 }
 
 const projectslice = createSlice({
@@ -33,10 +36,18 @@ const projectslice = createSlice({
     setProjectInfo: (state, action: PayloadAction<ProjectInterface>) => {
       return action.payload
     },
+    renderProjectPortal: state => {
+      state.projectPortal.renderProjectPortal =
+        !state.projectPortal.renderProjectPortal
+    },
+    closeProjectPortal: state => {
+      state.projectPortal.renderProjectPortal = false
+    },
   },
 })
 
 export const selectCalendarId = state => state.project.calendarId
-export const { setProjectInfo } = projectslice.actions
+export const { setProjectInfo, renderProjectPortal, closeProjectPortal } =
+  projectslice.actions
 
 export default projectslice.reducer

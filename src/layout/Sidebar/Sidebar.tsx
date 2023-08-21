@@ -10,6 +10,9 @@ export const Sidebar = () => {
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId, firstName, lastName } = authUser
   const dispatch = useAppDispatch()
+  const projectPortal = useAppSelector(
+    state => state.project.projectPortal.renderProjectPortal
+  )
 
   const handleLogout = () => {
     logOut()
@@ -19,16 +22,21 @@ export const Sidebar = () => {
   return (
     <div className='sidebar-container'>
       <div className='current-user'>
-        <Avatar />
-        <div>
-          <p className='user-name'>
-            {firstName} {lastName}
-          </p>
-
-          <Link className='edit-profile' to={`/users/${userId}/edit`}>
-            Edit Profile
-          </Link>
-        </div>
+        {projectPortal ? (
+          <h1>Project Portal</h1>
+        ) : (
+          <>
+            <Avatar />
+            <div>
+              <p className='user-name'>
+                {firstName} {lastName}
+              </p>
+              <Link className='edit-profile' to={`/users/${userId}/edit`}>
+                Edit Profile
+              </Link>{' '}
+            </div>
+          </>
+        )}
       </div>
       <div className='nav-links'>
         <Link className='link' to={`/users/${userId}`}>

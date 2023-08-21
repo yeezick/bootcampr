@@ -24,4 +24,7 @@ export interface ProjectInterface {
   title?: string
   _id?: string
   _v?: number
+  projectPortal: {
+    renderProjectPortal: boolean
+  }
 }

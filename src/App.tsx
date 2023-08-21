@@ -15,9 +15,7 @@ import { AllProjects, CreateProject, ProjectDetails } from 'screens/Project'
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import './App.css'
-import AboutUs from 'layout/Nav/Links/AboutUs'
-import HowTo from 'layout/Nav/Links/HowTo'
-import ProjectPortal from 'layout/Nav/Links/ProjectPortal'
+import { AboutUs, HowTo } from 'screens/Landing'
 
 function App() {
   return (
@@ -44,7 +42,6 @@ function App() {
           <Route path='/all-projects' element={<AllProjects />} />
           <Route path='/create-project' element={<CreateProject />} />
           <Route path='/project/:id' element={<ProjectDetails />} />
-          <Route path='/project-portal' element={<ProjectPortal />} />
           <Route path='/project/:id/calendar' element={<CalendarScreen />} />
         </Routes>
       </Layout>

@@ -19,6 +19,10 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { ChatIconBadge } from 'components/ChatDialog/ChatIconBadge/ChatIconBadge'
 import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
+import {
+  closeProjectPortal,
+  renderProjectPortal,
+} from 'utils/redux/slices/projectSlice'
 
 export const Nav = () => {
   const [colored, setColored] = useState(false)
@@ -35,6 +39,7 @@ export const Nav = () => {
   const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const location = useLocation()
   const closeDropdown = () => setAnchorEl(null)
+  const projectPortalHandler = () => dispatch(renderProjectPortal())
 
   useEffect(() => {
     if (socketConnection) {
@@ -62,6 +67,7 @@ export const Nav = () => {
   useEffect(() => {
     // Close chat dialog and sidebar when URL path changes
     dispatch(toggleChatClose())
+    dispatch(closeProjectPortal())
   }, [dispatch, location])
 
   return (
@@ -75,9 +81,11 @@ export const Nav = () => {
       </div>
       <div className='navbar-wrapper'>
         <div className='header-list'>
-          <Link className='header-link' to='/project-portal'>
-            Project portal
-          </Link>
+          {userId && (
+            <div className='header-link' onClick={projectPortalHandler}>
+              Project portal
+            </div>
+          )}
           <Link className='header-link' to='/how-to'>
             How Bootcamper works
           </Link>
@@ -113,6 +121,9 @@ const AuthorizedNavLinks = ({
   const toggleChatBox = () => {
     dispatch(toggleChat())
   }
+  const handleToggleChatBox = () => {
+    toggleChatBox()
+  }
 
   return (
     <div className='notifications'>
@@ -121,7 +132,7 @@ const AuthorizedNavLinks = ({
           <BsFillChatLeftTextFill
             size={23}
             className='chat-icon'
-            onClick={() => toggleChatBox()}
+            onClick={handleToggleChatBox}
           />
           {(visibleChat || !visibleChat) && (
             <ChatIconBadge

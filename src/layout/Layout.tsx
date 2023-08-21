@@ -9,6 +9,7 @@ import './Layout.scss'
 import { Footer } from 'layout/Footer/Footer'
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
 import { useLocation } from 'react-router-dom'
+import { ProjectPortal } from 'screens/Landing'
 
 type Props = {
   children: React.ReactNode

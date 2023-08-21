@@ -29,7 +29,7 @@ nav {
   }
 
   .header-link {
-    color: var(--white-ffffff, #fefefe);
+    color: #fefefe;
     font-size: 16px;
     font-weight: 700;
     line-height: 22.4px;
@@ -74,7 +74,7 @@ nav {
     }
 
     .account {
-      color: var(--frost-f-5-f-5-f-5, #f5f5f5);
+      color: #f5f5f5;
       font-family: Inter;
       font-size: 12px;
       font-style: normal;
@@ -84,7 +84,7 @@ nav {
     }
 
     .drop-down {
-      color: var(--frost-f-5-f-5-f-5, #f5f5f5);
+      color: #f5f5f5;
       position: absolute;
       right: 5px;
       top: 59px;
@@ -116,10 +116,10 @@ nav {
   }
 
   .sign-up {
-    background: var(--apricot-fa-9413, #fa9413);
+    background: #fa9413;
     border-radius: 4px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    color: var(--charcoal-313335, #313335);
+    color: #313335;
     font-size: 16px;
     font-weight: 600;
     line-height: 22.4px;
@@ -128,11 +128,11 @@ nav {
   }
 
   .log-in {
-    background: var(--white-ffffff, #fefefe);
-    border: 1px solid var(--orchid-8048-c-8, #8048c8);
+    background: #fefefe;
+    border: 1px solid #8048c8;
     border-radius: 4px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    color: var(--orchid-8048-c-8, #8048c8);
+    color: #8048c8;
     font-size: 16px;
     font-weight: 600;
     line-height: 22.4px;
