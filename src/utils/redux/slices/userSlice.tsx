@@ -29,8 +29,9 @@ const initialState: UiSliceInterface = {
         portfolioUrl: null,
       },
       profilePicture: '',
-      project: '', // should be projetId
+      project: '',
       role: '',
+      unreadMessages: {},
       __v: 0,
       _id: '',
     },
@@ -93,6 +94,9 @@ const userSlice = createSlice({
     setUserAvailability: (state, action: PayloadAction<Availability>) => {
       state.auth.user.availability = action.payload
     },
+    updateUnreadMessagesObj: (state, action: PayloadAction<object>) => {
+      state.auth.user.unreadMessages = action.payload
+    },
     reset: state => {
       state.status.isLoading = false
       state.status.isSuccess = false
@@ -147,6 +151,7 @@ const userSlice = createSlice({
 })
 
 export const selectAuthUser = (state: RootState) => state.ui.auth.user
+export const selectProjectId = (state: RootState) => state.ui.auth.user.project
 export const selectUserId = (state: RootState) => state.ui.auth.user._id
 export const getUserAvailability = (state: RootState) =>
   state.ui.auth.user.availability
@@ -159,6 +164,7 @@ export const {
   setUserAvailability,
   reset,
   logoutAuthUser,
+  updateUnreadMessagesObj,
   setUploadedImage,
   removeUploadedImage,
 } = userSlice.actions

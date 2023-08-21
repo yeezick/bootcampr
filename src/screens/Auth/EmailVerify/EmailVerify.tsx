@@ -28,7 +28,7 @@ export const EmailVerify = () => {
         }
 
         if (user.onboarded === false) {
-          replaceUrl('/users/onboarding')
+          replaceUrl(`/onboarding/${userId}`)
           return
         } else {
           // Might be good to replace with user profile

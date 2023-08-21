@@ -49,6 +49,7 @@ export const emptyUser: UserInterface = {
   },
   profilePicture: '',
   role: '',
+  unreadMessages: {},
   _id: '',
 }
 

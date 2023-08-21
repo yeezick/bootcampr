@@ -1,11 +1,10 @@
 import { Box, Icon } from '@mui/material'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Modal from '@mui/material/Modal'
 import TextField from '@mui/material/TextField'
 import { SelectStatus } from 'components/Kanban'
 import AddIcon from '@mui/icons-material/Add'
-
 import {
   CreateTicketInterface,
   TaskInterface,
@@ -15,12 +14,15 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import '../Ticket.scss'
 import TextFieldData from './TextFieldData'
-import { MdOutlineTitle } from 'react-icons/md'
 import { BiLink } from 'react-icons/bi'
 import { UserAssignee } from '../TicketDetail/UserAssignee'
-import { RxPerson } from 'react-icons/rx'
+import { RxPerson, RxText } from 'react-icons/rx'
 import { SelectDate } from '../TicketDetail/SelectDate'
 import { TbPencilMinus } from 'react-icons/tb'
+import { getMembersAttributesByProjectId } from 'utils/api'
+import { IoMdClose } from 'react-icons/io'
+import { useDispatch } from 'react-redux'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 export const CreateTicket = ({
   setGetAllTicket,
@@ -30,6 +32,7 @@ export const CreateTicket = ({
   projectId,
   buttonText,
   buttonClassName,
+  projectMembers,
 }: CreateTicketInterface) => {
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
   const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()
@@ -38,6 +41,19 @@ export const CreateTicket = ({
   const authUser = useAppSelector(selectAuthUser)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
+  const [assigneesOptions, setAssigneesOptions] = useState([])
+  const [assignee, setAssignee] = useState('Unassigned')
+
+  const getAssignees = async (projectId, attributes) => {
+    let assignees = await getMembersAttributesByProjectId(projectId, attributes)
+    setAssigneesOptions(assignees)
+  }
+
+  useEffect(() => {
+    const attributesForAssignees = 'firstName,lastName,role,profilePicture'
+    getAssignees(projectId, attributesForAssignees)
+  }, [projectId])
+  const dispatch = useDispatch()
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -51,19 +67,26 @@ export const CreateTicket = ({
     setIsBeingCreated(true)
     const status = addTicketForm?.status ?? ticketsStatus
     const newStatus = concatenatedString(status)
-
     const createdTicket = await createTicketApi({
       ...addTicketForm,
       projectId: projectId,
       status: newStatus,
       createdBy: authUser._id,
+      assignee: assignee,
     })
-
     setGetAllTicket({
       ...getAllTicket,
       [newStatus]: [...getAllTicket[newStatus], { ...createdTicket }],
     })
     setIsBeingCreated(false)
+    dispatch(
+      createSnackBar({
+        isOpen: true,
+        message: 'Ticket created successfully',
+        duration: 3000,
+        severity: 'success',
+      })
+    )
     closeModal()
   }
 
@@ -82,12 +105,13 @@ export const CreateTicket = ({
             <h1>Creating...</h1>
           ) : (
             <Box className='ticketDetailOpenModalBox'>
+              <IoMdClose className='close-x' onClick={closeModal} />
               <Box className='createTicketBox'>
-                <Box sx={{ width: '50%' }}>
+                <Box>
                   <TextFieldData
                     name={'title'}
                     text='Title'
-                    detailIcon={<MdOutlineTitle />}
+                    detailIcon={<RxText />}
                     placeholderText={'Ex, User interviews'}
                     handleOnChange={handleOnChange}
                   />
@@ -121,7 +145,7 @@ export const CreateTicket = ({
                     handleOnChange={handleOnChange}
                   />
                 </Box>
-                <Box sx={{ width: '50%' }} className='createTicketStatusUser'>
+                <Box className='createTicketStatusUser'>
                   <SelectStatus
                     handleOnChange={handleOnChange}
                     ticketsStatus={ticketsStatus}
@@ -129,27 +153,27 @@ export const CreateTicket = ({
                   <UserAssignee
                     text='Assignee'
                     detailIcon={<RxPerson />}
-                    userName={authUser.firstName}
-                    userRole={authUser.role}
-                    userImage={authUser.profilePicture}
+                    projectMembers={assigneesOptions}
+                    setAssignee={setAssignee}
+                    assignee={'Unassigned'}
                   />
                   <SelectDate handleOnChange={handleOnChange} />
 
                   <Box className='ticketDetail-openModal-box-button '>
                     <button
                       className='button1'
-                      disabled={false}
+                      disabled={isBeingCreated}
                       onClick={closeModal}
                     >
                       Cancel
                     </button>
                     <button
-                      disabled={false}
-                      onClick={() => addTickets()}
+                      onClick={addTickets}
+                      disabled={isBeingCreated}
                       className='button2'
                       style={{ backgroundColor: '#FA9413', color: 'black' }}
                     >
-                      Add a ticket
+                      Create task
                     </button>
                   </Box>
                 </Box>

@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ProjectInterface } from 'interfaces'
-import { AvatarState } from 'interfaces/ProfileImageInterfaces'
+import { ProjectInterface } from '../../../interfaces'
 // todo: may be preferable to move project tracker into its own model and slice?
 
 const initialState: ProjectInterface = {
@@ -33,7 +32,7 @@ const projectslice = createSlice({
   name: 'project',
   initialState,
   reducers: {
-    setProjectInfo: (state, action: PayloadAction<ProjectInterface>) => {
+    setProject: (state, action: PayloadAction<ProjectInterface>) => {
       return action.payload
     },
     renderProjectPortal: state => {
@@ -47,7 +46,7 @@ const projectslice = createSlice({
 })
 
 export const selectCalendarId = state => state.project.calendarId
-export const { setProjectInfo, renderProjectPortal, closeProjectPortal } =
+export const { setProject, renderProjectPortal, closeProjectPortal } =
   projectslice.actions
 
 export default projectslice.reducer

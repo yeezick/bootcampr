@@ -27,16 +27,11 @@ import {
 export const Nav = () => {
   const [colored, setColored] = useState(false)
   const [notificationCount, setNotificationCount] = useState(0)
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const [isChatBadgeUpdated, setIsChatBadgeUpdated] = useState(false)
-  const reduxUploadedImage = useAppSelector(getUserProfileImage)
+  const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId } = authUser
   const dispatch = useAppDispatch()
   const socketConnection = useSocket()
-  const visibleChat = useAppSelector(chatStatus)
-  const chatRef = useRef(null)
-  const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const location = useLocation()
   const closeDropdown = () => setAnchorEl(null)
   const projectPortalHandler = () => dispatch(renderProjectPortal())
@@ -97,8 +92,6 @@ export const Nav = () => {
           <AuthorizedNavLinks
             notificationCount={notificationCount}
             setAnchorEl={setAnchorEl}
-            isChatBadgeUpdated={isChatBadgeUpdated}
-            setIsChatBadgeUpdated={setIsChatBadgeUpdated}
           />
         ) : (
           <UnauthorizedNavLinks />
@@ -109,12 +102,10 @@ export const Nav = () => {
   )
 }
 
-const AuthorizedNavLinks = ({
-  notificationCount,
-  setAnchorEl,
-  isChatBadgeUpdated,
-  setIsChatBadgeUpdated,
-}) => {
+const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
+  const [isChatBadgeUpdated, setIsChatBadgeUpdated] = useState(false)
+  const authUser = useAppSelector(selectAuthUser)
+  const { _id: userId } = authUser
   const visibleChat = useAppSelector(chatStatus)
   const chatRef = useRef(null)
   const dispatch = useAppDispatch()

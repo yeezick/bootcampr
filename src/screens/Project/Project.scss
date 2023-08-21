@@ -25,3 +25,34 @@
 .Project-filter > span {
   display: flex;
 }
+
+.unassigned {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  img {
+    height: 400px;
+  }
+
+  a {
+    background-color: #ffa726;
+    border-radius: 4px;
+    color: #000000;
+    margin: 15px 0;
+    padding: 8px 28px;
+    text-decoration: none;
+
+    &:hover {
+      background-color: #fcb243;
+    }
+  }
+
+  p {
+    font-size: 20px;
+    line-height: 1.5;
+    max-width: 900px;
+    text-align: center;
+  }
+}

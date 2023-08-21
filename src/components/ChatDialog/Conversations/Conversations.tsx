@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react'
 import { useSocket } from 'components/Notifications/Socket'
 import { MdOutlineSearch } from 'react-icons/md'
 import { RxDotFilled } from 'react-icons/rx'
-import {
-  getAllConversations,
-  updateGroupMessageReadStatus,
-  updatePrivateMessageReadStatus,
-} from 'utils/api/chat'
+import { getAllConversations } from 'utils/api/chat'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import {
+  selectAuthUser,
+  updateUnreadMessagesObj,
+} from 'utils/redux/slices/userSlice'
 import {
   selectConversation,
   setCurrentConversation,
@@ -17,8 +16,9 @@ import {
 import { formatLastMessageTimestamp } from 'utils/functions/chatLogic'
 import { AvatarGrid } from 'components/ChatDialog/AvatarGrid/AvatarGrid'
 import { extractConversationAvatars } from 'utils/functions/chatLogic'
-import { DefaultIcons } from 'utils/data/chatConstants'
+import { ChatIcons } from 'utils/data/chatConstants'
 import './Conversations.scss'
+import { markConversationAsRead } from 'utils/api'
 
 export const Conversations = ({ handleConversationClick }) => {
   const socket = useSocket()
@@ -74,7 +74,8 @@ export const Conversations = ({ handleConversationClick }) => {
           displayName: groupName,
         })
       )
-      updateGroupMessageReadStatus(authUser._id, chatId)
+      const readMessageRes = await markConversationAsRead(authUser._id, chatId)
+      dispatch(updateUnreadMessagesObj(readMessageRes.unreadMessages))
     } else {
       const recipient = participants.filter(
         participant => participant._id !== authUser._id
@@ -96,7 +97,8 @@ export const Conversations = ({ handleConversationClick }) => {
           profilePicture: recipient[0].profilePicture,
         })
       )
-      updatePrivateMessageReadStatus(authUser._id, chatId)
+      const readMessageRes = await markConversationAsRead(authUser._id, chatId)
+      dispatch(updateUnreadMessagesObj(readMessageRes.unreadMessages))
     }
 
     // Socket.IO Emit event: sends conversation room to join to socket server
@@ -149,12 +151,7 @@ const ConversationsList = ({
             lastMessage,
             lastActive,
           }) => {
-            let isMessageRead = false
-            if (lastMessage) {
-              isMessageRead = lastMessage.readBy.some(
-                userObj => userObj.user.toString() === authUser._id
-              )
-            }
+            const messageIsUnread = chatId in authUser.unreadMessages
 
             return (
               <div
@@ -169,8 +166,8 @@ const ConversationsList = ({
                   groupName={groupName}
                   participants={participants}
                   lastMessage={lastMessage}
-                  isMessageRead={isMessageRead}
                   lastActive={lastActive}
+                  messageIsUnread={messageIsUnread}
                 />
               </div>
             )
@@ -183,7 +180,7 @@ const ConversationsList = ({
   if (listResults === 'noConversations') {
     return (
       <div className='no-results'>
-        <img src={DefaultIcons.NoConversations} alt='no data' />
+        <img src={ChatIcons.NoConversations} alt='no data' />
         <p>Don't be shy! Start a conversation</p>
       </div>
     )
@@ -195,9 +192,15 @@ const ConversationThumbnail = ({
   groupName,
   participants,
   lastMessage,
-  isMessageRead,
   lastActive,
+  messageIsUnread,
 }) => {
+  const thumbnailTextClass =
+    lastMessage && messageIsUnread ? 'unread-message' : ''
+  const thumbnailUnreadDotClass = messageIsUnread
+    ? 'unread-dot-visible'
+    : 'unread-dot-hidden'
+
   if (participants.length > 2) {
     const pictures = extractConversationAvatars(participants, authUser._id)
 
@@ -212,27 +215,18 @@ const ConversationThumbnail = ({
         </div>
         <div className='thumbnail-right'>
           <div className='thread-details-grid'>
-            <h5
-              className={lastMessage && !isMessageRead ? 'unread-message' : ''}
-            >
-              {groupName || 'Group Chat'}
-            </h5>
+            <h5 className={thumbnailTextClass}>{groupName || 'Group Chat'}</h5>
             <LastMessageText
               lastMessage={lastMessage}
               authUser={authUser}
-              isMessageRead={isMessageRead}
+              messageIsUnread={messageIsUnread}
             />
           </div>
           <div className='dot-grid'>
             {lastMessage ? (
               <>
                 <p>{formatLastMessageTimestamp(lastMessage.timestamp)}</p>
-                <RxDotFilled
-                  size={26}
-                  className={
-                    !isMessageRead ? 'unread-dot-visible' : 'unread-dot-hidden'
-                  }
-                />
+                <RxDotFilled size={26} className={thumbnailUnreadDotClass} />
               </>
             ) : (
               <>
@@ -259,27 +253,20 @@ const ConversationThumbnail = ({
         />
         <div className='thumbnail-right'>
           <div className='thread-details-grid'>
-            <h5
-              className={lastMessage && !isMessageRead ? 'unread-message' : ''}
-            >
+            <h5 className={thumbnailTextClass}>
               {recipient[0].firstName} {recipient[0].lastName}
             </h5>
             <LastMessageText
               lastMessage={lastMessage}
               authUser={authUser}
-              isMessageRead={isMessageRead}
+              messageIsUnread={messageIsUnread}
             />
           </div>
           <div className='dot-grid'>
             {lastMessage ? (
               <>
                 <p>{formatLastMessageTimestamp(lastMessage.timestamp)}</p>
-                <RxDotFilled
-                  size={26}
-                  className={
-                    !isMessageRead ? 'unread-dot-visible' : 'unread-dot-hidden'
-                  }
-                />
+                <RxDotFilled size={26} className={thumbnailUnreadDotClass} />
               </>
             ) : (
               <>
@@ -294,10 +281,10 @@ const ConversationThumbnail = ({
   }
 }
 
-const LastMessageText = ({ lastMessage, authUser, isMessageRead }) => {
+const LastMessageText = ({ lastMessage, authUser, messageIsUnread }) => {
   if (lastMessage) {
     return (
-      <p className={isMessageRead ? '' : 'unread-message'}>
+      <p className={messageIsUnread ? 'unread-message' : ''}>
         {lastMessage.sender._id === authUser._id
           ? 'You'
           : lastMessage.sender.firstName}
