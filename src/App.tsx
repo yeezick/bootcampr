@@ -14,7 +14,7 @@ import { AllProjects, CreateProject, ProjectDetails } from 'screens/Project'
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import './App.css'
-import UpdateEmailConfirmation from 'screens/Auth/UpdateEmail/UpdateEmailConfirmation'
+import { UpdateEmailConfirmation } from 'screens/Auth/UpdateEmail/UpdateEmailConfirmation'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { UnassignedProject } from 'screens/Project/UnassignedProject'
 
