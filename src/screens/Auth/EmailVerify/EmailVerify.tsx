@@ -29,9 +29,13 @@ export const EmailVerify = () => {
             email: decodedEmail,
           })
           // if successful
-          if (resp.status === 201) {
-            return replaceUrl(`/sign-in${pathInfo.search}`)
+          let redirectURL
+          if (resp.status === 200) {
+            redirectURL = `/sign-in${pathInfo.search}`
+          } else {
+            redirectURL = `/sign-in${pathInfo.search}&status=FAIL`
           }
+          return replaceUrl(redirectURL)
           // otherwise render failure toast (on sign in screen?)
         }
 

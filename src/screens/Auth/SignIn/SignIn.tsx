@@ -47,11 +47,16 @@ const SignIn: React.FC = (): JSX.Element => {
         location.state = { success: false }
       }, 8000)
     }
-    const newEmail = getEncodedEmail(pathInfo)
-    setFormData({
-      ...formData,
-      email: newEmail,
-    })
+    const { newEmail, status } = getEncodedEmail(pathInfo)
+    if (status === 'SUCCESS') {
+      // TODO: Add toast success implementation here
+      setFormData({
+        ...formData,
+        email: newEmail,
+      })
+    } else {
+      // TODO: Add toast error implementation here
+    }
   }, [])
 
   const formValidation = (): void => {
@@ -157,7 +162,12 @@ const SignIn: React.FC = (): JSX.Element => {
 
 const getEncodedEmail = pathInfo => {
   const { search } = pathInfo
-  return atob(search.slice(1))
+  console.log(search)
+  const pathArr = search.slice(1).split('&')
+  return {
+    newEmail: pathArr[0],
+    status: pathArr[1] === 'status=FAIL' ? 'FAIL' : 'SUCCESS',
+  }
 }
 
 export { SignIn }
