@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom'
 import './SideMenu.scss'
+import { useNavigate } from 'react-router-dom'
 import { AiFillStar } from 'react-icons/ai'
 import { useSelector } from 'react-redux'
 import { selectUserId } from 'utils/redux/slices/userSlice'

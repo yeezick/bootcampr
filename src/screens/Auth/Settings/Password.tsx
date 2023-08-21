@@ -1,5 +1,3 @@
-import React from 'react'
-
-export default function Password() {
-  return <div className='settings-card'></div>
+export const Password = () => {
+  return <div className='settings-card'>Password</div>
 }

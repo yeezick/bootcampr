@@ -83,10 +83,6 @@ export const verify = async () => {
   return false
 }
 
-// export const submitNewEmailVerification = async () => {
-//   const { data } = await api.
-// }
-
 export const verifyEmail = async email => {
   const { data, status } = await api.get(`/verify-email/${email}`)
   const msg = status >= 400 ? 'error' : 'message'

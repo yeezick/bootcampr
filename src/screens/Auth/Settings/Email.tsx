@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import './Settings.scss'
+import { useEffect, useState } from 'react'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser, selectUserEmail } from 'utils/redux/slices/userSlice'
-import './Settings.scss'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { api } from 'utils/api/apiConfig'
 
-export default function Email() {
+export const Email = () => {
+  // if authUser is full user object, second email select is not necessary
   const authUser = useAppSelector(selectAuthUser)
+  const currentUserEmail = useSelector(selectUserEmail)
   const [newEmail, setNewEmail] = useState('')
   const [reEnterNewEmail, setReEnterNewEmail] = useState('')
   const [emailMatch, setEmailMatch] = useState(false)
   const [nonEmpty, setNonEmpty] = useState(false)
+  // incorporate button disable functionality
   const [buttonState, setButtonState] = useState(false)
-  const currentUserEmail = useSelector(selectUserEmail)
-
   const navigate = useNavigate()
 
   const refreshForm = () => {
@@ -28,7 +29,6 @@ export default function Email() {
   }
 
   const updateEmailAddress = async () => {
-    // send email verification email backend
     const reqBody = {
       userId: authUser._id,
       oldEmail: currentUserEmail,
@@ -42,6 +42,7 @@ export default function Email() {
     if (response.status === 201) {
       navigate(`/users/${authUser._id}/update-email-confirmation`)
     }
+    // otherwise user error response from api request to render a toast error message
   }
 
   useEffect(() => {
@@ -75,7 +76,6 @@ export default function Email() {
         <button className='cancel' onClick={refreshForm}>
           Cancel
         </button>
-        {/* todo: figure out best way to endable and disable button dynamically */}
         <button
           className='update'
           disabled={buttonState}

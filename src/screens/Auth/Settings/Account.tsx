@@ -1,5 +1,3 @@
-import React from 'react'
-
-export default function Account() {
+export const Account = () => {
   return <div>Account</div>
 }

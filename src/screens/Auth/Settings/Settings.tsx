@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
-import Account from './Account'
-import Email from './Email'
-import Password from './Password'
 import './Settings.scss'
+import { useEffect, useState } from 'react'
+import { Account } from './Account'
+import { Email } from './Email'
+import { Password } from './Password'
 import { SideMenu } from 'components/SideMenu/SideMenu'
 import { useLocation } from 'react-router-dom'
 
@@ -28,5 +28,3 @@ export const Settings = () => {
     </div>
   )
 }
-
-// move this to another components file or something so other screens can use it

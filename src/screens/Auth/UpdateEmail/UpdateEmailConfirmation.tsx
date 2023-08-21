@@ -11,6 +11,7 @@ export const UpdateEmailConfirmation = () => {
           a few minutes, please check your junk or spam folder.
         </p>
         <p>The link provided in the email will expire in 30 minutes.</p>
+        {/* TODO: Add functionality to this button */}
         <p className='resend'>Re-send email</p>
       </div>
     </div>

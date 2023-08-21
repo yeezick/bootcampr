@@ -48,8 +48,6 @@ const SignIn: React.FC = (): JSX.Element => {
       }, 8000)
     }
     const newEmail = getEncodedEmail(pathInfo)
-    console.log(newEmail)
-    console.log(formData)
     setFormData({
       ...formData,
       email: newEmail,
