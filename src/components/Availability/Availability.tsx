@@ -20,9 +20,10 @@ export const Availability: React.FC = (): JSX.Element => {
   useEffect(() => {
     setDays(userAvailability)
   }, [userAvailability])
+
   const handleSave = async () => {
     const updated = await updateAvailability(authUser._id, days)
-    if (updated) {
+    if (updated.status) {
       dispatch(
         createSnackBar({
           isOpen: true,

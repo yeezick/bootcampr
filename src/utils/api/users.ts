@@ -160,10 +160,11 @@ export const updateAvailability = async (
   newAvailability: any
 ) => {
   try {
-    console.log('newAvailability', newAvailability, userId)
-
-    // const res = await api.patch(`/updateAvailability`, newAvailability)
-    // return res.data
+    const res = await api.post(`/updateAvailability`, {
+      newAvailability,
+      userId,
+    })
+    return res.data
   } catch (error) {
     console.error(error)
     return false
