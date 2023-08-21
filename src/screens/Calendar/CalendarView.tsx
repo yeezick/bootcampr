@@ -4,7 +4,11 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { useSelector } from 'react-redux'
 import { fetchProjectCalendar } from 'utils/api/calendar'
-import { selectCalendarId } from 'utils/redux/slices/projectSlice'
+import {
+  selectCalendarId,
+  selectMembersAsTeam,
+  selectMembersByEmail,
+} from 'utils/redux/slices/projectSlice'
 import {
   convertGoogleEventsForCalendar,
   parseCalendarEventForMeetingInfo,
@@ -73,17 +77,22 @@ const DisplayMeetingModal = () => {
   const [displayMeeting, setDisplayMeeting] = useState(false)
   const meetingModalInfo = useAppSelector(selectCurrentEvent)
   const dispatch = useAppDispatch()
-  console.log(meetingModalInfo)
   const handleClose = () => dispatch(toggleMeetingModal(false))
 
-  const { attendees, creator, dateFields, meetingText } = meetingModalInfo
   useEffect(() => {
-    if (meetingModalInfo.visibility === 'display') {
+    console.log('mmeting', meetingModalInfo)
+
+    if (meetingModalInfo?.visibility === 'display') {
       setDisplayMeeting(true)
     } else {
       setDisplayMeeting(false)
     }
-  }, [meetingModalInfo.visibility])
+  }, [meetingModalInfo])
+
+  if (!meetingModalInfo) {
+    return null
+  }
+  const { creator, dateFields, meetingText } = meetingModalInfo
 
   return (
     <Dialog open={displayMeeting} onClose={handleClose}>
@@ -97,8 +106,9 @@ const DisplayMeetingModal = () => {
           </p>
         </div>
 
-        {/* attendees -- for each attendee, iterate through the project for the team member info */}
-        <div>Render Attendees</div>
+        {meetingModalInfo.attendees && (
+          <DisplayAttendees attendees={meetingModalInfo.attendees} />
+        )}
 
         {/* description */}
         <div>{meetingText.description}</div>
@@ -109,5 +119,38 @@ const DisplayMeetingModal = () => {
         </div>
       </DialogContent>
     </Dialog>
+  )
+}
+
+const DisplayAttendees = ({ attendees }) => {
+  const [invitedMembers, setInvitedMembers] = useState([])
+  const teamMembers = useAppSelector(selectMembersByEmail)
+
+  useEffect(() => {
+    const prepareInvitedMembers = () => {
+      const invitedMemberInfo = []
+      for (const member of attendees) {
+        const { firstName, lastName, profilePicture } =
+          teamMembers[member.email]
+        invitedMemberInfo.push({
+          firstName: firstName,
+          profilePicture: profilePicture,
+          lastName: lastName,
+        })
+      }
+      setInvitedMembers(invitedMemberInfo)
+    }
+    prepareInvitedMembers()
+  }, [])
+  return (
+    <>
+      {invitedMembers.map(member => (
+        <>
+          <p>pic</p>
+          <p>{member.firstName}</p>
+          <p> {member.lastName}</p>
+        </>
+      ))}
+    </>
   )
 }

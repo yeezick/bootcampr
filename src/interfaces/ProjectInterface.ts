@@ -7,6 +7,8 @@ export interface ProjectInterface {
   goal: string
   meetings: string[]
   members?: {
+    all?: UserInterface[]
+    mappedByEmail?: UserMap
     designers?: UserInterface[]
     engineers?: UserInterface[]
   }
@@ -24,4 +26,8 @@ export interface ProjectInterface {
   title?: string
   _id?: string
   _v?: number
+}
+
+export interface UserMap {
+  [key: string]: UserInterface
 }

@@ -13,7 +13,7 @@ import timezone from 'dayjs/plugin/timezone'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectCalendarId,
-  selectProjectMembersAsTeam,
+  selectMembersAsTeam,
 } from 'utils/redux/slices/projectSlice'
 import { SelectAttendees } from './SelectAttendees'
 import { DateFields } from './DateFields'
@@ -40,7 +40,7 @@ export const MeetingModal = ({ toggleMeetingModal, visibleMeeting }) => {
   const [attendees, setAttendees] = useState<BooleanObject>({})
   const [inviteAll, toggleInviteAll] = useState(false)
   const radioGroupRef = useRef(null)
-  const projectMembers = useAppSelector(selectProjectMembersAsTeam)
+  const projectMembers = useAppSelector(selectMembersAsTeam)
   const calendarId = useAppSelector(selectCalendarId)
   const dispatch = useAppDispatch()
 
