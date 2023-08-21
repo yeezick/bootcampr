@@ -22,7 +22,6 @@ export const EmailVerify = () => {
         }
 
         if (pathInfo.search.length > 0) {
-          console.log(pathInfo)
           // update newEmail in backend
           const decodedEmail = atob(pathInfo.search.slice(1))
           const updatedEmail = await api.post(`/users/${userId}`, {

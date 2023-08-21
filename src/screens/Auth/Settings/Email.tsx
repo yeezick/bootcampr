@@ -4,11 +4,10 @@ import { selectAuthUser, selectUserEmail } from 'utils/redux/slices/userSlice'
 import './Settings.scss'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { api } from 'utils/api/apiConfig'
 
 export default function Email() {
   const authUser = useAppSelector(selectAuthUser)
-  // SWAP to update with current user email
-  const [currentEmail, setCurrentEmail] = useState('testemail@mail.com')
   const [newEmail, setNewEmail] = useState('')
   const [reEnterNewEmail, setReEnterNewEmail] = useState('')
   const [emailMatch, setEmailMatch] = useState(false)
@@ -28,14 +27,21 @@ export default function Email() {
     setEmailMatch(validation)
   }
 
-  const updateEmailAddress = () => {
-    // send email
-    // ensure link "expires" in 30 minutes
-    // onclick of email redirects to login and updates email on backend
-    // look into existing verify logic
-    // redirect to info page
-    navigate(`/users/${authUser._id}/update-email-confirmation`)
-    // don't change mail in databse until they've verified with new email click
+  const updateEmailAddress = async () => {
+    // send email verification email backend
+    const reqBody = {
+      userId: authUser._id,
+      oldEmail: currentUserEmail,
+      newEmail: newEmail,
+    }
+    const response = await api.post(
+      `/users/${authUser._id}/update-email-verification`,
+      reqBody
+    )
+    // only redirect to info page if above response is successful
+    if (response.status === 201) {
+      navigate(`/users/${authUser._id}/update-email-confirmation`)
+    }
   }
 
   useEffect(() => {
