@@ -7,17 +7,40 @@ import { TimeZoneInputBanner } from './subcomponents/TimezoneInputBanner'
 import { getUserAvailability } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { updateAvailability } from 'utils/api'
+import { useDispatch } from 'react-redux'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 export const Availability: React.FC = (): JSX.Element => {
   let userAvailability = useSelector(getUserAvailability)
   const [days, setDays] = useState(userAvailability)
   const [timezone, setTimezone] = useState(Timezones.ET)
   const authUser = useAppSelector(selectAuthUser)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     setDays(userAvailability)
   }, [userAvailability])
-  const handleSave = () => {
-    console.log('save')
+  const handleSave = async () => {
+    const updated = await updateAvailability(authUser._id, days)
+    if (updated) {
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message: 'Your availability has been updated!',
+          duration: 3000,
+          severity: 'success',
+        })
+      )
+    } else {
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message: 'Something went wrong please try again',
+          duration: 3000,
+          severity: 'error',
+        })
+      )
+    }
   }
   return (
     <div className='availability-container'>

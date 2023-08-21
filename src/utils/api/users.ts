@@ -154,3 +154,18 @@ export const markConversationAsRead = async (
     return false
   }
 }
+
+export const updateAvailability = async (
+  userId: string,
+  newAvailability: any
+) => {
+  try {
+    console.log('newAvailability', newAvailability, userId)
+
+    // const res = await api.patch(`/updateAvailability`, newAvailability)
+    // return res.data
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
