@@ -17,9 +17,12 @@ export const EmailVerify = () => {
     const verifyEmail = async () => {
       try {
         const { data } = await api.get(`/${userId}/verify/${emailToken}`)
+        console.log(data)
         const { bootcamprNewToken, user } = data
-        // make sure update email flow includes isExpired also
+        // TODO: make sure update email flow includes isExpired also
         if (data.isExpired) {
+          // TODO: The expiration portion works, but the rendered screen is speific to verify
+          // add logic here so that we can incorporate the update email address logic as well
           return replaceUrl(`/users/${userId}/expired-link`)
         }
 
