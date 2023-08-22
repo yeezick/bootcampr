@@ -28,23 +28,6 @@ export const Email = () => {
     setEmailMatch(validation)
   }
 
-  const updateEmailAddress = async () => {
-    const reqBody = {
-      userId: authUser._id,
-      oldEmail: currentUserEmail,
-      newEmail: newEmail,
-    }
-    const response = await api.post(
-      `/users/${authUser._id}/update-email-verification`,
-      reqBody
-    )
-    // only redirect to info page if above response is successful
-    if (response.status === 201) {
-      navigate(`/users/${authUser._id}/update-email-confirmation`)
-    }
-    // otherwise user error response from api request to render a toast error message
-  }
-
   useEffect(() => {
     setNonEmpty(newEmail.length > 1 && reEnterNewEmail.length > 1)
     checkIfEmailsMatch()
@@ -79,11 +62,43 @@ export const Email = () => {
         <button
           className='update'
           disabled={buttonState}
-          onClick={updateEmailAddress}
+          onClick={() =>
+            updateEmailAddress(currentUserEmail, newEmail, authUser, navigate)
+          }
         >
           Update email address
         </button>
       </div>
     </div>
   )
+}
+
+export const updateEmailAddress = async (
+  currentUserEmail,
+  newEmail,
+  authUser,
+  navigate
+) => {
+  // const navigate = useNavigate()
+  // const authUser = useAppSelector(selectAuthUser)
+  // const currentUserEmail = useSelector(selectUserEmail)
+  const reqBody = {
+    userId: authUser._id,
+    oldEmail: currentUserEmail,
+    newEmail: newEmail,
+  }
+  const response = await api.post(
+    `/users/${authUser._id}/update-email-verification`,
+    reqBody
+  )
+  console.log(response)
+  if (response.status >= 400) {
+    console.log(response.data.message)
+  }
+  // only redirect to info page if above response is successful
+  if (response.status === 201) {
+    const encodedEmail = btoa(newEmail)
+    navigate(`/users/${authUser._id}/update-email-confirmation?${encodedEmail}`)
+  }
+  // otherwise user error response from api request to render a toast error message
 }

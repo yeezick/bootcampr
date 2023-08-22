@@ -1,6 +1,6 @@
 import styles from './SignIn.module.css'
 import { useState, useEffect } from 'react'
-import { signIn } from 'utils/api/users'
+import { logOut, signIn } from 'utils/api/users'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from 'utils/redux/store'
 import { setAuthUser } from 'utils/redux/slices/userSlice'
@@ -160,12 +160,12 @@ const SignIn: React.FC = (): JSX.Element => {
   )
 }
 
-const getEncodedEmail = pathInfo => {
+export const getEncodedEmail = pathInfo => {
   const { search } = pathInfo
   console.log(search)
   const pathArr = search.slice(1).split('&')
   return {
-    newEmail: pathArr[0],
+    newEmail: atob(pathArr[0]),
     status: pathArr[1] === 'status=FAIL' ? 'FAIL' : 'SUCCESS',
   }
 }

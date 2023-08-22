@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { updateAuthUser } from 'utils/redux/slices/userSlice'
 import './EmailVerify.scss'
 import { api } from 'utils/api/apiConfig'
+import { logOut } from 'utils/api'
 
 export const EmailVerify = () => {
   const navigate = useNavigate()
@@ -23,6 +24,7 @@ export const EmailVerify = () => {
         }
 
         if (pathInfo.search.length > 0) {
+          logOut()
           // attempt to update newEmail in backend
           const decodedEmail = atob(pathInfo.search.slice(1))
           const resp = await api.post(`/users/${userId}`, {

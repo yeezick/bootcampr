@@ -1,6 +1,19 @@
+import { useLocation, useNavigate } from 'react-router-dom'
+import { updateEmailAddress } from '../Settings/Email'
 import './UpdateEmailConfirmation.scss'
+import { useAppSelector } from 'utils/redux/hooks'
+import { useSelector } from 'react-redux'
+import { selectAuthUser, selectUserEmail } from 'utils/redux/slices/userSlice'
+import { getEncodedEmail } from '../SignIn/SignIn'
 
 export const UpdateEmailConfirmation = () => {
+  const navigate = useNavigate()
+  const authUser = useAppSelector(selectAuthUser)
+  const currentUserEmail = useSelector(selectUserEmail)
+  const pathInfo = useLocation()
+
+  const { newEmail } = getEncodedEmail(pathInfo)
+
   return (
     <div className='update-email-confirmation'>
       <div className='content'>
@@ -12,7 +25,14 @@ export const UpdateEmailConfirmation = () => {
         </p>
         <p>The link provided in the email will expire in 30 minutes.</p>
         {/* TODO: Add functionality to this button */}
-        <p className='resend'>Re-send email</p>
+        <p
+          className='resend'
+          onClick={() =>
+            updateEmailAddress(currentUserEmail, newEmail, authUser, navigate)
+          }
+        >
+          Re-send email
+        </p>
       </div>
     </div>
   )
