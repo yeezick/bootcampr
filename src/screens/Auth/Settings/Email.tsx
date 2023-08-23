@@ -17,21 +17,26 @@ export const Email = () => {
   const [emailMatch, setEmailMatch] = useState(false)
   const [nonEmpty, setNonEmpty] = useState(false)
   // incorporate button disable functionality
-  const [buttonState, setButtonState] = useState(false)
+  const [isDisabled, toggleIsDisabled] = useState(true)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const refreshForm = () => {
     setNewEmail('')
     setReEnterNewEmail('')
+    toggleIsDisabled(true)
   }
 
   const checkIfEmailsMatch = () => {
     const validation = newEmail === reEnterNewEmail
     setEmailMatch(validation)
+    return validation
   }
 
   const handleUpdateNewEmail = async () => {
+    if (isDisabled) {
+      return
+    }
     const response = await updateEmailAddress(
       currentUserEmail,
       newEmail,
@@ -39,10 +44,11 @@ export const Email = () => {
       navigate
     )
     const severity = response.status >= 400 ? 'error' : 'success'
+    const backUpMessage = severity === 'error' ? 'Unexpected Error' : 'Success'
     dispatch(
       createSnackBar({
         isOpen: true,
-        message: response.data.friendlyMessage,
+        message: response.data.friendlyMessage || backUpMessage,
         duration: 5000,
         vertical: 'top',
         horizontal: 'center',
@@ -54,8 +60,12 @@ export const Email = () => {
 
   useEffect(() => {
     setNonEmpty(newEmail.length > 1 && reEnterNewEmail.length > 1)
-    checkIfEmailsMatch()
-  }, [newEmail, reEnterNewEmail, buttonState])
+    if (checkIfEmailsMatch() && newEmail.length > 0) {
+      toggleIsDisabled(false)
+    } else {
+      toggleIsDisabled(true)
+    }
+  }, [newEmail, reEnterNewEmail, isDisabled])
 
   return (
     <div className='settings-card'>
@@ -85,7 +95,7 @@ export const Email = () => {
         </button>
         <button
           className='update'
-          disabled={buttonState}
+          disabled={isDisabled}
           onClick={handleUpdateNewEmail}
         >
           Update email address
