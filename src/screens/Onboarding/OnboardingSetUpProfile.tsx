@@ -24,15 +24,7 @@ export const OnboardingSetUpProfile = () => {
   const params = useParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const {
-    bio,
-    firstName,
-    lastName,
-    links: { githubUrl, linkedinUrl, portfolioUrl },
-    profilePicture,
-    role,
-    _id: userId,
-  } = userForm
+  const { role, _id: userId } = userForm
 
   const { displayNotification } = useNotification()
 
@@ -126,7 +118,6 @@ export const OnboardingSetUpProfile = () => {
               type='text'
               name='firstName'
               className='onboarding__profile-input'
-              value={firstName}
               onChange={handleInputChange}
             />
           </label>
@@ -137,7 +128,6 @@ export const OnboardingSetUpProfile = () => {
               type='text'
               name='lastName'
               className='onboarding__profile-input'
-              value={lastName}
               onChange={handleInputChange}
             />
           </label>
@@ -147,7 +137,6 @@ export const OnboardingSetUpProfile = () => {
             <TextareaAutosize
               name='bio'
               className='onboarding__profile-textarea'
-              value={bio}
               onChange={handleInputChange}
               maxLength={500}
               placeholder={placeholder}
@@ -163,7 +152,6 @@ export const OnboardingSetUpProfile = () => {
               type='text'
               name='portfolioUrl'
               className='onboarding__profile-input'
-              value={portfolioUrl}
               onChange={handleInputChange}
             />
           </label>
@@ -175,7 +163,6 @@ export const OnboardingSetUpProfile = () => {
                 type='text'
                 name='githubUrl'
                 className='onboarding__profile-input'
-                value={githubUrl}
                 onChange={handleInputChange}
               />
             </label>
@@ -187,7 +174,6 @@ export const OnboardingSetUpProfile = () => {
               type='text'
               name='linkedinUrl'
               className='onboarding__profile-input'
-              value={linkedinUrl}
               onChange={handleInputChange}
             />
           </label>
