@@ -4,7 +4,6 @@ import './Onboarding.scss'
 import { OnboardingIncomplete } from './OnboardingIncomplete'
 import { OnboardingLastScreen } from './OnboardingLastScreen'
 import { Two } from './Two'
-import { OneKPlusRounded, ThreeDRotation } from '@mui/icons-material'
 
 export const Onboarding = () => {
   const orderedPages = [

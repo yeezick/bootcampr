@@ -101,6 +101,11 @@ export const OnboardingSetUpProfile = () => {
           like. You can edit your profile by going to My Account.
         </p>
       </div>
+    </div>
+  )
+}
+
+/*
       <div className='onboarding__profile-container'>
         <form onSubmit={handleUserUpdate} className='onboarding__profile-form'>
           <div className='onboarding__profile-image'>
@@ -155,19 +160,15 @@ export const OnboardingSetUpProfile = () => {
               onChange={handleInputChange}
             />
           </label>
-
-          {role === 'Software Engineer' && (
-            <label className='onboarding__profile-label'>
-              Github (URL) {role}
-              <input
-                type='text'
-                name='githubUrl'
-                className='onboarding__profile-input'
-                onChange={handleInputChange}
-              />
-            </label>
-          )}
-
+          <label className='onboarding__profile-label'>
+            Github (URL)
+            <input
+              type='text'
+              name='githubUrl'
+              className='onboarding__profile-input'
+              onChange={handleInputChange}
+            />
+          </label>
           <label className='onboarding__profile-label'>
             Linkedin profile (URL)
             <input
@@ -200,6 +201,4 @@ export const OnboardingSetUpProfile = () => {
           </Link>
         </form>
       </div>
-    </div>
-  )
-}
+*/
