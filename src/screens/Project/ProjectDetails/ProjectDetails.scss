@@ -104,7 +104,7 @@
   margin: auto;
 
     .submit-btn {
-      display: flex;
+      display: inline-flex;
       padding: 14px 24px;
       justify-content: center;
       align-items: center;
@@ -134,7 +134,7 @@
 
   .banner-box-container {
     display: flex;
-    width: 1092px;
+    width: 1192px;
     padding: 16px 32px;
     align-items: center;
     gap: 16px;
@@ -223,6 +223,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 32px;
+  background-color: greenyellow;
 }
 
 .swe-text-container {
@@ -237,6 +238,90 @@
     line-height: 44.8px;
   }
 
-
-
 }
+
+.ux-designers-container {
+  display: inline-flex;
+  padding: 32px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  background-color: orangered;
+}
+
+.ux-designers-text-container {
+  border-radius: 16px;
+  
+  h1 {
+    color: #000;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 44.8px;
+  }
+}
+
+/*Team Member Card */
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 167px;
+  height: auto;
+  background-color: aqua;
+  
+}
+
+.profile-img-container {
+  align-items: center;
+  justify-content: center;
+  height: 88px;
+  width: 88px;
+  clip-path: ellipse(88px 88px);
+  
+}
+
+.profile-img {
+  clip-path: ellipse (88px 88px);
+  justify-content: center;
+}
+
+.profile-name {
+  label {
+    height: 20px;
+    width: 144px;
+  }
+
+  padding: 0;
+}
+
+
+.profile-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.profile-btn {
+  align-items: center;
+  background-color: var(--apricot-fa9413);
+  border-radius: 4px;
+  display: inline-flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 6px 12px;
+  position: relative;
+}
+
+.message-btn {
+  align-items: center;
+  background-color: var(--apricot-fa9413);
+  border-radius: 4px;
+  display: inline-flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 6px 12px;
+  position: relative;
+}
+

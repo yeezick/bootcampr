@@ -1,8 +1,10 @@
 import { ProjectDetailsSidebar } from './ProjectDetailsSidebar'
 import TeamBanner from '../../../assets/Image/team-header.png'
+import { TeamMemberCard } from './TeamMemberCard'
+import more_vert from '../../../assets/Image/more_vert.png'
 
-//TODO: add three dots to the Team Members banner,
-//TODO: add project id
+//TODO: for three dots to the Team Members banner, use an icon instead of png
+//TODO: add project id (localhost:3000/project/projectid/team)
 
 export const Team = () => {
   return (
@@ -17,12 +19,20 @@ export const Team = () => {
             <div className='banner-text-container'>
               <div className='banner-text'>
                 <h1>Team Members</h1>
+                <img src={more_vert} alt='three verticald dots'></img>
               </div>
             </div>
           </div>
           <div className='software-engineer-container'>
             <div className='swe-text-container'></div>
             <h1>Software Engineers</h1>
+          </div>
+          <div className='ux-designers-container'>
+            <div className='ux-designers-text-container'></div>
+            <h1>UX Designers</h1>
+          </div>
+          <div>
+            <TeamMemberCard />
           </div>
         </div>
       </div>

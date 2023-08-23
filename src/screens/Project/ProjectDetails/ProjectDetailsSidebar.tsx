@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react'
 import { ProjectInterface } from 'interfaces'
 import { getOneProject } from 'utils/api'
 
-//TODO: incorporate projectId in links
 //TODO: add hover affect on links
 //TODO: ask question about hiding the hamburger button for original sidebar
 
@@ -43,12 +42,12 @@ export const ProjectDetailsSidebar = () => {
               </Link>
             </div>
             <div className='team-link'>
-              <Link className='link' to={'/project/team'}>
+              <Link className='link' to={`/project/${id}/team`}>
                 <AiFillStar size={18} viewBox={'0 0 1024 900'} /> Team
               </Link>
             </div>
             <div className='calendar-link'>
-              <Link className='link' to={'/project/123/calendar'}>
+              <Link className='link' to={'project/123/calendar'}>
                 <AiFillStar size={18} viewBox={'0 0 1024 900'} /> Calendar
               </Link>
             </div>
