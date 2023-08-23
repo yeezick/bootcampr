@@ -58,7 +58,7 @@ const SignIn: React.FC = (): JSX.Element => {
       }, 8000)
     }
     const { newEmail, status } = getEncodedEmail(pathInfo)
-    if (status === 'SUCCESS') {
+    if (status === 'SUCCESS' && newEmail.length > 0) {
       // TODO: Add toast success implementation here
       dispatch(
         createSnackBar({
@@ -76,7 +76,7 @@ const SignIn: React.FC = (): JSX.Element => {
         ...formData,
         email: newEmail,
       })
-    } else {
+    } else if (newEmail.length > 0) {
       // TODO: Add toast error implementation here
       dispatch(
         createSnackBar({

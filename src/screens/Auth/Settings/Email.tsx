@@ -5,6 +5,8 @@ import { selectAuthUser, selectUserEmail } from 'utils/redux/slices/userSlice'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { api } from 'utils/api/apiConfig'
+import { useDispatch } from 'react-redux'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 export const Email = () => {
   // if authUser is full user object, second email select is not necessary
@@ -17,6 +19,7 @@ export const Email = () => {
   // incorporate button disable functionality
   const [buttonState, setButtonState] = useState(false)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const refreshForm = () => {
     setNewEmail('')
@@ -26,6 +29,27 @@ export const Email = () => {
   const checkIfEmailsMatch = () => {
     const validation = newEmail === reEnterNewEmail
     setEmailMatch(validation)
+  }
+
+  const handleUpdateNewEmail = async () => {
+    const response = await updateEmailAddress(
+      currentUserEmail,
+      newEmail,
+      authUser,
+      navigate
+    )
+    const severity = response.status >= 400 ? 'error' : 'success'
+    dispatch(
+      createSnackBar({
+        isOpen: true,
+        message: response.data.friendlyMessage,
+        duration: 5000,
+        vertical: 'top',
+        horizontal: 'center',
+        snackbarStyle: '',
+        severity,
+      })
+    )
   }
 
   useEffect(() => {
@@ -62,9 +86,7 @@ export const Email = () => {
         <button
           className='update'
           disabled={buttonState}
-          onClick={() =>
-            updateEmailAddress(currentUserEmail, newEmail, authUser, navigate)
-          }
+          onClick={handleUpdateNewEmail}
         >
           Update email address
         </button>
@@ -100,5 +122,7 @@ export const updateEmailAddress = async (
     const encodedEmail = btoa(newEmail)
     navigate(`/users/${authUser._id}/update-email-confirmation?${encodedEmail}`)
   }
+
+  return response
   // otherwise user error response from api request to render a toast error message
 }
