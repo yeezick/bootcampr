@@ -21,9 +21,13 @@ export const EmailVerify = () => {
         const { bootcamprNewToken, user } = data
         // TODO: make sure update email flow includes isExpired also
         if (data.isExpired) {
+          const encodedEmail = pathInfo.search.slice(1)
+          const appendUpdatedEmail = `?${encodedEmail}`
           // TODO: The expiration portion works, but the rendered screen is speific to verify
           // add logic here so that we can incorporate the update email address logic as well
-          return replaceUrl(`/users/${userId}/expired-link`)
+          return replaceUrl(
+            `/users/${userId}/expired-link${appendUpdatedEmail}`
+          )
         }
 
         if (pathInfo.search.length > 0) {

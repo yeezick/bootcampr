@@ -9,8 +9,7 @@ import { SignInInterface } from 'interfaces/UserInterface'
 import { GoAlert, GoVerified } from 'react-icons/go'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
-import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
-import snackBarSlice, { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables

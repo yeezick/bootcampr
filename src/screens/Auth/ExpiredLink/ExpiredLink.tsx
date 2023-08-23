@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { api } from 'utils/api/apiConfig'
 import { FaInfoCircle } from 'react-icons/fa'
 import { TbRefreshAlert } from 'react-icons/tb'
@@ -12,10 +12,15 @@ export const ExpiredLink = () => {
     status: false,
     text: '',
   })
+  const pathInfo = useLocation()
 
   const handleNewLink = async (e: any) => {
     e.preventDefault()
-    const res: any = await api.post(`/users/${userId}/expired-link`)
+    const encodedEmail = pathInfo.search.slice(1)
+    const appendUpdateEmail = `?${encodedEmail}`
+    const res: any = await api.post(
+      `/users/${userId}/expired-link${appendUpdateEmail}`
+    )
 
     if (res.status === 200) {
       setAlertBanner({
