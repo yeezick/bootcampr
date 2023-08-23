@@ -9,6 +9,7 @@ import './Layout.scss'
 import { Footer } from 'layout/Footer/Footer'
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
 import { useLocation } from 'react-router-dom'
+import { storeUserProject } from 'utils/helpers/stateHelpers'
 
 type Props = {
   children: React.ReactNode
@@ -25,7 +26,10 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
   useEffect(() => {
     const verifyUser = async () => {
       const authUser = await verify()
-      if (authUser) dispatch(updateAuthUser(authUser))
+      if (authUser) {
+        storeUserProject(dispatch, authUser.project)
+        dispatch(updateAuthUser(authUser))
+      }
     }
     verifyUser()
   }, [dispatch])

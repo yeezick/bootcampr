@@ -85,6 +85,15 @@ export const selectCompletedInfo = (state: RootState) =>
 
 export const selectCalendarId = state => state.project.calendarId
 
+export const selectProjectMembersAsTeam = (state: RootState) => {
+  return [
+    ...state.project.members.designers,
+    ...state.project.members.engineers,
+  ]
+}
+export const selectProjectMembersByRole = (state: RootState) =>
+  state.project.members
+
 export const {
   setProject,
   updateProject,

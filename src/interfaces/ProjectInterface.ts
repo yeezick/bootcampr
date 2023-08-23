@@ -1,5 +1,6 @@
-import { TicketInterface } from 'interfaces'
+import { TicketInterface, UserInterface } from 'interfaces'
 import { ProjectMemberInterface } from 'interfaces/UserInterface'
+import dayjs from 'dayjs'
 
 export interface ProjectInterface {
   loading?: boolean
@@ -15,10 +16,10 @@ export interface ProjectInterface {
   goal?: string
   meetings?: string[]
   members?: {
-    designers?: string[]
-    engineers?: string[]
+    designers?: UserInterface[]
+    engineers?: UserInterface[]
   }
-  problem?: ''
+  problem: string
   projectTracker?: {
     completed?: TicketInterface[]
     inProgress?: TicketInterface[]
@@ -30,8 +31,8 @@ export interface ProjectInterface {
     deployedUrl?: CompletedUrl[]
   }
   timeline?: {
-    startDate?: ''
-    endDate?: ''
+    startDate?: string
+    endDate?: string
   }
   title?: string
 }
@@ -39,4 +40,11 @@ export interface ProjectInterface {
 export interface CompletedUrl {
   user: ProjectMemberInterface
   url: string
+}
+
+export interface DateFieldsInterface {
+  date: dayjs.Dayjs
+  end: dayjs.Dayjs
+  start: dayjs.Dayjs
+  timeZone: string | dayjs.Dayjs
 }
