@@ -9,6 +9,8 @@ import { SignInInterface } from 'interfaces/UserInterface'
 import { GoAlert, GoVerified } from 'react-icons/go'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
+import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
+import snackBarSlice, { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 const SignIn: React.FC = (): JSX.Element => {
   // State Variables
@@ -30,6 +32,15 @@ const SignIn: React.FC = (): JSX.Element => {
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
+  // dispatch(createSnackBar({
+  //   isOpen: true,
+  //   message: 'Testing',
+  //   duration: 5000,
+  //   vertial: 'bottom',
+  //   hortizontal: 'left',
+  //   snackbarStyle: '',
+  //   severity: 'success'
+  // }))
 
   // Event Handlers
   // This is no longer being used from <EmailVerify />
@@ -50,12 +61,36 @@ const SignIn: React.FC = (): JSX.Element => {
     const { newEmail, status } = getEncodedEmail(pathInfo)
     if (status === 'SUCCESS') {
       // TODO: Add toast success implementation here
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message:
+            'Your new email has successfully been updated in the database. Please log in with your new email address.',
+          duration: 5000,
+          vertical: 'top',
+          horizontal: 'center',
+          snackbarStyle: '',
+          severity: 'success',
+        })
+      )
       setFormData({
         ...formData,
         email: newEmail,
       })
     } else {
       // TODO: Add toast error implementation here
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message:
+            'There was an error updating your email in the database. Please try again or contact support.',
+          duration: 5000,
+          vertical: 'top',
+          horizontal: 'center',
+          snackbarStyle: '',
+          severity: 'error',
+        })
+      )
     }
   }, [])
 
@@ -115,6 +150,7 @@ const SignIn: React.FC = (): JSX.Element => {
           </div>
         ) : null}
       </div>
+      <div></div>
       <div className={styles.sign_in_container}>
         <form className={styles.sign_in_form} onSubmit={handleSubmitForm}>
           <div className={styles.sign_in_inputs}>
