@@ -1,25 +1,22 @@
 import './Settings.scss'
 import { useEffect, useState } from 'react'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser, selectUserEmail } from 'utils/redux/slices/userSlice'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { api } from 'utils/api/apiConfig'
 import { useDispatch } from 'react-redux'
+import { api } from 'utils/api/apiConfig'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 export const Email = () => {
-  // if authUser is full user object, second email select is not necessary
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const authUser = useAppSelector(selectAuthUser)
-  const currentUserEmail = useSelector(selectUserEmail)
   const [newEmail, setNewEmail] = useState('')
   const [reEnterNewEmail, setReEnterNewEmail] = useState('')
   const [emailMatch, setEmailMatch] = useState(false)
   const [nonEmpty, setNonEmpty] = useState(false)
-  // incorporate button disable functionality
   const [isDisabled, toggleIsDisabled] = useState(true)
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const currentUserEmail = authUser.email
 
   const refreshForm = () => {
     setNewEmail('')
@@ -111,9 +108,6 @@ export const updateEmailAddress = async (
   authUser,
   navigate
 ) => {
-  // const navigate = useNavigate()
-  // const authUser = useAppSelector(selectAuthUser)
-  // const currentUserEmail = useSelector(selectUserEmail)
   const reqBody = {
     userId: authUser._id,
     oldEmail: currentUserEmail,
@@ -123,10 +117,6 @@ export const updateEmailAddress = async (
     `/users/${authUser._id}/update-email-verification`,
     reqBody
   )
-  console.log(response)
-  if (response.status >= 400) {
-    console.log(response.data.message)
-  }
   // only redirect to info page if above response is successful
   if (response.status === 201) {
     const encodedEmail = btoa(newEmail)
@@ -134,5 +124,4 @@ export const updateEmailAddress = async (
   }
 
   return response
-  // otherwise user error response from api request to render a toast error message
 }

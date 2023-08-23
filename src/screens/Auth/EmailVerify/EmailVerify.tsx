@@ -17,35 +17,34 @@ export const EmailVerify = () => {
     const verifyEmail = async () => {
       try {
         const { data } = await api.get(`/${userId}/verify/${emailToken}`)
-        console.log(data)
         const { bootcamprNewToken, user } = data
-        // TODO: make sure update email flow includes isExpired also
+
         if (data.isExpired) {
           const encodedEmail = pathInfo.search.slice(1)
           const appendUpdatedEmail = `?${encodedEmail}`
-          // TODO: The expiration portion works, but the rendered screen is speific to verify
-          // add logic here so that we can incorporate the update email address logic as well
+
           return replaceUrl(
             `/users/${userId}/expired-link${appendUpdatedEmail}`
           )
         }
 
         if (pathInfo.search.length > 0) {
+          let redirectURL
           logOut()
+
           // attempt to update newEmail in backend
           const decodedEmail = atob(pathInfo.search.slice(1))
+
           const resp = await api.post(`/users/${userId}`, {
             email: decodedEmail,
           })
-          // if successful
-          let redirectURL
+
           if (resp.status === 200) {
             redirectURL = `/sign-in${pathInfo.search}`
           } else {
             redirectURL = `/sign-in${pathInfo.search}&status=FAIL`
           }
           return replaceUrl(redirectURL)
-          // otherwise render failure toast (on sign in screen?)
         }
 
         if (bootcamprNewToken && user._id) {

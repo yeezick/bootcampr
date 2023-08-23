@@ -1,19 +1,18 @@
+import './UpdateEmailConfirmation.scss'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { updateEmailAddress } from '../Settings/Email'
-import './UpdateEmailConfirmation.scss'
 import { useAppSelector } from 'utils/redux/hooks'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { selectAuthUser, selectUserEmail } from 'utils/redux/slices/userSlice'
 import { getEncodedEmail } from '../SignIn/SignIn'
-import { useDispatch } from 'react-redux'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 export const UpdateEmailConfirmation = () => {
   const navigate = useNavigate()
-  const authUser = useAppSelector(selectAuthUser)
-  const currentUserEmail = useSelector(selectUserEmail)
   const pathInfo = useLocation()
   const dispatch = useDispatch()
+  const authUser = useAppSelector(selectAuthUser)
+  const currentUserEmail = useSelector(selectUserEmail)
 
   const { newEmail } = getEncodedEmail(pathInfo)
 
@@ -24,9 +23,9 @@ export const UpdateEmailConfirmation = () => {
       authUser,
       navigate
     )
-    console.log(response.data)
-    console.log(response)
+
     const severity = response.status >= 400 ? 'error' : 'success'
+
     dispatch(
       createSnackBar({
         isOpen: true,
@@ -50,7 +49,6 @@ export const UpdateEmailConfirmation = () => {
           a few minutes, please check your junk or spam folder.
         </p>
         <p>The link provided in the email will expire in 30 minutes.</p>
-        {/* TODO: Add functionality to this button */}
         <p className='resend' onClick={handleResend}>
           Re-send email
         </p>

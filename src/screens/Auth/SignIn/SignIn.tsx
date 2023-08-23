@@ -1,6 +1,6 @@
 import styles from './SignIn.module.css'
 import { useState, useEffect } from 'react'
-import { logOut, signIn } from 'utils/api/users'
+import { signIn } from 'utils/api/users'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from 'utils/redux/store'
 import { setAuthUser } from 'utils/redux/slices/userSlice'
@@ -31,15 +31,6 @@ const SignIn: React.FC = (): JSX.Element => {
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-  // dispatch(createSnackBar({
-  //   isOpen: true,
-  //   message: 'Testing',
-  //   duration: 5000,
-  //   vertial: 'bottom',
-  //   hortizontal: 'left',
-  //   snackbarStyle: '',
-  //   severity: 'success'
-  // }))
 
   // Event Handlers
   // This is no longer being used from <EmailVerify />
@@ -57,9 +48,10 @@ const SignIn: React.FC = (): JSX.Element => {
         location.state = { success: false }
       }, 8000)
     }
+
     const { newEmail, status } = getEncodedEmail(pathInfo)
+
     if (status === 'SUCCESS' && newEmail.length > 0) {
-      // TODO: Add toast success implementation here
       dispatch(
         createSnackBar({
           isOpen: true,
@@ -77,7 +69,6 @@ const SignIn: React.FC = (): JSX.Element => {
         email: newEmail,
       })
     } else if (newEmail.length > 0) {
-      // TODO: Add toast error implementation here
       dispatch(
         createSnackBar({
           isOpen: true,
@@ -197,8 +188,8 @@ const SignIn: React.FC = (): JSX.Element => {
 
 export const getEncodedEmail = pathInfo => {
   const { search } = pathInfo
-  console.log(search)
   const pathArr = search.slice(1).split('&')
+
   return {
     newEmail: atob(pathArr[0]),
     status: pathArr[1] === 'status=FAIL' ? 'FAIL' : 'SUCCESS',
