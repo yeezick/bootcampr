@@ -4,7 +4,9 @@ import { TeamMemberCard } from './TeamMemberCard'
 import more_vert from '../../../assets/Image/more_vert.png'
 
 //TODO: for three dots to the Team Members banner, use an icon instead of png
-//TODO: add project id (localhost:3000/project/projectid/team)
+//TODO: link dot icon to withdraw menu link popup
+//TODO: create withdraw menu link popup
+//TODO: create withdraw dialog popup
 
 export const Team = () => {
   return (

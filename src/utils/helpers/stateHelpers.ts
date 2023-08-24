@@ -1,3 +1,6 @@
+import { getOneProject } from 'utils/api'
+import { setProject } from 'utils/redux/slices/projectSlice'
+
 export const handleFormInputChange = (
   e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   setFormValues
@@ -6,4 +9,11 @@ export const handleFormInputChange = (
   setFormValues(currForm => {
     return { ...currForm, [name]: value }
   })
+}
+
+export const storeUserProject = async (dispatch, projectId) => {
+  if (projectId) {
+    const randomUserProject = await getOneProject(projectId)
+    dispatch(setProject(randomUserProject))
+  }
 }

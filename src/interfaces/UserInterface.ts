@@ -8,18 +8,18 @@ export interface UserInterface {
   firstName: string
   interestedProjects?: ProjectInterface[]
   lastName: string
-  links: {
+  links?: {
     githubUrl?: string
     linkedinUrl: string
     portfolioUrl: string
   }
-  memberOfProjects?: ProjectInterface[]
-  ownerOfProjects?: ProjectInterface[]
-  portfolioProjects?: ProjectInterface[]
+  onboarded?: boolean
   profilePicture?: string | null
   project?: string
   role?: string
+  unreadMessages: {}
   savedProjects?: ProjectInterface[]
+  verified?: Boolean
   __v?: number
   _id?: string
 }

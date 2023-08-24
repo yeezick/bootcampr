@@ -90,6 +90,16 @@ export const verifyEmail = async email => {
   return { status, message: data[msg] }
 }
 
+export const verifyTokenExpiration = async token => {
+  try {
+    const res = await api.get(`/verify-token-expiration/${token}`)
+    return res.data.expired
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
+
 export const updateUsersEmail = async (
   formData: PasswordFormData | EmailFormData,
   userId: string | undefined
@@ -110,5 +120,37 @@ export const updateUsersPassword = async (
     return data
   } catch (error) {
     return { error: { status: 500, message: 'Something went wrong' } }
+  }
+}
+
+export const setUnreadMessages = async (
+  chatId: string,
+  usersArray: string[]
+) => {
+  try {
+    const res = await api.post(`/messages/setUnreadMessages`, {
+      chatId: chatId,
+      usersArray,
+    })
+    return res.data
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
+
+export const markConversationAsRead = async (
+  authUserId: string,
+  chatId: string
+) => {
+  try {
+    const res = await api.post(
+      `/users/${authUserId}/messages/markConversationAsRead`,
+      { chatId }
+    )
+    return res.data
+  } catch (error) {
+    console.error(error)
+    return false
   }
 }

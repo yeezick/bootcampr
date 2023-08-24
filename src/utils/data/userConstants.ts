@@ -47,9 +47,9 @@ export const emptyUser: UserInterface = {
     linkedinUrl: '',
     portfolioUrl: '',
   },
-  ownerOfProjects: [],
   profilePicture: '',
   role: '',
+  unreadMessages: {},
   _id: '',
 }
 

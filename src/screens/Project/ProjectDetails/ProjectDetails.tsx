@@ -2,7 +2,7 @@ import { ProjectDetailsSidebar } from './ProjectDetailsSidebar'
 import './ProjectDetails.scss'
 import ProjectDetailsBanner from '../../../assets/Image/project-details-banner.png'
 
-//TODO: fix brief overview box,
+//TODO: fix brief overview box styling,
 //TODO: get images to work,
 
 export const ProjectDetails = () => {

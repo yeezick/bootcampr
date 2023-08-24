@@ -1,7 +1,12 @@
 import './ProjectDetails.scss'
 import Ellipse58 from '../../../assets/Image/Ellipse58.png'
 
-//TODO: fix profile img container to correct spot
+//TODO: create proper image ellipse,
+//TODO make team member card true to figma,
+//TODO profile data functionality and how to link it to project,
+//TODO style buttons,
+//TODO link profile button to profile popup,
+//TODO link message to chat popup
 
 export const TeamMemberCard = () => {
   return (

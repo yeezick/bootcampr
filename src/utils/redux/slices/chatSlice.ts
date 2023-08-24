@@ -5,6 +5,9 @@ import {
 } from 'interfaces/ChatInterface'
 import { RootState } from 'utils/redux/store'
 
+// todo: chats from project slice should be moved here
+// todo: looks like we are using this slice to handle individual instances of a chat
+//    this should be handled by the local state of components and not in the central store
 const initialState: ChatSliceInterface = {
   visibleChat: false,
   _id: '',
@@ -26,6 +29,9 @@ const chatSlice = createSlice({
   reducers: {
     toggleChat: state => {
       state.visibleChat = !state.visibleChat
+    },
+    toggleChatOpen: state => {
+      state.visibleChat = true
     },
     toggleChatClose: state => {
       state.visibleChat = false
@@ -63,6 +69,7 @@ export const selectSelectedMember = (state: RootState) =>
   state.chat.selectedMember
 export const {
   toggleChat,
+  toggleChatOpen,
   toggleChatClose,
   setCurrentConversation,
   setSelectedMember,

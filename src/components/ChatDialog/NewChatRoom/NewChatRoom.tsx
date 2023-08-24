@@ -15,7 +15,7 @@ import {
   setCurrentConversation,
   setSelectedMember,
 } from 'utils/redux/slices/chatSlice'
-import { ChatScreen, DefaultIcons } from 'utils/data/chatConstants'
+import { ChatIcons, ChatScreen } from 'utils/data/chatConstants'
 import { isMemberSelected } from 'utils/functions/chatLogic'
 import { MemberThumbnail } from 'components/ChatDialog/MemberThumbnail/MemberThumbnail'
 import './NewChatRoom.scss'
@@ -123,7 +123,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
     setAllMembersSelected(!allMembersSelected)
   }
 
-  const handleSubmitAddMembers = async () => {
+  const handleSubmitAddMembersToExistingChat = async () => {
     // Only in Edit Chat Room to add additional members to current conversation:
     const participantsToAdd = selectedMembers.map(member => member._id)
     // PUT request to update current group chat with additional selected members
@@ -181,6 +181,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
       )
       onScreenUpdate(ChatScreen.Messages)
     } else {
+      const participants = selectedMembers.map(member => member._id)
       // Selected member to add to PRIVATE conversation
       const recipientEmail = selectedMembers[0].email
       // POST request to create new private chat with selected participant
@@ -190,6 +191,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
         setCurrentConversation({
           _id: newRoom.chatRoom._id,
           isGroup: false,
+          participants,
           displayName: `${selectedMembers[0].firstName} ${selectedMembers[0].lastName}`,
         })
       )
@@ -234,7 +236,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
         onClick={
           chatScreen === ChatScreen.ComposeNewChat
             ? handleSubmitNewChatRoom
-            : handleSubmitAddMembers
+            : handleSubmitAddMembersToExistingChat
         }
       >
         {chatScreen === ChatScreen.ComposeNewChat
@@ -302,7 +304,7 @@ const ProjectMembersList = ({
   } else {
     return (
       <div className='no-remaining-members'>
-        <img src={DefaultIcons.NoMembers} alt='no members' />
+        <img src={ChatIcons.NoMembers} alt='no members' />
         <p>All project members are in current chat!</p>
       </div>
     )
@@ -336,7 +338,7 @@ const SelectAllCheckbox = ({ allMembersSelected, selectAllClick }) => {
 const NoAssignedProject = () => {
   return (
     <div className='no-remaining-members'>
-      <img src={DefaultIcons.NoMembers} alt='no members' />
+      <img src={ChatIcons.NoMembers} alt='no members' />
       <p>Not assigned to a project yet. Hang tight!</p>
     </div>
   )
