@@ -1,4 +1,4 @@
 export * from './Landing'
-export * from './AboutUs'
-export * from './HowTo'
-export * from './ProjectPortal'
+export * from './InfoScreens/AboutUs'
+export * from './InfoScreens/HowTo'
+export * from './ProjectPortal/ProjectPortal'

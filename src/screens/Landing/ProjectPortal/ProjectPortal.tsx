@@ -1,8 +1,9 @@
 import React from 'react'
+import './ProjectPortal.scss'
 
 export const ProjectPortal = () => {
   return (
-    <div>
+    <div className='portal-container'>
       ProjectPortal Lorem, ipsum dolor sit amet consectetur adipisicing elit.
       Tempore odit molestias ab reiciendis ut quod voluptates nam? Aliquam, illo
       ut, alias quia nemo dolorem quis dignissimos atque reprehenderit, eius
