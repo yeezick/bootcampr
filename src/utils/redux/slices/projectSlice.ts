@@ -75,6 +75,7 @@ const projectSlice = createSlice({
     },
     setProjectFailure: state => {
       state.loading = false
+    },
     renderProjectPortal: state => {
       state.projectPortal.renderProjectPortal =
         !state.projectPortal.renderProjectPortal
@@ -111,8 +112,8 @@ export const {
   setProjectStart,
   setProjectSuccess,
   setProjectFailure,
-  renderProjectPortal, 
-  closeProjectPortal
+  renderProjectPortal,
+  closeProjectPortal,
 } = projectSlice.actions
 
 export default projectSlice.reducer
