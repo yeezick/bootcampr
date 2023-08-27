@@ -1,4 +1,4 @@
-import { BooleanObject } from './GenericInterfaces'
+import { BooleanObject, NumberObject } from './GenericInterfaces'
 import dayjs from 'dayjs'
 
 export interface Attendee {
@@ -6,8 +6,8 @@ export interface Attendee {
   responseStatus: string
 }
 export interface CalendarInterface {
-  convertedEventsById: EventMapper
-  convertedEventsAsArr: ConvertedEvent[]
+  eventMap: NumberObject
+  convertedEvents: ConvertedEvent[]
   currentEvent?: MeetingModalInfo
 }
 
@@ -17,6 +17,7 @@ export interface ConvertedEvent {
   description?: string
   end?: string
   id?: string
+  metadata: any
   start?: string
   timeZone?: string
   title?: string
@@ -34,10 +35,6 @@ export interface DateFieldsAsString {
   end: string
   start: string
   timeZone: string
-}
-
-export interface EventMapper {
-  [key: string]: ConvertedEvent
 }
 
 export interface MeetingText {

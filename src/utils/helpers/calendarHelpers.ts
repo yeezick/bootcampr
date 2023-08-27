@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import {
@@ -6,7 +6,6 @@ import {
   DateFieldsAsDayjs,
   MeetingModalInfo,
 } from 'interfaces/CalendarInterfaces'
-import { DateFieldsAsString } from 'interfaces'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -44,21 +43,31 @@ export const convertGoogleEventsForCalendar = googleEvents => {
 
   const convertedEvents = []
   for (const singleEvent of googleEvents) {
-    console.log('single', singleEvent)
-    let currentEvent: ConvertedEvent = {}
-    const { attendees, description, creator, id, end, start, summary } =
-      singleEvent
-    currentEvent.attendees = attendees || null
-    currentEvent.creator = creator.email
-    currentEvent.description = description || null
-    currentEvent.end = end.dateTime
-    currentEvent.id = id
-    currentEvent.start = start.dateTime
-    currentEvent.timeZone = start.timeZone
-    currentEvent.title = summary
+    const {
+      attendees,
+      description,
+      creator,
+      id,
+      end,
+      start,
+      summary,
+      ...metadata
+    } = singleEvent
+
+    const currentEvent: ConvertedEvent = {
+      attendees: attendees || null,
+      creator,
+      description: description || null,
+      end: end.dateTime,
+      id,
+      metadata,
+      start: start.dateTime,
+      timeZone: start.timeZone,
+      title: summary,
+    }
+
     convertedEvents.push(currentEvent)
   }
-  console.log('conv', convertedEvents)
   return convertedEvents
 }
 
@@ -75,6 +84,11 @@ export const initialDateFields = (): DateFieldsAsDayjs => {
   }
 }
 
+/**
+ * Converts the event object from FullCalendar into meetingModal fields
+ * @param e The event passed into the handler when a user clicks on an event in the calendar
+ * @returns The event info required fto display a meeting modal
+ */
 export const parseCalendarEventForMeetingInfo = (e): MeetingModalInfo => {
   const { _def: eventInfo, _instance } = e.event
   const { end, start } = _instance.range

@@ -13,8 +13,8 @@ import { RootState } from 'utils/redux/store'
  */
 
 const initialState: CalendarInterface = {
-  convertedEventsById: {},
-  convertedEventsAsArr: [],
+  eventMap: {},
+  convertedEvents: [],
 }
 
 const calendarSlice = createSlice({
@@ -22,13 +22,9 @@ const calendarSlice = createSlice({
   initialState,
   reducers: {
     addNewEvent: (state, action: PayloadAction<ConvertedEvent[]>) => {
-      state.convertedEventsAsArr = [
-        ...state.convertedEventsAsArr,
-        action.payload[0],
-      ]
-      for (const singleEvent of action.payload) {
-        state.convertedEventsById[singleEvent.id] = singleEvent
-      }
+      state.convertedEvents = [...state.convertedEvents, action.payload[0]]
+      const { id: eventId } = action.payload[0]
+      state.eventMap[eventId] = state.convertedEvents.length
     },
     toggleMeetingModal: (
       state,
@@ -37,12 +33,12 @@ const calendarSlice = createSlice({
       state.currentEvent.visibility = action.payload
     },
     storeConvertedEvents: (state, action: PayloadAction<ConvertedEvent[]>) => {
-      state.convertedEventsAsArr = action.payload
-      for (const singleEvent of action.payload) {
-        state.convertedEventsById[singleEvent.id] = singleEvent
+      state.convertedEvents = action.payload
+      for (let idx = 0; idx < action.payload.length; idx++) {
+        const { id: eventId } = action.payload[idx]
+        state.eventMap[eventId] = idx
       }
     },
-
     setCurrentEvent: (state, action: PayloadAction<MeetingModalInfo>) => {
       state.currentEvent = action.payload
     },
@@ -50,10 +46,10 @@ const calendarSlice = createSlice({
 })
 
 export const selectConvertedEventsAsArr = (state: RootState) =>
-  state.calendar.convertedEventsAsArr
+  state.calendar.convertedEvents
 
 export const selectConvertedEventsById = (state: RootState) =>
-  state.calendar.convertedEventsById
+  state.calendar.eventMap
 
 export const selectCurrentEvent = (state: RootState) =>
   state.calendar.currentEvent

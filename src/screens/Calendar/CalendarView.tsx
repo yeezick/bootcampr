@@ -22,6 +22,7 @@ import {
   toggleMeetingModal,
 } from 'utils/redux/slices/calendarSlice'
 import { Dialog, DialogContent } from '@mui/material'
+
 export const CalendarView = () => {
   const calendarId = useSelector(selectCalendarId)
   const convertedEventsAsArr = useSelector(selectConvertedEventsAsArr)
@@ -39,7 +40,9 @@ export const CalendarView = () => {
         )
       )
     }
-    fetchAllEvents()
+    if (calendarId) {
+      fetchAllEvents()
+    }
   }, [calendarId])
 
   /** Context
