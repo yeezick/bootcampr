@@ -45,13 +45,9 @@ export const Sidebar = () => {
         <Link className='link' to={'/availability'}>
           Availability Demo
         </Link>
-        <Link className='link' to={'/create-project'}>
-          Create project
-        </Link>
         <Link className='link' to={'/all-projects'}>
           All Projects
         </Link>
-
         {/* TODO: replace with project id */}
         <Link className='link' to={'/project/123/calendar'}>
           Calendar
@@ -60,6 +56,9 @@ export const Sidebar = () => {
           <AiFillStar size={18} /> Sign Out
         </Link>
       </div>
+      <Link to={`/project-completion`}>
+        <button className='completion-overflow-btn'>Submit Project</button>
+      </Link>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import styles from './SignIn.module.css'
 import { useState, useEffect } from 'react'
-import { signIn } from 'utils/api/users'
+import { signIn } from 'utils/api'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from 'utils/redux/store'
 import { setAuthUser } from 'utils/redux/slices/userSlice'
@@ -12,7 +12,6 @@ import { storeUserProject } from 'utils/helpers/stateHelpers'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 const SignIn: React.FC = (): JSX.Element => {
-  // State Variables
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
   const [formData, setFormData] = useState<SignInInterface>({
     email: '',
@@ -25,7 +24,6 @@ const SignIn: React.FC = (): JSX.Element => {
   })
   const pathInfo = useLocation()
 
-  // Constants
   const VALID_EMAIL_REGEX =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
   const dispatch: AppDispatch = useDispatch()
@@ -125,7 +123,6 @@ const SignIn: React.FC = (): JSX.Element => {
       : navigate(`/project/${response.project}`)
   }
 
-  // Side Effects
   useEffect(() => {
     formValidation()
   }, [formData])

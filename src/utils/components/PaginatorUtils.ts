@@ -79,16 +79,19 @@ export const buildPage = (newPage, nextPage, previousPage): PageItem => {
   }
   return newPage
 }
+
 export const convertTitleToId = title => {
-  let joinedTitle = title.split(' ')
-  for (let i = 0; i < joinedTitle.length; i++) {
-    let currWord = joinedTitle[i]
-    if (i === 0) {
-      joinedTitle[i] = currWord[0].toLowerCase() + currWord.slice(1)
-    } else {
-      joinedTitle[i] = currWord[0].toUpperCase() + currWord.slice(1)
-    }
+  const cleanedTitle = title.replace(/['"’]/g, '').toLowerCase()
+
+  if (cleanedTitle === cleanedTitle.toUpperCase()) {
+    return cleanedTitle.toLowerCase()
   }
 
-  return joinedTitle.join('')
+  const words = cleanedTitle.split(' ')
+  const camelCaseWords = words.map((word, index) =>
+    index === 0
+      ? word.charAt(0).toLowerCase() + word.slice(1)
+      : word.charAt(0).toUpperCase() + word.slice(1)
+  )
+  return camelCaseWords.join('')
 }
