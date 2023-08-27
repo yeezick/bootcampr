@@ -16,6 +16,9 @@ const initialState: ProjectInterface = {
     startDate: '',
     endDate: '',
   },
+  projectPortal: {
+    renderProjectPortal: false,
+  },
 }
 /**
  * Creates a slice for project with a single reducer to set the image URL.
@@ -26,6 +29,13 @@ const projectSlice = createSlice({
   reducers: {
     setProject: (state, action: PayloadAction<ProjectInterface>) => {
       return action.payload
+    },
+    renderProjectPortal: state => {
+      state.projectPortal.renderProjectPortal =
+        !state.projectPortal.renderProjectPortal
+    },
+    closeProjectPortal: state => {
+      state.projectPortal.renderProjectPortal = false
     },
   },
 })
@@ -40,5 +50,6 @@ export const selectProjectMembersByRole = (state: RootState) =>
   state.project.members
 export const selectCalendarId = (state: RootState) => state.project.calendarId
 
-export const { setProject } = projectSlice.actions
+export const { setProject, renderProjectPortal, closeProjectPortal } =
+  projectSlice.actions
 export default projectSlice.reducer

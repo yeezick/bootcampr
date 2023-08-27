@@ -16,6 +16,7 @@ import { CalendarScreen } from 'screens/Calendar/Calendar'
 import './App.css'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { UnassignedProject } from 'screens/Project/UnassignedProject'
+import { AboutUs, HowTo } from 'screens/Landing'
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
       <Layout>
         <Routes>
           <Route path='/' element={<Landing />} />
+          <Route path='/about-us' element={<AboutUs />} />
+          <Route path='/how-to' element={<HowTo />} />
           {/* Auth */}
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/sign-in' element={<SignIn />} />

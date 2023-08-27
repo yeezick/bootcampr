@@ -28,9 +28,6 @@ export interface UiSliceInterface {
   auth: {
     user: UserInterface
   }
-  sidebar: {
-    visibleSidebar: boolean
-  }
   status: {
     isAuthenticated: boolean
     isLoading?: boolean
