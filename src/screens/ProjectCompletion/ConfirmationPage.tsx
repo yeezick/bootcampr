@@ -23,8 +23,15 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
 
   const latestMemberIndex = completedInfo.participatingMembers.length - 1
   const latestMember = completedInfo.participatingMembers[latestMemberIndex]
-  const shouldDisplayTime = latestMember?.decision === 'Participate'
-  const latestUrl = completedInfo.deployedUrl[latestMemberIndex]?.url
+  const latestDecision =
+    latestMember?.decision === 'Participate'
+      ? 'Participate'
+      : 'Not Participating'
+
+  const shouldDisplayMember = latestMember?.decision === 'Participate'
+  const deployedUrls = completedInfo.deployedUrl
+  const latestUrlEntryIndex = Object.keys(deployedUrls).length - 1
+  const latestUrl = deployedUrls[Object.keys(deployedUrls)[latestUrlEntryIndex]]
 
   return (
     <div className='projectcompletion__pag-confirmation'>
@@ -45,16 +52,16 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
                 <h3>Project URL</h3>
                 <p onClick={handleGoToSelectedPage('url')}>Edit</p>
               </div>
-              <p>{latestUrl}</p>
+              <p>{latestUrl || 'No URL entered'}</p>
             </div>
             <div className='projectcompletion__confir-time'>
               <div className='projectcompletion__confir-header'>
                 <h3>Presentation</h3>
                 <p onClick={handleGoToSelectedPage('presentation')}>Edit</p>
               </div>
-              <p>{latestMember?.decision}</p>
+              <p>{latestDecision}</p>
             </div>
-            {shouldDisplayTime && (
+            {shouldDisplayMember && (
               <div className='projectcompletion__confir-part'>
                 <div className='projectcompletion__confir-header'>
                   <h3>Participating Members</h3>

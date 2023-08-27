@@ -45,6 +45,8 @@ export const PresentationPage = ({ handlePageNavigation }) => {
             updatedMembers = updatedMembers.filter(
               pm => pm.user._id !== authUser._id
             )
+          } else {
+            updatedMembers.push(member)
           }
         } else if (selectedRadio === 'option1') {
           const isParticipant = updatedMembers.some(

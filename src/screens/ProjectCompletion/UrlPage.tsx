@@ -28,9 +28,9 @@ export const UrlPage = ({ handlePageNavigation }) => {
   const handleSubmit = async e => {
     e.preventDefault()
     if (isUrl(inputChange)) {
-      const isDuplicate = project.completedInfo?.deployedUrl?.hasOwnProperty(
-        authUser._id
-      )
+      const isDuplicate = Object.values(
+        project.completedInfo?.deployedUrl || {}
+      ).some(completedUrl => completedUrl.url === inputChange)
 
       if (isDuplicate) {
         alert('URL already exists in the list.')
