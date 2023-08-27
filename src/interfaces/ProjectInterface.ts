@@ -37,6 +37,9 @@ export interface ProjectInterface {
     endDate?: string
   }
   title?: string
+  projectPortal: {
+    renderProjectPortal: boolean
+  }
 }
 
 export interface DateFieldsInterface {

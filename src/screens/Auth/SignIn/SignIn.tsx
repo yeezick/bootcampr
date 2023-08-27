@@ -9,6 +9,7 @@ import { SignInInterface } from 'interfaces/UserInterface'
 import { GoAlert, GoVerified } from 'react-icons/go'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -21,6 +22,7 @@ const SignIn: React.FC = (): JSX.Element => {
     text: '',
     type: '',
   })
+  const pathInfo = useLocation()
 
   const VALID_EMAIL_REGEX =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -43,6 +45,40 @@ const SignIn: React.FC = (): JSX.Element => {
         setAlertBanner({ status: false })
         location.state = { success: false }
       }, 8000)
+    }
+
+    const { newEmail, status } = getEncodedEmail(pathInfo)
+
+    if (status === 'SUCCESS' && newEmail.length > 0) {
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message:
+            'Your new email has successfully been updated in the database. Please log in with your new email address.',
+          duration: 5000,
+          vertical: 'top',
+          horizontal: 'center',
+          snackbarStyle: '',
+          severity: 'success',
+        })
+      )
+      setFormData({
+        ...formData,
+        email: newEmail,
+      })
+    } else if (newEmail.length > 0) {
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message:
+            'There was an error updating your email in the database. Please try again or contact support.',
+          duration: 5000,
+          vertical: 'top',
+          horizontal: 'center',
+          snackbarStyle: '',
+          severity: 'error',
+        })
+      )
     }
   }, [])
 
@@ -101,6 +137,7 @@ const SignIn: React.FC = (): JSX.Element => {
           </div>
         ) : null}
       </div>
+      <div></div>
       <div className={styles.sign_in_container}>
         <form className={styles.sign_in_form} onSubmit={handleSubmitForm}>
           <div className={styles.sign_in_inputs}>
@@ -116,6 +153,7 @@ const SignIn: React.FC = (): JSX.Element => {
                 id='email'
                 type='email'
                 onChange={handleFormDataChange}
+                value={formData.email}
                 required
               />
             </div>
@@ -130,6 +168,7 @@ const SignIn: React.FC = (): JSX.Element => {
                 id='password'
                 type='password'
                 onChange={handleFormDataChange}
+                value={formData.password}
                 required
               />
             </div>
@@ -142,6 +181,16 @@ const SignIn: React.FC = (): JSX.Element => {
       </div>
     </div>
   )
+}
+
+export const getEncodedEmail = pathInfo => {
+  const { search } = pathInfo
+  const pathArr = search.slice(1).split('&')
+
+  return {
+    newEmail: atob(pathArr[0]),
+    status: pathArr[1] === 'status=FAIL' ? 'FAIL' : 'SUCCESS',
+  }
 }
 
 export { SignIn }
