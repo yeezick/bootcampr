@@ -14,6 +14,7 @@ import { AllProjects, CreateProject, ProjectDetails } from 'screens/Project'
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import './App.css'
+import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailConfirmation'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { UnassignedProject } from 'screens/Project/UnassignedProject'
 import { AboutUs, HowTo } from 'screens/Landing'
@@ -36,6 +37,11 @@ function App() {
           <Route path='/onboarding/:userId' element={<Onboarding />} />
           <Route path='/users/:id' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />
+          <Route
+            path='/users/:id/update-email-confirmation'
+            element={<UpdateEmailConfirmation />}
+          />
+          <Route path='/users/:id/settings/:screen' element={<Settings />} />
           <Route path='/users/:id/settings' element={<Settings />} />
           {/* Project */}
           <Route path='/all-projects' element={<AllProjects />} />

@@ -29,7 +29,7 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
     if (innerText === 'View Profile') {
       navigate(`/users/${userId}`)
     } else if (innerText === 'Settings') {
-      navigate(`/users/${userId}/settings`)
+      navigate(`/users/${userId}/settings/email`)
     } else if (innerText === 'Log out') {
       logOut()
       dispatch(logoutAuthUser())
