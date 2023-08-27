@@ -27,8 +27,10 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
     latestMember?.decision === 'Participate'
       ? 'Participate'
       : 'Not Participating'
-
   const shouldDisplayMember = latestMember?.decision === 'Participate'
+  const participatingMembers = completedInfo.participatingMembers.filter(
+    member => member.decision === 'Participate'
+  )
   const deployedUrls = completedInfo.deployedUrl
   const latestUrlEntryIndex = Object.keys(deployedUrls).length - 1
   const latestUrl = deployedUrls[Object.keys(deployedUrls)[latestUrlEntryIndex]]
@@ -68,7 +70,7 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
                   <p onClick={handleGoToSelectedPage('presentation')}>Edit</p>
                 </div>
                 <div className='projectcompletion__confir-members'>
-                  {completedInfo.participatingMembers.map((member, index) => (
+                  {participatingMembers.map((member, index) => (
                     <div key={member.user._id}>
                       <div className={getGroupClassName(index)}>
                         <p>{`${member.user.firstName} ${member.user.lastName}`}</p>

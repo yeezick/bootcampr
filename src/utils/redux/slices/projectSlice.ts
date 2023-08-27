@@ -27,7 +27,7 @@ const initialState: ProjectInterface = {
   },
   completedInfo: {
     participatingMembers: [],
-    deployedUrl: [],
+    deployedUrl: {},
   },
   members: {
     designers: [],

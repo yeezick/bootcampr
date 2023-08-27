@@ -28,18 +28,15 @@ export interface ProjectInterface {
   }
   completedInfo?: {
     participatingMembers?: { user: ProjectMemberInterface; decision: string }[]
-    deployedUrl?: CompletedUrl[]
+    deployedUrl?: {
+      [key: string]: string
+    }
   }
   timeline?: {
     startDate?: string
     endDate?: string
   }
   title?: string
-}
-
-export interface CompletedUrl {
-  user: ProjectMemberInterface
-  url: string
 }
 
 export interface DateFieldsInterface {
