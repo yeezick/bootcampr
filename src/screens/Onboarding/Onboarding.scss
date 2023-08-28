@@ -1,15 +1,22 @@
 @import 'scss/variables';
 @import 'scss/mixins';
 
-/* onboarding incomplete */
-
-.progress-bar {
-  border: 0 none;
-  height: 24px;
-  margin: 50px auto 0;
-  width: 675px;
+/* Onboarding main */
+.onboarding {
+  .onboarding-pag-container {
+    align-items: center;
+    background-color: #ffffff;
+    border: 0 none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 1164px;
+    margin: 64px auto auto;
+    width: 800px;
+  }
 }
 
+/* Onboarding incomplete */
 .onboarding-incomplete-container {
   align-items: center;
   display: flex;
@@ -51,7 +58,7 @@
   flex-direction: column;
   gap: 15px;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 32px;
   padding: 0px;
 
   .select-role {
@@ -208,13 +215,19 @@
   background-color: #fa9413;
 }
 
-/* Set up profile Screen */
-.onboarding {
-  margin: 50px auto 0;
-  width: 574px;
+/* Onboarding setup profile */
+.setupProfile {
+  margin: 32px auto 0;
+  width: 638.31px;
   height: 1025px;
 
   $this: &;
+
+  &__cta-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+  }
 
   &__profile-backArrow {
     height: 16px !important;
@@ -238,7 +251,7 @@
         line-height: 21px,
       )
     );
-    background-color: #f5f5f5;
+    background-color: #fafafa;
     color: #313335;
     padding-right: 5px;
     max-height: 22px;
@@ -246,10 +259,12 @@
   }
 
   &__profile-btns {
-    @include flex(row, space-evenly, center);
-    background-color: #f5f5f5;
-    margin-top: 10px;
-    padding-top: 30px;
+    @include flex(column, space-between, center);
+    width: 50%;
+    background-color: #ffffff;
+    margin: auto 0 auto 50%;
+    padding-top: 32px;
+    gap: 32px;
   }
 
   &__profile-cameraIcon {
@@ -262,41 +277,42 @@
   &__profile-saveBtn {
     @include font-properties(
       (
-        size: 16px,
+        size: 14px,
         weight: 500,
-        line-height: 22px,
+        line-height: 20px,
       )
     );
     border-radius: 4px;
     box-sizing: border-box;
     gap: 8px;
-    height: 43px;
+    height: 40px;
     padding: 10px 16px;
     cursor: pointer;
   }
 
   &__profile-cancelBtn {
-    background-color: #fefefe;
-    border: 1px solid #8048c8;
-    color: #8048c8;
-    width: 139px;
-    height: 43px;
-    display: inline-flex;
+    background-color: #ffffff;
+    border: 1px solid #5c6bc0;
+    color: #1a237e;
+    width: 141px;
+    display: flex;
     justify-content: center;
     position: relative;
     align-items: center;
   }
 
   &__profile-container {
-    background-color: #fefefe;
     border-radius: 4px;
-    margin: auto;
-    max-width: 488px;
+    max-width: 100%;
+  }
+
+  &__profile-form {
+    width: 100%;
   }
 
   &__profile-header-cont {
-    margin-bottom: 20px;
-    width: 100%;
+    margin: 0 auto 32px;
+    width: 555px;
 
     h2 {
       @include flex(row);
@@ -307,32 +323,39 @@
           line-height: 33.6px,
         )
       );
-      margin: 0 auto 5px;
+      margin: 0 auto 8px;
       max-height: 45px;
       max-width: 100%;
       text-align: left;
     }
 
     p {
+      color: #212121;
       @include font-properties(
         (
           size: 16px,
           weight: 400,
-          line-height: 22.4px,
+          line-height: 24px,
         )
       );
-      left: 0;
       letter-spacing: 0;
       margin: 0;
-      top: 0;
     }
+  }
+
+  &__inputs-container {
+    background-color: #fafafa;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    gap: 16px 16px;
   }
 
   &__profile-image {
     background-color: #c4c4c4;
     border-radius: 100%;
     height: 100px;
-    margin: 20px 0 10px 20px;
+    margin: 0 0 10px 0;
     width: 100px;
   }
 
@@ -347,7 +370,6 @@
         line-height: 22px,
       )
     );
-    margin: 10px 20px;
 
     input,
     textarea {
@@ -358,10 +380,10 @@
           line-height: 20px,
         )
       );
-      background-color: #f5f5f5;
-      border: none;
+      background-color: #ffffff;
+      border: 1px solid #000;
       border-radius: 4px;
-      margin: 5px 0 auto 0;
+      margin: 8px 0 auto 0;
     }
 
     input {
@@ -375,15 +397,15 @@
   }
 
   &__profile-link {
-    margin: 50px auto 0;
+    color: #1a237e;
   }
 
   &__profile-saveBtn {
     background-color: #fa9413;
     border: none;
-    width: 147px;
-    height: 43px;
-    display: inline-flex;
+    color: #1a237e;
+    width: 146px;
+    display: flex;
     justify-content: center;
     position: relative;
     align-items: center;
@@ -391,7 +413,6 @@
 }
 
 /* Onboarding Last Screen */
-
 .onboarding-lastscreen-container {
   align-items: center;
   display: flex;

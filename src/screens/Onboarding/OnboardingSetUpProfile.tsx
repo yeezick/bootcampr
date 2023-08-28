@@ -45,7 +45,6 @@ export const OnboardingSetUpProfile = () => {
   ) => {
     const { name, value } = e.target
 
-    // check if the input name is one of the nested properties
     if (nestedLinks.includes(name)) {
       updateUserForm(prevForm => ({
         ...prevForm,
@@ -55,7 +54,6 @@ export const OnboardingSetUpProfile = () => {
         },
       }))
     } else {
-      // It's a top level property
       updateUserForm({ ...userForm, [name]: value })
     }
 
@@ -92,8 +90,8 @@ export const OnboardingSetUpProfile = () => {
   let placeholder = inputString.replace(/\.\.\. /g, '...\n')
 
   return (
-    <div className='onboarding'>
-      <div className='onboarding__profile-header-cont'>
+    <div className='setupProfile'>
+      <div className='setupProfile__profile-header-cont'>
         <h2>Profile</h2>
         <p>
           We recommend you set up your profile now. This will help your team get
@@ -101,104 +99,104 @@ export const OnboardingSetUpProfile = () => {
           like. You can edit your profile by going to My Account.
         </p>
       </div>
+      <div className='setupProfile__profile-container'>
+        <form
+          onSubmit={handleUserUpdate}
+          className='setupProfile__profile-form'
+        >
+          <div className='setupProfile__inputs-container'>
+            <div className='setupProfile__profile-image'>
+              <IconButton
+                aria-label='change profile pic'
+                className='setupProfile__profile-cameraIcon'
+              >
+                <CameraAltOutlinedIcon className='setupProfile__profile-imageChange' />
+              </IconButton>
+            </div>
+            <label className='setupProfile__profile-label'>
+              First name
+              <input
+                type='text'
+                name='firstName'
+                className='setupProfile__profile-input'
+                onChange={handleInputChange}
+              />
+            </label>
+            <label className='setupProfile__profile-label'>
+              Last name
+              <input
+                type='text'
+                name='lastName'
+                className='setupProfile__profile-input'
+                onChange={handleInputChange}
+              />
+            </label>
+            <label className='setupProfile__profile-label'>
+              About me
+              <TextareaAutosize
+                name='bio'
+                className='setupProfile__profile-textarea'
+                onChange={handleInputChange}
+                maxLength={500}
+                placeholder={placeholder}
+              />
+              <div className='setupProfile__profile-bioCharCount'>
+                {bioCharCount}/500 Character count
+              </div>
+            </label>
+            <label className='setupProfile__profile-label'>
+              Portfolio
+              <input
+                type='text'
+                name='portfolioUrl'
+                className='setupProfile__profile-input'
+                onChange={handleInputChange}
+              />
+            </label>
+            <label className='setupProfile__profile-label'>
+              GitHub (URL) Software Engineers only
+              <input
+                type='text'
+                name='githubUrl'
+                className='setupProfile__profile-input'
+                onChange={handleInputChange}
+              />
+            </label>
+            <label className='setupProfile__profile-label'>
+              Linkedin profile (URL)
+              <input
+                type='text'
+                name='linkedinUrl'
+                className='setupProfile__profile-input'
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div className='setupProfile__profile-btns'>
+            <div className='setupProfile__cta-container'>
+              <button
+                type='submit'
+                className='setupProfile__profile-cancelBtn'
+                onClick={handleCancel}
+              >
+                <FiArrowLeft className='setupProfile__profile-arrow-l' />
+                <p>Availability</p>
+              </button>
+              <button
+                type='submit'
+                className='setupProfile__profile-saveBtn'
+                onClick={handleProfileSave}
+              >
+                <p>Save profile</p>
+                <FiArrowRight className='setupProfile__profile-arrow-r' />
+              </button>
+            </div>
+            <Link className='setupProfile__profile-link' to=''>
+              Skip profile set up
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
-
-/*
-      <div className='onboarding__profile-container'>
-        <form onSubmit={handleUserUpdate} className='onboarding__profile-form'>
-          <div className='onboarding__profile-image'>
-            <IconButton
-              aria-label='change profile pic'
-              className='onboarding__profile-cameraIcon'
-            >
-              <CameraAltOutlinedIcon className='onboarding__profile-imageChange' />
-            </IconButton>
-          </div>
-
-          <label className='onboarding__profile-label'>
-            First name
-            <input
-              type='text'
-              name='firstName'
-              className='onboarding__profile-input'
-              onChange={handleInputChange}
-            />
-          </label>
-
-          <label className='onboarding__profile-label'>
-            Last name
-            <input
-              type='text'
-              name='lastName'
-              className='onboarding__profile-input'
-              onChange={handleInputChange}
-            />
-          </label>
-
-          <label className='onboarding__profile-label'>
-            About me
-            <TextareaAutosize
-              name='bio'
-              className='onboarding__profile-textarea'
-              onChange={handleInputChange}
-              maxLength={500}
-              placeholder={placeholder}
-            />
-            <div className='onboarding__profile-bioCharCount'>
-              {bioCharCount}/500 characters
-            </div>
-          </label>
-
-          <label className='onboarding__profile-label'>
-            Portfolio (URL)
-            <input
-              type='text'
-              name='portfolioUrl'
-              className='onboarding__profile-input'
-              onChange={handleInputChange}
-            />
-          </label>
-          <label className='onboarding__profile-label'>
-            Github (URL)
-            <input
-              type='text'
-              name='githubUrl'
-              className='onboarding__profile-input'
-              onChange={handleInputChange}
-            />
-          </label>
-          <label className='onboarding__profile-label'>
-            Linkedin profile (URL)
-            <input
-              type='text'
-              name='linkedinUrl'
-              className='onboarding__profile-input'
-              onChange={handleInputChange}
-            />
-          </label>
-          <div className='onboarding__profile-btns'>
-            <button
-              type='submit'
-              className='onboarding__profile-cancelBtn'
-              onClick={handleCancel}
-            >
-              <FiArrowLeft className='onboarding__profile-arrow-l' />
-              <p>Availability</p>
-            </button>
-            <button
-              type='submit'
-              className='onboarding__profile-saveBtn'
-              onClick={handleProfileSave}
-            >
-              <p>Save profile</p>
-              <FiArrowRight className='onboarding__profile-arrow-r' />
-            </button>
-          </div>
-          <Link className='onboarding__profile-link' to=''>
-            Skip profile set up
-          </Link>
-        </form>
-      </div>
-*/

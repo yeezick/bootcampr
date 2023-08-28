@@ -25,8 +25,10 @@ export const Onboarding = () => {
     },
   ]
   return (
-    <div className='progress-bar'>
-      <Paginator exitRoute='/' orderedPages={orderedPages} />
+    <div className='onboarding'>
+      <div className='onboarding-pag-container'>
+        <Paginator exitRoute='/' orderedPages={orderedPages} />
+      </div>
     </div>
   )
 }
