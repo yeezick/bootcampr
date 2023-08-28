@@ -196,3 +196,12 @@
   justify-content: $justify;
   align-items: $align;
 }
+
+@mixin container-properties($container: $container-default-values) {
+  background-color: map-get($container, background-color);
+  border: map-get($container, border);
+  border-radius: map-get($container, border-radius);
+  color: map-get($container, color);
+  height: map-get($container, height);
+  width: map-get($container, width);
+}

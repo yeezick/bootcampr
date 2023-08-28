@@ -1,0 +1,77 @@
+.settings-dock {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.settings-card {
+    background-color: white;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 40px 80px;
+    padding: 22px;
+    width: fit-content;
+
+    h4 {
+        font-size: 18px;
+        font-weight: 200;
+        margin: 15px 0 5px 0;
+        text-align: left;
+    }
+
+    input {
+        background-color: #f5f5f5;
+        border-radius: 4px;
+        border-style: none;
+        font-size: 18px;
+        height: 40px;
+        margin: 5px 0;
+        outline: none;
+        padding: 3px 8px;
+        width: 95%;
+    }
+
+    p {
+        font-size: 20px;
+        font-weight: 100;
+    }
+
+    .buttons {
+        align-items: flex-end;
+        column-gap: 20px;
+        display: flex;
+        height: 80px;
+        justify-content: flex-end;
+        width: 100%;
+
+        button {
+            border-radius: 4px;
+            font-size: 18px;
+            height: 43px;
+            padding: 0px 14px;
+        }
+
+        // TODO: swap these for color variables 
+        .cancel {
+            background-color: white;
+            border-color: #8048cb;
+            border-style: solid;
+            border-width: 1px;
+            color: #8048cb;
+        }
+
+        .update {
+            border-style: none;
+        }
+    }
+
+    .valid {
+        color: green;
+    }
+
+    .invalid {
+        color: red;
+    }
+}

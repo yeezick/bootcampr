@@ -13,3 +13,7 @@ export const emptyProjectOwner = {
   lastName: '',
   _id: '',
 }
+
+export enum ProjectIcons {
+  Unassigned = 'https://tinyurl.com/4wbe9hp2',
+}

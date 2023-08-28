@@ -35,9 +35,6 @@ const initialState: UiSliceInterface = {
       _id: '',
     },
   },
-  sidebar: {
-    visibleSidebar: false,
-  },
   status: {
     isAuthenticated: false,
     isLoading: false,
@@ -96,12 +93,6 @@ const userSlice = createSlice({
     setUserAvailability: (state, action: PayloadAction<Availability>) => {
       state.auth.user.availability = action.payload
     },
-    toggleSidebar: state => {
-      state.sidebar.visibleSidebar = !state.sidebar.visibleSidebar
-    },
-    toggleSidebarClose: state => {
-      state.sidebar.visibleSidebar = false
-    },
     updateUnreadMessagesObj: (state, action: PayloadAction<object>) => {
       state.auth.user.unreadMessages = action.payload
     },
@@ -156,6 +147,8 @@ const userSlice = createSlice({
 })
 
 export const selectAuthUser = (state: RootState) => state.ui.auth.user
+export const selectUserEmail = (state: RootState) => state.ui.auth.user.email
+export const selectProjectId = (state: RootState) => state.ui.auth.user.project
 export const selectUserId = (state: RootState) => state.ui.auth.user._id
 export const getUserAvailability = (state: RootState) =>
   state.ui.auth.user.availability
@@ -170,8 +163,6 @@ export const {
   setUserAvailability,
   reset,
   logoutAuthUser,
-  toggleSidebar,
-  toggleSidebarClose,
   updateUnreadMessagesObj,
   setUploadedImage,
   setDefaultProfilePicture,
