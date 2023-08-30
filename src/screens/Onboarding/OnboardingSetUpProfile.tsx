@@ -1,24 +1,22 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
 import { createUserProfile } from 'utils/api'
+import { setAuthUser } from 'utils/redux/slices/userSlice'
 import { useNotification } from 'utils/redux/slices/notificationSlice'
 import TextareaAutosize from 'react-textarea-autosize'
 import { IconButton } from '@mui/material'
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined'
 import { FiArrowRight, FiArrowLeft } from 'react-icons/fi'
 import './Onboarding.scss'
-import { setAuthUser } from 'utils/redux/slices/userSlice'
 
-// TODO: Alter functionality to be setup profile and not edit profile
-// TODO: Find out what and where Skip profile takes u and does
-// TODO: Confirm if Avatar will have initials or image upload as default here
+// TODO: Add Toasts also error handling Toasts as well
 
 export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
   const [userForm, updateUserForm] = useState<UserInterface>(emptyUser)
   const [bioCharCount, setBioCharCount] = useState(0)
+  const [nameError, setNameError] = useState(true)
   const dispatch = useDispatch()
   const { displayNotification } = useNotification()
 
@@ -26,6 +24,11 @@ export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
+
+    // console.log('Updated User Form:', {
+    //   ...userForm,
+    //   [name]: value,
+    // });
 
     if (name === 'bio') {
       updateUserForm(prevForm => ({
@@ -39,13 +42,31 @@ export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
         [name]: value,
       }))
     }
+
+    if (name === 'firstName' || name === 'lastName') {
+      if (userForm.firstName.trim() === '' || userForm.lastName.trim() === '') {
+        setNameError(true)
+      } else {
+        setNameError(false)
+      }
+    }
   }
 
   const handleProfileSetup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    if (userForm.firstName.trim() === '' || userForm.lastName.trim() === '') {
+      setNameError(true)
+      return
+    }
+
+    console.log('User Form:', userForm)
+
     try {
+      console.log('Sending userForm data:', userForm)
       const createdUser = await createUserProfile(userForm)
+
+      console.log('Response from server:', createdUser)
 
       dispatch(setAuthUser(createdUser))
       displayNotification({
@@ -58,6 +79,10 @@ export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
     }
   }
 
+  const handleSkipProfileSetup = () => {
+    handlePageNavigation('next')
+  }
+
   const handleCancel = () => {
     handlePageNavigation('previous')
   }
@@ -65,6 +90,10 @@ export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
   let inputString =
     "I'm from... I live in... I choose this career path because... my hobbies are... A fun fact about me is..."
   let placeholder = inputString.replace(/\.\.\. /g, '...\n')
+
+  const saveBtnClassName = !nameError
+    ? 'setupProfile__profile-saveBtn'
+    : 'setupProfile__profile-disabledBtn'
 
   return (
     <div className='setupProfile'>
@@ -159,14 +188,21 @@ export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
                 <FiArrowLeft className='setupProfile__profile-arrow-l' />
                 <p>Availability</p>
               </button>
-              <button type='submit' className='setupProfile__profile-saveBtn'>
+              <button
+                type='submit'
+                className={saveBtnClassName}
+                disabled={nameError}
+              >
                 <p>Save profile</p>
                 <FiArrowRight className='setupProfile__profile-arrow-r' />
               </button>
             </div>
-            <Link className='setupProfile__profile-link' to=''>
+            <button
+              className='setupProfile__profile-link'
+              onClick={handleSkipProfileSetup}
+            >
               Skip profile set up
-            </Link>
+            </button>
           </div>
         </form>
       </div>

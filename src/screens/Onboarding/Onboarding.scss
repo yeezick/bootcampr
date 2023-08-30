@@ -306,6 +306,30 @@
     max-width: 100%;
   }
 
+  &__profile-disabledBtn {
+    background-color: lightgray;
+    @include font-properties(
+      (
+        size: 14px,
+        weight: 500,
+        line-height: 20px,
+      )
+    );
+    border-radius: 4px;
+    box-sizing: border-box;
+    gap: 8px;
+    height: 40px;
+    padding: 10px 16px;
+    cursor: not-allowed;
+    border: none;
+    color: #1a237e;
+    width: 146px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    align-items: center;
+  }
+
   &__profile-form {
     width: 100%;
   }
@@ -398,6 +422,10 @@
 
   &__profile-link {
     color: #1a237e;
+    border: none;
+    background: none;
+    text-decoration: underline;
+    cursor: pointer;
   }
 
   &__profile-saveBtn {
