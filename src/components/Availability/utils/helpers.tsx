@@ -185,7 +185,7 @@ export const copyTimes = (checked, day, days, idx, setDays) => {
   )
   const copiedTimeslot = [days[day].availability[idx]]
   const newAvail = {}
-  daysToPasteTo.forEach(day => {
+  daysToPasteTo?.forEach(day => {
     newAvail[day] = {
       available: true,
       availability: days[day].availability.concat(copiedTimeslot),
