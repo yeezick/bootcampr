@@ -8,6 +8,7 @@ import { getOneProject } from 'utils/api'
 
 //TODO: add hover affect on links
 //TODO: ask question about hiding the hamburger button for original sidebar
+//TODO: fix calendar route
 
 export const ProjectDetailsSidebar = () => {
   const { id } = useParams()
@@ -47,7 +48,7 @@ export const ProjectDetailsSidebar = () => {
               </Link>
             </div>
             <div className='calendar-link'>
-              <Link className='link' to={'project/123/calendar'}>
+              <Link className='link' to={`project/123/calendar`}>
                 <AiFillStar size={18} viewBox={'0 0 1024 900'} /> Calendar
               </Link>
             </div>

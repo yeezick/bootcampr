@@ -14,13 +14,11 @@ import { AllProjects, CreateProject, TaskManagement } from 'screens/Project'
 import { ProjectDetails } from 'screens/Project/ProjectDetails/ProjectDetails'
 import { Team } from 'screens/Project/ProjectDetails/Team'
 import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
-import { Calendar } from 'screens/Project/ProjectDetails/Calendar'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import './App.css'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { UnassignedProject } from 'screens/Project/UnassignedProject'
 
-//TODO fix Calendar issues from merge (Calendar / Calendar Screen)
 //TODO fix Task Management issue from merge
 
 function App() {
@@ -43,7 +41,6 @@ function App() {
           {/* Project */}
           <Route path='/all-projects' element={<AllProjects />} />
           <Route path='/create-project' element={<CreateProject />} />
-          <Route path='/project/:id/calendar' element={<Calendar />} />
           <Route path='/project/:id/details' element={<ProjectDetails />} />
           <Route path='/project/:id/team' element={<Team />} />
           <Route

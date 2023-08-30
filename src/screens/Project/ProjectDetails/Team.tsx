@@ -1,12 +1,13 @@
 import { ProjectDetailsSidebar } from './ProjectDetailsSidebar'
 import TeamBanner from '../../../assets/Image/team-header.png'
 import { TeamMemberCard } from './TeamMemberCard'
-import more_vert from '../../../assets/Image/more_vert.png'
+import { BsThreeDotsVertical } from 'react-icons/bs'
 
-//TODO: for three dots to the Team Members banner, use an icon instead of png
 //TODO: link dot icon to withdraw menu link popup
 //TODO: create withdraw menu link popup
 //TODO: create withdraw dialog popup
+//TODO: how to map users based on role (SWE and UX)
+//TODO: how to display user card without message button
 
 export const Team = () => {
   return (
@@ -21,20 +22,19 @@ export const Team = () => {
             <div className='banner-text-container'>
               <div className='banner-text'>
                 <h1>Team Members</h1>
-                <img src={more_vert} alt='three verticald dots'></img>
+                <BsThreeDotsVertical size={24} />
               </div>
             </div>
           </div>
           <div className='software-engineer-container'>
             <div className='swe-text-container'></div>
             <h1>Software Engineers</h1>
+            <TeamMemberCard />
           </div>
+
           <div className='ux-designers-container'>
             <div className='ux-designers-text-container'></div>
             <h1>UX Designers</h1>
-          </div>
-          <div>
-            <TeamMemberCard />
           </div>
         </div>
       </div>
