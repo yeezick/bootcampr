@@ -8,10 +8,10 @@ import snackBarSlice from '../slices/snackBarSlice'
 
 export type RootState = {
   avatar: ReturnType<typeof avatarReducer>
+  ui: ReturnType<typeof userReducer>
+  project: ReturnType<typeof projectReducer>
   chat: ReturnType<typeof chatReducer>
   notification: ReturnType<typeof notificationReducer>
-  project: ReturnType<typeof projectReducer>
-  ui: ReturnType<typeof userReducer>
   snackBar: ReturnType<typeof snackBarSlice>
 }
 
