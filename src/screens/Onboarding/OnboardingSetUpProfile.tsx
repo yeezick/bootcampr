@@ -1,88 +1,65 @@
-import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { useNavigate, useParams, Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
 import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
-import { updateUser } from 'utils/api/users'
+import { createUserProfile } from 'utils/api'
 import { useNotification } from 'utils/redux/slices/notificationSlice'
 import TextareaAutosize from 'react-textarea-autosize'
 import { IconButton } from '@mui/material'
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined'
 import { FiArrowRight, FiArrowLeft } from 'react-icons/fi'
 import './Onboarding.scss'
+import { setAuthUser } from 'utils/redux/slices/userSlice'
 
 // TODO: Alter functionality to be setup profile and not edit profile
 // TODO: Find out what and where Skip profile takes u and does
 // TODO: Confirm if Avatar will have initials or image upload as default here
 
-export const OnboardingSetUpProfile = () => {
-  const authUser = useSelector(selectAuthUser)
+export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
   const [userForm, updateUserForm] = useState<UserInterface>(emptyUser)
   const [bioCharCount, setBioCharCount] = useState(0)
-  const params = useParams()
   const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { role, _id: userId } = userForm
-
   const { displayNotification } = useNotification()
-
-  useEffect(() => {
-    if (authUser) {
-      updateUserForm(currForm => {
-        return { ...currForm, ...authUser }
-      })
-    }
-
-    setBioCharCount(authUser.bio.length)
-  }, [])
-
-  const nestedLinks = Object.keys(userForm.links)
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
 
-    if (nestedLinks.includes(name)) {
+    if (name === 'bio') {
       updateUserForm(prevForm => ({
         ...prevForm,
-        links: {
-          ...prevForm.links,
-          [name]: value,
-        },
+        [name]: value,
       }))
-    } else {
-      updateUserForm({ ...userForm, [name]: value })
-    }
-
-    if (name === 'bio') {
       setBioCharCount(value.length)
+    } else {
+      updateUserForm(prevForm => ({
+        ...prevForm,
+        [name]: value,
+      }))
     }
   }
 
-  const handleProfileSave = () => {
-    displayNotification({
-      message: 'User profile successfully updated.',
-    })
+  const handleProfileSetup = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    try {
+      const createdUser = await createUserProfile(userForm)
+
+      dispatch(setAuthUser(createdUser))
+      displayNotification({
+        message: 'User profile successfully updated.',
+      })
+
+      handlePageNavigation('next')
+    } catch (error) {
+      console.log('Error occured when trying to create User Profile', error)
+    }
   }
 
   const handleCancel = () => {
-    updateUserForm({ ...authUser })
-    navigate(`/users/${authUser._id}`)
-  }
-
-  const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    const updatedUser = await updateUser(params.id, userForm)
-    dispatch(setAuthUser(updatedUser))
-    navigate(`/users/${userId}`)
-  }
-
-  if (!authUser) {
-    return <div>Loading user...</div>
+    handlePageNavigation('previous')
   }
 
   let inputString =
@@ -101,7 +78,7 @@ export const OnboardingSetUpProfile = () => {
       </div>
       <div className='setupProfile__profile-container'>
         <form
-          onSubmit={handleUserUpdate}
+          onSubmit={handleProfileSetup}
           className='setupProfile__profile-form'
         >
           <div className='setupProfile__inputs-container'>
@@ -182,11 +159,7 @@ export const OnboardingSetUpProfile = () => {
                 <FiArrowLeft className='setupProfile__profile-arrow-l' />
                 <p>Availability</p>
               </button>
-              <button
-                type='submit'
-                className='setupProfile__profile-saveBtn'
-                onClick={handleProfileSave}
-              >
+              <button type='submit' className='setupProfile__profile-saveBtn'>
                 <p>Save profile</p>
                 <FiArrowRight className='setupProfile__profile-arrow-r' />
               </button>

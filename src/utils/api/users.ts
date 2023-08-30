@@ -23,6 +23,15 @@ export const getOneUser = async (id: any) => {
   }
 }
 
+export const createUserProfile = async (user: any) => {
+  try {
+    const res = await api.post(`/users`, user)
+    return res.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export const updateUser = async (id: any, userUpdate: any) => {
   try {
     const res = await api.put(`/users/${id}`, userUpdate)
