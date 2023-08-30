@@ -5,7 +5,7 @@ import { Timezones } from '../utils/data'
 export const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
   return (
     <div className='timezone-input-container'>
-      <h2>Time zone</h2>
+      <h2>Time Zone</h2>
       <Select
         defaultValue={timezone}
         disableUnderline
