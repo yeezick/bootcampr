@@ -1,9 +1,10 @@
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { emptyUser } from 'utils/data/userConstants'
+import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
+import { emptyProfile } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
-import { createUserProfile } from 'utils/api'
-import { setAuthUser } from 'utils/redux/slices/userSlice'
+import { updateUserProfile } from 'utils/api/users'
 import { useNotification } from 'utils/redux/slices/notificationSlice'
 import TextareaAutosize from 'react-textarea-autosize'
 import { IconButton } from '@mui/material'
@@ -14,61 +15,63 @@ import './Onboarding.scss'
 // TODO: Add Toasts also error handling Toasts as well
 
 export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
-  const [userForm, updateUserForm] = useState<UserInterface>(emptyUser)
+  const authUser = useSelector(selectAuthUser)
+  const [userForm, updateUserForm] = useState<UserInterface>(emptyProfile)
   const [bioCharCount, setBioCharCount] = useState(0)
-  const [nameError, setNameError] = useState(true)
+  const params = useParams()
   const dispatch = useDispatch()
   const { displayNotification } = useNotification()
+  const { firstName, lastName } = userForm
+  const nestedLinks = Object.keys(userForm.links)
+
+  useEffect(() => {
+    if (authUser) {
+      updateUserForm(currForm => {
+        return { ...currForm, ...authUser }
+      })
+    }
+
+    setBioCharCount(authUser.bio.length)
+  }, [])
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
 
-    // console.log('Updated User Form:', {
-    //   ...userForm,
-    //   [name]: value,
-    // });
-
-    if (name === 'bio') {
+    if (nestedLinks.includes(name)) {
       updateUserForm(prevForm => ({
         ...prevForm,
-        [name]: value,
+        links: {
+          ...prevForm.links,
+          [name]: value,
+        },
       }))
-      setBioCharCount(value.length)
     } else {
-      updateUserForm(prevForm => ({
-        ...prevForm,
-        [name]: value,
-      }))
+      updateUserForm({ ...userForm, [name]: value })
     }
 
-    if (name === 'firstName' || name === 'lastName') {
-      if (userForm.firstName.trim() === '' || userForm.lastName.trim() === '') {
-        setNameError(true)
-      } else {
-        setNameError(false)
-      }
+    if (name === 'bio') {
+      setBioCharCount(value.length)
     }
   }
 
   const handleProfileSetup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (userForm.firstName.trim() === '' || userForm.lastName.trim() === '') {
-      setNameError(true)
-      return
-    }
-
     console.log('User Form:', userForm)
 
     try {
       console.log('Sending userForm data:', userForm)
-      const createdUser = await createUserProfile(userForm)
 
-      console.log('Response from server:', createdUser)
+      console.log('_id value:', params.id)
 
-      dispatch(setAuthUser(createdUser))
+      const updatedUser = await updateUserProfile(params.id, userForm)
+      console.log('Response from server:', updatedUser)
+
+      dispatch(setAuthUser(updatedUser))
+      console.log('after dispatch:', dispatch(setAuthUser(updatedUser)))
+
       displayNotification({
         message: 'User profile successfully updated.',
       })
@@ -91,9 +94,9 @@ export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
     "I'm from... I live in... I choose this career path because... my hobbies are... A fun fact about me is..."
   let placeholder = inputString.replace(/\.\.\. /g, '...\n')
 
-  const saveBtnClassName = !nameError
-    ? 'setupProfile__profile-saveBtn'
-    : 'setupProfile__profile-disabledBtn'
+  const saveBtnClassName = ''
+    ? 'setupProfile__profile-disabledBtn'
+    : 'setupProfile__profile-saveBtn'
 
   return (
     <div className='setupProfile'>
@@ -125,7 +128,9 @@ export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
                 type='text'
                 name='firstName'
                 className='setupProfile__profile-input'
+                value={firstName}
                 onChange={handleInputChange}
+                required
               />
             </label>
             <label className='setupProfile__profile-label'>
@@ -134,7 +139,9 @@ export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
                 type='text'
                 name='lastName'
                 className='setupProfile__profile-input'
+                value={lastName}
                 onChange={handleInputChange}
+                required
               />
             </label>
             <label className='setupProfile__profile-label'>
@@ -191,7 +198,7 @@ export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
               <button
                 type='submit'
                 className={saveBtnClassName}
-                disabled={nameError}
+                // disabled={}
               >
                 <p>Save profile</p>
                 <FiArrowRight className='setupProfile__profile-arrow-r' />

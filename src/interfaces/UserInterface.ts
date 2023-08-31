@@ -4,7 +4,7 @@ export interface UserInterface {
   availability?: Availability
   bio?: string
   declinedProjects?: ProjectInterface[]
-  email: string
+  email?: string
   firstName: string
   interestedProjects?: ProjectInterface[]
   lastName: string
@@ -20,7 +20,7 @@ export interface UserInterface {
   onboarded?: boolean
   profilePicture?: string | null
   role?: string
-  unreadMessages: {}
+  unreadMessages?: {}
   savedProjects?: ProjectInterface[]
   verified?: Boolean
   __v?: number
