@@ -163,3 +163,19 @@ export const markConversationAsRead = async (
     return false
   }
 }
+
+export const updateAvailability = async (
+  userId: string,
+  newAvailability: any
+) => {
+  try {
+    const res = await api.post(`/updateAvailability`, {
+      newAvailability,
+      userId,
+    })
+    return res.data
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
