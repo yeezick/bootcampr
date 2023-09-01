@@ -3,7 +3,7 @@ import {
   CalendarInterface,
   ConvertedEvent,
   MeetingModalInfo,
-  MeetingModalVisibility,
+  ModalDisplayStatus,
 } from 'interfaces/CalendarInterfaces'
 import { RootState } from 'utils/redux/store'
 /** Context:
@@ -15,6 +15,7 @@ import { RootState } from 'utils/redux/store'
 const initialState: CalendarInterface = {
   eventMap: {},
   convertedEvents: [],
+  modalDisplayStatus: false,
 }
 
 const calendarSlice = createSlice({
@@ -26,11 +27,8 @@ const calendarSlice = createSlice({
       const { id: eventId } = action.payload[0]
       state.eventMap[eventId] = state.convertedEvents.length
     },
-    toggleMeetingModal: (
-      state,
-      action: PayloadAction<MeetingModalVisibility>
-    ) => {
-      state.currentEvent.visibility = action.payload
+    toggleMeetingModal: (state, action: PayloadAction<ModalDisplayStatus>) => {
+      state.modalDisplayStatus = action.payload
     },
     storeConvertedEvents: (state, action: PayloadAction<ConvertedEvent[]>) => {
       state.convertedEvents = action.payload
@@ -39,8 +37,9 @@ const calendarSlice = createSlice({
         state.eventMap[eventId] = idx
       }
     },
-    setCurrentEvent: (state, action: PayloadAction<MeetingModalInfo>) => {
-      state.currentEvent = action.payload
+    setDisplayedEvent: (state, action: PayloadAction<MeetingModalInfo>) => {
+      state.displayedEvent = action.payload
+      state.modalDisplayStatus = 'display'
     },
   },
 })
@@ -51,12 +50,17 @@ export const selectConvertedEventsAsArr = (state: RootState) =>
 export const selectConvertedEventsById = (state: RootState) =>
   state.calendar.eventMap
 
-export const selectCurrentEvent = (state: RootState) =>
-  state.calendar.currentEvent
+export const selectDisplayedEvent = (state: RootState) =>
+  state.calendar.displayedEvent
+
+export const selectModalDisplayStatus = (state: RootState) =>
+  state.calendar.modalDisplayStatus
+
 export const {
   addNewEvent,
-  setCurrentEvent,
+  setDisplayedEvent,
   storeConvertedEvents,
   toggleMeetingModal,
 } = calendarSlice.actions
+
 export default calendarSlice.reducer

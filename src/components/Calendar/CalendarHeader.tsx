@@ -1,14 +1,19 @@
 import { Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
+import { useAppDispatch } from 'utils/redux/hooks'
+import { toggleMeetingModal } from 'utils/redux/slices/calendarSlice'
 
-export const CalendarHeader = ({ toggleMeetingModal }) => {
+export const CalendarHeader = () => {
+  const dispatch = useAppDispatch()
+  const openMeetingModal = () => dispatch(toggleMeetingModal('create'))
+
   return (
     <div className='calendar-header'>
       <div className='header-title'>
         <h2>Calendar</h2>
       </div>
       <div className='header-button'>
-        <PurpleButon onClick={toggleMeetingModal} variant='contained'>
+        <PurpleButon onClick={openMeetingModal} variant='contained'>
           + Create Meeting
         </PurpleButon>
       </div>

@@ -6,9 +6,10 @@ export interface Attendee {
   responseStatus: string
 }
 export interface CalendarInterface {
-  eventMap: NumberObject
   convertedEvents: ConvertedEvent[]
-  currentEvent?: MeetingModalInfo
+  displayedEvent?: MeetingModalInfo
+  eventMap: NumberObject
+  modalDisplayStatus: ModalDisplayStatus
 }
 
 export interface ConvertedEvent {
@@ -17,6 +18,7 @@ export interface ConvertedEvent {
   description?: string
   end?: string
   id?: string
+  location: string
   metadata: any
   start?: string
   timeZone?: string
@@ -45,15 +47,19 @@ export interface MeetingText {
 
 export interface MeetingModalInfo {
   attendees: BooleanObject
-  creator: string
+  description: string
+  creator: {
+    email: string
+  }
   dateFields: {
     date: string
     end: string
     start: string
     timeZone: string
   }
-  meetingText: MeetingText
-  visibility: MeetingModalVisibility
+  location?: string
+  summary: string
+  metadata: any
 }
 
-export type MeetingModalVisibility = 'display' | 'edit' | 'create' | false
+export type ModalDisplayStatus = 'display' | 'edit' | 'create' | false

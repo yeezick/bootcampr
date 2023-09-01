@@ -1,4 +1,4 @@
-import dayjs from 'dayjs'
+import dayjs, { extend } from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import {
@@ -9,6 +9,26 @@ import {
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
+
+export const checkIfAllMembersInvited = (
+  attendees,
+  projectMembers,
+  inviteAll,
+  toggleInviteAll
+) => {
+  const invitedMembers = []
+  for (const member in attendees) {
+    if (attendees[member] === true) {
+      invitedMembers.push(true)
+    }
+  }
+  const allMembersInvited = invitedMembers.length === projectMembers.length
+  if (inviteAll && !allMembersInvited) {
+    toggleInviteAll(false)
+  } else if (!inviteAll && allMembersInvited) {
+    toggleInviteAll(true)
+  }
+}
 
 /**
  * Combines the user's date selection with their selected start/end times.
@@ -45,10 +65,11 @@ export const convertGoogleEventsForCalendar = googleEvents => {
   for (const singleEvent of googleEvents) {
     const {
       attendees,
-      description,
       creator,
-      id,
+      description,
       end,
+      id,
+      location,
       start,
       summary,
       ...metadata
@@ -60,6 +81,7 @@ export const convertGoogleEventsForCalendar = googleEvents => {
       description: description || null,
       end: end.dateTime,
       id,
+      location,
       metadata,
       start: start.dateTime,
       timeZone: start.timeZone,
@@ -90,20 +112,20 @@ export const initialDateFields = (): DateFieldsAsDayjs => {
  * @returns The event info required fto display a meeting modal
  */
 export const parseCalendarEventForMeetingInfo = (e): MeetingModalInfo => {
-  const { _def: eventInfo, _instance } = e.event
-  const { end, start } = _instance.range
-  const { extendedProps, title: summary } = eventInfo
-  const { attendees, creator, description, timeZone } = extendedProps
+  console.log(e)
+
+  const { end, start } = e.event._instance.range
+  const { extendedProps, title: summary } = e.event._def
+  console.log(extendedProps)
   return {
-    attendees: attendees,
-    creator,
+    ...extendedProps,
     dateFields: {
       date: dayjs(start).toString(),
       end: dayjs(end).toString(),
       start: dayjs(start).toString(),
-      timeZone,
+      timeZone: extendedProps.timeZone,
     },
-    meetingText: { description, summary },
+    summary,
     visibility: 'display',
   }
 }

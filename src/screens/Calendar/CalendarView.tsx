@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux'
 import { fetchProjectCalendar } from 'utils/api/calendar'
 import {
   selectCalendarId,
-  selectMembersAsTeam,
   selectMembersByEmail,
 } from 'utils/redux/slices/projectSlice'
 import {
@@ -16,8 +15,9 @@ import {
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectConvertedEventsAsArr,
-  selectCurrentEvent,
-  setCurrentEvent,
+  selectDisplayedEvent,
+  selectModalDisplayStatus,
+  setDisplayedEvent,
   storeConvertedEvents,
   toggleMeetingModal,
 } from 'utils/redux/slices/calendarSlice'
@@ -51,7 +51,7 @@ export const CalendarView = () => {
    */
 
   const handleEventClick = e =>
-    dispatch(setCurrentEvent(parseCalendarEventForMeetingInfo(e)))
+    dispatch(setDisplayedEvent(parseCalendarEventForMeetingInfo(e)))
 
   return (
     <div>
@@ -78,47 +78,61 @@ export const CalendarView = () => {
 
 const DisplayMeetingModal = () => {
   const [displayMeeting, setDisplayMeeting] = useState(false)
-  const meetingModalInfo = useAppSelector(selectCurrentEvent)
+  const displayedEvent = useAppSelector(selectDisplayedEvent)
+  const modalDisplayStatus = useAppSelector(selectModalDisplayStatus)
   const dispatch = useAppDispatch()
   const handleClose = () => dispatch(toggleMeetingModal(false))
+  const handleEdit = () => {
+    dispatch(toggleMeetingModal('edit'))
+    setDisplayMeeting(false)
+  }
 
   useEffect(() => {
-    console.log('mmeting', meetingModalInfo)
-
-    if (meetingModalInfo?.visibility === 'display') {
+    if (modalDisplayStatus === 'display') {
       setDisplayMeeting(true)
     } else {
       setDisplayMeeting(false)
     }
-  }, [meetingModalInfo])
+  }, [modalDisplayStatus])
 
-  if (!meetingModalInfo) {
+  if (!displayedEvent) {
     return null
   }
-  const { creator, dateFields, meetingText } = meetingModalInfo
+
+  const { attendees, creator, dateFields, description, summary } =
+    displayedEvent
 
   return (
     <Dialog open={displayMeeting} onClose={handleClose}>
       <DialogContent>
+        <div>
+          <button onClick={handleEdit}>edit</button>
+          <button onClick={handleClose}>close</button>
+        </div>
+
         {/* Header */}
         <div>
           {/* img */}
-          <h3>{meetingText.summary}</h3>
+          <h3>{summary}</h3>
           <p>
             {dateFields.start} - {dateFields.end}
           </p>
         </div>
 
-        {meetingModalInfo.attendees && (
-          <DisplayAttendees attendees={meetingModalInfo.attendees} />
+        {displayedEvent.attendees && (
+          <DisplayAttendees attendees={displayedEvent.attendees} />
         )}
 
         {/* description */}
-        <div>{meetingText.description}</div>
+        <div>{description}</div>
 
         <div>
-          {' '}
-          <p> Created by: {creator}</p>
+          <p>link icon</p>
+          <p>{displayedEvent.location}</p>
+        </div>
+
+        <div>
+          <p> Created by: {creator.email}</p>
         </div>
       </DialogContent>
     </Dialog>
@@ -145,6 +159,7 @@ const DisplayAttendees = ({ attendees }) => {
     }
     prepareInvitedMembers()
   }, [])
+
   return (
     <>
       {invitedMembers.map(member => (

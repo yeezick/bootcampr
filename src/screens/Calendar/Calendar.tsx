@@ -1,20 +1,12 @@
-import { useState } from 'react'
 import { CalendarHeader, CalendarTabs, MeetingModal } from 'components/Calendar'
 import 'components/Calendar/Calendar.scss'
-import { ConvertedEvent } from 'interfaces/CalendarInterfaces'
 
 export const CalendarScreen = () => {
-  const [visibleMeeting, toggleVisibleMeeting] = useState(false)
-  const toggleMeetingModal = () => toggleVisibleMeeting(!visibleMeeting)
-
   return (
     <div className='calendar'>
-      <CalendarHeader toggleMeetingModal={toggleMeetingModal} />
+      <CalendarHeader />
       <CalendarTabs />
-      <MeetingModal
-        toggleMeetingModal={toggleMeetingModal}
-        visibleMeeting={visibleMeeting}
-      />
+      <MeetingModal />
     </div>
   )
 }
