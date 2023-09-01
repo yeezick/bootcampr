@@ -60,7 +60,7 @@ export const MeetingModal = ({
   const handleInviteAll = () => {
     if (projectMembers) {
       const updatedAttendance = {}
-      projectMembers.forEach(member => {
+      projectMembers?.forEach(member => {
         // inviteAll is the current state
         updatedAttendance[member.email] = !inviteAll
       })
