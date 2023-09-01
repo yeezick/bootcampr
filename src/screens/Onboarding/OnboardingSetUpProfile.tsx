@@ -16,17 +16,18 @@ import './Onboarding.scss'
 
 export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
-  const [userForm, updateUserForm] = useState<UserInterface>(emptyProfile)
+  const [updateUserForm, setUpdateUserForm] =
+    useState<UserInterface>(emptyProfile)
   const [bioCharCount, setBioCharCount] = useState(0)
   const params = useParams()
   const dispatch = useDispatch()
   const { displayNotification } = useNotification()
-  const { firstName, lastName } = userForm
-  const nestedLinks = Object.keys(userForm.links)
+  const { firstName, lastName } = updateUserForm
+  const nestedLinks = Object.keys(updateUserForm.links)
 
   useEffect(() => {
     if (authUser) {
-      updateUserForm(currForm => {
+      setUpdateUserForm(currForm => {
         return { ...currForm, ...authUser }
       })
     }
@@ -40,7 +41,7 @@ export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
     const { name, value } = e.target
 
     if (nestedLinks.includes(name)) {
-      updateUserForm(prevForm => ({
+      setUpdateUserForm(prevForm => ({
         ...prevForm,
         links: {
           ...prevForm.links,
@@ -48,7 +49,7 @@ export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
         },
       }))
     } else {
-      updateUserForm({ ...userForm, [name]: value })
+      setUpdateUserForm({ ...updateUserForm, [name]: value })
     }
 
     if (name === 'bio') {
@@ -59,19 +60,9 @@ export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
   const handleProfileSetup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    console.log('User Form:', userForm)
-
     try {
-      console.log('Sending userForm data:', userForm)
-
-      console.log('_id value:', params.id)
-
-      const updatedUser = await updateUserProfile(params.id, userForm)
-      console.log('Response from server:', updatedUser)
-
+      const updatedUser = await updateUserProfile(params.id, updateUserForm)
       dispatch(setAuthUser(updatedUser))
-      console.log('after dispatch:', dispatch(setAuthUser(updatedUser)))
-
       displayNotification({
         message: 'User profile successfully updated.',
       })

@@ -23,9 +23,9 @@ export const getOneUser = async (id: any) => {
   }
 }
 
-export const updateUserProfile = async (id: any, userUpdate: any) => {
+export const updateUserProfile = async (id: any, userProfile: any) => {
   try {
-    const res = await api.put(`/onboarding/${id}`, userUpdate)
+    const res = await api.post(`/onboarding/${id}`, userProfile)
     return res.data
   } catch (error) {
     throw error
