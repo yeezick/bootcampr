@@ -4,7 +4,7 @@ export interface UserInterface {
   availability?: Availability
   bio?: string
   declinedProjects?: ProjectInterface[]
-  email?: string
+  email: string
   firstName: string
   interestedProjects?: ProjectInterface[]
   lastName: string

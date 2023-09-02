@@ -56,6 +56,7 @@ export const emptyUser: UserInterface = {
 export const emptyProfile: UserInterface = {
   availability: defaultAvailability,
   bio: '',
+  email: '',
   firstName: '',
   lastName: '',
   links: {

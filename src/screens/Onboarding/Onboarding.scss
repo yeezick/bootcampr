@@ -224,8 +224,8 @@
   $this: &;
 
   &__cta-container {
-    display: flex;
     align-items: flex-start;
+    display: flex;
     gap: 32px;
   }
 
@@ -260,11 +260,11 @@
 
   &__profile-btns {
     @include flex(column, space-between, center);
-    width: 50%;
     background-color: #ffffff;
+    gap: 32px;
     margin: auto 0 auto 50%;
     padding-top: 32px;
-    gap: 32px;
+    width: 50%;
   }
 
   &__profile-cameraIcon {
@@ -284,21 +284,21 @@
     );
     border-radius: 4px;
     box-sizing: border-box;
+    cursor: pointer;
     gap: 8px;
     height: 40px;
     padding: 10px 16px;
-    cursor: pointer;
   }
 
   &__profile-cancelBtn {
+    align-items: center;
     background-color: #ffffff;
     border: 1px solid #5c6bc0;
     color: #1a237e;
-    width: 141px;
     display: flex;
     justify-content: center;
     position: relative;
-    align-items: center;
+    width: 141px;
   }
 
   &__profile-container {
@@ -307,7 +307,6 @@
   }
 
   &__profile-disabledBtn {
-    background-color: lightgray;
     @include font-properties(
       (
         size: 14px,
@@ -315,19 +314,20 @@
         line-height: 20px,
       )
     );
+    align-items: center;
+    background-color: lightgray;
+    border: none;
     border-radius: 4px;
     box-sizing: border-box;
+    color: #1a237e;
+    cursor: not-allowed;
+    display: flex;
     gap: 8px;
     height: 40px;
-    padding: 10px 16px;
-    cursor: not-allowed;
-    border: none;
-    color: #1a237e;
-    width: 146px;
-    display: flex;
     justify-content: center;
+    padding: 10px 16px;
     position: relative;
-    align-items: center;
+    width: 146px;
   }
 
   &__profile-form {
@@ -354,7 +354,6 @@
     }
 
     p {
-      color: #212121;
       @include font-properties(
         (
           size: 16px,
@@ -362,6 +361,7 @@
           line-height: 24px,
         )
       );
+      color: #212121;
       letter-spacing: 0;
       margin: 0;
     }
@@ -371,8 +371,8 @@
     background-color: #fafafa;
     display: flex;
     flex-direction: column;
-    padding: 32px;
     gap: 16px 16px;
+    padding: 32px;
   }
 
   &__profile-image {
@@ -422,21 +422,21 @@
 
   &__profile-link {
     color: #1a237e;
+    cursor: pointer;
     border: none;
     background: none;
     text-decoration: underline;
-    cursor: pointer;
   }
 
   &__profile-saveBtn {
+    align-items: center;
     background-color: #fa9413;
     border: none;
     color: #1a237e;
-    width: 146px;
     display: flex;
     justify-content: center;
     position: relative;
-    align-items: center;
+    width: 146px;
   }
 }
 

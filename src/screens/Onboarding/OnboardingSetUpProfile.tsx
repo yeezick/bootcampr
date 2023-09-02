@@ -83,11 +83,7 @@ export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
 
   let inputString =
     "I'm from... I live in... I choose this career path because... my hobbies are... A fun fact about me is..."
-  let placeholder = inputString.replace(/\.\.\. /g, '...\n')
-
-  const saveBtnClassName = ''
-    ? 'setupProfile__profile-disabledBtn'
-    : 'setupProfile__profile-saveBtn'
+  const placeholder = inputString.replace(/\.\.\. /g, '...\n')
 
   return (
     <div className='setupProfile'>
@@ -186,11 +182,7 @@ export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
                 <FiArrowLeft className='setupProfile__profile-arrow-l' />
                 <p>Availability</p>
               </button>
-              <button
-                type='submit'
-                className={saveBtnClassName}
-                // disabled={}
-              >
+              <button type='submit' className='setupProfile__profile-saveBtn'>
                 <p>Save profile</p>
                 <FiArrowRight className='setupProfile__profile-arrow-r' />
               </button>
