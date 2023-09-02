@@ -140,22 +140,24 @@ const DisplayMeetingModal = () => {
 }
 
 const DisplayAttendees = ({ attendees }) => {
+  const emailQueries = attendees.map(attendee => attendee.email)
   const [invitedMembers, setInvitedMembers] = useState([])
-  const teamMembers = useAppSelector(selectMembersByEmail)
+  const teamMembers = useAppSelector(selectMembersByEmail(emailQueries))
 
   useEffect(() => {
     const prepareInvitedMembers = () => {
-      const invitedMemberInfo = []
-      for (const member of attendees) {
-        const { firstName, lastName, profilePicture } =
-          teamMembers[member.email]
-        invitedMemberInfo.push({
-          firstName: firstName,
-          profilePicture: profilePicture,
-          lastName: lastName,
-        })
+      if (attendees.length) {
+        const invitedMemberInfo = []
+        for (const member of teamMembers) {
+          const { firstName, lastName, profilePicture } = member
+          invitedMemberInfo.push({
+            firstName: firstName,
+            profilePicture: profilePicture,
+            lastName: lastName,
+          })
+        }
+        setInvitedMembers(invitedMemberInfo)
       }
-      setInvitedMembers(invitedMemberInfo)
     }
     prepareInvitedMembers()
   }, [])

@@ -8,8 +8,8 @@ export interface ProjectInterface {
   meetings: string[]
   members?: {
     all?: UserInterface[]
-    mappedByEmail?: UserMap
     designers?: UserInterface[]
+    emailMap?: EmailMap
     engineers?: UserInterface[]
   }
   problem: string
@@ -28,6 +28,9 @@ export interface ProjectInterface {
   _v?: number
 }
 
-export interface UserMap {
-  [key: string]: UserInterface
+export interface EmailMap {
+  [key: string]: {
+    role: string
+    index: number
+  }
 }
