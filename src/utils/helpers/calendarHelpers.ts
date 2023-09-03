@@ -4,6 +4,7 @@ import timezone from 'dayjs/plugin/timezone'
 import {
   ConvertedEvent,
   DateFieldsAsDayjs,
+  DateFieldsInterface,
   MeetingModalInfo,
 } from 'interfaces/CalendarInterfaces'
 
@@ -33,22 +34,26 @@ export const checkIfAllMembersInvited = (
 /**
  * Combines the user's date selection with their selected start/end times.
  * @param {Dayjs} date
- * @param {string} selectedTime (Ex: "1:30 PM")
+ * @param {string} selectedTime (Ex: "01:30 PM" or "")
  * @returns The updated DayJS object with user's selection
  */
-export const combineDateWithTime = (date, selectedTime) => {
+export const combineDateWithTime = (newDate, selectedTime) => {
+  if (selectedTime.length > 8) {
+    selectedTime = dayjs(selectedTime).format('h:mm A')
+  }
   const [time, period] = selectedTime.split(/\s/)
   const [hours, minutes] = time.split(':').map(Number)
-  let newDate = date.set('hour', hours)
+  let updatedDate = dayjs(newDate)
+  updatedDate = updatedDate.set('hour', hours)
 
   if (period === 'PM' && hours !== 12) {
-    newDate = newDate.add(12, 'hour')
+    updatedDate = updatedDate.add(12, 'hour')
   } else if (period === 'AM' && hours === 12) {
-    newDate = newDate.set('hour', 0)
+    updatedDate = updatedDate.set('hour', 0)
   }
 
-  newDate = newDate.set('minute', minutes)
-  return newDate
+  updatedDate = updatedDate.set('minute', minutes)
+  return updatedDate.toISOString()
 }
 
 /**
@@ -93,18 +98,59 @@ export const convertGoogleEventsForCalendar = googleEvents => {
   return convertedEvents
 }
 
+export const formatIsoToHalfHour = isoStr => dayjs(isoStr).format('h:mm A')
+
 /**
  * Generate a new set of DayJS objects for current times/timezone
  * @returns An empty & current object for DateField state.
  */
-export const initialDateFields = (): DateFieldsAsDayjs => {
+export const initialDateFields = (): DateFieldsInterface => {
   return {
-    date: dayjs(),
-    start: dayjs(),
+    date: dayjs().toISOString(),
+    end: generateInitialTime('end'),
     timeZone: dayjs.tz.guess(),
-    end: dayjs(),
+    start: generateInitialTime('start'),
   }
 }
+
+const generateInitialTime = type => {
+  const timeStr = dayjs().format('hh:mm A')
+  const [time, period] = timeStr.split(/\s/)
+  const [hourStr, minuteStr] = time.split(':')
+  let minuteNum = parseInt(minuteStr)
+  let hourNum = parseInt(hourStr)
+  let finalStr = dayjs()
+
+  if (period === 'PM' && hourNum !== 12) {
+    hourNum += 12
+  } else if (period === 'AM' && hourNum === 12) {
+    hourNum = 0
+  }
+
+  if (type === 'start') {
+    if (minuteNum > 30) {
+      finalStr = finalStr.minute(60)
+    } else if (minuteNum > 5) {
+      finalStr = finalStr.minute(30)
+    } else {
+      finalStr = finalStr.minute(0)
+    }
+  } else {
+    /* End time is set to the option after the start time */
+    if (minuteNum > 30) {
+      finalStr = finalStr.minute(30)
+      finalStr = finalStr.hour(hourNum + 1)
+    } else if (minuteNum > 5) {
+      finalStr = finalStr.minute(60)
+    } else {
+      finalStr = finalStr.minute(30)
+    }
+  }
+
+  return dayjs(finalStr).toISOString()
+}
+
+// generateInitialTime()
 
 /**
  * Converts the event object from FullCalendar into meetingModal fields
@@ -112,11 +158,8 @@ export const initialDateFields = (): DateFieldsAsDayjs => {
  * @returns The event info required fto display a meeting modal
  */
 export const parseCalendarEventForMeetingInfo = (e): MeetingModalInfo => {
-  console.log(e)
-
   const { end, start } = e.event._instance.range
   const { extendedProps, title: summary } = e.event._def
-  console.log(extendedProps)
   return {
     ...extendedProps,
     dateFields: {
@@ -136,7 +179,8 @@ export const parseCalendarEventForMeetingInfo = (e): MeetingModalInfo => {
  * @param {string} timeStr (Ex: "1:11 AM")
  * @returns
  */
-export const roundToNearestHalfHour = timeStr => {
+export const roundToNearestHalfHour = isoTimeStr => {
+  const timeStr = dayjs(isoTimeStr).format('hh:mm A')
   const [time, period] = timeStr.split(/\s/)
   const [hourStr, minuteStr] = time.split(':')
   let hour = parseInt(hourStr)
@@ -176,4 +220,17 @@ export const roundToNearestHalfHour = timeStr => {
 
   const finalStr = `${hourStrResult}:${minuteStrResult} ${periodResult}`
   return finalStr
+}
+
+export const updateDateInTimeSelections = (newDate, timeIso) => {
+  const newDateAsDayjs = dayjs(newDate)
+  const newYear = newDateAsDayjs.year()
+  const newMonth = newDateAsDayjs.month()
+  const newDay = newDateAsDayjs.day()
+  const finalDayjs = dayjs(timeIso)
+    .set('year', newYear)
+    .set('month', newMonth)
+    .set('day', newDay)
+
+  return finalDayjs.toISOString()
 }

@@ -8,7 +8,11 @@ import {
   Checkbox,
 } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
-import { BooleanObject, DateFieldsAsDayjs } from 'interfaces'
+import {
+  BooleanObject,
+  DateFieldsAsDayjs,
+  DateFieldsInterface,
+} from 'interfaces'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
@@ -42,7 +46,7 @@ dayjs.extend(timezone)
 
 export const MeetingModal = () => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
-  const [dateFields, setDateFields] = useState<DateFieldsAsDayjs>(
+  const [dateFields, setDateFields] = useState<DateFieldsInterface>(
     initialDateFields()
   )
   const [attendees, setAttendees] = useState<BooleanObject>({})
@@ -61,7 +65,6 @@ export const MeetingModal = () => {
       toggleVisibleModal(true)
     } else if (modalDisplayStatus === 'edit') {
       const { description, location, summary } = displayedEvent
-      console.log('mmi', displayedEvent)
 
       const prefilledMeetingText = {
         dateFields,
@@ -69,11 +72,12 @@ export const MeetingModal = () => {
         meetingLink: location,
         summary,
       }
-      const prefilledDateFields: DateFieldsAsDayjs = {
-        date: dayjs(dateFields.date),
-        end: dayjs(dateFields.end),
-        start: dayjs(dateFields.start),
-        timeZone: dayjs(dateFields.timeZone),
+
+      const prefilledDateFields: DateFieldsInterface = {
+        date: dayjs(dateFields.date).toISOString(),
+        end: dayjs(dateFields.end).toISOString(),
+        start: dayjs(dateFields.start).toISOString(),
+        timeZone: dateFields.timeZone,
       }
 
       setMeetingText(prefilledMeetingText)
@@ -133,12 +137,10 @@ export const MeetingModal = () => {
       description,
       location: meetingText.meetingLink,
       end: {
-        dateTime: end.format('YYYY-MM-DDTHH:mm:ss'),
-        timeZone,
+        dateTime: end,
       },
       start: {
-        dateTime: start.format('YYYY-MM-DDTHH:mm:ss'),
-        timeZone,
+        dateTime: start,
       },
       summary,
     }

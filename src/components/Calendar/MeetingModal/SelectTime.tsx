@@ -1,14 +1,18 @@
 import { MenuItem, Select } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { timeOptions } from 'utils/data/calendarConstants'
-import { combineDateWithTime, roundToNearestHalfHour } from 'utils/helpers'
-
+import {
+  combineDateWithTime,
+  formatIsoToHalfHour,
+  roundToNearestHalfHour,
+} from 'utils/helpers'
 export const SelectTime = ({ dateFields, dayjs, setDateFields, type }) => {
   const [selectedTime, setSelectedTime] = useState(
-    roundToNearestHalfHour(dayjs(dateFields.date).format('hh:mm A'))
+    formatIsoToHalfHour(dateFields[type])
   )
   const [availableOptions, setAvailableOptions] = useState(timeOptions)
-  const { date } = dateFields
+  //TODO: rename append "time" to end and start
+  const { date, end, start } = dateFields
 
   /* CONTEXT (useEffect)
   Handles end time in following cases:
@@ -16,10 +20,8 @@ export const SelectTime = ({ dateFields, dayjs, setDateFields, type }) => {
     - If new start < time, keep current end time selection
   */
   useEffect(() => {
-    const currStartTime = roundToNearestHalfHour(
-      dateFields.start.format('h:mm A')
-    )
-    const currEndTime = roundToNearestHalfHour(dateFields.end.format('h:mm A'))
+    const currStartTime = formatIsoToHalfHour(dateFields.start)
+    const currEndTime = formatIsoToHalfHour(dateFields.end)
     const endIdx = timeOptions.findIndex(option => option === currEndTime)
     const startIdx = timeOptions.findIndex(option => option === currStartTime)
     if (type === 'end') {

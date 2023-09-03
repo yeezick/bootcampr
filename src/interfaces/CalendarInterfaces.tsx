@@ -32,7 +32,7 @@ export interface DateFieldsAsDayjs {
   timeZone: dayjs.Dayjs | string
 }
 
-export interface DateFieldsAsString {
+export interface DateFieldsInterface {
   date: string
   end: string
   start: string
