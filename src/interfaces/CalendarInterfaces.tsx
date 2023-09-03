@@ -16,6 +16,10 @@ export interface ConvertedEvent {
   attendees?: Attendee
   creator?: string
   description?: string
+  gDateFields: {
+    endTime: string
+    startTime: string
+  }
   end?: string
   id?: string
   location: string
@@ -56,6 +60,10 @@ export interface MeetingModalInfo {
     end: string
     start: string
     timeZone: string
+  }
+  gDateFields: {
+    endTime: string
+    startTime: string
   }
   location?: string
   summary: string

@@ -87,6 +87,8 @@ const DisplayMeetingModal = () => {
     setDisplayMeeting(false)
   }
 
+  console.log('dispmm', displayedEvent)
+
   useEffect(() => {
     if (modalDisplayStatus === 'display') {
       setDisplayMeeting(true)

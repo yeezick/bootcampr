@@ -64,19 +64,18 @@ export const MeetingModal = () => {
     if (modalDisplayStatus === 'create') {
       toggleVisibleModal(true)
     } else if (modalDisplayStatus === 'edit') {
-      const { description, location, summary } = displayedEvent
+      const { description, gDateFields, location, summary } = displayedEvent
 
       const prefilledMeetingText = {
-        dateFields,
         description,
         meetingLink: location,
         summary,
       }
 
       const prefilledDateFields: DateFieldsInterface = {
-        date: dayjs(dateFields.date).toISOString(),
-        end: dayjs(dateFields.end).toISOString(),
-        start: dayjs(dateFields.start).toISOString(),
+        date: gDateFields.startTime,
+        end: gDateFields.endTime,
+        start: gDateFields.startTime,
         timeZone: dateFields.timeZone,
       }
 

@@ -83,6 +83,11 @@ export const convertGoogleEventsForCalendar = googleEvents => {
     const currentEvent: ConvertedEvent = {
       attendees: attendees || null,
       creator,
+      // Todo: FullCalendar handles time conversions in an unusual way, saving them as UTC instead of as ISO acounting for TZ. This is a workaround.
+      gDateFields: {
+        endTime: end.dateTime,
+        startTime: start.dateTime,
+      },
       description: description || null,
       end: end.dateTime,
       id,
@@ -160,12 +165,13 @@ const generateInitialTime = type => {
 export const parseCalendarEventForMeetingInfo = (e): MeetingModalInfo => {
   const { end, start } = e.event._instance.range
   const { extendedProps, title: summary } = e.event._def
+  console.log('parse', e.event)
   return {
     ...extendedProps,
     dateFields: {
-      date: dayjs(start).toString(),
-      end: dayjs(end).toString(),
-      start: dayjs(start).toString(),
+      date: start.toISOString(),
+      end: end.toISOString(),
+      start: start.toISOString(),
       timeZone: extendedProps.timeZone,
     },
     summary,

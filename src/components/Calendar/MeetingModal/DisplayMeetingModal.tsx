@@ -45,7 +45,6 @@ export const DisplayMeetingModal = () => {
 
   const { attendees, creator, dateFields, description, summary } =
     displayedEvent
-  console.log('df: ', dateFields)
 
   return (
     <Dialog open={displayMeeting} onClose={handleClose}>
