@@ -66,6 +66,14 @@ export const MeetingModal = () => {
     } else if (modalDisplayStatus === 'edit') {
       const { description, gDateFields, location, summary } = displayedEvent
 
+      if (displayedEvent?.attendees) {
+        const prefilledAttendees = {}
+        for (const attendee of displayedEvent.attendees) {
+          prefilledAttendees[attendee.email] = true
+        }
+        setAttendees(prefilledAttendees)
+      }
+
       const prefilledMeetingText = {
         description,
         meetingLink: location,

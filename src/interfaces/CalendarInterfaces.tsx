@@ -50,7 +50,7 @@ export interface MeetingText {
 }
 
 export interface MeetingModalInfo {
-  attendees: BooleanObject
+  attendees: gAttendees[]
   description: string
   creator: {
     email: string
@@ -68,6 +68,11 @@ export interface MeetingModalInfo {
   location?: string
   summary: string
   metadata: any
+}
+
+interface gAttendees {
+  email: string
+  responseStatus: string
 }
 
 export type ModalDisplayStatus = 'display' | 'edit' | 'create' | false

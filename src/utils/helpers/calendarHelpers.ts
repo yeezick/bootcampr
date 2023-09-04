@@ -165,7 +165,6 @@ const generateInitialTime = type => {
 export const parseCalendarEventForMeetingInfo = (e): MeetingModalInfo => {
   const { end, start } = e.event._instance.range
   const { extendedProps, title: summary } = e.event._def
-  console.log('parse', e.event)
   return {
     ...extendedProps,
     dateFields: {
