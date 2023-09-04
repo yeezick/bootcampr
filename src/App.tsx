@@ -35,7 +35,7 @@ function App() {
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
           {/* User */}
           <Route path='/availability' element={<AvailabilityDemoScreen />} />
-          <Route path='/onboarding/:userId' element={<Onboarding />} />
+          <Route path='/onboarding/:id' element={<Onboarding />} />
           <Route path='/users/:id' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />
           <Route
