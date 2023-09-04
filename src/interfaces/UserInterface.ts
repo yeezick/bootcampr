@@ -20,7 +20,7 @@ export interface UserInterface {
   onboarded?: boolean
   profilePicture?: string | null
   role?: string
-  unreadMessages: {}
+  unreadMessages?: {}
   savedProjects?: ProjectInterface[]
   verified?: Boolean
   __v?: number
