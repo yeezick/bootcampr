@@ -8,11 +8,7 @@ import {
   Checkbox,
 } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
-import {
-  BooleanObject,
-  DateFieldsAsDayjs,
-  DateFieldsInterface,
-} from 'interfaces'
+import { BooleanObject, DateFieldsInterface } from 'interfaces'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
@@ -38,7 +34,7 @@ import {
   addNewEvent,
   selectDisplayedEvent,
   selectModalDisplayStatus,
-  toggleMeetingModal,
+  setModalDisplayStatus,
   updateExistingEvent,
 } from 'utils/redux/slices/calendarSlice'
 
@@ -113,7 +109,7 @@ export const MeetingModal = () => {
     setDateFields(initialDateFields())
     setAttendees({})
     toggleInviteAll(false)
-    dispatch(toggleMeetingModal(false))
+    dispatch(setModalDisplayStatus(false))
   }
 
   const handleInviteAll = () => {
@@ -130,7 +126,7 @@ export const MeetingModal = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    const { end, start, timeZone } = dateFields
+    const { end, start } = dateFields
     const { description, summary } = meetingText
     const attendeeList = []
 
@@ -166,13 +162,15 @@ export const MeetingModal = () => {
       }
     } else if (modalDisplayStatus === 'edit') {
       try {
-        const newEvent = await updateEvent(
+        const updatedEvent = await updateEvent(
           calendarId,
           displayedEvent.eventId,
           eventInfo
         )
         dispatch(
-          updateExistingEvent(convertGoogleEventsForCalendar([newEvent.data]))
+          updateExistingEvent(
+            convertGoogleEventsForCalendar([updatedEvent.data])
+          )
         )
         handleClose()
       } catch (error) {
@@ -183,6 +181,8 @@ export const MeetingModal = () => {
       }
     }
   }
+
+  const handleBackToDisplay = () => dispatch(setModalDisplayStatus('display'))
 
   return (
     <Dialog
@@ -197,6 +197,8 @@ export const MeetingModal = () => {
             <Clear className='clear-icon' onClick={handleClose} />
           </div>
           <div className='content-wrapper'>
+            {/* TODO: Come back and replace with arrow  */}
+            <button onClick={handleBackToDisplay}>Back</button>
             <TextField
               label='Add Title'
               name='summary'

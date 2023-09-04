@@ -1,11 +1,11 @@
 import { Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { useAppDispatch } from 'utils/redux/hooks'
-import { toggleMeetingModal } from 'utils/redux/slices/calendarSlice'
+import { setModalDisplayStatus } from 'utils/redux/slices/calendarSlice'
 
 export const CalendarHeader = () => {
   const dispatch = useAppDispatch()
-  const openMeetingModal = () => dispatch(toggleMeetingModal('create'))
+  const openMeetingModal = () => dispatch(setModalDisplayStatus('create'))
 
   return (
     <div className='calendar-header'>

@@ -31,7 +31,10 @@ const calendarSlice = createSlice({
       const convertedEventIdx = state.eventMap[action.payload[0].eventId]
       state.convertedEvents[convertedEventIdx] = action.payload[0]
     },
-    toggleMeetingModal: (state, action: PayloadAction<ModalDisplayStatus>) => {
+    setModalDisplayStatus: (
+      state,
+      action: PayloadAction<ModalDisplayStatus>
+    ) => {
       state.modalDisplayStatus = action.payload
     },
     storeConvertedEvents: (state, action: PayloadAction<ConvertedEvent[]>) => {
@@ -65,7 +68,7 @@ export const {
   updateExistingEvent,
   setDisplayedEvent,
   storeConvertedEvents,
-  toggleMeetingModal,
+  setModalDisplayStatus,
 } = calendarSlice.actions
 
 export default calendarSlice.reducer

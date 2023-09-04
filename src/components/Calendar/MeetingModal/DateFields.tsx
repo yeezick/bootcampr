@@ -1,13 +1,13 @@
-import { AccessTime, ArrowDropDown } from '@mui/icons-material'
+import { ArrowDropDown } from '@mui/icons-material'
 import { DatePicker } from '@mui/x-date-pickers'
-import { combineDateWithTime, updateDateInTimeSelections } from 'utils/helpers'
+import { updateDateInTimeSelections } from 'utils/helpers'
 import { SelectTimeZone } from './SelectTimeZone'
 import { SelectTime } from './SelectTime'
-import './MeetingModalStyles.scss'
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
+import './MeetingModalStyles.scss'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -45,14 +45,12 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
         <span>from</span>
         <SelectTime
           dateFields={dateFields}
-          dayjs={dayjs}
           setDateFields={setDateFields}
           type={'start'}
         />
         <span className='span-dash'>-</span>
         <SelectTime
           dateFields={dateFields}
-          dayjs={dayjs}
           setDateFields={setDateFields}
           type={'end'}
         />

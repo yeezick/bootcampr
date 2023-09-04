@@ -1,39 +1,27 @@
 import { Dialog, DialogContent } from '@mui/material'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
 import { useEffect, useState } from 'react'
-// import { collectEmailsFromAttendees } from 'utils/helpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectDisplayedEvent,
   selectModalDisplayStatus,
-  toggleMeetingModal,
+  setModalDisplayStatus,
 } from 'utils/redux/slices/calendarSlice'
 import { selectMembersByEmail } from 'utils/redux/slices/projectSlice'
 
-dayjs.extend(utc)
-dayjs.extend(timezone)
-
 export const DisplayMeetingModal = () => {
   const [displayMeeting, setDisplayMeeting] = useState(false)
-  const [startTimeStr, setStartTimeStr] = useState('')
-  const [endTimeStr, setEndTimeStr] = useState('')
   const displayedEvent = useAppSelector(selectDisplayedEvent)
   const modalDisplayStatus = useAppSelector(selectModalDisplayStatus)
   const dispatch = useAppDispatch()
-  const handleClose = () => dispatch(toggleMeetingModal(false))
+  const handleClose = () => dispatch(setModalDisplayStatus(false))
   const handleEdit = () => {
-    dispatch(toggleMeetingModal('edit'))
+    dispatch(setModalDisplayStatus('edit'))
     setDisplayMeeting(false)
   }
 
   useEffect(() => {
     if (modalDisplayStatus === 'display') {
-      const { end, start } = displayedEvent.dateFields
       setDisplayMeeting(true)
-      setStartTimeStr(dayjs(start).format('dddd, MMMM D'))
-      setEndTimeStr(dayjs(end).format('dddd, MMMM D'))
     } else {
       setDisplayMeeting(false)
     }
@@ -59,15 +47,14 @@ export const DisplayMeetingModal = () => {
           {/* img */}
           <h3>{summary}</h3>
           <p>
-            {startTimeStr} -{endTimeStr}
+            {dateFields.start} - {dateFields.end}
           </p>
         </div>
 
-        {/* {displayedEvent.attendees && (
+        {displayedEvent.attendees && (
           <DisplayAttendees attendees={displayedEvent.attendees} />
-        )} */}
+        )}
 
-        {/* description */}
         <div>{description}</div>
 
         <div>
@@ -83,12 +70,10 @@ export const DisplayMeetingModal = () => {
   )
 }
 
-/*
 const DisplayAttendees = ({ attendees }) => {
+  const emailQueries = attendees.map(attendee => attendee.email)
   const [invitedMembers, setInvitedMembers] = useState([])
-  const teamMembers = useAppSelector(
-    selectMembersByEmail(collectEmailsFromAttendees(attendees))
-  )
+  const teamMembers = useAppSelector(selectMembersByEmail(emailQueries))
 
   useEffect(() => {
     const prepareInvitedMembers = () => {
@@ -120,4 +105,3 @@ const DisplayAttendees = ({ attendees }) => {
     </>
   )
 }
-*/
