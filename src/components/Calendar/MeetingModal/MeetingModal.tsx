@@ -29,7 +29,6 @@ import {
 import { AccessTime, Clear, People } from '@mui/icons-material'
 import { MeetingTextField } from './MeetingTextField'
 import { initialMeetingText } from 'utils/data/calendarConstants'
-import './MeetingModalStyles.scss'
 import {
   addNewEvent,
   selectDisplayedEvent,
@@ -37,6 +36,7 @@ import {
   setModalDisplayStatus,
   updateExistingEvent,
 } from 'utils/redux/slices/calendarSlice'
+import './MeetingModalStyles.scss'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)

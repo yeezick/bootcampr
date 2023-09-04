@@ -35,11 +35,13 @@ export const SelectAttendees = ({
           />
           <FormGroup>
             {projectMembers.map(currMember => (
-              <MemberCheckbox
-                attendees={attendees}
-                currMember={currMember}
-                setAttendees={setAttendees}
-              />
+              <div key={`select-member-${currMember._id}`}>
+                <MemberCheckbox
+                  attendees={attendees}
+                  currMember={currMember}
+                  setAttendees={setAttendees}
+                />
+              </div>
             ))}
           </FormGroup>
           <span className='select-attendees-helper-text'>
@@ -67,7 +69,6 @@ const MemberCheckbox = ({ attendees, currMember, setAttendees }) => {
           name={currMember.email}
         />
       }
-      key={`select-member-${currMember._id}`}
       label={`${currMember.firstName} ${currMember.lastName}`}
     />
   )
