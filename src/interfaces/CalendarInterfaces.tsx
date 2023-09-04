@@ -21,7 +21,7 @@ export interface ConvertedEvent {
     startTime: string
   }
   end?: string
-  id?: string
+  eventId?: string
   location: string
   metadata: any
   start?: string
@@ -61,6 +61,7 @@ export interface MeetingModalInfo {
     start: string
     timeZone: string
   }
+  eventId: string
   gDateFields: {
     endTime: string
     startTime: string

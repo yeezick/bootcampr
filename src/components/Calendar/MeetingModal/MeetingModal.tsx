@@ -23,7 +23,7 @@ import {
 } from 'utils/redux/slices/projectSlice'
 import { SelectAttendees } from './SelectAttendees'
 import { DateFields } from './DateFields'
-import { createEvent } from 'utils/api/events'
+import { createEvent, updateEvent } from 'utils/api/events'
 import {
   checkIfAllMembersInvited,
   convertGoogleEventsForCalendar,
@@ -39,6 +39,7 @@ import {
   selectDisplayedEvent,
   selectModalDisplayStatus,
   toggleMeetingModal,
+  updateExistingEvent,
 } from 'utils/redux/slices/calendarSlice'
 
 dayjs.extend(utc)
@@ -152,15 +153,34 @@ export const MeetingModal = () => {
       summary,
     }
 
-    try {
-      const newEvent = await createEvent(calendarId, eventInfo)
-      dispatch(addNewEvent(convertGoogleEventsForCalendar([newEvent.data])))
-      handleClose()
-    } catch (error) {
-      console.error(
-        `Error creating event for calendar (${calendarId}): `,
-        error
-      )
+    if (modalDisplayStatus === 'create') {
+      try {
+        const newEvent = await createEvent(calendarId, eventInfo)
+        dispatch(addNewEvent(convertGoogleEventsForCalendar([newEvent.data])))
+        handleClose()
+      } catch (error) {
+        console.error(
+          `Error creating event for calendar (${calendarId}): `,
+          error
+        )
+      }
+    } else if (modalDisplayStatus === 'edit') {
+      try {
+        const newEvent = await updateEvent(
+          calendarId,
+          displayedEvent.eventId,
+          eventInfo
+        )
+        dispatch(
+          updateExistingEvent(convertGoogleEventsForCalendar([newEvent.data]))
+        )
+        handleClose()
+      } catch (error) {
+        console.error(
+          `Error creating event for calendar (${calendarId}): `,
+          error
+        )
+      }
     }
   }
 

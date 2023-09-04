@@ -90,7 +90,7 @@ export const convertGoogleEventsForCalendar = googleEvents => {
       },
       description: description || null,
       end: end.dateTime,
-      id,
+      eventId: id,
       location,
       metadata,
       start: start.dateTime,
