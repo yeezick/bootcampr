@@ -49,11 +49,8 @@ const projectSlice = createSlice({
     setProject: (state, action: PayloadAction<ProjectInterface>) => {
       const updatedProject = produce(action.payload, draft => {
         const { engineers, designers } = draft.members
-
-        draft.members = {
-          ...draft.members,
-          emailMap: mapMembersByEmail([engineers, designers]),
-        }
+        draft.members.emailMap = mapMembersByEmail([engineers, designers])
+        draft.projectPortal = { renderProjectPortal: false }
       })
       return updatedProject
     },
@@ -123,6 +120,8 @@ export const selectProject = (state: RootState) => state.project
 export const selectProjectId = (state: RootState) => state.project._id
 export const selectCompletedInfo = (state: RootState) =>
   state.project.completedInfo
+export const selectRenderProjectPortal = (state: RootState) =>
+  state.project.projectPortal.renderProjectPortal
 
 export const {
   setProject,
