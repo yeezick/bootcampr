@@ -105,4 +105,27 @@
       filter: drop-shadow(0 0 3px rgb(255, 47, 47 / 0.4));
     }
   }
+
+  .members-container {
+    display: flex;
+    column-gap: 20px;
+  }
+  .member-card {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    height: 200px;
+    width: 180px;
+    border-radius: 8px;
+    box-shadow: 1px 0px 8px;
+    align-items: center;
+  }
+
+  .message-button {
+    background-color: orange;
+
+    &:hover {
+      background-color: orange;
+    }
+  }
 }

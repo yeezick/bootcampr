@@ -16,7 +16,7 @@ export const ChatIconBadge = ({
   const socket = useSocket()
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
-  const { unreadMessages } = useAppSelector(selectConversation)
+  const { unreadConversations } = useAppSelector(state => state.chat)
   const [receivedMessages, setReceivedMessages] = useState({})
   const [badgeUpdateMessage, setBadgeUpdateMessage] = useState('')
 
@@ -61,12 +61,12 @@ export const ChatIconBadge = ({
     isChatBadgeUpdated,
   ])
 
-  // ClassName for badge: if unreadMessages === 0, icon will be hidden
-  const badgeClassName = unreadMessages === 0 ? 'hidden' : 'visible'
+  // ClassName for badge: if unreadConversations === 0, icon will be hidden
+  const badgeClassName = unreadConversations === 0 ? 'hidden' : 'visible'
 
   return (
     <div className={`messages-badge ${badgeClassName}`}>
-      <p>{unreadMessages}</p>
+      <p>{unreadConversations}</p>
     </div>
   )
 }

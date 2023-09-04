@@ -3,21 +3,6 @@ import {
   ChatSliceInterface,
 } from 'interfaces/ChatInterface'
 
-export const initialState: ChatSliceInterface = {
-  visibleChat: false,
-  _id: '',
-  isGroup: false,
-  participants: [],
-  displayName: '',
-  selectedMember: {
-    _id: '',
-    firstName: '',
-    lastName: '',
-    profilePicture: '',
-  },
-  unreadMessages: 0,
-}
-
 export enum ChatScreen {
   Main = 'main',
   Messages = 'messages',
@@ -25,6 +10,27 @@ export enum ChatScreen {
   EditChatRoom = 'editChatRoom',
   InviteNewMembers = 'inviteNewMembers',
   MemberProfile = 'memberProfile',
+}
+
+export const initialState: ChatSliceInterface = {
+  ui: {
+    visibleChat: false,
+    chatScreen: ChatScreen.Main,
+    chatScreenPath: [ChatScreen.Main],
+  },
+  conversation: {
+    _id: '',
+    isGroup: false,
+    participants: [],
+    displayName: '',
+    selectedMember: {
+      _id: '',
+      firstName: '',
+      lastName: '',
+      profilePicture: '',
+    },
+  },
+  unreadConversations: 0,
 }
 
 export enum ChatIcons {

@@ -13,7 +13,7 @@ import { useSocket } from 'components/Notifications/Socket'
 import Avatar from 'components/Avatar/Avatar'
 import './Nav.scss'
 import {
-  chatStatus,
+  selectChatUI,
   toggleChat,
   toggleChatClose,
 } from 'utils/redux/slices/chatSlice'
@@ -106,7 +106,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   const [isChatBadgeUpdated, setIsChatBadgeUpdated] = useState(false)
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId } = authUser
-  const visibleChat = useAppSelector(chatStatus)
+  const { visibleChat } = useAppSelector(selectChatUI)
   const chatRef = useRef(null)
   const dispatch = useAppDispatch()
   const toggleChatBox = () => {

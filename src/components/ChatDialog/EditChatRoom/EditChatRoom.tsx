@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
+  onScreenUpdate,
   selectConversation,
   setCurrentConversation,
   setSelectedMember,
@@ -13,7 +14,7 @@ import { extractConversationAvatars } from 'utils/functions/chatLogic'
 import { ChatScreen } from 'utils/data/chatConstants'
 import './EditChatRoom.scss'
 
-export const EditChatRoom = ({ onScreenUpdate }) => {
+export const EditChatRoom = () => {
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const currentConversation = useAppSelector(selectConversation)
@@ -87,7 +88,7 @@ export const EditChatRoom = ({ onScreenUpdate }) => {
     lastName: string,
     profilePicture: string
   ) => {
-    onScreenUpdate(ChatScreen.MemberProfile)
+    dispatch(onScreenUpdate(ChatScreen.MemberProfile))
     dispatch(
       setSelectedMember({ _id: memberId, firstName, lastName, profilePicture })
     )
@@ -111,7 +112,7 @@ export const EditChatRoom = ({ onScreenUpdate }) => {
         <GroupMembers
           groupChat={groupChat}
           handleMemberClick={handleMemberClick}
-          onScreenUpdate={onScreenUpdate}
+          dispatch={dispatch}
           authUser={authUser}
         />
       </div>
@@ -140,12 +141,7 @@ const ChatRoomInfo = ({
   )
 }
 
-const GroupMembers = ({
-  groupChat,
-  handleMemberClick,
-  onScreenUpdate,
-  authUser,
-}) => {
+const GroupMembers = ({ groupChat, handleMemberClick, dispatch, authUser }) => {
   return (
     <div>
       <h5>{groupChat.participants.length} Members</h5>
@@ -182,17 +178,17 @@ const GroupMembers = ({
             </div>
           )
         })}
-        <NewMemberButton onScreenUpdate={onScreenUpdate} />
+        <NewMemberButton dispatch={dispatch} />
       </div>
     </div>
   )
 }
 
-const NewMemberButton = ({ onScreenUpdate }) => {
+const NewMemberButton = ({ dispatch }) => {
   return (
     <div
       className='members-list'
-      onClick={() => onScreenUpdate(ChatScreen.InviteNewMembers)}
+      onClick={() => dispatch(onScreenUpdate(ChatScreen.InviteNewMembers))}
     >
       <div className='avatar-grid'>
         <FiPlus size={20} />

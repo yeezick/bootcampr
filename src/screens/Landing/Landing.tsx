@@ -9,6 +9,17 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { getRandomInt } from 'screens/AccountSettings/helper/data'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
 import './Landing.scss'
+import { Button } from '@mui/material'
+import {
+  onScreenUpdate,
+  setCurrentConversation,
+  setSelectedMember,
+  toggleChatOpen,
+} from 'utils/redux/slices/chatSlice'
+import { createPrivateChatRoom, getAllConversations } from 'utils/api/chat'
+import { getProjectByUser } from 'utils/api'
+import dummyMembers from './members.json'
+import { ChatScreen } from 'utils/data/chatConstants'
 
 export const Landing: React.FC = () => {
   const [loginStatus, setLoginStatus] = useState<boolean | null>(null)
@@ -50,6 +61,114 @@ export const Landing: React.FC = () => {
     }
   }
 
+  // temporary logic for Message button on Team Members screen
+  const [projectMembers, setProjectMembers] = useState([])
+
+  useEffect(() => {
+    const { designers, engineers } = dummyMembers
+    const members = [...designers, ...engineers]
+    setProjectMembers(members.filter(member => member._id !== authUser._id))
+  }, [])
+  console.log(projectMembers)
+
+  const handleButtonClick = (
+    memberId,
+    firstName,
+    lastName,
+    email,
+    profilePicture
+  ) => {
+    try {
+      const fetchConversations = async () => {
+        const conversations = await getAllConversations(authUser._id)
+
+        const existingChatWithMember = conversations.find(conversation => {
+          if (conversation.participants.length === 2) {
+            return conversation.participants.some(
+              participant => participant._id === memberId
+            )
+          }
+          return false
+        })
+
+        if (existingChatWithMember) {
+          // Opens existing convo containing project member
+          dispatch(
+            setCurrentConversation({
+              _id: existingChatWithMember._id,
+              isGroup: false,
+              participants: [memberId],
+              displayName: `${firstName} ${lastName}`,
+            })
+          )
+
+          // Set selectedMember in Redux for private chats
+          dispatch(
+            setSelectedMember({
+              _id: memberId,
+              firstName,
+              lastName,
+              profilePicture,
+            })
+          )
+        } else {
+          // return console.log('no existing chat')
+          // Creates new convo with selected project member
+          const newRoom = await createPrivateChatRoom(authUser._id, email)
+
+          dispatch(
+            setCurrentConversation({
+              _id: newRoom.chatRoom._id,
+              isGroup: false,
+              participants: [memberId],
+              displayName: `${firstName} ${lastName}`,
+            })
+          )
+          // Set selectedMember in Redux for private chats
+          dispatch(
+            setSelectedMember({
+              _id: memberId,
+              firstName,
+              lastName,
+              profilePicture,
+            })
+          )
+        }
+        dispatch(toggleChatOpen())
+        dispatch(onScreenUpdate(ChatScreen.Messages))
+      }
+      fetchConversations()
+    } catch (error) {
+      console.error('Error fetching conversations', error)
+    }
+  }
+
+  const messageButtonLogic = (
+    memberId,
+    firstName,
+    lastName,
+    email,
+    profilePicture
+  ) => {
+    return (
+      <Button
+        variant='contained'
+        className='message-button'
+        onClick={() =>
+          handleButtonClick(
+            memberId,
+            firstName,
+            lastName,
+            email,
+            profilePicture
+          )
+        }
+      >
+        Message
+      </Button>
+    )
+  }
+
   return (
     <div className='landing-container'>
       <div className='header-container'>
@@ -70,6 +189,34 @@ export const Landing: React.FC = () => {
           <button onClick={randomUserLogin}>Login as random user</button>
           <LoginStatusSymbol />
         </div>
+      </div>
+      <div className='members-container'>
+        {projectMembers.map(
+          ({
+            _id: memberId,
+            firstName,
+            lastName,
+            email,
+            role,
+            profilePicture,
+          }) => {
+            return (
+              <div key={memberId} className='member-card'>
+                <div>
+                  {firstName} {lastName}
+                </div>
+                <div>{role}</div>
+                {messageButtonLogic(
+                  memberId,
+                  firstName,
+                  lastName,
+                  email,
+                  profilePicture
+                )}
+              </div>
+            )
+          }
+        )}
       </div>
     </div>
   )
