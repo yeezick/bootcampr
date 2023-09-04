@@ -1,15 +1,26 @@
 import { Dialog, DialogContent } from '@mui/material'
 import { useEffect, useState } from 'react'
+import { convertDateFieldsForDisplay } from 'utils/helpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectDisplayedEvent,
   selectModalDisplayStatus,
   setModalDisplayStatus,
 } from 'utils/redux/slices/calendarSlice'
-import { selectMembersByEmail } from 'utils/redux/slices/projectSlice'
+import { DisplayAttendees } from './DisplayAttendees'
+import EditNoteIcon from '@mui/icons-material/EditNote'
+import LinkIcon from '@mui/icons-material/Link'
+import PeopleIcon from '@mui/icons-material/People'
+import CloseIcon from '@mui/icons-material/Close'
+import './DisplayMeetingModalStyles.scss'
 
 export const DisplayMeetingModal = () => {
   const [displayMeeting, setDisplayMeeting] = useState(false)
+  const [displayedFields, setDisplayedFields] = useState({
+    date: '',
+    end: '',
+    start: '',
+  })
   const displayedEvent = useAppSelector(selectDisplayedEvent)
   const modalDisplayStatus = useAppSelector(selectModalDisplayStatus)
   const dispatch = useAppDispatch()
@@ -21,6 +32,9 @@ export const DisplayMeetingModal = () => {
 
   useEffect(() => {
     if (modalDisplayStatus === 'display') {
+      setDisplayedFields(
+        convertDateFieldsForDisplay(displayedEvent.gDateFields)
+      )
       setDisplayMeeting(true)
     } else {
       setDisplayMeeting(false)
@@ -31,35 +45,47 @@ export const DisplayMeetingModal = () => {
     return null
   }
 
-  const { attendees, creator, dateFields, description, summary } =
-    displayedEvent
+  const { creator, description, summary } = displayedEvent
+  const { date, end, start } = displayedFields
 
   return (
     <Dialog open={displayMeeting} onClose={handleClose}>
       <DialogContent>
-        <div>
-          <button onClick={handleEdit}>edit</button>
-          <button onClick={handleClose}>close</button>
+        <div className='modal-icons'>
+          <EditNoteIcon onClick={handleEdit} />
+          <CloseIcon onClick={handleClose} />
         </div>
 
-        {/* Header */}
-        <div>
-          {/* img */}
-          <h3>{summary}</h3>
-          <p>
-            {dateFields.start} - {dateFields.end}
-          </p>
-        </div>
+        <div className='display-modal-wrapper'>
+          <div className='header-img'>img</div>
+          <div className='header-content'>
+            <h3>{summary}</h3>
+            <p>
+              {date} {start} - {end}
+            </p>
+          </div>
 
-        {displayedEvent.attendees && (
-          <DisplayAttendees attendees={displayedEvent.attendees} />
-        )}
+          {displayedEvent.attendees && (
+            <PeopleIcon
+              className='people-icon centered-icon'
+              sx={{ color: iconColor }}
+            />
+          )}
+          {displayedEvent.attendees && (
+            <DisplayAttendees attendees={displayedEvent.attendees} />
+          )}
 
-        <div>{description}</div>
+          <EditNoteIcon
+            className='description-icon centered-icon'
+            sx={{ color: iconColor }}
+          />
+          <p className='description'>{description}</p>
 
-        <div>
-          <p>link icon</p>
-          <p>{displayedEvent.location}</p>
+          <LinkIcon
+            className='link-icon centered-icon'
+            sx={{ color: iconColor }}
+          />
+          <p className='meeting-link'>{displayedEvent.location}</p>
         </div>
 
         <div>
@@ -70,38 +96,4 @@ export const DisplayMeetingModal = () => {
   )
 }
 
-const DisplayAttendees = ({ attendees }) => {
-  const emailQueries = attendees.map(attendee => attendee.email)
-  const [invitedMembers, setInvitedMembers] = useState([])
-  const teamMembers = useAppSelector(selectMembersByEmail(emailQueries))
-
-  useEffect(() => {
-    const prepareInvitedMembers = () => {
-      if (attendees.length) {
-        const invitedMemberInfo = []
-        for (const member of teamMembers) {
-          const { firstName, lastName, profilePicture } = member
-          invitedMemberInfo.push({
-            firstName: firstName,
-            profilePicture: profilePicture,
-            lastName: lastName,
-          })
-        }
-        setInvitedMembers(invitedMemberInfo)
-      }
-    }
-    prepareInvitedMembers()
-  }, [])
-
-  return (
-    <>
-      {invitedMembers.map(member => (
-        <>
-          <p>pic</p>
-          <p>{member.firstName}</p>
-          <p> {member.lastName}</p>
-        </>
-      ))}
-    </>
-  )
-}
+const iconColor = '#86888A'

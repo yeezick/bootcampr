@@ -30,6 +30,15 @@ export const checkIfAllMembersInvited = (
   }
 }
 
+export const convertDateFieldsForDisplay = gDateFields => {
+  const { startTime, endTime } = gDateFields
+  return {
+    date: dayjs(startTime).format('dddd, MMMM D'),
+    end: dayjs(endTime).format('h:mm A'),
+    start: dayjs(startTime).format('h:mm A'),
+  }
+}
+
 /**
  * Combines the user's date selection with their selected start/end times.
  * @param {Dayjs} date

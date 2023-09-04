@@ -36,6 +36,7 @@ import {
   setModalDisplayStatus,
   updateExistingEvent,
 } from 'utils/redux/slices/calendarSlice'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import './MeetingModalStyles.scss'
 
 dayjs.extend(utc)
@@ -193,12 +194,15 @@ export const MeetingModal = () => {
     >
       <form onSubmit={handleSubmit}>
         <DialogContent className='modal-dialog-content'>
-          <div className='close-icon'>
+          <div className='meeting-modal-icons'>
+            <ArrowBackIcon
+              className='back-arrow-icon'
+              onClick={handleBackToDisplay}
+            />
             <Clear className='clear-icon' onClick={handleClose} />
           </div>
           <div className='content-wrapper'>
             {/* TODO: Come back and replace with arrow  */}
-            <button onClick={handleBackToDisplay}>Back</button>
             <TextField
               label='Add Title'
               name='summary'
