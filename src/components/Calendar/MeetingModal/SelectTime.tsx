@@ -1,18 +1,14 @@
 import { MenuItem, Select } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { timeOptions } from 'utils/data/calendarConstants'
-import {
-  combineDateWithTime,
-  formatIsoToHalfHour,
-  roundToNearestHalfHour,
-} from 'utils/helpers'
-export const SelectTime = ({ dateFields, dayjs, setDateFields, type }) => {
+import { combineDateWithTime, formatIsoToHalfHour } from 'utils/helpers'
+
+export const SelectTime = ({ dateFields, setDateFields, type }) => {
+  const [availableOptions, setAvailableOptions] = useState(timeOptions)
   const [selectedTime, setSelectedTime] = useState(
     formatIsoToHalfHour(dateFields[type])
   )
-  const [availableOptions, setAvailableOptions] = useState(timeOptions)
-  //TODO: rename append "time" to end and start
-  const { date, end, start } = dateFields
+  const { date } = dateFields
 
   /* CONTEXT (useEffect)
   Handles end time in following cases:
@@ -32,15 +28,22 @@ export const SelectTime = ({ dateFields, dayjs, setDateFields, type }) => {
         setSelectedTime(filteredOptions[0])
       }
     }
-  }, [dateFields.start])
+  }, [dateFields.start, dateFields.end])
 
   const handleTimeChange = e => {
     const { value } = e.target
+    const updatedDateFields = { ...dateFields }
+
+    if (type === 'start') {
+      const nextIdx = timeOptions.findIndex(option => option === value)
+      updatedDateFields[type] = combineDateWithTime(date, value)
+      updatedDateFields['end'] = combineDateWithTime(date, timeOptions[nextIdx])
+      setDateFields(updatedDateFields)
+    } else if (type === 'end') {
+      updatedDateFields[type] = combineDateWithTime(date, value)
+      setDateFields(updatedDateFields)
+    }
     setSelectedTime(value)
-    setDateFields({
-      ...dateFields,
-      [type]: combineDateWithTime(date, value),
-    })
   }
 
   return (
