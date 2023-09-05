@@ -1,8 +1,12 @@
 import { Checkbox } from '@mui/material'
 import { TimeSlotInput } from './TimeslotInput'
 import { handleCheck } from '../utils/helpers'
-
+import { useSelector } from 'react-redux'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 export const DayAvailabilityInputBanner = ({ day, days, setDays }) => {
+  const authUser = useAppSelector(selectAuthUser)
+
   return (
     <div>
       <div className='day-availability-input-banner'>
