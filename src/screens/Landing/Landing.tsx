@@ -20,7 +20,7 @@ import {
   createPrivateChatRoom,
   getUserPrivateConversations,
 } from 'utils/api/chat'
-import dummyMembers from './members.json'
+import dummyMembers from './members.json' // to be removed once Message button logic is properly configured in team members screen
 import { ChatScreen } from 'utils/data/chatConstants'
 
 export const Landing: React.FC = () => {
