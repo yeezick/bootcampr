@@ -9,6 +9,15 @@ export const getAllConversations = async userId => {
     return false
   }
 }
+export const getUserPrivateConversations = async userId => {
+  try {
+    const res = await api.get(`/${userId}/privateChats`)
+    return res.data
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
 
 export const getAllPrivateMessages = async (userId, privateChatId) => {
   try {

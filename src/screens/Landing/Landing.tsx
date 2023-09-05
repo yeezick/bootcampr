@@ -16,7 +16,11 @@ import {
   setSelectedMember,
   toggleChatOpen,
 } from 'utils/redux/slices/chatSlice'
-import { createPrivateChatRoom, getAllConversations } from 'utils/api/chat'
+import {
+  createPrivateChatRoom,
+  getAllConversations,
+  getUserPrivateConversations,
+} from 'utils/api/chat'
 import { getProjectByUser } from 'utils/api'
 import dummyMembers from './members.json'
 import { ChatScreen } from 'utils/data/chatConstants'
@@ -61,35 +65,32 @@ export const Landing: React.FC = () => {
     }
   }
 
-  // temporary logic for Message button on Team Members screen
+  // ** temporary logic for Message button on Team Members screen
   const [projectMembers, setProjectMembers] = useState([])
 
   useEffect(() => {
-    const { designers, engineers } = dummyMembers
+    const { designers, engineers } = dummyMembers // ** Using dummy data. Should be using API or obtaining project members from redux store
     const members = [...designers, ...engineers]
     setProjectMembers(members.filter(member => member._id !== authUser._id))
   }, [])
-  console.log(projectMembers)
 
   const handleButtonClick = (
-    memberId,
-    firstName,
-    lastName,
-    email,
-    profilePicture
+    memberId: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    profilePicture: string
   ) => {
     try {
       const fetchConversations = async () => {
-        const conversations = await getAllConversations(authUser._id)
+        const conversations = await getUserPrivateConversations(authUser._id)
 
-        const existingChatWithMember = conversations.find(conversation => {
-          if (conversation.participants.length === 2) {
-            return conversation.participants.some(
+        const existingChatWithMember = conversations.messageThreads.find(
+          conversation =>
+            conversation.participants.some(
               participant => participant._id === memberId
             )
-          }
-          return false
-        })
+        )
 
         if (existingChatWithMember) {
           // Opens existing convo containing project member
@@ -101,7 +102,6 @@ export const Landing: React.FC = () => {
               displayName: `${firstName} ${lastName}`,
             })
           )
-
           // Set selectedMember in Redux for private chats
           dispatch(
             setSelectedMember({
@@ -112,7 +112,6 @@ export const Landing: React.FC = () => {
             })
           )
         } else {
-          // return console.log('no existing chat')
           // Creates new convo with selected project member
           const newRoom = await createPrivateChatRoom(authUser._id, email)
 
@@ -141,32 +140,6 @@ export const Landing: React.FC = () => {
     } catch (error) {
       console.error('Error fetching conversations', error)
     }
-  }
-
-  const messageButtonLogic = (
-    memberId,
-    firstName,
-    lastName,
-    email,
-    profilePicture
-  ) => {
-    return (
-      <Button
-        variant='contained'
-        className='message-button'
-        onClick={() =>
-          handleButtonClick(
-            memberId,
-            firstName,
-            lastName,
-            email,
-            profilePicture
-          )
-        }
-      >
-        Message
-      </Button>
-    )
   }
 
   return (
@@ -206,13 +179,21 @@ export const Landing: React.FC = () => {
                   {firstName} {lastName}
                 </div>
                 <div>{role}</div>
-                {messageButtonLogic(
-                  memberId,
-                  firstName,
-                  lastName,
-                  email,
-                  profilePicture
-                )}
+                <Button
+                  variant='contained'
+                  className='message-button'
+                  onClick={() =>
+                    handleButtonClick(
+                      memberId,
+                      firstName,
+                      lastName,
+                      email,
+                      profilePicture
+                    )
+                  }
+                >
+                  Message
+                </Button>
               </div>
             )
           }
