@@ -118,7 +118,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
 
   return (
     <div className='notifications'>
-      <div className='message-container'>
+      <div className='nav-icons-container'>
         <div className='messages-icon' ref={chatRef}>
           <BsFillChatLeftTextFill
             size={23}
@@ -135,8 +135,8 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
         </div>
         <p className='account'>Messages</p>
       </div>
-      <div className='message-container'>
-        <div className='avatar'>
+      <div className='nav-icons-container'>
+        <div className='account avatar'>
           <Avatar clickable={false} setAnchorEl={setAnchorEl} />
         </div>
         <div onClick={setAnchorEl}>

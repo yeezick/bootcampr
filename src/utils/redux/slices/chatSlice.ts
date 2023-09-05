@@ -35,6 +35,10 @@ const chatSlice = createSlice({
   initialState,
   reducers: {
     toggleChat: state => {
+      if (state.ui.visibleChat) {
+        state.ui.chatScreen = ChatScreen.Main
+        state.ui.chatScreenPath = [ChatScreen.Main]
+      }
       state.ui.visibleChat = !state.ui.visibleChat
     },
     toggleChatOpen: state => {
@@ -42,6 +46,8 @@ const chatSlice = createSlice({
     },
     toggleChatClose: state => {
       state.ui.visibleChat = false
+      state.ui.chatScreen = ChatScreen.Main
+      state.ui.chatScreenPath = [ChatScreen.Main]
     },
     onScreenUpdate: (state, action: PayloadAction<ChatScreen>) => {
       state.ui.chatScreenPath = [...state.ui.chatScreenPath, action.payload]
