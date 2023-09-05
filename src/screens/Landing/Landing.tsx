@@ -18,10 +18,8 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import {
   createPrivateChatRoom,
-  getAllConversations,
   getUserPrivateConversations,
 } from 'utils/api/chat'
-import { getProjectByUser } from 'utils/api'
 import dummyMembers from './members.json'
 import { ChatScreen } from 'utils/data/chatConstants'
 
@@ -92,47 +90,34 @@ export const Landing: React.FC = () => {
             )
         )
 
+        let conversationId: string = null
+
         if (existingChatWithMember) {
-          // Opens existing convo containing project member
-          dispatch(
-            setCurrentConversation({
-              _id: existingChatWithMember._id,
-              isGroup: false,
-              participants: [memberId],
-              displayName: `${firstName} ${lastName}`,
-            })
-          )
-          // Set selectedMember in Redux for private chats
-          dispatch(
-            setSelectedMember({
-              _id: memberId,
-              firstName,
-              lastName,
-              profilePicture,
-            })
-          )
+          conversationId = existingChatWithMember._id
         } else {
-          // Creates new convo with selected project member
+          // Creates new conversation with selected project member
           const newRoom = await createPrivateChatRoom(authUser._id, email)
 
-          dispatch(
-            setCurrentConversation({
-              _id: newRoom.chatRoom._id,
-              isGroup: false,
-              participants: [memberId],
-              displayName: `${firstName} ${lastName}`,
-            })
-          )
-          // Set selectedMember in Redux for private chats
-          dispatch(
-            setSelectedMember({
-              _id: memberId,
-              firstName,
-              lastName,
-              profilePicture,
-            })
-          )
+          conversationId = newRoom.chatRoom._id
         }
+        // Sets conversation state in redux store
+        dispatch(
+          setCurrentConversation({
+            _id: conversationId,
+            isGroup: false,
+            participants: [memberId],
+            displayName: `${firstName} ${lastName}`,
+          })
+        )
+        // Sets selectedMember state in Redux for private chats
+        dispatch(
+          setSelectedMember({
+            _id: memberId,
+            firstName,
+            lastName,
+            profilePicture,
+          })
+        )
         dispatch(toggleChatOpen())
         dispatch(onScreenUpdate(ChatScreen.Messages))
       }
