@@ -107,18 +107,18 @@
   }
 
   .members-container {
-    display: flex;
     column-gap: 20px;
+    display: flex;
   }
   .member-card {
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: column;
-    height: 200px;
-    width: 180px;
+    align-items: center;
     border-radius: 8px;
     box-shadow: 1px 0px 8px;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    justify-content: space-evenly;
+    width: 180px;
   }
 
   .message-button {
