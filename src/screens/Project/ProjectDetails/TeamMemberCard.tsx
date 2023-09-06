@@ -18,8 +18,10 @@ import { useAppSelector } from 'utils/redux/hooks'
 //add user props
 
 export const TeamMemberCard = () => {
+  //{user, loggedInUser}
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId } = authUser
+  // const isCurrentUser = authUser === loggedInUser.id
 
   return (
     <>
@@ -42,9 +44,11 @@ export const TeamMemberCard = () => {
                 <button className='profile-btn'>Profile</button>
               </Link>
             </div>
+            {/* {isCurrentUser ? null : ( */}
             <div className='message-btn-container'>
               <button className='message-btn'>Message</button>
             </div>
+            {/* )} */}
           </div>
         </div>
       </div>
