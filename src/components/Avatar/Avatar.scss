@@ -14,7 +14,7 @@
 
 .avatar-default-picture {
   background-color: #FFA726;
-  border-radius: 100%;
+  border-radius: 50%;
   display: flex;
   flex-direction: column;
   height: 100px;
@@ -49,6 +49,7 @@
   cursor: default;
 }
 
+// Navbar
 .notifications .avatar-img,
 .non-clickable {
   height: 50px;
@@ -60,4 +61,41 @@
 .non-clickable {
   height: 250px;
   width: 250px;
+}
+
+// SideBar
+.sidebar-container .avatar-img,
+.non-clickable {
+  height: 100px;
+  width: 100px;
+}
+
+// Setup Profile
+.setupProfile .avatar-img,
+.non-clickable {
+  height: 100px;
+  margin: 0 0 10px 0;
+  width: 100px;
+}
+.setupProfile .avatar-default-picture {
+  background-color: #FFA726;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  justify-content: flex-end;
+  margin: 0 0 10px 0;
+  text-align: center;
+  width: 100px;
+  cursor: default;
+
+  p {
+    color: #1A237E;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px;
+    margin: 0;
+    text-align: center;
+  }
 }

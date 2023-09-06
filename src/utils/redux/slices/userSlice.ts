@@ -27,8 +27,8 @@ const initialState: UiSliceInterface = {
         portfolioUrl: null,
       },
       profilePicture: '',
-      hasUploadedProfilePicture: false,
-      project: '', // should be projetId
+      hasUploadedProfilePicture: true,
+      project: '',
       role: '',
       unreadMessages: {},
       __v: 0,
@@ -155,8 +155,11 @@ export const getUserAvailability = (state: RootState) =>
 export const uiStatus = (state: RootState) => state.ui.status
 export const getUserProfileImage = (state: RootState) =>
   state.ui.auth.user.profilePicture
-export const selectHasUploadedProfilePicture = (state: RootState) =>
-  state.ui.auth.user.hasUploadedProfilePicture
+export const selectHasUploadedProfilePicture = (state: RootState) => {
+  // console.log('hasUploadedProfilePicture in slice:', state.ui.auth.user.hasUploadedProfilePicture);
+  return state.ui.auth.user.hasUploadedProfilePicture
+}
+
 export const {
   setAuthUser,
   updateAuthUser,

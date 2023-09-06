@@ -40,10 +40,9 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
 }) => {
   // State and ref variables
   const [isImageEditorOpen, setIsImageEditorOpen] = useState(false)
+  const authUser = useAppSelector(selectAuthUser)
   const dispatch = useDispatch()
   const fileInputRef = useRef<HTMLInputElement>(null)
-
-  const authUser = useAppSelector(selectAuthUser)
 
   const openImageEditor = () => {
     setIsImageEditorOpen(true)
@@ -103,6 +102,26 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
     }
   }
 
+  console.log('uploaded image prop: ', uploadedImage)
+
+  const isUrl = str => {
+    const urlPattern = new RegExp(
+      '^(https?:\\/\\/)?' +
+        '(www\\.)' +
+        '(([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}$',
+      'i'
+    )
+    return urlPattern.test(str)
+  }
+
+  // BUG: Profile preview picture size scss fix
+  // BUG: Default Profile initials can't be replaced with new uploaded image fix
+  // BUG: If user already profile picture and they want to change it with new one, it will instead default to profile initials and will save aws saved image but wont display it.
+  // BUG: TypeError when deleting image but deletes successfully WTF?
+  // BUG: When default image is present and a attempt to change photo is initiated a loading process will commence and last longer then it should
+  // TODO: Ask UXE team on what will the image modal will show when theirs no photo
+  // TODO: Ask UXE team on what will the have the icon button and what will not for Edit/User profile
+
   return (
     <>
       <FileInput
@@ -112,7 +131,13 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
         }}
         fileInputRef={fileInputRef}
       />
-      <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
+      <Dialog
+        className='profile-preview'
+        open={open}
+        onClose={onClose}
+        maxWidth='sm'
+        fullWidth
+      >
         <Box className='profile-preview__header'>
           <div></div>
           <DialogTitle className='profile-preview__title'>
@@ -126,18 +151,21 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
         <div className='profile-preview__content'>
           <DialogContent dividers className='profile-preview__dialog-content'>
             <Box className='profile-preview__content-box'>
+              {/* <div className='profile-preview__profile-image-container'>
+                <Avatar clickable={false} hasIcon={false} />
+              </div> */}
+              {/* TODO: Check why this is not working */}
               {/* Render uploaded image if available */}
-              {Boolean(uploadedImage) ? (
+              {isUrl(uploadedImage) ? (
                 <div className='profile-preview__profile-image-container'>
                   <img
-                    src={uploadedImage as string}
+                    src={uploadedImage}
                     alt='Profile'
                     className='profile-preview__profile-image'
                   />
                 </div>
               ) : (
                 // If uploadedImage is not available, use Avatar
-                //TODO: Check why its not working
                 <Avatar clickable={false} hasIcon={false} />
               )}
             </Box>

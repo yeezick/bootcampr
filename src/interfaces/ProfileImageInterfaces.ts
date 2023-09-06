@@ -2,8 +2,6 @@ import React, { RefObject } from 'react'
 import { Area, Point } from 'react-easy-crop/types'
 
 export interface AvatarProps {
-  imageUrl?: string | null
-  uploadedImage?: string | null
   clickable?: boolean | undefined
   openModal?: (() => void) | undefined
   setAnchorEl?: React.Dispatch<React.SetStateAction<boolean>>
