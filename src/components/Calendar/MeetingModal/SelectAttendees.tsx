@@ -1,6 +1,7 @@
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
-import './MeetingModal'
 import { useEffect } from 'react'
+import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
+import { checkIfAllMembersInvited } from 'utils/helpers'
+import './MeetingModal'
 
 export const SelectAttendees = ({
   attendees,
@@ -14,18 +15,12 @@ export const SelectAttendees = ({
    * Unselect inviteAll checkbox if user has unselected members
    */
   useEffect(() => {
-    const invitedMembers = []
-    for (const member in attendees) {
-      if (attendees[member] === true) {
-        invitedMembers.push(true)
-      }
-    }
-    const allMembersInvited = invitedMembers.length === projectMembers.length
-    if (inviteAll && !allMembersInvited) {
-      toggleInviteAll(false)
-    } else if (!inviteAll && allMembersInvited) {
-      toggleInviteAll(true)
-    }
+    checkIfAllMembersInvited(
+      attendees,
+      projectMembers,
+      inviteAll,
+      toggleInviteAll
+    )
   }, [attendees])
 
   if (projectMembers) {
@@ -40,11 +35,13 @@ export const SelectAttendees = ({
           />
           <FormGroup>
             {projectMembers.map(currMember => (
-              <MemberCheckbox
-                attendees={attendees}
-                currMember={currMember}
-                setAttendees={setAttendees}
-              />
+              <div key={`select-member-${currMember._id}`}>
+                <MemberCheckbox
+                  attendees={attendees}
+                  currMember={currMember}
+                  setAttendees={setAttendees}
+                />
+              </div>
             ))}
           </FormGroup>
           <span className='select-attendees-helper-text'>
@@ -72,7 +69,6 @@ const MemberCheckbox = ({ attendees, currMember, setAttendees }) => {
           name={currMember.email}
         />
       }
-      key={`select-member-${currMember._id}`}
       label={`${currMember.firstName} ${currMember.lastName}`}
     />
   )

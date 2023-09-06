@@ -2,21 +2,24 @@
   .modal-dialog-content {
     overflow-x:hidden;
   }
-
-  .close-icon {
-    align-items: flex-end;
+  .meeting-modal-icons {
+    align-items: center;;
     background-color: white;
-    display:flex;
+    display: flex; 
     height: 44px;
-    justify-content: flex-end;
+    justify-content: space-between;
     position: absolute;
     top: 0px;
     width: 87%;
     z-index: 2;
+  }
 
-    .clear-icon {
-      cursor: pointer;
-    }
+  .back-arrow-icon {
+    cursor: pointer;
+  }
+  
+  .clear-icon {
+    cursor: pointer;
   }
 
   .content-wrapper {
