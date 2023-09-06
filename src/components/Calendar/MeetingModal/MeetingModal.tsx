@@ -202,7 +202,6 @@ export const MeetingModal = () => {
             <Clear className='clear-icon' onClick={handleClose} />
           </div>
           <div className='content-wrapper'>
-            {/* TODO: Come back and replace with arrow  */}
             <TextField
               label='Add Title'
               name='summary'

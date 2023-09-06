@@ -47,6 +47,7 @@ export const DisplayMeetingModal = () => {
 
   const { creator, description, summary } = displayedEvent
   const { date, end, start } = displayedFields
+  const eventHasAttendees = displayedEvent.attendees ? true : false
 
   return (
     <Dialog open={displayMeeting} onClose={handleClose}>
@@ -65,13 +66,13 @@ export const DisplayMeetingModal = () => {
             </p>
           </div>
 
-          {displayedEvent.attendees && (
+          {eventHasAttendees && (
             <PeopleIcon
               className='people-icon centered-icon'
               sx={{ color: iconColor }}
             />
           )}
-          {displayedEvent.attendees && (
+          {eventHasAttendees && (
             <DisplayAttendees attendees={displayedEvent.attendees} />
           )}
 

@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { produce } from 'immer'
-import { UserInterface } from 'interfaces'
 import { ProjectInterface } from 'interfaces/ProjectInterface'
-// import { mapMembersByEmail } from 'utils/helpers'
 import { RootState } from 'utils/redux/store'
 
 const initialState: ProjectInterface = {
