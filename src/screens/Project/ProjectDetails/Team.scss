@@ -1,0 +1,257 @@
+/*team screen */
+
+.team-container {
+  display: flex;
+}
+
+.open-modal {
+  border: none;
+  border-radius: 0;
+  background: #ffead0;;
+
+}
+
+.withdrawal-modal-hidden {
+  height: 37px;
+  width: 148px;
+  background: #fdfdfd;
+}
+
+.withdrawal-modal {
+  align-items: flex-start;
+  background: #FEFEFE;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  position: relative;
+
+  height: 37px;
+  width: 148px;
+}
+
+.withdraw-btn {
+  border: none;
+  border-radius: 0;
+  background:#FEFEFE ;
+  align-items: flex-start;
+  background: #FEFEFE;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  position: relative;
+
+  height: 37px;
+  width: 148px;
+
+}
+
+.withdraw-text {
+  color: #d80000;
+  font-family: "Inter-Regular", Helvetica;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 16.8px;
+  margin: -1px 0 0;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+
+}
+
+.confirmation-modal-hidden {
+  align-items: flex-end;
+  background-color: #fdfdfd;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 16px;
+  position: relative;
+  width: 312px;
+  margin-left: 500px;
+}
+
+.label-text {
+  height: 40px;
+  width: 280px;
+
+  // p {
+  //   color: #000000;
+  // font-family: "Inter-Regular", Helvetica;
+  // font-size: 14px;
+  // font-weight: 400;
+  // left: 0;
+  // letter-spacing: 0;
+  // line-height: 19.6px;
+  // position: fixed;
+  // top: 0;
+  // }
+}
+
+
+
+.confirmation-modal {
+  align-self: stretch;
+  color: #000000;
+}
+
+.role-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.software-engineer-container {
+  display: inline-flex;
+  padding: 32px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  background-color: #fdfdfd;
+  margin: 37px 25px;
+}
+
+.swe-text-container {
+
+  border-radius: 16px;
+  background-color: white;
+  
+  h1 {
+    color: #000;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 44.8px;
+  }
+
+  //take away margin from h1
+
+}
+
+
+
+.ux-designers-container {
+  display: inline-flex;
+  padding: 32px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  background-color: #fdfdfd;
+  margin: 37px 37px 37px 0px;
+}
+
+.ux-designers-text-container {
+  border-radius: 16px;
+  
+  h1 {
+    color: #000;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 44.8px;
+  }
+}
+
+/*Team Member Card */
+
+.team-member-card-container {
+  display: inline-flex;
+  flex-direction: row;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 167px;
+  height: auto;
+  margin-left: 24px;
+  
+}
+
+.profile-img-container {
+  align-items: center;
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+}
+
+
+
+.profile-img {
+  clip-path: ellipse(88px 88px);
+  left:0;
+  top:0;
+  position: fixed;
+  object-fit: cover;
+}
+
+.profile-info-container {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-8-px, 8px);
+  border-radius: 8px;
+  background: var(--white-ffffff, #FEFEFE);
+  box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.15);
+  margin: -8 0 0 0 ;
+  width: 176px;
+  height: 104px;
+
+}
+
+.profile-name {
+  label {
+    height: 20px;
+    width: 144px;
+  }
+
+  padding: 0;
+}
+
+
+.profile-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.profile-btn-container {
+  margin: 8px 8px 0 0;
+}
+
+.profile-btn {
+  align-items: center;
+  background-color: var(--primary-primary, #FFA726);
+  border: none;
+  border-radius: 4px;
+  display:flex;
+  flex: 1 0 0;
+  gap: 8px;
+  justify-content: center;
+  padding: 4px 8px;
+  position: relative;
+  text-decoration: none;
+}
+
+.message-btn-container{
+  margin: 8px 0 0 0;
+}
+
+.message-btn {
+  align-items: center;
+  background-color: var(--primary-primary, #FFA726);
+  border: none;
+  border-radius: 4px;
+  display: flex;
+  flex: 1 0 0;
+  gap: 8px;
+  justify-content: center;
+  padding: 4px 8px;
+  position: relative;
+}

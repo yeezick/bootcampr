@@ -3,6 +3,7 @@ import { ProjectDetailsSidebar } from './ProjectDetailsSidebar'
 import TeamBanner from '../../../assets/Image/team-header.png'
 import { TeamMemberCard } from './TeamMemberCard'
 import { BsThreeDotsVertical } from 'react-icons/bs'
+import './Team.scss'
 // import { useSelector } from 'react-redux'
 // import { selectProjectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 

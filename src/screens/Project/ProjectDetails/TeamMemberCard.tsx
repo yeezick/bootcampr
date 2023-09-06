@@ -1,19 +1,16 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Avatar from 'components/Avatar/Avatar'
-import './ProjectDetails.scss'
+import './Team.scss'
 import {
   selectAuthUser,
   getUserProfileImage,
 } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 
-//TODO: create proper image ellipse,
 //TODO make team member card true to figma,
 //TODO profile data functionality and how to link it to project,
 //TODO style buttons,
-//TODO link profile button to profile popup,
-//TODO link message to chat popup based on user
 
 //add user props
 
