@@ -1,10 +1,9 @@
 import { Paginator } from 'components/Paginator/Paginator'
+import { OnboardingSetUpProfile } from './OnboardingSetUpProfile'
 import './Onboarding.scss'
 import { OnboardingIncomplete } from './OnboardingIncomplete'
 import { OnboardingLastScreen } from './OnboardingLastScreen'
 import { Two } from './Two'
-import { Three } from './Three'
-import { OneKPlusRounded, ThreeDRotation } from '@mui/icons-material'
 
 export const Onboarding = () => {
   const orderedPages = [
@@ -17,8 +16,8 @@ export const Onboarding = () => {
       title: 'Two',
     },
     {
-      component: Three,
-      title: 'Three',
+      component: OnboardingSetUpProfile,
+      title: 'Set up profile',
     },
     {
       component: OnboardingLastScreen,
@@ -26,8 +25,10 @@ export const Onboarding = () => {
     },
   ]
   return (
-    <div className='progress-bar'>
-      <Paginator exitRoute='/' orderedPages={orderedPages} />
+    <div className='onboarding'>
+      <div className='onboarding-pag-container'>
+        <Paginator exitRoute='/' orderedPages={orderedPages} />
+      </div>
     </div>
   )
 }

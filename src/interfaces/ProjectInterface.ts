@@ -1,14 +1,23 @@
 import { TicketInterface, UserInterface } from 'interfaces'
-import dayjs from 'dayjs'
+import { ProjectMemberInterface } from 'interfaces/UserInterface'
 
 export interface ProjectInterface {
-  calendarId: string
-  chats: string[]
+  loading?: boolean
+  _v?: number
+  createAt?: string
+  duration?: string
+  _id?: string
+  meetingCadence?: number
+  overview?: string
+  calendarId?: string
+  chats?: string[]
   createdAt?: string
-  goal: string
-  meetings: string[]
+  goal?: string
+  meetings?: string[]
   members?: {
+    all?: UserInterface[]
     designers?: UserInterface[]
+    emailMap?: EmailMap
     engineers?: UserInterface[]
   }
   problem: string
@@ -18,18 +27,25 @@ export interface ProjectInterface {
     toDo?: TicketInterface[]
     underReview?: TicketInterface[]
   }
-  timeline: {
-    startDate: string
-    endDate: string
+  completedInfo?: {
+    participatingMembers?: { user: ProjectMemberInterface; decision: string }[]
+    deployedUrl?: {
+      [key: string]: string
+    }
+  }
+  timeline?: {
+    startDate?: string
+    endDate?: string
   }
   title?: string
-  _id?: string
-  _v?: number
+  projectPortal: {
+    renderProjectPortal: boolean
+  }
 }
 
-export interface DateFieldsInterface {
-  date: dayjs.Dayjs
-  end: dayjs.Dayjs
-  start: dayjs.Dayjs
-  timeZone: string | dayjs.Dayjs
+export interface EmailMap {
+  [key: string]: {
+    role: string
+    index: number
+  }
 }
