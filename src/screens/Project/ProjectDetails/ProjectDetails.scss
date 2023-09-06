@@ -4,15 +4,15 @@
 /*ProjectDetailsSidebar */
 
 .project-details-sidebar {
-  // align-items: center;
-  background-color: #ffffff;
+  background-color: #fdfdfd;
   display: flex;
   height: 927px;
   flex-direction: column;
-  flex-shrink: 0;
   justify-content: space-between;
-  // padding: 32px 0px;
   width: 248px;
+  align-items: center;
+  position: relative;
+  padding: 32px 0;
 }
 
   .nav-container {
@@ -47,7 +47,6 @@
     width: 216px;
     align-items: flex-start;
     gap: 8px;
-    margin: 24px 0 0;
   }
 
   .link {
@@ -184,27 +183,30 @@
   align-items: flex-start;
   gap: 56px;
   margin: 40px 100px 59px 100px;
+  background-color: #fdfdfd;
 }
 
 .overview-text-container {
   display: flex;
-  background-color: #ffffff;
+  position: relative;
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
-  align-items: stretch;
-  margin: 16px 32px;
 }
 
 .brief-overview-header-container {
   display: flex;
   align-items: center;
+  align-self: stretch;
   gap: 8px;
   align-self: stretch;
+  position: relative;
+  flex: 0 0 auto;
 
   .heaader-icon {
     height: 24px;
     width: 24px;
+    position: relative;
   }
 
   h1 {
@@ -214,12 +216,16 @@
     font-style: normal;
     font-weight: 600;
     line-height: 33.6px;
+    flex: 1;
+    letter-spacing: 0;
+    margin-top: -1px;
   }
 }
 
 
 .brief-overview-text-container {
   display: flex;
+  flex-direction: column;
   padding-left: 0px;
   align-items: flex-start;
   gap: 10px;
@@ -227,12 +233,94 @@
   font-size: 16px;
 }
 
+.brief-overview-header-container {
+  h1 {
+    margin:0;
+  }
+}
+
+.problem {
+  p{
+    margin:0;
+  }
+}
+
+.consider {
+  p{
+    margin: 0;
+  }
+  
+  ul {
+    margin: 0;
+  }
+}
+
+.deliverables {
+  p{
+    margin: 0;
+  }
+}
+
+.scope {
+  p{
+    margin: 0;
+  }
+}
+
 
 
 /*team screen */
 
 .team-container {
-  display: flex
+  display: flex;
+}
+
+.open-modal {
+  border: none;
+  border-radius: 0;
+  background: #ffead0;;
+
+}
+
+.withdrawal-modal-hidden {
+  height: 37px;
+  width: 148px;
+  background: #fdfdfd;
+}
+
+.withdrawal-modal {
+  align-items: flex-start;
+  background: #fdfdfd;
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  position: relative;
+
+  height: 37px;
+  width: 148px;
+
+}
+.withdraw-text {
+  color: #d80000;
+  font-family: "Inter-Regular", Helvetica;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 16.8px;
+  margin: -1px 0 0;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+
+
+  
+}
+
+.role-container {
+  display: flex;
+  flex-direction: row;
 }
 
 .software-engineer-container {
@@ -241,7 +329,8 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 32px;
-  // background-color: greenyellow;
+  background-color: #fdfdfd;
+  margin: 37px 25px;
 }
 
 .swe-text-container {
@@ -257,7 +346,11 @@
     line-height: 44.8px;
   }
 
+  //take away margin from h1
+
 }
+
+
 
 .ux-designers-container {
   display: inline-flex;
@@ -265,7 +358,8 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 32px;
-  // background-color: orangered;
+  background-color: #fdfdfd;
+  margin: 37px 37px 37px 0px;
 }
 
 .ux-designers-text-container {
@@ -282,6 +376,11 @@
 
 /*Team Member Card */
 
+.team-member-card-container {
+  display: inline-flex;
+  flex-direction: row;
+}
+
 .profile-container {
   display: flex;
   flex-direction: column;
@@ -289,23 +388,23 @@
   justify-content: center;
   width: 167px;
   height: auto;
-  // background-color: aqua;
+  margin-left: 24px;
   
 }
 
-.profile-img-container {
-  align-items: center;
-  justify-content: center;
-  height: 88px;
-  width: 88px;
-  // clip-path: ellipse(88px 88px);
-  
-  
-}
+// .profile-img-container {
+//   align-items: center;
+//   justify-content: center;
+//   height: 88px;
+//   width: 88px;
+// }
 
 .profile-img {
   clip-path: ellipse(88px 88px);
   justify-content: center;
+  z-index: 1;
+  position: relative;
+  object-fit: cover;
 }
 
 .profile-info-container {

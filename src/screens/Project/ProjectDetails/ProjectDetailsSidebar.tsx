@@ -7,7 +7,6 @@ import { ProjectInterface } from 'interfaces'
 import { getOneProject } from 'utils/api'
 
 //TODO: add hover affect on links
-//TODO: ask question about hiding the hamburger button for original sidebar
 //TODO: fix calendar route
 
 export const ProjectDetailsSidebar = () => {
