@@ -1,13 +1,13 @@
 import { MenuItem, Select } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { timeOptions } from 'utils/data/calendarConstants'
-import { combineDateWithTime, roundToNearestHalfHour } from 'utils/helpers'
+import { combineDateWithTime, formatIsoToHalfHour } from 'utils/helpers'
 
-export const SelectTime = ({ dateFields, dayjs, setDateFields, type }) => {
-  const [selectedTime, setSelectedTime] = useState(
-    roundToNearestHalfHour(dayjs(dateFields.date).format('hh:mm A'))
-  )
+export const SelectTime = ({ dateFields, setDateFields, type }) => {
   const [availableOptions, setAvailableOptions] = useState(timeOptions)
+  const [selectedTime, setSelectedTime] = useState(
+    formatIsoToHalfHour(dateFields[type])
+  )
   const { date } = dateFields
 
   /* CONTEXT (useEffect)
@@ -16,10 +16,8 @@ export const SelectTime = ({ dateFields, dayjs, setDateFields, type }) => {
     - If new start < time, keep current end time selection
   */
   useEffect(() => {
-    const currStartTime = roundToNearestHalfHour(
-      dateFields.start.format('h:mm A')
-    )
-    const currEndTime = roundToNearestHalfHour(dateFields.end.format('h:mm A'))
+    const currStartTime = formatIsoToHalfHour(dateFields.start)
+    const currEndTime = formatIsoToHalfHour(dateFields.end)
     const endIdx = timeOptions.findIndex(option => option === currEndTime)
     const startIdx = timeOptions.findIndex(option => option === currStartTime)
     if (type === 'end') {
@@ -30,15 +28,22 @@ export const SelectTime = ({ dateFields, dayjs, setDateFields, type }) => {
         setSelectedTime(filteredOptions[0])
       }
     }
-  }, [dateFields.start])
+  }, [dateFields.start, dateFields.end])
 
   const handleTimeChange = e => {
     const { value } = e.target
+    const updatedDateFields = { ...dateFields }
+
+    if (type === 'start') {
+      const nextIdx = timeOptions.findIndex(option => option === value)
+      updatedDateFields[type] = combineDateWithTime(date, value)
+      updatedDateFields['end'] = combineDateWithTime(date, timeOptions[nextIdx])
+      setDateFields(updatedDateFields)
+    } else if (type === 'end') {
+      updatedDateFields[type] = combineDateWithTime(date, value)
+      setDateFields(updatedDateFields)
+    }
     setSelectedTime(value)
-    setDateFields({
-      ...dateFields,
-      [type]: combineDateWithTime(date, value),
-    })
   }
 
   return (

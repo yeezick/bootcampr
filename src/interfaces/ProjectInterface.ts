@@ -1,6 +1,5 @@
 import { TicketInterface, UserInterface } from 'interfaces'
 import { ProjectMemberInterface } from 'interfaces/UserInterface'
-import dayjs from 'dayjs'
 
 export interface ProjectInterface {
   loading?: boolean
@@ -16,7 +15,9 @@ export interface ProjectInterface {
   goal?: string
   meetings?: string[]
   members?: {
+    all?: UserInterface[]
     designers?: UserInterface[]
+    emailMap?: EmailMap
     engineers?: UserInterface[]
   }
   problem: string
@@ -42,9 +43,9 @@ export interface ProjectInterface {
   }
 }
 
-export interface DateFieldsInterface {
-  date: dayjs.Dayjs
-  end: dayjs.Dayjs
-  start: dayjs.Dayjs
-  timeZone: string | dayjs.Dayjs
+export interface EmailMap {
+  [key: string]: {
+    role: string
+    index: number
+  }
 }
