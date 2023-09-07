@@ -1,31 +1,18 @@
-import { ArrowDropDown } from '@mui/icons-material'
+import { AccessTime, ArrowDropDown } from '@mui/icons-material'
 import { DatePicker } from '@mui/x-date-pickers'
-import { updateDateInTimeSelections } from 'utils/helpers'
+import { combineDateWithTime } from 'utils/helpers'
 import { SelectTimeZone } from './SelectTimeZone'
 import { SelectTime } from './SelectTime'
-import { useEffect, useState } from 'react'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
 import './MeetingModalStyles.scss'
 
-dayjs.extend(utc)
-dayjs.extend(timezone)
-
 export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
-  const [datePickerDayjs, setDayPickerDayjs] = useState(dayjs())
-
   const handleDate = newDate =>
     setDateFields({
       ...dateFields,
-      date: newDate.toISOString(),
-      end: updateDateInTimeSelections(newDate, dateFields.end),
-      start: updateDateInTimeSelections(newDate, dateFields.start),
+      date: newDate,
+      end: combineDateWithTime(newDate, dateFields.end.format('hh:mm A')),
+      start: combineDateWithTime(newDate, dateFields.start.format('hh:mm A')),
     })
-
-  useEffect(() => {
-    setDayPickerDayjs(dayjs(dateFields.date))
-  }, [])
 
   return (
     <div className='fields-wrapper'>
@@ -40,17 +27,19 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
             openPickerIcon: { sx: { position: 'absolute', right: '5px' } },
           }}
           sx={datePickerStyles}
-          value={datePickerDayjs}
+          value={dateFields.date}
         />
         <span>from</span>
         <SelectTime
           dateFields={dateFields}
+          dayjs={dayjs}
           setDateFields={setDateFields}
           type={'start'}
         />
         <span className='span-dash'>-</span>
         <SelectTime
           dateFields={dateFields}
+          dayjs={dayjs}
           setDateFields={setDateFields}
           type={'end'}
         />

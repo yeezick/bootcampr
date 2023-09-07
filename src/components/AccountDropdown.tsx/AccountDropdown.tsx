@@ -29,7 +29,7 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
     if (innerText === 'View Profile') {
       navigate(`/users/${userId}`)
     } else if (innerText === 'Settings') {
-      navigate(`/users/${userId}/settings/email`)
+      navigate(`/users/${userId}/settings`)
     } else if (innerText === 'Log out') {
       logOut()
       dispatch(logoutAuthUser())
@@ -43,17 +43,6 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
         anchorEl={anchorEl}
         open={open}
         onClose={e => handleClose(e, false)}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        classes={{
-          paper: 'custom-menu-paper',
-        }}
       >
         <MenuItem onClick={handleClose}>View Profile</MenuItem>
         <MenuItem onClick={handleClose}>Settings</MenuItem>

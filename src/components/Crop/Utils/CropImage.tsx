@@ -131,7 +131,7 @@ export default async function getCroppedImg(
   // Paste the generated rotated image at the top left corner of the canvas
   ctx.putImageData(data, 0, 0)
 
-  // Return the cropped image as a blob!
+  // Return the cropped image as a blob
   return new Promise((resolve, reject) => {
     canvas.toBlob(file => {
       if (file) {

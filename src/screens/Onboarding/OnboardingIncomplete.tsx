@@ -1,20 +1,17 @@
-import { useState } from 'react'
-import { updateUserProfile } from 'utils/api'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from 'utils/redux/hooks'
+import React, { useState } from 'react'
+import { updateUser } from 'utils/api'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectAuthUser,
   updateProfile,
   updateAuthUser,
 } from 'utils/redux/slices/userSlice'
 import { FiArrowRight } from 'react-icons/fi'
-import { useParams } from 'react-router-dom'
 
 export const OnboardingIncomplete = ({ handlePageNavigation }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const [selectedRole, setSelectedRole] = useState('')
   const [buttonEnabled, setButtonEnabled] = useState(false)
-  const params = useParams()
 
   const authUser = useAppSelector(selectAuthUser)
 
@@ -26,10 +23,8 @@ export const OnboardingIncomplete = ({ handlePageNavigation }) => {
   const handleSubmit = async event => {
     event.preventDefault()
     try {
-      const response = await updateUserProfile(params.id, {
-        role: selectedRole,
-      })
-      dispatch(updateAuthUser(response.userProfile))
+      const response = await updateUser(authUser._id, { role: selectedRole })
+      dispatch(updateAuthUser(response))
       setButtonEnabled(false)
       handlePageNavigation('next')
     } catch (error) {

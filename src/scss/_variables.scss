@@ -30,18 +30,5 @@ $vep-default-font: (
   line-height: $vep-line-height,
 );
 
-// Container variables
-$container-background-color: #ffffff;
-$container-border: 1px solid #8048c8;
-$container-border-radius: 4px;
-$container-color: #8048c8;
-$container-height: 0;
-$container-width: 0;
-$container-default-values: (
-  background-color: $container-background-color,
-  border: $container-border,
-  border-radius: $container-border-radius,
-  color: $container-color,
-  height: $container-height,
-  width: $container-width,
-);
+$pdt-font-family: 'Inter-Bold', Helvetica;
+$pdt-font-family-2: 'Inter-SemiBold', Helvetica;

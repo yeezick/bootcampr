@@ -5,42 +5,27 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import { useSelector } from 'react-redux'
 import { fetchProjectCalendar } from 'utils/api/calendar'
 import { selectCalendarId } from 'utils/redux/slices/projectSlice'
-import {
-  convertGoogleEventsForCalendar,
-  parseCalendarEventForMeetingInfo,
-} from 'utils/helpers/calendarHelpers'
-import { useAppDispatch } from 'utils/redux/hooks'
-import {
-  selectConvertedEventsAsArr,
-  setDisplayedEvent,
-  storeConvertedEvents,
-} from 'utils/redux/slices/calendarSlice'
-import { DisplayMeetingModal } from 'components/Calendar/MeetingModal/DisplayMeetingModal'
+import { convertGoogleEventsForCalendar } from 'utils/helpers/calendarHelpers'
 
-export const CalendarView = () => {
+export const CalendarView = ({ events, setEvents }) => {
   const calendarId = useSelector(selectCalendarId)
-  const convertedEventsAsArr = useSelector(selectConvertedEventsAsArr)
   const [isLoading, setIsLoading] = useState(true)
-  const dispatch = useAppDispatch()
+  const [convertedEvents, setConvertedEvents] = useState([])
 
   // TODO: only hydrate calendar with events in user.meetings
   useEffect(() => {
     const fetchAllEvents = async () => {
-      const googleCalendarEvents = await fetchProjectCalendar(calendarId)
+      const res = await fetchProjectCalendar(calendarId)
+      setEvents(res)
+      setConvertedEvents(convertGoogleEventsForCalendar(res))
       setIsLoading(false)
-      dispatch(
-        storeConvertedEvents(
-          convertGoogleEventsForCalendar(googleCalendarEvents)
-        )
-      )
     }
-    if (calendarId) {
-      fetchAllEvents()
-    }
+    fetchAllEvents()
   }, [calendarId])
 
-  const handleEventClick = e =>
-    dispatch(setDisplayedEvent(parseCalendarEventForMeetingInfo(e)))
+  useEffect(() => {
+    setConvertedEvents(convertGoogleEventsForCalendar(events))
+  }, [events])
 
   return (
     <div>
@@ -48,19 +33,16 @@ export const CalendarView = () => {
         <p>LOADING</p>
       ) : (
         <FullCalendar
-          events={convertedEventsAsArr}
-          eventClick={handleEventClick}
           headerToolbar={{
             start: 'dayGridMonth timeGridWeek today',
             center: 'title',
             end: 'prev next',
           }}
-          initialView='timeGridWeek'
-          nowIndicator={true}
+          events={convertedEvents}
           plugins={[dayGridPlugin, timeGridPlugin]}
+          initialView='timeGridWeek'
         />
       )}
-      <DisplayMeetingModal />
     </div>
   )
 }

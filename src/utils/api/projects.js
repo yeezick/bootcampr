@@ -38,7 +38,7 @@ export const createProject = async project => {
 
 export const editProject = async (id, project) => {
   try {
-    const res = await api.patch(`/projects/${id}`, project)
+    const res = await api.put(`/projects/${id}`, project)
     return res.data
   } catch (error) {
     throw error

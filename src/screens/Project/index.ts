@@ -1,4 +1,4 @@
-export * from './ProjectDetails/ProjectDetails'
+export * from './CreateProject'
 export * from './AllProjects'
 export * from './ProjectDetails/TaskManagement'
 

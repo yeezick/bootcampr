@@ -23,15 +23,6 @@ export const getOneUser = async (id: any) => {
   }
 }
 
-export const updateUserProfile = async (id: any, userProfile: any) => {
-  try {
-    const res = await api.post(`/onboarding/${id}`, userProfile)
-    return res.data
-  } catch (error) {
-    throw error
-  }
-}
-
 export const updateUser = async (id: any, userUpdate: any) => {
   try {
     const res = await api.put(`/users/${id}`, userUpdate)
@@ -157,22 +148,6 @@ export const markConversationAsRead = async (
       `/users/${authUserId}/messages/markConversationAsRead`,
       { chatId }
     )
-    return res.data
-  } catch (error) {
-    console.error(error)
-    return false
-  }
-}
-
-export const updateAvailability = async (
-  userId: string,
-  newAvailability: any
-) => {
-  try {
-    const res = await api.post(`/updateAvailability`, {
-      newAvailability,
-      userId,
-    })
     return res.data
   } catch (error) {
     console.error(error)

@@ -1,6 +1,6 @@
 import { KeyboardArrowDown } from '@mui/icons-material'
 import { FormControl, MenuItem, Select } from '@mui/material'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { usTimeZones } from 'utils/data/calendarConstants'
 
 export const SelectTimeZone = ({ dateFields, setDateFields, timeZone }) => {
@@ -18,6 +18,7 @@ export const SelectTimeZone = ({ dateFields, setDateFields, timeZone }) => {
         sx={{ alignSelf: 'center', fontSize: '14px' }}
       >
         <Select
+          defaultValue={timeZone}
           disableUnderline={true}
           IconComponent={CustomArrowDown(toggleSelect)}
           onChange={handleTimeZone}
@@ -25,7 +26,6 @@ export const SelectTimeZone = ({ dateFields, setDateFields, timeZone }) => {
           open={openSelect}
           sx={timeZoneSelectStyles}
           variant='standard'
-          value={timeZone}
         >
           {usTimeZones.map(timeZone => (
             <MenuItem value={timeZone.value} key={timeZone.value}>

@@ -18,26 +18,6 @@ export const UserProfile: React.FC = () => {
     return <div>Loading user... or there isn't one.</div>
   }
 
-  const shouldShowName = authUser && authUser.firstName && authUser.lastName
-
-  const shouldShowRole =
-    authUser &&
-    (authUser.role === 'Software Engineer' || authUser.role === 'UX Designer')
-
-  const shouldShowBio = shouldShowRole && authUser && authUser.bio
-
-  const shouldShowPortfolioUrl =
-    shouldShowRole && authUser && authUser.links && authUser.links.portfolioUrl
-
-  const shouldShowGithubUrl =
-    authUser &&
-    authUser.role === 'Software Engineer' &&
-    authUser.links &&
-    authUser.links.githubUrl
-
-  const shouldShowLinkedInUrl =
-    shouldShowRole && authUser && authUser.links && authUser.links.linkedinUrl
-
   const routeToEdit = () => {
     navigate(`/users/${authUser._id}/edit`)
   }
@@ -66,12 +46,13 @@ export const UserProfile: React.FC = () => {
             </IconButton>
           </div>
           <div className='userProfile__title'>
-            {shouldShowName && (
+            {authUser.firstName && authUser.lastName && (
               <h2>
                 {authUser.firstName} {authUser.lastName}
               </h2>
             )}
-            {shouldShowRole && <h3>{authUser.role}</h3>}
+            {(authUser.role === 'Software Engineer' ||
+              authUser.role === 'UX Designer') && <h3>{authUser.role}</h3>}
           </div>
           <button className='userProfile__editBtn' onClick={routeToEdit}>
             Edit Profile
@@ -79,7 +60,8 @@ export const UserProfile: React.FC = () => {
         </div>
         <div className='userProfile__infoContainer'>
           <h3>About me</h3>
-          {shouldShowBio && <p>{authUser.bio}</p>}
+          {(authUser.role === 'Software Engineer' ||
+            authUser.role === 'UX Designer') && <p>{authUser.bio}</p>}
         </div>
 
         <div className='userProfile__linksContainer'>
@@ -87,16 +69,19 @@ export const UserProfile: React.FC = () => {
             <BsLink45Deg className='userProfile__icons' />
             <div className='userProfile__link'>
               <h3>Portfolio</h3>
-              {shouldShowPortfolioUrl && (
-                <a
-                  className='userProfile__url'
-                  href={authUser.links.portfolioUrl}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  {authUser.links.portfolioUrl}
-                </a>
-              )}
+              {(authUser.role === 'Software Engineer' ||
+                authUser.role === 'UX Designer') &&
+                authUser.links &&
+                authUser.links.portfolioUrl && (
+                  <a
+                    className='userProfile__url'
+                    href={authUser.links.portfolioUrl}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    {authUser.links.portfolioUrl}
+                  </a>
+                )}
             </div>
           </div>
 
@@ -104,16 +89,18 @@ export const UserProfile: React.FC = () => {
             <RiGithubLine className='userProfile__icons' />
             <div className='userProfile__link'>
               <h3>Github</h3>
-              {shouldShowGithubUrl && (
-                <a
-                  className='userProfile__url'
-                  href={authUser.links.githubUrl}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  {authUser.links.githubUrl}
-                </a>
-              )}
+              {authUser.role === 'Software Engineer' &&
+                authUser.links &&
+                authUser.links.githubUrl && (
+                  <a
+                    className='userProfile__url'
+                    href={authUser.links.githubUrl}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    {authUser.links.githubUrl}
+                  </a>
+                )}
             </div>
           </div>
 
@@ -121,16 +108,19 @@ export const UserProfile: React.FC = () => {
             <FiLinkedin className='userProfile__icons' />
             <div className='userProfile__linkLast'>
               <h3>LinkedIn</h3>
-              {shouldShowLinkedInUrl && (
-                <a
-                  className='userProfile__url'
-                  href={authUser.links.linkedinUrl}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  {authUser.links.linkedinUrl}
-                </a>
-              )}
+              {(authUser.role === 'Software Engineer' ||
+                authUser.role === 'UX Designer') &&
+                authUser.links &&
+                authUser.links.linkedinUrl && (
+                  <a
+                    className='userProfile__url'
+                    href={authUser.links.linkedinUrl}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    {authUser.links.linkedinUrl}
+                  </a>
+                )}
             </div>
           </div>
         </div>

@@ -2,39 +2,51 @@ import { Link } from 'react-router-dom'
 import { AiFillStar } from 'react-icons/ai'
 import { logOut } from 'utils/api/users'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { logoutAuthUser, selectAuthUser } from 'utils/redux/slices/userSlice'
+import {
+  logoutAuthUser,
+  selectAuthUser,
+  toggleSidebar,
+} from 'utils/redux/slices/userSlice'
 import './Sidebar.scss'
 import Avatar from 'components/Avatar/Avatar'
-import { selectRenderProjectPortal } from 'utils/redux/slices/projectSlice'
 
 export const Sidebar = () => {
-  const { _id: userId, firstName, lastName } = useAppSelector(selectAuthUser)
+  const authUser = useAppSelector(selectAuthUser)
+  const { _id: userId, firstName, lastName } = authUser
   const dispatch = useAppDispatch()
-  const projectPortal = useAppSelector(selectRenderProjectPortal)
+  const visibleSidebar = useAppSelector(
+    state => state.ui.sidebar.visibleSidebar
+  )
 
   const handleLogout = () => {
     logOut()
     dispatch(logoutAuthUser())
+    dispatch(toggleSidebar())
+  }
+
+  const toggleSidebarHandler = () => {
+    dispatch(toggleSidebar())
   }
 
   return (
-    <div className='sidebar-container'>
+    <div className={visibleSidebar ? 'sidebar-container' : 'hide-sidebar'}>
+      <div className='menu-btn' onClick={toggleSidebarHandler}>
+        <i></i>
+        <i></i>
+        <i></i>
+      </div>
+
       <div className='current-user'>
-        {projectPortal ? (
-          <h1>Project Portal</h1>
-        ) : (
-          <>
-            <Avatar />
-            <div>
-              <p className='user-name'>
-                {firstName} {lastName}
-              </p>
-              <Link className='edit-profile' to={`/users/${userId}/edit`}>
-                Edit Profile
-              </Link>{' '}
-            </div>
-          </>
-        )}
+        <Avatar />
+        <div>
+          <p className='user-name'>
+            {firstName} {lastName}
+          </p>
+
+          <Link className='edit-profile' to={`/users/${userId}/edit`}>
+            Edit Profile
+          </Link>
+        </div>
       </div>
       <div className='nav-links'>
         <Link className='link' to={`/users/${userId}`}>
@@ -43,9 +55,13 @@ export const Sidebar = () => {
         <Link className='link' to={'/availability'}>
           Availability Demo
         </Link>
+        <Link className='link' to={'/create-project'}>
+          Create project
+        </Link>
         <Link className='link' to={'/all-projects'}>
           All Projects
         </Link>
+
         {/* TODO: replace with project id */}
         <Link className='link' to={'/project/123/calendar'}>
           Calendar
@@ -54,9 +70,6 @@ export const Sidebar = () => {
           <AiFillStar size={18} /> Sign Out
         </Link>
       </div>
-      <Link to={`/project-completion`}>
-        <button className='completion-overflow-btn'>Submit Project</button>
-      </Link>
     </div>
   )
 }

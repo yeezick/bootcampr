@@ -1,22 +1,12 @@
-@import 'scss/variables';
-@import 'scss/mixins';
+/* onboarding incomplete */
 
-/* Onboarding main */
-.onboarding {
-  .onboarding-pag-container {
-    align-items: center;
-    background-color: #ffffff;
-    border: 0 none;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    height: 1164px;
-    margin: 64px auto auto;
-    width: 800px;
-  }
+.progress-bar {
+  border: 0 none;
+  height: 24px;
+  margin: 50px auto 0;
+  width: 675px;
 }
 
-/* Onboarding incomplete */
 .onboarding-incomplete-container {
   align-items: center;
   display: flex;
@@ -31,6 +21,7 @@
   gap: 5px;
   justify-content: center;
   padding: 0px;
+
 
   h1 {
     height: 54px;
@@ -50,7 +41,9 @@
     margin: 0px;
     text-align: left;
   }
+
 }
+
 
 .role-selection-container {
   align-items: flex-start;
@@ -58,7 +51,7 @@
   flex-direction: column;
   gap: 15px;
   justify-content: center;
-  margin-top: 32px;
+  margin-top: 50px;
   padding: 0px;
 
   .select-role {
@@ -94,6 +87,7 @@
     height: 48px;
 
     p {
+
       font-size: 16px;
       font-style: normal;
       font-weight: 400;
@@ -131,7 +125,7 @@
     }
 
     p {
-      margin: 0;
+      margin: 0
     }
   }
 
@@ -150,6 +144,7 @@
       height: 24px;
       width: 24px;
     }
+
   }
 
   .software-eng-p1 {
@@ -160,6 +155,7 @@
     margin: 0;
   }
 }
+
 
 .software-engineer-msg {
   padding-left: 250px;
@@ -208,239 +204,15 @@
 
 #set-availability {
   background-color: #ecebeb;
-  color: #313335;
+  color: #313335
 }
 
 #set-availability.enabled {
-  background-color: #fa9413;
-}
-
-/* Onboarding setup profile */
-.setupProfile {
-  margin: 32px auto 0;
-  width: 638.31px;
-  height: 1025px;
-
-  $this: &;
-
-  &__cta-container {
-    align-items: flex-start;
-    display: flex;
-    gap: 32px;
-  }
-
-  &__profile-backArrow {
-    height: 16px !important;
-    width: 16px !important;
-  }
-
-  &__profile-backBtn {
-    color: #470d91 !important;
-  }
-
-  &__profile-container,
-  &__profile-form,
-  &__profile-label {
-    @include flex(column, inherit, inherit);
-  }
-
-  &__profile-bioCharCount {
-    @include font-properties(
-      (
-        size: 12px,
-        line-height: 21px,
-      )
-    );
-    background-color: #fafafa;
-    color: #313335;
-    padding-right: 5px;
-    max-height: 22px;
-    text-align: right;
-  }
-
-  &__profile-btns {
-    @include flex(column, space-between, center);
-    background-color: #ffffff;
-    gap: 32px;
-    margin: auto 0 auto 50%;
-    padding-top: 32px;
-    width: 50%;
-  }
-
-  &__profile-cameraIcon {
-    background-color: #ecebeb !important;
-    left: 70px;
-    top: 58px;
-  }
-
-  &__profile-cancelBtn,
-  &__profile-saveBtn {
-    @include font-properties(
-      (
-        size: 14px,
-        weight: 500,
-        line-height: 20px,
-      )
-    );
-    border-radius: 4px;
-    box-sizing: border-box;
-    cursor: pointer;
-    gap: 8px;
-    height: 40px;
-    padding: 10px 16px;
-  }
-
-  &__profile-cancelBtn {
-    align-items: center;
-    background-color: #ffffff;
-    border: 1px solid #5c6bc0;
-    color: #1a237e;
-    display: flex;
-    justify-content: center;
-    position: relative;
-    width: 141px;
-  }
-
-  &__profile-container {
-    border-radius: 4px;
-    max-width: 100%;
-  }
-
-  &__profile-disabledBtn {
-    @include font-properties(
-      (
-        size: 14px,
-        weight: 500,
-        line-height: 20px,
-      )
-    );
-    align-items: center;
-    background-color: lightgray;
-    border: none;
-    border-radius: 4px;
-    box-sizing: border-box;
-    color: #1a237e;
-    cursor: not-allowed;
-    display: flex;
-    gap: 8px;
-    height: 40px;
-    justify-content: center;
-    padding: 10px 16px;
-    position: relative;
-    width: 146px;
-  }
-
-  &__profile-form {
-    width: 100%;
-  }
-
-  &__profile-header-cont {
-    margin: 0 auto 32px;
-    width: 555px;
-
-    h2 {
-      @include flex(row);
-      @include font-properties(
-        (
-          size: 24px,
-          weight: 600,
-          line-height: 33.6px,
-        )
-      );
-      margin: 0 auto 8px;
-      max-height: 45px;
-      max-width: 100%;
-      text-align: left;
-    }
-
-    p {
-      @include font-properties(
-        (
-          size: 16px,
-          weight: 400,
-          line-height: 24px,
-        )
-      );
-      color: #212121;
-      letter-spacing: 0;
-      margin: 0;
-    }
-  }
-
-  &__inputs-container {
-    background-color: #fafafa;
-    display: flex;
-    flex-direction: column;
-    gap: 16px 16px;
-    padding: 32px;
-  }
-
-  &__profile-image {
-    background-color: #c4c4c4;
-    border-radius: 100%;
-    height: 100px;
-    margin: 0 0 10px 0;
-    width: 100px;
-  }
-
-  &__profile-imageChange {
-    color: #121212;
-  }
-
-  &__profile-label {
-    @include font-properties(
-      (
-        size: 16px,
-        line-height: 22px,
-      )
-    );
-
-    input,
-    textarea {
-      @include font-properties(
-        (
-          family: 'Inter',
-          size: 14px,
-          line-height: 20px,
-        )
-      );
-      background-color: #ffffff;
-      border: 1px solid #000;
-      border-radius: 4px;
-      margin: 8px 0 auto 0;
-    }
-
-    input {
-      padding: 10px 100px 10px 15px;
-    }
-
-    textarea {
-      padding: 10px 15px;
-      resize: none;
-    }
-  }
-
-  &__profile-link {
-    color: #1a237e;
-    cursor: pointer;
-    border: none;
-    background: none;
-    text-decoration: underline;
-  }
-
-  &__profile-saveBtn {
-    align-items: center;
-    background-color: #fa9413;
-    border: none;
-    color: #1a237e;
-    display: flex;
-    justify-content: center;
-    position: relative;
-    width: 146px;
-  }
+  background-color: #FA9413;
 }
 
 /* Onboarding Last Screen */
+
 .onboarding-lastscreen-container {
   align-items: center;
   display: flex;
@@ -465,6 +237,7 @@
   margin: 50px 0 0;
   padding: 0 74px;
 
+
   h1 {
     color: #000;
     font-size: 38px;
@@ -484,6 +257,7 @@
   justify-content: center;
   margin: 40px 0 0;
   width: 670px;
+
 
   h2 {
     color: #000;
@@ -520,6 +294,7 @@
     line-height: 22.4px;
     text-align: center;
     width: 650px;
+
   }
 
   p {
@@ -564,7 +339,7 @@
 
 .project-details-btn {
   align-items: center;
-  background-color: #fa9413;
+  background-color: #FA9413;
   border: none;
   border-radius: 4px;
   color: #313335;
