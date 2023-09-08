@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FaInfoCircle } from 'react-icons/fa'
 import { GoAlert } from 'react-icons/go'
 import { register, reset, uiStatus } from 'utils/redux/slices/userSlice'
@@ -12,6 +13,7 @@ import './SignUp.scss'
 import { Checkbox, FormControlLabel } from '@mui/material'
 
 export const SignUp: React.FC = () => {
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const status = useAppSelector(uiStatus)
   const [disabledForm, setDisabledForm] = useState(true)
@@ -61,8 +63,11 @@ export const SignUp: React.FC = () => {
     e.preventDefault()
 
     const validForm = await dispatch(register(formValues))
+    console.log('validForm', validForm)
     const { payload } = validForm
+    console.log('payload', payload)
 
+    // navigate(`/sign-up/${}/confirmation-email-sent`)
     window.scrollTo(0, 0) // Scroll to top to view alert banner
     if (payload.invalidCredentials && payload.existingAccount) {
       setAlertBanner({
