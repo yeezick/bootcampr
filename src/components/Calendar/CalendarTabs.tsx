@@ -3,31 +3,17 @@ import { Box, Tabs, Tab } from '@mui/material'
 import { Availability } from 'components/Availability/Availability'
 import { CalendarView } from 'screens/Calendar/CalendarView'
 
-const TabContent = props => {
-  const { activeTab, children, index } = props
-
-  return (
-    <div
-      role='tabpanel'
-      hidden={activeTab !== index}
-      key={`calendar-tab-${index}`}
-    >
-      {activeTab === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  )
-}
-
-export const CalendarTabs = ({ events, setEvents }) => {
+export const CalendarTabs = () => {
   const [activeTab, setActiveTab] = useState(0)
 
-  const handleChange = (event, newValue) => {
+  const handleTabChange = (event, newValue) => {
     setActiveTab(newValue)
   }
 
   const allTabs = [
     {
       label: 'Calendar',
-      component: <CalendarView events={events} setEvents={setEvents} />,
+      component: <CalendarView />,
     },
     {
       label: 'My Availability',
@@ -38,7 +24,7 @@ export const CalendarTabs = ({ events, setEvents }) => {
   return (
     <Box className='calendar-body'>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={activeTab} onChange={handleChange}>
+        <Tabs value={activeTab} onChange={handleTabChange}>
           {allTabs.map(tab => (
             <Tab label={tab.label} key={`tab-label-${tab.label}`} />
           ))}
@@ -54,5 +40,18 @@ export const CalendarTabs = ({ events, setEvents }) => {
         </TabContent>
       ))}
     </Box>
+  )
+}
+
+const TabContent = props => {
+  const { activeTab, children, index } = props
+  return (
+    <div
+      role='tabpanel'
+      hidden={activeTab !== index}
+      key={`calendar-tab-${index}`}
+    >
+      {activeTab === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
   )
 }

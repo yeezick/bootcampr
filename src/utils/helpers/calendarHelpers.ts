@@ -1,36 +1,72 @@
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import { CalendarEvent } from 'interfaces/CalendarInterface'
-import { DateFieldsInterface } from 'interfaces'
+import {
+  ConvertedEvent,
+  DateFieldsInterface,
+  MeetingModalInfo,
+} from 'interfaces/CalendarInterfaces'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
+export const checkIfAllMembersInvited = (
+  attendees,
+  projectMembers,
+  inviteAll,
+  toggleInviteAll
+) => {
+  const invitedMembers = []
+  for (const member in attendees) {
+    if (attendees[member] === true) {
+      invitedMembers.push(true)
+    }
+  }
+  const allMembersInvited = invitedMembers.length === projectMembers.length
+  if (inviteAll && !allMembersInvited) {
+    toggleInviteAll(false)
+  } else if (!inviteAll && allMembersInvited) {
+    toggleInviteAll(true)
+  }
+}
+
+export const convertDateFieldsForDisplay = gDateFields => {
+  const { startTime, endTime } = gDateFields
+  return {
+    date: dayjs(startTime).format('dddd, MMMM D'),
+    end: dayjs(endTime).format('h:mm A'),
+    start: dayjs(startTime).format('h:mm A'),
+  }
+}
+
 /**
  * Combines the user's date selection with their selected start/end times.
  * @param {Dayjs} date
- * @param {string} selectedTime (Ex: "1:30 PM")
+ * @param {string} selectedTime (Ex: "01:30 PM" or "")
  * @returns The updated DayJS object with user's selection
  */
-export const combineDateWithTime = (date, selectedTime) => {
+export const combineDateWithTime = (newDate, selectedTime) => {
+  if (selectedTime.length > 8) {
+    selectedTime = dayjs(selectedTime).format('h:mm A')
+  }
   const [time, period] = selectedTime.split(/\s/)
   const [hours, minutes] = time.split(':').map(Number)
-  let newDate = date.set('hour', hours)
+  let updatedDate = dayjs(newDate)
+  updatedDate = updatedDate.set('hour', hours)
 
   if (period === 'PM' && hours !== 12) {
-    newDate = newDate.add(12, 'hour')
+    updatedDate = updatedDate.add(12, 'hour')
   } else if (period === 'AM' && hours === 12) {
-    newDate = newDate.set('hour', 0)
+    updatedDate = updatedDate.set('hour', 0)
   }
 
-  newDate = newDate.set('minute', minutes)
-  return newDate
+  updatedDate = updatedDate.set('minute', minutes)
+  return updatedDate.toISOString()
 }
 
 /**
  * Translates raw google calendar events into objects that are consumable by FullCalendarJS
- * @param {CalendarEvent[]} googleEvents
+ * @param {ConvertedEvent[]} googleEvents
  * @returns Array of converted events
  */
 export const convertGoogleEventsForCalendar = googleEvents => {
@@ -40,15 +76,42 @@ export const convertGoogleEventsForCalendar = googleEvents => {
 
   const convertedEvents = []
   for (const singleEvent of googleEvents) {
-    let currentEvent: CalendarEvent = {}
-    const { start, end, summary } = singleEvent
-    currentEvent.start = start.dateTime
-    currentEvent.end = end.dateTime
-    currentEvent.title = summary
+    const {
+      attendees,
+      creator,
+      description,
+      end,
+      id,
+      location,
+      start,
+      summary,
+      ...metadata
+    } = singleEvent
+
+    const currentEvent: ConvertedEvent = {
+      attendees: attendees || null,
+      creator,
+      // Todo: FullCalendar handles time conversions in an unusual way, saving them as UTC instead of as ISO acounting for TZ. This is a workaround.
+      gDateFields: {
+        endTime: end.dateTime,
+        startTime: start.dateTime,
+      },
+      description: description || null,
+      end: end.dateTime,
+      eventId: id,
+      location,
+      metadata,
+      start: start.dateTime,
+      timeZone: start.timeZone,
+      title: summary,
+    }
+
     convertedEvents.push(currentEvent)
   }
   return convertedEvents
 }
+
+export const formatIsoToHalfHour = isoStr => dayjs(isoStr).format('h:mm A')
 
 /**
  * Generate a new set of DayJS objects for current times/timezone
@@ -56,57 +119,80 @@ export const convertGoogleEventsForCalendar = googleEvents => {
  */
 export const initialDateFields = (): DateFieldsInterface => {
   return {
-    date: dayjs(),
-    start: dayjs(),
+    date: dayjs().toISOString(),
+    end: generateInitialTime('end'),
     timeZone: dayjs.tz.guess(),
-    end: dayjs(),
+    start: generateInitialTime('start'),
   }
 }
 
-/**
- * Takes the "00:00 PM" format from DayJS & converts it to the nearest half hour
- * Ex: "1:11 AM" => "1:30 AM"
- * @param {string} timeStr (Ex: "1:11 AM")
- * @returns
- */
-export const roundToNearestHalfHour = timeStr => {
+const generateInitialTime = type => {
+  const timeStr = dayjs().format('hh:mm A')
   const [time, period] = timeStr.split(/\s/)
   const [hourStr, minuteStr] = time.split(':')
-  let hour = parseInt(hourStr)
-  let minute = parseInt(minuteStr)
+  let minuteNum = parseInt(minuteStr)
+  let hourNum = parseInt(hourStr)
+  let finalStr = dayjs()
 
-  if (period === 'PM' && hour !== 12) {
-    hour += 12
-  } else if (period === 'AM' && hour === 12) {
-    hour = 0
+  if (period === 'PM' && hourNum !== 12) {
+    hourNum += 12
+  } else if (period === 'AM' && hourNum === 12) {
+    hourNum = 0
   }
 
-  if (minute < 15) {
-    minute = 0
-  } else if (minute >= 15 && minute < 45) {
-    minute = 30
+  if (type === 'start') {
+    if (minuteNum > 30) {
+      finalStr = finalStr.minute(60)
+    } else if (minuteNum > 5) {
+      finalStr = finalStr.minute(30)
+    } else {
+      finalStr = finalStr.minute(0)
+    }
   } else {
-    minute = 0
-    hour += 1
+    /* End time is set to the option after the start time */
+    if (minuteNum > 30) {
+      finalStr = finalStr.minute(30)
+      finalStr = finalStr.hour(hourNum + 1)
+    } else if (minuteNum > 5) {
+      finalStr = finalStr.minute(60)
+    } else {
+      finalStr = finalStr.minute(30)
+    }
   }
 
-  if (hour >= 24) {
-    hour = 0
-  }
+  return dayjs(finalStr).toISOString()
+}
 
-  let hourStrResult = hour.toString().padStart(2, '0')
-  let minuteStrResult = minute.toString().padStart(2, '0')
-  let periodResult = hour >= 12 ? 'PM' : 'AM'
-
-  if (hour > 12) {
-    hourStrResult = (hour - 12).toString().padStart(2, '0')
-  } else if (hour === 0) {
-    hourStrResult = '12'
+/**
+ * Converts the event object from FullCalendar into meetingModal fields
+ * @param e The event passed into the handler when a user clicks on an event in the calendar
+ * @returns The event info required fto display a meeting modal
+ */
+export const parseCalendarEventForMeetingInfo = (e): MeetingModalInfo => {
+  const { end, start } = e.event._instance.range
+  const { extendedProps, title: summary } = e.event._def
+  return {
+    ...extendedProps,
+    dateFields: {
+      date: start.toISOString(),
+      end: end.toISOString(),
+      start: start.toISOString(),
+      timeZone: extendedProps.timeZone,
+    },
+    summary,
+    visibility: 'display',
   }
-  if (hourStrResult[0] === '0') {
-    hourStrResult = hourStrResult.slice(1)
-  }
+}
 
-  const finalStr = `${hourStrResult}:${minuteStrResult} ${periodResult}`
-  return finalStr
+export const updateDateInTimeSelections = (newDate, timeIso) => {
+  const newDateAsDayjs = dayjs(newDate)
+  const newYear = newDateAsDayjs.year()
+  const newMonth = newDateAsDayjs.month()
+  const newDay = newDateAsDayjs.day()
+  const finalDayjs = dayjs(timeIso)
+    .set('year', newYear)
+    .set('month', newMonth)
+    .set('day', newDay)
+
+  return finalDayjs.toISOString()
 }
