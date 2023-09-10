@@ -35,7 +35,7 @@ export interface EmailFormData {
 }
 
 export interface PasswordFormData {
-  password: string
+  password?: string
   newPassword: string
   confirmNewPassword: string
 }

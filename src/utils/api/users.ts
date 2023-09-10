@@ -132,6 +132,16 @@ export const updateUsersPassword = async (
   }
 }
 
+export const forgotPasswordEmailVerification = async (email: string) => {
+  try {
+    const data = await api.post(`/reset-password`, { email: email })
+    return data
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
+
 export const setUnreadMessages = async (
   chatId: string,
   usersArray: string[]

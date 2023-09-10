@@ -10,7 +10,7 @@ import { GoAlert, GoVerified } from 'react-icons/go'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
-import ForgotPasswordModal from './ForgotPasswordModal'
+import ForgotPasswordModal from '../ResetPassword/ForgotPasswordModal'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
