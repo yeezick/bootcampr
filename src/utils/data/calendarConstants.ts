@@ -1,7 +1,9 @@
-export const initialMeetingText = {
-  summary: '',
+import { MeetingText } from 'interfaces/CalendarInterfaces'
+
+export const initialMeetingText: MeetingText = {
   description: '',
   meetingLink: '',
+  summary: '',
 }
 
 export const usTimeZones = [

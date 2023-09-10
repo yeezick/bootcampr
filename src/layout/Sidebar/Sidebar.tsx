@@ -5,14 +5,12 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { logoutAuthUser, selectAuthUser } from 'utils/redux/slices/userSlice'
 import './Sidebar.scss'
 import Avatar from 'components/Avatar/Avatar'
+import { selectRenderProjectPortal } from 'utils/redux/slices/projectSlice'
 
 export const Sidebar = () => {
-  const authUser = useAppSelector(selectAuthUser)
-  const { _id: userId, firstName, lastName } = authUser
+  const { _id: userId, firstName, lastName } = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
-  const projectPortal = useAppSelector(
-    state => state.project.projectPortal.renderProjectPortal
-  )
+  const projectPortal = useAppSelector(selectRenderProjectPortal)
 
   const handleLogout = () => {
     logOut()
