@@ -53,7 +53,7 @@ const chatSlice = createSlice({
       state.ui.chatScreenPath = [...state.ui.chatScreenPath, action.payload]
       state.ui.chatScreen = action.payload
     },
-    goBack: state => {
+    onBackArrowClick: state => {
       if (state.ui.chatScreenPath.length > 1) {
         state.ui.chatScreenPath.pop()
         state.ui.chatScreen =
@@ -96,7 +96,7 @@ export const {
   toggleChatOpen,
   toggleChatClose,
   onScreenUpdate,
-  goBack,
+  onBackArrowClick,
   setCurrentConversation,
   setSelectedMember,
   setUnreadMessages,

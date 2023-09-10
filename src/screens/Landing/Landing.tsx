@@ -95,12 +95,10 @@ export const Landing: React.FC = () => {
         if (existingChatWithMember) {
           conversationId = existingChatWithMember._id
         } else {
-          // Creates new conversation with selected project member
           const newRoom = await createPrivateChatRoom(authUser._id, email)
 
           conversationId = newRoom.chatRoom._id
         }
-        // Sets conversation state in redux store
         dispatch(
           setCurrentConversation({
             _id: conversationId,
@@ -109,7 +107,6 @@ export const Landing: React.FC = () => {
             displayName: `${firstName} ${lastName}`,
           })
         )
-        // Sets selectedMember state in Redux for private chats
         dispatch(
           setSelectedMember({
             _id: memberId,

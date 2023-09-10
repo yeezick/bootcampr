@@ -63,15 +63,15 @@ nav {
     gap: 24px;
 
     .nav-icons-container {
+      align-items: center;
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 4px;
     }
 
     .account.avatar {
-      margin-left: 16px;
       height: 50px;
+      margin-left: 16px;
     }
 
     .account {

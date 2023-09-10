@@ -61,7 +61,6 @@ export const ChatIconBadge = ({
     isChatBadgeUpdated,
   ])
 
-  // ClassName for badge: if unreadConversations === 0, icon will be hidden
   const badgeClassName = unreadConversations === 0 ? 'hidden' : 'visible'
 
   return (

@@ -4,7 +4,7 @@ import { FiArrowLeft } from 'react-icons/fi'
 import { Conversations } from 'components/ChatDialog/Conversations/Conversations'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
-  goBack,
+  onBackArrowClick,
   onScreenUpdate,
   selectChatUI,
   selectConversation,
@@ -35,8 +35,8 @@ export const ChatDialogMain = () => {
     dispatch(onScreenUpdate(screen))
   }
 
-  const onBackArrowClick = () => {
-    dispatch(goBack())
+  const handleBackArrowClick = () => {
+    dispatch(onBackArrowClick())
   }
 
   const handleConversationClick = () => {
@@ -77,7 +77,7 @@ export const ChatDialogMain = () => {
       >
         <ChatTitle
           chatScreen={chatScreen}
-          onBackArrowClick={onBackArrowClick}
+          handleBackArrowClick={handleBackArrowClick}
           updateScreen={updateScreen}
           currentConversation={currentConversation}
           selectedMember={selectedMember}
@@ -103,7 +103,7 @@ export const ChatDialogMain = () => {
 
 const ChatTitle = ({
   chatScreen,
-  onBackArrowClick,
+  handleBackArrowClick,
   updateScreen,
   currentConversation,
   selectedMember,
@@ -114,7 +114,7 @@ const ChatTitle = ({
     [ChatScreen.Main]: <h1 className='main-title'>Chats</h1>,
     [ChatScreen.Messages]: currentConversation.isGroup ? (
       <div className='back-arrow messages'>
-        <FiArrowLeft size={23} onClick={onBackArrowClick} />
+        <FiArrowLeft size={23} onClick={handleBackArrowClick} />
         {profilePictures.length > 0 && (
           <AvatarGrid
             pictures={profilePictures}
@@ -131,7 +131,7 @@ const ChatTitle = ({
       </div>
     ) : (
       <div className='back-arrow messages'>
-        <FiArrowLeft size={23} onClick={onBackArrowClick} />
+        <FiArrowLeft size={23} onClick={handleBackArrowClick} />
         <AvatarGrid
           pictures={selectedMember.profilePicture}
           avatarSize={'small'}
@@ -151,7 +151,7 @@ const ChatTitle = ({
   return (
     titleContentLookup[chatScreen] || (
       <div className='back-arrow'>
-        <FiArrowLeft size={23} onClick={onBackArrowClick} />
+        <FiArrowLeft size={23} onClick={handleBackArrowClick} />
         <h5>{getTitleText({ chatScreen, selectedMember })}</h5>
       </div>
     )

@@ -147,7 +147,7 @@ export const NewChatRoom = ({ chatScreen }) => {
         _id: currentConversation._id,
         isGroup: true,
         participants: projectMembers,
-        displayName: `${currentDisplayName}, ${newMembersName}`, // Updated displayName
+        displayName: `${currentDisplayName}, ${newMembersName}`,
       })
     )
     dispatch(onScreenUpdate(ChatScreen.EditChatRoom))
