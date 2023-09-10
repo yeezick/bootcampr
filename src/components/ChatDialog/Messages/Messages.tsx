@@ -12,7 +12,7 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { selectConversation } from 'utils/redux/slices/chatSlice'
 import { formatTimestamp } from 'utils/functions/chatLogic'
-import { DefaultIcons, emptyChatText } from 'utils/data/chatConstants'
+import { ChatIcons, emptyChatText } from 'utils/data/chatConstants'
 import { ChatMessageInterface } from 'interfaces/ChatInterface'
 import {
   isFirstMessageBySameUser,
@@ -24,6 +24,7 @@ import {
   isSameSenderAsPrevious,
 } from 'utils/functions/chatLogic'
 import './Messages.scss'
+import { setUnreadMessages } from 'utils/api'
 
 export const Messages = ({ setChatRecipientId }) => {
   const socket = useSocket()
@@ -37,6 +38,9 @@ export const Messages = ({ setChatRecipientId }) => {
   const [newMessage, setNewMessage] = useState(false)
   const containerRef = useRef(null)
   const [receivedMessages, setReceivedMessages] = useState({})
+  const [membersWithUnreadMessages, setMembersWithUnreadMessages] = useState<
+    string[]
+  >([])
 
   useEffect(() => {
     if (socket) {
@@ -105,6 +109,45 @@ export const Messages = ({ setChatRecipientId }) => {
     }
   }, [authUser._id, setChatRecipientId, chatParticipants])
 
+  const isArrayOfStrings = (arr: []) => {
+    return arr.every(element => typeof element === 'string')
+  }
+
+  useEffect(() => {
+    // Extracting all particpants in chat, excluding authUser
+    // Will be appended to membersWithUnreadMessages array
+    const getParticipantIds = () => {
+      const participants = currentConversation?.participants
+      if (!participants) return []
+
+      if (isArrayOfStrings(participants)) {
+        return participants.filter(userId => userId !== authUser._id)
+      }
+
+      if (currentConversation.isGroup) {
+        return participants
+          .filter((participant: { participant: { _id: string } }) => {
+            const participantId = participant.participant?._id
+            return participantId && participantId !== authUser._id
+          })
+          .map(
+            (participant: { participant: { _id: string } }) =>
+              participant.participant._id
+          )
+      }
+
+      return participants
+        .filter(
+          (participant: { _id: string }) =>
+            participant && participant._id !== authUser._id
+        )
+        .map((participant: { _id: string }) => participant._id)
+    }
+
+    const participantIds = getParticipantIds()
+    setMembersWithUnreadMessages(participantIds)
+  }, [authUser._id, currentConversation.participants])
+
   const handleTimestampClick = (message: any) => {
     // Logic to display/hide timestamp on message click:
     // Check if selected message is already present in selectedMessages array
@@ -141,6 +184,13 @@ export const Messages = ({ setChatRecipientId }) => {
           authUser._id,
           currentConversation._id,
           textForm.text
+        )
+      }
+
+      if (membersWithUnreadMessages.length > 0) {
+        await setUnreadMessages(
+          currentConversation._id,
+          membersWithUnreadMessages
         )
       }
 
@@ -257,7 +307,7 @@ const MessagesList = ({
   if (listResults === 'noMessages') {
     return (
       <div className='no-results'>
-        <img src={DefaultIcons.NoMessages} alt='no data' />
+        <img src={ChatIcons.NoMessages} alt='no data' />
         <p>Don't be shy! Start a conversation</p>
       </div>
     )

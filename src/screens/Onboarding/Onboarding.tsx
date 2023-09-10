@@ -1,16 +1,15 @@
 import { Paginator } from 'components/Paginator/Paginator'
-import { One } from 'components/Paginator/Examples/One'
-import { Two } from 'components/Paginator/Examples/Two'
-import { Three } from 'components/Paginator/Examples/Three'
+import { OnboardingSetUpProfile } from './OnboardingSetUpProfile'
+import './Onboarding.scss'
+import { OnboardingIncomplete } from './OnboardingIncomplete'
+import { OnboardingLastScreen } from './OnboardingLastScreen'
 import { Availability } from 'components/Availability/Availability'
 
 export const Onboarding = () => {
-  // Todo: replace with proper components for onboarding
   const orderedPages = [
     {
-      component: One,
-      title: 'One',
-      props: { backgroundColor: 'red' },
+      component: OnboardingIncomplete,
+      title: 'Role',
     },
     {
       component: Availability,
@@ -18,18 +17,19 @@ export const Onboarding = () => {
       props: { backgroundColor: 'yellow' },
     },
     {
-      component: Three,
-      title: 'Three Word Title',
-      props: { backgroundColor: 'green' },
+      component: OnboardingSetUpProfile,
+      title: 'Set up profile',
+    },
+    {
+      component: OnboardingLastScreen,
+      title: "What's next",
     },
   ]
   return (
-    <div>
-      <Paginator
-        exitRoute='/'
-        orderedPages={orderedPages}
-        pageTitle='Onboarding'
-      />
+    <div className='onboarding'>
+      <div className='onboarding-pag-container'>
+        <Paginator exitRoute='/' orderedPages={orderedPages} />
+      </div>
     </div>
   )
 }

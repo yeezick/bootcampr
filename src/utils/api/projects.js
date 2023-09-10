@@ -38,7 +38,7 @@ export const createProject = async project => {
 
 export const editProject = async (id, project) => {
   try {
-    const res = await api.put(`/projects/${id}`, project)
+    const res = await api.patch(`/projects/${id}`, project)
     return res.data
   } catch (error) {
     throw error
@@ -69,5 +69,19 @@ export const getProjectByUser = async userId => {
     return res.data
   } catch (error) {
     throw error
+  }
+}
+
+export const getMembersAttributesByProjectId = async (
+  projectId,
+  attributes
+) => {
+  try {
+    const res = await api.get(
+      `/project/${projectId}/members/?attributes=${attributes}`
+    )
+    return res.data
+  } catch (err) {
+    console.error(err)
   }
 }

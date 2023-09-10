@@ -8,15 +8,19 @@ export interface UserInterface {
   firstName: string
   interestedProjects?: ProjectInterface[]
   lastName: string
-  links: {
+  links?: {
     githubUrl?: string
     linkedinUrl: string
     portfolioUrl: string
   }
+  project?: string
+  memberOfProjects?: ProjectInterface[]
+  ownerOfProjects?: ProjectInterface[]
+  portfolioProjects?: ProjectInterface[]
   onboarded?: boolean
   profilePicture?: string | null
-  project?: string
   role?: string
+  unreadMessages?: {}
   savedProjects?: ProjectInterface[]
   verified?: Boolean
   __v?: number
@@ -26,9 +30,6 @@ export interface UserInterface {
 export interface UiSliceInterface {
   auth: {
     user: UserInterface
-  }
-  sidebar: {
-    visibleSidebar: boolean
   }
   status: {
     isAuthenticated: boolean
@@ -142,10 +143,10 @@ export interface Availability {
 }
 
 export interface ProjectMemberInterface {
-  _id: string
-  firstName: string
-  lastName: string
-  email: string
-  role: string
-  profilePicture: string
+  _id?: string
+  firstName?: string
+  lastName?: string
+  email?: string
+  role?: string
+  profilePicture?: string
 }
