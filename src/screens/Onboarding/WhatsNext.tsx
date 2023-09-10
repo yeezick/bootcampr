@@ -6,7 +6,7 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
 //TODO: make CSS true to Figma, inspect margins//
 
-export const OnboardingLastScreen = ({ handlePageNavigation }) => {
+export const WhatsNext = ({ handlePageNavigation }) => {
   const authUser = useAppSelector(selectAuthUser)
 
   const handlePrevious = () => {

@@ -10,6 +10,7 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { updateAvailability } from 'utils/api'
 import { useDispatch } from 'react-redux'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+
 export const Availability: React.FC = (): JSX.Element => {
   let userAvailability = useSelector(getUserAvailability)
   const [days, setDays] = useState(userAvailability)
