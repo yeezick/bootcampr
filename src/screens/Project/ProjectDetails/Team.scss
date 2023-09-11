@@ -75,18 +75,9 @@
 .label-text {
   height: 40px;
   width: 280px;
+  margin: 16px 0 32px 0; 
 
-  // p {
-  //   color: #000000;
-  // font-family: "Inter-Regular", Helvetica;
-  // font-size: 14px;
-  // font-weight: 400;
-  // left: 0;
-  // letter-spacing: 0;
-  // line-height: 19.6px;
-  // position: fixed;
-  // top: 0;
-  // }
+  
 }
 
 
@@ -94,6 +85,39 @@
 .confirmation-modal {
   align-self: stretch;
   color: #000000;
+}
+
+.confirmation-btns {
+  flex-direction: row;
+  align-items: center;
+display: inline-flex;
+gap: 16px;
+position: relative;
+flex: 0 0 auto !important;
+}
+
+.stay-btn {
+  align-items: center;
+background-color: #fdfdfd;
+border: 1px solid;
+border-color: #8048c7;
+border-radius: 4px;
+display: inline-flex;
+gap: 8px;
+justify-content: center;
+padding: 6px 12px;
+position: relative;
+}
+
+.withdraw-final-btn {
+  align-items: center;
+background-color: #f99312;
+border-radius: 4px;
+display: inline-flex;
+gap: 8px;
+justify-content: center;
+padding: 6px 12px;
+position: relative;
 }
 
 .role-container {
@@ -104,6 +128,7 @@
 .software-engineer-container {
   align-items: flex-start;
   background-color: #fdfdfd;
+  border-radius: 16px;
   display: inline-flex;
   flex-direction: column;
   gap: 32px;
@@ -125,6 +150,13 @@
 
   //take away margin from h1
 
+}
+
+.team-card-container{
+  align-items: flex-start;
+display: inline-flex;
+gap: 24px;
+position: relative;
 }
 
 
@@ -174,8 +206,8 @@
   display: inline-flex;
   flex-direction: column;
   position: relative;
+  z-index: 1;
 }
-
 
 
 .profile-img {
@@ -184,6 +216,7 @@
   object-fit: cover;
   position: fixed;
   top:0;
+  
 }
 
 .profile-info-container {

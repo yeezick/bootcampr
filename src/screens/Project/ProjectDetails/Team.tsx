@@ -74,11 +74,18 @@ export const Team = () => {
                     project?
                   </p>
                 </div>
-                <div>
-                  <button onClick={() => handleCloseModals()}>Stay</button>
-                </div>
-                <div>
-                  <button>Withdraw</button>
+                <div className='confirmation-btns'>
+                  <div>
+                    <button
+                      className='stay-btn'
+                      onClick={() => handleCloseModals()}
+                    >
+                      Stay
+                    </button>
+                  </div>
+                  <div>
+                    <button className='withdraw-final-btn'>Withdraw</button>
+                  </div>
                 </div>
               </div>
             </section>
@@ -100,20 +107,30 @@ const TeamMemberInfo = ({ teamMembers, loggedInUserId }) => {
         <div className='software-engineer-container'>
           <div className='swe-text-container'></div>
           <h1>Software Engineers</h1>
-          {teamMembers.engineers.map(member => (
-            <div className='team-member-card-container' key={member._id}>
-              <TeamMemberCard member={member} loggedInUserId={loggedInUserId} />
-            </div>
-          ))}
+          <div className='team-card-container'>
+            {teamMembers.engineers.map(member => (
+              <div className='team-member-card-container' key={member._id}>
+                <TeamMemberCard
+                  member={member}
+                  loggedInUserId={loggedInUserId}
+                />
+              </div>
+            ))}
+          </div>
         </div>
         <div className='ux-designers-container'>
           <div className='ux-designers-text-container'></div>
           <h1>UX Designers</h1>
-          {teamMembers.designers.map(member => (
-            <div className='team-member-card-container' key={member._id}>
-              <TeamMemberCard member={member} loggedInUserId={loggedInUserId} />
-            </div>
-          ))}
+          <div className='team-card-container'>
+            {teamMembers.designers.map(member => (
+              <div className='team-member-card-container' key={member._id}>
+                <TeamMemberCard
+                  member={member}
+                  loggedInUserId={loggedInUserId}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>
