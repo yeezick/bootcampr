@@ -1,35 +1,37 @@
 .side-menu {
-    background-color: white;
-    box-sizing: border-box;
-    height: 100%;
-    margin: 0;
-    padding: 20px;
-    width: 248px;
+  background-color: white;
+  box-sizing: border-box;
+  height: 100%;
+  left: 0;
+  margin: 0;
+  padding: 20px;
+  position: absolute;
+  width: 248px;
 
-    h1 {
-        font-family: Arial, Helvetica, sans-serif;
-        font-weight: 500;
-    }
+  h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+  }
 }
 
 .menu-item {
-    align-items: center;
-    border-radius: 8px;
-    box-sizing: border-box;
-    column-gap: 12px;
-    display: flex;
-    flex-direction: row;
-    height: 45px;
-    margin: 7px 0px;
-    padding: 14px 14px;
+  align-items: center;
+  border-radius: 8px;
+  box-sizing: border-box;
+  column-gap: 12px;
+  display: flex;
+  flex-direction: row;
+  height: 45px;
+  margin: 7px 0px;
+  padding: 14px 14px;
 
-    h3 {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 14px;
-        font-weight: 200;
-    }
+  h3 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 200;
+  }
 }
 
 .menu-item:hover {
-    background-color: rgb(226, 226, 226);
+  background-color: rgb(226, 226, 226);
 }

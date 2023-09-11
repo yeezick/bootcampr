@@ -10,7 +10,7 @@ import { GoAlert, GoVerified } from 'react-icons/go'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
-import ForgotPasswordModal from '../ResetPassword/ForgotPasswordModal'
+import { ForgotPasswordModal } from '../ResetPassword/ForgotPasswordModal'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -188,13 +188,14 @@ const SignIn: React.FC = (): JSX.Element => {
             Go
           </button>
         </form>
-        <div onClick={openModal}>Forgot Password?</div>
+        <div id='forgot-password-link' onClick={openModal}>
+          Forgot Password?
+        </div>
         {forgotPasswordModal && (
           <ForgotPasswordModal
             onClose={closeModal}
-            resetApiEndpoint='/api/reset-password'
-            onSuccessMessage='Password reset email sent successfully!'
-            onFailureMessage='An error occurred. Please try again.'
+            onSuccessMessage='Email sent!'
+            onFailureMessage='An error occurred. Please check entered email and try again.'
           />
         )}
       </div>
