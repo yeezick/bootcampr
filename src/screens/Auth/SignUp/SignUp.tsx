@@ -63,11 +63,9 @@ export const SignUp: React.FC = () => {
     e.preventDefault()
 
     const validForm = await dispatch(register(formValues))
-    console.log('validForm', validForm)
     const { payload } = validForm
-    console.log('payload', payload)
 
-    // navigate(`/sign-up/${}/confirmation-email-sent`)
+    navigate(`/sign-up/${payload.newUser}/confirmation-email-sent`)
     window.scrollTo(0, 0) // Scroll to top to view alert banner
     if (payload.invalidCredentials && payload.existingAccount) {
       setAlertBanner({

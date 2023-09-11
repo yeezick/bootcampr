@@ -1,6 +1,37 @@
 import './EmailSentConfirmation.scss'
+import { useParams } from 'react-router-dom'
+import { resendNewEmailLink } from 'utils/api'
+import { useAppDispatch } from 'utils/redux/hooks'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 export const EmailSentConfirmation: React.FC = () => {
+  const dispatch = useAppDispatch()
+  const { id: newUserId } = useParams()
+
+  const handleResendEmailClick = async () => {
+    try {
+      const res: any = await resendNewEmailLink(newUserId)
+
+      let toastSeverity: string = null
+
+      if (res.status === 200) {
+        toastSeverity = 'success'
+      } else {
+        toastSeverity = 'error'
+      }
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message: res.data.friendlyMessage,
+          duration: 5000,
+          severity: toastSeverity,
+        })
+      )
+    } catch (error) {
+      console.error('Error resending new email verification link.', error)
+    }
+  }
+
   return (
     <div className='email-confirmation-container'>
       <p className='message-content header'>
@@ -16,7 +47,9 @@ export const EmailSentConfirmation: React.FC = () => {
         </p>
         <p>The link provided in the email will expire in 30 minutes. </p>
       </div>
-      <button className='resend-link'>Re-send email</button>
+      <button className='resend-link' onClick={handleResendEmailClick}>
+        Re-send email
+      </button>
     </div>
   )
 }
