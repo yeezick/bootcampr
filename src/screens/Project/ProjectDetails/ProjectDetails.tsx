@@ -52,15 +52,13 @@ export const ProjectDetails = () => {
                 </div>
 
                 <div className='consider'>
-                  <p>
-                    <b>Consider:</b>
-                    <ul>
-                      <li>Solo travelers</li>
-                      <li>Commuters</li>
-                      <li>Road trippers</li>
-                      <li>etc.</li>
-                    </ul>
-                  </p>
+                  <b>Consider:</b>
+                  <ul>
+                    <li>Solo travelers</li>
+                    <li>Commuters</li>
+                    <li>Road trippers</li>
+                    <li>etc.</li>
+                  </ul>
                 </div>
 
                 <div className='deliverables'>
