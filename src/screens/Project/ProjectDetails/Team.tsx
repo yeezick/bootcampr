@@ -4,17 +4,24 @@ import TeamBanner from '../../../assets/Image/team-header.png'
 import { TeamMemberCard } from './TeamMemberCard'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import './Team.scss'
-// import { useSelector } from 'react-redux'
-// import { selectProjectMembersAsTeam } from 'utils/redux/slices/projectSlice'
+import { useSelector } from 'react-redux'
+import { selectProjectMembersByRole } from 'utils/redux/slices/projectSlice'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { useAppSelector } from 'utils/redux/hooks'
 
 //TODO: get clarification fro UX team about modal popup designs
-//TODO: how to map users based on role (SWE and UX)
-//TODO: how to display user card without message button
+//TODO: how to display user card without message button (conditional - if user)
 //TODO: fix styling to match Figma
-//TODO: bacground of withdraw modal
+//TODO: background of withdraw modal
 
 export const Team = () => {
-  //teamMembers, loggedInUser
+  const teamMembers = useSelector(selectProjectMembersByRole)
+  console.log(teamMembers)
+
+  const authUser = useAppSelector(selectAuthUser)
+  const loggedInUserId = authUser?._id
+  console.log(loggedInUserId)
+
   const [showWithdrawalModal, setShowWithdrawModal] = useState(false)
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
@@ -26,10 +33,6 @@ export const Team = () => {
     setShowWithdrawModal(false)
     setShowConfirmationModal(false)
   }
-
-  // const projectMembersAsTeam = useSelector(selectProjectMembersAsTeam)
-  // const designers = projectMembersAsTeam.filter(member => member.role === 'Designer')
-  // const engineers = projectMembersAsTeam.filter(member => member.role === 'Engineer')
 
   return (
     <>
@@ -80,29 +83,37 @@ export const Team = () => {
               </div>
             </section>
           )}
+          <TeamMemberInfo
+            teamMembers={teamMembers}
+            loggedInUserId={loggedInUserId}
+          />
+        </div>
+      </div>
+    </>
+  )
+}
 
-          <div className='role-container'>
-            <div className='software-engineer-container'>
-              <div className='swe-text-container'></div>
-              <h1>Software Engineers</h1>
-              <div className='team-member-card-container'>
-                {/* {engineers.map((engineer, index) => (
-                  <TeamMemberCard key={index} user={engineer} loggedInUser={loggedInUser} />
-                ))} */}
-                <TeamMemberCard />
-              </div>
+const TeamMemberInfo = ({ teamMembers, loggedInUserId }) => {
+  return (
+    <>
+      <div className='role-container'>
+        <div className='software-engineer-container'>
+          <div className='swe-text-container'></div>
+          <h1>Software Engineers</h1>
+          {teamMembers.engineers.map(member => (
+            <div className='team-member-card-container' key={member._id}>
+              <TeamMemberCard member={member} loggedInUserId={loggedInUserId} />
             </div>
-
-            <div className='ux-designers-container'>
-              <div className='ux-designers-text-container'></div>
-              <h1>UX Designers</h1>
-              <div className='team-member-card-container'>
-                {/* {designers.map((designer, index) => (
-                  <TeamMemberCard key={index} user={designer} loggedInUser={loggedInUser} />
-                ))} */}
-              </div>
+          ))}
+        </div>
+        <div className='ux-designers-container'>
+          <div className='ux-designers-text-container'></div>
+          <h1>UX Designers</h1>
+          {teamMembers.designers.map(member => (
+            <div className='team-member-card-container' key={member._id}>
+              <TeamMemberCard member={member} loggedInUserId={loggedInUserId} />
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </>

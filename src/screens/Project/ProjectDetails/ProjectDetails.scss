@@ -4,32 +4,32 @@
 /*ProjectDetailsSidebar */
 
 .project-details-sidebar {
+  align-items: center;
   background-color: #fdfdfd;
   display: flex;
-  height: 927px;
   flex-direction: column;
+  height: 927px;
   justify-content: space-between;
-  width: 248px;
-  align-items: center;
-  position: relative;
   padding: 32px 0;
+  position: relative;
+  width: 248px;
 }
 
   .nav-container {
     align-items: center;
-    align-items: stretch;
+    align-items: stretch;   //which align items??
     display: flex;
     flex-direction: column;
-    padding: 0px 16px;
     gap: 24px;
     margin: 24px 0 0;
+    padding: 0px 16px;
   }
 
   .nav-header {
-    display: flex;
     align-items: center;
-    gap:24px;
     align-self: stretch;
+    display: flex;
+    gap:24px;
 
     h1 {
       color:#000;
@@ -42,66 +42,65 @@
   }
 
   .nav-links {
+    align-items: flex-start;
     display: flex;
     flex-direction: column;
-    width: 216px;
-    align-items: flex-start;
     gap: 8px;
+    width: 216px;
   }
 
   .link {
     color: #000;
     // font-size: 14px;
-    // font-style: normal;
+    // font-style: normal;       //do I need this code
     // font-weight: 400;
     // line-height: 400;
 }
 
 .project-details-link {
+  align-items: center;    //which align items
+  align-items: stretch;
   display: flex;
-  align-items: center;
   padding: 16px;
   gap: 16px;
-  align-items: stretch;
 }
 
 .team-link {
-  display: flex;
   align-items: center;
+  align-items: stretch;     //which align items
+  display: flex;
   padding: 16px;
   gap: 16px;
-  align-items: stretch;
 }
 
 .calendar-link {
-  display: flex;
+  align-items: stretch;     //which align items
   align-items: center;
-  padding: 16px;
+  display: flex;
   gap: 16px;
-  align-items: stretch;
+  padding: 16px;
 }
 
 .task-management-link {
-  display: flex;
-  align-items: center;
-  padding: 16px;
-  gap: 16px;
+  align-items: center;     //which align items
   align-items: stretch;
+  display: flex;
+  gap: 16px;
+  padding: 16px;
 }
 
 .submit-project-container {
-  display: flex;
-  padding: 0px 16px;
-  flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
   align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   margin: auto 0 32px 0;
+  padding: 0px 16px;
 
     .submit-btn {
     align-items: center;
     align-self: stretch;
-    padding: 14px 24px;
     background-color: #FA9413;
     border: none;
     border-radius: 4px;
@@ -113,6 +112,7 @@
     height: 51px;
     justify-content: center;
     line-height: 22.4px;
+    padding: 14px 24px;
     width: 216px;
     }
   }
@@ -129,8 +129,8 @@
   }
 
   .header-container {
-    height: 278px;
     flex-shrink: 0;
+    height: 278px;
 
     img{
       width: 100%;
@@ -138,21 +138,21 @@
   }
 
   .banner-box-container {
-    display: flex;
-    width: 1192px;
-    padding: 16px 32px;
     align-items: center;
-    gap: 16px;
-    border-radius: 16px 0 0 16px;
     background: #ffead0;
+    border-radius: 16px 0 0 16px;
+    display: flex;
+    gap: 16px;
     margin: 0 0 0 100px;
+    padding: 16px 32px;
+    width: 1192px;
   }
 
   .banner-text-container {
-    display: flex;
     align-items: center;
-    gap: 16px;
+    display: flex;
     flex: 1 0 0;
+    gap: 16px;
   }
 
   .banner-img {
@@ -161,8 +161,8 @@
   }
 
   .banner-text {
-    display: flex;
     align-items: center;
+    display: flex;
     gap: 32px;
 
     h1 {
@@ -176,61 +176,60 @@
   }
 
   .overview-box-container {
-  display: flex;
-  width: 992px;
-  padding: 16px 32px;
-  flex-direction: column;
   align-items: flex-start;
+  background-color: #fdfdfd;
+  display: flex;
+  flex-direction: column;
   gap: 56px;
   margin: 40px 100px 59px 100px;
-  background-color: #fdfdfd;
+  padding: 16px 32px;
+  width: 992px;
 }
 
 .overview-text-container {
-  display: flex;
-  position: relative;
-  flex-direction: column;
   align-items: flex-start;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
+  position: relative;
 }
 
 .brief-overview-header-container {
-  display: flex;
   align-items: center;
   align-self: stretch;
-  gap: 8px;
-  align-self: stretch;
-  position: relative;
+  display: flex;
   flex: 0 0 auto;
+  gap: 8px;
+  position: relative;
 
   .heaader-icon {
     height: 24px;
-    width: 24px;
     position: relative;
+    width: 24px;
   }
 
   h1 {
-    font-family: $pdt-font-family-2;
     color: #313335;
+    flex: 1;
+    font-family: $pdt-font-family-2;
     font-size: 24px;
     font-style: normal;
     font-weight: 600;
-    line-height: 33.6px;
-    flex: 1;
     letter-spacing: 0;
+    line-height: 33.6px;
     margin-top: -1px;
   }
 }
 
 
 .brief-overview-text-container {
+  align-items: flex-start;
+  align-self: stretch;
   display: flex;
   flex-direction: column;
-  padding-left: 0px;
-  align-items: flex-start;
-  gap: 10px;
-  align-self: stretch;
   font-size: 16px;
+  gap: 10px;
+  padding-left: 0px;
 }
 
 .brief-overview-header-container {

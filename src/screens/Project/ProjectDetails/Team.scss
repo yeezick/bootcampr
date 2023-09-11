@@ -5,16 +5,16 @@
 }
 
 .open-modal {
+  background: #ffead0;;
   border: none;
   border-radius: 0;
-  background: #ffead0;;
 
 }
 
 .withdrawal-modal-hidden {
+  background: #fdfdfd;
   height: 37px;
   width: 148px;
-  background: #fdfdfd;
 }
 
 .withdrawal-modal {
@@ -23,30 +23,26 @@
   border-radius: 8px;
   display: inline-flex;
   flex-direction: column;
+  height: 37px;
   gap: 10px;
   padding: 10px;
   position: relative;
-
-  height: 37px;
   width: 148px;
 }
 
 .withdraw-btn {
-  border: none;
-  border-radius: 0;
-  background:#FEFEFE ;
   align-items: flex-start;
-  background: #FEFEFE;
+  background:#FEFEFE ;
+  border: none;
+  border-radius: 0; //delete one of the border radius
   border-radius: 8px;
   display: inline-flex;
   flex-direction: column;
   gap: 10px;
+  height: 37px;
   padding: 10px;
   position: relative;
-
-  height: 37px;
   width: 148px;
-
 }
 
 .withdraw-text {
@@ -70,10 +66,10 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+  margin-left: 500px;
   padding: 16px;
   position: relative;
   width: 312px;
-  margin-left: 500px;
 }
 
 .label-text {
@@ -106,19 +102,18 @@
 }
 
 .software-engineer-container {
-  display: inline-flex;
-  padding: 32px;
-  flex-direction: column;
   align-items: flex-start;
-  gap: 32px;
   background-color: #fdfdfd;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 32px;
   margin: 37px 25px;
+  padding: 32px;
 }
 
 .swe-text-container {
-
-  border-radius: 16px;
   background-color: white;
+  border-radius: 16px;
   
   h1 {
     color: #000;
@@ -135,13 +130,13 @@
 
 
 .ux-designers-container {
-  display: inline-flex;
-  padding: 32px;
-  flex-direction: column;
   align-items: flex-start;
-  gap: 32px;
   background-color: #fdfdfd;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 32px;
   margin: 37px 37px 37px 0px;
+  padding: 32px;
 }
 
 .ux-designers-text-container {
@@ -164,13 +159,13 @@
 }
 
 .profile-container {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 167px;
   height: auto;
+  justify-content: center;
   margin-left: 24px;
+  width: 167px;
   
 }
 
@@ -186,24 +181,23 @@
 .profile-img {
   clip-path: ellipse(88px 88px);
   left:0;
-  top:0;
-  position: fixed;
   object-fit: cover;
+  position: fixed;
+  top:0;
 }
 
 .profile-info-container {
-  display: flex;
-  padding: 16px;
-  flex-direction: column;
   align-items: center;
-  gap: var(--spacing-8-px, 8px);
-  border-radius: 8px;
   background: var(--white-ffffff, #FEFEFE);
+  border-radius: 8px;
   box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.15);
-  margin: -8 0 0 0 ;
-  width: 176px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8-px, 8px);
   height: 104px;
-
+  margin: -8 0 0 0 ;
+  padding: 16px;
+  width: 176px;
 }
 
 .profile-name {
@@ -211,7 +205,6 @@
     height: 20px;
     width: 144px;
   }
-
   padding: 0;
 }
 
@@ -223,6 +216,7 @@
 
 .profile-btn-container {
   margin: 8px 8px 0 0;
+  text-decoration: none;
 }
 
 .profile-btn {
