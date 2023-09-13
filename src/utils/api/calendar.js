@@ -9,3 +9,15 @@ export const fetchProjectCalendar = async calendarId => {
     return false
   }
 }
+
+export const fetchUserCalendar = async (calendarId, userEmail) => {
+  try {
+    const res = await api.get(
+      `/calendar/${calendarId}/fetchCalendar/${userEmail}`
+    )
+    return res.data
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
