@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
-import { emptyProfile } from 'utils/data/userConstants'
+import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
-import { updateUserProfile } from 'utils/api/users'
+import { updateUser, updateUserProfile } from 'utils/api/users'
 import { useNotification } from 'utils/redux/slices/notificationSlice'
 import Avatar from 'components/Avatar/Avatar'
 import TextareaAutosize from 'react-textarea-autosize'
@@ -15,8 +15,7 @@ import './Onboarding.scss'
 
 export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
-  const [updateUserForm, setUpdateUserForm] =
-    useState<UserInterface>(emptyProfile)
+  const [updateUserForm, setUpdateUserForm] = useState<UserInterface>(emptyUser)
   const [bioCharCount, setBioCharCount] = useState(0)
   const params = useParams()
   const dispatch = useDispatch()
@@ -60,7 +59,7 @@ export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
     e.preventDefault()
 
     try {
-      const updatedUser = await updateUserProfile(params.id, updateUserForm)
+      const updatedUser = await updateUser(params.id, updateUserForm)
       dispatch(setAuthUser(updatedUser))
       displayNotification({
         message: 'User profile successfully updated.',

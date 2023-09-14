@@ -48,24 +48,10 @@ export const emptyUser: UserInterface = {
     portfolioUrl: '',
   },
   profilePicture: '',
+  defaultProfilePicture: '',
+  hasUploadedProfilePicture: false,
   role: '',
   unreadMessages: {},
-  _id: '',
-}
-
-export const emptyProfile: UserInterface = {
-  availability: defaultAvailability,
-  bio: '',
-  email: '',
-  firstName: '',
-  lastName: '',
-  links: {
-    githubUrl: '',
-    linkedinUrl: '',
-    portfolioUrl: '',
-  },
-  profilePicture: '',
-  role: '',
   _id: '',
 }
 

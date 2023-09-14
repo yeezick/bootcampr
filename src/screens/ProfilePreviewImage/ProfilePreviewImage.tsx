@@ -1,8 +1,6 @@
 import { useCallback, useState, useRef } from 'react'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { setImageUrl } from 'utils/redux/slices/avatarSlice'
+import { useAppSelector, useAppDispatch } from 'utils/redux/hooks'
+import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
 import {
   setUploadedImage,
   setDefaultProfilePicture,
@@ -25,6 +23,7 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline'
 import { FiEdit } from 'react-icons/fi'
 import CameraAltIcon from '@mui/icons-material/CameraAltOutlined'
 import './ProfilePreviewImage.scss'
+import { updateUser } from 'utils/api'
 
 /**
  * ProfilePreviewImage component displays a preview of the profile image, allowing the user to add, edit, or delete the image.
@@ -33,16 +32,33 @@ import './ProfilePreviewImage.scss'
  * @param {string} uploadedImage - The uploaded image in base64 format.
  * @returns {JSX.Element} - ProfilePreviewImage component.
  */
+
+// BUG: Profile preview picture size scss fix (Update): bypassing preview to edit photo box instead
+// BUG: Default Profile initials can't be replaced with new uploaded image
+// BUG: If user already has a profile picture and they want to change it with new one, it will instead default to profile initials and will save aws saved image but wont display it.
+// TODO: Ask UXE team on what will the image modal will show when theirs no photo (Update): I will need to reverse the order of what displays first when clicking icon button ex: click icon -> file search box -> Profile photo box -> Edit photo box
+
 const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
   open,
   onClose,
   uploadedImage,
 }) => {
   // State and ref variables
-  const [isImageEditorOpen, setIsImageEditorOpen] = useState(false)
+  const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
-  const dispatch = useDispatch()
+  const { _id: userId, profilePicture: userImage } = authUser
+  const [isImageEditorOpen, setIsImageEditorOpen] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // Detect if the uploadedImage has changed and update the state accordingly
+  // useEffect(() => {
+  //   if (uploadedImage !== userImage) {
+  //     dispatch(setUploadedImage(uploadedImage))
+  //     if (!uploadedImage) {
+  //       dispatch(setDefaultProfilePicture()); // Only set to false if uploadedImage is not null
+  //     }
+  //   }
+  // }, [uploadedImage, userImage, dispatch])
 
   const openImageEditor = () => {
     setIsImageEditorOpen(true)
@@ -61,13 +77,13 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
    * @param {string} image - The uploaded image in base64 format.
    */
   const handleImageUpload = (image: string) => {
-    dispatch(setImageUrl(image))
-    closeImageEditor()
-
     // Send request to update user's profile image in the database
-    const userId = authUser._id
+
     updateUserImage(userId, image)
-      .then(() => console.log('Image updated successfully'))
+      .then(() => {
+        console.log('Image updated successfully')
+        dispatch(setUploadedImage(image)) // Update Redux state with the new image
+      })
       .catch(err => console.error('Failed to update image:', err))
   }
 
@@ -88,12 +104,18 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
     }
 
     //Send request to delete user's profile image from the database
-    const userId = authUser._id
     try {
       const res = await deleteUserImage(userId)
       if (res.success) {
+        const userImageUpdate = await updateUser(userId, {
+          hasUploadedProfilePicture: false,
+        })
+        dispatch(updateAuthUser(userImageUpdate))
+        console.log('Profile Preview Image =======', userImageUpdate)
+
+        console.log('Image deleted successfully')
+        dispatch(setUploadedImage(''))
         dispatch(setDefaultProfilePicture())
-        dispatch(setImageUrl(null))
       } else {
         throw new Error('Failed to delete image')
       }
@@ -101,8 +123,6 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
       console.error(err)
     }
   }
-
-  console.log('uploaded image prop: ', uploadedImage)
 
   const isUrl = str => {
     const urlPattern = new RegExp(
@@ -113,14 +133,6 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
     )
     return urlPattern.test(str)
   }
-
-  // BUG: Profile preview picture size scss fix
-  // BUG: Default Profile initials can't be replaced with new uploaded image fix
-  // BUG: If user already profile picture and they want to change it with new one, it will instead default to profile initials and will save aws saved image but wont display it.
-  // BUG: TypeError when deleting image but deletes successfully WTF?
-  // BUG: When default image is present and a attempt to change photo is initiated a loading process will commence and last longer then it should
-  // TODO: Ask UXE team on what will the image modal will show when theirs no photo
-  // TODO: Ask UXE team on what will the have the icon button and what will not for Edit/User profile
 
   return (
     <>
@@ -151,10 +163,6 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
         <div className='profile-preview__content'>
           <DialogContent dividers className='profile-preview__dialog-content'>
             <Box className='profile-preview__content-box'>
-              {/* <div className='profile-preview__profile-image-container'>
-                <Avatar clickable={false} hasIcon={false} />
-              </div> */}
-              {/* TODO: Check why this is not working */}
               {/* Render uploaded image if available */}
               {isUrl(uploadedImage) ? (
                 <div className='profile-preview__profile-image-container'>
@@ -211,12 +219,8 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
             onClose={closeImageEditor}
             onSaveClick={image => {
               handleImageUpload(image)
-              setUploadedImage(null)
             }}
             uploadedImage={uploadedImage}
-            setUploadedImage={(image: string) =>
-              dispatch(setUploadedImage(image))
-            }
           />
         </div>
       </Dialog>

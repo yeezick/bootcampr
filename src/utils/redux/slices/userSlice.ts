@@ -24,10 +24,11 @@ const initialState: UiSliceInterface = {
       links: {
         githubUrl: '',
         linkedinUrl: '',
-        portfolioUrl: null,
+        portfolioUrl: '',
       },
       profilePicture: '',
-      hasUploadedProfilePicture: true,
+      defaultProfilePicture: '',
+      hasUploadedProfilePicture: false,
       project: '',
       role: '',
       unreadMessages: {},
@@ -102,14 +103,13 @@ const userSlice = createSlice({
       state.status.isError = { status: false }
     },
     setUploadedImage: (state, action: PayloadAction<string | null>) => {
+      console.log('action.payload:===', action.payload)
       state.auth.user.profilePicture = action.payload
+      state.auth.user.hasUploadedProfilePicture = true
     },
-    setDefaultProfilePicture: state => {
+    setDefaultProfilePicture: (state, action: PayloadAction<boolean>) => {
       if (!state.auth.user.profilePicture) {
-        const defaultProfilePicture = `${state.auth.user.firstName.charAt(
-          0
-        )}${state.auth.user.lastName.charAt(0)}`
-        state.auth.user.profilePicture = defaultProfilePicture
+        state.auth.user.defaultProfilePicture = `https://ui-avatars.com/api/?name=${state.auth.user.firstName}+${state.auth.user.lastName}`
         state.auth.user.hasUploadedProfilePicture = false
       }
     },
@@ -153,10 +153,15 @@ export const selectUserId = (state: RootState) => state.ui.auth.user._id
 export const getUserAvailability = (state: RootState) =>
   state.ui.auth.user.availability
 export const uiStatus = (state: RootState) => state.ui.status
+export const getDefaultUserProfileImage = (state: RootState) =>
+  state.ui.auth.user.defaultProfilePicture
 export const getUserProfileImage = (state: RootState) =>
   state.ui.auth.user.profilePicture
 export const selectHasUploadedProfilePicture = (state: RootState) => {
-  // console.log('hasUploadedProfilePicture in slice:', state.ui.auth.user.hasUploadedProfilePicture);
+  // console.log(
+  //   'hasUploadedProfilePicture in slice:',
+  //   state.ui.auth.user.hasUploadedProfilePicture
+  // )
   return state.ui.auth.user.hasUploadedProfilePicture
 }
 

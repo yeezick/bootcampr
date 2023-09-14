@@ -389,24 +389,24 @@
     padding: 32px;
   }
 
-  &__profile-image {
-    background-color: #c4c4c4;
-    border-radius: 100%;
-    height: 100px;
-    margin: 0 0 10px 0;
-    width: 100px;
+  // &__profile-image {
+  //   background-color: #c4c4c4;
+  //   border-radius: 100%;
+  //   height: 100px;
+  //   margin: 0 0 10px 0;
+  //   width: 100px;
 
-    height: 121px;
-    width: min-content;
+  //   height: 121px;
+  //   width: min-content;
 
-    .non-clickable {
-      border: none;
-      border-radius: 100%;
-      height: 100px;
-      margin: 0 0 10px 0;
-      width: 100px;
-    }
-  }
+  //   .non-clickable {
+  //     border: none;
+  //     border-radius: 100%;
+  //     height: 100px;
+  //     margin: 0 0 10px 0;
+  //     width: 100px;
+  //   }
+  // }
 
   &__profile-imageChange {
     color: #121212;

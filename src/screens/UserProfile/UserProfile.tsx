@@ -14,6 +14,8 @@ export const UserProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
   const navigate = useNavigate()
 
+  console.log('user info', authUser)
+
   // BC-334: should handle this case
   if (!authUser) {
     return <div>Loading user... or there isn't one.</div>
@@ -43,9 +45,6 @@ export const UserProfile: React.FC = () => {
     navigate(`/users/${authUser._id}/edit`)
   }
 
-  const intitials = authUser.firstName.charAt(0) + authUser.lastName.charAt(0)
-  console.log(intitials)
-
   return (
     <div className='userProfile'>
       <div className='userProfile__backContainer'>
@@ -62,12 +61,7 @@ export const UserProfile: React.FC = () => {
       <div className='userProfile__container'>
         <div className='userProfile__titleContainer'>
           <div className='userProfile__image'>
-            <Avatar
-              hasIcon={true}
-              clickable={false}
-              iconButtonClassName='userProfile__cameraIcon'
-              addPhotoIconClassName='userProfile__imageChange'
-            />
+            <Avatar hasIcon={false} clickable={false} />
           </div>
           <div className='userProfile__title'>
             {shouldShowName && (

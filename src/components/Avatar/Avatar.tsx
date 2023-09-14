@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import ProfilePreviewImage from 'screens/ProfilePreviewImage/ProfilePreviewImage'
 import {
   getUserProfileImage,
-  setDefaultProfilePicture,
+  // getDefaultUserProfileImage,
   selectHasUploadedProfilePicture,
+  selectAuthUser,
 } from 'utils/redux/slices/userSlice'
 import { AvatarProps } from 'interfaces/ProfileImageInterfaces'
 import { IconButton } from '@mui/material'
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined'
 import './Avatar.scss'
+import { useAppSelector } from 'utils/redux/hooks'
 
 /**
  * Avatar component to display a user's avatar image.
@@ -25,14 +27,15 @@ const Avatar: React.FC<AvatarProps> = ({
   addPhotoIconClassName,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const reduxUploadedImage = useSelector(getUserProfileImage)
+  const profilePicture = useSelector(getUserProfileImage)
+  // const defaultProfilePicture = useSelector(getDefaultUserProfileImage)
   const hasUploadedProfilePicture = useSelector(selectHasUploadedProfilePicture)
-  const dispatch = useDispatch()
   const imgClassName = clickable || setAnchorEl ? 'avatar-img' : 'non-clickable'
+  const authUser = useAppSelector(selectAuthUser)
 
-  useEffect(() => {
-    dispatch(setDefaultProfilePicture())
-  }, [dispatch])
+  // console.log('Avatar Default profile pic', defaultProfilePicture)
+  // console.log('Avatar Current profile pic', profilePicture)
+  // console.log('Avatar Is there a uploaded profile pic', hasUploadedProfilePicture)
 
   const handleClick = e => {
     if (clickable && openModal) {
@@ -53,7 +56,7 @@ const Avatar: React.FC<AvatarProps> = ({
           <div className='avatar-icon'>
             <img
               className={imgClassName}
-              src={reduxUploadedImage}
+              src={profilePicture}
               alt='avatar'
               onClick={handleClick}
             />
@@ -68,8 +71,11 @@ const Avatar: React.FC<AvatarProps> = ({
             )}
           </div>
         ) : (
-          <div className='avatar-default-picture'>
-            <p>{reduxUploadedImage}</p>
+          <div className='avatar-default-pictur'>
+            <img
+              src={`https://ui-avatars.com/api/?name=${authUser.firstName}+${authUser.lastName}`}
+              alt='default'
+            />
             {hasIcon && (
               <IconButton
                 aria-label='change profile pic'
@@ -86,7 +92,7 @@ const Avatar: React.FC<AvatarProps> = ({
       <ProfilePreviewImage
         open={isModalOpen}
         onClose={handleCloseModal}
-        uploadedImage={reduxUploadedImage}
+        uploadedImage={profilePicture}
       />
     </>
   )
