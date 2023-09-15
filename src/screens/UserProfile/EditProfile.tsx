@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { useAppDispatch } from 'utils/redux/hooks'
 import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
 import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
@@ -13,36 +13,38 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined'
 import './EditProfile.scss'
 
+// TODO: Added toast here as well
+
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
-  const [userForm, updateUserForm] = useState<UserInterface>(emptyUser)
+  const [updateUserForm, setUpdateUserForm] = useState<UserInterface>(emptyUser)
   const [bioCharCount, setBioCharCount] = useState(0)
   const params = useParams()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const { displayNotification } = useNotification()
   const {
     bio,
     firstName,
     lastName,
     links: { githubUrl, linkedinUrl, portfolioUrl },
-    profilePicture,
     role,
-    _id: userId,
-  } = userForm
-
-  const { displayNotification } = useNotification()
+  } = updateUserForm
+  const nestedLinks = Object.keys(updateUserForm.links)
 
   useEffect(() => {
+    console.log('authUser:', authUser)
     if (authUser) {
-      updateUserForm(currForm => {
+      setUpdateUserForm(currForm => {
+        console.log('Updating user form with authUser:', authUser)
         return { ...currForm, ...authUser }
       })
     }
 
-    setBioCharCount(authUser.bio.length)
-  }, [])
-
-  const nestedLinks = Object.keys(userForm.links)
+    if (authUser && authUser.bio) {
+      setBioCharCount(authUser.bio.length)
+    }
+  }, [authUser])
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
@@ -51,7 +53,7 @@ export const EditProfile: React.FC = () => {
 
     // check if the input name is one of the nested properties
     if (nestedLinks.includes(name)) {
-      updateUserForm(prevForm => ({
+      setUpdateUserForm(prevForm => ({
         ...prevForm,
         links: {
           ...prevForm.links,
@@ -59,8 +61,7 @@ export const EditProfile: React.FC = () => {
         },
       }))
     } else {
-      // It's a top level property
-      updateUserForm({ ...userForm, [name]: value })
+      setUpdateUserForm({ ...updateUserForm, [name]: value })
     }
 
     if (name === 'bio') {
@@ -75,16 +76,20 @@ export const EditProfile: React.FC = () => {
   }
 
   const handleCancel = () => {
-    updateUserForm({ ...authUser })
-    navigate(`/users/${authUser._id}`)
+    setUpdateUserForm({ ...authUser })
+    navigate(`/users/${params.id}`)
   }
 
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const updatedUser = await updateUser(params.id, userForm)
-    dispatch(setAuthUser(updatedUser))
-    navigate(`/users/${userId}`)
+    try {
+      const updatedUser = await updateUser(params.id, updateUserForm)
+      dispatch(setAuthUser(updatedUser))
+      navigate(`/users/${params.id}`)
+    } catch (error) {
+      console.log('Error occured when trying to update User Profile', error)
+    }
   }
 
   if (!authUser) {
@@ -97,7 +102,7 @@ export const EditProfile: React.FC = () => {
         <IconButton
           aria-label='go back to view profile'
           className='editprofile__backBtn'
-          onClick={() => navigate(`/users/${userId}`)}
+          onClick={() => navigate(`/users/${params.id}`)}
         >
           <ArrowBackIosNewIcon className='editprofile__backArrow' />
           <p>Back</p>
@@ -114,7 +119,6 @@ export const EditProfile: React.FC = () => {
               <CameraAltOutlinedIcon className='editprofile__imageChange' />
             </IconButton>
           </div>
-
           <label className='editprofile__label'>
             First name
             <input
@@ -125,7 +129,6 @@ export const EditProfile: React.FC = () => {
               onChange={handleInputChange}
             />
           </label>
-
           <label className='editprofile__label'>
             Last name
             <input
@@ -136,7 +139,6 @@ export const EditProfile: React.FC = () => {
               onChange={handleInputChange}
             />
           </label>
-
           <label className='editprofile__label'>
             About me
             <TextareaAutosize
@@ -150,7 +152,6 @@ export const EditProfile: React.FC = () => {
               {bioCharCount}/500 characters
             </div>
           </label>
-
           <label className='editprofile__label'>
             Portfolio (URL)
             <input
@@ -161,7 +162,6 @@ export const EditProfile: React.FC = () => {
               onChange={handleInputChange}
             />
           </label>
-
           {role === 'Software Engineer' && (
             <label className='editprofile__label'>
               Github (URL) {role}
@@ -174,7 +174,6 @@ export const EditProfile: React.FC = () => {
               />
             </label>
           )}
-
           <label className='editprofile__label'>
             Linkedin profile (URL)
             <input
