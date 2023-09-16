@@ -1,27 +1,22 @@
-import './Availability.scss'
 import { useState, useEffect } from 'react'
 import { Timezones, weekdaysMap } from './utils/data'
-import { DayAvailabilityInputBanner } from './subcomponents/DayAvailabilityInputBanner'
-import { TimeZoneInputBanner } from './subcomponents/TimezoneInputBanner'
+import {
+  DayAvailabilityInputBanner,
+  TimeZoneInputBanner,
+} from './subcomponents'
 import { getUserAvailability } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { updateAvailability } from 'utils/api'
-import { useDispatch } from 'react-redux'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import './Availability.scss'
 
 export const Availability = ({ days, setDays }): JSX.Element => {
   const userAvailability = useAppSelector(getUserAvailability)
   const [timezone, setTimezone] = useState(Timezones.ET)
-  const authUser = useAppSelector(selectAuthUser)
-  const dispatch = useDispatch()
 
   useEffect(() => {
     setDays(userAvailability)
   }, [userAvailability])
-
-  const handleSaveAvailability = async () =>
-    await saveAvailability(dispatch, authUser._id, days)
 
   return (
     <div className='availability-container'>
@@ -36,7 +31,6 @@ export const Availability = ({ days, setDays }): JSX.Element => {
           setDays={setDays}
         />
       ))}
-      <button onClick={handleSaveAvailability}>save</button>
     </div>
   )
 }
