@@ -9,6 +9,7 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { Button } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import './SetupAvailability.scss'
 
 interface SetupAvailabilityProps {
   handlePageNavigation: (navType: 'previous' | 'next' | 'specific') => void
@@ -29,8 +30,8 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   const handleBack = () => handlePageNavigation('previous')
 
   return (
-    <div>
-      <div>
+    <div className='setup-avail-page'>
+      <div className='setup-avail-header'>
         <h2>When are you available for meetings?</h2>
         <p>
           We will match project teams according to availability to meet. You can
@@ -41,9 +42,11 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
 
       <Availability days={days} setDays={setDays} />
 
-      <div>
-        <SecondaryButton handler={handleBack} text='Role' />
-        <CTAButton handler={handleSaveAvailability} text='Set up profile' />
+      <div className='setup-avail-buttons-wrapper'>
+        <div className='setup-avail-buttons'>
+          <SecondaryButton handler={handleBack} text='Role' />
+          <CTAButton handler={handleSaveAvailability} text='Set up profile' />
+        </div>
       </div>
     </div>
   )

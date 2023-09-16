@@ -23,11 +23,12 @@ export const Availability = ({ days, setDays }): JSX.Element => {
       <TimeZoneInputBanner timezone={timezone} setTimezone={setTimezone} />
       <p>Set weekly availability</p>
       <hr />
-      {Object.keys(weekdaysMap).map(day => (
+      {Object.keys(weekdaysMap).map((day, idx) => (
         <DayAvailabilityInputBanner
-          key={`${day}-banner`}
           day={day}
           days={days}
+          idx={idx}
+          key={`${day}-banner`}
           setDays={setDays}
         />
       ))}

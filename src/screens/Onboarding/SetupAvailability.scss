@@ -1,0 +1,20 @@
+.setup-avail-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: fit-content;
+
+  .setup-avail-header {
+    margin: 32px 0;
+  }
+
+  .setup-avail-buttons-wrapper {
+    display: flex;
+    justify-content: flex-end;
+
+    .setup-avail-buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
