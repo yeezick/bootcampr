@@ -5,6 +5,7 @@ import { CalendarView } from 'screens/Calendar/CalendarView'
 
 export const CalendarTabs = () => {
   const [activeTab, setActiveTab] = useState(0)
+  const [days, setDays] = useState({})
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue)
@@ -13,11 +14,12 @@ export const CalendarTabs = () => {
   const allTabs = [
     {
       label: 'Calendar',
-      component: <CalendarView />,
+      component: CalendarView,
     },
     {
       label: 'My Availability',
-      component: <Availability />,
+      component: Availability,
+      props: { days, setDays },
     },
   ]
 
@@ -36,7 +38,7 @@ export const CalendarTabs = () => {
           key={`tab-body-${index}`}
           index={index}
         >
-          {tab.component}
+          {tab.component(tab.props)}
         </TabContent>
       ))}
     </Box>

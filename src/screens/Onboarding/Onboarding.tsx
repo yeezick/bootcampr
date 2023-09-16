@@ -4,8 +4,12 @@ import { Role } from './Role'
 import { WhatsNext } from './WhatsNext'
 import { Availability } from 'components/Availability/Availability'
 import './Onboarding.scss'
+import { useState } from 'react'
+import { defaultAvailability } from 'utils/data/userConstants'
 
 export const Onboarding = () => {
+  const [days, setDays] = useState(defaultAvailability)
+
   const orderedPages = [
     {
       component: Role,
@@ -13,6 +17,7 @@ export const Onboarding = () => {
     },
     {
       component: Availability,
+      props: { days, setDays },
       title: 'Availability',
     },
     {
