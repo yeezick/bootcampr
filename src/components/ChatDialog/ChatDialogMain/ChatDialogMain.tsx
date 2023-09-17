@@ -4,6 +4,9 @@ import { FiArrowLeft } from 'react-icons/fi'
 import { Conversations } from 'components/ChatDialog/Conversations/Conversations'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
+  onBackArrowClick,
+  onScreenUpdate,
+  selectChatUI,
   selectConversation,
   selectSelectedMember,
   toggleChatClose,
@@ -21,35 +24,27 @@ import { extractConversationAvatars } from 'utils/functions/chatLogic'
 
 export const ChatDialogMain = () => {
   const dispatch = useAppDispatch()
-  const [chatScreen, setChatScreen] = useState<ChatScreen>(ChatScreen.Main)
-  const [chatScreenPath, setChatScreenPath] = useState<ChatScreen[]>([
-    ChatScreen.Main,
-  ])
+  const { chatScreen } = useAppSelector(selectChatUI)
   const authUser = useAppSelector(selectAuthUser)
   const currentConversation = useAppSelector(selectConversation)
   const selectedMember = useAppSelector(selectSelectedMember)
   const [chatRecipientId, setChatRecipientId] = useState('')
   const [profilePictures, setProfilePictures] = useState([])
 
-  const onScreenUpdate = (screen: ChatScreen) => {
-    setChatScreenPath(prevPath => [...prevPath, screen])
-    setChatScreen(screen)
+  const updateScreen = (screen: ChatScreen) => {
+    dispatch(onScreenUpdate(screen))
   }
 
-  const onBackArrowClick = () => {
-    if (chatScreenPath.length > 1) {
-      const updatedPath = chatScreenPath.slice(0, -1)
-      setChatScreenPath(updatedPath)
-      setChatScreen(updatedPath[updatedPath.length - 1])
-    }
+  const handleBackArrowClick = () => {
+    dispatch(onBackArrowClick())
   }
 
   const handleConversationClick = () => {
-    onScreenUpdate(ChatScreen.Messages)
+    updateScreen(ChatScreen.Messages)
   }
 
   const handleComposeMessage = () => {
-    onScreenUpdate(ChatScreen.ComposeNewChat)
+    updateScreen(ChatScreen.ComposeNewChat)
   }
 
   const closeChatBox = () => {
@@ -82,8 +77,8 @@ export const ChatDialogMain = () => {
       >
         <ChatTitle
           chatScreen={chatScreen}
-          onBackArrowClick={onBackArrowClick}
-          onScreenUpdate={onScreenUpdate}
+          handleBackArrowClick={handleBackArrowClick}
+          updateScreen={updateScreen}
           currentConversation={currentConversation}
           selectedMember={selectedMember}
           profilePictures={profilePictures}
@@ -99,7 +94,6 @@ export const ChatDialogMain = () => {
         <ChatBody
           chatScreen={chatScreen}
           handleConversationClick={handleConversationClick}
-          onScreenUpdate={onScreenUpdate}
           setChatRecipientId={setChatRecipientId}
         />
       </section>
@@ -109,8 +103,8 @@ export const ChatDialogMain = () => {
 
 const ChatTitle = ({
   chatScreen,
-  onBackArrowClick,
-  onScreenUpdate,
+  handleBackArrowClick,
+  updateScreen,
   currentConversation,
   selectedMember,
   profilePictures,
@@ -120,7 +114,7 @@ const ChatTitle = ({
     [ChatScreen.Main]: <h1 className='main-title'>Chats</h1>,
     [ChatScreen.Messages]: currentConversation.isGroup ? (
       <div className='back-arrow messages'>
-        <FiArrowLeft size={23} onClick={onBackArrowClick} />
+        <FiArrowLeft size={23} onClick={handleBackArrowClick} />
         {profilePictures.length > 0 && (
           <AvatarGrid
             pictures={profilePictures}
@@ -129,7 +123,7 @@ const ChatTitle = ({
           />
         )}
         <h5
-          onClick={() => onScreenUpdate(ChatScreen.EditChatRoom)}
+          onClick={() => updateScreen(ChatScreen.EditChatRoom)}
           className='group-link'
         >
           {currentConversation.displayName}
@@ -137,14 +131,14 @@ const ChatTitle = ({
       </div>
     ) : (
       <div className='back-arrow messages'>
-        <FiArrowLeft size={23} onClick={onBackArrowClick} />
+        <FiArrowLeft size={23} onClick={handleBackArrowClick} />
         <AvatarGrid
           pictures={selectedMember.profilePicture}
           avatarSize={'small'}
           chatType={'private'}
         />
         <h5
-          onClick={() => onScreenUpdate(ChatScreen.MemberProfile)}
+          onClick={() => updateScreen(ChatScreen.MemberProfile)}
           className='group-link'
         >
           {currentConversation.selectedMember.firstName}{' '}
@@ -157,7 +151,7 @@ const ChatTitle = ({
   return (
     titleContentLookup[chatScreen] || (
       <div className='back-arrow'>
-        <FiArrowLeft size={23} onClick={onBackArrowClick} />
+        <FiArrowLeft size={23} onClick={handleBackArrowClick} />
         <h5>{getTitleText({ chatScreen, selectedMember })}</h5>
       </div>
     )
@@ -196,20 +190,15 @@ const ChatBody = ({
   chatScreen,
   handleConversationClick,
   setChatRecipientId,
-  onScreenUpdate,
 }) => {
   const chatComponentLookup = {
     [ChatScreen.Main]: (
       <Conversations handleConversationClick={handleConversationClick} />
     ),
     [ChatScreen.Messages]: <Messages setChatRecipientId={setChatRecipientId} />,
-    [ChatScreen.ComposeNewChat]: (
-      <NewChatRoom chatScreen={chatScreen} onScreenUpdate={onScreenUpdate} />
-    ),
-    [ChatScreen.InviteNewMembers]: (
-      <NewChatRoom chatScreen={chatScreen} onScreenUpdate={onScreenUpdate} />
-    ),
-    [ChatScreen.EditChatRoom]: <EditChatRoom onScreenUpdate={onScreenUpdate} />,
+    [ChatScreen.ComposeNewChat]: <NewChatRoom chatScreen={chatScreen} />,
+    [ChatScreen.InviteNewMembers]: <NewChatRoom chatScreen={chatScreen} />,
+    [ChatScreen.EditChatRoom]: <EditChatRoom />,
     [ChatScreen.MemberProfile]: <ChatMemberProfile />,
   }
 

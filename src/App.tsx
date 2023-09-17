@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import { Layout } from 'layout'
 import {
+  EmailSentConfirmation,
   EmailVerify,
   ExpiredLink,
   Settings,
@@ -29,6 +30,10 @@ function App() {
           <Route path='/how-to' element={<HowTo />} />
           {/* Auth */}
           <Route path='/sign-up' element={<SignUp />} />
+          <Route
+            path='/sign-up/:id/confirmation-email-sent'
+            element={<EmailSentConfirmation />}
+          />
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />

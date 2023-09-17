@@ -1,11 +1,19 @@
+import { ChatScreen } from 'utils/data/chatConstants'
+
 export interface ChatSliceInterface {
-  visibleChat: boolean
-  _id: string
-  isGroup: boolean
-  participants: []
-  displayName?: string
-  selectedMember: ChatSelectedMemberInterface
-  unreadMessages: number
+  ui: {
+    visibleChat: boolean
+    chatScreen: ChatScreen
+    chatScreenPath: ChatScreen[]
+  }
+  conversation: {
+    _id: string
+    isGroup: boolean
+    participants: []
+    displayName?: string
+    selectedMember: ChatSelectedMemberInterface
+  }
+  unreadConversations: number
 }
 
 export interface ChatMessageInterface {

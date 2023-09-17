@@ -58,7 +58,7 @@ const MemberBio = ({ memberInfo }) => {
 
 const MemberSocials = ({ memberInfo }) => {
   const { role, links } = memberInfo
-  const { portfolioUrl, githubUrl, linkedinUrl } = links
+  const { portfolioUrl, githubUrl, linkedinUrl } = links || {}
 
   return (
     <div className='links-container'>
@@ -66,9 +66,11 @@ const MemberSocials = ({ memberInfo }) => {
         <HiLink />
         <div>
           <p>Portfolio</p>
-          <a href={portfolioUrl} target='_blank' rel='noreferrer'>
-            {portfolioUrl}
-          </a>
+          {portfolioUrl && (
+            <a href={portfolioUrl} target='_blank' rel='noreferrer'>
+              {portfolioUrl}
+            </a>
+          )}
         </div>
       </div>
       {role === 'Software Engineer' && githubUrl && (
@@ -86,9 +88,11 @@ const MemberSocials = ({ memberInfo }) => {
         <FiLinkedin />
         <div>
           <p>LinkedIn</p>
-          <a href={linkedinUrl} target='_blank' rel='noreferrer'>
-            {linkedinUrl}
-          </a>
+          {linkedinUrl && (
+            <a href={linkedinUrl} target='_blank' rel='noreferrer'>
+              {linkedinUrl}
+            </a>
+          )}
         </div>
       </div>
     </div>
