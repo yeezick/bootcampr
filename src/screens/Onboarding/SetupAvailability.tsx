@@ -60,12 +60,14 @@ export const CTAButton = ({ handler, text }) => {
       sx={{
         backgroundColor: '#FFA726',
         color: '#1A237E',
+        marginLeft: '8px',
+        textTransform: 'none',
       }}
       onClick={handler}
       variant='contained'
     >
       {text}
-      <ArrowForwardIcon />
+      <ArrowForwardIcon sx={{ marginLeft: '8px' }} />
     </Button>
   )
 }
@@ -77,10 +79,12 @@ export const SecondaryButton = ({ handler, text }) => {
       sx={{
         borderColor: '#5C6BC0',
         color: '#1A237E',
+        marginRight: '8px',
+        textTransform: 'none',
       }}
       variant='outlined'
     >
-      <ArrowBackIcon />
+      <ArrowBackIcon sx={{ marginRight: '8px' }} />
       {text}
     </Button>
   )

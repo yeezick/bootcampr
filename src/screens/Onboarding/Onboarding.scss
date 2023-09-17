@@ -258,7 +258,6 @@
 
   &__profile-btns {
     @include flex(column, space-between, center);
-    background-color: #ffffff;
     gap: 32px;
     margin: auto 0 auto 50%;
     padding-top: 32px;
