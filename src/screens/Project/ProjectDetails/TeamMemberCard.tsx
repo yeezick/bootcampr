@@ -1,18 +1,21 @@
-import { useNavigate } from 'react-router-dom'
 import Avatar from 'components/Avatar/Avatar'
 import './Team.scss'
 
 //TODO make team member card true to figma,
-//TODO profile data functionality and how to link it to project,
+//TODO profile data functionality and how to link it to project
+//TODO: create profile to open up new tab
+//TODO add cursor pointer
+//TODO fetch Avatar (Profile Picture) data
 
 //add user props
 
 export const TeamMemberCard = ({ member, loggedInUserId }) => {
-  const navigate = useNavigate()
+  //TODO check projectId
   const isCurrentUser = member._id === loggedInUserId
 
   const handleProfileNavigation = () => {
-    navigate(`/users/${member._id}`) //TODO: create new route to navigate to team member profile
+    const userProfile = `/users/${member._id}`
+    window.open(userProfile, '_blank')
   }
 
   return (

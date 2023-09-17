@@ -10,7 +10,7 @@ export const ProjectDetails = () => {
   return (
     <>
       <div className='project-details-container'>
-        <ProjectDetailsSidebar />
+        <ProjectDetailsSidebar /> //TODO: take out sidebar
         <div className='page-container'>
           <div className='header-container'>
             <img src={ProjectDetailsBanner} alt='bee'></img>

@@ -120,12 +120,13 @@
   /* ProjectDetails */
 
   .project-details-container {
-    display: flex
+    display: flex;
+    // flex-direction: column;
   }
 
   .page-container {
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
   }
 
   .header-container {

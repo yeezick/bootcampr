@@ -9,10 +9,9 @@ import { selectProjectMembersByRole } from 'utils/redux/slices/projectSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 
-//TODO: get clarification fro UX team about modal popup designs
-//TODO: how to display user card without message button (conditional - if user)
+//TODO: update withdrawal from project popup to be udner the three dots
+//TODO: update confirmation withdrawal modal to popup at the center of the page
 //TODO: fix styling to match Figma
-//TODO: background of withdraw modal
 
 export const Team = () => {
   const teamMembers = useSelector(selectProjectMembersByRole)
@@ -37,7 +36,7 @@ export const Team = () => {
   return (
     <>
       <div className='team-container'>
-        <ProjectDetailsSidebar />
+        <ProjectDetailsSidebar /> //TODO: take out sidebar
         <div className='page-container'>
           <div className='header-container'>
             <img src={TeamBanner} alt='man working on computer'></img>
@@ -105,8 +104,9 @@ const TeamMemberInfo = ({ teamMembers, loggedInUserId }) => {
     <>
       <div className='role-container'>
         <div className='software-engineer-container'>
-          <div className='swe-text-container'></div>
-          <h1>Software Engineers</h1>
+          <div className='swe-text-container'>
+            <label>Software Engineers</label>
+          </div>
           <div className='team-card-container'>
             {teamMembers.engineers.map(member => (
               <div className='team-member-card-container' key={member._id}>
@@ -119,8 +119,9 @@ const TeamMemberInfo = ({ teamMembers, loggedInUserId }) => {
           </div>
         </div>
         <div className='ux-designers-container'>
-          <div className='ux-designers-text-container'></div>
-          <h1>UX Designers</h1>
+          <div className='ux-designers-text-container'>
+            <label>UX Designers</label>
+          </div>
           <div className='team-card-container'>
             {teamMembers.designers.map(member => (
               <div className='team-member-card-container' key={member._id}>

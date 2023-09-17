@@ -2,6 +2,59 @@
 
 .team-container {
   display: flex;
+  // flex-direction: column;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-container {
+  flex-shrink: 0;
+  height: 278px;
+
+  img{
+    width: 100%;
+  }
+}
+
+.banner-box-container {
+  align-items: center;
+  background: #ffead0;
+  border-radius: 16px 0 0 16px;
+  display: flex;
+  gap: 16px;
+  margin: 0 0 0 100px;
+  padding: 16px 32px;
+  width: 1197px;
+}
+
+.banner-text-container {
+  align-items: center;
+  display: flex;
+  flex: 1 0 0;
+  gap: 16px;
+}
+
+.banner-img {
+  height:68px;
+  width: 68px;
+}
+
+.banner-text {
+  align-items: center;
+  display: flex;
+  gap: 32px;
+
+  h1 {
+    color: #313335;
+    // font-family: $vep-font-family;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 67.2px;
+  }
 }
 
 .open-modal {
@@ -140,16 +193,16 @@ position: relative;
   background-color: white;
   border-radius: 16px;
   
-  h1 {
+  label {           //TODO: check text to match Figma
     color: #000;
+    font-family: "Inter-Medium", Helvetica;
     font-size: 32px;
     font-style: normal;
     font-weight: 500;
     line-height: 44.8px;
+    margin: 0;
+    white-space: nowrap;
   }
-
-  //take away margin from h1
-
 }
 
 .team-card-container{
@@ -172,14 +225,17 @@ position: relative;
 }
 
 .ux-designers-text-container {
-  border-radius: 16px;
-  
-  h1 {
+  height: 45px;
+  width: 208px;
+  label {
     color: #000;
+    font-family: "Inter-Medium", Helvetica;
     font-size: 32px;
     font-style: normal;
     font-weight: 500;
     line-height: 44.8px;
+    margin: 0;
+    white-space: nowrap;
   }
 }
 
@@ -194,9 +250,10 @@ position: relative;
   align-items: center;
   display: flex;
   flex-direction: column;
+  gap: 24px;
   height: auto;
   justify-content: center;
-  margin-left: 24px;
+  margin: 0 24px 0 24px;
   width: 167px;
   
 }
@@ -233,12 +290,36 @@ position: relative;
   width: 176px;
 }
 
-.profile-name {
-  label {
+.profile-name {       
+  height: 20px;
+
+  label {  //TODO: what is happening here?
+    color:#000000;
+    font-family: "Inter-Regular", Helvetica;
+    font-size: 14px;
+    font-weight: 400;
     height: 20px;
+    letter-spacing: 0;
+    line-height: 19.6px;
+    text-align: center;
     width: 144px;
   }
-  padding: 0;
+padding: 0;
+}
+
+.profile-role {
+  height: 16px;
+  p {
+  color: #000000;
+  font-family: "Inter-Regular", Helvetica;
+  font-size: 11px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: 15.4px;
+  margin:0 ;
+  text-align: center;
+  }
 }
 
 
