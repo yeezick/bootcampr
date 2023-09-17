@@ -1,7 +1,13 @@
 import { useState } from 'react'
 import { Box, Tabs, Tab } from '@mui/material'
-import { Availability } from 'components/Availability/Availability'
 import { CalendarView } from 'screens/Calendar/CalendarView'
+import { EditAvailability } from 'screens/Calendar/EditAvailability'
+
+type AllTabsInterface = {
+  label: string
+  component: () => JSX.Element
+  props?: any
+}[]
 
 export const CalendarTabs = () => {
   const [activeTab, setActiveTab] = useState(0)
@@ -11,15 +17,14 @@ export const CalendarTabs = () => {
     setActiveTab(newValue)
   }
 
-  const allTabs = [
+  const allTabs: AllTabsInterface = [
     {
       label: 'Calendar',
       component: CalendarView,
     },
     {
       label: 'My Availability',
-      component: Availability,
-      props: { days, setDays },
+      component: EditAvailability,
     },
   ]
 
@@ -38,7 +43,7 @@ export const CalendarTabs = () => {
           key={`tab-body-${index}`}
           index={index}
         >
-          {tab.component(tab.props)}
+          <tab.component {...tab.props} />
         </TabContent>
       ))}
     </Box>
