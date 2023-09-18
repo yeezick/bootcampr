@@ -14,7 +14,7 @@ import './Onboarding.scss'
 
 // TODO: Add Toasts also error handling Toasts as well
 
-export const OnboardingSetUpProfile = ({ handlePageNavigation }) => {
+export const SetUpProfile = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
   const [updateUserForm, setUpdateUserForm] =
     useState<UserInterface>(emptyProfile)
