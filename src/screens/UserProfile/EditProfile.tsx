@@ -6,37 +6,33 @@ import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
 import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
 import { updateUser } from 'utils/api/users'
-import { useNotification } from 'utils/redux/slices/notificationSlice'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import TextareaAutosize from 'react-textarea-autosize'
 import { IconButton } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined'
 import './EditProfile.scss'
 
-// TODO: Added toast here as well
-
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
-  const [updateUserForm, setUpdateUserForm] = useState<UserInterface>(emptyUser)
+  const [updatedUserForm, setUpdatedUserForm] =
+    useState<UserInterface>(emptyUser)
   const [bioCharCount, setBioCharCount] = useState(0)
   const params = useParams()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { displayNotification } = useNotification()
   const {
     bio,
     firstName,
     lastName,
     links: { githubUrl, linkedinUrl, portfolioUrl },
     role,
-  } = updateUserForm
-  const nestedLinks = Object.keys(updateUserForm.links)
+  } = updatedUserForm
+  const nestedLinks = Object.keys(updatedUserForm.links)
 
   useEffect(() => {
-    console.log('authUser:', authUser)
     if (authUser) {
-      setUpdateUserForm(currForm => {
-        console.log('Updating user form with authUser:', authUser)
+      setUpdatedUserForm(currForm => {
         return { ...currForm, ...authUser }
       })
     }
@@ -50,10 +46,8 @@ export const EditProfile: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
-
-    // check if the input name is one of the nested properties
     if (nestedLinks.includes(name)) {
-      setUpdateUserForm(prevForm => ({
+      setUpdatedUserForm(prevForm => ({
         ...prevForm,
         links: {
           ...prevForm.links,
@@ -61,7 +55,7 @@ export const EditProfile: React.FC = () => {
         },
       }))
     } else {
-      setUpdateUserForm({ ...updateUserForm, [name]: value })
+      setUpdatedUserForm({ ...updatedUserForm, [name]: value })
     }
 
     if (name === 'bio') {
@@ -69,14 +63,8 @@ export const EditProfile: React.FC = () => {
     }
   }
 
-  const handleProfileSave = () => {
-    displayNotification({
-      message: 'User profile successfully updated.',
-    })
-  }
-
   const handleCancel = () => {
-    setUpdateUserForm({ ...authUser })
+    setUpdatedUserForm({ ...authUser })
     navigate(`/users/${params.id}`)
   }
 
@@ -84,11 +72,29 @@ export const EditProfile: React.FC = () => {
     e.preventDefault()
 
     try {
-      const updatedUser = await updateUser(params.id, updateUserForm)
+      const updatedUser = await updateUser(params.id, updatedUserForm)
       dispatch(setAuthUser(updatedUser))
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message: 'Profile saved!',
+          duration: 3000,
+          vertical: 'top',
+          horizontal: 'center',
+          severity: 'success',
+        })
+      )
       navigate(`/users/${params.id}`)
     } catch (error) {
       console.log('Error occured when trying to update User Profile', error)
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message: 'Failed to update user profile. Please try again.',
+          duration: 3000,
+          severity: 'error',
+        })
+      )
     }
   }
 
@@ -192,11 +198,7 @@ export const EditProfile: React.FC = () => {
             >
               Cancel
             </button>
-            <button
-              type='submit'
-              className='editprofile__saveBtn'
-              onClick={handleProfileSave}
-            >
+            <button type='submit' className='editprofile__saveBtn'>
               Save Profile
             </button>
           </div>
