@@ -46,19 +46,9 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
   // State and ref variables
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
-  const { _id: userId, profilePicture: userImage } = authUser
+  const { _id: userId } = authUser
   const [isImageEditorOpen, setIsImageEditorOpen] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
-
-  // Detect if the uploadedImage has changed and update the state accordingly
-  // useEffect(() => {
-  //   if (uploadedImage !== userImage) {
-  //     dispatch(setUploadedImage(uploadedImage))
-  //     if (!uploadedImage) {
-  //       dispatch(setDefaultProfilePicture()); // Only set to false if uploadedImage is not null
-  //     }
-  //   }
-  // }, [uploadedImage, userImage, dispatch])
 
   const openImageEditor = () => {
     setIsImageEditorOpen(true)
