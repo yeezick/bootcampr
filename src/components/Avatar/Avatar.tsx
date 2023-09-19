@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 import ProfilePreviewImage from 'screens/ProfilePreviewImage/ProfilePreviewImage'
 import {
   getUserProfileImage,
-  // getDefaultUserProfileImage,
   selectHasUploadedProfilePicture,
   selectAuthUser,
 } from 'utils/redux/slices/userSlice'
@@ -28,14 +27,9 @@ const Avatar: React.FC<AvatarProps> = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const profilePicture = useSelector(getUserProfileImage)
-  // const defaultProfilePicture = useSelector(getDefaultUserProfileImage)
   const hasUploadedProfilePicture = useSelector(selectHasUploadedProfilePicture)
   const imgClassName = clickable || setAnchorEl ? 'avatar-img' : 'non-clickable'
   const authUser = useAppSelector(selectAuthUser)
-
-  // console.log('Avatar Default profile pic', defaultProfilePicture)
-  // console.log('Avatar Current profile pic', profilePicture)
-  // console.log('Avatar Is there a uploaded profile pic', hasUploadedProfilePicture)
 
   const handleClick = e => {
     if (clickable && openModal) {
@@ -48,6 +42,8 @@ const Avatar: React.FC<AvatarProps> = ({
 
   const handleOpenModal = () => setIsModalOpen(true)
   const handleCloseModal = () => setIsModalOpen(false)
+
+  const defaultImageURL = `https://ui-avatars.com/api/?name=${authUser.firstName}+${authUser.lastName}&background=FFA726&color=1A237E&rounded=true&bold=true`
 
   return (
     <>
@@ -71,11 +67,8 @@ const Avatar: React.FC<AvatarProps> = ({
             )}
           </div>
         ) : (
-          <div className='avatar-default-pictur'>
-            <img
-              src={`https://ui-avatars.com/api/?name=${authUser.firstName}+${authUser.lastName}`}
-              alt='default'
-            />
+          <div className='avatar-default-picture'>
+            <img src={defaultImageURL} alt='default' />
             {hasIcon && (
               <IconButton
                 aria-label='change profile pic'

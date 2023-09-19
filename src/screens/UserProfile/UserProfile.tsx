@@ -14,8 +14,6 @@ export const UserProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
   const navigate = useNavigate()
 
-  console.log('user info', authUser)
-
   // BC-334: should handle this case
   if (!authUser) {
     return <div>Loading user... or there isn't one.</div>

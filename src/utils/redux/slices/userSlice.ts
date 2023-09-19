@@ -153,15 +153,9 @@ export const selectUserId = (state: RootState) => state.ui.auth.user._id
 export const getUserAvailability = (state: RootState) =>
   state.ui.auth.user.availability
 export const uiStatus = (state: RootState) => state.ui.status
-export const getDefaultUserProfileImage = (state: RootState) =>
-  state.ui.auth.user.defaultProfilePicture
 export const getUserProfileImage = (state: RootState) =>
   state.ui.auth.user.profilePicture
 export const selectHasUploadedProfilePicture = (state: RootState) => {
-  // console.log(
-  //   'hasUploadedProfilePicture in slice:',
-  //   state.ui.auth.user.hasUploadedProfilePicture
-  // )
   return state.ui.auth.user.hasUploadedProfilePicture
 }
 

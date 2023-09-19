@@ -4,16 +4,12 @@ import { useSelector } from 'react-redux'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
 import { emptyUser } from 'utils/data/userConstants'
-// import { UserInterface } from 'interfaces/UserInterface'
 import { updateUser } from 'utils/api/users'
-import { useNotification } from 'utils/redux/slices/notificationSlice'
 import Avatar from 'components/Avatar/Avatar'
 import TextareaAutosize from 'react-textarea-autosize'
 import { IconButton } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import './EditProfile.scss'
-
-// TODO: Added toast here as well
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
@@ -22,7 +18,6 @@ export const EditProfile: React.FC = () => {
   const params = useParams()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { displayNotification } = useNotification()
   const {
     bio,
     firstName,
@@ -32,13 +27,9 @@ export const EditProfile: React.FC = () => {
   } = updateUserForm
   const nestedLinks = Object.keys(updateUserForm.links)
 
-  console.log('updateUserForm before anything:', updateUserForm)
-
   useEffect(() => {
-    console.log('authUser:', authUser)
     if (authUser) {
       setUpdateUserForm(currForm => {
-        console.log('Updating user form with authUser:', authUser)
         return { ...currForm, ...authUser }
       })
     }
@@ -52,8 +43,6 @@ export const EditProfile: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
-
-    // check if the input name is one of the nested properties
     if (nestedLinks.includes(name)) {
       setUpdateUserForm(prevForm => ({
         ...prevForm,
@@ -69,12 +58,6 @@ export const EditProfile: React.FC = () => {
     if (name === 'bio') {
       setBioCharCount(value.length)
     }
-  }
-
-  const handleProfileSave = () => {
-    displayNotification({
-      message: 'User profile successfully updated.',
-    })
   }
 
   const handleCancel = () => {
@@ -209,11 +192,7 @@ export const EditProfile: React.FC = () => {
             >
               Cancel
             </button>
-            <button
-              type='submit'
-              className='editprofile__saveBtn'
-              onClick={handleProfileSave}
-            >
+            <button type='submit' className='editprofile__saveBtn'>
               Save Profile
             </button>
           </div>

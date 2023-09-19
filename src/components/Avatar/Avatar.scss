@@ -24,22 +24,12 @@
   text-align: center;
   width: 100px;
   cursor: default;
-
-  p {
-    color: #1A237E;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 40px;
-    margin: 0;
-    text-align: center;
-  }
 }
 
 .avatar-default-cameraIcon {
   background-color: #ecebeb !important;
-  left: 68px;
-  top: 0;
+  left: 64px;
+  top: -31px;
   width: 32px;
   height: 32px;
   transform: scaleX(-1);
@@ -58,6 +48,7 @@
   width: 50px;
 }
 
+// Image Modal
 .image-modal .avatar-img,
 .non-clickable {
   height: 250px;
@@ -66,8 +57,6 @@
 
 // User Profile
 .userProfile .avatar-default-picture {
-  background-color: #FFA726;
-  border-radius: 50%;
   display: flex;
   flex-direction: column;
   height: 100px;
@@ -76,16 +65,18 @@
   text-align: center;
   width: 100px;
   cursor: default;
+}
 
-  p {
-    color: #1A237E;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 40px;
-    margin: 0;
-    text-align: center;
-  }
+// Edit Profile
+.editprofile .avatar-default-picture {
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  justify-content: flex-start;
+  margin: 20px 19px 0 20px;
+  text-align: center;
+  width: 100px;
+  cursor: default;
 }
 
 // SideBar
@@ -103,23 +94,11 @@
   width: 100px;
 }
 .setupProfile .avatar-default-picture {
-  background-color: #FFA726;
-  border-radius: 50%;
   display: flex;
   flex-direction: column;
   height: 96px;
-  justify-content: flex-end;
+  justify-content: flex-start;
   margin: 0;
   width: 96px;
   cursor: default;
-
-  p {
-    color: #1A237E;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 32px;
-    margin: 0;
-    text-align: center;
-  }
 }
