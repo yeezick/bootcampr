@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { ProjectDetailsSidebar } from './ProjectDetailsSidebar'
 import TeamBanner from '../../../assets/Image/team-header.png'
 import { TeamMemberCard } from './TeamMemberCard'
 import { BsThreeDotsVertical } from 'react-icons/bs'
@@ -8,21 +7,18 @@ import { useSelector } from 'react-redux'
 import { selectProjectMembersByRole } from 'utils/redux/slices/projectSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
+import { TeamWithdrawal } from './TeamWithdrawal'
 
-//TODO: update withdrawal from project popup to be udner the three dots
-//TODO: update confirmation withdrawal modal to popup at the center of the page
-//TODO: fix styling to match Figma
+//TODO: fix modal styling
+//TODO: fix styling to match Figma, fix page layout
 
 export const Team = () => {
   const teamMembers = useSelector(selectProjectMembersByRole)
-  console.log(teamMembers)
 
   const authUser = useAppSelector(selectAuthUser)
   const loggedInUserId = authUser?._id
-  console.log(loggedInUserId)
 
   const [showWithdrawalModal, setShowWithdrawModal] = useState(false)
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
   const toggleModal = () => {
     setShowWithdrawModal(!showWithdrawalModal)
@@ -30,65 +26,32 @@ export const Team = () => {
 
   const handleCloseModals = () => {
     setShowWithdrawModal(false)
-    setShowConfirmationModal(false)
   }
 
   return (
     <>
       <div className='team-container'>
-        <ProjectDetailsSidebar /> //TODO: take out sidebar
-        <div className='page-container'>
-          <div className='header-container'>
+        <div className='team-page-container'>
+          <div className='team-header-container'>
             <img src={TeamBanner} alt='man working on computer'></img>
           </div>
-          <div className='banner-box-container'>
-            <div className='banner-text-container'>
-              <div className='banner-text'>
+          <div className='team-banner-box-container'>
+            <div className='team-banner-text-container'>
+              <div className='team-banner-text'>
                 <h1>Team Members</h1>
                 <button className='open-modal' onClick={toggleModal}>
-                  <BsThreeDotsVertical size={24} />
+                  <BsThreeDotsVertical size={24} className='three-dots' />
                 </button>
                 {showWithdrawalModal && (
                   <section className='withdraw-modal-hidden'>
                     <div className='withdraw-modal'>
-                      <button
-                        className='withdraw-btn'
-                        onClick={() => setShowConfirmationModal(true)}
-                      >
-                        <p className='withdraw-text'>Withdraw from Project</p>
-                      </button>
+                      <TeamWithdrawal handleCloseModals={handleCloseModals} />
                     </div>
                   </section>
                 )}
               </div>
             </div>
           </div>
-
-          {showConfirmationModal && (
-            <section className='confirmation-modal-hidden'>
-              <div className='confirmation-modal'>
-                <div className='label-text'>
-                  <p>
-                    Just making sure, do you really want to withdraw from the
-                    project?
-                  </p>
-                </div>
-                <div className='confirmation-btns'>
-                  <div>
-                    <button
-                      className='stay-btn'
-                      onClick={() => handleCloseModals()}
-                    >
-                      Stay
-                    </button>
-                  </div>
-                  <div>
-                    <button className='withdraw-final-btn'>Withdraw</button>
-                  </div>
-                </div>
-              </div>
-            </section>
-          )}
           <TeamMemberInfo
             teamMembers={teamMembers}
             loggedInUserId={loggedInUserId}

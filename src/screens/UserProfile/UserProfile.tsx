@@ -8,7 +8,6 @@ import { BsLink45Deg } from 'react-icons/bs'
 import { RiGithubLine } from 'react-icons/ri'
 import { FiLinkedin } from 'react-icons/fi'
 import './UserProfile.scss'
-import { UserInterface } from 'interfaces'
 import { useState, useEffect } from 'react'
 import { getOneUser } from 'utils/api'
 
@@ -155,5 +154,3 @@ export const UserProfile: React.FC = () => {
     </div>
   )
 }
-
-const Other = () => {}

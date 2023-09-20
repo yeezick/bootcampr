@@ -1,16 +1,14 @@
-import { ProjectDetailsSidebar } from './ProjectDetailsSidebar'
 import './ProjectDetails.scss'
 import { MdOutlineArticle } from 'react-icons/md'
 import ProjectDetailsBanner from '../../../assets/Image/project-details-banner.png'
 import bootcamprIcon from '../../../assets/Image/bootcamprIcon.png'
 
-//TODO: fix brief overview icon box styling
+//TODO: fix page layout
 
 export const ProjectDetails = () => {
   return (
     <>
       <div className='project-details-container'>
-        <ProjectDetailsSidebar /> //TODO: take out sidebar
         <div className='page-container'>
           <div className='header-container'>
             <img src={ProjectDetailsBanner} alt='bee'></img>

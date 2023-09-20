@@ -1,182 +1,62 @@
 @import 'scss/variables';
 @import 'scss/mixins';
 
-/*ProjectDetailsSidebar */
 
-.project-details-sidebar {
-  align-items: center;
-  background-color: #fdfdfd;
+.project-details-container {
+  height: 100vh;
+}
+
+.page-container {
   display: flex;
   flex-direction: column;
-  height: 927px;
-  justify-content: space-between;
-  padding: 32px 0;
-  position: relative;
-  width: 248px;
 }
 
-  .nav-container {
-    align-items: center;
-    align-items: stretch;   //which align items??
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    margin: 24px 0 0;
-    padding: 0px 16px;
+.header-container {
+  flex-shrink: 0;
+  height: 278px;
+  img {
+    width: 100%;
   }
-
-  .nav-header {
-    align-items: center;
-    align-self: stretch;
-    display: flex;
-    gap:24px;
-
-    h1 {
-      color:#000;
-      font-family: $vep-font-family;
-      font-size: 24px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 33.6px;
-    }
-  }
-
-  .nav-links {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 216px;
-  }
-
-  .link {
-    color: #000;
-    // font-size: 14px;
-    // font-style: normal;       //do I need this code
-    // font-weight: 400;
-    // line-height: 400;
 }
 
-.project-details-link {
-  align-items: center;    //which align items
-  align-items: stretch;
-  display: flex;
-  padding: 16px;
-  gap: 16px;
-}
-
-.team-link {
+.banner-box-container {
   align-items: center;
-  align-items: stretch;     //which align items
+  background: #ffead0;
+  border-radius: 16px 0 0 16px;
   display: flex;
-  padding: 16px;
   gap: 16px;
+  margin: 0 0 0 100px;
+  padding: 16px 32px;
 }
 
-.calendar-link {
-  align-items: stretch;     //which align items
+.banner-text-container {
   align-items: center;
   display: flex;
+  flex: 1 0 0;
   gap: 16px;
-  padding: 16px;
 }
 
-.task-management-link {
-  align-items: center;     //which align items
-  align-items: stretch;
-  display: flex;
-  gap: 16px;
-  padding: 16px;
+.banner-img {
+  height: 68px;
+  width: 68px;
 }
 
-.submit-project-container {
-  align-items: flex-start;
-  align-self: stretch;
+.banner-text {
+  align-items: center;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin: auto 0 32px 0;
-  padding: 0px 16px;
+  gap: 32px;
 
-    .submit-btn {
-    align-items: center;
-    align-self: stretch;
-    background-color: #FA9413;
-    border: none;
-    border-radius: 4px;
+  h1 {
     color: #313335;
-    display: flex;
-    font-size: 16px;
-    font-weight: 500;
-    gap: 8px;
-    height: 51px;
-    justify-content: center;
-    line-height: 22.4px;
-    padding: 14px 24px;
-    width: 216px;
-    }
+    font-family: $vep-font-family;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 67.2px;
   }
+}
 
-  /* ProjectDetails */
-
-  .project-details-container {
-    display: flex;
-    // flex-direction: column;
-  }
-
-  .page-container {
-    // display: flex;
-    // flex-direction: column;
-  }
-
-  .header-container {
-    flex-shrink: 0;
-    height: 278px;
-
-    img{
-      width: 100%;
-    }
-  }
-
-  .banner-box-container {
-    align-items: center;
-    background: #ffead0;
-    border-radius: 16px 0 0 16px;
-    display: flex;
-    gap: 16px;
-    margin: 0 0 0 100px;
-    padding: 16px 32px;
-    width: 1192px;
-  }
-
-  .banner-text-container {
-    align-items: center;
-    display: flex;
-    flex: 1 0 0;
-    gap: 16px;
-  }
-
-  .banner-img {
-    height:68px;
-    width: 68px;
-  }
-
-  .banner-text {
-    align-items: center;
-    display: flex;
-    gap: 32px;
-
-    h1 {
-      color: #313335;
-      font-family: $vep-font-family;
-      font-size: 48px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 67.2px;
-    }
-  }
-
-  .overview-box-container {
+.overview-box-container {
   align-items: flex-start;
   background-color: #fdfdfd;
   display: flex;
@@ -222,7 +102,6 @@
   }
 }
 
-
 .brief-overview-text-container {
   align-items: flex-start;
   align-self: stretch;
@@ -235,35 +114,34 @@
 
 .brief-overview-header-container {
   h1 {
-    margin:0;
+    margin: 0;
   }
 }
 
 .problem {
-  p{
-    margin:0;
+  p {
+    margin: 0;
   }
 }
 
 .consider {
-  p{
+  p {
     margin: 0;
   }
-  
+
   ul {
     margin: 0;
   }
 }
 
 .deliverables {
-  p{
+  p {
     margin: 0;
   }
 }
 
 .scope {
-  p{
+  p {
     margin: 0;
   }
 }
-
