@@ -19,6 +19,7 @@ import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailCon
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { UnassignedProject } from 'screens/Project/UnassignedProject'
 import { AboutUs, HowTo } from 'screens/Landing'
+import { ForgotPasswordModal } from 'screens/Auth/ResetPassword/ForgotPasswordModal'
 
 function App() {
   return (
@@ -33,6 +34,10 @@ function App() {
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
+          <Route
+            path='/users/:id/reset-password/:token'
+            element={<ForgotPasswordModal />}
+          />
           {/* User */}
           <Route path='/availability' element={<AvailabilityDemoScreen />} />
           <Route path='/onboarding/:id' element={<Onboarding />} />

@@ -95,6 +95,8 @@ export const emptySignUp: SignUpInterface = {
 
 export const emptyPasswordData: PasswordFormData = {
   password: '',
+  currentPassword: '',
+  confirmPassword: '',
   newPassword: '',
   confirmNewPassword: '',
 }

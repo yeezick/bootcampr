@@ -3,9 +3,11 @@ import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { PasswordInputProps } from 'interfaces/components/Input'
 import { handleFormInputChange } from 'utils/helpers/stateHelpers'
+import { useLocation } from 'react-router-dom'
 
 export const PasswordInputs = (props: PasswordInputProps) => {
   const [passwordMatch, setPasswordMatch] = useState(null)
+  const location = useLocation()
   const propsWithPasswordMatch = {
     ...props,
     passwordMatch,
@@ -14,6 +16,9 @@ export const PasswordInputs = (props: PasswordInputProps) => {
 
   return (
     <div className='passwords-wrapper'>
+      {location.pathname !== '/sign-up' && (
+        <CurrentPassword {...propsWithPasswordMatch} name='currentPassword' />
+      )}
       <Password {...propsWithPasswordMatch} name='password' />
       <ConfirmPassword {...propsWithPasswordMatch} name='confirmPassword' />
     </div>
@@ -190,6 +195,40 @@ const PasswordCriteria = ({ criteria, errorState = 'neutral' }) => {
         </div>
       )}
       <p className={errorState}>{criteria}</p>
+    </div>
+  )
+}
+
+export const CurrentPassword = ({ formValues, name, setFormValues }) => {
+  const [inputType, setInputType] = useState('currentPassword')
+  const inputId = 'currentPassword'
+
+  const handlePasswordChange = e => {
+    handleFormInputChange(e, setFormValues)
+    console.log(formValues)
+  }
+
+  return (
+    <div className='password'>
+      <FormControl variant='standard'>
+        <label htmlFor={inputId}>Password</label>
+        <div className='adorned-input'>
+          <input
+            id={inputId}
+            name={name}
+            required
+            onChange={handlePasswordChange}
+            type={inputType}
+          />
+          <IconButton
+            className='eyecon'
+            aria-label='toggle password visibility'
+            onClick={() => toggleVisiblity(inputType, setInputType)}
+          >
+            {inputType === 'password' ? <Visibility /> : <VisibilityOff />}
+          </IconButton>
+        </div>
+      </FormControl>
     </div>
   )
 }
