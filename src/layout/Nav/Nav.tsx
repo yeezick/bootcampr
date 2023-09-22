@@ -1,9 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import {
-  getUserProfileImage,
-  selectAuthUser,
-} from 'utils/redux/slices/userSlice'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { MdArrowDropDown } from 'react-icons/md'
 import { BsFillChatLeftTextFill } from 'react-icons/bs'
@@ -11,7 +8,6 @@ import Logo from 'assets/Logo.svg'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
 import { useSocket } from 'components/Notifications/Socket'
 import Avatar from 'components/Avatar/Avatar'
-import './Nav.scss'
 import {
   selectChatUI,
   toggleChat,
@@ -19,22 +15,18 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { ChatIconBadge } from 'components/ChatDialog/ChatIconBadge/ChatIconBadge'
 import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
-import {
-  closeProjectPortal,
-  renderProjectPortal,
-} from 'utils/redux/slices/projectSlice'
+import { closeProjectPortal } from 'utils/redux/slices/projectSlice'
+import './Nav.scss'
 
 export const Nav = () => {
-  const [colored, setColored] = useState(false)
   const [notificationCount, setNotificationCount] = useState(0)
   const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const authUser = useAppSelector(selectAuthUser)
-  const { _id: userId } = authUser
+  const { _id: userId, project } = authUser
   const dispatch = useAppDispatch()
   const socketConnection = useSocket()
   const location = useLocation()
   const closeDropdown = () => setAnchorEl(null)
-  const projectPortalHandler = () => dispatch(renderProjectPortal())
 
   useEffect(() => {
     if (socketConnection) {
@@ -77,9 +69,9 @@ export const Nav = () => {
       <div className='navbar-wrapper'>
         <div className='header-list'>
           {userId && (
-            <div className='header-link' onClick={projectPortalHandler}>
-              Project portal
-            </div>
+            <Link className='header-link' to={`/project/${project}`}>
+              Project Portal
+            </Link>
           )}
           <Link className='header-link' to='/how-to'>
             How Bootcamper works

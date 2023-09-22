@@ -20,6 +20,7 @@ import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailCon
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { UnassignedProject } from 'screens/Project/UnassignedProject'
 import { AboutUs, HowTo } from 'screens/Landing'
+import { Email } from 'screens/Auth/Settings/Email'
 
 function App() {
   return (
@@ -47,8 +48,11 @@ function App() {
             path='/users/:id/update-email-confirmation'
             element={<UpdateEmailConfirmation />}
           />
-          <Route path='/users/:id/settings/:screen' element={<Settings />} />
-          <Route path='/users/:id/settings' element={<Settings />} />
+          {/* TODO: revisit and validate this approach over switching components */}
+          {/* <Route path='/users/:id/settings/:screen' element={<Settings />} /> */}
+          <Route path='/users/:id/settings' element={<Settings />}>
+            <Route path='email' element={<Email />} />
+          </Route>
           {/* Project */}
           <Route path='/all-projects' element={<AllProjects />} />
           <Route path='/project-completion' element={<ProjectCompletion />} />

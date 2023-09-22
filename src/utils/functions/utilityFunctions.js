@@ -1,3 +1,6 @@
+// Should be redone leveraging DayJs
+// Jira: BC-618
+
 export const formatTimestamp = timestamp => {
   const date = new Date(timestamp)
   const year = date.getFullYear().toString().slice(-2)

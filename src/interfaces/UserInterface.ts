@@ -26,6 +26,21 @@ export interface UserInterface {
   __v?: number
   _id?: string
 }
+export interface UiInterface {
+  sideMenu: SideMenuInterface
+}
+
+export interface SideMenuInterface {
+  active: boolean
+  links: SideMenuLinkInterface[]
+  title: string
+}
+
+export interface SideMenuLinkInterface {
+  label: string
+  route: string
+  onClick?: Function
+}
 
 export interface UiSliceInterface {
   auth: {
