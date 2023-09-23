@@ -1,16 +1,14 @@
 import { Link } from 'react-router-dom'
-import { AiFillStar } from 'react-icons/ai'
 import { logOut } from 'utils/api/users'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { logoutAuthUser, selectAuthUser } from 'utils/redux/slices/userSlice'
-import Avatar from 'components/Avatar/Avatar'
+import { logoutAuthUser } from 'utils/redux/slices/userSlice'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
 import { DomainLink } from 'layout/DomainLink'
+import { sideMenuIconMap } from 'utils/helpers'
 import './SideMenu.scss'
 
 export const SideMenu = () => {
-  const { _id: userId, firstName, lastName } = useAppSelector(selectAuthUser)
-  const { active, links, title } = useAppSelector(selectSideMenu)
+  const { title } = useAppSelector(selectSideMenu)
   const dispatch = useAppDispatch()
   const handleLogout = () => {
     logOut()
@@ -19,38 +17,36 @@ export const SideMenu = () => {
 
   return (
     <div className='sidemenu-container'>
-      <div className='current-user'>
-        {active ? (
-          <h1>{title}</h1>
-        ) : (
-          <>
-            <Avatar />
-            <div>
-              <p className='user-name'>
-                {firstName} {lastName}
-              </p>
-              <Link className='edit-profile' to={`/users/${userId}/edit`}>
-                Edit Profile
-              </Link>
-            </div>
-          </>
-        )}
+      <div className='title'>
+        <h2>{title}</h2>
       </div>
-      <div className='nav-links'>
-        {links &&
-          links.map(link => (
-            <DomainLink
-              className='link'
-              domain={link.domain}
-              route={link.route}
-            >
-              <AiFillStar size={18} viewBox={'0 0 1024 900'} /> {link.label}
-            </DomainLink>
-          ))}
-      </div>
+      <SideMenuLinks />
       <Link to={`/project-completion`}>
         <button className='completion-overflow-btn'>Submit Project</button>
       </Link>
     </div>
+  )
+}
+
+const SideMenuLinks = () => {
+  const { links } = useAppSelector(selectSideMenu)
+
+  return (
+    <div className='sidemenu-links'>
+      {links.map(link => (
+        <MenuLink linkDetails={link} />
+      ))}
+    </div>
+  )
+}
+
+const MenuLink = ({ linkDetails }) => {
+  const { domain, icon, label, route } = linkDetails
+  const LinkIcon = sideMenuIconMap[icon]
+
+  return (
+    <DomainLink className='link' domain={domain} route={route}>
+      <LinkIcon /> {label}
+    </DomainLink>
   )
 }
