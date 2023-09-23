@@ -12,7 +12,7 @@ import { RootState } from 'utils/redux/store'
 import PersonIcon from '@mui/icons-material/Person'
 
 // todo: auth.status should be its own slice
-// todo: sidebar & ui like notifications should be its own slice
+// todo: sidemenu & ui like notifications should be its own slice
 // todo: avatar should be consolidated with user slice
 // todo: lint errors can be fixed by renaming this module with .ts, this causes an issue with SVG component below.
 

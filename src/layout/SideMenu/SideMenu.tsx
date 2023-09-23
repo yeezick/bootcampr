@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { AiFillStar } from 'react-icons/ai'
 import { logOut } from 'utils/api/users'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
@@ -6,9 +6,9 @@ import { logoutAuthUser, selectAuthUser } from 'utils/redux/slices/userSlice'
 import Avatar from 'components/Avatar/Avatar'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
 import { DomainLink } from 'layout/DomainLink'
-import './Sidebar.scss'
+import './SideMenu.scss'
 
-export const Sidebar = () => {
+export const SideMenu = () => {
   const { _id: userId, firstName, lastName } = useAppSelector(selectAuthUser)
   const { active, links, title } = useAppSelector(selectSideMenu)
   const dispatch = useAppDispatch()
@@ -18,7 +18,7 @@ export const Sidebar = () => {
   }
 
   return (
-    <div className='sidebar-container'>
+    <div className='sidemenu-container'>
       <div className='current-user'>
         {active ? (
           <h1>{title}</h1>

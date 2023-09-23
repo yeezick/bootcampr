@@ -4,7 +4,6 @@ import {
   EmailSentConfirmation,
   EmailVerify,
   ExpiredLink,
-  Settings,
   SignIn,
   SignUp,
 } from 'screens/Auth'
@@ -21,6 +20,8 @@ import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { UnassignedProject } from 'screens/Project/UnassignedProject'
 import { AboutUs, HowTo } from 'screens/Landing'
 import { Email } from 'screens/Auth/Settings/Email'
+import { Password } from 'screens/Auth/Settings/Password'
+import { Account } from 'screens/Auth/Settings/Account'
 
 function App() {
   return (
@@ -50,8 +51,10 @@ function App() {
           />
           {/* TODO: revisit and validate this approach over switching components */}
           {/* <Route path='/users/:id/settings/:screen' element={<Settings />} /> */}
-          <Route path='/users/:id/settings' element={<Settings />}>
+          <Route path='/users/:id/settings'>
             <Route path='email' element={<Email />} />
+            <Route path='password' element={<Password />} />
+            <Route path='account' element={<Account />} />
           </Route>
           {/* Project */}
           <Route path='/all-projects' element={<AllProjects />} />

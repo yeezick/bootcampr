@@ -52,7 +52,7 @@ export const Nav = () => {
   }, [setNotificationCount, authUser, socketConnection])
 
   useEffect(() => {
-    // Close chat dialog and sidebar when URL path changes
+    // Close chat dialog and sideMenu when URL path changes
     dispatch(toggleChatClose())
   }, [dispatch, location])
 

@@ -7,7 +7,7 @@ import {
   uiStatus,
   updateAuthUser,
 } from 'utils/redux/slices/userSlice'
-import { Sidebar } from './'
+import { SideMenu } from './'
 import { Nav } from './'
 import { Footer } from 'layout/Footer/Footer'
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
@@ -67,17 +67,9 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
     <>
       <ScrollToTop />
       <Nav />
-      {sideMenu?.active && <Sidebar />}
-      <div>
-        <div
-          className={
-            location.pathname !== '/'
-              ? 'main-content-container'
-              : 'landing-main-content-container'
-          }
-        >
-          {children}
-        </div>
+      <div className='main-wrapper'>
+        {sideMenu?.active && <SideMenu />}
+        <div className={'main-content-container'}>{children}</div>
       </div>
       <Footer />
     </>
