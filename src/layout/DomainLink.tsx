@@ -6,7 +6,6 @@ interface DomainLinkProps {
   className?: string
   domain: string
   route: string
-  onClick?: Function | null
 }
 
 export const DomainLink: React.FC<DomainLinkProps> = ({

@@ -9,9 +9,6 @@ const initialState: UiInterface = {
   },
 }
 
-/**
- * Creates a slice for avatar with a single reducer to set the image URL.
- */
 const userInterface = createSlice({
   name: 'userInterface',
   initialState,

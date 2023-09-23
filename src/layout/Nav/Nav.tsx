@@ -15,8 +15,8 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { ChatIconBadge } from 'components/ChatDialog/ChatIconBadge/ChatIconBadge'
 import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
-import { closeProjectPortal } from 'utils/redux/slices/projectSlice'
 import './Nav.scss'
+import { DomainLink } from 'layout/DomainLink'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
@@ -54,7 +54,6 @@ export const Nav = () => {
   useEffect(() => {
     // Close chat dialog and sidebar when URL path changes
     dispatch(toggleChatClose())
-    dispatch(closeProjectPortal())
   }, [dispatch, location])
 
   return (
@@ -64,15 +63,27 @@ export const Nav = () => {
           <Link to='/'>
             <img src={Logo} alt='logo' />
           </Link>
+          <Link
+            className='header-link'
+            to={`/project/${project}`}
+            state={{ domain: 'project' }}
+          >
+            <p>portal</p>
+          </Link>
         </div>
       </div>
       <div className='navbar-wrapper'>
         <div className='header-list'>
-          {userId && (
-            <Link className='header-link' to={`/project/${project}`}>
+          {/* {userId && (
+            <DomainLink
+              className='header-link'
+              route={`/project/${project}`}
+              domain={'project'}
+            >
               Project Portal
-            </Link>
-          )}
+            </DomainLink>
+          )} */}
+
           <Link className='header-link' to='/how-to'>
             How Bootcamper works
           </Link>

@@ -86,9 +86,6 @@ const projectSlice = createSlice({
       state.projectPortal.renderProjectPortal =
         !state.projectPortal.renderProjectPortal
     },
-    closeProjectPortal: state => {
-      state.projectPortal.renderProjectPortal = false
-    },
   },
 })
 
@@ -130,7 +127,6 @@ export const {
   setProjectSuccess,
   setProjectFailure,
   renderProjectPortal,
-  closeProjectPortal,
 } = projectSlice.actions
 
 export default projectSlice.reducer
