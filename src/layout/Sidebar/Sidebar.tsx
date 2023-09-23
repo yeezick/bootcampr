@@ -9,23 +9,13 @@ import { DomainLink } from 'layout/DomainLink'
 import './Sidebar.scss'
 
 export const Sidebar = () => {
-  const {
-    _id: userId,
-    firstName,
-    lastName,
-    project,
-  } = useAppSelector(selectAuthUser)
+  const { _id: userId, firstName, lastName } = useAppSelector(selectAuthUser)
   const { active, links, title } = useAppSelector(selectSideMenu)
-  const sideMenu = useAppSelector(selectSideMenu)
-
   const dispatch = useAppDispatch()
-  const { state } = useLocation()
-
   const handleLogout = () => {
     logOut()
     dispatch(logoutAuthUser())
   }
-  console.log('sideMenu', sideMenu)
 
   return (
     <div className='sidebar-container'>

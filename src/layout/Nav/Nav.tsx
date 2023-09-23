@@ -63,18 +63,11 @@ export const Nav = () => {
           <Link to='/'>
             <img src={Logo} alt='logo' />
           </Link>
-          <Link
-            className='header-link'
-            to={`/project/${project}`}
-            state={{ domain: 'project' }}
-          >
-            <p>portal</p>
-          </Link>
         </div>
       </div>
       <div className='navbar-wrapper'>
         <div className='header-list'>
-          {/* {userId && (
+          {userId && (
             <DomainLink
               className='header-link'
               route={`/project/${project}`}
@@ -82,8 +75,7 @@ export const Nav = () => {
             >
               Project Portal
             </DomainLink>
-          )} */}
-
+          )}
           <Link className='header-link' to='/how-to'>
             How Bootcamper works
           </Link>
