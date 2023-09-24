@@ -4,6 +4,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { PasswordInputProps } from 'interfaces/components/Input'
 import { handleFormInputChange } from 'utils/helpers/stateHelpers'
 import { useLocation } from 'react-router-dom'
+import { ForgotPasswordModal } from 'screens/Auth/ResetPassword/ForgotPasswordModal'
 
 export const PasswordInputs = (props: PasswordInputProps) => {
   const [passwordMatch, setPasswordMatch] = useState(null)
@@ -201,11 +202,19 @@ const PasswordCriteria = ({ criteria, errorState = 'neutral' }) => {
 
 export const CurrentPassword = ({ formValues, name, setFormValues }) => {
   const [inputType, setInputType] = useState('currentPassword')
+  const [forgotPasswordModal, setForgotPasswordModal] = useState(false)
   const inputId = 'currentPassword'
 
   const handlePasswordChange = e => {
     handleFormInputChange(e, setFormValues)
-    console.log(formValues)
+  }
+
+  const openModal = () => {
+    setForgotPasswordModal(!forgotPasswordModal)
+  }
+
+  const closeModal = () => {
+    setForgotPasswordModal(false)
   }
 
   return (
@@ -228,6 +237,16 @@ export const CurrentPassword = ({ formValues, name, setFormValues }) => {
             {inputType === 'password' ? <Visibility /> : <VisibilityOff />}
           </IconButton>
         </div>
+        <div id='forgot-password-link' onClick={openModal}>
+          Forgot Password?
+        </div>
+        {forgotPasswordModal && (
+          <ForgotPasswordModal
+            onClose={closeModal}
+            onSuccessMessage='Email sent!'
+            onFailureMessage='An error occurred. Please check entered email and try again.'
+          />
+        )}
       </FormControl>
     </div>
   )

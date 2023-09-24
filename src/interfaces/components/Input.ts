@@ -12,7 +12,6 @@ export interface PasswordInputProps {
   password: string
   passwordErrors: object
   passwordInputName?: string
-  confirmPasswordInputName?: string
   setPasswordErrors: React.Dispatch<React.SetStateAction<PasswordErrors>>
   setFormValues:
     | React.Dispatch<React.SetStateAction<SignUpInterface>>

@@ -1,10 +1,4 @@
-import {
-  PasswordInputs,
-  Text,
-  Password,
-  ConfirmPassword,
-  CurrentPassword,
-} from 'components/Inputs'
+import { PasswordInputs } from 'components/Inputs'
 import { PasswordFormData } from 'interfaces/AccountSettingsInterface'
 import { useEffect, useState } from 'react'
 import { emptyPasswordData } from 'utils/data/userConstants'
@@ -14,11 +8,13 @@ import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 import { useDispatch } from 'react-redux'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import './Settings.scss'
 
 export const PasswordSettings = () => {
   const [formValues, setFormValues] =
     useState<PasswordFormData>(emptyPasswordData)
   const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>({})
+  const [isDisabled, toggleIsDisabled] = useState(true)
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useDispatch()
 
@@ -52,23 +48,28 @@ export const PasswordSettings = () => {
     }
   }
 
-  const handleCancel = () => {}
+  const handleCancel = () => {
+    toggleIsDisabled(true)
+  }
 
   const { password } = formValues
   return (
-    <form onSubmit={handleSubmit} autoComplete='off'>
+    <form className='settings-card' onSubmit={handleSubmit} autoComplete='off'>
       <PasswordInputs
         formValues={formValues}
         password={password}
         passwordErrors={passwordErrors}
         setPasswordErrors={setPasswordErrors}
         setFormValues={setFormValues}
+        passwordInputName='reset-password'
       />
-      <div className='form-btn'>
-        <button onClick={handleCancel}>Cancel</button>
-      </div>
-      <div className='form-btn'>
-        <button type='submit'>Reset Password</button>
+      <div className='buttons'>
+        <button className='cancel' onClick={handleCancel}>
+          Cancel
+        </button>
+        <button className='update' type='submit' disabled={isDisabled}>
+          Reset
+        </button>
       </div>
     </form>
   )
