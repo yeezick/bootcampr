@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { logOut } from 'utils/api/users'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { logoutAuthUser } from 'utils/redux/slices/userSlice'
+import { logoutAuthUser, selectProjectId } from 'utils/redux/slices/userSlice'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
 import { DomainLink } from 'layout/DomainLink'
 import { sideMenuIconMap } from 'utils/helpers'
@@ -9,6 +9,7 @@ import './SideMenu.scss'
 
 export const SideMenu = () => {
   const { title } = useAppSelector(selectSideMenu)
+  const project = useAppSelector(selectProjectId)
   const dispatch = useAppDispatch()
   const handleLogout = () => {
     logOut()
@@ -21,7 +22,10 @@ export const SideMenu = () => {
         <h2>{title}</h2>
       </div>
       <SideMenuLinks />
-      <Link className='project-completion-link' to={`/project-completion`}>
+      <Link
+        className='project-completion-link'
+        to={`/project/${project}/complete`}
+      >
         <button className='completion-overflow-btn'>Submit Project</button>
       </Link>
     </div>
