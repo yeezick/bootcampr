@@ -28,7 +28,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
   const location = useLocation()
   const dispatch = useAppDispatch()
   const status = useAppSelector(uiStatus)
-  const { _id: userId, project } = useAppSelector(selectAuthUser)
+  const { project } = useAppSelector(selectAuthUser)
   const sideMenu = useAppSelector(selectSideMenu)
   const [searchParams, setSearchParams] = useSearchParams()
   const { state } = location
@@ -45,7 +45,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
 
   useEffect(() => {
     if (state) {
-      determineSideMenu(state.domain, project, userId)
+      determineSideMenu(dispatch, state.domain, project)
     } else {
       dispatch(resetSideMenu())
     }

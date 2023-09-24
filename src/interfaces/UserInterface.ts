@@ -1,4 +1,8 @@
+import { SvgIconTypeMap } from '@mui/material'
+import { OverridableComponent } from '@mui/material/OverridableComponent'
 import { ProjectInterface } from 'interfaces'
+
+export type DomainStrings = 'project' | 'settings' | string
 
 export interface UserInterface {
   availability?: AvailabilityInterface
@@ -28,6 +32,11 @@ export interface UserInterface {
 }
 export interface UiInterface {
   sideMenu: SideMenuInterface
+}
+export interface SideMenuIconMapInterface {
+  [key: string]: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
+    muiName: string
+  }
 }
 
 export interface SideMenuInterface {
