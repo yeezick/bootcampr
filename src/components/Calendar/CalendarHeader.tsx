@@ -13,15 +13,15 @@ export const CalendarHeader = () => {
         <h2>Calendar</h2>
       </div>
       <div className='header-button'>
-        <PurpleButon onClick={openMeetingModal} variant='contained'>
+        <PurpleButton onClick={openMeetingModal} variant='contained'>
           + Create Meeting
-        </PurpleButon>
+        </PurpleButton>
       </div>
     </div>
   )
 }
 
-const PurpleButon = styled(Button)(() => ({
+const PurpleButton = styled(Button)(() => ({
   backgroundColor: '#8048C8',
   marginRight: '42px',
 }))
