@@ -1,96 +1,59 @@
-import { AllTickets } from 'components/Kanban'
-import { ProjectInterface } from 'interfaces'
-import { useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { getOneProject, getOneUser, verifyTokenExpiration } from 'utils/api'
-import { Checkbox } from '@mui/material'
-import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
-import { toggleChatOpen } from 'utils/redux/slices/chatSlice'
-import './Project.scss'
+import './ProjectDetails.scss'
 
 export const ProjectDetails = () => {
-  const location = useLocation()
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const authUser = useAppSelector(selectAuthUser)
-  const queryParams = new URLSearchParams(location.search)
-  const queryToken = queryParams.get('unread')
-  const queryUserId = queryParams.get('user')
-  const [emailLinkClicked, setEmailLinkClicked] = useState(false)
-  const { id } = useParams()
-  const [projectDetail, setProjectDetails] = useState<ProjectInterface | null>(
-    null
-  )
-
-  useEffect(() => {
-    if (queryToken) {
-      const validateToken = async () => {
-        try {
-          const isTokenExpired = await verifyTokenExpiration(queryToken)
-
-          if (isTokenExpired) {
-            navigate('/sign-in')
-          } else {
-            fetchUser()
-          }
-        } catch (error) {
-          console.error('Failed to verify token expiration:', error)
-        }
-      }
-      validateToken()
-
-      const fetchUser = async () => {
-        const user = await getOneUser(queryUserId)
-        dispatch(updateAuthUser(user))
-        localStorage.setItem('bootcamprAuthToken', queryToken)
-
-        navigate(`/project/${user.project}`)
-        setEmailLinkClicked(true)
-      }
-    }
-
-    if (authUser._id && !authUser.project) {
-      navigate('/project/unassigned')
-    }
-  }, [])
-
-  useEffect(() => {
-    emailLinkClicked && dispatch(toggleChatOpen())
-  }, [authUser.project, emailLinkClicked, dispatch])
-
-  useEffect(() => {
-    const getProject = async () => {
-      try {
-        const project = await getOneProject(id)
-        setProjectDetails(project)
-      } catch (error) {
-        console.error('Failed to fetch project details:', error)
-      }
-    }
-    getProject()
-  }, [id])
-
   return (
-    <div className='Project'>
-      <div>
-        <div className='Project-header'>
-          <h1>Kanban board</h1>
-        </div>
-        <div className='Project-filter'>
-          <span>
-            <Checkbox />
-            <p>All Task</p>
-          </span>
-          <span>
-            <Checkbox />
-            <p>My Task</p>
-          </span>
+    <>
+      <div className='project-details-container'>
+        <div className='page-container'>
+          <div className='header-container'>
+            <img src='project-details-header-1.png' alt='bee'></img>
+          </div>
+          <div className='banner-box-container'>
+            <div className='banner-text-container'>
+              <div className='banner-img'>
+                <img src='bootcamprB.png' alt='bootcampr-logo'></img>
+              </div>
+              <div className='banner-text'>
+                <h1>Bootcampr</h1>
+              </div>
+            </div>
+          </div>
+          <div className='overview-box-container'>
+            <div className='overview-text-container'>
+              <div className='brief-overview-header-container'>
+                <h1> Brief Overview </h1>
+              </div>
+              <div className='brief-overview-text-container'>
+                <p>
+                  <b>Project:</b>
+                  <br></br>
+                  Design and ship a responsive website.
+                  <br />
+                  <b>Problem:</b>
+                  <br />
+                  How might we connect people with similar travel plans/
+                  interests?
+                  <br />
+                  <b>Consider:</b>
+                  <br />
+                  <b>Deliverables:</b>
+                  <br />
+                  UXD: High-fidelity prototype to handoff to developers
+                  <br />
+                  SWE: Deployed full-stack website
+                  <br />
+                  <b>Scope:</b>
+                  <br />
+                  4 weeks
+                  <br />
+                  Submit Minimum Viable Product Website
+                  <br />
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div>
-        {projectDetail && <AllTickets projectTracker={projectDetail} />}
-      </div>
-    </div>
+    </>
   )
 }

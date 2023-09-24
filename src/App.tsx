@@ -12,7 +12,7 @@ import { Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { ProjectCompletion } from './screens/ProjectCompletion/ProjectCompletion'
-import { AllProjects, ProjectDetails } from 'screens/Project'
+import { AllProjects, ProjectDetails, Team } from 'screens/Project'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import './App.css'
 import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailConfirmation'
@@ -51,6 +51,7 @@ function App() {
           <Route path='/all-projects' element={<AllProjects />} />
           <Route path='/project-completion' element={<ProjectCompletion />} />
           <Route path='/project/:id' element={<ProjectDetails />} />
+          <Route path='/project/:id/team' element={<Team />} />
           <Route path='/project/:id/calendar' element={<CalendarScreen />} />
           <Route path='/project/unassigned' element={<UnassignedProject />} />
         </Routes>
