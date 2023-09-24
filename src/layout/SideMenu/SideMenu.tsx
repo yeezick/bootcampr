@@ -21,7 +21,7 @@ export const SideMenu = () => {
         <h2>{title}</h2>
       </div>
       <SideMenuLinks />
-      <Link to={`/project-completion`}>
+      <Link className='project-completion-link' to={`/project-completion`}>
         <button className='completion-overflow-btn'>Submit Project</button>
       </Link>
     </div>
