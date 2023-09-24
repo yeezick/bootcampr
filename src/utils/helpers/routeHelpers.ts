@@ -66,20 +66,18 @@ export const buildSettingsPortalLinks = userId => [
     route: `/users/${userId}/settings/account`,
   },
 ]
-export const buildSideMenu = (type, userId, project) => {
-  let finalSideMenu = { active: true, links: [], title: '' }
-  if (type === 'project') {
-    finalSideMenu = {
-      ...finalSideMenu,
-      links: buildProjectPortalLinks(userId, project),
-      title: 'Project Portal',
-    }
-  } else if (type === 'settings') {
-    finalSideMenu = {
-      ...finalSideMenu,
-      links: buildSettingsPortalLinks(project),
-      title: 'Settings',
-    }
+export const buildSettingsSideMenu = project => {
+  return {
+    active: true,
+    links: buildSettingsPortalLinks(project),
+    title: 'Settings',
   }
-  return finalSideMenu
+}
+
+export const buildProjectPortalSideMenu = (userId, projectId) => {
+  return {
+    active: true,
+    links: buildProjectPortalLinks(userId, projectId),
+    title: 'Project Portal',
+  }
 }

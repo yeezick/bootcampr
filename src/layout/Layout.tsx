@@ -11,7 +11,7 @@ import { SideMenu } from './'
 import { Nav } from './'
 import { Footer } from 'layout/Footer/Footer'
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
 import {
   setSideMenu,
@@ -19,7 +19,10 @@ import {
   selectSideMenu,
 } from 'utils/redux/slices/userInterfaceSlice'
 import './Layout.scss'
-import { buildSideMenu } from 'utils/helpers'
+import {
+  buildProjectPortalSideMenu,
+  buildSettingsSideMenu,
+} from 'utils/helpers'
 
 type Props = {
   children: React.ReactNode
@@ -31,8 +34,8 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
   const status = useAppSelector(uiStatus)
   const { _id: userId, project } = useAppSelector(selectAuthUser)
   const sideMenu = useAppSelector(selectSideMenu)
-  const { state } = useLocation()
-
+  const [searchParams, setSearchParams] = useSearchParams()
+  const { state } = location
   useEffect(() => {
     const verifyUser = async () => {
       const authUser = await verify()
@@ -46,18 +49,34 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
 
   useEffect(() => {
     if (state) {
-      const { domain } = state
-      if (domain === 'project') {
-        dispatch(setSideMenu(buildSideMenu('project', userId, project)))
-      } else if (domain === 'settings') {
-        dispatch(setSideMenu(buildSideMenu('settings', userId, project)))
-      } else {
-        dispatch(resetSideMenu())
-      }
+      determineSideMenu(state.domain, project, userId)
     } else {
       dispatch(resetSideMenu())
     }
   }, [state])
+
+  /**
+   * This function determines the domain when manually routing to the app from an email link
+   * The email link requires the domain query param.
+   * Ex: ?domain=project
+   * TODO: This will not work for users who copy-paste urls.
+   */
+  useEffect(() => {
+    const domain = searchParams.get('domain')
+    if (domain) {
+      determineSideMenu(domain, project, userId)
+    }
+  }, [])
+
+  const determineSideMenu = (domain, projectId, userId) => {
+    if (domain === 'project') {
+      dispatch(setSideMenu(buildProjectPortalSideMenu(userId, projectId)))
+    } else if (domain === 'settings') {
+      dispatch(setSideMenu(buildSettingsSideMenu(projectId)))
+    } else {
+      dispatch(resetSideMenu())
+    }
+  }
 
   if (status.isLoading) {
     return <Loader />

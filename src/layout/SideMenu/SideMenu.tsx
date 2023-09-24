@@ -45,7 +45,12 @@ const MenuLink = ({ linkDetails }) => {
   const LinkIcon = sideMenuIconMap[icon]
 
   return (
-    <DomainLink className='link' domain={domain} route={route}>
+    <DomainLink
+      className='link'
+      domain={domain}
+      key={`${domain}-${route}`}
+      route={route}
+    >
       <LinkIcon /> {label}
     </DomainLink>
   )
