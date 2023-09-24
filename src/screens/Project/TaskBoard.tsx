@@ -27,6 +27,7 @@ export const TaskBoard = () => {
   )
 
   // TODO: Following logic to verify user and determine routing should be done at a layout/auth layer, not the responsibility of the rendered component
+  // Jira: BC-619
   useEffect(() => {
     if (queryToken) {
       const validateToken = async () => {

@@ -67,7 +67,7 @@ export const Nav = () => {
       </div>
       <div className='navbar-wrapper'>
         <div className='header-list'>
-          {userId && (
+          {project && (
             <DomainLink
               className='header-link'
               route={`/project/${project}`}

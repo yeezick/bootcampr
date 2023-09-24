@@ -5,6 +5,10 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import {
+  resetSideMenu,
+  setSideMenu,
+} from 'utils/redux/slices/userInterfaceSlice'
 
 export const navigateToDomain = (navigate, route, domain) =>
   navigate(route, { state: { domain } })
@@ -19,7 +23,7 @@ export const sideMenuIconMap = {
   tasks: ChecklistOutlinedIcon,
 }
 
-export const buildProjectPortalLinks = (userId, projectId) => [
+export const buildProjectPortalLinks = projectId => [
   {
     domain: 'project',
     icon: 'description',
@@ -74,10 +78,20 @@ export const buildSettingsSideMenu = project => {
   }
 }
 
-export const buildProjectPortalSideMenu = (userId, projectId) => {
+export const buildProjectPortalSideMenu = projectId => {
   return {
     active: true,
-    links: buildProjectPortalLinks(userId, projectId),
+    links: buildProjectPortalLinks(projectId),
     title: 'Project Portal',
+  }
+}
+
+export const determineSideMenu = (dispatch, domain, projectId) => {
+  if (domain === 'project') {
+    dispatch(setSideMenu(buildProjectPortalSideMenu(projectId)))
+  } else if (domain === 'settings') {
+    dispatch(setSideMenu(buildSettingsSideMenu(projectId)))
+  } else {
+    dispatch(resetSideMenu())
   }
 }

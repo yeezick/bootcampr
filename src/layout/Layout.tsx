@@ -14,21 +14,17 @@ import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
 import { useLocation, useSearchParams } from 'react-router-dom'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
 import {
-  setSideMenu,
   resetSideMenu,
   selectSideMenu,
 } from 'utils/redux/slices/userInterfaceSlice'
 import './Layout.scss'
-import {
-  buildProjectPortalSideMenu,
-  buildSettingsSideMenu,
-} from 'utils/helpers'
+import { determineSideMenu } from 'utils/helpers'
 
-type Props = {
+type LayoutProps = {
   children: React.ReactNode
 }
 
-export const Layout: React.FC<Props> = ({ children }: Props) => {
+export const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
   const location = useLocation()
   const dispatch = useAppDispatch()
   const status = useAppSelector(uiStatus)
@@ -64,19 +60,9 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
   useEffect(() => {
     const domain = searchParams.get('domain')
     if (domain) {
-      determineSideMenu(domain, project, userId)
+      determineSideMenu(dispatch, domain, project)
     }
   }, [])
-
-  const determineSideMenu = (domain, projectId, userId) => {
-    if (domain === 'project') {
-      dispatch(setSideMenu(buildProjectPortalSideMenu(userId, projectId)))
-    } else if (domain === 'settings') {
-      dispatch(setSideMenu(buildSettingsSideMenu(projectId)))
-    } else {
-      dispatch(resetSideMenu())
-    }
-  }
 
   if (status.isLoading) {
     return <Loader />
