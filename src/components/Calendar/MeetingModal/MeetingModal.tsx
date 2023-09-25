@@ -38,6 +38,7 @@ import {
 } from 'utils/redux/slices/calendarSlice'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import './MeetingModalStyles.scss'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -54,12 +55,17 @@ export const MeetingModal = () => {
   const modalDisplayStatus = useAppSelector(selectModalDisplayStatus)
   const displayedEvent = useAppSelector(selectDisplayedEvent)
   const radioGroupRef = useRef(null)
+  const authUser = useAppSelector(selectAuthUser)
   const projectMembers = useAppSelector(selectMembersAsTeam)
   const calendarId = useAppSelector(selectCalendarId)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (modalDisplayStatus === 'create') {
+      const updatedAttendees = { ...attendees }
+      updatedAttendees[authUser.email] = true
+      setAttendees(updatedAttendees)
+
       toggleVisibleModal(true)
     } else if (modalDisplayStatus === 'edit') {
       const { description, gDateFields, location, summary } = displayedEvent
@@ -115,10 +121,12 @@ export const MeetingModal = () => {
 
   const handleInviteAll = () => {
     if (projectMembers) {
-      const updatedAttendance = {}
+      const updatedAttendance = { ...attendees }
       projectMembers?.forEach(member => {
         // inviteAll is the current state
-        updatedAttendance[member.email] = !inviteAll
+        if (member.email !== authUser.email) {
+          updatedAttendance[member.email] = !inviteAll
+        }
       })
       setAttendees(updatedAttendance)
       toggleInviteAll(!inviteAll)
@@ -227,6 +235,7 @@ export const MeetingModal = () => {
               />
 
               <SelectAttendees
+                authUser={authUser}
                 attendees={attendees}
                 inviteAll={inviteAll}
                 handleInviteAll={handleInviteAll}
