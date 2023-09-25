@@ -111,7 +111,7 @@ export const AllTickets = ({ projectTracker }) => {
     setMyTaskChecked(true)
 
     if (getAllTicket) {
-      const newProjectDetail: any = {
+      const newProjectDetail = {
         projectTracker: {
           toDo: filterOutTickets('toDo'),
           inProgress: filterOutTickets('inProgress'),
