@@ -3,21 +3,21 @@ import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { PasswordInputProps } from 'interfaces/components/Input'
 import { handleFormInputChange } from 'utils/helpers/stateHelpers'
-import { useLocation } from 'react-router-dom'
 import { ForgotPasswordModal } from 'screens/Auth/ResetPassword/ForgotPasswordModal'
 
 export const PasswordInputs = (props: PasswordInputProps) => {
   const [passwordMatch, setPasswordMatch] = useState(null)
-  const location = useLocation()
+  const { passwordInputName } = props
   const propsWithPasswordMatch = {
     ...props,
     passwordMatch,
     setPasswordMatch,
+    passwordInputName,
   }
 
   return (
     <div className='passwords-wrapper'>
-      {location.pathname !== '/sign-up' && (
+      {passwordInputName === 'settings-pwd-reset' && (
         <CurrentPassword {...propsWithPasswordMatch} name='currentPassword' />
       )}
       <Password {...propsWithPasswordMatch} name='password' />
@@ -192,7 +192,7 @@ const PasswordCriteria = ({ criteria, errorState = 'neutral' }) => {
     <div className='password-criteria'>
       {errorState === 'criteria-met' && (
         <div>
-          <img src='./check.png' className='criteria-check' />
+          <img src='/check.png' className='criteria-check' />
         </div>
       )}
       <p className={errorState}>{criteria}</p>

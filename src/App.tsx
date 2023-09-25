@@ -19,7 +19,7 @@ import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailCon
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { UnassignedProject } from 'screens/Project/UnassignedProject'
 import { AboutUs, HowTo } from 'screens/Landing'
-import { ForgotPasswordModal } from 'screens/Auth/ResetPassword/ForgotPasswordModal'
+import { ResetPassword } from 'screens/Auth/Settings/Password'
 
 function App() {
   return (
@@ -40,7 +40,7 @@ function App() {
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
           <Route
             path='/users/:id/reset-password/:token'
-            element={<ForgotPasswordModal />}
+            element={<ResetPassword />}
           />
           {/* User */}
           <Route path='/onboarding/:id' element={<Onboarding />} />

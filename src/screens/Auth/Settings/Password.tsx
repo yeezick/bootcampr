@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { emptyPasswordData } from 'utils/data/userConstants'
 import { PasswordErrors } from 'interfaces/components/Input'
 import { updateUsersPassword } from 'utils/api'
-import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 import { useDispatch } from 'react-redux'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
@@ -14,7 +14,7 @@ export const PasswordSettings = () => {
   const [formValues, setFormValues] =
     useState<PasswordFormData>(emptyPasswordData)
   const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>({})
-  const [isDisabled, toggleIsDisabled] = useState(true)
+  const [isDisabled, toggleIsDisabled] = useState(false)
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useDispatch()
 
@@ -24,15 +24,14 @@ export const PasswordSettings = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    const reformatValues = {
+    const reqBody = {
       password: formValues.currentPassword,
       newPassword: formValues.password,
       confirmNewPassword: formValues.confirmPassword,
     }
-    const passwordData = await updateUsersPassword(reformatValues, authUser._id)
+    const passwordData = await updateUsersPassword(reqBody, authUser._id)
     const severity = passwordData.status >= 400 ? 'error' : 'success'
-    console.log(severity)
-    console.log(passwordData.message)
+
     if (passwordData) {
       dispatch(
         createSnackBar({
@@ -52,7 +51,9 @@ export const PasswordSettings = () => {
     toggleIsDisabled(true)
   }
 
-  const { password } = formValues
+  const { password, currentPassword } = formValues
+
+  useFormValidation(formValues, currentPassword, toggleIsDisabled)
   return (
     <form className='settings-card' onSubmit={handleSubmit} autoComplete='off'>
       <PasswordInputs
@@ -61,10 +62,10 @@ export const PasswordSettings = () => {
         passwordErrors={passwordErrors}
         setPasswordErrors={setPasswordErrors}
         setFormValues={setFormValues}
-        passwordInputName='reset-password'
+        passwordInputName='settings-pwd-reset'
       />
       <div className='buttons'>
-        <button className='cancel' onClick={handleCancel}>
+        <button className='cancel' type='button' onClick={handleCancel}>
           Cancel
         </button>
         <button className='update' type='submit' disabled={isDisabled}>
@@ -73,4 +74,74 @@ export const PasswordSettings = () => {
       </div>
     </form>
   )
+}
+
+export const ResetPassword = () => {
+  const [formValues, setFormValues] =
+    useState<PasswordFormData>(emptyPasswordData)
+  const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>({})
+  const [isDisabled, toggleIsDisabled] = useState(true)
+  const { password } = formValues
+
+  useFormValidation(formValues, password, toggleIsDisabled)
+
+  return (
+    <div>
+      <form className='settings-card'>
+        <PasswordInputs
+          formValues={formValues}
+          password={password}
+          passwordErrors={passwordErrors}
+          setPasswordErrors={setPasswordErrors}
+          setFormValues={setFormValues}
+          passwordInputName='email-pwd-reset'
+        />
+        <div className='buttons'>
+          <button className='update' type='submit' disabled={isDisabled}>
+            Reset Password
+          </button>
+        </div>
+      </form>
+    </div>
+  )
+}
+
+export const useFormValidation = (
+  formValues,
+  requiredField,
+  toggleIsDisabled
+) => {
+  const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>({})
+
+  useEffect(() => {
+    const validateForm = () => {
+      const { confirmPassword, password } = formValues
+      const emptyForm = () => {
+        if (requiredField === '') {
+          return false
+        } else {
+          return true
+        }
+      }
+      const passwordHasErrors = Object.values(passwordErrors).some(error =>
+        ['neutral', 'criteria-not-met'].includes(error)
+      )
+
+      const passwordsMatch = () => {
+        if (confirmPassword === '' || password === '' || passwordHasErrors) {
+          return false
+        } else if (confirmPassword !== password) {
+          return false
+        }
+        return true
+      }
+
+      if (emptyForm && passwordsMatch()) {
+        return toggleIsDisabled(false)
+      } else {
+        return toggleIsDisabled(true)
+      }
+    }
+    validateForm()
+  }, [formValues, passwordErrors, requiredField, toggleIsDisabled])
 }
