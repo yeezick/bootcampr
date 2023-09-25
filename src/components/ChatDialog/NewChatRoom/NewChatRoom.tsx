@@ -11,6 +11,7 @@ import {
 } from 'utils/api/chat'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
+  onScreenUpdate,
   selectConversation,
   setCurrentConversation,
   setSelectedMember,
@@ -20,7 +21,7 @@ import { isMemberSelected } from 'utils/functions/chatLogic'
 import { MemberThumbnail } from 'components/ChatDialog/MemberThumbnail/MemberThumbnail'
 import './NewChatRoom.scss'
 
-export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
+export const NewChatRoom = ({ chatScreen }) => {
   const dispatch = useAppDispatch()
   const currentConversation = useAppSelector(selectConversation)
   const authUser = useAppSelector(selectAuthUser)
@@ -146,10 +147,10 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
         _id: currentConversation._id,
         isGroup: true,
         participants: projectMembers,
-        displayName: `${currentDisplayName}, ${newMembersName}`, // Updated displayName
+        displayName: `${currentDisplayName}, ${newMembersName}`,
       })
     )
-    onScreenUpdate(ChatScreen.EditChatRoom)
+    dispatch(onScreenUpdate(ChatScreen.EditChatRoom))
   }
 
   const handleSubmitNewChatRoom = async () => {
@@ -179,7 +180,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
           displayName: participantsNames,
         })
       )
-      onScreenUpdate(ChatScreen.Messages)
+      dispatch(onScreenUpdate(ChatScreen.Messages))
     } else {
       const participants = selectedMembers.map(member => member._id)
       // Selected member to add to PRIVATE conversation
@@ -204,7 +205,7 @@ export const NewChatRoom = ({ chatScreen, onScreenUpdate }) => {
           profilePicture: selectedMembers[0].profilePicture,
         })
       )
-      onScreenUpdate(ChatScreen.Messages)
+      dispatch(onScreenUpdate(ChatScreen.Messages))
     }
   }
 

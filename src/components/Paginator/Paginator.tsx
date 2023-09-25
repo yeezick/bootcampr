@@ -15,17 +15,20 @@ import {
   PageItem,
   PageRouter,
 } from 'interfaces/components/Paginator'
+import { useSearchParams } from 'react-router-dom'
 import './paginator.scss'
 
 export const Paginator = ({ exitRoute, orderedPages }) => {
   const [currentPage, setCurrentPage] = useState<PageItem>(initialCurrentPage)
   const [pageRouter, setPageRouter] = useState<PageRouter>(initialPageRouter)
+  const [searchParams, setSearchParams] = useSearchParams()
   const { component: CurrentPageComponent, props: currentPageProps } =
     currentPage
 
   useEffect(() => {
     const buildPageRouter = (): PageRouter => {
       const allPages = {}
+      let firstPageId: string
 
       for (let i = 0; i < orderedPages.length; i++) {
         let newPage = orderedPages[i]
@@ -33,7 +36,14 @@ export const Paginator = ({ exitRoute, orderedPages }) => {
         let nextPage = orderedPages[i + 1]
         let previousPage = orderedPages[i - 1]
         allPages[newPageId] = buildPage(newPage, nextPage, previousPage)
-        if (i === 0) setCurrentPage(allPages[newPageId]) // if this is the first page, set it as the current
+        if (i === 0) firstPageId = newPageId
+      }
+
+      const urlPageId = searchParams.get('pageId')
+      if (urlPageId && Object.keys(allPages).includes(urlPageId)) {
+        setCurrentPage(allPages[urlPageId])
+      } else {
+        setCurrentPage(allPages[firstPageId])
       }
 
       return {
@@ -51,7 +61,7 @@ export const Paginator = ({ exitRoute, orderedPages }) => {
     type: 'next' | 'previous' | 'specific',
     specificPageId?: string
   ) => {
-    const pageHandlers = { setCurrentPage, setPageRouter }
+    const pageHandlers = { setCurrentPage, setPageRouter, setSearchParams }
     let pageProps: NavigationState = { currentPage, pageRouter }
     if (type === 'next') {
       handleNextPage(pageHandlers, pageProps)

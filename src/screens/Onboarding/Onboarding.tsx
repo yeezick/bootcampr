@@ -1,32 +1,32 @@
 import { Paginator } from 'components/Paginator/Paginator'
-import { OnboardingSetUpProfile } from './OnboardingSetUpProfile'
+import { SetUpProfile } from './SetUpProfile'
+import { Role } from './Role'
+import { WhatsNext } from './WhatsNext'
 import './Onboarding.scss'
-import { OnboardingIncomplete } from './OnboardingIncomplete'
-import { OnboardingLastScreen } from './OnboardingLastScreen'
-import { Two } from './Two'
+import { SetupAvailability } from './SetupAvailability'
 
 export const Onboarding = () => {
   const orderedPages = [
     {
-      component: OnboardingIncomplete,
+      component: Role,
       title: 'Role',
     },
     {
-      component: Two,
-      title: 'Two',
+      component: SetupAvailability,
+      title: 'Availability',
     },
     {
-      component: OnboardingSetUpProfile,
+      component: SetUpProfile,
       title: 'Set up profile',
     },
     {
-      component: OnboardingLastScreen,
+      component: WhatsNext,
       title: "What's next",
     },
   ]
   return (
     <div className='onboarding'>
-      <div className='onboarding-pag-container'>
+      <div className='onboarding-page-container'>
         <Paginator exitRoute='/' orderedPages={orderedPages} />
       </div>
     </div>

@@ -1,12 +1,12 @@
 import { PasswordFormData } from 'interfaces/AccountSettingsInterface'
 import {
-  Availability,
+  AvailabilityInterface,
   SignUpInterface,
   UiSliceInterface,
   UserInterface,
 } from 'interfaces/UserInterface'
 
-export const defaultAvailability: Availability = {
+export const defaultAvailability: AvailabilityInterface = {
   SUN: {
     available: false,
     availability: [],

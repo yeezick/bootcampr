@@ -1,7 +1,7 @@
 import { ProjectInterface } from 'interfaces'
 
 export interface UserInterface {
-  availability?: Availability
+  availability?: AvailabilityInterface
   bio?: string
   declinedProjects?: ProjectInterface[]
   email: string
@@ -103,7 +103,7 @@ export const timeOptions = [
 
 export type TimeOption = (typeof timeOptions)[0]
 
-export interface Availability {
+export interface AvailabilityInterface {
   SUN:
     | string
     | {

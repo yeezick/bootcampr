@@ -2,31 +2,35 @@ import { useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import { useSelector } from 'react-redux'
-import { fetchProjectCalendar } from 'utils/api/calendar'
+import { fetchUserCalendar } from 'utils/api/calendar'
 import { selectCalendarId } from 'utils/redux/slices/projectSlice'
 import {
   convertGoogleEventsForCalendar,
   parseCalendarEventForMeetingInfo,
 } from 'utils/helpers/calendarHelpers'
-import { useAppDispatch } from 'utils/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectConvertedEventsAsArr,
   setDisplayedEvent,
   storeConvertedEvents,
 } from 'utils/redux/slices/calendarSlice'
 import { DisplayMeetingModal } from 'components/Calendar/MeetingModal/DisplayMeetingModal'
+import { selectUserEmail } from 'utils/redux/slices/userSlice'
 
 export const CalendarView = () => {
-  const calendarId = useSelector(selectCalendarId)
-  const convertedEventsAsArr = useSelector(selectConvertedEventsAsArr)
+  const calendarId = useAppSelector(selectCalendarId)
+  const convertedEventsAsArr = useAppSelector(selectConvertedEventsAsArr)
+  const userEmail = useAppSelector(selectUserEmail)
   const [isLoading, setIsLoading] = useState(true)
   const dispatch = useAppDispatch()
 
   // TODO: only hydrate calendar with events in user.meetings
   useEffect(() => {
     const fetchAllEvents = async () => {
-      const googleCalendarEvents = await fetchProjectCalendar(calendarId)
+      const googleCalendarEvents = await fetchUserCalendar(
+        calendarId,
+        userEmail
+      )
       setIsLoading(false)
       dispatch(
         storeConvertedEvents(

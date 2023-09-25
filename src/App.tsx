@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import { Layout } from 'layout'
 import {
+  EmailSentConfirmation,
   EmailVerify,
   ExpiredLink,
   Settings,
@@ -12,7 +13,6 @@ import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { ProjectCompletion } from './screens/ProjectCompletion/ProjectCompletion'
 import { AllProjects, ProjectDetails } from 'screens/Project'
-import { AvailabilityDemoScreen } from 'screens/TempFeatures/Availability'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import './App.css'
 import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailConfirmation'
@@ -31,6 +31,10 @@ function App() {
           <Route path='/how-to' element={<HowTo />} />
           {/* Auth */}
           <Route path='/sign-up' element={<SignUp />} />
+          <Route
+            path='/sign-up/:id/confirmation-email-sent'
+            element={<EmailSentConfirmation />}
+          />
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
@@ -39,7 +43,6 @@ function App() {
             element={<ForgotPasswordModal />}
           />
           {/* User */}
-          <Route path='/availability' element={<AvailabilityDemoScreen />} />
           <Route path='/onboarding/:id' element={<Onboarding />} />
           <Route path='/users/:id' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />

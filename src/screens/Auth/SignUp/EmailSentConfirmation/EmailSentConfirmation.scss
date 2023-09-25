@@ -1,0 +1,46 @@
+.email-confirmation-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0 auto;
+  margin-top: 200px;
+  text-align: center;
+  width: 682px;
+
+  .message-content {
+    &.header {
+      font-size: 38px;
+      font-weight: 600;
+      margin: 0;
+      margin-bottom: 45px;
+    }
+
+    &.subheader {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0;
+      margin-bottom: 15px;
+    }
+
+    &.text {
+      font-size: 16px;
+      font-weight: 400;
+      margin-bottom: 50px;
+      width: 463px;
+    }
+  }
+
+  button {
+    background: none;
+    border: none;
+    color: #8048c8;
+    cursor: pointer;
+    font-size: 14px;
+    width: fit-content;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

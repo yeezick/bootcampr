@@ -1,4 +1,6 @@
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { timeOptions } from '../utils/data'
+import { updateAvailability } from 'utils/api'
 
 // TODO: handle case where time slot B end time is earlier than timeslot A end time
 // Consider if using Math.min / Math.max could help consolidate better
@@ -103,6 +105,35 @@ export const getNextTimeslot = currentTime => {
   return index
     ? [timeOptions[index + 1], timeOptions[index + 2]]
     : ['9:00 PM', '5:00 PM']
+}
+
+/**
+ * Save Availability
+ * @param dispatch The callback returned from `useAppDispatch`
+ * @param userId Auth user ID
+ * @param {AvailabilityInterface} days State object representing the user's availability object
+ */
+export const saveAvailability = async (dispatch, userId, days) => {
+  const updated = await updateAvailability(userId, days)
+  if (updated.status) {
+    dispatch(
+      createSnackBar({
+        isOpen: true,
+        message: 'Your availability has been updated!',
+        duration: 3000,
+        severity: 'success',
+      })
+    )
+  } else {
+    dispatch(
+      createSnackBar({
+        isOpen: true,
+        message: 'Something went wrong please try again',
+        duration: 3000,
+        severity: 'error',
+      })
+    )
+  }
 }
 
 /**
