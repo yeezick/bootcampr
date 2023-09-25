@@ -1,8 +1,7 @@
 import { useEffect } from 'react'
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
-import { checkIfAllMembersInvited } from 'utils/helpers'
+import { checkIfAllMembersInvited, removeAuthUserFromList } from 'utils/helpers'
 import './MeetingModal'
-import { removeAuthUserFromList } from 'utils/helpers/projectHelpers'
 
 export const SelectAttendees = ({
   authUser,

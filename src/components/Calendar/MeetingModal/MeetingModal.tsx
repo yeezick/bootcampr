@@ -17,6 +17,7 @@ import {
   selectCalendarId,
   selectMembersAsTeam,
 } from 'utils/redux/slices/projectSlice'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { SelectAttendees } from './SelectAttendees'
 import { DateFields } from './DateFields'
 import { createEvent, updateEvent } from 'utils/api/events'
@@ -38,7 +39,6 @@ import {
 } from 'utils/redux/slices/calendarSlice'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import './MeetingModalStyles.scss'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
