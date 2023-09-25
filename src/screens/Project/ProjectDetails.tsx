@@ -17,6 +17,8 @@ export const ProjectDetails = () => {
   const queryParams = new URLSearchParams(location.search)
   const queryToken = queryParams.get('unread')
   const queryUserId = queryParams.get('user')
+  const [allTaskChecked, setAllTaskChecked] = useState(true)
+  const [myTaskChecked, setMyTaskChecked] = useState(false)
   const [emailLinkClicked, setEmailLinkClicked] = useState(false)
   const { id } = useParams()
   const [projectDetail, setProjectDetails] = useState<ProjectInterface | null>(
@@ -70,7 +72,33 @@ export const ProjectDetails = () => {
     }
     getProject()
   }, [id])
+  const onlyGetMyTicket = () => {
+    setAllTaskChecked(false)
+    setMyTaskChecked(true)
+    console.log('onlyGetMyTicket', projectDetail)
+    if (projectDetail) {
+      const myTickets = Object.keys(projectDetail?.projectTracker)?.map(
+        tickets => {
+          return projectDetail?.projectTracker[tickets]?.filter(ticket => {
+            return ticket?.assignee === authUser?._id
+          })
+        }
+      )
+      const newProjectDetail = {
+        ...projectDetail,
+        projectTracker: {
+          ...projectDetail.projectTracker,
+        },
+      }
+      setProjectDetails(newProjectDetail)
+    }
+  }
 
+  const getAllTickets = () => {
+    setAllTaskChecked(true)
+    setMyTaskChecked(false)
+    setProjectDetails(projectDetail)
+  }
   return (
     <div className='Project'>
       <div>
@@ -79,11 +107,14 @@ export const ProjectDetails = () => {
         </div>
         <div className='Project-filter'>
           <span>
-            <Checkbox />
+            <Checkbox checked={allTaskChecked} onClick={getAllTickets} />
             <p>All Task</p>
           </span>
           <span>
-            <Checkbox />
+            <Checkbox
+              onClick={() => onlyGetMyTicket()}
+              checked={myTaskChecked}
+            />
             <p>My Task</p>
           </span>
         </div>
