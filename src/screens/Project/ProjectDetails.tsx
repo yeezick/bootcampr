@@ -72,53 +72,9 @@ export const ProjectDetails = () => {
     }
     getProject()
   }, [id])
-  const onlyGetMyTicket = () => {
-    setAllTaskChecked(false)
-    setMyTaskChecked(true)
-    console.log('onlyGetMyTicket', projectDetail)
-    if (projectDetail) {
-      const myTickets = Object.keys(projectDetail?.projectTracker)?.map(
-        tickets => {
-          return projectDetail?.projectTracker[tickets]?.filter(ticket => {
-            return ticket?.assignee === authUser?._id
-          })
-        }
-      )
-      const newProjectDetail = {
-        ...projectDetail,
-        projectTracker: {
-          ...projectDetail.projectTracker,
-        },
-      }
-      setProjectDetails(newProjectDetail)
-    }
-  }
 
-  const getAllTickets = () => {
-    setAllTaskChecked(true)
-    setMyTaskChecked(false)
-    setProjectDetails(projectDetail)
-  }
   return (
     <div className='Project'>
-      <div>
-        <div className='Project-header'>
-          <h1>Kanban board</h1>
-        </div>
-        <div className='Project-filter'>
-          <span>
-            <Checkbox checked={allTaskChecked} onClick={getAllTickets} />
-            <p>All Task</p>
-          </span>
-          <span>
-            <Checkbox
-              onClick={() => onlyGetMyTicket()}
-              checked={myTaskChecked}
-            />
-            <p>My Task</p>
-          </span>
-        </div>
-      </div>
       <div>
         {projectDetail && <AllTickets projectTracker={projectDetail} />}
       </div>
