@@ -1,33 +1,20 @@
 @import 'scss/variables';
 @import 'scss/mixins';
 
-body {
-  @include font-properties();
-}
-
 .userProfile {
   $this: &;
 
-  &__backArrow, &__icons {
-    height: 16px !important;
-    width: 16px !important;
+  &__icons {
+    height: 20px;
+    width: 20px;
   }
 
-  &__backBtn, &__imageChange {
+  &__imageChange {
     color: #470d91 !important;
   }
 
-  &__backContainer, &__heading, &__titleContainer {
+  &__heading {
     @include flex(row);
-  }
-
-  &__backContainer {
-    margin: 17px 0 0 24px;
-
-    p {
-      @include font-properties((size: 14px, line-height: 16px));
-      margin: 0 0 0 12px !important;
-    }
   }
 
   &__cameraIcon {
@@ -42,30 +29,55 @@ body {
   &__container {
     background-color: #ffffff;
     border-radius: 4px;
-    margin: $vep-margin auto auto;
-    max-width: 799px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin: 64px auto auto;
+    width: 612px;
+    padding: 32px;
   }
 
   &__editBtn {
-    @include font-properties((size: 16px, weight: 500, line-height: 22px));
-    background-color: #8048c8;
-    border: none;
+    align-items: center;
+    @include font-properties(
+      (
+        size: 14px,
+        weight: 500,
+        line-height: 20px,
+      )
+    );
+    background-color: #fff;
+    border: 1px solid #5c6bc0;
     border-radius: 4px;
-    color: #fefefe;
+    color: #1a237e;
     cursor: pointer;
-    height: 43px;
-    margin: $vep-margin $vep-margin auto auto;
-    padding: 10px 16px;
-    width: 115px;
+    display: flex;
+    gap: 8px;
+    height: 40px;
+    justify-content: center;
+    margin: 1px 1px auto auto;
+    padding: 0 24px;
+    width: 118px;
   }
 
   h3 {
-    @include font-properties((size: 16px, weight: 400, line-height: 22px));
-    max-height: 23px;
+    @include font-properties(
+      (
+        size: 16px,
+        weight: 400,
+        line-height: 24px,
+      )
+    );
   }
 
   &__heading {
-    @include font-properties((size: 32px, weight: 500, line-height: 45px));
+    @include font-properties(
+      (
+        size: 32px,
+        weight: 500,
+        line-height: 45px,
+      )
+    );
     margin: auto;
     max-height: 45px;
     max-width: 799px;
@@ -73,14 +85,10 @@ body {
   }
 
   &__icons {
-    color: black !important;
-    padding: 15px 0 0 0 !important;
+    color: #212121;
   }
 
   &__image {
-    height: 121px;
-    width: min-content;
-
     .non-clickable {
       border: none;
       border-radius: 100%;
@@ -95,42 +103,63 @@ body {
     font-size: 16px !important;
   }
 
-  &__infoContainer, &__linksContainer, &__title {
+  &__infoContainer,
+  &__linksContainer,
+  &__title {
     @include flex(column);
   }
 
   &__infoContainer {
-    margin: $vep-margin 0 $vep-margin $vep-margin;
     max-width: 501px;
 
     h3 {
-      font-weight: 700 !important; 
+      font-weight: 700 !important;
     }
 
     p {
+      @include font-properties(
+        (
+          size: 16px,
+          weight: 400,
+          line-height: 24px,
+        )
+      );
       margin-top: 6px;
       margin: 0;
     }
   }
 
   &__link {
-    margin-bottom: 15px !important;
+    display: flex;
+    padding: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
 
   &__linksContainer {
-    margin: 0 0 $vep-margin $vep-margin;
-    padding: 0px;
+    align-items: baseline;
+    display: flex;
+    gap: 32px;
+    justify-content: center;
     width: 339px;
   }
 
   &__linkItem {
     @include flex();
+    gap: 8px;
 
-    h3, p, a {
-      font-weight: $vep-font-weight;
-      margin-left: 10px;
+    h3,
+    p,
+    a {
+      font-weight: 700;
       text-align: left;
       text-decoration: none;
+    }
+
+    a {
+      color: #1976d2;
+      text-decoration: underline;
     }
 
     p {
@@ -139,26 +168,45 @@ body {
   }
 
   &__linkLast {
-    margin-bottom: $vep-margin;
+    display: flex;
+    padding: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
 
   &__title {
-    margin-top: 37.5px !important;
-
     h2 {
-      @include font-properties((size: 24px, weight: 600, line-height: 34px));
-      color: $vep-default-color;
+      @include font-properties(
+        (
+          size: 16px,
+          weight: 400,
+          line-height: 24px,
+        )
+      );
+      color: #212121;
       margin: 0;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
 
     h3 {
-      @include font-properties((size: 16px, line-height: 22px));
-      margin-top: 8px;
+      @include font-properties(
+        (
+          size: 14px,
+          line-height: 20px,
+        )
+      );
+      text-overflow: ellipsis;
+      overflow: hidden;
+      color: #616161;
     }
   }
 
   &__titleContainer {
-    @include flex(row);
+    align-items: center;
+    display: flex;
+    gap: 16px;
   }
 
   &__urlNoBlue {

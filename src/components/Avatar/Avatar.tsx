@@ -31,6 +31,9 @@ const Avatar: React.FC<AvatarProps> = ({
   const imgClassName = clickable || setAnchorEl ? 'avatar-img' : 'non-clickable'
   const authUser = useAppSelector(selectAuthUser)
 
+  // console.log('Avatar Current profile pic', profilePicture)
+  // console.log('Avatar Is there a uploaded profile pic', hasUploadedProfilePicture)
+
   const handleClick = e => {
     if (clickable && openModal) {
       openModal()

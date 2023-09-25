@@ -14,7 +14,7 @@
 
 // Main
 .avatar-default-picture {
-  background-color: #FFA726;
+  background-color: #ffa726;
   border-radius: 50%;
   display: flex;
   flex-direction: column;
@@ -59,11 +59,11 @@
 .userProfile .avatar-default-picture {
   display: flex;
   flex-direction: column;
-  height: 100px;
+  height: 40px;
   justify-content: center;
-  margin: 20px 19px 0 20px;
+  margin: 0;
   text-align: center;
-  width: 100px;
+  width: 40px;
   cursor: default;
 }
 

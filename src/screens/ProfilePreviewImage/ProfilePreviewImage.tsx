@@ -6,6 +6,7 @@ import {
   setDefaultProfilePicture,
 } from 'utils/redux/slices/userSlice'
 import { updateUserImage, deleteUserImage } from '../../utils/api/services'
+import { updateUser } from 'utils/api'
 import ImageEditorModal from 'components/ImageEditorModal/ImageEditorModal'
 import { ProfilePreviewImageProps } from '../../interfaces/ProfileImageInterfaces'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
@@ -23,7 +24,6 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline'
 import { FiEdit } from 'react-icons/fi'
 import CameraAltIcon from '@mui/icons-material/CameraAltOutlined'
 import './ProfilePreviewImage.scss'
-import { updateUser } from 'utils/api'
 
 /**
  * ProfilePreviewImage component displays a preview of the profile image, allowing the user to add, edit, or delete the image.
@@ -34,8 +34,6 @@ import { updateUser } from 'utils/api'
  */
 
 // BUG: Profile preview picture size scss fix (Update): bypassing preview to edit photo box instead
-// BUG: Default Profile initials can't be replaced with new uploaded image
-// BUG: If user already has a profile picture and they want to change it with new one, it will instead default to profile initials and will save aws saved image but wont display it.
 // TODO: Ask UXE team on what will the image modal will show when theirs no photo (Update): I will need to reverse the order of what displays first when clicking icon button ex: click icon -> file search box -> Profile photo box -> Edit photo box
 
 const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
@@ -67,12 +65,10 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
    * @param {string} image - The uploaded image in base64 format.
    */
   const handleImageUpload = (image: string) => {
-    // Send request to update user's profile image in the database
-
     updateUserImage(userId, image)
       .then(() => {
         console.log('Image updated successfully')
-        dispatch(setUploadedImage(image)) // Update Redux state with the new image
+        dispatch(setUploadedImage(image))
       })
       .catch(err => console.error('Failed to update image:', err))
   }
@@ -93,7 +89,6 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
       URL.revokeObjectURL(uploadedImage)
     }
 
-    //Send request to delete user's profile image from the database
     try {
       const res = await deleteUserImage(userId)
       if (res.success) {
