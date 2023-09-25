@@ -17,6 +17,8 @@ export const ProjectDetails = () => {
   const queryParams = new URLSearchParams(location.search)
   const queryToken = queryParams.get('unread')
   const queryUserId = queryParams.get('user')
+  const [allTaskChecked, setAllTaskChecked] = useState(true)
+  const [myTaskChecked, setMyTaskChecked] = useState(false)
   const [emailLinkClicked, setEmailLinkClicked] = useState(false)
   const { id } = useParams()
   const [projectDetail, setProjectDetails] = useState<ProjectInterface | null>(
@@ -73,21 +75,6 @@ export const ProjectDetails = () => {
 
   return (
     <div className='Project'>
-      <div>
-        <div className='Project-header'>
-          <h1>Kanban board</h1>
-        </div>
-        <div className='Project-filter'>
-          <span>
-            <Checkbox />
-            <p>All Task</p>
-          </span>
-          <span>
-            <Checkbox />
-            <p>My Task</p>
-          </span>
-        </div>
-      </div>
       <div>
         {projectDetail && <AllTickets projectTracker={projectDetail} />}
       </div>
