@@ -1,6 +1,8 @@
 @import 'scss/variables';
 @import 'scss/mixins';
 
+// TODO: Invert background color once Layout CSS is fixed
+
 .userProfile {
   $this: &;
 
@@ -27,12 +29,12 @@
   }
 
   &__container {
-    background-color: #ffffff;
+    background-color: #fafafa;
     border-radius: 4px;
     display: flex;
     flex-direction: column;
     gap: 32px;
-    margin: 64px auto auto;
+    margin: 64px auto 0;
     width: 612px;
     padding: 32px;
   }

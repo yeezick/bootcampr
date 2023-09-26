@@ -14,14 +14,10 @@
 
 // Main
 .avatar-default-picture {
-  background-color: #ffa726;
-  border-radius: 50%;
   display: flex;
   flex-direction: column;
   height: 100px;
-  justify-content: flex-end;
-  margin: 20px 19px 0 20px;
-  text-align: center;
+  justify-content: flex-start;
   width: 100px;
   cursor: default;
 }
@@ -57,26 +53,20 @@
 
 // User Profile
 .userProfile .avatar-default-picture {
+  cursor: default;
   display: flex;
-  flex-direction: column;
   height: 40px;
   justify-content: center;
   margin: 0;
-  text-align: center;
   width: 40px;
-  cursor: default;
 }
 
 // Edit Profile
 .editprofile .avatar-default-picture {
-  display: flex;
-  flex-direction: column;
-  height: 100px;
-  justify-content: flex-start;
-  margin: 20px 19px 0 20px;
-  text-align: center;
-  width: 100px;
   cursor: default;
+  display: flex;
+  height: 96px;
+  width: 96px;
 }
 
 // SideBar
