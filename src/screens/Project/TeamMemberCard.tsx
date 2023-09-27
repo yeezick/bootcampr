@@ -1,19 +1,16 @@
-import './TeamMemberCard.scss'
-import Ellipse from '../../assets/Images/ellipse.png'
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import Avatar from 'components/Avatar/Avatar'
-import './ProjectDetails.scss'
-import {
-  selectAuthUser,
-  getUserProfileImage,
-} from 'utils/redux/slices/userSlice'
-import { useAppSelector } from 'utils/redux/hooks'
+import './Team.scss'
 
-export const TeamMemberCard = (member, loggedInUserId) => {
-  const authUser = useAppSelector(selectAuthUser)
-  const { _id: userId } = authUser
-  const navigate = useNavigate()
+//TODO make team member card true to figma,
+//TODO profile data functionality and how to link it to project
+//TODO: create profile to open up new tab
+//TODO add cursor pointer
+//TODO fetch Avatar (Profile Picture) data
+
+//add user props
+
+export const TeamMemberCard = ({ member, loggedInUserId }) => {
+  //TODO check projectId
   const isCurrentUser = member._id === loggedInUserId
 
   const handleProfileNavigation = () => {

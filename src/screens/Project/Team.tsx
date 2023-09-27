@@ -1,15 +1,19 @@
-import './Team.scss'
-import TeamBanner from '../../assets/Images/team-banner.png'
 import { useState } from 'react'
+import TeamBanner from '../../../assets/Image/team-header.png'
 import { TeamMemberCard } from './TeamMemberCard'
 import { BsThreeDotsVertical } from 'react-icons/bs'
+import './Team.scss'
 import { useSelector } from 'react-redux'
-import { selectProjectMembersByRole } from 'utils/redux/slices/projectSlice'
+import { selectMembersByRole } from 'utils/redux/slices/projectSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 
+//TODO: update withdrawal from project popup to be udner the three dots
+//TODO: update confirmation withdrawal modal to popup at the center of the page
+//TODO: fix styling to match Figma
+
 export const Team = () => {
-  const teamMembers = useSelector(selectProjectMembersByRole)
+  const teamMembers = useSelector(selectMembersByRole)
   console.log(teamMembers)
   const authUser = useAppSelector(selectAuthUser)
   const loggedInUserId = authUser?._id
@@ -23,7 +27,6 @@ export const Team = () => {
     setShowWithdrawModal(false)
     setShowConfirmationModal(false)
   }
-
   return (
     <>
       <div className='team-container'>

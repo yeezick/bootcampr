@@ -1,6 +1,6 @@
 import './ProjectDetails.scss'
-import ProjectDetailsBanner from '../../../assets/Image/project-details-banner.png'
 import { MdOutlineArticle } from 'react-icons/md'
+import ProjectDetailsBanner from '../../../assets/Image/project-details-banner.png'
 import bootcamprIcon from '../../../assets/Image/bootcamprIcon.png'
 
 export const ProjectDetails = () => {
@@ -34,29 +34,46 @@ export const ProjectDetails = () => {
                   <b>Project:</b>
                   <br></br>
                   Design and ship a responsive website.
-                  <br />
+                  <br></br>
                 </div>
-                <p>
-                  <b>Problem:</b>
-                  <br />
-                  How might we connect people with similar travel plans/
-                  interests?
-                  <br />
+                <div className='problem'>
+                  <p>
+                    <b>Problem:</b>
+                    <br />
+                    How might we connect people with similar travel plans/
+                    interests?
+                    <br />
+                  </p>
+                </div>
+                <div className='consider'>
                   <b>Consider:</b>
-                  <br />
-                  <b>Deliverables:</b>
-                  <br />
-                  UXD: High-fidelity prototype to handoff to developers
-                  <br />
-                  SWE: Deployed full-stack website
-                  <br />
-                  <b>Scope:</b>
-                  <br />
-                  4 weeks
-                  <br />
-                  Submit Minimum Viable Product Website
-                  <br />
-                </p>
+                  <ul>
+                    <li>Solo travelers</li>
+                    <li>Commuters</li>
+                    <li>Road trippers</li>
+                    <li>etc.</li>
+                  </ul>
+                </div>
+                <div className='deliverables'>
+                  <p>
+                    <b>Deliverables:</b>
+                    <br />
+                    UXD: High-fidelity prototype to handoff to developers
+                    <br />
+                    SWE: Deployed full-stack website
+                    <br />
+                  </p>
+                </div>
+                <div className='scope'>
+                  <p>
+                    <b>Scope:</b>
+                    <br />
+                    4 weeks
+                    <br />
+                    Submit Minimum Viable Product Website
+                    <br />
+                  </p>
+                </div>
               </div>
             </div>
           </div>
