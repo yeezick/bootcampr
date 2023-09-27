@@ -1,32 +1,49 @@
-/* ProjectDetails */
-.page-container {
+ /* ProjectDetails */
+.project-details-container {
+  display: flex
 }
+.page-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .header-container {
-  width: 1192px;
-  height: 278px;
   flex-shrink: 0;
-  background-color: #FA9413;
+  height: 278px;
+
+  img{
+    width: 100%;
+  }
 }
 
 .banner-box-container {
-  display: flex;
-  width: 1192px;
-  padding: 16px 32px;
   align-items: center;
-  gap: 16px;
-  border-radius: 16px 0 0 16px;
   background: #ffead0;
-}
-.banner-text-container {
+  border-radius: 16px 0 0 16px;
   display: flex;
-  align-items: center;
   gap: 16px;
-  flex: 1 0 0;
+  margin: 0 0 0 100px;
+  padding: 16px 32px;
+  width: 1192px;
 }
-.banner-text {
-  display: flex;
+
+.banner-text-container {
   align-items: center;
+  display: flex;
+  flex: 1 0 0;
+  gap: 16px;
+}
+
+.banner-img {
+  height:68px;
+  width: 68px;
+}
+
+.banner-text {
+  align-items: center;
+  display: flex;
   gap: 32px;
+
   h1 {
     color: #313335;
     font-family: $vep-font-family;
@@ -36,43 +53,90 @@
     line-height: 67.2px;
   }
 }
+
 .overview-box-container {
-display: flex;
-width: 992px;
-padding: 16px 32px;
-flex-direction: column;
 align-items: flex-start;
+background-color: #fdfdfd;
+display: flex;
+flex-direction: column;
 gap: 56px;
 margin: 40px 100px 59px 100px;
+padding: 16px 32px;
+width: 992px;
 }
+
 .overview-text-container {
-display: flex;
-background-color: #ffffff;
-flex-direction: column;
 align-items: flex-start;
-gap: 8px;
-align-items: stretch;
-margin: 16px 32px;
-}
-.brief-overview-header-container {
 display: flex;
-align-items: center;
+flex-direction: column;
 gap: 8px;
+position: relative;
+}
+
+.brief-overview-header-container {
+align-items: center;
 align-self: stretch;
+display: flex;
+flex: 0 0 auto;
+gap: 8px;
+position: relative;
+
+.heaader-icon {
+  height: 24px;
+  position: relative;
+  width: 24px;
+}
+
 h1 {
-  font-family: $pdt-font-family-2;
   color: #313335;
+  flex: 1;
+  font-family: $pdt-font-family-2;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
+  letter-spacing: 0;
   line-height: 33.6px;
+  margin-top: -1px;
 }
 }
+
+
 .brief-overview-text-container {
-display: flex;
-padding-left: 0px;
 align-items: flex-start;
-gap: 10px;
 align-self: stretch;
+display: flex;
+flex-direction: column;
 font-size: 16px;
+gap: 10px;
+padding-left: 0px;
+}
+
+.brief-overview-header-container {
+h1 {
+  margin:0;
+}
+}
+.problem {
+p{
+  margin:0;
+}
+}
+.consider {
+p{
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+}
+}
+.deliverables {
+p{
+  margin: 0;
+}
+}
+.scope {
+p{
+  margin: 0;
+}
 }

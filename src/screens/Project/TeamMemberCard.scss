@@ -1,0 +1,88 @@
+.team-member-card-container {
+  display: inline-flex;
+  flex-direction: row;
+}
+.profile-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  justify-content: center;
+  margin-left: 24px;
+  width: 167px;
+  
+}
+.profile-img-container {
+  align-items: center;
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+
+.profile-img {
+  clip-path: ellipse(88px 88px);
+  left:0;
+  object-fit: cover;
+  position: fixed;
+  top:0;
+
+}
+
+.profile-info-container {
+  align-items: center;
+  background: var(--white-ffffff, #FEFEFE);
+  border-radius: 8px;
+  box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8-px, 8px);
+  height: 104px;
+  margin: -8 0 0 0 ;
+  padding: 16px;
+  width: 176px;
+}
+.profile-name {
+  label {
+    height: 20px;
+    width: 144px;
+  }
+  padding: 0;
+}
+.profile-buttons {
+  display: flex;
+  flex-direction: row;
+}
+.profile-btn-container {
+  margin: 8px 8px 0 0;
+  text-decoration: none;
+}
+.profile-btn {
+  align-items: center;
+  background-color: var(--primary-primary, #FFA726);
+  border: none;
+  border-radius: 4px;
+  display:flex;
+  flex: 1 0 0;
+  gap: 8px;
+  justify-content: center;
+  padding: 4px 8px;
+  position: relative;
+  text-decoration: none;
+}
+.message-btn-container{
+  margin: 8px 0 0 0;
+}
+.message-btn {
+  align-items: center;
+  background-color: var(--primary-primary, #FFA726);
+  border: none;
+  border-radius: 4px;
+  display: flex;
+  flex: 1 0 0;
+  gap: 8px;
+  justify-content: center;
+  padding: 4px 8px;
+  position: relative;
+}

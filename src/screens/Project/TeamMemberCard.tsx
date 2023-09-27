@@ -1,7 +1,7 @@
 import './TeamMemberCard.scss'
 import Ellipse from '../../assets/Images/ellipse.png'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Avatar from 'components/Avatar/Avatar'
 import './ProjectDetails.scss'
 import {
@@ -10,9 +10,15 @@ import {
 } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 
-export const TeamMemberCard = () => {
+export const TeamMemberCard = (member, loggedInUserId) => {
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId } = authUser
+  const navigate = useNavigate()
+  const isCurrentUser = member._id === loggedInUserId
+
+  const handleProfileNavigation = () => {
+    navigate(`/users/${member._id}`)
+  }
 
   return (
     <>
@@ -23,21 +29,23 @@ export const TeamMemberCard = () => {
         <div className='profile-info-container'>
           <div className='profile-name'>
             <label>
-              {authUser.firstName} {authUser.lastName}
+              {member.firstName} {member.lastName}
             </label>
           </div>
           <div className='profile-role'>
-            <p>{authUser.role}</p>
+            <p>{member.role}</p>
           </div>
           <div className='profile-buttons'>
             <div className='profile-btn-container'>
-              <Link to={`/users/${userId}`}>
-                <button className='profile-btn'>Profile</button>
-              </Link>
+              <button onClick={handleProfileNavigation} className='profile-btn'>
+                Profile
+              </button>
             </div>
-            <div className='message-btn-container'>
-              <button className='message-btn'>Message</button>
-            </div>
+            {isCurrentUser ? null : (
+              <div className='message-btn-container'>
+                <button className='message-btn'>Message</button>
+              </div>
+            )}
           </div>
         </div>
       </div>
