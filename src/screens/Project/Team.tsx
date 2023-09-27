@@ -1,6 +1,7 @@
 import './Team.scss'
 import TeamBanner from '../../assets/Images/team-banner.png'
-import TeamMemberCard from './TeamMemberCard'
+import { TeamMemberCard } from './TeamMemberCard'
+import { BsThreeDotsVertical } from 'react-icons/bs'
 
 export const Team = () => {
   return (
@@ -14,12 +15,14 @@ export const Team = () => {
             <div className='banner-text-container'>
               <div className='banner-text'>
                 <h1>Team Members</h1>
+                <BsThreeDotsVertical size={24} />
               </div>
             </div>
           </div>
           <div className='software-engineer-container'>
             <div className='swe-text-container'></div>
             <h1>Software Engineers</h1>
+            <TeamMemberCard />
           </div>
           <div className='ux-designers-container'>
             <div className='ux-designers-text-container'></div>

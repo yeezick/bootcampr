@@ -1,5 +1,7 @@
 import './ProjectDetails.scss'
 import ProjectDetailsBanner from '../../../assets/Image/project-details-banner.png'
+import { MdOutlineArticle } from 'react-icons/md'
+import bootcamprIcon from '../../../assets/Image/bootcamprIcon.png'
 
 export const ProjectDetails = () => {
   return (
@@ -12,7 +14,7 @@ export const ProjectDetails = () => {
           <div className='banner-box-container'>
             <div className='banner-text-container'>
               <div className='banner-img'>
-                <img src='bootcamprB.png' alt='bootcampr-logo'></img>
+                <img src={bootcamprIcon} alt='bootcampr-logo'></img>
               </div>
               <div className='banner-text'>
                 <h1>Bootcampr</h1>
@@ -22,14 +24,19 @@ export const ProjectDetails = () => {
           <div className='overview-box-container'>
             <div className='overview-text-container'>
               <div className='brief-overview-header-container'>
+                <div className='header-icon'>
+                  <MdOutlineArticle />
+                </div>
                 <h1> Brief Overview </h1>
               </div>
               <div className='brief-overview-text-container'>
-                <p>
+                <div className='project'>
                   <b>Project:</b>
                   <br></br>
                   Design and ship a responsive website.
                   <br />
+                </div>
+                <p>
                   <b>Problem:</b>
                   <br />
                   How might we connect people with similar travel plans/
