@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import {
-  Availability,
+  AvailabilityInterface,
   SignUpInterface,
   UiSliceInterface,
   UserInterface,
@@ -91,7 +91,10 @@ const userSlice = createSlice({
         ...action.payload,
       }
     },
-    setUserAvailability: (state, action: PayloadAction<Availability>) => {
+    setUserAvailability: (
+      state,
+      action: PayloadAction<AvailabilityInterface>
+    ) => {
       state.auth.user.availability = action.payload
     },
     updateUnreadMessagesObj: (state, action: PayloadAction<object>) => {

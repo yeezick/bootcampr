@@ -3,14 +3,12 @@
 
 /* Onboarding main */
 .onboarding {
-  .onboarding-pag-container {
+  .onboarding-page-container {
     align-items: center;
-    background-color: #ffffff;
     border: 0 none;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    height: 1164px;
     margin: 64px auto auto;
     width: 800px;
   }
@@ -274,7 +272,6 @@
 
   &__profile-btns {
     @include flex(column, space-between, center);
-    background-color: #ffffff;
     gap: 32px;
     margin: auto 0 auto 50%;
     padding-top: 32px;

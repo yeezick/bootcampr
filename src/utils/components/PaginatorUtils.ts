@@ -1,11 +1,12 @@
 import { PageItem } from 'interfaces/components/Paginator'
 import { produce } from 'immer'
+import { useSearchParams } from 'react-router-dom'
 
 /**
  *  Navigation Handlers
  */
 export const handleSpecificPage = (pageHandlers, pageProps) => {
-  const { setCurrentPage, setPageRouter } = pageHandlers
+  const { setCurrentPage, setPageRouter, setSearchParams } = pageHandlers
   const { pageRouter, specificPageId } = pageProps
   const specificPage = pageRouter.allPages[specificPageId]
 
@@ -24,23 +25,24 @@ export const handleSpecificPage = (pageHandlers, pageProps) => {
 
   setCurrentPage(specificPage)
   setPageRouter({ ...pageRouter, currentPageId: specificPageId })
+  setSearchParams({ pageId: specificPageId })
 }
 
 export const handlePreviousPage = (pageHandlers, pageProps) => {
-  const { setCurrentPage, setPageRouter } = pageHandlers
+  const { setCurrentPage, setPageRouter, setSearchParams } = pageHandlers
   const { pageRouter, currentPage } = pageProps
   const previousPageId = currentPage.location.previous
   const previousPage = pageRouter.allPages[previousPageId]
   const updatedPageRouter = produce(draft => {
     draft.currentPageId = previousPageId
   })
-
   setCurrentPage(previousPage)
   setPageRouter(updatedPageRouter)
+  setSearchParams({ pageId: previousPageId })
 }
 
 export const handleNextPage = (pageHandlers, pageProps) => {
-  const { setCurrentPage, setPageRouter } = pageHandlers
+  const { setCurrentPage, setPageRouter, setSearchParams } = pageHandlers
   const { currentPage, pageRouter } = pageProps
   const nextPageId = currentPage.location.next
   const nextPage = pageRouter.allPages[nextPageId]
@@ -57,6 +59,7 @@ export const handleNextPage = (pageHandlers, pageProps) => {
 
   setCurrentPage({ ...nextPage })
   setPageRouter(updatedPageRouter)
+  setSearchParams({ pageId: nextPageId })
 }
 
 /**

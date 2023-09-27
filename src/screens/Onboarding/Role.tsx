@@ -2,15 +2,11 @@ import { useState } from 'react'
 import { updateUserProfile } from 'utils/api'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from 'utils/redux/hooks'
-import {
-  selectAuthUser,
-  updateProfile,
-  updateAuthUser,
-} from 'utils/redux/slices/userSlice'
+import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
 import { FiArrowRight } from 'react-icons/fi'
 import { useParams } from 'react-router-dom'
 
-export const OnboardingIncomplete = ({ handlePageNavigation }) => {
+export const Role = ({ handlePageNavigation }) => {
   const dispatch = useDispatch()
   const [selectedRole, setSelectedRole] = useState('')
   const [buttonEnabled, setButtonEnabled] = useState(false)

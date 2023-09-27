@@ -109,6 +109,16 @@ export const verifyTokenExpiration = async token => {
   }
 }
 
+export const resendNewEmailLink = async (userId: string) => {
+  try {
+    const res = await api.post(`/users/${userId}/expired-link`)
+    return res
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
+
 export const updateUsersEmail = async (
   formData: PasswordFormData | EmailFormData,
   userId: string | undefined

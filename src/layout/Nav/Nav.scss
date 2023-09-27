@@ -62,16 +62,16 @@ nav {
     justify-content: flex-end;
     gap: 24px;
 
-    .message-container {
+    .nav-icons-container {
+      align-items: center;
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 4px;
     }
 
-    .avatar {
-      margin-left: 16px;
+    .account.avatar {
       height: 50px;
+      margin-left: 16px;
     }
 
     .account {
