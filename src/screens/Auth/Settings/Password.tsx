@@ -89,13 +89,10 @@ export const ResetPassword = () => {
   const dispatch = useDispatch()
   const { password } = formValues
 
-  console.log(formValues)
-
   const handleReset = async e => {
     e.preventDefault()
 
     const reqBody = {
-      password: formValues.currentPassword,
       newPassword: formValues.password,
       confirmNewPassword: formValues.confirmPassword,
     }
