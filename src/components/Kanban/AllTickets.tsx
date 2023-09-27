@@ -14,12 +14,21 @@ import kanbanImage from './svg/bootcampr.png'
 import './Ticket.scss'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { SnackBarToastInterface } from 'interfaces/SnackBarToast'
+import { Checkbox } from '@mui/material'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
 export const AllTickets = ({ projectTracker }) => {
+  const [allTaskChecked, setAllTaskChecked] = useState(true)
+  const [myTaskChecked, setMyTaskChecked] = useState(false)
+  const dispatch = useAppDispatch()
+  const authUser = useAppSelector(selectAuthUser)
+
   const { id } = useParams()
   const [getAllTicket, setGetAllTicket] = useState(
     projectTracker?.projectTracker
   )
+
   const { members } = projectTracker
   const handleOnDragEnd = movingTicket => {
     if (movingTicket) {
@@ -61,6 +70,7 @@ export const AllTickets = ({ projectTracker }) => {
       ],
       [targetCategory]: [...addToNewSection],
     })
+
     updateTicketInformationAndStatus({
       projectId: id,
       newStatus: targetCategory,
@@ -96,8 +106,53 @@ export const AllTickets = ({ projectTracker }) => {
     return noTicket
   }
 
+  const onlyGetMyTicket = () => {
+    setAllTaskChecked(false)
+    setMyTaskChecked(true)
+
+    if (getAllTicket) {
+      const newProjectDetail = {
+        projectTracker: {
+          toDo: filterOutTickets('toDo'),
+          inProgress: filterOutTickets('inProgress'),
+          underReview: filterOutTickets('underReview'),
+          completed: filterOutTickets('completed'),
+        },
+      }
+      setGetAllTicket({
+        ...newProjectDetail.projectTracker,
+      })
+    }
+  }
+
+  const filterOutTickets = objectKey => {
+    return getAllTicket[objectKey].filter(
+      assign => assign.assignee === authUser._id
+    )
+  }
+
+  const getAllTickets = () => {
+    setAllTaskChecked(true)
+    setMyTaskChecked(false)
+    setGetAllTicket(projectTracker.projectTracker)
+  }
   return (
     <div className='AllTickets'>
+      <div>
+        <div className='Project-header'>
+          <h1>Kanban board</h1>
+        </div>
+        <div className='Project-filter'>
+          <span>
+            <Checkbox checked={allTaskChecked} onClick={getAllTickets} />
+            <p>All tasks</p>
+          </span>
+          <span>
+            <Checkbox onClick={onlyGetMyTicket} checked={myTaskChecked} />
+            <p>My tasks</p>
+          </span>
+        </div>
+      </div>
       <div
         className={`${
           checkIfTheresNoTicket()
