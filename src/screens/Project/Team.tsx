@@ -1,5 +1,6 @@
 import './Team.scss'
 import TeamBanner from '../../assets/Images/team-banner.png'
+import TeamMemberCard from './TeamMemberCard'
 
 export const Team = () => {
   return (
@@ -19,6 +20,13 @@ export const Team = () => {
           <div className='software-engineer-container'>
             <div className='swe-text-container'></div>
             <h1>Software Engineers</h1>
+          </div>
+          <div className='ux-designers-container'>
+            <div className='ux-designers-text-container'></div>
+            <h1>UX Designers</h1>
+          </div>
+          <div>
+            <TeamMemberCard />
           </div>
         </div>
       </div>
