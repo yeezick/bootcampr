@@ -13,16 +13,16 @@ import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
 import Avatar from 'components/Avatar/Avatar'
 import {
   Box,
-  Button,
   Dialog,
   DialogTitle,
   DialogActions,
   DialogContent,
+  IconButton,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import DeleteIcon from '@mui/icons-material/DeleteOutline'
-import { FiEdit } from 'react-icons/fi'
-import CameraAltIcon from '@mui/icons-material/CameraAltOutlined'
+import { RiFileEditLine } from 'react-icons/ri'
+import { GrTrash } from 'react-icons/gr'
+import { MdOutlineCameraEnhance } from 'react-icons/md'
 import './ProfilePreviewImage.scss'
 
 /**
@@ -166,36 +166,36 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
           <DialogActions className='profile-preview__actions'>
             <Box className='profile-preview__action-box'>
               <Box className='profile-preview__edit-box'>
-                <Button
-                  variant='outlined'
-                  className='profile-preview__edit-btn'
-                  onClick={openImageEditor}
-                >
-                  <div className='profile-preview__btn-container'>
-                    <FiEdit className='profile-preview__edit-icon' />
-                    Edit
-                  </div>
-                </Button>
-                <Button
-                  variant='outlined'
-                  className='profile-preview__add-btn'
-                  onClick={handleOpenFileInput}
-                >
-                  <div className='profile-preview__btn-container'>
-                    <CameraAltIcon className='profile-preview__add-icon' />
-                    Add photo
-                  </div>
-                </Button>
-                <Button
-                  variant='outlined'
-                  className='profile-preview__delete-btn'
-                  onClick={handleDiscardChanges}
-                >
-                  <div className='profile-preview__btn-container'>
-                    <DeleteIcon className='profile-preview__delete-icon' />
-                    Delete
-                  </div>
-                </Button>
+                <div className='profile-preview__btn-container'>
+                  <IconButton
+                    aria-label='edit'
+                    className='profile-preview__edit-btn'
+                    onClick={openImageEditor}
+                  >
+                    <RiFileEditLine className='profile-preview__edit-icon' />
+                  </IconButton>
+                  <p>Edit</p>
+                </div>
+                <div className='profile-preview__btn-container'>
+                  <IconButton
+                    aria-label='change'
+                    className='profile-preview__add-btn'
+                    onClick={handleOpenFileInput}
+                  >
+                    <MdOutlineCameraEnhance className='profile-preview__add-icon' />
+                  </IconButton>
+                  <p>Change photo</p>
+                </div>
+                <div className='profile-preview__btn-container'>
+                  <IconButton
+                    aria-label='delete'
+                    className='profile-preview__delete-btn'
+                    onClick={handleDiscardChanges}
+                  >
+                    <GrTrash className='profile-preview__delete-icon' />
+                  </IconButton>
+                  <p>Delete</p>
+                </div>
               </Box>
             </Box>
           </DialogActions>
