@@ -33,6 +33,7 @@ export const Password = ({
   setFormValues,
   setPasswordErrors,
   setPasswordMatch,
+  passwordInputName,
 }) => {
   const [inputType, setInputType] = useState('password')
   const inputId = 'password'
@@ -88,7 +89,9 @@ export const Password = ({
   return (
     <div className='password'>
       <FormControl variant='standard'>
-        <label htmlFor={inputId}>Password</label>
+        <label htmlFor={inputId}>
+          {passwordInputName === 'sign-up' ? 'Password' : 'New Password'}
+        </label>
         <div className='adorned-input'>
           <input
             id={inputId}
@@ -220,7 +223,7 @@ export const CurrentPassword = ({ formValues, name, setFormValues }) => {
   return (
     <div className='password'>
       <FormControl variant='standard'>
-        <label htmlFor={inputId}>Password</label>
+        <label htmlFor={inputId}>Current Password</label>
         <div className='adorned-input'>
           <input
             id={inputId}
@@ -237,17 +240,17 @@ export const CurrentPassword = ({ formValues, name, setFormValues }) => {
             {inputType === 'password' ? <Visibility /> : <VisibilityOff />}
           </IconButton>
         </div>
-        <div id='forgot-password-link' onClick={openModal}>
-          Forgot Password?
-        </div>
-        {forgotPasswordModal && (
-          <ForgotPasswordModal
-            onClose={closeModal}
-            onSuccessMessage='Email sent!'
-            onFailureMessage='An error occurred. Please check entered email and try again.'
-          />
-        )}
       </FormControl>
+      <div id='forgot-password-link' onClick={openModal}>
+        Forgot Password?
+      </div>
+      {forgotPasswordModal && (
+        <ForgotPasswordModal
+          onClose={closeModal}
+          onSuccessMessage='Email sent!'
+          onFailureMessage='An error occurred. Please check entered email and try again.'
+        />
+      )}
     </div>
   )
 }

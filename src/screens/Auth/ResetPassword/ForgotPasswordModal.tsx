@@ -67,7 +67,7 @@ export const ForgotPasswordModal = ({
           Enter the email address you used to sign up. <br></br>
           We'll send you an email to reset your password.
         </div>
-        <form onSubmit={handleSubmit}>
+        <div>
           <input
             className='email-input'
             type='email'
@@ -78,11 +78,11 @@ export const ForgotPasswordModal = ({
             <button className='cancel-reset' onClick={onClose}>
               Cancel
             </button>
-            <button className='reset-password-btn' type='submit'>
+            <button className='reset-password-btn' onClick={handleSubmit}>
               Send email
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   )

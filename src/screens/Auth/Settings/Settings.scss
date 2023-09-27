@@ -72,6 +72,18 @@
 
     .update {
       border-style: none;
+      cursor: pointer;
+    }
+
+    .reset-pwd-valid {
+      border-radius: 4px;
+      background: #8048c8;
+      color: #fefefe;
+      cursor: pointer;
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 22.4px;
     }
   }
 
@@ -81,5 +93,54 @@
 
   .invalid {
     color: red;
+  }
+}
+
+.reset-password-modal {
+  background-color: #fefefe;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 97px;
+  width: 100%;
+  z-index: 999;
+
+  .pwd-reset-success-container {
+    display: flex;
+    padding-top: 135px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .success-status {
+    color: #000;
+    text-align: center;
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 53.2px;
+  }
+
+  .success-message {
+    color: #000;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22.4px;
+    padding-bottom: 35px;
+  }
+
+  .navigate-to-login {
+    align-items: center;
+    background: #fa9413;
+    border-radius: 4px;
+    border-style: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    gap: 8px;
+    padding: 10px 16px;
   }
 }
