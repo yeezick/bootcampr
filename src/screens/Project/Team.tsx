@@ -1,5 +1,6 @@
 import './Team.scss'
 import TeamBanner from '../../assets/Images/team-banner.png'
+import { useState } from 'react'
 import { TeamMemberCard } from './TeamMemberCard'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useSelector } from 'react-redux'
@@ -22,10 +23,10 @@ export const Team = () => {
     setShowWithdrawModal(false)
     setShowConfirmationModal(false)
   }
+
   return (
     <>
       <div className='team-container'>
-        <ProjectDetailsSidebar />
         <div className='page-container'>
           <div className='header-container'>
             <img src={TeamBanner} alt='man working on computer'></img>
@@ -91,8 +92,9 @@ const TeamMemberInfo = ({ teamMembers, loggedInUserId }) => {
     <>
       <div className='role-container'>
         <div className='software-engineer-container'>
-          <div className='swe-text-container'></div>
-          <h1>Software Engineers</h1>
+          <div className='swe-text-container'>
+            <label>Software Engineers</label>
+          </div>
           <div className='team-card-container'>
             {teamMembers.engineers.map(member => (
               <div className='team-member-card-container' key={member._id}>
@@ -105,8 +107,9 @@ const TeamMemberInfo = ({ teamMembers, loggedInUserId }) => {
           </div>
         </div>
         <div className='ux-designers-container'>
-          <div className='ux-designers-text-container'></div>
-          <h1>UX Designers</h1>
+          <div className='ux-designers-text-container'>
+            <label>UX Designers</label>
+          </div>
           <div className='team-card-container'>
             {teamMembers.designers.map(member => (
               <div className='team-member-card-container' key={member._id}>

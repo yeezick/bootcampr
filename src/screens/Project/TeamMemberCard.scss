@@ -1,3 +1,4 @@
+/*Team Member Card */
 .team-member-card-container {
   display: inline-flex;
   flex-direction: row;
@@ -6,11 +7,12 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+  gap: 24px;
   height: auto;
   justify-content: center;
-  margin-left: 24px;
+  margin: 0 24px 0 24px;
   width: 167px;
-  
+
 }
 .profile-img-container {
   align-items: center;
@@ -19,17 +21,14 @@
   position: relative;
   z-index: 1;
 }
-
-
 .profile-img {
   clip-path: ellipse(88px 88px);
   left:0;
   object-fit: cover;
   position: fixed;
   top:0;
-
+  
 }
-
 .profile-info-container {
   align-items: center;
   background: var(--white-ffffff, #FEFEFE);
@@ -43,13 +42,40 @@
   padding: 16px;
   width: 176px;
 }
-.profile-name {
-  label {
+
+.profile-name {       
+  height: 20px;
+
+  label {  //TODO: what is happening here?
+    color:#000000;
+    font-family: "Inter-Regular", Helvetica;
+    font-size: 14px;
+    font-weight: 400;
     height: 20px;
+    letter-spacing: 0;
+    line-height: 19.6px;
+    text-align: center;
     width: 144px;
   }
-  padding: 0;
+padding: 0;
 }
+
+.profile-role {
+  height: 16px;
+  p {
+  color: #000000;
+  font-family: "Inter-Regular", Helvetica;
+  font-size: 11px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: 15.4px;
+  margin:0 ;
+  text-align: center;
+  }
+}
+
+
 .profile-buttons {
   display: flex;
   flex-direction: row;

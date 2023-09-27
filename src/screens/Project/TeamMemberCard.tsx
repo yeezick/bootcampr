@@ -17,7 +17,8 @@ export const TeamMemberCard = (member, loggedInUserId) => {
   const isCurrentUser = member._id === loggedInUserId
 
   const handleProfileNavigation = () => {
-    navigate(`/users/${member._id}`)
+    const userProfile = `/users/${member._id}`
+    window.open(userProfile, '_blank')
   }
 
   return (

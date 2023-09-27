@@ -1,7 +1,62 @@
 /*team screen */
+
 .team-container {
   display: flex;
+  // flex-direction: column;
 }
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-container {
+  flex-shrink: 0;
+  height: 278px;
+
+  img{
+    width: 100%;
+  }
+}
+
+.banner-box-container {
+  align-items: center;
+  background: #ffead0;
+  border-radius: 16px 0 0 16px;
+  display: flex;
+  gap: 16px;
+  margin: 0 0 0 100px;
+  padding: 16px 32px;
+  width: 1197px;
+}
+
+.banner-text-container {
+  align-items: center;
+  display: flex;
+  flex: 1 0 0;
+  gap: 16px;
+}
+
+.banner-img {
+  height:68px;
+  width: 68px;
+}
+
+.banner-text {
+  align-items: center;
+  display: flex;
+  gap: 32px;
+
+  h1 {
+    color: #313335;
+    // font-family: $vep-font-family;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 67.2px;
+  }
+}
+
 .open-modal {
   background: #ffead0;;
   border: none;
@@ -66,16 +121,12 @@
   height: 40px;
   width: 280px;
   margin: 16px 0 32px 0; 
-
-
+  
 }
-
-
 .confirmation-modal {
   align-self: stretch;
   color: #000000;
 }
-
 .confirmation-btns {
   flex-direction: row;
   align-items: center;
@@ -84,7 +135,6 @@ gap: 16px;
 position: relative;
 flex: 0 0 auto !important;
 }
-
 .stay-btn {
   align-items: center;
 background-color: #fdfdfd;
@@ -97,7 +147,6 @@ justify-content: center;
 padding: 6px 12px;
 position: relative;
 }
-
 .withdraw-final-btn {
   align-items: center;
 background-color: #f99312;
@@ -108,7 +157,6 @@ justify-content: center;
 padding: 6px 12px;
 position: relative;
 }
-
 .role-container {
   display: flex;
   flex-direction: row;
@@ -126,16 +174,17 @@ position: relative;
 .swe-text-container {
   background-color: white;
   border-radius: 16px;
-  
-  h1 {
+
+  label {           //TODO: check text to match Figma
     color: #000;
+    font-family: "Inter-Medium", Helvetica;
     font-size: 32px;
     font-style: normal;
     font-weight: 500;
     line-height: 44.8px;
+    margin: 0;
+    white-space: nowrap;
   }
-  //take away margin from h1
-
 }
 
 .team-card-container{
@@ -144,9 +193,6 @@ display: inline-flex;
 gap: 24px;
 position: relative;
 }
-
-
-
 .ux-designers-container {
   align-items: flex-start;
   background-color: #fdfdfd;
@@ -156,14 +202,18 @@ position: relative;
   margin: 37px 37px 37px 0px;
   padding: 32px;
 }
+
 .ux-designers-text-container {
-  border-radius: 16px;
-  
-  h1 {
+  height: 45px;
+  width: 208px;
+  label {
     color: #000;
+    font-family: "Inter-Medium", Helvetica;
     font-size: 32px;
     font-style: normal;
     font-weight: 500;
     line-height: 44.8px;
+    margin: 0;
+    white-space: nowrap;
   }
 }
