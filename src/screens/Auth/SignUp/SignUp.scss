@@ -132,6 +132,7 @@ h3, h4 {
     border: none;
     border-radius: 3px;
     box-sizing: border-box;
+    cursor: pointer;
     font-size: 18px;
     margin-top: 5px;
     margin-left: -15px;
@@ -141,6 +142,7 @@ h3, h4 {
 
   button:disabled {
     color: black;
+    cursor: default;
     background-color: #ECEBEB;
   }
 }
