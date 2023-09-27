@@ -1,6 +1,6 @@
  /* ProjectDetails */
 
- .project-details-container {
+.project-details-container {
   display: flex;
   // flex-direction: column;
 }
@@ -43,7 +43,7 @@
   gap: 32px;
   h1 {
     color: #313335;
-    font-family: $vep-font-family;
+    // font-family: $vep-font-family;
     font-size: 48px;
     font-style: normal;
     font-weight: 700;
@@ -82,7 +82,7 @@ position: relative;
 h1 {
   color: #313335;
   flex: 1;
-  font-family: $pdt-font-family-2;
+  // font-family: $pdt-font-family-2;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;

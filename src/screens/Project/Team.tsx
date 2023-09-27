@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import TeamBanner from '../../../assets/Image/team-header.png'
+import TeamBanner from '../../assets/Images/team-banner.png'
 import { TeamMemberCard } from './TeamMemberCard'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import './Team.scss'
@@ -17,7 +17,6 @@ export const Team = () => {
   console.log(teamMembers)
   const authUser = useAppSelector(selectAuthUser)
   const loggedInUserId = authUser?._id
-  console.log(loggedInUserId)
   const [showWithdrawalModal, setShowWithdrawModal] = useState(false)
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const toggleModal = () => {

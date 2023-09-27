@@ -1,7 +1,7 @@
 import './ProjectDetails.scss'
 import { MdOutlineArticle } from 'react-icons/md'
-import ProjectDetailsBanner from '../../../assets/Image/project-details-banner.png'
-import bootcamprIcon from '../../../assets/Image/bootcamprIcon.png'
+import ProjectDetailsBanner from '../../assets/Images/project-details-banner.png'
+import bootcamprIcon from '../../assets/Images/bootcamprIcon.png'
 
 export const ProjectDetails = () => {
   return (
