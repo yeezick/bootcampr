@@ -3,6 +3,7 @@
   display: inline-flex;
   flex-direction: row;
 }
+
 .profile-container {
   align-items: center;
   display: flex;
@@ -14,6 +15,7 @@
   width: 167px;
 
 }
+
 .profile-img-container {
   align-items: center;
   display: inline-flex;
@@ -21,14 +23,17 @@
   position: relative;
   z-index: 1;
 }
+
+
 .profile-img {
   clip-path: ellipse(88px 88px);
   left:0;
   object-fit: cover;
   position: fixed;
   top:0;
-  
+
 }
+
 .profile-info-container {
   align-items: center;
   background: var(--white-ffffff, #FEFEFE);
@@ -80,15 +85,18 @@ padding: 0;
   display: flex;
   flex-direction: row;
 }
+
 .profile-btn-container {
   margin: 8px 8px 0 0;
   text-decoration: none;
 }
+
 .profile-btn {
   align-items: center;
   background-color: var(--primary-primary, #FFA726);
   border: none;
   border-radius: 4px;
+  cursor: pointer;
   display:flex;
   flex: 1 0 0;
   gap: 8px;
@@ -97,14 +105,17 @@ padding: 0;
   position: relative;
   text-decoration: none;
 }
+
 .message-btn-container{
   margin: 8px 0 0 0;
 }
+
 .message-btn {
   align-items: center;
   background-color: var(--primary-primary, #FFA726);
   border: none;
   border-radius: 4px;
+  cursor: pointer;
   display: flex;
   flex: 1 0 0;
   gap: 8px;

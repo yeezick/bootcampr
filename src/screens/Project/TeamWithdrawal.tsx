@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
+import './Team.scss'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -16,14 +17,16 @@ const style = {
   p: 4,
 }
 
-export const TeamWithdrawal = ({}) => {
+export const TeamWithdrawal = ({ handleCloseModals }) => {
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <Button onClick={handleOpen} style={{ color: 'red' }}>
+        Withdraw from project
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -31,12 +34,29 @@ export const TeamWithdrawal = ({}) => {
         aria-describedby='modal-modal-description'
       >
         <Box sx={style}>
-          {/* <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+          <Typography
+            id='modal-modal-title'
+            variant='h6'
+            component='h2'
+            className='custom-modal-text'
+            sx={{
+              color: 'black',
+              size: 14,
+              weight: 400,
+            }}
+          >
+            Just making sure, do you really want to withdraw from the project?
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography> */}
+          <div className='confirmation-btns'>
+            <div>
+              <button className='stay-btn' onClick={() => handleCloseModals()}>
+                Stay
+              </button>
+            </div>
+            <div>
+              <button className='withdraw-final-btn'>Withdraw</button>
+            </div>
+          </div>
         </Box>
       </Modal>
     </div>
