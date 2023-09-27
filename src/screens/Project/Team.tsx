@@ -1,10 +1,13 @@
+import './Team.scss'
+import TeamBanner from '../../assets/Images/team-banner.png'
+
 export const Team = () => {
   return (
     <>
       <div className='team-container'>
         <div className='page-container'>
           <div className='header-container'>
-            <img src='team-header.png' alt='man working on computer'></img>
+            <img src={TeamBanner} alt='man working on computer'></img>
           </div>
           <div className='banner-box-container'>
             <div className='banner-text-container'>
