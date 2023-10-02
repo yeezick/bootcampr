@@ -1,5 +1,5 @@
 import Avatar from 'components/Avatar/Avatar'
-import './Team.scss'
+import './TeamMemberCard.scss'
 
 //TODO add cursor pointer
 //TODO fetch Avatar (Profile Picture) data
@@ -17,30 +17,35 @@ export const TeamMemberCard = ({ member, loggedInUserId }) => {
 
   return (
     <>
-      <div className='profile-container'>
-        <div className='profile-img-container'>
-          <Avatar />
-        </div>
-        <div className='profile-info-container'>
-          <div className='profile-name'>
-            <label>
-              {member.firstName} {member.lastName}
-            </label>
+      <div className='team-member-card-container'>
+        <div className='profile-container'>
+          <div className='profile-img-container'>
+            <Avatar />
           </div>
-          <div className='profile-role'>
-            <p>{member.role}</p>
-          </div>
-          <div className='profile-buttons'>
-            <div className='profile-btn-container'>
-              <button onClick={handleProfileNavigation} className='profile-btn'>
-                Profile
-              </button>
+          <div className='profile-info-container'>
+            <div className='profile-name'>
+              <label>
+                {member.firstName} {member.lastName}
+              </label>
             </div>
-            {isCurrentUser ? null : (
-              <div className='message-btn-container'>
-                <button className='message-btn'>Message</button>
+            <div className='profile-role'>
+              <p>{member.role}</p>
+            </div>
+            <div className='profile-buttons'>
+              <div className='profile-btn-container'>
+                <button
+                  className='profile-btn'
+                  onClick={handleProfileNavigation}
+                >
+                  Profile
+                </button>
               </div>
-            )}
+              {isCurrentUser ? null : (
+                <div className='message-btn-container'>
+                  <button className='message-btn'>Message</button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
