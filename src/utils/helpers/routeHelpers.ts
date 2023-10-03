@@ -20,7 +20,7 @@ import { RootState } from 'utils/redux/store'
  * @param userId
  * @returns {SideMenuInterface} Context for Project Portal sidemenu
  */
-export const buildProjectPortalLinks = projectId => [
+export const buildProjectPortalLinks = (projectId: string) => [
   {
     domain: 'project',
     icon: 'description',
