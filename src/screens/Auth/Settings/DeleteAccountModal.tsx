@@ -6,7 +6,7 @@ import Modal from '@mui/material/Modal'
 import ClearIcon from '@mui/icons-material/Clear'
 import './Settings.scss'
 import { deleteUsersAccount, logOut } from 'utils/api'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 const style = {
   position: 'absolute',
   top: '50%',
@@ -24,11 +24,13 @@ export const DeleteAccountModal = () => {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const { id } = useParams()
+  const navigate = useNavigate()
 
   const confirmDeleteUsersAccount = async () => {
     const deletedAccount = await deleteUsersAccount(id)
-    if (deletedAccount?.data?.deletionStatus) {
+    if (deletedAccount?.deletionStatus) {
       logOut()
+      navigate('/')
       return
     }
   }
