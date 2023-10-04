@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
 import ClearIcon from '@mui/icons-material/Clear'
 import './Settings.scss'
+import { deleteUsersAccount, logOut } from 'utils/api'
+import { useParams } from 'react-router-dom'
 const style = {
   position: 'absolute',
   top: '50%',
@@ -21,6 +23,15 @@ export const DeleteAccountModal = () => {
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+  const { id } = useParams()
+
+  const confirmDeleteUsersAccount = async () => {
+    const deletedAccount = await deleteUsersAccount(id)
+    if (deletedAccount?.data?.deletionStatus) {
+      logOut()
+      return
+    }
+  }
 
   return (
     <div>
@@ -55,7 +66,12 @@ export const DeleteAccountModal = () => {
             >
               Cancel
             </button>
-            <button className='delete-account-button'>Delete my account</button>
+            <button
+              className='delete-account-button'
+              onClick={() => confirmDeleteUsersAccount()}
+            >
+              Delete my account
+            </button>
           </div>
         </Box>
       </Modal>

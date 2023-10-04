@@ -189,3 +189,12 @@ export const updateAvailability = async (
     return false
   }
 }
+
+export const deleteUsersAccount = async (id: any) => {
+  try {
+    const res = await api.delete(`/users/${id}`)
+    return res.data
+  } catch (error) {
+    throw error
+  }
+}
