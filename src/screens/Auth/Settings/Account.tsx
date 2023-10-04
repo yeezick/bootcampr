@@ -1,3 +1,9 @@
+import DeleteAccount from './DeleteAccount'
+
 export const Account = () => {
-  return <div>Account</div>
+  return (
+    <div>
+      <DeleteAccount />
+    </div>
+  )
 }
