@@ -27,7 +27,7 @@ const initialState: UiSliceInterface = {
       links: {
         githubUrl: '',
         linkedinUrl: '',
-        portfolioUrl: null,
+        portfolioUrl: '',
       },
       profilePicture: '',
       project: '',
