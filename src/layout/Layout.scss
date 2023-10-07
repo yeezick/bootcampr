@@ -1,10 +1,11 @@
 .main-wrapper {
   display: flex;
 }
+
 .main-content-container {
   background-color: #e5e5e5;
-  min-height: calc(100vh - 250px);
   margin-top: 93px;
+  min-height: calc(100vh - 250px);
   padding-bottom: 5rem;
   width: 100%
 }

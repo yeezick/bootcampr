@@ -22,7 +22,7 @@ export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
   const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const authUser = useAppSelector(selectAuthUser)
-  const { _id: userId, project } = authUser
+  const { _id: userId, project: projectId } = authUser
   const dispatch = useAppDispatch()
   const socketConnection = useSocket()
   const location = useLocation()
@@ -67,10 +67,10 @@ export const Nav = () => {
       </div>
       <div className='navbar-wrapper'>
         <div className='header-list'>
-          {project && (
+          {projectId && (
             <DomainLink
               className='header-link'
-              route={`/project/${project}`}
+              route={`/project/${projectId}`}
               domain={'project'}
             >
               Project Portal

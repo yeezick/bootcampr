@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { logoutAuthUser, selectUserId } from 'utils/redux/slices/userSlice'
 import { logOut } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
-import { navigateToDomain } from 'utils/helpers/routeHelpers'
+import { navigateToDomain } from 'utils/helpers'
 
 export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
   const [open, setOpen] = useState(false)

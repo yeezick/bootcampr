@@ -9,7 +9,7 @@ import './SideMenu.scss'
 
 export const SideMenu = () => {
   const { title } = useAppSelector(selectSideMenu)
-  const project = useAppSelector(selectProjectId)
+  const projectId = useAppSelector(selectProjectId)
   const dispatch = useAppDispatch()
   const handleLogout = () => {
     logOut()
@@ -24,7 +24,7 @@ export const SideMenu = () => {
       <SideMenuLinks />
       <Link
         className='project-completion-link'
-        to={`/project/${project}/complete`}
+        to={`/project/${projectId}/complete`}
       >
         <button className='completion-overflow-btn'>Submit Project</button>
       </Link>

@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
 import { toggleChatOpen } from 'utils/redux/slices/chatSlice'
 import './Project.scss'
-import { useSelector } from 'react-redux'
 import { selectProject } from 'utils/redux/slices/projectSlice'
 
 export const TaskBoard = () => {
@@ -21,7 +20,7 @@ export const TaskBoard = () => {
   const queryUserId = queryParams.get('user')
   const [emailLinkClicked, setEmailLinkClicked] = useState(false)
   const { id } = useParams()
-  const project = useSelector(selectProject)
+  const project = useAppSelector(selectProject)
   const [projectDetail, setProjectDetails] = useState<ProjectInterface | null>(
     null
   )

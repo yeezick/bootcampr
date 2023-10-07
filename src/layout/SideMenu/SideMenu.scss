@@ -43,10 +43,10 @@
   }
 
   .link {
+    align-items: center;
     border-radius: 4px;
     color: #000;
     display: flex;
-    align-items: center;
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
@@ -56,13 +56,13 @@
     text-decoration: none;
 
     .MuiSvgIcon-root {
+      color: 'red';
       margin-right: 16px;
-      color: 'red'
     }
   }
 
   .link:hover {
-    color: #1A237E;
     background-color: #F2F4FF;
+    color: #1A237E;
   }
 }
