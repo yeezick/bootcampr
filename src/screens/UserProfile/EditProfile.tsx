@@ -153,6 +153,8 @@ export const EditProfile: React.FC = () => {
               value={bio}
               onChange={handleInputChange}
               maxLength={500}
+              maxRows={9}
+              minRows={8}
             />
             <div className='editprofile__bioCharCount'>
               {bioCharCount}/500 characters
