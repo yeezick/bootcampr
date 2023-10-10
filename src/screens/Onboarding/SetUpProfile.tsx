@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
-import { emptyProfile } from 'utils/data/userConstants'
+import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
 import { updateUserProfile } from 'utils/api/users'
 import { useNotification } from 'utils/redux/slices/notificationSlice'
@@ -16,8 +16,7 @@ import './Onboarding.scss'
 
 export const SetUpProfile = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
-  const [updateUserForm, setUpdateUserForm] =
-    useState<UserInterface>(emptyProfile)
+  const [updateUserForm, setUpdateUserForm] = useState<UserInterface>(emptyUser)
   const [bioCharCount, setBioCharCount] = useState(0)
   const params = useParams()
   const dispatch = useDispatch()
