@@ -8,7 +8,6 @@ import Logo from 'assets/Logo.svg'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
 import { useSocket } from 'components/Notifications/Socket'
 import Avatar from 'components/Avatar/Avatar'
-import './Nav.scss'
 import {
   selectChatUI,
   toggleChat,
@@ -16,23 +15,19 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { ChatIconBadge } from 'components/ChatDialog/ChatIconBadge/ChatIconBadge'
 import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
-import {
-  closeProjectPortal,
-  renderProjectPortal,
-} from 'utils/redux/slices/projectSlice'
+import './Nav.scss'
+import { DomainLink } from 'layout/DomainLink'
 
 export const Nav = () => {
-  const [colored, setColored] = useState(false)
   const [notificationCount, setNotificationCount] = useState(0)
   const [isChatBadgeUpdated, setIsChatBadgeUpdated] = useState(false)
   const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const authUser = useAppSelector(selectAuthUser)
-  const { _id: userId } = authUser
+  const { _id: userId, project: projectId } = authUser
   const dispatch = useAppDispatch()
   const socketConnection = useSocket()
   const location = useLocation()
   const closeDropdown = () => setAnchorEl(null)
-  const projectPortalHandler = () => dispatch(renderProjectPortal())
 
   useEffect(() => {
     if (socketConnection) {
@@ -58,9 +53,8 @@ export const Nav = () => {
   }, [setNotificationCount, authUser, socketConnection])
 
   useEffect(() => {
-    // Close chat dialog and sidebar when URL path changes
+    // Close chat dialog and sideMenu when URL path changes
     dispatch(toggleChatClose())
-    dispatch(closeProjectPortal())
   }, [dispatch, location])
 
   return (
@@ -74,10 +68,14 @@ export const Nav = () => {
       </div>
       <div className='navbar-wrapper'>
         <div className='header-list'>
-          {userId && (
-            <div className='header-link' onClick={projectPortalHandler}>
-              Project portal
-            </div>
+          {projectId && (
+            <DomainLink
+              className='header-link'
+              route={`/project/${projectId}`}
+              domain={'project'}
+            >
+              Project Portal
+            </DomainLink>
           )}
           <Link className='header-link' to='/how-to'>
             How Bootcamper works

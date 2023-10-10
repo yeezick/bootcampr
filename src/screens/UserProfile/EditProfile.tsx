@@ -6,6 +6,7 @@ import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
 import { emptyUser } from 'utils/data/userConstants'
 import { updateUser } from 'utils/api/users'
 import Avatar from 'components/Avatar/Avatar'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import TextareaAutosize from 'react-textarea-autosize'
 import './EditProfile.scss'
 
@@ -58,25 +59,38 @@ export const EditProfile: React.FC = () => {
     }
   }
 
+  const handleCancel = () => {
+    setUpdateUserForm({ ...authUser })
+    navigate(`/users/${params.id}`)
+  }
+
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    console.log('updateUserForm during update:', updateUserForm)
-
     try {
-      console.log('Sending userForm data:', updateUserForm)
-
-      console.log('_id value:', params.id)
-
       const updatedUser = await updateUser(params.id, updateUserForm)
-      console.log('Response from server:', updatedUser)
-
       dispatch(setAuthUser(updatedUser))
-      console.log('after dispatch:', dispatch(setAuthUser(updatedUser)))
-
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message: 'Profile saved!',
+          duration: 3000,
+          vertical: 'top',
+          horizontal: 'center',
+          severity: 'success',
+        })
+      )
       navigate(`/users/${params.id}`)
     } catch (error) {
       console.log('Error occured when trying to update User Profile', error)
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message: 'Failed to update user profile. Please try again.',
+          duration: 3000,
+          severity: 'error',
+        })
+      )
     }
   }
 
