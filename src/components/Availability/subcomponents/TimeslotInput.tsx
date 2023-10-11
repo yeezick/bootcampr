@@ -4,8 +4,8 @@ import {
   ContentCopyOutlined,
 } from '@mui/icons-material'
 import { SelectTimeInput } from './SelectTimeInput'
-import { Checkbox } from '@mui/material'
-import { useState, useEffect } from 'react'
+import { Box, Checkbox, Modal } from '@mui/material'
+import { useState, useEffect, useRef } from 'react'
 import './CopyTimesModal.scss'
 import { useDispatch } from 'react-redux'
 import { setUserAvailability } from 'utils/redux/slices/userSlice'
@@ -19,6 +19,11 @@ import {
 
 export const TimeSlotInput = ({ day, days, setDays, slots }) => {
   const dispatch = useDispatch()
+  const [modalX, setModalX] = useState(null)
+  const [modalY, setModalY] = useState(null)
+  // const [modalIsOpen, setIsOpen] = useState(false)
+  // const openModal = () => setIsOpen(true)
+  // const closeModal = () => setIsOpen(false)
   const [displayModal, toggleDisplayModal] = useState({
     0: false,
   })
@@ -30,6 +35,21 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
   useEffect(() => {
     dispatch(setUserAvailability(days))
   }, [days])
+
+  const handleRenderModal = (e, idx) => {
+    // const parent = copyTimesRef.current.getBoundingClientRect()
+
+    renderCopyTimesModal(idx, displayModal, toggleDisplayModal)
+    const rect = e.target.getBoundingClientRect()
+
+    const right = rect.right
+    const top = rect.top
+    setModalX(right)
+    setModalY(top)
+
+    console.log(`top: ${top}, right: ${right}`)
+    return [top, right]
+  }
 
   return (
     <div className='timeslots-container'>
@@ -72,11 +92,15 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
                   idx={idx}
                   copyTimes={copyTimes}
                   setDays={setDays}
+                  toggleDisplayModal={toggleDisplayModal}
                 />
               )}
               <ContentCopyOutlined
-                onClick={() =>
-                  renderCopyTimesModal(idx, displayModal, toggleDisplayModal)
+                onClick={
+                  e => handleRenderModal(e, idx)
+                  // renderCopyTimesModal(idx, displayModal, toggleDisplayModal)
+                  // openModal()
+                  // findParentRef(e)
                 }
               />
             </div>
@@ -87,7 +111,14 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
   )
 }
 
-export const CopyTimesModal = ({ days, day, idx, copyTimes, setDays }) => {
+export const CopyTimesModal = ({
+  days,
+  day,
+  idx,
+  copyTimes,
+  setDays,
+  toggleDisplayModal,
+}) => {
   const timeString = `${days[day].availability[idx][0]} - ${days[day].availability[idx][1]}`
   const [checked, setChecked] = useState({
     EVRY: false,
@@ -111,30 +142,35 @@ export const CopyTimesModal = ({ days, day, idx, copyTimes, setDays }) => {
   ]
 
   return (
-    <div className='copy-times-modal'>
-      <p>
-        Copy <strong>{timeString}</strong> to:
-      </p>
-      <CopyTimesOption
-        day='EVERY DAY'
-        selectedDay={day}
-        checked={checked}
-        setChecked={setChecked}
-      />
-      {uppercaseWeekdayNames.map(uppercaseWeekdayName => (
+    <div className='copy-times-modal-backdrop' onClick={toggleDisplayModal}>
+      <div
+        className='copy-times-modal'
+        style={{ right: '-1651px', bottom: '20px' }}
+      >
+        <p>
+          Copy <strong>{timeString}</strong> to:
+        </p>
         <CopyTimesOption
-          day={uppercaseWeekdayName}
+          day='EVERY DAY'
           selectedDay={day}
           checked={checked}
           setChecked={setChecked}
         />
-      ))}
-      <button
-        className='apply'
-        onClick={() => copyTimes(checked, day, days, idx, setDays)}
-      >
-        Apply
-      </button>
+        {uppercaseWeekdayNames.map(uppercaseWeekdayName => (
+          <CopyTimesOption
+            day={uppercaseWeekdayName}
+            selectedDay={day}
+            checked={checked}
+            setChecked={setChecked}
+          />
+        ))}
+        <button
+          className='apply'
+          onClick={() => copyTimes(checked, day, days, idx, setDays)}
+        >
+          Apply
+        </button>
+      </div>
     </div>
   )
 }
