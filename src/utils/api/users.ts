@@ -190,7 +190,7 @@ export const updateAvailability = async (
   }
 }
 
-export const deleteUsersAccount = async (id: any) => {
+export const deleteUserAccount = async (id: string) => {
   try {
     const res = await api.delete(`/users/${id}`)
     return res.data

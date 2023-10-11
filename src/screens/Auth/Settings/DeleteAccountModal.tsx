@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
 import ClearIcon from '@mui/icons-material/Clear'
 import './Settings.scss'
-import { deleteUsersAccount, logOut } from 'utils/api'
+import { deleteUserAccount, logOut } from 'utils/api'
 import { useNavigate, useParams } from 'react-router-dom'
 const style = {
   position: 'absolute',
@@ -26,8 +26,8 @@ export const DeleteAccountModal = () => {
   const { id } = useParams()
   const navigate = useNavigate()
 
-  const confirmDeleteUsersAccount = async () => {
-    const deletedAccount = await deleteUsersAccount(id)
+  const confirmDeleteUserAccount = async () => {
+    const deletedAccount = await deleteUserAccount(id)
     if (deletedAccount?.deletionStatus) {
       logOut()
       navigate('/')
@@ -70,7 +70,7 @@ export const DeleteAccountModal = () => {
             </button>
             <button
               className='delete-account-button'
-              onClick={() => confirmDeleteUsersAccount()}
+              onClick={confirmDeleteUserAccount}
             >
               Delete my account
             </button>
