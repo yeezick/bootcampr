@@ -54,22 +54,6 @@ export const emptyUser: UserInterface = {
   _id: '',
 }
 
-export const emptyProfile: UserInterface = {
-  availability: defaultAvailability,
-  bio: '',
-  email: '',
-  firstName: '',
-  lastName: '',
-  links: {
-    githubUrl: '',
-    linkedinUrl: '',
-    portfolioUrl: '',
-  },
-  profilePicture: '',
-  role: '',
-  _id: '',
-}
-
 export const initialState: UiSliceInterface = {
   auth: {
     user: emptyUser,

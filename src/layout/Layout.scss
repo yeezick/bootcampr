@@ -1,13 +1,13 @@
-.layout-container.active {
-  margin: 0 272px;
-  transition: all 0.1s;
-  width: calc(100% - 272px);
+.main-wrapper {
+  display: flex;
 }
 
 .main-content-container {
   background-color: #e5e5e5;
+  margin-top: 93px;
   min-height: calc(100vh - 250px);
-  padding-top: 93px;
+  padding-bottom: 5rem;
+  width: 100%;
 }
 
 .landing-main-content-container {

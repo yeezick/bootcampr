@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { ProjectInterface } from 'interfaces/ProjectInterface'
 import { RootState } from 'utils/redux/store'
@@ -86,9 +86,6 @@ const projectSlice = createSlice({
       state.projectPortal.renderProjectPortal =
         !state.projectPortal.renderProjectPortal
     },
-    closeProjectPortal: state => {
-      state.projectPortal.renderProjectPortal = false
-    },
   },
 })
 
@@ -96,6 +93,17 @@ export const selectMembersAsTeam = (state: RootState) => [
   ...state.project.members.designers,
   ...state.project.members.engineers,
 ]
+
+export const selectEngineerMembers = (state: RootState) =>
+  state.project.members.engineers
+export const selectDesignMembers = (state: RootState) =>
+  state.project.members.designers
+
+// TODO: Revisit this to replace the warning provoked by using selectMembersAsTeam
+export const selectMembers = createSelector(
+  [selectDesignMembers, selectEngineerMembers],
+  (engineers, designers) => [...designers, ...engineers]
+)
 
 /**
  *
@@ -130,7 +138,6 @@ export const {
   setProjectSuccess,
   setProjectFailure,
   renderProjectPortal,
-  closeProjectPortal,
 } = projectSlice.actions
 
 export default projectSlice.reducer

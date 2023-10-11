@@ -12,8 +12,9 @@ import { RootState } from 'utils/redux/store'
 import PersonIcon from '@mui/icons-material/Person'
 
 // todo: auth.status should be its own slice
-// todo: sidebar & ui like notifications should be its own slice
+// todo: sidemenu & ui like notifications should be its own slice
 // todo: avatar should be consolidated with user slice
+// todo: lint errors can be fixed by renaming this module with .ts, this causes an issue with SVG component below.
 
 const initialState: UiSliceInterface = {
   auth: {
@@ -26,7 +27,7 @@ const initialState: UiSliceInterface = {
       links: {
         githubUrl: '',
         linkedinUrl: '',
-        portfolioUrl: null,
+        portfolioUrl: '',
       },
       profilePicture: '',
       project: '',
@@ -36,6 +37,8 @@ const initialState: UiSliceInterface = {
       _id: '',
     },
   },
+
+  // these would ideally be its own "requestSlice" ; isAuthenticated would remain here
   status: {
     isAuthenticated: false,
     isLoading: false,
@@ -153,15 +156,16 @@ const userSlice = createSlice({
   },
 })
 
+export const getUserAvailability = (state: RootState) =>
+  state.ui.auth.user.availability
+export const getUserProfileImage = (state: RootState) =>
+  state.ui.auth.user.profilePicture
 export const selectAuthUser = (state: RootState) => state.ui.auth.user
 export const selectUserEmail = (state: RootState) => state.ui.auth.user.email
 export const selectProjectId = (state: RootState) => state.ui.auth.user.project
 export const selectUserId = (state: RootState) => state.ui.auth.user._id
-export const getUserAvailability = (state: RootState) =>
-  state.ui.auth.user.availability
 export const uiStatus = (state: RootState) => state.ui.status
-export const getUserProfileImage = (state: RootState) =>
-  state.ui.auth.user.profilePicture
+
 export const {
   setAuthUser,
   updateAuthUser,

@@ -4,7 +4,6 @@ import {
   EmailSentConfirmation,
   EmailVerify,
   ExpiredLink,
-  Settings,
   SignIn,
   SignUp,
 } from 'screens/Auth'
@@ -12,13 +11,18 @@ import { Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { ProjectCompletion } from './screens/ProjectCompletion/ProjectCompletion'
-import { AllProjects, ProjectDetails } from 'screens/Project'
+import { AllProjects, TaskBoard } from 'screens/Project'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import './App.css'
 import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailConfirmation'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { UnassignedProject } from 'screens/Project/UnassignedProject'
 import { AboutUs, HowTo } from 'screens/Landing'
+import { Email } from 'screens/Auth/Settings/Email'
+import { PasswordSettings } from 'screens/Auth/Settings/Password'
+import { Account } from 'screens/Auth/Settings/Account'
+import { TeamMembers } from 'screens/Project/TeamMembers'
+import { ProjectDetails } from 'screens/Project/ProjectDetails'
 import { ResetPassword } from 'screens/Auth/Settings/Password'
 
 function App() {
@@ -50,14 +54,21 @@ function App() {
             path='/users/:id/update-email-confirmation'
             element={<UpdateEmailConfirmation />}
           />
-          <Route path='/users/:id/settings/:screen' element={<Settings />} />
-          <Route path='/users/:id/settings' element={<Settings />} />
+          <Route path='/users/:id/settings'>
+            <Route path='email' element={<Email />} />
+            <Route path='password' element={<PasswordSettings />} />
+            <Route path='account' element={<Account />} />
+          </Route>
           {/* Project */}
+          <Route path='/project'>
+            <Route path=':projectId' element={<ProjectDetails />} />
+            <Route path=':projectId/complete' element={<ProjectCompletion />} />
+            <Route path=':projectId/calendar' element={<CalendarScreen />} />
+            <Route path=':projectId/tasks' element={<TaskBoard />} />
+            <Route path=':projectId/team' element={<TeamMembers />} />
+            <Route path='unassigned' element={<UnassignedProject />} />
+          </Route>
           <Route path='/all-projects' element={<AllProjects />} />
-          <Route path='/project-completion' element={<ProjectCompletion />} />
-          <Route path='/project/:id' element={<ProjectDetails />} />
-          <Route path='/project/:id/calendar' element={<CalendarScreen />} />
-          <Route path='/project/unassigned' element={<UnassignedProject />} />
         </Routes>
       </Layout>
       <SnackBarToast />

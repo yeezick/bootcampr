@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { useAppDispatch } from 'utils/redux/hooks'
 import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
 import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
 import { updateUser } from 'utils/api/users'
-import { useNotification } from 'utils/redux/slices/notificationSlice'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import TextareaAutosize from 'react-textarea-autosize'
 import { IconButton } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
@@ -15,43 +15,39 @@ import './EditProfile.scss'
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
-  const [userForm, updateUserForm] = useState<UserInterface>(emptyUser)
+  const [updatedUserForm, setUpdatedUserForm] =
+    useState<UserInterface>(emptyUser)
   const [bioCharCount, setBioCharCount] = useState(0)
   const params = useParams()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const {
     bio,
     firstName,
     lastName,
     links: { githubUrl, linkedinUrl, portfolioUrl },
-    profilePicture,
     role,
-    _id: userId,
-  } = userForm
-
-  const { displayNotification } = useNotification()
+  } = updatedUserForm
+  const nestedLinks = Object.keys(updatedUserForm.links)
 
   useEffect(() => {
     if (authUser) {
-      updateUserForm(currForm => {
+      setUpdatedUserForm(currForm => {
         return { ...currForm, ...authUser }
       })
     }
 
-    setBioCharCount(authUser.bio.length)
-  }, [])
-
-  const nestedLinks = Object.keys(userForm.links)
+    if (authUser && authUser.bio) {
+      setBioCharCount(authUser.bio.length)
+    }
+  }, [authUser])
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
-
-    // check if the input name is one of the nested properties
     if (nestedLinks.includes(name)) {
-      updateUserForm(prevForm => ({
+      setUpdatedUserForm(prevForm => ({
         ...prevForm,
         links: {
           ...prevForm.links,
@@ -59,8 +55,7 @@ export const EditProfile: React.FC = () => {
         },
       }))
     } else {
-      // It's a top level property
-      updateUserForm({ ...userForm, [name]: value })
+      setUpdatedUserForm({ ...updatedUserForm, [name]: value })
     }
 
     if (name === 'bio') {
@@ -68,23 +63,39 @@ export const EditProfile: React.FC = () => {
     }
   }
 
-  const handleProfileSave = () => {
-    displayNotification({
-      message: 'User profile successfully updated.',
-    })
-  }
-
   const handleCancel = () => {
-    updateUserForm({ ...authUser })
-    navigate(`/users/${authUser._id}`)
+    setUpdatedUserForm({ ...authUser })
+    navigate(`/users/${params.id}`)
   }
 
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const updatedUser = await updateUser(params.id, userForm)
-    dispatch(setAuthUser(updatedUser))
-    navigate(`/users/${userId}`)
+    try {
+      const updatedUser = await updateUser(params.id, updatedUserForm)
+      dispatch(setAuthUser(updatedUser))
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message: 'Profile saved!',
+          duration: 3000,
+          vertical: 'top',
+          horizontal: 'center',
+          severity: 'success',
+        })
+      )
+      navigate(`/users/${params.id}`)
+    } catch (error) {
+      console.log('Error occured when trying to update User Profile', error)
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message: 'Failed to update user profile. Please try again.',
+          duration: 3000,
+          severity: 'error',
+        })
+      )
+    }
   }
 
   if (!authUser) {
@@ -97,7 +108,7 @@ export const EditProfile: React.FC = () => {
         <IconButton
           aria-label='go back to view profile'
           className='editprofile__backBtn'
-          onClick={() => navigate(`/users/${userId}`)}
+          onClick={() => navigate(`/users/${params.id}`)}
         >
           <ArrowBackIosNewIcon className='editprofile__backArrow' />
           <p>Back</p>
@@ -114,7 +125,6 @@ export const EditProfile: React.FC = () => {
               <CameraAltOutlinedIcon className='editprofile__imageChange' />
             </IconButton>
           </div>
-
           <label className='editprofile__label'>
             First name
             <input
@@ -125,7 +135,6 @@ export const EditProfile: React.FC = () => {
               onChange={handleInputChange}
             />
           </label>
-
           <label className='editprofile__label'>
             Last name
             <input
@@ -136,7 +145,6 @@ export const EditProfile: React.FC = () => {
               onChange={handleInputChange}
             />
           </label>
-
           <label className='editprofile__label'>
             About me
             <TextareaAutosize
@@ -150,7 +158,6 @@ export const EditProfile: React.FC = () => {
               {bioCharCount}/500 characters
             </div>
           </label>
-
           <label className='editprofile__label'>
             Portfolio (URL)
             <input
@@ -161,7 +168,6 @@ export const EditProfile: React.FC = () => {
               onChange={handleInputChange}
             />
           </label>
-
           {role === 'Software Engineer' && (
             <label className='editprofile__label'>
               Github (URL) {role}
@@ -174,7 +180,6 @@ export const EditProfile: React.FC = () => {
               />
             </label>
           )}
-
           <label className='editprofile__label'>
             Linkedin profile (URL)
             <input
@@ -193,11 +198,7 @@ export const EditProfile: React.FC = () => {
             >
               Cancel
             </button>
-            <button
-              type='submit'
-              className='editprofile__saveBtn'
-              onClick={handleProfileSave}
-            >
+            <button type='submit' className='editprofile__saveBtn'>
               Save Profile
             </button>
           </div>
