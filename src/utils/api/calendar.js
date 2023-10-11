@@ -15,6 +15,14 @@ export const fetchUserCalendar = async (calendarId, userEmail) => {
     const res = await api.get(
       `/calendar/${calendarId}/fetchCalendar/${userEmail}`
     )
+
+    if (res.status === 400) {
+      throw Error(
+        `No calendar events for calendarId (${calendarId}) belonging to user (${userEmail}).`,
+        res.data
+      )
+    }
+
     return res.data
   } catch (error) {
     console.error(error)

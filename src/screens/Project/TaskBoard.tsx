@@ -1,13 +1,16 @@
 import { AllTickets } from 'components/Kanban'
 import { ProjectInterface } from 'interfaces'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { getOneProject, getOneUser, verifyTokenExpiration } from 'utils/api'
+import { Checkbox } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { toggleChatOpen } from 'utils/redux/slices/chatSlice'
 import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
+import { toggleChatOpen } from 'utils/redux/slices/chatSlice'
+import './Project.scss'
+import { selectProject } from 'utils/redux/slices/projectSlice'
 
-export const ProjectDetails = () => {
+export const TaskBoard = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -15,14 +18,15 @@ export const ProjectDetails = () => {
   const queryParams = new URLSearchParams(location.search)
   const queryToken = queryParams.get('unread')
   const queryUserId = queryParams.get('user')
-  const [allTaskChecked, setAllTaskChecked] = useState(true)
-  const [myTaskChecked, setMyTaskChecked] = useState(false)
   const [emailLinkClicked, setEmailLinkClicked] = useState(false)
   const { id } = useParams()
+  const project = useAppSelector(selectProject)
   const [projectDetail, setProjectDetails] = useState<ProjectInterface | null>(
     null
   )
 
+  // TODO: Following logic to verify user and determine routing should be done at a layout/auth layer, not the responsibility of the rendered component
+  // Jira: BC-619
   useEffect(() => {
     if (queryToken) {
       const validateToken = async () => {
@@ -60,19 +64,26 @@ export const ProjectDetails = () => {
   }, [authUser.project, emailLinkClicked, dispatch])
 
   useEffect(() => {
-    const getProject = async () => {
-      try {
-        const project = await getOneProject(id)
-        setProjectDetails(project)
-      } catch (error) {
-        console.error('Failed to fetch project details:', error)
-      }
-    }
-    getProject()
+    setProjectDetails(project)
   }, [id])
 
   return (
     <div className='Project'>
+      <div>
+        <div className='Project-header'>
+          <h1>Kanban board</h1>
+        </div>
+        <div className='Project-filter'>
+          <span>
+            <Checkbox />
+            <p>All Task</p>
+          </span>
+          <span>
+            <Checkbox />
+            <p>My Task</p>
+          </span>
+        </div>
+      </div>
       <div>
         {projectDetail && <AllTickets projectTracker={projectDetail} />}
       </div>
