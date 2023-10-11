@@ -7,27 +7,31 @@ import {
   uiStatus,
   updateAuthUser,
 } from 'utils/redux/slices/userSlice'
-import { Sidebar } from './'
+import { SideMenu } from './'
 import { Nav } from './'
-import './Layout.scss'
 import { Footer } from 'layout/Footer/Footer'
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
-import { ProjectPortal } from 'screens/Landing'
-import { selectRenderProjectPortal } from 'utils/redux/slices/projectSlice'
+import {
+  resetSideMenu,
+  selectSideMenu,
+} from 'utils/redux/slices/userInterfaceSlice'
+import './Layout.scss'
+import { determineSideMenu } from 'utils/helpers'
 
-type Props = {
+type LayoutProps = {
   children: React.ReactNode
 }
 
-export const Layout: React.FC<Props> = ({ children }: Props) => {
+export const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
   const location = useLocation()
   const dispatch = useAppDispatch()
   const status = useAppSelector(uiStatus)
-  const { _id: userId } = useAppSelector(selectAuthUser)
-  const projectPortal = useAppSelector(selectRenderProjectPortal)
-
+  const { project } = useAppSelector(selectAuthUser)
+  const sideMenu = useAppSelector(selectSideMenu)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const { state } = location
   useEffect(() => {
     const verifyUser = async () => {
       const authUser = await verify()
@@ -39,6 +43,27 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
     verifyUser()
   }, [dispatch])
 
+  useEffect(() => {
+    if (state) {
+      determineSideMenu(dispatch, state.domain, project)
+    } else {
+      dispatch(resetSideMenu())
+    }
+  }, [state])
+
+  /**
+   * This function determines the domain when manually routing to the app from an email link
+   * The email link requires the domain query param.
+   * Ex: ?domain=project
+   * TODO: This will not work for users who copy-paste urls.
+   */
+  useEffect(() => {
+    const domain = searchParams.get('domain')
+    if (domain) {
+      determineSideMenu(dispatch, domain, project)
+    }
+  }, [])
+
   if (status.isLoading) {
     return <Loader />
   }
@@ -47,21 +72,9 @@ export const Layout: React.FC<Props> = ({ children }: Props) => {
     <>
       <ScrollToTop />
       <Nav />
-      {userId && <Sidebar />}
-      <div className={userId ? 'layout-container active' : ''}>
-        {projectPortal ? (
-          <ProjectPortal />
-        ) : (
-          <div
-            className={
-              location.pathname !== '/'
-                ? 'main-content-container'
-                : 'landing-main-content-container'
-            }
-          >
-            {children}
-          </div>
-        )}
+      <div className='main-wrapper'>
+        {sideMenu?.active && <SideMenu />}
+        <div className={'main-content-container'}>{children}</div>
       </div>
       <Footer />
     </>
