@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
-import { checkIfAllMembersInvited } from 'utils/helpers'
+import { checkIfAllMembersInvited, removeAuthUserFromList } from 'utils/helpers'
 import './MeetingModal'
 
 export const SelectAttendees = ({
+  authUser,
   attendees,
   inviteAll,
   handleInviteAll,
@@ -11,6 +12,7 @@ export const SelectAttendees = ({
   toggleInviteAll,
   projectMembers,
 }) => {
+  const filteredMembers = removeAuthUserFromList(projectMembers, authUser)
   /** Context
    * Unselect inviteAll checkbox if user has unselected members
    */
@@ -34,7 +36,7 @@ export const SelectAttendees = ({
             label='Invite all'
           />
           <FormGroup>
-            {projectMembers.map(currMember => (
+            {filteredMembers.map(currMember => (
               <div key={`select-member-${currMember._id}`}>
                 <MemberCheckbox
                   attendees={attendees}
