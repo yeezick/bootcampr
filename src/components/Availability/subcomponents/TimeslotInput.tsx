@@ -93,16 +93,10 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
                   copyTimes={copyTimes}
                   setDays={setDays}
                   toggleDisplayModal={toggleDisplayModal}
+                  handleRenderModal={handleRenderModal}
                 />
               )}
-              <ContentCopyOutlined
-                onClick={
-                  e => handleRenderModal(e, idx)
-                  // renderCopyTimesModal(idx, displayModal, toggleDisplayModal)
-                  // openModal()
-                  // findParentRef(e)
-                }
-              />
+              <ContentCopyOutlined onClick={e => handleRenderModal(e, idx)} />
             </div>
           </div>
         </div>
@@ -118,6 +112,7 @@ export const CopyTimesModal = ({
   copyTimes,
   setDays,
   toggleDisplayModal,
+  handleRenderModal,
 }) => {
   const timeString = `${days[day].availability[idx][0]} - ${days[day].availability[idx][1]}`
   const [checked, setChecked] = useState({
@@ -141,36 +136,51 @@ export const CopyTimesModal = ({
     'SATURDAY',
   ]
 
+  const modalEl = useRef<any>()
+
+  const handleApply = e => {
+    copyTimes(checked, day, days, idx, setDays)
+    handleRenderModal(e, idx)
+  }
+
+  useEffect(() => {
+    const handler = e => {
+      if (!modalEl.current) {
+        return
+      }
+      if (!modalEl.current.contains(e.target)) {
+        handleRenderModal(e, idx)
+      }
+    }
+
+    document.addEventListener('click', handler, true)
+    return () => {
+      document.removeEventListener('click', handler)
+    }
+  }, [])
+
   return (
-    <div className='copy-times-modal-backdrop' onClick={toggleDisplayModal}>
-      <div
-        className='copy-times-modal'
-        style={{ right: '-1651px', bottom: '20px' }}
-      >
-        <p>
-          Copy <strong>{timeString}</strong> to:
-        </p>
+    <div className='copy-times-modal' ref={modalEl}>
+      <p className='copy-times-text'>
+        Copy <strong>{timeString}</strong> to:
+      </p>
+      <CopyTimesOption
+        day='EVERY DAY'
+        selectedDay={day}
+        checked={checked}
+        setChecked={setChecked}
+      />
+      {uppercaseWeekdayNames.map(uppercaseWeekdayName => (
         <CopyTimesOption
-          day='EVERY DAY'
+          day={uppercaseWeekdayName}
           selectedDay={day}
           checked={checked}
           setChecked={setChecked}
         />
-        {uppercaseWeekdayNames.map(uppercaseWeekdayName => (
-          <CopyTimesOption
-            day={uppercaseWeekdayName}
-            selectedDay={day}
-            checked={checked}
-            setChecked={setChecked}
-          />
-        ))}
-        <button
-          className='apply'
-          onClick={() => copyTimes(checked, day, days, idx, setDays)}
-        >
-          Apply
-        </button>
-      </div>
+      ))}
+      <button className='apply' onClick={handleApply}>
+        Apply
+      </button>
     </div>
   )
 }
