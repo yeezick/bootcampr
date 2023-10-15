@@ -1,4 +1,4 @@
-import { UserInterface } from 'interfaces'
+import { ProjectTrackerInterface, UserInterface } from 'interfaces'
 import { SnackBarToastInterface } from './SnackBarToast'
 
 export interface TaskInterface {
@@ -45,9 +45,11 @@ export interface TicketDetailInterface {
 
 export interface CreateTicketInterface {
   concatenatedString?: (str: string) => string
-  getAllTicket?: TicketInterface
+  getAllTicket?: ProjectTrackerInterface
   projectId?: string
-  setGetAllTicket?: React.Dispatch<React.SetStateAction<TicketInterface>>
+  setGetAllTicket?: React.Dispatch<
+    React.SetStateAction<ProjectTrackerInterface>
+  >
   splitCamelCaseToWords?: (str: string) => string
   ticketsStatus?: string
   buttonText?: string
@@ -65,9 +67,11 @@ export interface TicketStatusChangeFunc {
 }
 export interface TicketDetailPropsInterface {
   concatenatedString?: (str: string) => string
-  getAllTicket?: TicketInterface[]
+  getAllTicket?: ProjectTrackerInterface
   ref?: any
-  setGetAllTicket?: React.Dispatch<React.SetStateAction<TicketInterface[]>>
+  setGetAllTicket?: React.Dispatch<
+    React.SetStateAction<ProjectTrackerInterface>
+  >
   splitCamelCaseToWords?: (str: string) => string
   ticketDetail?: TicketInterface
   ticketsStatus?: KeyOfTicketStatusType | string

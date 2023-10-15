@@ -21,12 +21,7 @@ export interface ProjectInterface {
     engineers?: UserInterface[]
   }
   problem: string
-  projectTracker?: {
-    completed?: TicketInterface[]
-    inProgress?: TicketInterface[]
-    toDo?: TicketInterface[]
-    underReview?: TicketInterface[]
-  }
+  projectTracker?: ProjectTrackerInterface
   completedInfo?: {
     participatingMembers?: { user: ProjectMemberInterface; decision: string }[]
     deployedUrl?: {
@@ -48,4 +43,11 @@ export interface EmailMap {
     role: string
     index: number
   }
+}
+
+export interface ProjectTrackerInterface {
+  completed: TicketInterface[]
+  inProgress: TicketInterface[]
+  toDo: TicketInterface[]
+  underReview: TicketInterface[]
 }

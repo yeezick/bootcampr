@@ -1,13 +1,14 @@
-import { AllTickets } from 'components/Kanban'
+import { TaskBoard } from 'components/Kanban'
 import { ProjectInterface } from 'interfaces'
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { getOneProject, getOneUser, verifyTokenExpiration } from 'utils/api'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { toggleChatOpen } from 'utils/redux/slices/chatSlice'
+import { selectProject } from 'utils/redux/slices/projectSlice'
 import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
 
-export const ProjectDetails = () => {
+export const TaskManagement = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -19,6 +20,7 @@ export const ProjectDetails = () => {
   const [myTaskChecked, setMyTaskChecked] = useState(false)
   const [emailLinkClicked, setEmailLinkClicked] = useState(false)
   const { id } = useParams()
+  const project = useAppSelector(selectProject)
   const [projectDetail, setProjectDetails] = useState<ProjectInterface | null>(
     null
   )
@@ -73,9 +75,7 @@ export const ProjectDetails = () => {
 
   return (
     <div className='Project'>
-      <div>
-        {projectDetail && <AllTickets projectTracker={projectDetail} />}
-      </div>
+      {/* {project && <TaskBoard projectTracker={project} />} */}
     </div>
   )
 }

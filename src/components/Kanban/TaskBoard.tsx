@@ -17,8 +17,11 @@ import { SnackBarToastInterface } from 'interfaces/SnackBarToast'
 import { Checkbox } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { selectProject } from 'utils/redux/slices/projectSlice'
 
-export const AllTickets = ({ projectTracker }) => {
+// TODO: Rename projectTracker to project
+export const TaskBoard = () => {
+  const projectTracker = useAppSelector(selectProject)
   const [allTaskChecked, setAllTaskChecked] = useState(true)
   const [myTaskChecked, setMyTaskChecked] = useState(false)
   const dispatch = useAppDispatch()
@@ -43,7 +46,12 @@ export const AllTickets = ({ projectTracker }) => {
         ]?.find(item => item._id?.toString() === ticketId)
 
         if (sourceCategory !== targetCategory && item) {
-          ticketStatusChange({ sourceCategory, targetCategory, item, ticketId })
+          ticketStatusChange({
+            sourceCategory,
+            targetCategory,
+            item,
+            ticketId,
+          })
         }
       }
     }
@@ -100,31 +108,10 @@ export const AllTickets = ({ projectTracker }) => {
   }
 
   const checkIfTheresNoTicket = () => {
-    if (getAllTicket) {
-      const noTicket = Object.keys(getAllTicket).every(
-        ticketStatus => getAllTicket[ticketStatus]?.length === 0
-      )
-      return noTicket
-    }
-  }
-
-  const onlyGetMyTicket = () => {
-    setAllTaskChecked(false)
-    setMyTaskChecked(true)
-
-    if (getAllTicket) {
-      const newProjectDetail = {
-        projectTracker: {
-          toDo: filterOutTickets('toDo'),
-          inProgress: filterOutTickets('inProgress'),
-          underReview: filterOutTickets('underReview'),
-          completed: filterOutTickets('completed'),
-        },
-      }
-      setGetAllTicket({
-        ...newProjectDetail.projectTracker,
-      })
-    }
+    const noTicket = Object.keys(getAllTicket).every(
+      ticketStatus => getAllTicket[ticketStatus]?.length === 0
+    )
+    return noTicket
   }
 
   const filterOutTickets = objectKey => {
@@ -133,28 +120,9 @@ export const AllTickets = ({ projectTracker }) => {
     )
   }
 
-  const getAllTickets = () => {
-    setAllTaskChecked(true)
-    setMyTaskChecked(false)
-    setGetAllTicket(projectTracker.projectTracker)
-  }
   return (
     <div className='AllTickets'>
-      <div>
-        <div className='Project-header'>
-          <h1>Kanban board</h1>
-        </div>
-        <div className='Project-filter'>
-          <span>
-            <Checkbox checked={allTaskChecked} onClick={getAllTickets} />
-            <p>All tasks</p>
-          </span>
-          <span>
-            <Checkbox onClick={onlyGetMyTicket} checked={myTaskChecked} />
-            <p>My tasks</p>
-          </span>
-        </div>
-      </div>
+      <BoardHeader />
       <div
         className={`${
           checkIfTheresNoTicket()
@@ -162,35 +130,33 @@ export const AllTickets = ({ projectTracker }) => {
             : 'AllTicketsDragDrop'
         }`}
       >
-        {getAllTicket && (
-          <DragDropContext onDragEnd={handleOnDragEnd}>
-            {Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
-              <Droppable droppableId={ticketsStatus} key={ticketsStatus}>
-                {provided => (
-                  <div className='ticketStatusContainer' key={i}>
-                    <div className='ticketStatusProgress'>
-                      <p>{formatTaskStatus(ticketsStatus)}</p>
-                      <span>{getAllTicket[ticketsStatus].length}</span>
-                    </div>
-                    <div>
-                      <CreateTicket
-                        projectId={id}
-                        setGetAllTicket={setGetAllTicket}
-                        getAllTicket={getAllTicket}
-                        ticketsStatus={splitCamelCaseToWords(ticketsStatus)}
-                        concatenatedString={concatenatedString}
-                        buttonText='Create task'
-                        projectMembers={members}
-                      />
-                    </div>
-                    <div
-                      className='content'
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                    >
-                      {getAllTicket[
-                        ticketsStatus as KeyOfTicketStatusType
-                      ]?.map((ticketDetail: TicketInterface, idx) => (
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          {Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
+            <Droppable droppableId={ticketsStatus} key={ticketsStatus}>
+              {provided => (
+                <div className='ticketStatusContainer' key={i}>
+                  <div className='ticketStatusProgress'>
+                    <p>{formatTaskStatus(ticketsStatus)}</p>
+                    <span>{getAllTicket[ticketsStatus].length}</span>
+                  </div>
+                  <div>
+                    <CreateTicket
+                      projectId={id}
+                      setGetAllTicket={setGetAllTicket}
+                      getAllTicket={getAllTicket}
+                      ticketsStatus={splitCamelCaseToWords(ticketsStatus)}
+                      concatenatedString={concatenatedString}
+                      buttonText='Create task'
+                      projectMembers={members}
+                    />
+                  </div>
+                  <div
+                    className='content'
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {getAllTicket[ticketsStatus as KeyOfTicketStatusType]?.map(
+                      (ticketDetail: TicketInterface, idx) => (
                         <Draggable
                           key={ticketDetail._id}
                           draggableId={ticketDetail._id}
@@ -216,15 +182,15 @@ export const AllTickets = ({ projectTracker }) => {
                             </div>
                           )}
                         </Draggable>
-                      ))}
-                      {provided.placeholder}
-                    </div>
+                      )
+                    )}
+                    {provided.placeholder}
                   </div>
-                )}
-              </Droppable>
-            ))}
-          </DragDropContext>
-        )}
+                </div>
+              )}
+            </Droppable>
+          ))}
+        </DragDropContext>
       </div>
       {checkIfTheresNoTicket() ? (
         <div className='ifTheresNoTicket'>
@@ -256,6 +222,54 @@ export const AllTickets = ({ projectTracker }) => {
           </div>
         </div>
       ) : null}
+    </div>
+  )
+}
+
+export const BoardHeader = () => {
+  const [viewAllTasks, setViewAllTasks] = useState(false)
+  const [viewMyTasks, setViewMyTasks] = useState(false)
+
+  // const getAllTickets = () => {
+  //   setViewAllTasks(true);
+  //   setMyTaskChecked(false);
+  //   setGetAllTicket(projectTracker.projectTracker);
+  // };
+
+  // const onlyGetMyTicket = () => {
+  //   setAllTaskChecked(false);
+  //   setMyTaskChecked(true);
+
+  //   if (getAllTicket) {
+  //     const newProjectDetail = {
+  //       projectTracker: {
+  //         toDo: filterOutTickets("toDo"),
+  //         inProgress: filterOutTickets("inProgress"),
+  //         underReview: filterOutTickets("underReview"),
+  //         completed: filterOutTickets("completed"),
+  //       },
+  //     };
+  //     setGetAllTicket({
+  //       ...newProjectDetail.projectTracker,
+  //     });
+  //   }
+  // };
+
+  return (
+    <div>
+      <div className='Project-header'>
+        <h1>Kanban board</h1>
+      </div>
+      <div className='Project-filter'>
+        <span>
+          {/* <Checkbox checked={viewAllTasks} onClick={getAllTickets} /> */}
+          <p>All tasks</p>
+        </span>
+        <span>
+          {/* <Checkbox checked={viewMyTasks} onClick={onlyGetMyTicket} /> */}
+          <p>My tasks</p>
+        </span>
+      </div>
     </div>
   )
 }
