@@ -16,7 +16,7 @@ export const EditAvailability = () => {
     await saveAvailability(dispatch, authUser._id, days)
 
   return (
-    <div>
+    <div className='edit-availability-container'>
       <Availability days={days} setDays={setDays} />
       <div className='edit-availability-btn-group'>
         <PrimaryButton handler={handleSaveAvailability} text='Save' />
