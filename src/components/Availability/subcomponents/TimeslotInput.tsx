@@ -4,7 +4,7 @@ import {
   ContentCopyOutlined,
 } from '@mui/icons-material'
 import { SelectTimeInput } from './SelectTimeInput'
-import { Box, Checkbox, Modal } from '@mui/material'
+import { Checkbox } from '@mui/material'
 import { useState, useEffect, useRef } from 'react'
 import './CopyTimesModal.scss'
 import { useDispatch } from 'react-redux'
@@ -17,13 +17,8 @@ import {
   copyTimes,
 } from '../utils/helpers'
 
-export const TimeSlotInput = ({ day, days, setDays, slots }) => {
+export const TimeSlotInput = ({ day, days, setDays }) => {
   const dispatch = useDispatch()
-  const [modalX, setModalX] = useState(null)
-  const [modalY, setModalY] = useState(null)
-  // const [modalIsOpen, setIsOpen] = useState(false)
-  // const openModal = () => setIsOpen(true)
-  // const closeModal = () => setIsOpen(false)
   const [displayModal, toggleDisplayModal] = useState({
     0: false,
   })
@@ -37,18 +32,7 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
   }, [days])
 
   const handleRenderModal = (e, idx) => {
-    // const parent = copyTimesRef.current.getBoundingClientRect()
-
     renderCopyTimesModal(idx, displayModal, toggleDisplayModal)
-    const rect = e.target.getBoundingClientRect()
-
-    const right = rect.right
-    const top = rect.top
-    setModalX(right)
-    setModalY(top)
-
-    console.log(`top: ${top}, right: ${right}`)
-    return [top, right]
   }
 
   return (
@@ -92,7 +76,6 @@ export const TimeSlotInput = ({ day, days, setDays, slots }) => {
                   idx={idx}
                   copyTimes={copyTimes}
                   setDays={setDays}
-                  toggleDisplayModal={toggleDisplayModal}
                   handleRenderModal={handleRenderModal}
                 />
               )}
@@ -111,7 +94,6 @@ export const CopyTimesModal = ({
   idx,
   copyTimes,
   setDays,
-  toggleDisplayModal,
   handleRenderModal,
 }) => {
   const timeString = `${days[day].availability[idx][0]} - ${days[day].availability[idx][1]}`
