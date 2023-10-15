@@ -1,3 +1,10 @@
+.edit-availability-container {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  margin: 0 auto;
+}
+
 .edit-availability-btn-group {
   display: flex;
   justify-content: flex-end;
