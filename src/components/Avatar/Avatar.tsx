@@ -36,12 +36,6 @@ const Avatar: React.FC<AvatarProps> = ({
   const imgClassName = clickable || setAnchorEl ? 'avatar-img' : 'non-clickable'
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  // console.log('Avatar Current profile pic', profilePicture)
-  // console.log(
-  //   'Avatar Is there a uploaded profile pic',
-  //   hasUploadedProfilePicture
-  // )
-
   const handleOpenModal = () => setIsModalOpen(true)
   const handleCloseModal = () => setIsModalOpen(false)
 

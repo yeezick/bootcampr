@@ -34,9 +34,6 @@ import './ProfilePreviewImage.scss'
  * @returns {JSX.Element} - ProfilePreviewImage component.
  */
 
-// BUG: Profile preview picture size scss fix (Update): bypassing preview to edit photo box instead
-// TODO: Ask UXE team on what will the image modal will show when theirs no photo (Update): I will need to reverse the order of what displays first when clicking icon button ex: click icon -> file search box -> Profile photo box -> Edit photo box
-
 export const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
   onOpen,
   onClose,

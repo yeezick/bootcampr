@@ -139,6 +139,9 @@
       height: 168px;
       margin-top: 6px;
       margin: 0;
+      overflow: scroll;
+      overflow-wrap: break-word;
+      width: 100%;
     }
   }
 
