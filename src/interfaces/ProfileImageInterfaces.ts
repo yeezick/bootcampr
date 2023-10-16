@@ -10,11 +10,14 @@ export interface AvatarProps {
   addPhotoIconClassName?: string
 }
 
-export interface ImageEditorModalProps {
-  open: boolean
+export interface ProfilePreviewImageProps {
+  onOpen: boolean
   onClose: () => void
-  uploadedImage?: string
-  onSaveClick?: (image: string) => void
+}
+
+export interface ImageEditorModalProps {
+  onOpen: boolean
+  onClose: () => void
 }
 
 export interface ImageEditorHeaderProps {
@@ -22,26 +25,12 @@ export interface ImageEditorHeaderProps {
 }
 
 export interface ImageEditorContentProps {
-  uploadedImage: string
+  profilePicture: string
   crop: Point
   zoom: number
   setCrop: (crop: Point) => void
   setCropArea: (cropArea: Area) => void
   setZoom: (zoom: number) => void
-}
-
-export interface ImageEditorControlsProps {
-  fileInputRef: React.RefObject<HTMLInputElement>
-  handleUpload: (dataURL: string) => void
-  zoom: number
-  setZoom: (zoom: number) => void
-  handleSave: () => void
-}
-
-export interface ProfilePreviewImageProps {
-  open: boolean
-  onClose: () => void
-  uploadedImage?: string
 }
 
 export interface FileInputProps {

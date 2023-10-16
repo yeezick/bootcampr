@@ -59,6 +59,7 @@ export const EditProfile: React.FC = () => {
     }
   }
 
+  // TODO: Remove this function and see how to reset form without it
   const handleCancel = () => {
     setUpdateUserForm({ ...authUser })
     navigate(`/users/${params.id}`)
@@ -75,8 +76,8 @@ export const EditProfile: React.FC = () => {
           isOpen: true,
           message: 'Profile saved!',
           duration: 3000,
-          vertical: 'top',
-          horizontal: 'center',
+          vertical: 'bottom',
+          horizontal: 'right',
           severity: 'success',
         })
       )
@@ -88,6 +89,8 @@ export const EditProfile: React.FC = () => {
           isOpen: true,
           message: 'Failed to update user profile. Please try again.',
           duration: 3000,
+          vertical: 'bottom',
+          horizontal: 'right',
           severity: 'error',
         })
       )
@@ -143,6 +146,8 @@ export const EditProfile: React.FC = () => {
               <TextareaAutosize
                 name='bio'
                 className='editprofile__textarea'
+                minRows={8}
+                maxRows={9}
                 value={bio}
                 onChange={handleInputChange}
                 maxLength={500}

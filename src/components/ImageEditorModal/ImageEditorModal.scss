@@ -2,54 +2,48 @@
 
 .image-modal {
   &__actions {
-    margin: 1rem 1.5rem !important;
+    margin: 32px 0 16px 0;
+    padding: 0;
   }
 
   &__action-box {
-    @include action-box;
-  }
-
-  &__actions {
-    flex-direction: column !important;
+    width: 100%;
   }
 
   &__button-box {
+    align-items: flex-start;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    gap: 32px;
+    justify-content: center;
+    margin: auto;
+    padding: 0;
+    width: auto;
   }
 
-  &__change-btn,
-  &__crop-btn {
-    color: #470d91 !important;
-    font-size: 16px !important;
-    text-transform: none !important;
+  &__cancel-btn {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    color: #1a237e;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    padding: 0 12px 0 12px;
+    text-transform: none;
+    width: auto;
   }
 
-  &__change-btn {
-    border-color: #470d91 !important;
+  &__cancel-btn:hover {
+    background-color: #1a237e;
+    color: #ffffff;
   }
 
   &__close-btn {
     cursor: pointer;
-    padding-right: 20px;
-  }
-
-  &__crop-btn {
-    font-size: 15px !important;
-    padding-bottom: 20px !important;
-
-    .MuiSvgIcon-root {
-      color: #470d91;
-      font-size: 25px !important;
-    }
-  }
-
-  &__crop-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2;
-    justify-content: center;
+    padding: 0 10px 20px 0;
+    width: 24px;
+    height: 24px;
   }
 
   &__dialog-content {
@@ -71,19 +65,29 @@
   }
 
   &__save-btn {
-    background-color: #fa9413 !important;
-    color: #470d91 !important;
-    font-size: 16px !important;
-    text-transform: none !important;
+    background-color: #ffa726;
+    border-radius: 4px;
+    border: none;
+    color: #1a237e;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    padding: 0 24px 0 24px;
+    text-transform: none;
+    width: auto;
   }
 
-  &__slider {
-    color: #470d91 !important;
+  &__save-btn:hover {
+    background-color: #1a237e;
+    color: #ffa726;
   }
 
   &__title {
     font-size: 24px !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
+    line-height: 32px !important;
     text-align: center;
+    padding: 16px !important;
   }
 }

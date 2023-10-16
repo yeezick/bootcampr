@@ -1,16 +1,17 @@
-import { useState } from 'react'
-import { useSelector } from 'react-redux'
-import ProfilePreviewImage from 'screens/ProfilePreviewImage/ProfilePreviewImage'
+import { useState, useEffect, useRef } from 'react'
 import {
   getUserProfileImage,
   selectHasUploadedProfilePicture,
   selectAuthUser,
+  setUploadedImage,
 } from 'utils/redux/slices/userSlice'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { AvatarProps } from 'interfaces/ProfileImageInterfaces'
+import { ProfilePreviewImage } from 'screens/ProfilePreviewImage/ProfilePreviewImage'
 import { IconButton } from '@mui/material'
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined'
 import './Avatar.scss'
-import { useAppSelector } from 'utils/redux/hooks'
+import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
 
 /**
  * Avatar component to display a user's avatar image.
@@ -26,13 +27,27 @@ const Avatar: React.FC<AvatarProps> = ({
   addPhotoIconClassName,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const profilePicture = useSelector(getUserProfileImage)
-  const hasUploadedProfilePicture = useSelector(selectHasUploadedProfilePicture)
-  const imgClassName = clickable || setAnchorEl ? 'avatar-img' : 'non-clickable'
+  const dispatch = useAppDispatch()
+  const profilePicture = useAppSelector(getUserProfileImage)
   const authUser = useAppSelector(selectAuthUser)
+  const hasUploadedProfilePicture = useAppSelector(
+    selectHasUploadedProfilePicture
+  )
+  const imgClassName = clickable || setAnchorEl ? 'avatar-img' : 'non-clickable'
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   // console.log('Avatar Current profile pic', profilePicture)
-  // console.log('Avatar Is there a uploaded profile pic', hasUploadedProfilePicture)
+  // console.log(
+  //   'Avatar Is there a uploaded profile pic',
+  //   hasUploadedProfilePicture
+  // )
+
+  const handleOpenModal = () => setIsModalOpen(true)
+  const handleCloseModal = () => setIsModalOpen(false)
+
+  useEffect(() => {
+    dispatch(setUploadedImage(profilePicture))
+  }, [dispatch, profilePicture])
 
   const handleClick = e => {
     if (clickable && openModal) {
@@ -43,8 +58,16 @@ const Avatar: React.FC<AvatarProps> = ({
     }
   }
 
-  const handleOpenModal = () => setIsModalOpen(true)
-  const handleCloseModal = () => setIsModalOpen(false)
+  const handleIconClick = () => {
+    if (!hasUploadedProfilePicture && hasIcon) {
+      fileInputRef.current?.click()
+    }
+  }
+
+  const handleFileInputChange = (dataURL: string) => {
+    dispatch(setUploadedImage(dataURL))
+    setIsModalOpen(true)
+  }
 
   const defaultImageURL = `https://ui-avatars.com/api/?name=${authUser.firstName}+${authUser.lastName}&background=FFA726&color=1A237E&rounded=true&bold=true`
 
@@ -76,7 +99,7 @@ const Avatar: React.FC<AvatarProps> = ({
               <IconButton
                 aria-label='change profile pic'
                 className='avatar-default-cameraIcon'
-                onClick={handleOpenModal}
+                onClick={handleIconClick}
               >
                 <AddAPhotoOutlinedIcon className={addPhotoIconClassName} />
               </IconButton>
@@ -84,12 +107,11 @@ const Avatar: React.FC<AvatarProps> = ({
           </div>
         )}
       </div>
-
-      <ProfilePreviewImage
-        open={isModalOpen}
-        onClose={handleCloseModal}
-        uploadedImage={profilePicture}
+      <FileInput
+        onFileChange={handleFileInputChange}
+        fileInputRef={fileInputRef}
       />
+      <ProfilePreviewImage onOpen={isModalOpen} onClose={handleCloseModal} />
     </>
   )
 }

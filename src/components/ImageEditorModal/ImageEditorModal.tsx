@@ -1,20 +1,21 @@
-import { useCallback, useState, useRef, useEffect } from 'react'
+import { useCallback, useState } from 'react'
+import { useAppSelector, useAppDispatch } from 'utils/redux/hooks'
+import {
+  selectAuthUser,
+  updateAuthUser,
+  getUserProfileImage,
+} from 'utils/redux/slices/userSlice'
+import { updateUser } from 'utils/api'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { ImageEditorModalProps } from '../../interfaces/ProfileImageInterfaces'
-import { Dialog, DialogActions } from '@mui/material'
-import { createUserImage, saveCroppedImage } from './ImageEditorModalUtils'
 import ImageEditorHeader from './ImageEditorHeader'
 import ImageEditorControls from './ImageEditorControls'
 import ImageEditorContent from './ImageEditorContent'
-import { Area, Point } from 'react-easy-crop/types'
-import { useAppSelector, useAppDispatch } from 'utils/redux/hooks'
-import {
-  setUploadedImage,
-  selectAuthUser,
-  updateAuthUser,
-} from 'utils/redux/slices/userSlice'
+import { createUserImage, saveCroppedImage } from './ImageEditorModalUtils'
 import getCroppedImg from 'components/Crop/Utils/CropImage'
+import { Dialog, DialogActions } from '@mui/material'
+import { Area, Point } from 'react-easy-crop/types'
 import './ImageEditorModal.scss'
-import { updateUser } from 'utils/api'
 
 /**
  * ImageEditorModal component allows the user to edit, crop, and save images.
@@ -25,10 +26,8 @@ import { updateUser } from 'utils/api'
  * @returns {JSX.Element} - ImageEditorModal component.
  */
 const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
-  open,
+  onOpen,
   onClose,
-  uploadedImage,
-  // onSaveClick
 }) => {
   // Component state for managing the uploaded image, crop position, crop area, and zoom level
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
@@ -39,18 +38,10 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
     height: 100,
   })
   const [zoom, setZoom] = useState<number>(1)
-  const fileInputRef = useRef<HTMLInputElement>(null)
   const dispatch = useAppDispatch()
+  const profilePicture = useAppSelector(getUserProfileImage)
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId } = authUser
-
-  /**
-   * Sets the uploaded image URL.
-   * @param {string} dataUrl - The data URL of the uploaded image.
-   */
-  const handleUpload = (dataUrl: string) => {
-    dispatch(setUploadedImage(dataUrl))
-  }
 
   /**
    * Resets the component state and calls the onClose callback to close the modal.
@@ -66,8 +57,8 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
    * Generates a cropped image URL, creates an image file from the URL, sends the file to the server, and then closes the modal.
    */
   const handleSave = useCallback(async () => {
-    if (uploadedImage) {
-      getCroppedImg(uploadedImage, cropArea, zoom).then(
+    if (profilePicture) {
+      getCroppedImg(profilePicture, cropArea, zoom).then(
         async croppedImageURL => {
           if (croppedImageURL) {
             try {
@@ -78,23 +69,44 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
               })
 
               dispatch(updateAuthUser(userImageUpdate))
-              // dispatch(setUploadedImage(`https://bootcampruserimage.s3.amazonaws.com/${userId}`))
+              dispatch(
+                createSnackBar({
+                  isOpen: true,
+                  message: 'Photo saved!',
+                  duration: 3000,
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                  severity: 'success',
+                })
+              )
               handleClose()
             } catch (error) {
-              console.error('Failed to generate cropped image URL:', error)
+              console.log('Failed to generate cropped image URL:', error)
+              dispatch(
+                createSnackBar({
+                  isOpen: true,
+                  message: 'Photo did not upload. Please try again.',
+                  duration: 3000,
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                  severity: 'error',
+                })
+              )
             }
           }
         }
       )
     }
-  }, [uploadedImage, cropArea, zoom, handleClose, dispatch, userId])
+  }, [profilePicture, cropArea, zoom, handleClose, dispatch, userId])
+
+  console.log('uploaded image Image Editor', profilePicture)
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
+    <Dialog open={onOpen} onClose={onClose} maxWidth='sm' fullWidth>
       <ImageEditorHeader handleClose={handleClose} />
       <div className='image-modal__content'>
         <ImageEditorContent
-          uploadedImage={uploadedImage}
+          profilePicture={profilePicture}
           crop={crop}
           zoom={zoom}
           setCrop={setCrop}
@@ -103,10 +115,7 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
         />
         <DialogActions className='image-modal__actions'>
           <ImageEditorControls
-            fileInputRef={fileInputRef}
-            handleUpload={handleUpload}
-            zoom={zoom}
-            setZoom={setZoom}
+            handleClose={handleClose}
             handleSave={handleSave}
           />
         </DialogActions>

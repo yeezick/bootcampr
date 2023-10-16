@@ -109,9 +109,9 @@ const userSlice = createSlice({
       state.status.isError = { status: false }
     },
     setUploadedImage: (state, action: PayloadAction<string | null>) => {
-      console.log('action.payload:===', action.payload)
-      state.auth.user.profilePicture = action.payload
-      state.auth.user.hasUploadedProfilePicture = true
+      const uploadedImage = action.payload
+      state.auth.user.profilePicture = uploadedImage
+      state.auth.user.hasUploadedProfilePicture = !!uploadedImage
     },
     setDefaultProfilePicture: (state, action: PayloadAction<boolean>) => {
       if (!state.auth.user.profilePicture) {

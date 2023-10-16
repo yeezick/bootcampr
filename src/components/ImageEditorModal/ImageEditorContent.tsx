@@ -9,7 +9,7 @@ import './ImageEditorModal.scss'
 
 /**
  * ImageEditorContent component displays the image editing content.
- * @param {string} uploadedImage - The uploaded image in base64 format.
+ * @param {string} profilePicture - The uploaded image in base64 format.
  * @param {Object} crop - The crop position of the image.
  * @param {number} zoom - The zoom level of the image.
  * @param {Function} setCrop - Function to set the crop position of the image.
@@ -18,7 +18,7 @@ import './ImageEditorModal.scss'
  * @returns {JSX.Element} - ImageEditorContent component.
  */
 const ImageEditorContent: React.FC<ImageEditorContentProps> = ({
-  uploadedImage,
+  profilePicture,
   crop,
   zoom,
   setCrop,
@@ -50,9 +50,9 @@ const ImageEditorContent: React.FC<ImageEditorContentProps> = ({
         onFileChange={handleFileInputChange}
         fileInputRef={fileInputRef}
       />
-      {uploadedImage ? (
+      {profilePicture ? (
         <Cropper
-          image={uploadedImage}
+          image={profilePicture}
           crop={crop}
           zoom={zoom}
           aspect={1}
@@ -60,6 +60,7 @@ const ImageEditorContent: React.FC<ImageEditorContentProps> = ({
           onCropComplete={cropComplete}
           onZoomChange={setZoom}
           cropShape='round'
+          cropSize={{ width: 200, height: 200 }}
           showGrid={false}
         />
       ) : (
