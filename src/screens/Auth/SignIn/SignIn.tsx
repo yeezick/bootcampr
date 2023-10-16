@@ -116,7 +116,6 @@ const SignIn: React.FC = (): JSX.Element => {
 
     dispatch(setAuthUser(response))
     storeUserProject(dispatch, response.project)
-    console.log(response)
     !response.onboarded
       ? navigate(`/onboarding/${response._id}`)
       : navigate(`/project/${response.project}`)
