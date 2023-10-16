@@ -23,11 +23,11 @@ import { getMembersAttributesByProjectId } from 'utils/api'
 import { IoMdClose } from 'react-icons/io'
 import { useDispatch } from 'react-redux'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import { concatenatedString } from 'utils/helpers/stringHelpers'
 
 export const CreateTicket = ({
   setGetAllTicket,
   getAllTicket,
-  concatenatedString,
   ticketsStatus,
   projectId,
   buttonText,

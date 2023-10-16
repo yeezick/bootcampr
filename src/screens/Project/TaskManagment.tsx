@@ -1,8 +1,7 @@
 import { TaskBoard } from 'components/Kanban'
-import { ProjectInterface } from 'interfaces'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { getOneProject, getOneUser, verifyTokenExpiration } from 'utils/api'
+import { getOneUser, verifyTokenExpiration } from 'utils/api'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { toggleChatOpen } from 'utils/redux/slices/chatSlice'
 import { selectProject } from 'utils/redux/slices/projectSlice'
@@ -16,14 +15,9 @@ export const TaskManagement = () => {
   const queryParams = new URLSearchParams(location.search)
   const queryToken = queryParams.get('unread')
   const queryUserId = queryParams.get('user')
-  const [allTaskChecked, setAllTaskChecked] = useState(true)
-  const [myTaskChecked, setMyTaskChecked] = useState(false)
   const [emailLinkClicked, setEmailLinkClicked] = useState(false)
   const { id } = useParams()
   const project = useAppSelector(selectProject)
-  const [projectDetail, setProjectDetails] = useState<ProjectInterface | null>(
-    null
-  )
 
   useEffect(() => {
     if (queryToken) {
@@ -61,21 +55,5 @@ export const TaskManagement = () => {
     emailLinkClicked && dispatch(toggleChatOpen())
   }, [authUser.project, emailLinkClicked, dispatch])
 
-  useEffect(() => {
-    const getProject = async () => {
-      try {
-        const project = await getOneProject(id)
-        setProjectDetails(project)
-      } catch (error) {
-        console.error('Failed to fetch project details:', error)
-      }
-    }
-    getProject()
-  }, [id])
-
-  return (
-    <div className='Project'>
-      {/* {project && <TaskBoard projectTracker={project} />} */}
-    </div>
-  )
+  return <div className='Project'>{project && <TaskBoard />}</div>
 }

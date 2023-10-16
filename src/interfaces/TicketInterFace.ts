@@ -44,7 +44,6 @@ export interface TicketDetailInterface {
 }
 
 export interface CreateTicketInterface {
-  concatenatedString?: (str: string) => string
   getAllTicket?: ProjectTrackerInterface
   projectId?: string
   setGetAllTicket?: React.Dispatch<
