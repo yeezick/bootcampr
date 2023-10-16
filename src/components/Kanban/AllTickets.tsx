@@ -100,10 +100,12 @@ export const AllTickets = ({ projectTracker }) => {
   }
 
   const checkIfTheresNoTicket = () => {
-    const noTicket = Object.keys(getAllTicket).every(
-      ticketStatus => getAllTicket[ticketStatus]?.length === 0
-    )
-    return noTicket
+    if (getAllTicket) {
+      const noTicket = Object.keys(getAllTicket).every(
+        ticketStatus => getAllTicket[ticketStatus]?.length === 0
+      )
+      return noTicket
+    }
   }
 
   const onlyGetMyTicket = () => {
@@ -160,33 +162,35 @@ export const AllTickets = ({ projectTracker }) => {
             : 'AllTicketsDragDrop'
         }`}
       >
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-          {Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
-            <Droppable droppableId={ticketsStatus} key={ticketsStatus}>
-              {provided => (
-                <div className='ticketStatusContainer' key={i}>
-                  <div className='ticketStatusProgress'>
-                    <p>{formatTaskStatus(ticketsStatus)}</p>
-                    <span>{getAllTicket[ticketsStatus].length}</span>
-                  </div>
-                  <div>
-                    <CreateTicket
-                      projectId={id}
-                      setGetAllTicket={setGetAllTicket}
-                      getAllTicket={getAllTicket}
-                      ticketsStatus={splitCamelCaseToWords(ticketsStatus)}
-                      concatenatedString={concatenatedString}
-                      buttonText='Create task'
-                      projectMembers={members}
-                    />
-                  </div>
-                  <div
-                    className='content'
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    {getAllTicket[ticketsStatus as KeyOfTicketStatusType]?.map(
-                      (ticketDetail: TicketInterface, idx) => (
+        {getAllTicket && (
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            {Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
+              <Droppable droppableId={ticketsStatus} key={ticketsStatus}>
+                {provided => (
+                  <div className='ticketStatusContainer' key={i}>
+                    <div className='ticketStatusProgress'>
+                      <p>{formatTaskStatus(ticketsStatus)}</p>
+                      <span>{getAllTicket[ticketsStatus].length}</span>
+                    </div>
+                    <div>
+                      <CreateTicket
+                        projectId={id}
+                        setGetAllTicket={setGetAllTicket}
+                        getAllTicket={getAllTicket}
+                        ticketsStatus={splitCamelCaseToWords(ticketsStatus)}
+                        concatenatedString={concatenatedString}
+                        buttonText='Create task'
+                        projectMembers={members}
+                      />
+                    </div>
+                    <div
+                      className='content'
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {getAllTicket[
+                        ticketsStatus as KeyOfTicketStatusType
+                      ]?.map((ticketDetail: TicketInterface, idx) => (
                         <Draggable
                           key={ticketDetail._id}
                           draggableId={ticketDetail._id}
@@ -212,15 +216,15 @@ export const AllTickets = ({ projectTracker }) => {
                             </div>
                           )}
                         </Draggable>
-                      )
-                    )}
-                    {provided.placeholder}
+                      ))}
+                      {provided.placeholder}
+                    </div>
                   </div>
-                </div>
-              )}
-            </Droppable>
-          ))}
-        </DragDropContext>
+                )}
+              </Droppable>
+            ))}
+          </DragDropContext>
+        )}
       </div>
       {checkIfTheresNoTicket() ? (
         <div className='ifTheresNoTicket'>
