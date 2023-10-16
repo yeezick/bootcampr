@@ -65,7 +65,6 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
       displayNotification({
         message: 'User profile successfully updated.',
       })
-
       handlePageNavigation('next')
     } catch (error) {
       console.log('Error occured when trying to create User Profile', error)

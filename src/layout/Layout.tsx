@@ -29,6 +29,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
   const dispatch = useAppDispatch()
   const status = useAppSelector(uiStatus)
   const { project } = useAppSelector(selectAuthUser)
+  const authUser = useAppSelector(selectAuthUser)
   const sideMenu = useAppSelector(selectSideMenu)
   const [searchParams, setSearchParams] = useSearchParams()
   const { state } = location
