@@ -60,7 +60,7 @@ const ImageEditorContent: React.FC<ImageEditorContentProps> = ({
           onCropComplete={cropComplete}
           onZoomChange={setZoom}
           cropShape='round'
-          cropSize={{ width: 200, height: 200 }}
+          cropSize={{ width: 250, height: 250 }}
           showGrid={false}
         />
       ) : (

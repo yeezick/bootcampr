@@ -99,8 +99,6 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
     }
   }, [profilePicture, cropArea, zoom, handleClose, dispatch, userId])
 
-  console.log('uploaded image Image Editor', profilePicture)
-
   return (
     <Dialog open={onOpen} onClose={onClose} maxWidth='sm' fullWidth>
       <ImageEditorHeader handleClose={handleClose} />

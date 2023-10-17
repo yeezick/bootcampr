@@ -25,6 +25,7 @@
     border: none;
     border-radius: 4px;
     color: #1a237e;
+    cursor: pointer;
     font-size: 14px;
     font-weight: 500;
     height: 40px;
@@ -34,9 +35,8 @@
     width: auto;
   }
 
-  &__cancel-btn:hover {
-    background-color: #1a237e;
-    color: #ffffff;
+  &__cancel-btn:active {
+    background-color: #f5f5f5;
   }
 
   &__close-btn {
@@ -69,6 +69,7 @@
     border-radius: 4px;
     border: none;
     color: #1a237e;
+    cursor: pointer;
     font-size: 14px;
     font-weight: 500;
     height: 40px;
@@ -78,9 +79,8 @@
     width: auto;
   }
 
-  &__save-btn:hover {
-    background-color: #1a237e;
-    color: #ffa726;
+  &__save-btn:active {
+    background-color: #ff9800;
   }
 
   &__title {
