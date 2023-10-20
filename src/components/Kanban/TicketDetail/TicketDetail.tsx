@@ -37,6 +37,14 @@ export const TicketDetail = ({
   const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false)
   const [assigneesOptions, setAssigneesOptions] = useState([])
   const [assignee, setAssignee] = useState('Unassigned')
+  const tittleRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
+  const dateRef: MutableRefObject<HTMLInputElement | null> = useRef(null)
+  const linkRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
+  const descriptionRef: MutableRefObject<HTMLParagraphElement | null> =
+    useRef(null)
+  const dispatch = useDispatch()
+  const openModal = () => setIsOpen(true)
+  const closeModal = () => setIsOpen(false)
 
   const getAssignees = async (projectId, attributes) => {
     let assignees = await getMembersAttributesByProjectId(projectId, attributes)
@@ -49,16 +57,7 @@ export const TicketDetail = ({
     getAssignees(projectId, attributesForAssignees)
   }, [])
 
-  const tittleRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
-  const dateRef: MutableRefObject<HTMLInputElement | null> = useRef(null)
-  const linkRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
-  const descriptionRef: MutableRefObject<HTMLParagraphElement | null> =
-    useRef(null)
-  const dispatch = useDispatch()
-  const openModal = () => setIsOpen(true)
-  const closeModal = () => setIsOpen(false)
-
-  const saveChanges = () => {
+  const handleSaveChanges = () => {
     const { status } = ticketDetail
     const updateText: TaskInterface = {
       assignees: authUser._id,
@@ -122,11 +121,7 @@ export const TicketDetail = ({
   }
   return (
     <div>
-      <div onClick={openModal} className='ticketDetailOpenModal'>
-        <div>
-          <h3>{ticketDetail.title}</h3>
-        </div>
-      </div>
+      <TicketTab openModal={openModal} ticketDetail={ticketDetail} />
       <Modal open={modalIsOpen} onClose={closeModal} className='modal'>
         {isBeingEdited ? (
           <h1>Saving changes...</h1>
@@ -188,7 +183,7 @@ export const TicketDetail = ({
                       className='ticketDetailOpenModalButton button2'
                       style={{ backgroundColor: '#8048c8', color: 'white' }}
                       disabled={false}
-                      onClick={() => saveChanges()}
+                      onClick={handleSaveChanges}
                     >
                       Save Changes
                     </button>
@@ -199,6 +194,16 @@ export const TicketDetail = ({
           </>
         )}
       </Modal>
+    </div>
+  )
+}
+
+export const TicketTab = ({ openModal, ticketDetail }) => {
+  return (
+    <div onClick={openModal} className='ticketDetailOpenModal'>
+      <div>
+        <h3>{ticketDetail.title}</h3>
+      </div>
     </div>
   )
 }

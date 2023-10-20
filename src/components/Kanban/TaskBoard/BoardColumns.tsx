@@ -14,26 +14,9 @@ import {
 import { TicketDetail } from '../TicketDetail/TicketDetail'
 import { useAppSelector } from 'utils/redux/hooks'
 import { useParams } from 'react-router-dom'
-import { selectProject } from 'utils/redux/slices/projectSlice'
 
 export const BoardColumns = ({ getAllTicket, setGetAllTicket }) => {
-  const { members } = useAppSelector(selectProject)
   const { id } = useParams()
-
-  const formatTaskStatus = (status: string) => {
-    switch (status) {
-      case 'toDo':
-        return 'To Do'
-      case 'inProgress':
-        return 'In Progress'
-      case 'completed':
-        return 'Completed'
-      case 'underReview':
-        return 'Under Review'
-      default:
-        return status
-    }
-  }
 
   const handleOnDragEnd = movingTicket => {
     if (movingTicket) {
@@ -153,4 +136,19 @@ export const BoardColumns = ({ getAllTicket, setGetAllTicket }) => {
       </DragDropContext>
     </div>
   )
+}
+
+const formatTaskStatus = (status: string) => {
+  switch (status) {
+    case 'toDo':
+      return 'To Do'
+    case 'inProgress':
+      return 'In Progress'
+    case 'completed':
+      return 'Completed'
+    case 'underReview':
+      return 'Under Review'
+    default:
+      return status
+  }
 }
