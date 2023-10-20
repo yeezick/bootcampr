@@ -90,67 +90,67 @@ export const BoardColumns = ({ getAllTicket, setGetAllTicket }) => {
   }
 
   return (
-    <>
+    <div className={'AllTicketsDragDrop'}>
       <DragDropContext onDragEnd={handleOnDragEnd}>
-        {Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
-          <Droppable droppableId={ticketsStatus} key={ticketsStatus}>
-            {provided => (
-              <div className='ticketStatusContainer' key={i}>
-                <div className='ticketStatusProgress'>
-                  <p>{formatTaskStatus(ticketsStatus)}</p>
-                  <span>{getAllTicket[ticketsStatus].length}</span>
+        {getAllTicket &&
+          Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
+            <Droppable droppableId={ticketsStatus} key={ticketsStatus}>
+              {provided => (
+                <div className='ticketStatusContainer' key={i}>
+                  <div className='ticketStatusProgress'>
+                    <p>{formatTaskStatus(ticketsStatus)}</p>
+                    <span>{getAllTicket[ticketsStatus].length}</span>
+                  </div>
+                  <div>
+                    <CreateTicket
+                      projectId={id}
+                      setGetAllTicket={setGetAllTicket}
+                      getAllTicket={getAllTicket}
+                      ticketsStatus={splitCamelCaseToWords(ticketsStatus)}
+                      buttonText='Create task'
+                    />
+                  </div>
+                  <div
+                    className='content'
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {getAllTicket[ticketsStatus as KeyOfTicketStatusType]?.map(
+                      (ticketDetail: TicketInterface, idx) => (
+                        <Draggable
+                          key={ticketDetail._id}
+                          draggableId={ticketDetail._id}
+                          index={idx}
+                        >
+                          {provided => (
+                            <div
+                              className='ticketContainer'
+                              id={ticketDetail._id}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <TicketDetail
+                                ticketDetail={ticketDetail}
+                                getAllTicket={getAllTicket}
+                                setGetAllTicket={setGetAllTicket}
+                                ticketsStatus={ticketsStatus}
+                                splitCamelCaseToWords={splitCamelCaseToWords}
+                                concatenatedString={concatenatedString}
+                                projectId={id}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      )
+                    )}
+                    {provided.placeholder}
+                  </div>
                 </div>
-                <div>
-                  <CreateTicket
-                    projectId={id}
-                    setGetAllTicket={setGetAllTicket}
-                    getAllTicket={getAllTicket}
-                    ticketsStatus={splitCamelCaseToWords(ticketsStatus)}
-                    buttonText='Create task'
-                    projectMembers={members}
-                  />
-                </div>
-                <div
-                  className='content'
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {getAllTicket[ticketsStatus as KeyOfTicketStatusType]?.map(
-                    (ticketDetail: TicketInterface, idx) => (
-                      <Draggable
-                        key={ticketDetail._id}
-                        draggableId={ticketDetail._id}
-                        index={idx}
-                      >
-                        {provided => (
-                          <div
-                            className='ticketContainer'
-                            id={ticketDetail._id}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <TicketDetail
-                              ticketDetail={ticketDetail}
-                              getAllTicket={getAllTicket}
-                              setGetAllTicket={setGetAllTicket}
-                              ticketsStatus={ticketsStatus}
-                              splitCamelCaseToWords={splitCamelCaseToWords}
-                              concatenatedString={concatenatedString}
-                              projectId={id}
-                            />
-                          </div>
-                        )}
-                      </Draggable>
-                    )
-                  )}
-                  {provided.placeholder}
-                </div>
-              </div>
-            )}
-          </Droppable>
-        ))}
+              )}
+            </Droppable>
+          ))}
       </DragDropContext>
-    </>
+    </div>
   )
 }

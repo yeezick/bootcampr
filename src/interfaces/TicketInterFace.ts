@@ -53,7 +53,6 @@ export interface CreateTicketInterface {
   ticketsStatus?: string
   buttonText?: string
   buttonClassName?: string
-  projectMembers: object
   openSnackBar?: SnackBarToastInterface
   setOpenSnackBar?: React.Dispatch<React.SetStateAction<SnackBarToastInterface>>
 }

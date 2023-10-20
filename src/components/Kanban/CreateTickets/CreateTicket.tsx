@@ -32,7 +32,6 @@ export const CreateTicket = ({
   projectId,
   buttonText,
   buttonClassName,
-  projectMembers,
 }: CreateTicketInterface) => {
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
   const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()

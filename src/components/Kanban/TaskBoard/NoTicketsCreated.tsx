@@ -1,18 +1,15 @@
 import { useParams } from 'react-router-dom'
 import { CreateTicket } from '../CreateTickets/CreateTicket'
 import kanbanImage from '../svg/bootcampr.png'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectProjectTracker } from 'utils/redux/slices/projectSlice'
 
-export const NoTicketsCreated = ({
-  getAllTicket,
-  setGetAllTicket,
-  projectTracker,
-}) => {
+export const NoTicketsCreated = ({ getAllTicket, setGetAllTicket }) => {
+  const projectTracker = useAppSelector(selectProjectTracker)
   const { id } = useParams()
-  const { members } = projectTracker
 
   return (
-    <>
-      (
+    <div className='AllTicketsDragDropNoTicket'>
       <div className='ifTheresNoTicket'>
         <div className='ifTheresNoTicketImageContainer'>
           <img src={kanbanImage} alt='kanbanImage' />
@@ -35,11 +32,9 @@ export const NoTicketsCreated = ({
             ticketsStatus={'to Do'}
             buttonText=' Created first task'
             buttonClassName='button2'
-            projectMembers={members}
           />
         </div>
       </div>
-      )
-    </>
+    </div>
   )
 }

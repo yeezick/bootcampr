@@ -120,12 +120,14 @@ export const selectMembersByEmail = emails => (state: RootState) => {
   return allMembers
 }
 
-export const selectMembersByRole = (state: RootState) => state.project.members
 export const selectCalendarId = (state: RootState) => state.project.calendarId
-export const selectProject = (state: RootState) => state.project
-export const selectProjectId = (state: RootState) => state.project._id
 export const selectCompletedInfo = (state: RootState) =>
   state.project.completedInfo
+export const selectMembersByRole = (state: RootState) => state.project.members
+export const selectProject = (state: RootState) => state.project
+export const selectProjectId = (state: RootState) => state.project._id
+export const selectProjectTracker = (state: RootState) =>
+  state.project.projectTracker
 export const selectRenderProjectPortal = (state: RootState) =>
   state.project.projectPortal.renderProjectPortal
 

@@ -1,44 +1,40 @@
 import { Checkbox } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { filterOutTickets } from 'utils/helpers/taskHelpers'
 import { useAppSelector } from 'utils/redux/hooks'
+import { selectProjectTracker } from 'utils/redux/slices/projectSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
-export const BoardHeader = ({
-  getAllTicket,
-  setGetAllTicket,
-  projectTracker,
-}) => {
-  const authUser = useAppSelector(selectAuthUser)
+export const BoardHeader = ({ visibleTickets, setVisibleTickets }) => {
+  const projectTracker = useAppSelector(selectProjectTracker)
+  const { _id: userId } = useAppSelector(selectAuthUser)
   const [viewAllTasks, setViewAllTasks] = useState(false)
   const [viewMyTasks, setViewMyTasks] = useState(false)
 
-  const getAllTickets = () => {
-    setViewAllTasks(true)
-    setViewAllTasks(false)
-    setGetAllTicket(projectTracker.projectTracker)
+  useEffect(() => {
+    handleAllTasksCheckbox()
+  }, [])
+
+  const handleAllTasksCheckbox = () => {
+    if (viewAllTasks === false) {
+      setViewAllTasks(true)
+      setViewMyTasks(false)
+      setVisibleTickets(projectTracker)
+    } else {
+      handleMyTasksCheckbox()
+    }
   }
 
-  const filterOutTickets = objectKey => {
-    return getAllTicket[objectKey].filter(
-      assign => assign.assignee === authUser._id
-    )
-  }
-  const onlyGetMyTicket = () => {
-    setViewAllTasks(false)
-    setViewMyTasks(true)
+  const handleMyTasksCheckbox = () => {
+    if (viewMyTasks === false) {
+      setViewAllTasks(false)
+      setViewMyTasks(true)
 
-    if (getAllTicket) {
-      const newProjectDetail = {
-        projectTracker: {
-          toDo: filterOutTickets('toDo'),
-          inProgress: filterOutTickets('inProgress'),
-          underReview: filterOutTickets('underReview'),
-          completed: filterOutTickets('completed'),
-        },
+      if (visibleTickets) {
+        setVisibleTickets(filterOutTickets(visibleTickets, userId))
       }
-      setGetAllTicket({
-        ...newProjectDetail.projectTracker,
-      })
+    } else {
+      handleAllTasksCheckbox()
     }
   }
 
@@ -49,11 +45,11 @@ export const BoardHeader = ({
       </div>
       <div className='Project-filter'>
         <span>
-          <Checkbox checked={viewAllTasks} onClick={getAllTickets} />
+          <Checkbox checked={viewAllTasks} onClick={handleAllTasksCheckbox} />
           <p>All tasks</p>
         </span>
         <span>
-          <Checkbox checked={viewMyTasks} onClick={onlyGetMyTicket} />
+          <Checkbox checked={viewMyTasks} onClick={handleMyTasksCheckbox} />
           <p>My tasks</p>
         </span>
       </div>

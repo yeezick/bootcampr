@@ -1,50 +1,45 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import '../Ticket.scss'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectProject } from 'utils/redux/slices/projectSlice'
+import { selectProjectTracker } from 'utils/redux/slices/projectSlice'
 import { BoardColumns } from './BoardColumns'
 import { NoTicketsCreated } from './NoTicketsCreated'
 import { BoardHeader } from './BoardHeader'
 
 // TODO: Rename projectTracker to project
 export const TaskBoard = () => {
-  const projectTracker = useAppSelector(selectProject)
-  const [getAllTicket, setGetAllTicket] = useState(
-    projectTracker?.projectTracker
-  )
+  const projectTracker = useAppSelector(selectProjectTracker)
+  const [visibleTickets, setVisibleTickets] = useState(projectTracker)
+  const [ticketsExist, setTicketsExist] = useState(false)
 
-  const checkIfTheresNoTicket = () => {
-    console.log(getAllTicket)
-    const noTicket = Object.keys(getAllTicket).every(
-      ticketStatus => getAllTicket[ticketStatus]?.length === 0
-    )
-    return noTicket
-  }
+  useEffect(() => {
+    const doTicketsExist = () => {
+      if (visibleTickets) {
+        const noTicket = Object.keys(visibleTickets).some(
+          status => visibleTickets[status]?.length > 0
+        )
+        return noTicket
+      } else return false
+    }
+    setTicketsExist(doTicketsExist())
+  }, [projectTracker])
 
   return (
     <div className='AllTickets'>
       <BoardHeader
-        getAllTicket={getAllTicket}
-        setGetAllTicket={setGetAllTicket}
-        projectTracker={projectTracker}
+        visibleTickets={visibleTickets}
+        setVisibleTickets={setVisibleTickets}
       />
-      <div
-        className={`${
-          checkIfTheresNoTicket()
-            ? 'AllTicketsDragDropNoTicket'
-            : 'AllTicketsDragDrop'
-        }`}
-      >
+      {ticketsExist && (
         <BoardColumns
-          getAllTicket={getAllTicket}
-          setGetAllTicket={setGetAllTicket}
+          getAllTicket={visibleTickets}
+          setGetAllTicket={setVisibleTickets}
         />
-      </div>
-      {checkIfTheresNoTicket() && (
+      )}
+      {!ticketsExist && (
         <NoTicketsCreated
-          getAllTicket={getAllTicket}
-          setGetAllTicket={setGetAllTicket}
-          projectTracker={projectTracker}
+          getAllTicket={visibleTickets}
+          setGetAllTicket={setVisibleTickets}
         />
       )}
     </div>
