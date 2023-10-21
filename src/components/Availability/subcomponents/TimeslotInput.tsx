@@ -17,7 +17,7 @@ import {
   copyTimes,
 } from '../utils/helpers'
 
-export const TimeSlotInput = ({ day, days, setDays, slots }) => {
+export const TimeSlotInput = ({ day, days, setDays }) => {
   const dispatch = useDispatch()
   const [displayModal, toggleDisplayModal] = useState({
     0: false,

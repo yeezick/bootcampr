@@ -9,12 +9,12 @@ export const weekdaysMap = {
 }
 
 export enum Timezones {
-  ET = 'Eastern Standard Time (EST)',
-  CT = 'Central Standard Time (CST)',
-  MT = 'Mountain Standard Time - (MST)',
-  PT = 'Pacific Standard Time - (PST)',
-  AT = 'Alaskan Standard Time (AKST)',
-  HST = 'Hawaii-Aleutian Standard Time (HST)',
+  ET = 'Eastern Time (ET)',
+  CT = 'Central Time (CT)',
+  MT = 'Mountain Time (MT)',
+  PT = 'Pacific Time (PT)',
+  AT = 'Alaskan Time (AKT)',
+  HST = 'Hawaii-Aleutian Time (HT)',
 }
 
 export const defaultAvailabilityForm = {

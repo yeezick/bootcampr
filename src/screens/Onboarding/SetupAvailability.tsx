@@ -7,6 +7,7 @@ import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { AvailabilityInterface } from 'interfaces'
 import { saveAvailability } from 'components/Availability/utils/helpers'
 import './SetupAvailability.scss'
+import { Timezones } from 'components/Availability/utils/data'
 
 interface SetupAvailabilityProps {
   handlePageNavigation: (navType: 'previous' | 'next' | 'specific') => void
@@ -15,12 +16,15 @@ interface SetupAvailabilityProps {
 export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   handlePageNavigation,
 }) => {
+  // Here the timezone should be guessed and populated. If the user changes it, keep what the user uses
   const [days, setDays] = useState<AvailabilityInterface>(defaultAvailability)
+  const [userTimezone, setUserTimezone] = useState(Timezones.ET)
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
   const handleBack = () => handlePageNavigation('previous')
+
   const handleSaveAvailability = async () => {
-    await saveAvailability(dispatch, authUser._id, days)
+    await saveAvailability(dispatch, authUser._id, days, userTimezone)
     handlePageNavigation('next')
   }
 
@@ -35,7 +39,12 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
         <i>Select at least one day per week with a block of time.</i>
       </div>
 
-      <Availability days={days} setDays={setDays} />
+      <Availability
+        days={days}
+        setDays={setDays}
+        userTimezone={userTimezone}
+        setUserTimezone={setUserTimezone}
+      />
 
       <div className='setup-avail-buttons-wrapper'>
         <div className='setup-avail-buttons'>

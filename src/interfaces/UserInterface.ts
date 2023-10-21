@@ -1,6 +1,7 @@
 import { SvgIconTypeMap } from '@mui/material'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
 import { ProjectInterface } from 'interfaces'
+import { TimezonesUTC } from 'utils/data/timeZoneConstants'
 
 export type DomainStrings = 'project' | 'settings' | string
 
@@ -26,6 +27,7 @@ export interface UserInterface {
   role?: string
   unreadMessages?: {}
   savedProjects?: ProjectInterface[]
+  timezone?: TimezonesUTC
   verified?: Boolean
   __v?: number
   _id?: string
