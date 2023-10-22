@@ -8,8 +8,6 @@ import { BoardHeader } from './BoardHeader'
 import { Box, Dialog, DialogContent } from '@mui/material'
 import { IoMdClose } from 'react-icons/io'
 import {
-  StatusFields,
-  TextFields,
   TicketStatusFields,
   TicketTextFields,
 } from '../CreateTickets/CreateTicket'
