@@ -27,16 +27,19 @@ export const CalendarView = () => {
   // TODO: only hydrate calendar with events in user.meetings
   useEffect(() => {
     const fetchAllEvents = async () => {
-      const googleCalendarEvents = await fetchUserCalendar(
-        calendarId,
-        userEmail
-      )
-      setIsLoading(false)
-      dispatch(
-        storeConvertedEvents(
-          convertGoogleEventsForCalendar(googleCalendarEvents)
+      let googleCalendarEvents = []
+      try {
+        googleCalendarEvents = await fetchUserCalendar(calendarId, userEmail)
+        setIsLoading(false)
+
+        dispatch(
+          storeConvertedEvents(
+            convertGoogleEventsForCalendar(googleCalendarEvents)
+          )
         )
-      )
+      } catch (err) {
+        console.error(err)
+      }
     }
     if (calendarId) {
       fetchAllEvents()
