@@ -38,3 +38,5 @@ export const NoTicketsCreated = ({ getAllTicket, setGetAllTicket }) => {
     </div>
   )
 }
+
+// Todo: convert createTicket button here into reusable MUI button

@@ -1,5 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { produce } from 'immer'
+import { TicketInterface } from 'interfaces'
 import { ProjectInterface } from 'interfaces/ProjectInterface'
 import { RootState } from 'utils/redux/store'
 
@@ -40,17 +41,18 @@ const initialState: ProjectInterface = {
   },
 }
 
+export interface AddTicketReducer {
+  status: string
+  newTicket: TicketInterface
+}
+
 const projectSlice = createSlice({
   name: 'project',
   initialState,
   reducers: {
-    setProject: (state, action: PayloadAction<ProjectInterface>) => {
-      const updatedProject = produce(action.payload, draft => {
-        const { engineers, designers } = draft.members
-        draft.members.emailMap = mapMembersByEmail([engineers, designers])
-        draft.projectPortal = { renderProjectPortal: false }
-      })
-      return updatedProject
+    addTicketToStatus: (state, action: PayloadAction<AddTicketReducer>) => {
+      const { status, newTicket } = action.payload
+      state.projectTracker[status].push(newTicket)
     },
     updateProject: (state, action: PayloadAction<ProjectInterface>) => {
       return {
@@ -72,15 +74,23 @@ const projectSlice = createSlice({
     ) => {
       state.completedInfo.deployedUrl = action.payload
     },
+    setProject: (state, action: PayloadAction<ProjectInterface>) => {
+      const updatedProject = produce(action.payload, draft => {
+        const { engineers, designers } = draft.members
+        draft.members.emailMap = mapMembersByEmail([engineers, designers])
+        draft.projectPortal = { renderProjectPortal: false }
+      })
+      return updatedProject
+    },
+    setProjectFailure: state => {
+      state.loading = false
+    },
     setProjectStart: state => {
       state.loading = true
     },
     setProjectSuccess: (state, action: PayloadAction<ProjectInterface>) => {
       state.loading = false
       return action.payload
-    },
-    setProjectFailure: state => {
-      state.loading = false
     },
     renderProjectPortal: state => {
       state.projectPortal.renderProjectPortal =

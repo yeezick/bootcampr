@@ -14,6 +14,7 @@ import {
 import { TicketDetail } from '../TicketDetail/TicketDetail'
 import { useAppSelector } from 'utils/redux/hooks'
 import { useParams } from 'react-router-dom'
+import { selectProjectId } from 'utils/redux/slices/projectSlice'
 
 export const BoardColumns = ({ getAllTicket, setGetAllTicket }) => {
   const { id } = useParams()
@@ -80,10 +81,10 @@ export const BoardColumns = ({ getAllTicket, setGetAllTicket }) => {
             <Droppable droppableId={ticketsStatus} key={ticketsStatus}>
               {provided => (
                 <div className='ticketStatusContainer' key={i}>
-                  <div className='ticketStatusProgress'>
-                    <p>{formatTaskStatus(ticketsStatus)}</p>
-                    <span>{getAllTicket[ticketsStatus].length}</span>
-                  </div>
+                  <ColumnHeader
+                    visibleTickets={getAllTicket}
+                    columnStatus={ticketsStatus}
+                  />
                   <div>
                     <CreateTicket
                       projectId={id}
@@ -93,47 +94,74 @@ export const BoardColumns = ({ getAllTicket, setGetAllTicket }) => {
                       buttonText='Create task'
                     />
                   </div>
-                  <div
-                    className='content'
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    {getAllTicket[ticketsStatus as KeyOfTicketStatusType]?.map(
-                      (ticketDetail: TicketInterface, idx) => (
-                        <Draggable
-                          key={ticketDetail._id}
-                          draggableId={ticketDetail._id}
-                          index={idx}
-                        >
-                          {provided => (
-                            <div
-                              className='ticketContainer'
-                              id={ticketDetail._id}
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              <TicketDetail
-                                ticketDetail={ticketDetail}
-                                getAllTicket={getAllTicket}
-                                setGetAllTicket={setGetAllTicket}
-                                ticketsStatus={ticketsStatus}
-                                splitCamelCaseToWords={splitCamelCaseToWords}
-                                concatenatedString={concatenatedString}
-                                projectId={id}
-                              />
-                            </div>
-                          )}
-                        </Draggable>
-                      )
-                    )}
-                    {provided.placeholder}
-                  </div>
+                  <ColumnTickets
+                    provided={provided}
+                    columnStatus={ticketsStatus}
+                    visibleTickets={getAllTicket}
+                    setVisibleTickets={setGetAllTicket}
+                  />
                 </div>
               )}
             </Droppable>
           ))}
       </DragDropContext>
+    </div>
+  )
+}
+
+// Todo: rename provided?
+export const ColumnTickets = ({
+  provided,
+  visibleTickets,
+  setVisibleTickets,
+  columnStatus,
+}) => {
+  const projectId = useAppSelector(selectProjectId)
+  return (
+    <div
+      className='content'
+      {...provided.droppableProps}
+      ref={provided.innerRef}
+    >
+      {visibleTickets[columnStatus as KeyOfTicketStatusType]?.map(
+        (ticketDetail: TicketInterface, idx) => (
+          <Draggable
+            key={ticketDetail._id}
+            draggableId={ticketDetail._id}
+            index={idx}
+          >
+            {provided => (
+              <div
+                className='ticketContainer'
+                id={ticketDetail._id}
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+              >
+                <TicketDetail
+                  ticketDetail={ticketDetail}
+                  getAllTicket={visibleTickets}
+                  setGetAllTicket={setVisibleTickets}
+                  ticketsStatus={columnStatus}
+                  splitCamelCaseToWords={splitCamelCaseToWords}
+                  concatenatedString={concatenatedString}
+                  projectId={projectId}
+                />
+              </div>
+            )}
+          </Draggable>
+        )
+      )}
+      {provided.placeholder}
+    </div>
+  )
+}
+
+export const ColumnHeader = ({ visibleTickets, columnStatus }) => {
+  return (
+    <div className='ticketStatusProgress'>
+      <p>{formatTaskStatus(columnStatus)}</p>
+      <span>{visibleTickets[columnStatus].length}</span>
     </div>
   )
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import '../Ticket.scss'
 import { Icon, TextField } from '@mui/material'
 
+// TODO: convert into reusable text component
 const TextFieldData = ({
   name,
   handleOnChange,

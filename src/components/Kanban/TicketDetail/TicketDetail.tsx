@@ -14,7 +14,7 @@ import EditableText from './EditableText'
 import { TbPencilMinus } from 'react-icons/tb'
 import { BiLink } from 'react-icons/bi'
 import { RxPerson, RxText } from 'react-icons/rx'
-import { UserAssignee } from './UserAssignee'
+import { AssignUser } from './AssignUser'
 import { SelectDate } from './SelectDate'
 import '../Ticket.scss'
 import { getMembersAttributesByProjectId } from 'utils/api'
@@ -60,7 +60,7 @@ export const TicketDetail = ({
   const handleSaveChanges = () => {
     const { status } = ticketDetail
     const updateText: TaskInterface = {
-      assignees: authUser._id,
+      assignee: authUser._id,
       date: dateRef.current?.value,
       description: descriptionRef.current?.textContent,
       _id: ticketDetail._id,
@@ -158,10 +158,9 @@ export const TicketDetail = ({
                     ticketDetail={ticketDetail}
                     splitCamelCaseToWords={splitCamelCaseToWords}
                   />
-                  <UserAssignee
+                  <AssignUser
                     text='Assignee'
                     detailIcon={<RxPerson />}
-                    projectMembers={assigneesOptions}
                     setAssignee={setAssignee}
                     assignee={assignee}
                   />

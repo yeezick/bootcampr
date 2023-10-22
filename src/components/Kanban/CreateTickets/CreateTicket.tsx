@@ -11,50 +11,48 @@ import {
 } from 'interfaces/TicketInterFace'
 import { createTicketApi } from 'utils/api/tickets'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { selectUserId } from 'utils/redux/slices/userSlice'
 import '../Ticket.scss'
 import TextFieldData from './TextFieldData'
 import { BiLink } from 'react-icons/bi'
-import { UserAssignee } from '../TicketDetail/UserAssignee'
 import { RxPerson, RxText } from 'react-icons/rx'
 import { SelectDate } from '../TicketDetail/SelectDate'
 import { TbPencilMinus } from 'react-icons/tb'
-import { getMembersAttributesByProjectId } from 'utils/api'
 import { IoMdClose } from 'react-icons/io'
 import { useDispatch } from 'react-redux'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { concatenatedString } from 'utils/helpers/stringHelpers'
+import { selectProjectId } from 'utils/redux/slices/projectSlice'
+import { AssignUser } from '../TicketDetail/AssignUser'
+
+const initialTaskInterface: TaskInterface = {
+  assignee: '',
+  date: '',
+  description: '',
+  _id: '',
+  id: '',
+  link: '',
+  projectId: '',
+  status: '',
+  title: '',
+}
 
 export const CreateTicket = ({
-  setGetAllTicket,
-  getAllTicket,
   ticketsStatus,
-  projectId,
-  buttonText,
-  buttonClassName,
+  getAllTicket,
+  setGetAllTicket,
 }: CreateTicketInterface) => {
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
-  const [addTicketForm, setAddTicketForm] = useState<TaskInterface>()
+  const [addTicketForm, setAddTicketForm] =
+    useState<TaskInterface>(initialTaskInterface)
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [isBeingCreated, setIsBeingCreated] = useState<boolean>(false)
-  const authUser = useAppSelector(selectAuthUser)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
-  const [assigneesOptions, setAssigneesOptions] = useState([])
-  const [assignee, setAssignee] = useState('Unassigned')
-
-  const getAssignees = async (projectId, attributes) => {
-    let assignees = await getMembersAttributesByProjectId(projectId, attributes)
-    setAssigneesOptions(assignees)
-  }
 
   useEffect(() => {
-    const attributesForAssignees = 'firstName,lastName,role,profilePicture'
-    getAssignees(projectId, attributesForAssignees)
-  }, [projectId])
-  const dispatch = useDispatch()
+    // determine if in edit or create mode
+  })
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
     setAddTicketForm({
       ...addTicketForm,
@@ -62,17 +60,139 @@ export const CreateTicket = ({
     })
   }
 
+  return (
+    <div>
+      <CreateTicketTab openModal={openModal} />
+      <Modal open={modalIsOpen} onClose={closeModal} className='modal'>
+        <div>
+          <Box className='ticketDetailOpenModalBox'>
+            <IoMdClose className='close-x' onClick={closeModal} />
+            <Box className='createTicketBox'>
+              <TicketTextFields handleInputChange={handleInputChange} />
+              <TicketStatusFields
+                ticketsStatus={ticketsStatus}
+                handleInputChange={handleInputChange}
+                closeModal={closeModal}
+                addTicketForm={addTicketForm}
+                getAllTicket={getAllTicket}
+                setGetAllTicket={setGetAllTicket}
+              />
+            </Box>
+          </Box>
+        </div>
+      </Modal>
+    </div>
+  )
+}
+
+export const TicketTextFields = ({ handleInputChange }) => {
+  return (
+    <Box>
+      <TextFieldData
+        name={'title'}
+        text='Title'
+        detailIcon={<RxText />}
+        placeholderText={'Ex, User interviews'}
+        handleOnChange={handleInputChange}
+      />
+      <Box className='EditableText'>
+        <div className='EditableTextIconText'>
+          <Icon>
+            <TbPencilMinus />
+          </Icon>
+          <h4>Description</h4>
+        </div>
+        <TextField
+          className='EditableTextTextField'
+          type='text'
+          id='outlined-basic'
+          variant='outlined'
+          multiline
+          placeholder='Give a description of the task.
+          You may want to include user stories:
+          As a _______, I want to _________, so that I can ________.'
+          name='description'
+          onChange={handleInputChange}
+          InputProps={{ rows: 4.5 }}
+        />
+      </Box>
+      <TextFieldData
+        detailIcon={<BiLink />}
+        text='Link'
+        name={'link'}
+        placeholderText={'Add a link'}
+        handleOnChange={handleInputChange}
+      />
+    </Box>
+  )
+}
+
+export const TicketStatusFields = ({
+  handleInputChange,
+  closeModal,
+  addTicketForm,
+  ticketsStatus,
+  getAllTicket,
+  setGetAllTicket,
+}) => {
+  const [assignee, setAssignee] = useState('Unassigned')
+  const [isBeingCreated, setIsBeingCreated] = useState<boolean>(false)
+
+  return (
+    <Box className='createTicketStatusUser'>
+      <SelectStatus
+        handleOnChange={handleInputChange}
+        ticketsStatus={ticketsStatus}
+      />
+      <AssignUser
+        text='Assignee'
+        detailIcon={<RxPerson />}
+        setAssignee={setAssignee}
+        assignee={'Unassigned'}
+      />
+      <SelectDate handleOnChange={handleInputChange} />
+      <CreateTaskButtons
+        assignee={assignee}
+        closeModal={closeModal}
+        isBeingCreated={isBeingCreated}
+        setIsBeingCreated={setIsBeingCreated}
+        addTicketForm={addTicketForm}
+        ticketsStatus={ticketsStatus}
+        getAllTicket={getAllTicket}
+        setGetAllTicket={setGetAllTicket}
+      />
+    </Box>
+  )
+}
+
+export const CreateTaskButtons = ({
+  assignee,
+  closeModal,
+  isBeingCreated,
+  setIsBeingCreated,
+  addTicketForm,
+  ticketsStatus,
+  getAllTicket,
+  setGetAllTicket,
+}) => {
+  const projectId = useAppSelector(selectProjectId)
+  const userId = useAppSelector(selectUserId)
+  const dispatch = useDispatch()
+
   const addTickets = async () => {
     setIsBeingCreated(true)
+    // Add ticket form should always be set to ticketStatus => can immediately concatenate here
     const status = addTicketForm?.status ?? ticketsStatus
     const newStatus = concatenatedString(status)
     const createdTicket = await createTicketApi({
       ...addTicketForm,
       projectId: projectId,
       status: newStatus,
-      createdBy: authUser._id,
+      createdBy: userId,
       assignee: assignee,
     })
+    // Dispatch to reducer
+    // Add to visible tickets
     setGetAllTicket({
       ...getAllTicket,
       [newStatus]: [...getAllTicket[newStatus], { ...createdTicket }],
@@ -90,97 +210,34 @@ export const CreateTicket = ({
   }
 
   return (
-    <div>
+    <Box className='ticketDetail-openModal-box-button '>
       <button
-        onClick={openModal}
-        className={buttonClassName ?? 'createTicketButton'}
+        className='button1'
+        disabled={isBeingCreated}
+        onClick={closeModal}
       >
-        <Icon {...label} component={AddIcon} />
-        {buttonText}
+        Cancel
       </button>
-      <Modal open={modalIsOpen} onClose={closeModal} className='modal'>
-        <div>
-          {isBeingCreated ? (
-            <h1>Creating...</h1>
-          ) : (
-            <Box className='ticketDetailOpenModalBox'>
-              <IoMdClose className='close-x' onClick={closeModal} />
-              <Box className='createTicketBox'>
-                <Box>
-                  <TextFieldData
-                    name={'title'}
-                    text='Title'
-                    detailIcon={<RxText />}
-                    placeholderText={'Ex, User interviews'}
-                    handleOnChange={handleOnChange}
-                  />
-                  <Box className='EditableText'>
-                    <div className='EditableTextIconText'>
-                      <Icon>
-                        <TbPencilMinus />
-                      </Icon>
-                      <h4>Description</h4>
-                    </div>
-                    <TextField
-                      className='EditableTextTextField'
-                      type='text'
-                      // detailIcon={<TbPencilMinus />}
-                      id='outlined-basic'
-                      variant='outlined'
-                      multiline
-                      placeholder='Give a description of the task.
-                      You may want to include user stories:
-                      As a _______, I want to _________, so that I can ________.'
-                      name='description'
-                      onChange={handleOnChange}
-                      InputProps={{ rows: 4.5 }}
-                    />
-                  </Box>
-                  <TextFieldData
-                    detailIcon={<BiLink />}
-                    text='Link'
-                    name={'link'}
-                    placeholderText={'Add a link'}
-                    handleOnChange={handleOnChange}
-                  />
-                </Box>
-                <Box className='createTicketStatusUser'>
-                  <SelectStatus
-                    handleOnChange={handleOnChange}
-                    ticketsStatus={ticketsStatus}
-                  />
-                  <UserAssignee
-                    text='Assignee'
-                    detailIcon={<RxPerson />}
-                    projectMembers={assigneesOptions}
-                    setAssignee={setAssignee}
-                    assignee={'Unassigned'}
-                  />
-                  <SelectDate handleOnChange={handleOnChange} />
+      <button
+        onClick={addTickets}
+        disabled={isBeingCreated}
+        className='button2'
+        style={{ backgroundColor: '#FA9413', color: 'black' }}
+      >
+        Create task
+      </button>
+    </Box>
+  )
+}
 
-                  <Box className='ticketDetail-openModal-box-button '>
-                    <button
-                      className='button1'
-                      disabled={isBeingCreated}
-                      onClick={closeModal}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={addTickets}
-                      disabled={isBeingCreated}
-                      className='button2'
-                      style={{ backgroundColor: '#FA9413', color: 'black' }}
-                    >
-                      Create task
-                    </button>
-                  </Box>
-                </Box>
-              </Box>
-            </Box>
-          )}
-        </div>
-      </Modal>
-    </div>
+// Convert to MUI button
+export const CreateTicketTab = ({ openModal }) => {
+  const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
+
+  return (
+    <button onClick={openModal} className={'createTicketButton'}>
+      <Icon {...label} component={AddIcon} />
+      <p>Create Ticket</p>
+    </button>
   )
 }

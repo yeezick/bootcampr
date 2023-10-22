@@ -2,7 +2,7 @@ import { ProjectTrackerInterface, UserInterface } from 'interfaces'
 import { SnackBarToastInterface } from './SnackBarToast'
 
 export interface TaskInterface {
-  assignees?: UserInterface | string
+  assignee?: string
   date?: string
   description?: string | null
   _id?: string
