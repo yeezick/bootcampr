@@ -1,4 +1,6 @@
-// TODO: include clean documentation for each of these
+/**
+ * User friendly timezone strings determiend by Bootcampr UX team
+ */
 export enum UserFriendlyTimezones {
   'Hawaii-Aleutian Time (HT)',
   'Alaska Time (AKT)',
@@ -10,6 +12,9 @@ export enum UserFriendlyTimezones {
   'Newfoundland Time (NT)',
 }
 
+/**
+ * Standard UTC timezone format
+ */
 export enum TimezonesUTC {
   '-10:00',
   '-9:00',
@@ -21,7 +26,10 @@ export enum TimezonesUTC {
   '-3:30',
 }
 
-export const UTCtoBootcamprTimezoneMap = {
+/**
+ * Mapping of standard UTC timezone to Bootcampr defined user friendly strings
+ */
+export const utcToBootcamprTimezoneMap = {
   '-10:00': 'Hawaii-Aleutian Time (HT)',
   '-9:00': 'Alaska Time (AKT)',
   '-8:00': 'Pacific Time (PT)',
@@ -32,6 +40,9 @@ export const UTCtoBootcamprTimezoneMap = {
   '-3:30': 'Newfoundland Time (NT)',
 }
 
+/**
+ * Mapping of Bootcampr defined user friendly timezone strings to UTC standard
+ */
 export const bootcamprTimezoneToUTCMap = {
   'Hawaii-Aleutian Time (HT)': '-10:00',
   'Alaska Time (AKT)': '-9:00',
@@ -43,6 +54,9 @@ export const bootcamprTimezoneToUTCMap = {
   'Newfoundland Time (NT)': '-3:30',
 }
 
+/**
+ * DayJS library data for each timezone in our determind range (North American zones)
+ */
 export const dayJSformattedTZdata = {
   'America/Adak': {
     label: 'America/Adak (GMT-10:00)',

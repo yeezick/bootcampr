@@ -10,7 +10,7 @@ import {
 } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 import './Availability.scss'
-import { UTCtoBootcamprTimezoneMap } from 'utils/data/timeZoneConstants'
+import { utcToBootcamprTimezoneMap } from 'utils/data/timeZoneConstants'
 
 export const Availability = ({
   days,
@@ -24,7 +24,7 @@ export const Availability = ({
   useEffect(() => {
     setDays(userAvailability)
     const userFriendlyTimezone =
-      UTCtoBootcamprTimezoneMap[storedUserTimezone] || Timezones.ET
+      utcToBootcamprTimezoneMap[storedUserTimezone] || Timezones.ET
     setUserTimezone(userFriendlyTimezone)
   }, [])
 
@@ -43,7 +43,7 @@ export const Availability = ({
           days={days}
           key={`${day}-banner`}
           setDays={setDays}
-          timezone={storedUserTimezone}
+          // timezone={storedUserTimezone}
         />
       ))}
     </div>

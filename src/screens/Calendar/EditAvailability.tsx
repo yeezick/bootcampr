@@ -9,7 +9,7 @@ import { getUserTimezone, selectAuthUser } from 'utils/redux/slices/userSlice'
 import './EditAvailability.scss'
 import { Timezones } from 'components/Availability/utils/data'
 import {
-  UTCtoBootcamprTimezoneMap,
+  utcToBootcamprTimezoneMap,
   bootcamprTimezoneToUTCMap,
 } from 'utils/data/timeZoneConstants'
 import { guessUserTimezone } from 'utils/helpers/availabilityHelpers'
@@ -28,7 +28,7 @@ export const EditAvailability = () => {
   }
 
   useEffect(() => {
-    const userFriendlyTimezone = UTCtoBootcamprTimezoneMap[timezone]
+    const userFriendlyTimezone = utcToBootcamprTimezoneMap[timezone]
     setUXUserTimezone(userFriendlyTimezone)
 
     // NOTE: Placeholder to eventually handle when user's stored TZ does not match DayJS identified local TZ for user

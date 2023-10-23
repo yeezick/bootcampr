@@ -9,9 +9,10 @@ export const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
   const dispatch = useDispatch()
 
   const handleChange = e => {
-    setTimezone(e.target.value)
-    const UTC = bootcamprTimezoneToUTCMap[e.target.value]
-    console.log(UTC)
+    const timezoneValue = e.target.value
+    const UTC = bootcamprTimezoneToUTCMap[timezoneValue]
+
+    setTimezone(timezoneValue)
     dispatch(setUserTimezone(UTC))
   }
 

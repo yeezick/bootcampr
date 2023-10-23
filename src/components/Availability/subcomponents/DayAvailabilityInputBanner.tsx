@@ -2,12 +2,7 @@ import { Checkbox } from '@mui/material'
 import { TimeSlotInput } from './TimeslotInput'
 import { handleCheck } from '../utils/helpers'
 
-export const DayAvailabilityInputBanner = ({
-  day,
-  days,
-  setDays,
-  timezone,
-}) => {
+export const DayAvailabilityInputBanner = ({ day, days, setDays }) => {
   return (
     <div>
       <div className='day-availability-input-banner'>
@@ -22,12 +17,7 @@ export const DayAvailabilityInputBanner = ({
             <h2>{day}</h2>
           </div>
           {days[day]['available'] ? (
-            <TimeSlotInput
-              day={day}
-              days={days}
-              setDays={setDays}
-              // timezone={timezone}
-            />
+            <TimeSlotInput day={day} days={days} setDays={setDays} />
           ) : (
             <h2>Unavailable</h2>
           )}

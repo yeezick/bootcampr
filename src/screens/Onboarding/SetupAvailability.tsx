@@ -10,7 +10,7 @@ import './SetupAvailability.scss'
 import { Timezones } from 'components/Availability/utils/data'
 import { guessUserTimezone } from 'utils/helpers/availabilityHelpers'
 import {
-  UTCtoBootcamprTimezoneMap,
+  utcToBootcamprTimezoneMap,
   bootcamprTimezoneToUTCMap,
 } from 'utils/data/timeZoneConstants'
 
@@ -39,11 +39,10 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
     let userFriendlyTZ = Timezones.ET
 
     if (storedUserTZ) {
-      userFriendlyTZ = UTCtoBootcamprTimezoneMap[storedUserTZ]
+      userFriendlyTZ = utcToBootcamprTimezoneMap[storedUserTZ]
     } else {
       const userTZguess = guessUserTimezone()
       userFriendlyTZ = userTZguess.userFriendlyTZ
-      const utc = userTZguess.utc
     }
     setUserTimezone(userFriendlyTZ)
   }, [])
