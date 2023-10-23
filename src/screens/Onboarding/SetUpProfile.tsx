@@ -104,7 +104,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                 hasIcon={true}
                 clickable={false}
                 iconButtonClassName='setupProfile__cameraIcon'
-                addPhotoIconClassName='setupProfile__imageChange'
+                addPhotoIconId='imageChange'
               />
             </div>
             <label className='setupProfile__profile-label'>

@@ -7,7 +7,7 @@ export interface AvatarProps {
   setAnchorEl?: React.Dispatch<React.SetStateAction<boolean>>
   hasIcon?: boolean
   iconButtonClassName?: string
-  addPhotoIconClassName?: string
+  addPhotoIconId?: string
 }
 
 export interface ProfilePreviewImageProps {

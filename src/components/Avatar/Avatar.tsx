@@ -24,7 +24,7 @@ const Avatar: React.FC<AvatarProps> = ({
   setAnchorEl,
   hasIcon = false,
   iconButtonClassName,
-  addPhotoIconClassName,
+  addPhotoIconId,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const dispatch = useAppDispatch()
@@ -81,8 +81,9 @@ const Avatar: React.FC<AvatarProps> = ({
                 aria-label='change profile pic'
                 className={iconButtonClassName}
                 onClick={handleOpenModal}
+                sx={{ backgroundColor: '#ecebeb' }}
               >
-                <AddAPhotoOutlinedIcon className={addPhotoIconClassName} />
+                <AddAPhotoOutlinedIcon id={addPhotoIconId} />
               </IconButton>
             )}
           </div>
@@ -93,9 +94,10 @@ const Avatar: React.FC<AvatarProps> = ({
               <IconButton
                 aria-label='change profile pic'
                 className='avatar-default-cameraIcon'
+                id='cameraIcon'
                 onClick={handleIconClick}
               >
-                <AddAPhotoOutlinedIcon className={addPhotoIconClassName} />
+                <AddAPhotoOutlinedIcon id={addPhotoIconId} />
               </IconButton>
             )}
           </div>

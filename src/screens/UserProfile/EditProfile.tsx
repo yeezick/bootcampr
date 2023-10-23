@@ -59,12 +59,6 @@ export const EditProfile: React.FC = () => {
     }
   }
 
-  // TODO: Remove this function and see how to reset form without it
-  const handleCancel = () => {
-    setUpdateUserForm({ ...authUser })
-    navigate(`/users/${params.id}`)
-  }
-
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -111,7 +105,7 @@ export const EditProfile: React.FC = () => {
                 hasIcon={true}
                 clickable={false}
                 iconButtonClassName='editprofile__cameraIcon'
-                addPhotoIconClassName='editprofile__imageChange'
+                addPhotoIconId='imageChange'
               />
             </div>
             <button type='submit' className='editprofile__saveBtn'>

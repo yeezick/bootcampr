@@ -4,15 +4,16 @@
 // TODO: Invert background color once Layout CSS is fixed
 
 .userProfile {
+  #imageChange {
+    color: #470d91;
+    font-size: 16px;
+  }
+
   $this: &;
 
   &__icons {
     height: 20px;
     width: 20px;
-  }
-
-  &__imageChange {
-    color: #470d91 !important;
   }
 
   &__heading {
@@ -21,11 +22,11 @@
 
   &__cameraIcon {
     background-color: #ecebeb !important;
+    height: 32px;
     left: 87px;
     top: -37px;
-    width: 32px;
-    height: 32px;
     transform: scaleX(-1);
+    width: 32px;
   }
 
   &__container {
@@ -35,8 +36,8 @@
     flex-direction: column;
     gap: 32px;
     margin: 64px auto 0;
-    width: 612px;
     padding: 32px;
+    width: 612px;
   }
 
   &__editBtn {
@@ -110,11 +111,6 @@
     }
   }
 
-  &__imageChange {
-    color: nth($vep-default-color, 1) !important;
-    font-size: 16px !important;
-  }
-
   &__infoContainer,
   &__linksContainer,
   &__title {
@@ -125,7 +121,7 @@
     max-width: 501px;
 
     h3 {
-      font-weight: 700 !important;
+      font-weight: 700;
     }
 
     p {
@@ -146,11 +142,11 @@
   }
 
   &__link {
-    display: flex;
-    padding: 0;
-    flex-direction: column;
     align-items: flex-start;
+    display: flex;
+    flex-direction: column;
     gap: 4px;
+    padding: 0;
   }
 
   &__linksContainer {
@@ -184,11 +180,11 @@
   }
 
   &__linkLast {
-    display: flex;
-    padding: 0;
-    flex-direction: column;
     align-items: flex-start;
+    display: flex;
+    flex-direction: column;
     gap: 4px;
+    padding: 0;
   }
 
   &__title {
@@ -202,8 +198,8 @@
       );
       color: #212121;
       margin: 0;
-      text-overflow: ellipsis;
       overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     h3 {
@@ -213,9 +209,9 @@
           line-height: 20px,
         )
       );
-      text-overflow: ellipsis;
-      overflow: hidden;
       color: #616161;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 

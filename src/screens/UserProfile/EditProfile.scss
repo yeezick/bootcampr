@@ -4,6 +4,11 @@
 // TODO: Invert background color once Layout CSS is fixed
 
 .editprofile {
+  #imageChange {
+    color: #121212;
+    font-size: 16px;
+  }
+
   $this: &;
 
   &__container,
@@ -34,10 +39,10 @@
   &__cameraIcon {
     background-color: #ecebeb !important;
     left: -33px;
-    top: 65px;
-    width: 32px;
     height: 32px;
+    top: 65px;
     transform: scaleX(-1);
+    width: 32px;
   }
 
   &__container {
@@ -71,11 +76,6 @@
       margin: 0;
       width: 96px;
     }
-  }
-
-  &__imageChange {
-    color: #121212;
-    font-size: 16px !important;
   }
 
   &__imageContainer {

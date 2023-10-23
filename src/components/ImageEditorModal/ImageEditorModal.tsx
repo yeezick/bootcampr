@@ -100,7 +100,13 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
   }, [profilePicture, cropArea, zoom, handleClose, dispatch, userId])
 
   return (
-    <Dialog open={onOpen} onClose={onClose} maxWidth='sm' fullWidth>
+    <Dialog
+      className='image-modal'
+      open={onOpen}
+      onClose={onClose}
+      maxWidth='sm'
+      fullWidth
+    >
       <ImageEditorHeader handleClose={handleClose} />
       <div className='image-modal__content'>
         <ImageEditorContent

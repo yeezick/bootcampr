@@ -94,7 +94,7 @@ export const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
       >
         <Box className='profile-preview__header'>
           <div></div>
-          <DialogTitle className='profile-preview__title'>
+          <DialogTitle className='profile-preview__title' id='title'>
             Profile photo
           </DialogTitle>
           <CloseIcon
@@ -216,12 +216,15 @@ const DeleteWarningModal = ({
       <Dialog open={isDeleteModalOpen} maxWidth='xs' fullWidth>
         <div className='profile-preview__dialog'>
           <div className='profile-preview__text-content'>
-            <DialogTitle className='profile-preview__dialog-title'>
+            <DialogTitle
+              className='profile-preview__dialog-title'
+              id='dialog-title'
+            >
               Delete profile photo?
             </DialogTitle>
             <DialogContent
               className='profile-preview__dialog-text'
-              sx={{ padding: 0 }}
+              id='dialog-text'
             >
               <p>
                 Your profile image will default to your initials. But your team
