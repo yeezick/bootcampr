@@ -1,3 +1,4 @@
+import { TimezonesUTC } from 'utils/data/timeZoneConstants'
 import { api } from './apiConfig'
 import {
   PasswordFormData,
@@ -176,12 +177,14 @@ export const markConversationAsRead = async (
 
 export const updateAvailability = async (
   userId: string,
-  newAvailability: any
+  newAvailability: any,
+  userTimezone: TimezonesUTC
 ) => {
   try {
     const res = await api.post(`/updateAvailability`, {
       newAvailability,
       userId,
+      userTimezone,
     })
     return res.data
   } catch (error) {

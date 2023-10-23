@@ -8,6 +8,7 @@ import {
 import { signUp, updateUser } from 'utils/api/users'
 import { defaultAvailability } from 'utils/data/userConstants'
 import { RootState } from 'utils/redux/store'
+import { TimezonesUTC } from 'utils/data/timeZoneConstants'
 
 // todo: auth.status should be its own slice
 // todo: sidemenu & ui like notifications should be its own slice
@@ -100,6 +101,9 @@ const userSlice = createSlice({
     ) => {
       state.auth.user.availability = action.payload
     },
+    setUserTimezone: (state, action: PayloadAction<TimezonesUTC>) => {
+      state.auth.user.timezone = action.payload
+    },
     updateUnreadMessagesObj: (state, action: PayloadAction<object>) => {
       state.auth.user.unreadMessages = action.payload
     },
@@ -154,6 +158,7 @@ const userSlice = createSlice({
 
 export const getUserAvailability = (state: RootState) =>
   state.ui.auth.user.availability
+export const getUserTimezone = (state: RootState) => state.ui.auth.user.timezone
 export const getUserProfileImage = (state: RootState) =>
   state.ui.auth.user.profilePicture
 export const selectAuthUser = (state: RootState) => state.ui.auth.user
@@ -169,6 +174,7 @@ export const {
   setAuthUser,
   updateAuthUser,
   setUserAvailability,
+  setUserTimezone,
   reset,
   logoutAuthUser,
   updateUnreadMessagesObj,

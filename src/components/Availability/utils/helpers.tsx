@@ -113,8 +113,13 @@ export const getNextTimeslot = currentTime => {
  * @param userId Auth user ID
  * @param {AvailabilityInterface} days State object representing the user's availability object
  */
-export const saveAvailability = async (dispatch, userId, days) => {
-  const updated = await updateAvailability(userId, days)
+export const saveAvailability = async (
+  dispatch,
+  userId,
+  days,
+  userTimezone
+) => {
+  const updated = await updateAvailability(userId, days, userTimezone)
   if (updated.status) {
     dispatch(
       createSnackBar({
