@@ -1,8 +1,21 @@
 import { MenuItem, Select } from '@mui/material'
 import { ExpandMoreRounded } from '@mui/icons-material'
 import { Timezones } from '../utils/data'
+import { setUserTimezone } from 'utils/redux/slices/userSlice'
+import { useDispatch } from 'react-redux'
+import { bootcamprTimezoneToUTCMap } from 'utils/data/timeZoneConstants'
 
 export const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
+  const dispatch = useDispatch()
+
+  const handleChange = e => {
+    const timezoneValue = e.target.value
+    const userTZinUTC = bootcamprTimezoneToUTCMap[timezoneValue]
+
+    setTimezone(timezoneValue)
+    dispatch(setUserTimezone(userTZinUTC))
+  }
+
   return (
     <div className='timezone-input-container'>
       <h2>Time zone</h2>
@@ -13,7 +26,7 @@ export const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
         sx={tzSelectSx}
         value={timezone}
         variant='standard'
-        onChange={e => setTimezone(e.target.value)}
+        onChange={handleChange}
       >
         {Object.keys(Timezones).map(zone => (
           <MenuItem key={zone} value={Timezones[zone]}>
