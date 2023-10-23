@@ -136,10 +136,24 @@ export const updateUsersPassword = async (
   userId: string | undefined
 ) => {
   try {
-    const data = await api.patch(`/update-password/${userId}`, formData)
-    return data
+    const { data, status } = await api.patch(
+      `/update-password/${userId}`,
+      formData
+    )
+    const msg = 'message'
+    return { status, message: data[msg] }
   } catch (error) {
     return { error: { status: 500, message: 'Something went wrong' } }
+  }
+}
+
+export const forgotPasswordEmailVerification = async (email: string) => {
+  try {
+    const data = await api.post(`/reset-password`, { email: email })
+    return data
+  } catch (error) {
+    console.error(error)
+    return false
   }
 }
 

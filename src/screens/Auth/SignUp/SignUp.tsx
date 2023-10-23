@@ -127,6 +127,7 @@ export const SignUp: React.FC = () => {
               passwordErrors={passwordErrors}
               setPasswordErrors={setPasswordErrors}
               setFormValues={setFormValues}
+              passwordInputName='sign-up'
             />
 
             <AcceptTermsCheckbox
