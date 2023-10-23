@@ -10,7 +10,7 @@ import {
   TaskInterface,
 } from 'interfaces/TicketInterFace'
 import { createTicketApi } from 'utils/api/tickets'
-import { useAppSelector } from 'utils/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectUserId } from 'utils/redux/slices/userSlice'
 import '../Ticket.scss'
 import TextFieldData from './TextFieldData'
@@ -24,66 +24,10 @@ import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { concatenatedString } from 'utils/helpers/stringHelpers'
 import { selectProjectId } from 'utils/redux/slices/projectSlice'
 import { AssignUser } from '../TicketDetail/AssignUser'
-
-const initialTaskInterface: TaskInterface = {
-  assignee: '',
-  date: '',
-  description: '',
-  _id: '',
-  id: '',
-  link: '',
-  projectId: '',
-  status: '',
-  title: '',
-}
-
-export const CreateTicket = ({
-  ticketsStatus,
-  getAllTicket,
-  setGetAllTicket,
-}: CreateTicketInterface) => {
-  const [addTicketForm, setAddTicketForm] =
-    useState<TaskInterface>(initialTaskInterface)
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const openModal = () => setIsOpen(true)
-  const closeModal = () => setIsOpen(false)
-
-  useEffect(() => {
-    // determine if in edit or create mode
-  })
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    setAddTicketForm({
-      ...addTicketForm,
-      [e.target.name]: e.target.value,
-    })
-  }
-
-  return (
-    <div>
-      <CreateTicketTab openModal={openModal} />
-      <Modal open={modalIsOpen} onClose={closeModal} className='modal'>
-        <div>
-          <Box className='ticketDetailOpenModalBox'>
-            <IoMdClose className='close-x' onClick={closeModal} />
-            <Box className='createTicketBox'>
-              <TicketTextFields handleInputChange={handleInputChange} />
-              <TicketStatusFields
-                ticketsStatus={ticketsStatus}
-                handleInputChange={handleInputChange}
-                closeModal={closeModal}
-                addTicketForm={addTicketForm}
-                getAllTicket={getAllTicket}
-                setGetAllTicket={setGetAllTicket}
-              />
-            </Box>
-          </Box>
-        </div>
-      </Modal>
-    </div>
-  )
-}
+import {
+  selectTicketFields,
+  setVisibleTicketDialog,
+} from 'utils/redux/slices/taskBoardSlice'
 
 export const TicketTextFields = ({ handleInputChange }) => {
   return (
@@ -130,10 +74,7 @@ export const TicketTextFields = ({ handleInputChange }) => {
 export const TicketStatusFields = ({
   handleInputChange,
   closeModal,
-  addTicketForm,
   ticketsStatus,
-  getAllTicket,
-  setGetAllTicket,
 }) => {
   const [assignee, setAssignee] = useState('Unassigned')
   const [isBeingCreated, setIsBeingCreated] = useState<boolean>(false)
@@ -156,10 +97,7 @@ export const TicketStatusFields = ({
         closeModal={closeModal}
         isBeingCreated={isBeingCreated}
         setIsBeingCreated={setIsBeingCreated}
-        addTicketForm={addTicketForm}
         ticketsStatus={ticketsStatus}
-        getAllTicket={getAllTicket}
-        setGetAllTicket={setGetAllTicket}
       />
     </Box>
   )
@@ -170,33 +108,31 @@ export const CreateTaskButtons = ({
   closeModal,
   isBeingCreated,
   setIsBeingCreated,
-  addTicketForm,
   ticketsStatus,
-  getAllTicket,
-  setGetAllTicket,
 }) => {
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
+  const ticketFields = useAppSelector(selectTicketFields)
   const dispatch = useDispatch()
 
   const addTickets = async () => {
     setIsBeingCreated(true)
     // Add ticket form should always be set to ticketStatus => can immediately concatenate here
-    const status = addTicketForm?.status ?? ticketsStatus
+    const status = ticketFields?.status ?? ticketsStatus
     const newStatus = concatenatedString(status)
     const createdTicket = await createTicketApi({
-      ...addTicketForm,
+      ...ticketFields,
       projectId: projectId,
       status: newStatus,
       createdBy: userId,
       assignee: assignee,
     })
-    // Dispatch to reducer
+    // TODO: Dispatch to reducer
     // Add to visible tickets
-    setGetAllTicket({
-      ...getAllTicket,
-      [newStatus]: [...getAllTicket[newStatus], { ...createdTicket }],
-    })
+    // setGetAllTicket({
+    //   ...getAllTicket,
+    //   [newStatus]: [...getAllTicket[newStatus], { ...createdTicket }],
+    // })
     setIsBeingCreated(false)
     dispatch(
       createSnackBar({
@@ -231,11 +167,14 @@ export const CreateTaskButtons = ({
 }
 
 // Convert to MUI button
-export const CreateTicketTab = ({ openModal }) => {
+export const CreateTicketTab = () => {
+  const dispatch = useAppDispatch()
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
+  const openCreateTicketDialog = () =>
+    dispatch(setVisibleTicketDialog('create'))
 
   return (
-    <button onClick={openModal} className={'createTicketButton'}>
+    <button onClick={openCreateTicketDialog} className={'createTicketButton'}>
       <Icon {...label} component={AddIcon} />
       <p>Create Ticket</p>
     </button>

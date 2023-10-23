@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { TaskInterface } from 'interfaces'
-import { AvatarState } from 'interfaces/ProfileImageInterfaces'
+import { RootState } from '../rootReducer'
 
 type TicketDialogState = '' | 'create' | 'edit'
 
@@ -57,16 +57,34 @@ const taskBoardSlice = createSlice({
     },
     setVisibleTicketDialog: (
       state,
-      action: PayloadAction<SetVisibleTicketDialogReducer>
+      action: PayloadAction<TicketDialogState>
     ) => {
-      const { ticketDialogState, visibleTicketDialog } = action.payload
-      state.ticketDialogState = ticketDialogState
-      state.visibleTicketDialog = visibleTicketDialog
+      switch (action.payload) {
+        case 'create':
+        case 'edit':
+          state.ticketDialogState = action.payload
+          state.visibleTicketDialog = true
+          break
+
+        default:
+          state.ticketDialogState = ''
+          state.visibleTicketDialog = false
+          break
+      }
+    },
+    setTicketFields: (state, action: PayloadAction<TaskInterface>) => {
+      state.ticketFields = { ...state.ticketFields, ...action.payload }
     },
   },
 })
 
-export const { setVisibleTickets, setVisibleTicketDialog } =
-  taskBoardSlice.actions
+export const selectVisibleTicketDialog = (state: RootState) =>
+  state.taskBoard.visibleTicketDialog
+export const selectTicketDialogState = (state: RootState) =>
+  state.taskBoard.ticketDialogState
+export const selectTicketFields = (state: RootState) =>
+  state.taskBoard.ticketFields
 
+export const { setTicketFields, setVisibleTickets, setVisibleTicketDialog } =
+  taskBoardSlice.actions
 export default taskBoardSlice.reducer

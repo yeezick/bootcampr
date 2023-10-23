@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import '../Ticket.scss'
-import { useAppSelector } from 'utils/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectProjectTracker } from 'utils/redux/slices/projectSlice'
 import { BoardColumns } from './BoardColumns'
 import { NoTicketsCreated } from './NoTicketsCreated'
@@ -11,28 +11,29 @@ import {
   TicketStatusFields,
   TicketTextFields,
 } from '../CreateTickets/CreateTicket'
-import { TaskInterface } from 'interfaces'
-
-type TicketModalStates = '' | 'create' | 'edit'
+import {
+  setTicketFields,
+  selectVisibleTicketDialog,
+  setVisibleTicketDialog,
+} from 'utils/redux/slices/taskBoardSlice'
 
 // TODO: Rename projectTracker to project
 export const TaskBoard = () => {
   const projectTracker = useAppSelector(selectProjectTracker)
   const [visibleTickets, setVisibleTickets] = useState(projectTracker)
   const [ticketsExist, setTicketsExist] = useState(false)
-  const [visibleTicketModal, setVisibleTicketModal] = useState<boolean>(false)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    const doTicketsExist = () => {
-      if (visibleTickets) {
-        const noTicket = Object.keys(visibleTickets).some(
-          status => visibleTickets[status]?.length > 0
-        )
-        return noTicket
-      } else return false
-    }
-    setTicketsExist(doTicketsExist())
+    if (visibleTickets) {
+      const oneTicketExists = Object.keys(visibleTickets).some(
+        status => visibleTickets[status]?.length > 0
+      )
+      setTicketsExist(oneTicketExists)
+    } else setTicketsExist(false)
   }, [projectTracker])
+
+  const openDialog = () => dispatch(setVisibleTicketDialog('create'))
 
   return (
     <div className='AllTickets'>
@@ -40,74 +41,50 @@ export const TaskBoard = () => {
         visibleTickets={visibleTickets}
         setVisibleTickets={setVisibleTickets}
       />
-      {ticketsExist && (
+      {ticketsExist ? (
         <BoardColumns
           getAllTicket={visibleTickets}
           setGetAllTicket={setVisibleTickets}
         />
+      ) : (
+        <NoTicketsCreated />
       )}
-      {!ticketsExist && (
-        <NoTicketsCreated
-          getAllTicket={visibleTickets}
-          setGetAllTicket={setVisibleTickets}
-        />
-      )}
+      <button onClick={openDialog}>CLICK TO OPEN DIALOG</button>
+      <TicketDialog />
     </div>
   )
 }
 
-const emptyTicketFields: TaskInterface = {
-  assignee: '',
-  date: '',
-  description: '',
-  _id: '',
-  id: '',
-  link: '',
-  projectId: '',
-  status: '',
-  title: '',
-}
-
-export const TicketDialog = ({
-  visibleTicketModal,
-  setVisibleTicketModal,
-  visibleTickets,
-  setVisibleTickets,
-}) => {
-  const [ticketFields, setTicketFields] =
-    useState<TaskInterface>(emptyTicketFields)
-  const [ticketModalState, setTicketModalState] =
-    useState<TicketModalStates>('')
-  const openModal = () => setVisibleTicketModal(false)
-  const closeModal = () => setVisibleTicketModal(false)
+export const TicketDialog = () => {
+  const dispatch = useAppDispatch()
+  const visibleTicketDialog = useAppSelector(selectVisibleTicketDialog)
+  const closeDialog = () => {
+    dispatch(setVisibleTicketDialog(''))
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
-    setTicketFields({
-      ...ticketFields,
-      [e.target.name]: e.target.value,
-    })
+    const { name, value } = e.target
+    dispatch(setTicketFields({ [name]: value }))
   }
 
   const ticketsStatus = ''
+
   return (
-    <Dialog open={visibleTicketModal} onClose={closeModal}>
+    <Dialog open={visibleTicketDialog} maxWidth='lg'>
       <form>
         <DialogContent>
-          <Box className='ticketDetailOpenModalBox'>
-            <IoMdClose className='close-x' onClick={closeModal} />
-            <Box className='createTicketBox'>
-              <TicketTextFields handleInputChange={handleInputChange} />
-              <TicketStatusFields
-                ticketsStatus={ticketsStatus}
-                handleInputChange={handleInputChange}
-                closeModal={closeModal}
-                addTicketForm={ticketFields}
-                getAllTicket={visibleTickets}
-                setGetAllTicket={setVisibleTickets}
-              />
-            </Box>
+          {/* <Box className='ticketDetailOpenModalBox'> */}
+          <IoMdClose className='close-x' onClick={closeDialog} />
+          <Box className='createTicketBox'>
+            <TicketTextFields handleInputChange={handleInputChange} />
+            <TicketStatusFields
+              ticketsStatus={ticketsStatus}
+              handleInputChange={handleInputChange}
+              closeModal={closeDialog}
+            />
           </Box>
+          {/* </Box> */}
         </DialogContent>
       </form>
     </Dialog>

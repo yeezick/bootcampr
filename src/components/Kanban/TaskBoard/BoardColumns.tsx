@@ -6,7 +6,7 @@ import {
   TicketStatusChangeFunc,
 } from 'interfaces'
 import { updateTicketInformationAndStatus } from 'utils/api/tickets'
-import { CreateTicket } from '../CreateTickets/CreateTicket'
+import { CreateTicketTab } from '../CreateTickets/CreateTicket'
 import {
   concatenatedString,
   splitCamelCaseToWords,
@@ -85,15 +85,7 @@ export const BoardColumns = ({ getAllTicket, setGetAllTicket }) => {
                     visibleTickets={getAllTicket}
                     columnStatus={ticketsStatus}
                   />
-                  <div>
-                    <CreateTicket
-                      projectId={id}
-                      setGetAllTicket={setGetAllTicket}
-                      getAllTicket={getAllTicket}
-                      ticketsStatus={splitCamelCaseToWords(ticketsStatus)}
-                      buttonText='Create task'
-                    />
-                  </div>
+                  <CreateTicketTab />
                   <ColumnTickets
                     provided={provided}
                     columnStatus={ticketsStatus}

@@ -1,13 +1,8 @@
-import { useParams } from 'react-router-dom'
-import { CreateTicket } from '../CreateTickets/CreateTicket'
 import kanbanImage from '../svg/bootcampr.png'
-import { useAppSelector } from 'utils/redux/hooks'
-import { selectProjectTracker } from 'utils/redux/slices/projectSlice'
+import { useAppDispatch } from 'utils/redux/hooks'
+import { setVisibleTicketDialog } from 'utils/redux/slices/taskBoardSlice'
 
-export const NoTicketsCreated = ({ getAllTicket, setGetAllTicket }) => {
-  const projectTracker = useAppSelector(selectProjectTracker)
-  const { id } = useParams()
-
+export const NoTicketsCreated = () => {
   return (
     <div className='AllTicketsDragDropNoTicket'>
       <div className='ifTheresNoTicket'>
@@ -24,19 +19,17 @@ export const NoTicketsCreated = ({ getAllTicket, setGetAllTicket }) => {
             step closer to shipping a live product with each completed task!
           </p>
         </div>
-        <div>
-          <CreateTicket
-            projectId={id}
-            setGetAllTicket={setGetAllTicket}
-            getAllTicket={getAllTicket}
-            ticketsStatus={'to Do'}
-            buttonText=' Created first task'
-            buttonClassName='button2'
-          />
-        </div>
+        <CreateTicketButton />
       </div>
     </div>
   )
+}
+
+export const CreateTicketButton = () => {
+  const dispatch = useAppDispatch()
+  const openCreateTicketDialog = () =>
+    dispatch(setVisibleTicketDialog('create'))
+  return <button onClick={openCreateTicketDialog}>CREATE A TASK</button>
 }
 
 // Todo: convert createTicket button here into reusable MUI button
