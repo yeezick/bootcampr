@@ -19,10 +19,11 @@ import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { UnassignedProject } from 'screens/Project/UnassignedProject'
 import { AboutUs, HowTo } from 'screens/Landing'
 import { Email } from 'screens/Auth/Settings/Email'
-import { Password } from 'screens/Auth/Settings/Password'
+import { PasswordSettings } from 'screens/Auth/Settings/Password'
 import { Account } from 'screens/Auth/Settings/Account'
 import { TeamMembers } from 'screens/Project/TeamMembers'
 import { ProjectDetails } from 'screens/Project/ProjectDetails'
+import { ResetPassword } from 'screens/Auth/Settings/Password'
 
 function App() {
   return (
@@ -41,6 +42,10 @@ function App() {
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
+          <Route
+            path='/users/:id/reset-password/:token'
+            element={<ResetPassword />}
+          />
           {/* User */}
           <Route path='/onboarding/:id' element={<Onboarding />} />
           <Route path='/users/:id' element={<UserProfile />} />
@@ -51,7 +56,7 @@ function App() {
           />
           <Route path='/users/:id/settings'>
             <Route path='email' element={<Email />} />
-            <Route path='password' element={<Password />} />
+            <Route path='password' element={<PasswordSettings />} />
             <Route path='account' element={<Account />} />
           </Route>
           {/* Project */}

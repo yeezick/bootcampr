@@ -1,3 +1,4 @@
+import { PasswordFormData } from 'interfaces/AccountSettingsInterface'
 import {
   AvailabilityInterface,
   SignUpInterface,
@@ -74,4 +75,12 @@ export const emptySignUp: SignUpInterface = {
   firstName: '',
   lastName: '',
   password: '',
+}
+
+export const emptyPasswordData: PasswordFormData = {
+  password: '',
+  currentPassword: '',
+  confirmPassword: '',
+  newPassword: '',
+  confirmNewPassword: '',
 }

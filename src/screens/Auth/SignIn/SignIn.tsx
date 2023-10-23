@@ -10,6 +10,7 @@ import { GoAlert, GoVerified } from 'react-icons/go'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import { ForgotPasswordModal } from '../ResetPassword/ForgotPasswordModal'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -23,12 +24,21 @@ const SignIn: React.FC = (): JSX.Element => {
     type: '',
   })
   const pathInfo = useLocation()
+  const [forgotPasswordModal, setForgotPasswordModal] = useState(false)
 
   const VALID_EMAIL_REGEX =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
+
+  const openModal = () => {
+    setForgotPasswordModal(!forgotPasswordModal)
+  }
+
+  const closeModal = () => {
+    setForgotPasswordModal(false)
+  }
 
   // Event Handlers
   // This is no longer being used from <EmailVerify />
@@ -178,6 +188,16 @@ const SignIn: React.FC = (): JSX.Element => {
             Go
           </button>
         </form>
+        <div id='forgot-password-link' onClick={openModal}>
+          Forgot Password?
+        </div>
+        {forgotPasswordModal && (
+          <ForgotPasswordModal
+            onClose={closeModal}
+            onSuccessMessage='Email sent!'
+            onFailureMessage='An error occurred. Please check entered email and try again.'
+          />
+        )}
       </div>
     </div>
   )

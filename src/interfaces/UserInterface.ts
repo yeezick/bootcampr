@@ -82,6 +82,12 @@ export interface SignInInterface {
   password: string
 }
 
+export interface ForgotPasswordInterface {
+  onClose?: () => void
+  onSuccessMessage?: string
+  onFailureMessage?: string
+}
+
 export const timeOptions = [
   '6:00 AM',
   '6:30 AM',
