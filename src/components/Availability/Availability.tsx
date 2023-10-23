@@ -15,8 +15,8 @@ import { utcToBootcamprTimezoneMap } from 'utils/data/timeZoneConstants'
 export const Availability = ({
   days,
   setDays,
-  userTimezone,
-  setUserTimezone,
+  uxUserTimezone,
+  setUxUserTimezone,
 }): JSX.Element => {
   const userAvailability = useAppSelector(getUserAvailability)
   const storedUserTimezone = useAppSelector(getUserTimezone)
@@ -25,15 +25,14 @@ export const Availability = ({
     setDays(userAvailability)
     const userFriendlyTimezone =
       utcToBootcamprTimezoneMap[storedUserTimezone] || Timezones.ET
-    setUserTimezone(userFriendlyTimezone)
+    setUxUserTimezone(userFriendlyTimezone)
   }, [])
 
   return (
     <div className='availability-container'>
-      {/* TODO: have separate setters for userfriendly timezone, and user stored timezone (UTC) */}
       <TimeZoneInputBanner
-        timezone={userTimezone}
-        setTimezone={setUserTimezone}
+        timezone={uxUserTimezone}
+        setTimezone={setUxUserTimezone}
       />
       <p>Set weekly availability</p>
       <hr />
@@ -43,7 +42,6 @@ export const Availability = ({
           days={days}
           key={`${day}-banner`}
           setDays={setDays}
-          // timezone={storedUserTimezone}
         />
       ))}
     </div>

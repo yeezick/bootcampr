@@ -17,23 +17,24 @@ import { guessUserTimezone } from 'utils/helpers/availabilityHelpers'
 export const EditAvailability = () => {
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
-  const timezone = useAppSelector(getUserTimezone)
+  const userTimezoneInUTC = useAppSelector(getUserTimezone)
 
   const [days, setDays] = useState<AvailabilityInterface>(defaultAvailability)
-  const [UXuserTimezone, setUXUserTimezone] = useState(Timezones.ET)
+  const [uxUserTimezone, setUxUserTimezone] = useState(Timezones.ET)
 
   const handleSaveAvailability = async () => {
-    const userTimezoneInUTC = bootcamprTimezoneToUTCMap[UXuserTimezone]
+    const userTimezoneInUTC = bootcamprTimezoneToUTCMap[uxUserTimezone]
     await saveAvailability(dispatch, authUser._id, days, userTimezoneInUTC)
   }
 
   useEffect(() => {
-    const userFriendlyTimezone = utcToBootcamprTimezoneMap[timezone]
-    setUXUserTimezone(userFriendlyTimezone)
+    const userFriendlyTimezone = utcToBootcamprTimezoneMap[userTimezoneInUTC]
+    setUxUserTimezone(userFriendlyTimezone)
 
-    // NOTE: Placeholder to eventually handle when user's stored TZ does not match DayJS identified local TZ for user
+    // Placeholder to eventually handle when user's stored TZ does not match DayJS identified local TZ for user
     const userTimezoneGuess = guessUserTimezone()
-    if (userTimezoneGuess.utc !== timezone) {
+
+    if (userTimezoneGuess.utc !== userTimezoneInUTC) {
       console.log(
         "User's stored timezone does not match detected local timezone"
       )
@@ -47,8 +48,8 @@ export const EditAvailability = () => {
       <Availability
         days={days}
         setDays={setDays}
-        userTimezone={UXuserTimezone}
-        setUserTimezone={setUXUserTimezone}
+        uxUserTimezone={uxUserTimezone}
+        setUxUserTimezone={setUxUserTimezone}
       />
       <div className='edit-availability-btn-group'>
         <PrimaryButton handler={handleSaveAvailability} text='Save' />

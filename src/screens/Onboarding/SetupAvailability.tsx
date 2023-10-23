@@ -23,28 +23,27 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
 }) => {
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
-  const storedUserTZ = useAppSelector(getUserTimezone)
+  const storedUserTZinUTC = useAppSelector(getUserTimezone)
+
   const [days, setDays] = useState<AvailabilityInterface>(defaultAvailability)
-  const [userTimezone, setUserTimezone] = useState(Timezones.ET)
+  const [uxUserTimezone, setUxUserTimezone] = useState(Timezones.ET)
 
   const handleBack = () => handlePageNavigation('previous')
-
   const handleSaveAvailability = async () => {
-    const userTZinUTC = bootcamprTimezoneToUTCMap[userTimezone]
+    const userTZinUTC = bootcamprTimezoneToUTCMap[uxUserTimezone]
     await saveAvailability(dispatch, authUser._id, days, userTZinUTC)
     handlePageNavigation('next')
   }
 
   useEffect(() => {
     let userFriendlyTZ = Timezones.ET
-
-    if (storedUserTZ) {
-      userFriendlyTZ = utcToBootcamprTimezoneMap[storedUserTZ]
+    if (storedUserTZinUTC) {
+      userFriendlyTZ = utcToBootcamprTimezoneMap[storedUserTZinUTC]
     } else {
       const userTZguess = guessUserTimezone()
       userFriendlyTZ = userTZguess.userFriendlyTZ
     }
-    setUserTimezone(userFriendlyTZ)
+    setUxUserTimezone(userFriendlyTZ)
   }, [])
 
   return (
@@ -61,8 +60,8 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
       <Availability
         days={days}
         setDays={setDays}
-        userTimezone={userTimezone}
-        setUserTimezone={setUserTimezone}
+        uxUserTimezone={uxUserTimezone}
+        setUxUserTimezone={setUxUserTimezone}
       />
 
       <div className='setup-avail-buttons-wrapper'>

@@ -1,5 +1,5 @@
 /**
- * User friendly timezone strings determiend by Bootcampr UX team
+ * User friendly timezone strings defined by Bootcampr UX team
  */
 export enum UserFriendlyTimezones {
   'Hawaii-Aleutian Time (HT)',
@@ -13,7 +13,7 @@ export enum UserFriendlyTimezones {
 }
 
 /**
- * Standard UTC timezone format
+ * Standard Universal UTC timezone format
  */
 export enum TimezonesUTC {
   '-10:00',

@@ -10,10 +10,10 @@ export const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
 
   const handleChange = e => {
     const timezoneValue = e.target.value
-    const UTC = bootcamprTimezoneToUTCMap[timezoneValue]
+    const userTZinUTC = bootcamprTimezoneToUTCMap[timezoneValue]
 
     setTimezone(timezoneValue)
-    dispatch(setUserTimezone(UTC))
+    dispatch(setUserTimezone(userTZinUTC))
   }
 
   return (
