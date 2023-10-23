@@ -1,14 +1,8 @@
 import { Box, Icon } from '@mui/material'
-
-import { useEffect, useState } from 'react'
-import Modal from '@mui/material/Modal'
+import { useState } from 'react'
 import TextField from '@mui/material/TextField'
 import { SelectStatus } from 'components/Kanban'
 import AddIcon from '@mui/icons-material/Add'
-import {
-  CreateTicketInterface,
-  TaskInterface,
-} from 'interfaces/TicketInterFace'
 import { createTicketApi } from 'utils/api/tickets'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectUserId } from 'utils/redux/slices/userSlice'
@@ -18,7 +12,6 @@ import { BiLink } from 'react-icons/bi'
 import { RxPerson, RxText } from 'react-icons/rx'
 import { SelectDate } from '../TicketDetail/SelectDate'
 import { TbPencilMinus } from 'react-icons/tb'
-import { IoMdClose } from 'react-icons/io'
 import { useDispatch } from 'react-redux'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { concatenatedString } from 'utils/helpers/stringHelpers'
@@ -26,6 +19,7 @@ import { selectProjectId } from 'utils/redux/slices/projectSlice'
 import { AssignUser } from '../TicketDetail/AssignUser'
 import {
   selectTicketFields,
+  setTicketFields,
   setVisibleTicketDialog,
 } from 'utils/redux/slices/taskBoardSlice'
 
@@ -81,16 +75,8 @@ export const TicketStatusFields = ({
 
   return (
     <Box className='createTicketStatusUser'>
-      <SelectStatus
-        handleOnChange={handleInputChange}
-        ticketsStatus={ticketsStatus}
-      />
-      <AssignUser
-        text='Assignee'
-        detailIcon={<RxPerson />}
-        setAssignee={setAssignee}
-        assignee={'Unassigned'}
-      />
+      <SelectStatus />
+      <AssignUser text='Assignee' detailIcon={<RxPerson />} />
       <SelectDate handleOnChange={handleInputChange} />
       <CreateTaskButtons
         assignee={assignee}
@@ -167,11 +153,13 @@ export const CreateTaskButtons = ({
 }
 
 // Convert to MUI button
-export const CreateTicketTab = () => {
+export const CreateTicketTab = ({ columnStatus }) => {
   const dispatch = useAppDispatch()
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
-  const openCreateTicketDialog = () =>
+  const openCreateTicketDialog = () => {
     dispatch(setVisibleTicketDialog('create'))
+    dispatch(setTicketFields({ status: columnStatus, assignee: 'Unassigned' }))
+  }
 
   return (
     <button onClick={openCreateTicketDialog} className={'createTicketButton'}>

@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react'
 import '../Ticket.scss'
 import { Icon, MenuItem, Select } from '@mui/material'
-import { useAppSelector } from 'utils/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
+import {
+  selectTicketFields,
+  setTicketFields,
+} from 'utils/redux/slices/taskBoardSlice'
 
-export const AssignUser = ({ text, detailIcon, setAssignee, assignee }) => {
+export const AssignUser = ({ text, detailIcon }) => {
   const projectMembers = useAppSelector(selectMembersAsTeam)
-  const [newAssignee, setNewAssignee] = useState(assignee)
+  const { assignee } = useAppSelector(selectTicketFields)
+  const dispatch = useAppDispatch()
 
-  const handleChange = e => {
-    setNewAssignee(e.target.value)
-    setAssignee(e.target.value)
-  }
+  const handleAssigneeChange = e =>
+    dispatch(setTicketFields({ assignee: e.target.value }))
 
   return (
     <div className='UserAssignee'>
@@ -23,15 +25,12 @@ export const AssignUser = ({ text, detailIcon, setAssignee, assignee }) => {
         displayEmpty
         className='UserAssigneeUserInfo'
         sx={{ width: 250 }}
-        value={newAssignee}
-        onChange={handleChange}
+        value={assignee}
+        onChange={handleAssigneeChange}
       >
         <MenuItem value='Unassigned'>
           <div className='user-card'>
-            <img
-              className='assignee-thumbnail'
-              src='/default_profile.png'
-            ></img>
+            <img className='assignee-thumbnail' src='/default_profile.png' />
             <div className='assignee-metadata'>
               <h1>Unassigned</h1>
             </div>
@@ -44,7 +43,7 @@ export const AssignUser = ({ text, detailIcon, setAssignee, assignee }) => {
                 <img
                   className='assignee-thumbnail'
                   src={`${member.profilePicture}`}
-                ></img>
+                />
                 <div className='assignee-metadata'>
                   <h1>
                     {member.firstName} {member.lastName}

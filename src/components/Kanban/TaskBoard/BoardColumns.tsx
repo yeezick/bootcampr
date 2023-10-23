@@ -77,18 +77,21 @@ export const BoardColumns = ({ getAllTicket, setGetAllTicket }) => {
     <div className={'AllTicketsDragDrop'}>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         {getAllTicket &&
-          Object.keys(getAllTicket)?.map((ticketsStatus: string, i) => (
-            <Droppable droppableId={ticketsStatus} key={ticketsStatus}>
+          Object.keys(getAllTicket)?.map((columnStatus: string, i) => (
+            <Droppable
+              droppableId={columnStatus}
+              key={`column-${columnStatus}`}
+            >
               {provided => (
                 <div className='ticketStatusContainer' key={i}>
                   <ColumnHeader
                     visibleTickets={getAllTicket}
-                    columnStatus={ticketsStatus}
+                    columnStatus={columnStatus}
                   />
-                  <CreateTicketTab />
+                  <CreateTicketTab columnStatus={columnStatus} />
                   <ColumnTickets
                     provided={provided}
-                    columnStatus={ticketsStatus}
+                    columnStatus={columnStatus}
                     visibleTickets={getAllTicket}
                     setVisibleTickets={setGetAllTicket}
                   />

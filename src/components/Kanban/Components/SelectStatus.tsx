@@ -10,19 +10,19 @@ import { SelectChangeEvent } from '@mui/material/Select'
 import { TicketInterface } from 'interfaces/TicketInterFace'
 import { FiWatch } from 'react-icons/fi'
 import '../Ticket.scss'
+import {
+  selectTicketFields,
+  setTicketFields,
+} from 'utils/redux/slices/taskBoardSlice'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { splitCamelCaseToWords } from 'utils/helpers/stringHelpers'
 
-type SelectStatusProps = {
-  handleOnChange?: (e: SelectChangeEvent) => void
-  ticketDetail?: TicketInterface | null
-  splitCamelCaseToWords?: (str: string) => string
-  ticketsStatus?: string
-}
-export const SelectStatus = ({
-  handleOnChange,
-  ticketDetail = null,
-  splitCamelCaseToWords,
-  ticketsStatus,
-}: SelectStatusProps) => {
+export const SelectStatus = () => {
+  const { status } = useAppSelector(selectTicketFields)
+  const dispatch = useAppDispatch()
+  const handleStatusChange = e =>
+    dispatch(setTicketFields({ status: e.target.value }))
+
   return (
     <Box sx={{ minWidth: 10 }} className='selectStatus'>
       <div className='selectStatusIconText'>
@@ -35,17 +35,13 @@ export const SelectStatus = ({
         <Select
           className='selectStatusSelect'
           displayEmpty
-          onChange={handleOnChange}
-          defaultValue={
-            ticketDetail
-              ? splitCamelCaseToWords(ticketDetail?.status)
-              : ticketsStatus
-          }
+          onChange={handleStatusChange}
+          defaultValue={status}
           inputProps={{ 'aria-label': 'Without label' }}
         >
-          <MenuItem value={'to Do'}>To Do</MenuItem>
-          <MenuItem value={'in Progress'}>In progress</MenuItem>
-          <MenuItem value={'under Review'}>Under Review</MenuItem>
+          <MenuItem value={'toDo'}>To Do</MenuItem>
+          <MenuItem value={'inProgress'}>In progress</MenuItem>
+          <MenuItem value={'underReview'}>Under Review</MenuItem>
           <MenuItem value={'completed'}>Completed </MenuItem>
         </Select>
       </FormControl>

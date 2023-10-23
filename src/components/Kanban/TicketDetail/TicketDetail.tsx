@@ -153,17 +153,8 @@ export const TicketDetail = ({
                 </Box>
 
                 <Box>
-                  <SelectStatus
-                    handleOnChange={handleEditChange}
-                    ticketDetail={ticketDetail}
-                    splitCamelCaseToWords={splitCamelCaseToWords}
-                  />
-                  <AssignUser
-                    text='Assignee'
-                    detailIcon={<RxPerson />}
-                    setAssignee={setAssignee}
-                    assignee={assignee}
-                  />
+                  <SelectStatus />
+                  <AssignUser text='Assignee' detailIcon={<RxPerson />} />
 
                   <SelectDate
                     dateRef={dateRef}
