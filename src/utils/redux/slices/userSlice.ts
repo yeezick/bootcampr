@@ -29,7 +29,7 @@ const initialState: UiSliceInterface = {
       },
       profilePicture: '',
       defaultProfilePicture: '',
-      hasUploadedProfilePicture: false,
+      hasProfilePicture: false,
       project: '',
       role: '',
       unreadMessages: {},
@@ -111,12 +111,12 @@ const userSlice = createSlice({
     setUploadedImage: (state, action: PayloadAction<string | null>) => {
       const uploadedImage = action.payload
       state.auth.user.profilePicture = uploadedImage
-      state.auth.user.hasUploadedProfilePicture = !!uploadedImage
+      state.auth.user.hasProfilePicture = !!uploadedImage
     },
     setDefaultProfilePicture: (state, action: PayloadAction<boolean>) => {
       if (!state.auth.user.profilePicture) {
         state.auth.user.defaultProfilePicture = `https://ui-avatars.com/api/?name=${state.auth.user.firstName}+${state.auth.user.lastName}`
-        state.auth.user.hasUploadedProfilePicture = false
+        state.auth.user.hasProfilePicture = false
       }
     },
   },
@@ -162,7 +162,7 @@ export const selectProjectId = (state: RootState) => state.ui.auth.user.project
 export const selectUserId = (state: RootState) => state.ui.auth.user._id
 export const uiStatus = (state: RootState) => state.ui.status
 export const selectHasUploadedProfilePicture = (state: RootState) => {
-  return state.ui.auth.user.hasUploadedProfilePicture
+  return state.ui.auth.user.hasProfilePicture
 }
 
 export const {

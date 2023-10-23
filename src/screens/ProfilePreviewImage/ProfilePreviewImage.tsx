@@ -176,7 +176,7 @@ const DeleteWarningModal = ({
       const res = await deleteUserImage(userId)
       if (res.success) {
         const userImageUpdate = await updateUser(userId, {
-          hasUploadedProfilePicture: false,
+          hasProfilePicture: false,
         })
         dispatch(updateAuthUser(userImageUpdate))
         dispatch(setUploadedImage(''))

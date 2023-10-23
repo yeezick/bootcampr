@@ -24,7 +24,7 @@ export interface UserInterface {
   onboarded?: boolean
   profilePicture?: string
   defaultProfilePicture: string
-  hasUploadedProfilePicture?: boolean
+  hasProfilePicture?: boolean
   role?: string
   unreadMessages?: {}
   savedProjects?: ProjectInterface[]

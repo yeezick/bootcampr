@@ -30,9 +30,7 @@ const Avatar: React.FC<AvatarProps> = ({
   const dispatch = useAppDispatch()
   const profilePicture = useAppSelector(getUserProfileImage)
   const authUser = useAppSelector(selectAuthUser)
-  const hasUploadedProfilePicture = useAppSelector(
-    selectHasUploadedProfilePicture
-  )
+  const hasProfilePicture = useAppSelector(selectHasUploadedProfilePicture)
   const imgClassName = clickable || setAnchorEl ? 'avatar-img' : 'non-clickable'
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -53,7 +51,7 @@ const Avatar: React.FC<AvatarProps> = ({
   }
 
   const handleIconClick = () => {
-    if (!hasUploadedProfilePicture && hasIcon) {
+    if (!hasProfilePicture && hasIcon) {
       fileInputRef.current?.click()
     }
   }
@@ -68,7 +66,7 @@ const Avatar: React.FC<AvatarProps> = ({
   return (
     <>
       <div className='avatar-container'>
-        {hasUploadedProfilePicture ? (
+        {hasProfilePicture ? (
           <div className='avatar-icon'>
             <img
               className={imgClassName}

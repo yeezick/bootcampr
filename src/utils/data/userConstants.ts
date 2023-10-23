@@ -49,7 +49,7 @@ export const emptyUser: UserInterface = {
   },
   profilePicture: '',
   defaultProfilePicture: '',
-  hasUploadedProfilePicture: false,
+  hasProfilePicture: false,
   role: '',
   unreadMessages: {},
   _id: '',
