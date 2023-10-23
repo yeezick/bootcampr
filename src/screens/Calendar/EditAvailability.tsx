@@ -15,38 +15,40 @@ import {
 import { guessUserTimezone } from 'utils/helpers/availabilityHelpers'
 
 export const EditAvailability = () => {
-  // Here the timezone should get whatever the user has saved already (the onboarding screen will guess)
-  // Currently even if the user saves a new timezone, its returning then to ET?
-  // At this point the user should definitely have a timezone saved - can we assume that route?
-  const [days, setDays] = useState<AvailabilityInterface>(defaultAvailability)
-  const [userTimezone, setUserTimezone] = useState(Timezones.ET)
-
-  const authUser = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
+  const authUser = useAppSelector(selectAuthUser)
   const timezone = useAppSelector(getUserTimezone)
 
+  const [days, setDays] = useState<AvailabilityInterface>(defaultAvailability)
+  const [UXuserTimezone, setUXUserTimezone] = useState(Timezones.ET)
+
   const handleSaveAvailability = async () => {
-    const userTimezoneInUTC = bootcamprTimezoneToUTCMap[userTimezone]
+    const userTimezoneInUTC = bootcamprTimezoneToUTCMap[UXuserTimezone]
     await saveAvailability(dispatch, authUser._id, days, userTimezoneInUTC)
   }
 
-  useEffect(() =>
-    // we need a uniform function that checks if tz exists yet, then guesses if not or something like that
-    {
-      // this is the timezone got from redux in UTC format
-      console.log(timezone)
-      // this converst that utc format timezone to the BC defined user friendly string options
-      console.log(UTCtoBootcamprTimezoneMap[timezone])
-      guessUserTimezone()
-    }, [])
+  useEffect(() => {
+    const userFriendlyTimezone = UTCtoBootcamprTimezoneMap[timezone]
+    setUXUserTimezone(userFriendlyTimezone)
+
+    // NOTE: Placeholder to eventually handle when user's stored TZ does not match DayJS identified local TZ for user
+    const userTimezoneGuess = guessUserTimezone()
+    if (userTimezoneGuess.utc !== timezone) {
+      console.log(
+        "User's stored timezone does not match detected local timezone"
+      )
+    } else {
+      console.log("User's stored timezone matches our local guess")
+    }
+  }, [])
 
   return (
     <div>
       <Availability
         days={days}
         setDays={setDays}
-        userTimezone={userTimezone}
-        setUserTimezone={setUserTimezone}
+        userTimezone={UXuserTimezone}
+        setUserTimezone={setUXUserTimezone}
       />
       <div className='edit-availability-btn-group'>
         <PrimaryButton handler={handleSaveAvailability} text='Save' />

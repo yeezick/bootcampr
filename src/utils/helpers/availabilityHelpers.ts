@@ -1,6 +1,6 @@
 import * as dayjs from 'dayjs'
 import {
-  restructuredData,
+  dayJSformattedTZdata,
   UTCtoBootcamprTimezoneMap,
 } from 'utils/data/timeZoneConstants'
 
@@ -17,7 +17,7 @@ import {
 export const guessUserTimezone = () => {
   const userTZ = dayjs.tz.guess()
 
-  const utc = restructuredData[userTZ].utc
+  const utc = dayJSformattedTZdata[userTZ].utc
   const userFriendlyTZ = UTCtoBootcamprTimezoneMap[utc]
 
   return { utc, userFriendlyTZ }

@@ -21,12 +21,13 @@ interface SetupAvailabilityProps {
 export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   handlePageNavigation,
 }) => {
+  const dispatch = useAppDispatch()
+  const authUser = useAppSelector(selectAuthUser)
+  const storedUserTZ = useAppSelector(getUserTimezone)
   const [days, setDays] = useState<AvailabilityInterface>(defaultAvailability)
   const [userTimezone, setUserTimezone] = useState(Timezones.ET)
-  const authUser = useAppSelector(selectAuthUser)
-  const dispatch = useAppDispatch()
+
   const handleBack = () => handlePageNavigation('previous')
-  const storedUserTZ = useAppSelector(getUserTimezone)
 
   const handleSaveAvailability = async () => {
     const userTZinUTC = bootcamprTimezoneToUTCMap[userTimezone]
@@ -36,18 +37,13 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
 
   useEffect(() => {
     let userFriendlyTZ = Timezones.ET
-    // first check if user has tz stored
+
     if (storedUserTZ) {
-      console.log('user has timezone stored')
-      console.log(storedUserTZ)
       userFriendlyTZ = UTCtoBootcamprTimezoneMap[storedUserTZ]
-      // setUserTimezone(userFriendlyTZ)
     } else {
-      console.log('user does not have timezone stored')
       const userTZguess = guessUserTimezone()
       userFriendlyTZ = userTZguess.userFriendlyTZ
       const utc = userTZguess.utc
-      console.log(utc)
     }
     setUserTimezone(userFriendlyTZ)
   }, [])
