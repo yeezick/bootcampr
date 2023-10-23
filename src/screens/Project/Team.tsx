@@ -1,94 +1,60 @@
 import { useState } from 'react'
-import TeamBanner from '../../assets/Images/team-banner.png'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { selectMembersByRole } from 'utils/redux/slices/projectSlice'
 import { TeamMemberCard } from './TeamMemberCard'
+import { TeamWithdrawal } from './TeamWithdrawal'
+import TeamBanner from '../../assets/Images/team-banner.png'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import './Team.scss'
-import { useSelector } from 'react-redux'
-import { selectMembersByRole } from 'utils/redux/slices/projectSlice'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { useAppSelector } from 'utils/redux/hooks'
-
-//TODO: update withdrawal from project popup to be udner the three dots
-//TODO: update confirmation withdrawal modal to popup at the center of the page
-//TODO: fix styling to match Figma
 
 export const Team = () => {
-  const teamMembers = useSelector(selectMembersByRole)
-  console.log(teamMembers)
+  const teamMembers = useAppSelector(selectMembersByRole)
+
   const authUser = useAppSelector(selectAuthUser)
+
   const loggedInUserId = authUser?._id
-  const [showWithdrawalModal, setShowWithdrawModal] = useState(false)
+
+  const [showWithdrawalButton, setShowWithdrawButton] = useState(false)
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+
   const toggleModal = () => {
-    setShowWithdrawModal(!showWithdrawalModal)
+    setShowWithdrawButton(!showWithdrawalButton)
   }
+
   const handleCloseModals = () => {
-    setShowWithdrawModal(false)
+    setShowWithdrawButton(false)
     setShowConfirmationModal(false)
   }
+
   return (
-    <>
-      <div className='team-container'>
-        <div className='page-container'>
-          <div className='header-container'>
-            <img src={TeamBanner} alt='man working on computer'></img>
-          </div>
-          <div className='banner-box-container'>
-            <div className='banner-text-container'>
-              <div className='banner-text'>
-                <h1>Team Members</h1>
-                <button className='open-modal' onClick={toggleModal}>
-                  <BsThreeDotsVertical size={24} />
-                </button>
-                {showWithdrawalModal && (
-                  <section className='withdraw-modal-hidden'>
-                    <div className='withdraw-modal'>
-                      <button
-                        className='withdraw-btn'
-                        onClick={() => setShowConfirmationModal(true)}
-                      >
-                        <p className='withdraw-text'>Withdraw from Project</p>
-                      </button>
-                    </div>
-                  </section>
-                )}
-              </div>
+    <div className='team-container'>
+      <div className='page-container'>
+        <div className='header-container'>
+          <img src={TeamBanner} alt='man working on computer'></img>
+        </div>
+        <div className='banner-box-container'>
+          <div className='banner-text-container'>
+            <div className='banner-text'>
+              <h1>Team Members</h1>
+              <button className='open-modal' onClick={toggleModal}>
+                <BsThreeDotsVertical size={24} />
+              </button>
+              {showWithdrawalButton && (
+                <TeamWithdrawal handleCloseModals={handleCloseModals} />
+              )}
             </div>
           </div>
-          {showConfirmationModal && (
-            <section className='confirmation-modal-hidden'>
-              <div className='confirmation-modal'>
-                <div className='label-text'>
-                  <p>
-                    Just making sure, do you really want to withdraw from the
-                    project?
-                  </p>
-                </div>
-                <div className='confirmation-btns'>
-                  <div>
-                    <button
-                      className='stay-btn'
-                      onClick={() => handleCloseModals()}
-                    >
-                      Stay
-                    </button>
-                  </div>
-                  <div>
-                    <button className='withdraw-final-btn'>Withdraw</button>
-                  </div>
-                </div>
-              </div>
-            </section>
-          )}
-          <TeamMemberInfo
-            teamMembers={teamMembers}
-            loggedInUserId={loggedInUserId}
-          />
         </div>
+        <TeamMemberInfo
+          teamMembers={teamMembers}
+          loggedInUserId={loggedInUserId}
+        />
       </div>
-    </>
+    </div>
   )
 }
+
 const TeamMemberInfo = ({ teamMembers, loggedInUserId }) => {
   return (
     <>

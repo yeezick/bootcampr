@@ -1,4 +1,3 @@
-/*Team Member Card */
 .team-member-card-container {
   display: inline-flex;
   flex-direction: row;
@@ -13,7 +12,6 @@
   justify-content: center;
   margin: 0 24px 0 24px;
   width: 167px;
-
 }
 
 .profile-img-container {
@@ -24,36 +22,35 @@
   z-index: 1;
 }
 
-
 .profile-img {
   clip-path: ellipse(88px 88px);
-  left:0;
+  left: 0;
   object-fit: cover;
   position: fixed;
-  top:0;
-
+  top: 0;
 }
 
 .profile-info-container {
   align-items: center;
-  background: var(--white-ffffff, #FEFEFE);
+  background: var(--white-ffffff, #fefefe);
   border-radius: 8px;
   box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-8-px, 8px);
   height: 104px;
-  margin: -8 0 0 0 ;
+  margin: -8 0 0 0;
   padding: 16px;
   width: 176px;
 }
 
-.profile-name {       
+.profile-name {
   height: 20px;
+  padding: 0;
 
-  label {  //TODO: what is happening here?
-    color:#000000;
-    font-family: "Inter-Regular", Helvetica;
+  label {
+    color: #000000;
+    font-family: 'Inter-Regular', Helvetica;
     font-size: 14px;
     font-weight: 400;
     height: 20px;
@@ -62,24 +59,23 @@
     text-align: center;
     width: 144px;
   }
-padding: 0;
 }
 
 .profile-role {
   height: 16px;
+
   p {
-  color: #000000;
-  font-family: "Inter-Regular", Helvetica;
-  font-size: 11px;
-  font-weight: 400;
-  left: 0;
-  letter-spacing: 0;
-  line-height: 15.4px;
-  margin:0 ;
-  text-align: center;
+    color: #000000;
+    font-family: 'Inter-Regular', Helvetica;
+    font-size: 11px;
+    font-weight: 400;
+    left: 0;
+    letter-spacing: 0;
+    line-height: 15.4px;
+    margin: 0;
+    text-align: center;
   }
 }
-
 
 .profile-buttons {
   display: flex;
@@ -93,11 +89,11 @@ padding: 0;
 
 .profile-btn {
   align-items: center;
-  background-color: var(--primary-primary, #FFA726);
+  background-color: var(--primary-primary, #ffa726);
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  display:flex;
+  display: flex;
   flex: 1 0 0;
   gap: 8px;
   justify-content: center;
@@ -106,13 +102,13 @@ padding: 0;
   text-decoration: none;
 }
 
-.message-btn-container{
+.message-btn-container {
   margin: 8px 0 0 0;
 }
 
 .message-btn {
   align-items: center;
-  background-color: var(--primary-primary, #FFA726);
+  background-color: var(--primary-primary, #ffa726);
   border: none;
   border-radius: 4px;
   cursor: pointer;

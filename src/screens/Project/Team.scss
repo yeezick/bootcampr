@@ -1,11 +1,9 @@
-/*team screen */
-
 .team-container {
   height:100vh;
   width: auto;
 }
 
-.-page-container {
+.page-container {
   display: flex;
   flex-direction: column;
 }
@@ -36,6 +34,7 @@
   flex: 1 0 0;
   gap: 16px;
 }
+
 .banner-img {
   height:68px;
   width: 68px;
@@ -47,7 +46,6 @@
   gap: 32px;
   h1 {
     color: #313335;
-    // font-family: $vep-font-family;
     font-size: 48px;
     font-style: normal;
     font-weight: 700;
@@ -55,9 +53,12 @@
   }
 }
 
-.three-dots {
+.open-modal {
+  background: #ffead0;;
+  border: none;
+  border-radius: 0;
   cursor: pointer;
-
+  
   &:hover{
     background-color: #dbdbdb;
     border-radius: 100%;
@@ -66,17 +67,12 @@
   }
 }
 
-
-.open-modal {
-  background: #ffead0;;
-  border: none;
-  border-radius: 0;
-}
 .withdrawal-modal-hidden {
   background: #fdfdfd;
   height: 37px;
   width: 148px;
 }
+
 .withdrawal-modal {
   align-items: flex-start;
   background: #FEFEFE;
@@ -89,11 +85,11 @@
   position: relative;
   width: 148px;
 }
+
 .withdraw-btn {
   align-items: flex-start;
   background:#FEFEFE ;
   border: none;
-  border-radius: 0; //delete one of the border radius
   border-radius: 8px;
   display: inline-flex;
   flex-direction: column;
@@ -103,6 +99,7 @@
   position: relative;
   width: 148px;
 }
+
 .withdraw-text {
   color: #d80000;
   font-family: "Inter-Regular", Helvetica;
@@ -115,6 +112,7 @@
   white-space: nowrap;
   width: fit-content;
 }
+
 .confirmation-modal-hidden {
   align-items: flex-end;
   background-color: #fdfdfd;
@@ -127,6 +125,7 @@
   position: relative;
   width: 312px;
 }
+
 .label-text {
   height: 40px;
   width: 280px;
@@ -138,14 +137,14 @@
   color: #000000
 }
 
-
 .confirmation-btns {
-  flex-direction: row;
   align-items: center;
-  display: inline-flex;
+  display: flex;
+  flex-direction: row;
   gap: 16px;
+  justify-content: flex-end;
+  margin-top: 32px;
   position: relative;
-  flex: 0 0 auto !important;
 }
 
 .stay-btn {
@@ -154,24 +153,36 @@
   border: 1px solid;
   border-color: #8048c7;
   border-radius: 4px;
+  color: #8048c7;
+  cursor: pointer;
   display: inline-flex;
+  font-size: 16px;
+  font-weight: 500;
   gap: 8px;
+  height: 35px;
   justify-content: center;
+  line-height: 22.4px;
   padding: 6px 12px;
   position: relative;
+  width: 59px;
 }
 
 .withdraw-final-btn {
   align-items: center;
   background-color: #f99312;
   border-radius: 4px;
+  cursor: pointer;
   display: inline-flex;
+  font-size: 16px;
+  font-weight: 500;
   gap: 8px;
+  height: 35px;
   justify-content: center;
+  line-height: 22.4px;
   padding: 6px 12px;
   position: relative;
+  width: 98px;
 }
-
 
 .custom-modal-text {
   color: #000000;
@@ -179,13 +190,6 @@
   font-size: 14px;
   font-weight: 400;
 }
-
-
-
-
-
-
-
 
 .role-container {
   display: flex;
@@ -208,7 +212,7 @@
   background-color: white;
   border-radius: 16px;
   
-  label {           //TODO: check text to match Figma
+  label {           
     color: #000;
     font-family: "Inter-Medium", Helvetica;
     font-size: 32px;

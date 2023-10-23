@@ -18,10 +18,8 @@ export const UserProfile: React.FC = () => {
   const navigate = useNavigate()
   useEffect(() => {
     async function getUser() {
-      console.log(profileId?.id)
       const response = await getOneUser(profileId?.id)
       const data = await response
-      console.log(data)
       setUser(data)
     }
     getUser()
@@ -62,15 +60,10 @@ export const UserProfile: React.FC = () => {
             </IconButton>
           </div>
           <div className='userProfile__title'>
-            {userProfileInfo?.firstName && userProfileInfo?.lastName && (
-              <h2>
-                {userProfileInfo?.firstName} {userProfileInfo?.lastName}
-              </h2>
-            )}
-            {(userProfileInfo?.role === 'Software Engineer' ||
-              userProfileInfo?.role === 'UX Designer') && (
-              <h3>{userProfileInfo?.role}</h3>
-            )}
+            <h2>
+              {userProfileInfo?.firstName} {userProfileInfo?.lastName}
+            </h2>
+            <h3>{userProfileInfo?.role}</h3>
           </div>
           {sameProfile() ? (
             <button className='userProfile__editBtn' onClick={routeToEdit}>
@@ -84,69 +77,65 @@ export const UserProfile: React.FC = () => {
         </div>
         <div className='userProfile__infoContainer'>
           <h3>About me</h3>
-          {(userProfileInfo?.role === 'Software Engineer' ||
-            userProfileInfo?.role === 'UX Designer') && (
-            <p>{userProfileInfo.bio}</p>
+          <p>{userProfileInfo.bio}</p>
+        </div>
+        <UserInfoLinks userProfileInfo={userProfileInfo} />
+      </div>
+    </div>
+  )
+}
+
+const UserInfoLinks = ({ userProfileInfo }) => {
+  return (
+    <div className='userProfile__linksContainer'>
+      <div className='userProfile__linkItem'>
+        <BsLink45Deg className='userProfile__icons' />
+        <div className='userProfile__link'>
+          <h3>Portfolio</h3>
+          {userProfileInfo?.links && userProfileInfo?.links.githubUrl && (
+            <a
+              className='userProfile__url'
+              href={userProfileInfo?.links.portfolioUrl}
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              {userProfileInfo?.links?.portfolioUrl}
+            </a>
           )}
         </div>
-
-        <div className='userProfile__linksContainer'>
-          <div className='userProfile__linkItem'>
-            <BsLink45Deg className='userProfile__icons' />
-            <div className='userProfile__link'>
-              <h3>Portfolio</h3>
-              {(userProfileInfo?.role === 'Software Engineer' ||
-                userProfileInfo?.role === 'UX Designer') &&
-                userProfileInfo?.links &&
-                userProfileInfo?.links?.portfolioUrl && (
-                  <a
-                    className='userProfile__url'
-                    href={userProfileInfo?.links.portfolioUrl}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    {userProfileInfo?.links?.portfolioUrl}
-                  </a>
-                )}
-            </div>
-          </div>
-          <div className='userProfile__linkItem'>
-            <RiGithubLine className='userProfile__icons' />
-            <div className='userProfile__link'>
-              <h3>Github</h3>
-              {userProfileInfo?.role === 'Software Engineer' &&
-                userProfileInfo?.links &&
-                userProfileInfo?.links.githubUrl && (
-                  <a
-                    className='userProfile__url'
-                    href={userProfileInfo?.links.githubUrl}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    {userProfileInfo?.links.githubUrl}
-                  </a>
-                )}
-            </div>
-          </div>
-          <div className='userProfile__linkItem'>
-            <FiLinkedin className='userProfile__icons' />
-            <div className='userProfile__linkLast'>
-              <h3>LinkedIn</h3>
-              {(userProfileInfo?.role === 'Software Engineer' ||
-                userProfileInfo?.role === 'UX Designer') &&
-                userProfileInfo?.links &&
-                userProfileInfo?.links.linkedinUrl && (
-                  <a
-                    className='userProfile__url'
-                    href={userProfileInfo?.links.linkedinUrl}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    {userProfileInfo?.links.linkedinUrl}
-                  </a>
-                )}
-            </div>
-          </div>
+      </div>
+      <div className='userProfile__linkItem'>
+        <RiGithubLine className='userProfile__icons' />
+        <div className='userProfile__link'>
+          <h3>Github</h3>
+          {userProfileInfo?.role === 'Software Engineer' &&
+            userProfileInfo?.links &&
+            userProfileInfo?.links.githubUrl && (
+              <a
+                className='userProfile__url'
+                href={userProfileInfo?.links.githubUrl}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                {userProfileInfo?.links.githubUrl}
+              </a>
+            )}
+        </div>
+      </div>
+      <div className='userProfile__linkItem'>
+        <FiLinkedin className='userProfile__icons' />
+        <div className='userProfile__linkLast'>
+          <h3>LinkedIn</h3>
+          {userProfileInfo?.links && userProfileInfo?.links.githubUrl && (
+            <a
+              className='userProfile__url'
+              href={userProfileInfo?.links.linkedinUrl}
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              {userProfileInfo?.links.linkedinUrl}
+            </a>
+          )}
         </div>
       </div>
     </div>

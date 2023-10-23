@@ -1,13 +1,7 @@
 import Avatar from 'components/Avatar/Avatar'
 import './TeamMemberCard.scss'
 
-//TODO add cursor pointer
-//TODO fetch Avatar (Profile Picture) data
-
-//add user props
-
 export const TeamMemberCard = ({ member, loggedInUserId }) => {
-  //TODO check projectId
   const isCurrentUser = member._id === loggedInUserId
 
   const handleProfileNavigation = () => {

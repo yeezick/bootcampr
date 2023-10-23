@@ -5,14 +5,29 @@ import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
 import './Team.scss'
 
-const style = {
+const buttonStyle = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 'auto',
+  bgcolor: '#fefefe',
+  border: 'none',
+  borderRadius: 4,
+  boxShadow: 24,
+  p: 4,
+  color: 'red',
+}
+
+const modalStyle = {
   position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: '#fefefe',
+  border: 'none',
+  borderRadius: 4,
   boxShadow: 24,
   p: 4,
 }
@@ -24,7 +39,7 @@ export const TeamWithdrawal = ({ handleCloseModals }) => {
 
   return (
     <div>
-      <Button onClick={handleOpen} style={{ color: 'red' }}>
+      <Button onClick={handleOpen} sx={buttonStyle}>
         Withdraw from project
       </Button>
       <Modal
@@ -33,7 +48,7 @@ export const TeamWithdrawal = ({ handleCloseModals }) => {
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
-        <Box sx={style}>
+        <Box sx={modalStyle}>
           <Typography
             id='modal-modal-title'
             variant='h6'
@@ -49,7 +64,7 @@ export const TeamWithdrawal = ({ handleCloseModals }) => {
           </Typography>
           <div className='confirmation-btns'>
             <div>
-              <button className='stay-btn' onClick={() => handleCloseModals()}>
+              <button className='stay-btn' onClick={handleCloseModals}>
                 Stay
               </button>
             </div>
