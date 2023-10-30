@@ -23,7 +23,9 @@ export interface UserInterface {
   ownerOfProjects?: ProjectInterface[]
   portfolioProjects?: ProjectInterface[]
   onboarded?: boolean
-  profilePicture?: string | null
+  profilePicture?: string
+  defaultProfilePicture: string
+  hasProfilePicture?: boolean
   role?: string
   unreadMessages?: {}
   savedProjects?: ProjectInterface[]

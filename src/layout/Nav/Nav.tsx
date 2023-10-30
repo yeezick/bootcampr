@@ -20,6 +20,7 @@ import { DomainLink } from 'layout/DomainLink'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
+  const [isChatBadgeUpdated, setIsChatBadgeUpdated] = useState(false)
   const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId, project: projectId } = authUser

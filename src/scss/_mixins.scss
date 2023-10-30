@@ -46,7 +46,7 @@
 
 @mixin actions {
   flex-direction: column !important;
-  margin: 1rem 1.5rem !important;
+  padding: 16px 0 !important;
 }
 
 @mixin action-box {
@@ -55,17 +55,19 @@
 }
 
 @mixin button {
-  color: #470d91 !important;
   font-size: 16px !important;
   text-transform: none !important;
   border: none !important;
+  padding: 0 !important;
+  height: 40px;
+  width: 40px;
 }
 
 @mixin dialog-content {
-  background: #000 !important;
-  height: 400px !important;
-  position: relative !important;
-  width: auto !important;
+  background: #000;
+  height: 400px;
+  position: relative;
+  width: auto;
 }
 
 @mixin empty-avatar {
@@ -102,9 +104,9 @@
 }
 
 @mixin icon {
-  color: #470d91 !important;
-  height: 40px !important;
-  width: 40px !important;
+  color: #212121;
+  height: 30px;
+  width: 30px;
 }
 
 @mixin input-fields($padding, $width) {

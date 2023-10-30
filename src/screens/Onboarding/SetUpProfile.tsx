@@ -4,11 +4,10 @@ import { useParams } from 'react-router-dom'
 import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
 import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
-import { updateUserProfile } from 'utils/api/users'
+import { updateUser } from 'utils/api/users'
 import { useNotification } from 'utils/redux/slices/notificationSlice'
+import Avatar from 'components/Avatar/Avatar'
 import TextareaAutosize from 'react-textarea-autosize'
-import { IconButton } from '@mui/material'
-import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined'
 import { FiArrowRight, FiArrowLeft } from 'react-icons/fi'
 import './Onboarding.scss'
 
@@ -60,7 +59,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     e.preventDefault()
 
     try {
-      const updatedUser = await updateUserProfile(params.id, updateUserForm)
+      const updatedUser = await updateUser(params.id, updateUserForm)
       dispatch(setAuthUser(updatedUser))
       displayNotification({
         message: 'User profile successfully updated.',
@@ -101,12 +100,12 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
         >
           <div className='setupProfile__inputs-container'>
             <div className='setupProfile__profile-image'>
-              <IconButton
-                aria-label='change profile pic'
-                className='setupProfile__profile-cameraIcon'
-              >
-                <CameraAltOutlinedIcon className='setupProfile__profile-imageChange' />
-              </IconButton>
+              <Avatar
+                hasIcon={true}
+                clickable={false}
+                iconButtonClassName='setupProfile__cameraIcon'
+                addPhotoIconId='imageChange'
+              />
             </div>
             <label className='setupProfile__profile-label'>
               First name
