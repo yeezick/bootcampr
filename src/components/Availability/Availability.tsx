@@ -36,10 +36,11 @@ export const Availability = ({
       />
       <p>Set weekly availability</p>
       <hr />
-      {Object.keys(weekdaysMap).map(day => (
+      {Object.keys(weekdaysMap).map((day, idx) => (
         <DayAvailabilityInputBanner
           day={day}
           days={days}
+          idx={idx}
           key={`${day}-banner`}
           setDays={setDays}
         />
