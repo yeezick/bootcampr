@@ -51,8 +51,8 @@ const projectSlice = createSlice({
   initialState,
   reducers: {
     addTicketToStatus: (state, action: PayloadAction<AddTicketReducer>) => {
-      const { status, newTicket } = action.payload
-      state.projectTracker[status].push(newTicket)
+      const newTicket = action.payload
+      state.projectTracker[newTicket.status].push(newTicket)
     },
     updateProject: (state, action: PayloadAction<ProjectInterface>) => {
       return {
@@ -142,6 +142,7 @@ export const selectRenderProjectPortal = (state: RootState) =>
   state.project.projectPortal.renderProjectPortal
 
 export const {
+  addTicketToStatus,
   setProject,
   updateProject,
   updateParticipatingMembers,

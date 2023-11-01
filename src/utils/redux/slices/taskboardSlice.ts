@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { TaskInterface } from 'interfaces'
+import { ProjectTrackerInterface, TaskInterface } from 'interfaces'
 import { RootState } from '../rootReducer'
+import { filterUserTickets } from 'utils/helpers/taskHelpers'
+import { store } from '../store'
 
 type TicketDialogState = '' | 'create' | 'edit'
 
@@ -8,7 +10,7 @@ export interface TaskBoardInterface {
   displayAllTickets: boolean
   ticketDialogState: TicketDialogState
   ticketFields: TaskInterface
-  visibleTickets: TaskInterface[]
+  visibleTickets: ProjectTrackerInterface
   visibleTicketDialog: boolean
 }
 
@@ -17,22 +19,28 @@ const initialState: TaskBoardInterface = {
   ticketDialogState: '',
   ticketFields: {
     assignee: '',
-    date: '',
+    comments: [],
+    createdBy: '',
     description: '',
-    _id: '',
-    id: '',
+    dueDate: '',
+    image: '',
     link: '',
     projectId: '',
     status: '',
     title: '',
   },
-  visibleTickets: [],
+  visibleTickets: {
+    completed: [],
+    inProgress: [],
+    toDo: [],
+    underReview: [],
+  },
   visibleTicketDialog: false,
 }
 
 export interface SetVisibleTicketsReducer {
-  visibleTickets: TaskInterface[]
-  displayAllTickets: boolean
+  projectTracker: ProjectTrackerInterface
+  userId: string
 }
 
 export interface SetVisibleTicketDialogReducer {
@@ -51,9 +59,14 @@ const taskBoardSlice = createSlice({
       state,
       action: PayloadAction<SetVisibleTicketsReducer>
     ) => {
-      const { displayAllTickets, visibleTickets } = action.payload
-      state.displayAllTickets = displayAllTickets
-      state.visibleTickets = visibleTickets
+      const { projectTracker, userId } = action.payload
+      const shouldDisplayAllTickets = !state.displayAllTickets
+      if (shouldDisplayAllTickets) {
+        state.visibleTickets = projectTracker
+      } else {
+        state.visibleTickets = filterUserTickets(projectTracker, userId)
+      }
+      state.displayAllTickets = shouldDisplayAllTickets
     },
     setVisibleTicketDialog: (
       state,
@@ -78,12 +91,16 @@ const taskBoardSlice = createSlice({
   },
 })
 
-export const selectVisibleTicketDialog = (state: RootState) =>
-  state.taskBoard.visibleTicketDialog
+export const selectDisplayAllTickets = (state: RootState) =>
+  state.taskBoard.displayAllTickets
 export const selectTicketDialogState = (state: RootState) =>
   state.taskBoard.ticketDialogState
 export const selectTicketFields = (state: RootState) =>
   state.taskBoard.ticketFields
+export const selectVisibleTicketDialog = (state: RootState) =>
+  state.taskBoard.visibleTicketDialog
+export const selectVisibleTickets = (state: RootState) =>
+  state.taskBoard.visibleTickets
 
 export const { setTicketFields, setVisibleTickets, setVisibleTicketDialog } =
   taskBoardSlice.actions

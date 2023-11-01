@@ -3,14 +3,16 @@ import { SnackBarToastInterface } from './SnackBarToast'
 
 export interface TaskInterface {
   assignee?: string
-  date?: string
-  description?: string | null
-  _id?: string
-  id?: string
-  link?: string | null
+  comments?: []
+  createdBy?: string
+  dueDate?: string
+  description?: string
+  image?: string
+  link?: string
   projectId?: string
   status?: string
-  title?: string | null
+  title?: string
+  _id?: string
 }
 
 export interface TicketInterface {

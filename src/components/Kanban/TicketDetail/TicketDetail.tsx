@@ -61,9 +61,9 @@ export const TicketDetail = ({
     const { status } = ticketDetail
     const updateText: TaskInterface = {
       assignee: authUser._id,
-      date: dateRef.current?.value,
+      dueDate: dateRef.current?.value,
       description: descriptionRef.current?.textContent,
-      _id: ticketDetail._id,
+      // _id: ticketDetail._id,
       link: linkRef.current?.textContent,
       status: ticketStatus ?? status,
       title: tittleRef.current?.textContent,

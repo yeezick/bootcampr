@@ -15,7 +15,10 @@ import { TbPencilMinus } from 'react-icons/tb'
 import { useDispatch } from 'react-redux'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { concatenatedString } from 'utils/helpers/stringHelpers'
-import { selectProjectId } from 'utils/redux/slices/projectSlice'
+import {
+  addTicketToStatus,
+  selectProjectId,
+} from 'utils/redux/slices/projectSlice'
 import { AssignUser } from '../TicketDetail/AssignUser'
 import {
   selectTicketFields,
@@ -79,22 +82,18 @@ export const TicketStatusFields = ({
       <AssignUser text='Assignee' detailIcon={<RxPerson />} />
       <SelectDate handleOnChange={handleInputChange} />
       <CreateTaskButtons
-        assignee={assignee}
         closeModal={closeModal}
         isBeingCreated={isBeingCreated}
         setIsBeingCreated={setIsBeingCreated}
-        ticketsStatus={ticketsStatus}
       />
     </Box>
   )
 }
 
 export const CreateTaskButtons = ({
-  assignee,
   closeModal,
   isBeingCreated,
   setIsBeingCreated,
-  ticketsStatus,
 }) => {
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
@@ -104,21 +103,15 @@ export const CreateTaskButtons = ({
   const addTickets = async () => {
     setIsBeingCreated(true)
     // Add ticket form should always be set to ticketStatus => can immediately concatenate here
-    const status = ticketFields?.status ?? ticketsStatus
-    const newStatus = concatenatedString(status)
     const createdTicket = await createTicketApi({
       ...ticketFields,
       projectId: projectId,
-      status: newStatus,
       createdBy: userId,
-      assignee: assignee,
     })
     // TODO: Dispatch to reducer
     // Add to visible tickets
-    // setGetAllTicket({
-    //   ...getAllTicket,
-    //   [newStatus]: [...getAllTicket[newStatus], { ...createdTicket }],
-    // })
+    console.log('createdTicket', createdTicket)
+    dispatch(addTicketToStatus(createdTicket))
     setIsBeingCreated(false)
     dispatch(
       createSnackBar({
@@ -154,11 +147,20 @@ export const CreateTaskButtons = ({
 
 // Convert to MUI button
 export const CreateTicketTab = ({ columnStatus }) => {
+  const projectId = useAppSelector(selectProjectId)
+  const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
   const openCreateTicketDialog = () => {
     dispatch(setVisibleTicketDialog('create'))
-    dispatch(setTicketFields({ status: columnStatus, assignee: 'Unassigned' }))
+    dispatch(
+      setTicketFields({
+        assignee: 'Unassigned',
+        createdBy: userId,
+        status: columnStatus,
+        projectId,
+      })
+    )
   }
 
   return (

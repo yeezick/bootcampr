@@ -1,42 +1,49 @@
 import { Checkbox } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { filterOutTickets } from 'utils/helpers/taskHelpers'
-import { useAppSelector } from 'utils/redux/hooks'
+import { filterUserTickets } from 'utils/helpers/taskHelpers'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectProjectTracker } from 'utils/redux/slices/projectSlice'
+import { setVisibleTickets } from 'utils/redux/slices/taskBoardSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
-export const BoardHeader = ({ visibleTickets, setVisibleTickets }) => {
+export const BoardHeader = () => {
   const projectTracker = useAppSelector(selectProjectTracker)
   const { _id: userId } = useAppSelector(selectAuthUser)
-  const [viewAllTasks, setViewAllTasks] = useState(false)
+  const [viewAllTasks, setViewAllTasks] = useState(true)
   const [viewMyTasks, setViewMyTasks] = useState(false)
+  const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    handleAllTasksCheckbox()
-  }, [])
-
-  const handleAllTasksCheckbox = () => {
-    if (viewAllTasks === false) {
-      setViewAllTasks(true)
-      setViewMyTasks(false)
-      setVisibleTickets(projectTracker)
-    } else {
-      handleMyTasksCheckbox()
-    }
+  const handleTaskFilterCheckbox = () => {
+    setViewAllTasks(state => !state)
+    setViewMyTasks(state => !state)
+    dispatch(
+      setVisibleTickets({
+        projectTracker,
+        userId,
+      })
+    )
   }
 
-  const handleMyTasksCheckbox = () => {
-    if (viewMyTasks === false) {
-      setViewAllTasks(false)
-      setViewMyTasks(true)
+  // const handleAllTasksCheckbox = () => {
+  //   if (viewAllTasks === false) {
+  //     setViewAllTasks(true)
+  //     setViewMyTasks(false)
+  //     dispatch(setVisibleTickets(setVisibleTicketsPayload))
+  //   } else {
+  //     handleMyTasksCheckbox()
+  //   }
+  // }
 
-      if (visibleTickets) {
-        setVisibleTickets(filterOutTickets(visibleTickets, userId))
-      }
-    } else {
-      handleAllTasksCheckbox()
-    }
-  }
+  // const handleMyTasksCheckbox = () => {
+  //   if (viewMyTasks === false) {
+  //     setViewAllTasks(false)
+  //     setViewMyTasks(true)
+
+  //     dispatch(setVisibleTickets(setVisibleTicketsPayload))
+  //   } else {
+  //     handleAllTasksCheckbox()
+  //   }
+  // }
 
   return (
     <div>
@@ -45,11 +52,11 @@ export const BoardHeader = ({ visibleTickets, setVisibleTickets }) => {
       </div>
       <div className='Project-filter'>
         <span>
-          <Checkbox checked={viewAllTasks} onClick={handleAllTasksCheckbox} />
+          <Checkbox checked={viewAllTasks} onClick={handleTaskFilterCheckbox} />
           <p>All tasks</p>
         </span>
         <span>
-          <Checkbox checked={viewMyTasks} onClick={handleMyTasksCheckbox} />
+          <Checkbox checked={viewMyTasks} onClick={handleTaskFilterCheckbox} />
           <p>My tasks</p>
         </span>
       </div>

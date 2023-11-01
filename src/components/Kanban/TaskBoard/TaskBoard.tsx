@@ -15,32 +15,42 @@ import {
   setTicketFields,
   selectVisibleTicketDialog,
   setVisibleTicketDialog,
+  setVisibleTickets,
+  selectVisibleTickets,
 } from 'utils/redux/slices/taskBoardSlice'
+import { handleReduxInputChange } from 'utils/helpers'
 
 // TODO: Rename projectTracker to project
 export const TaskBoard = () => {
   const projectTracker = useAppSelector(selectProjectTracker)
-  const [visibleTickets, setVisibleTickets] = useState(projectTracker)
+  const visibleTickets = useAppSelector(selectVisibleTickets)
   const [ticketsExist, setTicketsExist] = useState(false)
   const dispatch = useAppDispatch()
 
+  console.log('visibleTickets', visibleTickets)
+
   useEffect(() => {
-    if (visibleTickets) {
-      const oneTicketExists = Object.keys(visibleTickets).some(
-        status => visibleTickets[status]?.length > 0
-      )
-      setTicketsExist(oneTicketExists)
-    } else setTicketsExist(false)
+    const doTicketsExist = () => {
+      if (visibleTickets) {
+        const oneTicketExists = Object.keys(visibleTickets).some(
+          status => visibleTickets[status]?.length > 0
+        )
+        setTicketsExist(oneTicketExists)
+        return oneTicketExists
+      } else {
+        setTicketsExist(false)
+        return false
+      }
+    }
+
+    doTicketsExist()
   }, [projectTracker])
 
   const openDialog = () => dispatch(setVisibleTicketDialog('create'))
 
   return (
     <div className='AllTickets'>
-      <BoardHeader
-        visibleTickets={visibleTickets}
-        setVisibleTickets={setVisibleTickets}
-      />
+      <BoardHeader />
       {ticketsExist ? (
         <BoardColumns
           getAllTicket={visibleTickets}
@@ -62,11 +72,8 @@ export const TicketDialog = () => {
     dispatch(setVisibleTicketDialog(''))
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    const { name, value } = e.target
-    dispatch(setTicketFields({ [name]: value }))
-  }
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    handleReduxInputChange(e, dispatch, setTicketFields)
 
   const ticketsStatus = ''
 

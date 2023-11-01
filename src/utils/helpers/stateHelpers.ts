@@ -11,6 +11,11 @@ export const handleFormInputChange = (
   })
 }
 
+export const handleReduxInputChange = (e, dispatch, reducer) => {
+  const { name, value } = e.target
+  dispatch(reducer({ [name]: value }))
+}
+
 export const storeUserProject = async (dispatch, projectId) => {
   if (projectId) {
     const randomUserProject = await getOneProject(projectId)
