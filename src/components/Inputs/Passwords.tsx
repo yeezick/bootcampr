@@ -171,7 +171,7 @@ const PasswordMatchError = ({ matchStatus }) => {
   }
 }
 
-const toggleVisiblity = (inputType, setInputType) => {
+export const toggleVisiblity = (inputType, setInputType) => {
   if (inputType === 'password') setInputType('text')
   else setInputType('password')
 }
@@ -195,7 +195,11 @@ const PasswordCriteria = ({ criteria, errorState = 'neutral' }) => {
     <div className='password-criteria'>
       {errorState === 'criteria-met' && (
         <div>
-          <img src='/check.png' className='criteria-check' />
+          <img
+            src='/check.png'
+            className='criteria-check'
+            alt='criteria-check'
+          />
         </div>
       )}
       <p className={errorState}>{criteria}</p>

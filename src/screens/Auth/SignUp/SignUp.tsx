@@ -102,7 +102,7 @@ export const SignUp: React.FC = () => {
       </div>
       <div className='signup-banner'>
         <div className='honeycomb'>
-          <img src='./drawing-wireframes.jpg' />
+          <img src='./drawing-wireframes.jpg' alt='' />
         </div>
 
         <div className='signup-container'>
