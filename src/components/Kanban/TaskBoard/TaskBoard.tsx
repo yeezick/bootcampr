@@ -27,8 +27,6 @@ export const TaskBoard = () => {
   const [ticketsExist, setTicketsExist] = useState(false)
   const dispatch = useAppDispatch()
 
-  console.log('visibleTickets', visibleTickets)
-
   useEffect(() => {
     const doTicketsExist = () => {
       if (visibleTickets) {

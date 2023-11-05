@@ -110,7 +110,6 @@ export const CreateTaskButtons = ({
     })
     // TODO: Dispatch to reducer
     // Add to visible tickets
-    console.log('createdTicket', createdTicket)
     dispatch(addTicketToStatus(createdTicket))
     setIsBeingCreated(false)
     dispatch(
