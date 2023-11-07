@@ -1,10 +1,17 @@
 import React, { useState } from 'react'
-import './ResetPassword.scss'
 import { forgotPasswordEmailVerification } from 'utils/api'
 import { ForgotPasswordInterface } from 'interfaces'
+import {
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+} from '@mui/material'
+import './ResetPassword.scss'
 
 export const ForgotPasswordModal = ({
   onClose,
+  forgotPasswordModal,
   onSuccessMessage,
   onFailureMessage,
 }: ForgotPasswordInterface) => {
@@ -28,62 +35,44 @@ export const ForgotPasswordModal = ({
 
   const handleEmail = (e: {
     target: { value: React.SetStateAction<string> }
+    stopPropagation: () => void
   }) => {
+    e.stopPropagation()
     setEmail(e.target.value)
   }
 
   return (
-    <div className='password-modal'>
-      <svg
-        className='close-modal-btn'
-        onClick={onClose}
-        xmlns='http://www.w3.org/2000/svg'
-        width='24'
-        height='24'
-        viewBox='0 0 24 24'
-        fill='none'
-      >
-        <path
-          d='M18 6L6 18'
-          stroke='#121212'
-          strokeWidth='2'
-          strokeLinecap='round'
-          strokeLinejoin='round'
-        />
-        <path
-          d='M6 6L18 18'
-          stroke='#121212'
-          strokeWidth='2'
-          strokeLinecap='round'
-          strokeLinejoin='round'
-        />
-      </svg>
-      {error && <div className='feedback-message'>{error}</div>}
-      {success && <div className='feedback-message'>{success}</div>}
-      <div className='modal-content'>
-        <div className='modal-title'>Forgot your Password?</div>
-        <div className='modal-body'>
-          We all forget things. <br></br>
-          Enter the email address you used to sign up. <br></br>
-          We'll send you an email to reset your password.
-        </div>
-        <div>
-          <input
-            className='email-input'
-            type='email'
-            value={email}
-            onChange={handleEmail}
-          />
-          <div className='reset-btns'>
-            <button className='cancel-reset' onClick={onClose}>
-              Cancel
-            </button>
-            <button className='reset-password-btn' onClick={handleSubmit}>
-              Send email
-            </button>
+    <>
+      <Dialog open={forgotPasswordModal} maxWidth='xs' fullWidth>
+        <div className='password-modal'>
+          {error && <div className='feedback-message'>{error}</div>}
+          {success && <div className='feedback-message'>{success}</div>}
+          <div className='modal-content'>
+            <DialogTitle className='modal-title'>
+              Forgot your Password?
+            </DialogTitle>
+            <DialogContent className='modal-body'>
+              We all forget things. <br></br>
+              Enter the email address you used to sign up. <br></br>
+              We'll send you an email to reset your password.
+            </DialogContent>
+            <input
+              className='email-input'
+              type='email'
+              value={email}
+              onChange={handleEmail}
+            />
           </div>
         </div>
-      </div>
-    </div>
+        <DialogActions className='reset-btns' id='btn-container'>
+          <button className='cancel-reset' onClick={onClose}>
+            Cancel
+          </button>
+          <button className='reset-password-btn' onClick={handleSubmit}>
+            Send email
+          </button>
+        </DialogActions>
+      </Dialog>
+    </>
   )
 }

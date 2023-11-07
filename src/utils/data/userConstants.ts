@@ -49,6 +49,8 @@ export const emptyUser: UserInterface = {
     portfolioUrl: '',
   },
   profilePicture: '',
+  defaultProfilePicture: '',
+  hasProfilePicture: false,
   role: '',
   unreadMessages: {},
   _id: '',

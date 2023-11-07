@@ -1,29 +1,29 @@
 import { useCallback, useState, useRef } from 'react'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { setImageUrl } from 'utils/redux/slices/avatarSlice'
+import { useAppSelector, useAppDispatch } from 'utils/redux/hooks'
+import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
 import {
   setUploadedImage,
-  removeUploadedImage,
+  setDefaultProfilePicture,
 } from 'utils/redux/slices/userSlice'
+import { ProfilePreviewImageProps } from 'interfaces/ProfileImageInterfaces'
 import { updateUserImage, deleteUserImage } from '../../utils/api/services'
+import { updateUser } from 'utils/api'
 import ImageEditorModal from 'components/ImageEditorModal/ImageEditorModal'
-import { ProfilePreviewImageProps } from '../../interfaces/ProfileImageInterfaces'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
 import Avatar from 'components/Avatar/Avatar'
 import {
   Box,
-  Button,
   Dialog,
   DialogTitle,
   DialogActions,
   DialogContent,
+  IconButton,
 } from '@mui/material'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import CloseIcon from '@mui/icons-material/Close'
-import DeleteIcon from '@mui/icons-material/DeleteOutline'
-import { FiEdit } from 'react-icons/fi'
-import CameraAltIcon from '@mui/icons-material/CameraAltOutlined'
+import { RiFileEditLine } from 'react-icons/ri'
+import { GrTrash } from 'react-icons/gr'
+import { MdOutlineCameraEnhance } from 'react-icons/md'
 import './ProfilePreviewImage.scss'
 
 /**
@@ -33,89 +33,68 @@ import './ProfilePreviewImage.scss'
  * @param {string} uploadedImage - The uploaded image in base64 format.
  * @returns {JSX.Element} - ProfilePreviewImage component.
  */
-const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
-  open,
+
+export const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
+  onOpen,
   onClose,
-  uploadedImage,
 }) => {
-  // State and ref variables
-  const [isImageEditorOpen, setIsImageEditorOpen] = useState(false)
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
+  const authUser = useAppSelector(selectAuthUser)
+  const { _id: userId } = authUser
+  const [isImageEditorOpen, setIsImageEditorOpen] = useState<boolean>(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const authUser = useAppSelector(selectAuthUser)
+  const openImageEditor = () => setIsImageEditorOpen(true)
+  const closeImageEditor = () => setIsImageEditorOpen(false)
+  const openDeleteModal = () => setIsDeleteModalOpen(true)
+  const closeDeleteModal = () => setIsDeleteModalOpen(false)
+  const handleOpenFileInput = () => fileInputRef.current?.click()
 
-  const openImageEditor = () => {
-    setIsImageEditorOpen(true)
-  }
-
-  const closeImageEditor = () => {
-    setIsImageEditorOpen(false)
-  }
-
-  const handleOpenFileInput = () => {
-    fileInputRef.current?.click()
-  }
-
-  /**
-   * Handles image upload, dispatches action to set the image URL and closes the editor modal.
-   * @param {string} image - The uploaded image in base64 format.
-   */
-  const handleImageUpload = (image: string) => {
-    dispatch(setImageUrl(image))
-    closeImageEditor()
-
-    // Send request to update user's profile image in the database
-    const userId = authUser._id
-    updateUserImage(userId, image)
-      .then(() => console.log('Image updated successfully'))
-      .catch(err => console.error('Failed to update image:', err))
-  }
-
-  /**
-   * Handles closing the editor modal and parent dialog.
-   */
   const handleEditorModalClose = useCallback(() => {
     onClose()
     setIsImageEditorOpen(false)
   }, [onClose])
 
   /**
-   * Handles discarding changes made to the image.
+   * Handles image upload, dispatches action to set the image URL and closes the editor modal.
+   * @param {string} image - The uploaded image in base64 format.
    */
-  const handleDiscardChanges = async () => {
-    if (uploadedImage) {
-      URL.revokeObjectURL(uploadedImage)
-    }
-
-    //Send request to delete user's profile image from the database
-    const userId = authUser._id
+  const handleImageUpload = async (image: string) => {
     try {
-      const res = await deleteUserImage(userId)
-      if (res.success) {
-        dispatch(removeUploadedImage())
-        dispatch(setImageUrl(null))
-      } else {
-        throw new Error('Failed to delete image')
-      }
-    } catch (err) {
-      console.error(err)
+      await updateUserImage(userId, image)
+      console.log('Image updated successfully')
+      dispatch(setUploadedImage(image))
+    } catch (error) {
+      console.log('Failed to update image:', error)
     }
   }
+
+  const handleFileInputChange = useCallback(
+    (dataUrl: string) => {
+      dispatch(setUploadedImage(dataUrl))
+      setIsImageEditorOpen(true)
+      handleImageUpload(dataUrl)
+    },
+    [dispatch]
+  )
 
   return (
     <>
       <FileInput
-        onFileChange={dataUrl => {
-          dispatch(setUploadedImage(dataUrl))
-          setIsImageEditorOpen(true)
-        }}
+        onFileChange={handleFileInputChange}
         fileInputRef={fileInputRef}
       />
-      <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
+      <Dialog
+        className='profile-preview'
+        open={onOpen}
+        onClose={onClose}
+        maxWidth='sm'
+        fullWidth
+      >
         <Box className='profile-preview__header'>
           <div></div>
-          <DialogTitle className='profile-preview__title'>
+          <DialogTitle className='profile-preview__title' id='title'>
             Profile photo
           </DialogTitle>
           <CloseIcon
@@ -126,68 +105,55 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
         <div className='profile-preview__content'>
           <DialogContent dividers className='profile-preview__dialog-content'>
             <Box className='profile-preview__content-box'>
-              {/* Render uploaded image if available */}
-              {Boolean(uploadedImage) ? (
-                <div className='profile-preview__profile-image-container'>
-                  <img
-                    src={uploadedImage as string}
-                    alt='Profile'
-                    className='profile-preview__profile-image'
-                  />
-                </div>
-              ) : (
-                // If uploadedImage is not available, use Avatar
-                <Avatar clickable={false} />
-              )}
+              <Avatar clickable={false} hasIcon={false} />
             </Box>
           </DialogContent>
           <DialogActions className='profile-preview__actions'>
             <Box className='profile-preview__action-box'>
               <Box className='profile-preview__edit-box'>
-                <Button
-                  variant='outlined'
-                  className='profile-preview__edit-btn'
-                  onClick={openImageEditor}
-                >
-                  <div className='profile-preview__btn-container'>
-                    <FiEdit className='profile-preview__edit-icon' />
-                    Edit
-                  </div>
-                </Button>
-                <Button
-                  variant='outlined'
-                  className='profile-preview__add-btn'
-                  onClick={handleOpenFileInput}
-                >
-                  <div className='profile-preview__btn-container'>
-                    <CameraAltIcon className='profile-preview__add-icon' />
-                    Add photo
-                  </div>
-                </Button>
-                <Button
-                  variant='outlined'
-                  className='profile-preview__delete-btn'
-                  onClick={handleDiscardChanges}
-                >
-                  <div className='profile-preview__btn-container'>
-                    <DeleteIcon className='profile-preview__delete-icon' />
-                    Delete
-                  </div>
-                </Button>
+                <div className='profile-preview__btn-container'>
+                  <IconButton
+                    aria-label='edit'
+                    className='profile-preview__edit-btn'
+                    onClick={openImageEditor}
+                  >
+                    <RiFileEditLine className='profile-preview__edit-icon' />
+                  </IconButton>
+                  <p>Edit</p>
+                </div>
+                <div className='profile-preview__btn-container'>
+                  <IconButton
+                    aria-label='change'
+                    className='profile-preview__add-btn'
+                    onClick={handleOpenFileInput}
+                  >
+                    <MdOutlineCameraEnhance className='profile-preview__add-icon' />
+                  </IconButton>
+                  <p>Change photo</p>
+                </div>
+                <div className='profile-preview__btn-container'>
+                  <IconButton
+                    aria-label='delete'
+                    className='profile-preview__delete-btn'
+                    onClick={openDeleteModal}
+                  >
+                    <GrTrash className='profile-preview__delete-icon' />
+                  </IconButton>
+                  <p>Delete</p>
+                </div>
               </Box>
             </Box>
           </DialogActions>
+          <DeleteWarningModal
+            userId={userId}
+            dispatch={dispatch}
+            onClose={onClose}
+            isDeleteModalOpen={isDeleteModalOpen}
+            closeDeleteModal={closeDeleteModal}
+          />
           <ImageEditorModal
-            open={isImageEditorOpen}
+            onOpen={isImageEditorOpen}
             onClose={closeImageEditor}
-            onSaveClick={image => {
-              handleImageUpload(image)
-              setUploadedImage(null)
-            }}
-            uploadedImage={uploadedImage}
-            setUploadedImage={(image: string) =>
-              dispatch(setUploadedImage(image))
-            }
           />
         </div>
       </Dialog>
@@ -195,4 +161,93 @@ const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
   )
 }
 
-export default ProfilePreviewImage
+const DeleteWarningModal = ({
+  userId,
+  dispatch,
+  onClose,
+  isDeleteModalOpen,
+  closeDeleteModal,
+}) => {
+  /**
+   * Handles discarding changes made to the image.
+   */
+  const handleDeleteImage = async () => {
+    try {
+      const res = await deleteUserImage(userId)
+      if (res.success) {
+        const userImageUpdate = await updateUser(userId, {
+          hasProfilePicture: false,
+        })
+        dispatch(updateAuthUser(userImageUpdate))
+        dispatch(setUploadedImage(''))
+        dispatch(setDefaultProfilePicture())
+        dispatch(
+          createSnackBar({
+            isOpen: true,
+            message: 'Profile photo deleted',
+            duration: 3000,
+            vertical: 'bottom',
+            horizontal: 'right',
+            severity: 'success',
+          })
+        )
+        closeDeleteModal()
+        onClose()
+      } else {
+        throw new Error('Failed to delete image')
+      }
+    } catch (err) {
+      console.log('Error deleting image:', err)
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message: 'Profile photo did not delete. Please try again.',
+          duration: 3000,
+          vertical: 'bottom',
+          horizontal: 'right',
+          severity: 'error',
+        })
+      )
+    }
+  }
+
+  return (
+    <>
+      <Dialog open={isDeleteModalOpen} maxWidth='xs' fullWidth>
+        <div className='profile-preview__dialog'>
+          <div className='profile-preview__text-content'>
+            <DialogTitle
+              className='profile-preview__dialog-title'
+              id='dialog-title'
+            >
+              Delete profile photo?
+            </DialogTitle>
+            <DialogContent
+              className='profile-preview__dialog-text'
+              id='dialog-text'
+            >
+              <p>
+                Your profile image will default to your initials. But your team
+                members might miss seeing your face.
+              </p>
+            </DialogContent>
+          </div>
+          <DialogActions className='profile-preview__dialog-actions'>
+            <button
+              onClick={closeDeleteModal}
+              className='profile-preview__cancel-btn'
+            >
+              <p>Cancel</p>
+            </button>
+            <button
+              onClick={handleDeleteImage}
+              className='profile-preview__delete2-btn'
+            >
+              <p>Delete</p>
+            </button>
+          </DialogActions>
+        </div>
+      </Dialog>
+    </>
+  )
+}
