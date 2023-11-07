@@ -53,7 +53,7 @@ export const ForgotPasswordLink = () => {
   return (
     <>
       <div id='forgot-password-link' onClick={openModal}>
-        Forgot Password?
+        Forgot your password?
       </div>
       <SettingsModal
         isOpen={forgotPasswordModal}

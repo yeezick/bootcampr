@@ -14,6 +14,7 @@ import loginBanner from '../../../assets/images/login-image.png'
 import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import './SignIn.scss'
+import { ForgotPasswordLink } from 'screens/AccountSettings/components/ForgotPasswordLink'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -202,7 +203,8 @@ const SignIn: React.FC = (): JSX.Element => {
                 </div>
               </FormControl>
             </div>
-            <div className='sign_in_forgot_pswd' onClick={openForgotModal}>
+            <ForgotPasswordLink />
+            {/* <div className='sign_in_forgot_pswd' onClick={openForgotModal}>
               <p>Forgot your Password?</p>
               {forgotPasswordModal && (
                 <ForgotPasswordModal
@@ -212,8 +214,8 @@ const SignIn: React.FC = (): JSX.Element => {
                   onFailureMessage='An error occurred. Please check entered email and try again.'
                 />
               )}
-            </div>
-            <div>
+            </div> */}
+            <div className='sign_in_btn_container'>
               <button
                 className={nextButtonStyle}
                 disabled={buttonDisabled}
