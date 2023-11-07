@@ -1,0 +1,122 @@
+.sign_in {
+  .sign_in_container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 80px);
+    justify-content: center;
+    gap: 128px;
+  }
+
+  .sign_in_form {
+    display: flex;
+    flex-direction: column;
+    min-width: 250px;
+    min-height: 250px;
+    max-width: 500px;
+    max-height: 500px;
+    text-align: justify;
+    width: 40vmin;
+  }
+
+  .sign_in_content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    h1 {
+      font-size: 36px;
+      line-height: 44px;
+      margin: 0 0 16px 0;
+    }
+  }
+
+  .sign_in_column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sign_in_label {
+    font-size: 0.75rem;
+    font-size: 16px;
+    min-width: 200px;
+  }
+
+  .input {
+    background-color: rgb(248, 248, 248);
+    border-radius: 4px;
+    font-size: 16px;
+    height: 24px;
+    padding: 8px 16px;
+    width: -webkit-fill-available;
+    z-index: 0;
+  }
+
+  .sign_in_forgot_pswd {
+    margin-top: 4px;
+
+    p {
+      color: #0d47a1;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      margin: 0 0 32px 0;
+      text-decoration: underline;
+      width: 159px;
+    }
+  }
+
+  .sign_in_btn {
+    background-color: #ffa726;
+    border: none;
+    border-radius: 4px;
+    cursor: not-allowed;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    opacity: 0.38;
+    width: 100%;
+  }
+
+  .sign_in_btn_active {
+    background-color: #ffa726;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    width: 100%;
+  }
+
+  .sign_in_redirect_link {
+    margin-top: 32px;
+    text-align: center;
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+    }
+  }
+
+  .eyecon {
+    bottom: 2px;
+    position: absolute;
+    right: 3px;
+    z-index: 1;
+  }
+
+  .sign_in_adorned_input {
+    display: flex;
+  }
+
+  .sign_in_alert {
+    margin: 0 0 16px 0;
+  }
+}
