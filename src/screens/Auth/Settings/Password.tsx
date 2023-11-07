@@ -12,6 +12,7 @@ import './Settings.scss'
 import { useNavigate } from 'react-router-dom'
 
 export const PasswordSettings = () => {
+  const navigate = useNavigate()
   const [formValues, setFormValues] =
     useState<PasswordFormData>(emptyPasswordData)
   const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>({})
@@ -31,20 +32,23 @@ export const PasswordSettings = () => {
       confirmNewPassword: formValues.confirmPassword,
     }
     const passwordData = await updateUsersPassword(reqBody, authUser._id)
-    const severity = passwordData.status >= 400 ? 'error' : 'success'
 
-    if (passwordData) {
+    if (passwordData.status >= 400) {
       dispatch(
         createSnackBar({
           isOpen: true,
           message: passwordData.message,
           duration: 5000,
-          vertical: 'top',
-          horizontal: 'center',
+          vertical: 'bottom',
+          horizontal: 'right',
           snackbarStyle: '',
-          severity,
+          severity: 'error',
         })
       )
+    } else {
+      logOut()
+      dispatch(logoutAuthUser())
+      navigate(`/password-updated`)
     }
   }
 
@@ -179,7 +183,7 @@ export const useFormValidation = (
         return true
       }
 
-      if (emptyForm && passwordsMatch()) {
+      if (emptyForm() && passwordsMatch()) {
         return toggleIsDisabled(false)
       } else {
         return toggleIsDisabled(true)

@@ -3,7 +3,7 @@ import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { PasswordInputProps } from 'interfaces/components/Input'
 import { handleFormInputChange } from 'utils/helpers/stateHelpers'
-import { ForgotPasswordModal } from 'screens/Auth/ResetPassword/ForgotPasswordModal'
+import { ForgotPasswordLink } from 'screens/AccountSettings/components/ForgotPasswordLink'
 
 export const PasswordInputs = (props: PasswordInputProps) => {
   const [passwordMatch, setPasswordMatch] = useState(null)
@@ -105,7 +105,7 @@ export const Password = ({
             aria-label='toggle password visibility'
             onClick={() => toggleVisiblity(inputType, setInputType)}
           >
-            {inputType === 'password' ? <Visibility /> : <VisibilityOff />}
+            {inputType === 'password' ? <VisibilityOff /> : <Visibility />}
           </IconButton>
         </div>
         <PasswordValidations errors={passwordErrors} />
@@ -147,7 +147,7 @@ export const ConfirmPassword = ({
             aria-label='toggle password visibility'
             onClick={() => toggleVisiblity(inputType, setInputType)}
           >
-            {inputType === 'password' ? <Visibility /> : <VisibilityOff />}
+            {inputType === 'password' ? <VisibilityOff /> : <Visibility />}
           </IconButton>
         </div>
         <PasswordMatchError matchStatus={passwordMatch} />
@@ -204,20 +204,11 @@ const PasswordCriteria = ({ criteria, errorState = 'neutral' }) => {
 }
 
 export const CurrentPassword = ({ formValues, name, setFormValues }) => {
-  const [inputType, setInputType] = useState('currentPassword')
-  const [forgotPasswordModal, setForgotPasswordModal] = useState(false)
+  const [inputType, setInputType] = useState('password')
   const inputId = 'currentPassword'
 
   const handlePasswordChange = e => {
     handleFormInputChange(e, setFormValues)
-  }
-
-  const openModal = () => {
-    setForgotPasswordModal(!forgotPasswordModal)
-  }
-
-  const closeModal = () => {
-    setForgotPasswordModal(false)
   }
 
   return (
@@ -237,20 +228,11 @@ export const CurrentPassword = ({ formValues, name, setFormValues }) => {
             aria-label='toggle password visibility'
             onClick={() => toggleVisiblity(inputType, setInputType)}
           >
-            {inputType === 'password' ? <Visibility /> : <VisibilityOff />}
+            {inputType === 'password' ? <VisibilityOff /> : <Visibility />}
           </IconButton>
         </div>
       </FormControl>
-      <div id='forgot-password-link' onClick={openModal}>
-        Forgot Password?
-      </div>
-      {forgotPasswordModal && (
-        <ForgotPasswordModal
-          onClose={closeModal}
-          onSuccessMessage='Email sent!'
-          onFailureMessage='An error occurred. Please check entered email and try again.'
-        />
-      )}
+      <ForgotPasswordLink />
     </div>
   )
 }

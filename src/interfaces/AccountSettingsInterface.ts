@@ -1,3 +1,30 @@
+export interface ButtonStyleInterface {
+  background: string
+  color: string
+}
+
+export interface SettingsModalProps {
+  isOpen: boolean
+  handleCancel?: () => void
+  handleConfirm?: (() => void) | ((e: React.FormEvent) => void)
+  heading: string
+  body: string | React.ReactNode
+  body2?: string | React.ReactNode
+  body3?: string | React.ReactNode
+  inputComponent?: React.ReactNode
+  isInput?: boolean
+  inputType?: string
+  inputValue?: string
+  inputOnChange?: any
+  inputPlaceholder?: string
+  cancelButtonLabel?: string
+  confirmButtonLabel?: string
+  confirmButtonDisabled?: boolean
+  customWidth?: number
+  confirmButtonStyle?: ButtonStyleInterface
+  isHandlingRequest?: boolean
+}
+
 export interface UpdateCredentialsFeedbackMessageProps {
   updateStatus: string
 }

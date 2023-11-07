@@ -10,11 +10,11 @@
 }
 
 .success {
-  @include alert-banners($alert-success-background, $alert-success-text-color)
+  @include alert-banners($alert-success-background, $alert-success-text-color);
 }
 
 .signup-screen {
-  display:flex;
+  display: flex;
   flex-direction: column;
 }
 
@@ -92,7 +92,8 @@
   display: flex;
 }
 
-h3, h4 {
+h3,
+h4 {
   margin: 0;
   text-align: center;
 }
@@ -107,7 +108,6 @@ h3, h4 {
     object-fit: cover;
     width: 400px;
   }
-
 }
 
 .pwd-input {
@@ -128,7 +128,7 @@ h3, h4 {
   margin: 24px 16px 0 16px;
 
   button {
-    background-color: #FA9413;
+    background-color: #fa9413;
     border: none;
     border-radius: 3px;
     box-sizing: border-box;
@@ -143,7 +143,7 @@ h3, h4 {
   button:disabled {
     color: black;
     cursor: default;
-    background-color: #ECEBEB;
+    background-color: #ecebeb;
   }
 }
 
@@ -165,12 +165,12 @@ h3, h4 {
 }
 
 .criteria-not-met {
-  color: #D90000;
+  color: #d32f2f;
   margin: 2px 0;
 }
 
 .criteria-met {
-  color: #23A6A1;
+  color: #388e3c;
   margin: 2px 0;
 }
 
