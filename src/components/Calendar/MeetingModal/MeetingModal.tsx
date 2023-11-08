@@ -192,7 +192,6 @@ export const MeetingModal = () => {
   }
 
   const handleBackToDisplay = () => dispatch(setModalDisplayStatus('display'))
-
   return (
     <Dialog
       className='meeting-modal'
@@ -242,6 +241,8 @@ export const MeetingModal = () => {
                 setAttendees={setAttendees}
                 toggleInviteAll={toggleInviteAll}
                 projectMembers={projectMembers}
+                dateFields={dateFields}
+                setDateFields={setDateFields}
               />
             </div>
 

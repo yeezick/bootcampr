@@ -15,6 +15,7 @@ export const SelectTime = ({ dateFields, setDateFields, type }) => {
     - If start > time, set end time to be next option in select
     - If new start < time, keep current end time selection
   */
+
   useEffect(() => {
     const currStartTime = formatIsoToHalfHour(dateFields.start)
     const currEndTime = formatIsoToHalfHour(dateFields.end)
