@@ -7,9 +7,16 @@
   margin-top: 93px;
   min-height: calc(100vh - 250px);
   padding-bottom: 5rem;
-  width: 100%
+  width: 100%;
 }
 
 .landing-main-content-container {
   min-height: calc(100vh - 250px);
+}
+
+#forgot-password-link {
+  color: #022888;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19.6px;
 }

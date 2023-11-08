@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { renderToStaticMarkup } from 'react-dom/server'
 import {
   AvailabilityInterface,
   SignUpInterface,
@@ -9,7 +8,7 @@ import {
 import { signUp, updateUser } from 'utils/api/users'
 import { defaultAvailability } from 'utils/data/userConstants'
 import { RootState } from 'utils/redux/store'
-import PersonIcon from '@mui/icons-material/Person'
+import { TimezonesUTC } from 'utils/data/timeZoneConstants'
 
 // todo: auth.status should be its own slice
 // todo: sidemenu & ui like notifications should be its own slice
@@ -30,6 +29,8 @@ const initialState: UiSliceInterface = {
         portfolioUrl: '',
       },
       profilePicture: '',
+      defaultProfilePicture: '',
+      hasProfilePicture: false,
       project: '',
       role: '',
       unreadMessages: {},
@@ -100,6 +101,9 @@ const userSlice = createSlice({
     ) => {
       state.auth.user.availability = action.payload
     },
+    setUserTimezone: (state, action: PayloadAction<TimezonesUTC>) => {
+      state.auth.user.timezone = action.payload
+    },
     updateUnreadMessagesObj: (state, action: PayloadAction<object>) => {
       state.auth.user.unreadMessages = action.payload
     },
@@ -109,19 +113,15 @@ const userSlice = createSlice({
       state.status.isError = { status: false }
     },
     setUploadedImage: (state, action: PayloadAction<string | null>) => {
-      state.auth.user.profilePicture = action.payload
+      const uploadedImage = action.payload
+      state.auth.user.profilePicture = uploadedImage
+      state.auth.user.hasProfilePicture = !!uploadedImage
     },
-    removeUploadedImage: state => {
-      const personIconSvg = renderToStaticMarkup(
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
-          <PersonIcon fill='#afadad' />
-        </svg>
-      )
-
-      const personIconUrl = `data:image/svg+xml;utf8,${encodeURIComponent(
-        personIconSvg
-      )}`
-      state.auth.user.profilePicture = personIconUrl
+    setDefaultProfilePicture: (state, action: PayloadAction<boolean>) => {
+      if (!state.auth.user.profilePicture) {
+        state.auth.user.defaultProfilePicture = `https://ui-avatars.com/api/?name=${state.auth.user.firstName}+${state.auth.user.lastName}`
+        state.auth.user.hasProfilePicture = false
+      }
     },
   },
   extraReducers: builder => {
@@ -158,6 +158,7 @@ const userSlice = createSlice({
 
 export const getUserAvailability = (state: RootState) =>
   state.ui.auth.user.availability
+export const getUserTimezone = (state: RootState) => state.ui.auth.user.timezone
 export const getUserProfileImage = (state: RootState) =>
   state.ui.auth.user.profilePicture
 export const selectAuthUser = (state: RootState) => state.ui.auth.user
@@ -165,15 +166,19 @@ export const selectUserEmail = (state: RootState) => state.ui.auth.user.email
 export const selectProjectId = (state: RootState) => state.ui.auth.user.project
 export const selectUserId = (state: RootState) => state.ui.auth.user._id
 export const uiStatus = (state: RootState) => state.ui.status
+export const selectHasUploadedProfilePicture = (state: RootState) => {
+  return state.ui.auth.user.hasProfilePicture
+}
 
 export const {
   setAuthUser,
   updateAuthUser,
   setUserAvailability,
+  setUserTimezone,
   reset,
   logoutAuthUser,
   updateUnreadMessagesObj,
   setUploadedImage,
-  removeUploadedImage,
+  setDefaultProfilePicture,
 } = userSlice.actions
 export default userSlice.reducer

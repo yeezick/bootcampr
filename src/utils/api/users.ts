@@ -1,3 +1,4 @@
+import { TimezonesUTC } from 'utils/data/timeZoneConstants'
 import { api } from './apiConfig'
 import {
   PasswordFormData,
@@ -135,10 +136,24 @@ export const updateUsersPassword = async (
   userId: string | undefined
 ) => {
   try {
-    const data = await api.patch(`/update-password/${userId}`, formData)
-    return data
+    const { data, status } = await api.patch(
+      `/update-password/${userId}`,
+      formData
+    )
+    const msg = 'message'
+    return { status, message: data[msg] }
   } catch (error) {
     return { error: { status: 500, message: 'Something went wrong' } }
+  }
+}
+
+export const forgotPasswordEmailVerification = async (email: string) => {
+  try {
+    const data = await api.post(`/reset-password`, { email: email })
+    return data
+  } catch (error) {
+    console.error(error)
+    return false
   }
 }
 
@@ -176,16 +191,27 @@ export const markConversationAsRead = async (
 
 export const updateAvailability = async (
   userId: string,
-  newAvailability: any
+  newAvailability: any,
+  userTimezone: TimezonesUTC
 ) => {
   try {
     const res = await api.post(`/updateAvailability`, {
       newAvailability,
       userId,
+      userTimezone,
     })
     return res.data
   } catch (error) {
     console.error(error)
     return false
+  }
+}
+
+export const deleteUserAccount = async (id: string) => {
+  try {
+    const res = await api.delete(`/users/${id}`)
+    return res.data
+  } catch (error) {
+    throw error
   }
 }
