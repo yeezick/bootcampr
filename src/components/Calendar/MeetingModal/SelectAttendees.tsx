@@ -54,14 +54,14 @@ export const SelectAttendees = ({
         const availabilityTime =
           currMemberAvailability[selectedDay].availability
         if (projectMembers[i].email !== authUser.email) {
-          let isAvailable = false
+          let isAvailable = true
           for (let time of availabilityTime) {
             const [availabilityTimeStartTime, availabilityTimeEndTime] = time
             if (
               availabilityTimeStartTime === startTimeOne &&
               availabilityTimeEndTime === endTime
             ) {
-              isAvailable = true
+              isAvailable = false
               break
             }
           }
@@ -70,10 +70,10 @@ export const SelectAttendees = ({
       }
       setAllFilteredMembers(filteredMembers)
     }
-
     getAllAMembersThatAreAvailable()
   }, [dateFields])
-  console.log(dateFields)
+
+  console.log(allFilteredMembers)
   if (projectMembers) {
     return (
       <div className='select-attendees-section'>
@@ -123,6 +123,7 @@ const MemberCheckbox = ({ attendees, currMember, setAttendees }) => {
         }
         label={`${currMember.firstName} ${currMember.lastName}`}
       />
+      {!currMember.isAvailable ?? <span>Not Available </span>}
     </>
   )
 }
