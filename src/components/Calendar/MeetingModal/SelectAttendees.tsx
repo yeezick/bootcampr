@@ -16,10 +16,7 @@ export const SelectAttendees = ({
   projectMembers,
 }) => {
   const [allFilteredMembers, setAllFilteredMembers] = useState([])
-  // let filteredMembers = removeAuthUserFromList(projectMembers, authUser)
-  /** Context
-   * Unselect inviteAll checkbox if user has unselected members
-   */
+
   useEffect(() => {
     checkIfAllMembersInvited(
       attendees,
@@ -30,7 +27,6 @@ export const SelectAttendees = ({
   }, [attendees])
 
   useEffect(() => {
-    // Parse the start time as UTC date
     const { start, end } = dateFields
     let formattedEndTime
     const add30Minutes = dayjs(start).utc().add(30, 'minute')
@@ -46,7 +42,6 @@ export const SelectAttendees = ({
     const startTimeOne = formattedStartTime.slice(3)
     const endTime = formattedEndTime.slice(3)
 
-    // ! the time is not matching with  the availability time that the user has
     const filteredMembers = []
     const getAllAMembersThatAreAvailable = () => {
       for (let i = 0; i < projectMembers.length; i++) {
