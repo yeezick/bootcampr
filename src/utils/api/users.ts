@@ -24,6 +24,15 @@ export const getOneUser = async (id: any) => {
   }
 }
 
+export const getOneUserByEmail = async (email: string) => {
+  try {
+    const res = await api.get(`/users/email/${email}`)
+    return res.data
+  } catch (error) {
+    throw error
+  }
+}
+
 export const updateUserProfile = async (id: any, userProfile: any) => {
   try {
     const res = await api.post(`/onboarding/${id}`, userProfile)

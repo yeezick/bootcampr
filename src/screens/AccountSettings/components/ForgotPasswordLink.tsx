@@ -1,13 +1,18 @@
 import { SettingsModal } from 'components/SettingsModal/SettingsModal'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { forgotPasswordEmailVerification } from 'utils/api'
+import {
+  forgotPasswordEmailVerification,
+  getOneUserByEmail,
+  logOut,
+} from 'utils/api'
 import { SuccessQueryParam } from 'utils/data/authSettingsConstants'
-import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { logoutAuthUser, selectAuthUser } from 'utils/redux/slices/userSlice'
 
 export const ForgotPasswordLink = () => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const [email, setEmail] = useState('')
   const [forgotPasswordModal, setForgotPasswordModal] = useState(false)
@@ -29,9 +34,21 @@ export const ForgotPasswordLink = () => {
         if (!emailSent.data.status) {
           setIsError(true)
         } else {
+          let userId: string
+
+          if (authUser._id) {
+            // in Settings when user is already logged in
+            userId = authUser._id
+            await logOut()
+            dispatch(logoutAuthUser())
+          } else {
+            // in Login when user is already logged out
+            const userIdByEmail = await getOneUserByEmail(email)
+            userId = userIdByEmail.id
+          }
           setIsError(false)
           navigate(
-            `/success/${authUser._id}?screen=${SuccessQueryParam.resetPasswordEmail}`
+            `/success/${userId}?screen=${SuccessQueryParam.resetPasswordEmail}`
           )
         }
       }
