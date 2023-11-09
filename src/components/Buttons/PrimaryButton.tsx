@@ -8,8 +8,10 @@ export const PrimaryButton = ({ handler, paginatorBtn, text }: ButtonProps) => {
       sx={{
         backgroundColor: '#FFA726',
         color: '#1A237E',
+        height: '40px',
         marginLeft: '8px',
         textTransform: 'none',
+        boxShadow: 'none',
       }}
       onClick={handler}
       variant='contained'
