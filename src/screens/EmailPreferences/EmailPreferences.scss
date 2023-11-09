@@ -1,0 +1,92 @@
+.email-preferences-screen {
+    background-color: white;
+    height: 100%;
+    padding-top: 75px;
+    width: 100%;
+}
+
+.email-preferences-container {
+    background-color: #FAFAFA;
+    box-sizing: border-box;
+    border-radius: 4px;
+    height: fit-content;
+    padding: 30px;
+    margin: auto;
+    width: 600px;
+}
+
+.email-preferences-header {
+    font-size: 22px;
+    margin: 0;
+}
+
+.email-preferences-sub-header {
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    margin: 15px 0 30px 0;
+}
+
+.email-preference-option {
+    display: flex;
+    flex-direction: row;
+
+    .email-preference-option-text {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        margin: 5px 0;
+        width: 490px;
+
+        h4 {
+            text-align: left;
+            font-weight: normal;
+            font-size: 18px;
+        }
+
+        p {
+            color: #616161
+        }
+    }
+
+    .disabled {
+        color: #898989;
+    }
+
+    .email-preference-option-checkbox {
+        height: 35px;
+    }
+    
+}
+
+.unsubscribe-all-banner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+
+    .unsubscribe-all-banner-text {
+        display: flex;
+        flex-direction: column;
+
+        // Can these h4 and p be pulled up into a parent
+        // and consolidated? Same styling here and above
+        h4 {
+            text-align: left;
+            font-weight: normal;
+            font-size: 20px;
+        }
+
+        p {
+            color: #616161
+
+        }
+    }
+}
+
+.email-preferences-submit {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}

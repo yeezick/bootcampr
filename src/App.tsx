@@ -24,6 +24,7 @@ import { Account } from 'screens/Auth/Settings/Account'
 import { TeamMembers } from 'screens/Project/TeamMembers'
 import { ProjectDetails } from 'screens/Project/ProjectDetails'
 import { ResetPassword } from 'screens/Auth/Settings/Password'
+import EmailPreferences from 'screens/EmailPreferences/EmailPreferences'
 
 function App() {
   return (
@@ -42,6 +43,10 @@ function App() {
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
+          <Route
+            path='/users/:id/email-preferences'
+            element={<EmailPreferences />}
+          />
           <Route
             path='/users/:id/reset-password/:token'
             element={<ResetPassword />}
