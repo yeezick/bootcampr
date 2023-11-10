@@ -15,61 +15,64 @@ import { TicketDetail } from '../TicketDetail/TicketDetail'
 import { useAppSelector } from 'utils/redux/hooks'
 import { useParams } from 'react-router-dom'
 import { selectProjectId } from 'utils/redux/slices/projectSlice'
+import {
+  setVisibleTickets,
+  selectVisibleTickets,
+} from 'utils/redux/slices/taskBoardSlice'
 
-export const BoardColumns = ({ getAllTicket, setGetAllTicket }) => {
+export const BoardColumns = () => {
+  // remove dep on getAllTicket => source from redux
+  const getAllTicket = useAppSelector(selectVisibleTickets)
+  const setGetAllTicket = setVisibleTickets
   const { id } = useParams()
 
   const handleOnDragEnd = movingTicket => {
     if (movingTicket) {
       const ticketId = movingTicket.draggableId
-      const sourceCategory: KeyOfTicketStatusType =
-        movingTicket.source?.droppableId
-      const targetCategory: KeyOfTicketStatusType =
-        movingTicket.destination?.droppableId
-      if (sourceCategory && targetCategory) {
-        const item: TicketInterface | undefined = getAllTicket[
-          sourceCategory as KeyOfTicketStatusType
-        ]?.find(item => item._id?.toString() === ticketId)
+      const initialStatus = movingTicket.source.droppableId
+      const targetStatus = movingTicket.destination.droppableId
 
-        if (sourceCategory !== targetCategory && item) {
-          ticketStatusChange({
-            sourceCategory,
-            targetCategory,
-            item,
-            ticketId,
-          })
-        }
+      // Check if initialStatus and targetStatus are not the same
+      // find the ticket to change
+      // call ticketStatusChange
+      if (initialStatus !== targetStatus) {
+        // if initialStatus is not the same as targetStatus => change status
+
+        const ticketToChange = getAllTicket[initialStatus].find(
+          ticket => ticket._id === ticketId
+        )
+
+        changeTicketStatus(initialStatus, targetStatus, ticketToChange)
       }
     }
   }
 
-  const ticketStatusChange = ({
-    sourceCategory,
-    targetCategory,
-    item,
-    ticketId,
-  }: TicketStatusChangeFunc) => {
-    const removeFromSection: TaskInterface[] | undefined = getAllTicket[
-      sourceCategory as KeyOfTicketStatusType
-    ].filter((newStatus: TicketInterface) => newStatus._id !== ticketId)
-    const addToNewSection = [
-      ...getAllTicket[targetCategory as KeyOfTicketStatusType],
-      { ...item, status: targetCategory },
+  const changeTicketStatus = (initialStatus, targetStatus, ticketToChange) => {
+    // remove the ticket from its original status
+    const { _id: changeTicketId } = ticketToChange
+    const filteredInitialColumn = getAllTicket[initialStatus].filter(
+      ticket => ticket._id !== changeTicketId
+    )
+
+    // add the ticket to the new status column
+    const updatedTargetColumn = [
+      ...getAllTicket[targetStatus],
+      { ...ticketToChange, status: targetStatus },
     ]
 
-    setGetAllTicket({
-      ...getAllTicket,
-      [sourceCategory as KeyOfTicketStatusType]: [
-        ...(removeFromSection as TaskInterface[]),
-      ],
-      [targetCategory]: [...addToNewSection],
-    })
+    // update in redux
+    // setGetAllTicket({
+    //   ...getAllTicket,
+    //   [initialStatus]: filteredInitialColumn,
+    //   [targetStatus]: updatedTargetColumn,
+    // })
 
+    // call api to change ticket status
     updateTicketInformationAndStatus({
       projectId: id,
-      newStatus: targetCategory,
-      ticketId: ticketId,
-      oldStatus: sourceCategory,
+      newStatus: targetStatus,
+      ticketId: changeTicketId,
+      oldStatus: initialStatus,
     })
   }
 

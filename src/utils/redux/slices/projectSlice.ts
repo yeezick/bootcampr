@@ -54,6 +54,10 @@ const projectSlice = createSlice({
       const newTicket = action.payload
       state.projectTracker[newTicket.status].push(newTicket)
     },
+    changeTicketStatus: (state, action: PayloadAction<AddTicketReducer>) => {
+      const newTicket = action.payload
+      state.projectTracker[newTicket.status].push(newTicket)
+    },
     updateProject: (state, action: PayloadAction<ProjectInterface>) => {
       return {
         ...state,

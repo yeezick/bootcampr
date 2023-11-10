@@ -40,7 +40,7 @@ const initialState: TaskBoardInterface = {
 
 export interface SetVisibleTicketsReducer {
   projectTracker: ProjectTrackerInterface
-  userId: string
+  userId?: string
 }
 
 export interface SetVisibleTicketDialogReducer {
@@ -55,6 +55,12 @@ const taskBoardSlice = createSlice({
   name: 'taskBoard',
   initialState,
   reducers: {
+    setInitialVisibleTickets: (
+      state,
+      action: PayloadAction<ProjectTrackerInterface>
+    ) => {
+      state.visibleTickets = action.payload
+    },
     setVisibleTickets: (
       state,
       action: PayloadAction<SetVisibleTicketsReducer>
@@ -88,6 +94,9 @@ const taskBoardSlice = createSlice({
     setTicketFields: (state, action: PayloadAction<TaskInterface>) => {
       state.ticketFields = { ...state.ticketFields, ...action.payload }
     },
+    changeTicketStatus: (state, action: PayloadAction<TaskInterface>) => {
+      // state.
+    },
   },
 })
 
@@ -102,6 +111,10 @@ export const selectVisibleTicketDialog = (state: RootState) =>
 export const selectVisibleTickets = (state: RootState) =>
   state.taskBoard.visibleTickets
 
-export const { setTicketFields, setVisibleTickets, setVisibleTicketDialog } =
-  taskBoardSlice.actions
+export const {
+  setInitialVisibleTickets,
+  setTicketFields,
+  setVisibleTickets,
+  setVisibleTicketDialog,
+} = taskBoardSlice.actions
 export default taskBoardSlice.reducer

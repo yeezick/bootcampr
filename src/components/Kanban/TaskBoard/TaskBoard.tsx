@@ -17,28 +17,28 @@ import {
   setVisibleTicketDialog,
   setVisibleTickets,
   selectVisibleTickets,
+  setInitialVisibleTickets,
 } from 'utils/redux/slices/taskBoardSlice'
 import { handleReduxInputChange } from 'utils/helpers'
 
 // TODO: Rename projectTracker to project
 export const TaskBoard = () => {
   const projectTracker = useAppSelector(selectProjectTracker)
-  const visibleTickets = useAppSelector(selectVisibleTickets)
   const [ticketsExist, setTicketsExist] = useState(false)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
+    dispatch(setInitialVisibleTickets(projectTracker))
+  }, [])
+
+  useEffect(() => {
     const doTicketsExist = () => {
-      if (visibleTickets) {
-        const oneTicketExists = Object.keys(visibleTickets).some(
-          status => visibleTickets[status]?.length > 0
-        )
-        setTicketsExist(oneTicketExists)
-        return oneTicketExists
-      } else {
-        setTicketsExist(false)
-        return false
-      }
+      const oneTicketExists = Object.keys(projectTracker).some(
+        status => projectTracker[status]?.length > 0
+      )
+
+      setTicketsExist(oneTicketExists)
+      return oneTicketExists
     }
 
     doTicketsExist()
@@ -49,14 +49,7 @@ export const TaskBoard = () => {
   return (
     <div className='AllTickets'>
       <BoardHeader />
-      {ticketsExist ? (
-        <BoardColumns
-          getAllTicket={visibleTickets}
-          setGetAllTicket={setVisibleTickets}
-        />
-      ) : (
-        <NoTicketsCreated />
-      )}
+      {ticketsExist ? <BoardColumns /> : <NoTicketsCreated />}
       <button onClick={openDialog}>CLICK TO OPEN DIALOG</button>
       <TicketDialog />
     </div>

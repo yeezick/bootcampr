@@ -1,5 +1,6 @@
 import { getOneProject } from 'utils/api'
 import { setProject } from 'utils/redux/slices/projectSlice'
+import { setInitialVisibleTickets } from 'utils/redux/slices/taskBoardSlice'
 
 export const handleFormInputChange = (
   e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -18,7 +19,8 @@ export const handleReduxInputChange = (e, dispatch, reducer) => {
 
 export const storeUserProject = async (dispatch, projectId) => {
   if (projectId) {
-    const randomUserProject = await getOneProject(projectId)
-    dispatch(setProject(randomUserProject))
+    const userProject = await getOneProject(projectId)
+    dispatch(setProject(userProject))
+    dispatch(setInitialVisibleTickets(userProject))
   }
 }

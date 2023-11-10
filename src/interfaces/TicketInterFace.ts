@@ -61,8 +61,8 @@ export interface CreateTicketInterface {
 
 export interface TicketStatusChangeFunc {
   item?: TicketInterface
-  sourceCategory?: KeyOfTicketStatusType
-  targetCategory?: KeyOfTicketStatusType
+  initialStatus?: KeyOfTicketStatusType
+  targetStatus?: KeyOfTicketStatusType
   ticketId?: string
 }
 export interface TicketDetailPropsInterface {
