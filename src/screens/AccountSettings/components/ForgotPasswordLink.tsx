@@ -1,4 +1,5 @@
 import { SettingsModal } from 'components/SettingsModal/SettingsModal'
+import { ForgotPasswordLinkProps } from 'interfaces/AccountSettingsInterface'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -10,7 +11,9 @@ import { SuccessQueryParam } from 'utils/data/authSettingsConstants'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { logoutAuthUser, selectAuthUser } from 'utils/redux/slices/userSlice'
 
-export const ForgotPasswordLink = () => {
+export const ForgotPasswordLink = ({
+  hyperlinkText = 'Forgot password?',
+}: ForgotPasswordLinkProps) => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
@@ -42,7 +45,7 @@ export const ForgotPasswordLink = () => {
             await logOut()
             dispatch(logoutAuthUser())
           } else {
-            // in Login when user is already logged out
+            // in Login page when user is already logged out
             const userIdByEmail = await getOneUserByEmail(email)
             userId = userIdByEmail.id
           }
@@ -70,7 +73,7 @@ export const ForgotPasswordLink = () => {
   return (
     <>
       <div id='forgot-password-link' onClick={openModal}>
-        Forgot your password?
+        {hyperlinkText}
       </div>
       <SettingsModal
         isOpen={forgotPasswordModal}

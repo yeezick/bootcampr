@@ -1,4 +1,7 @@
-import { ButtonStyleInterface } from 'interfaces/AccountSettingsInterface'
+import {
+  ButtonStyleInterface,
+  SuccessScreenValues,
+} from 'interfaces/AccountSettingsInterface'
 
 export const ButtonStyle: Record<string, ButtonStyleInterface> = {
   Orange: { background: '#ffa726', color: '#1a237e' }, // Default
@@ -13,4 +16,20 @@ export enum SuccessQueryParam {
   resetPassword = 'reset_password',
   changePassword = 'change_password',
   updateEmail = 'update_email',
+}
+
+export const enum ResType {
+  error = 'error',
+  success = 'success',
+}
+
+export const emptySuccessScreenValues: SuccessScreenValues = {
+  heading: '',
+  subHeading: '',
+  body: '',
+  body2: '',
+  hyperlinkLabel: '',
+  hyperlinkAction: null,
+  buttonLabel: '',
+  buttonAction: null,
 }

@@ -150,7 +150,8 @@ export const updateUsersPassword = async (
       formData
     )
     const msg = 'message'
-    return { status, message: data[msg] }
+    const fm = 'friendlyMessage'
+    return { status, message: data[msg], friendlyMessage: data[fm] }
   } catch (error) {
     return { error: { status: 500, message: 'Something went wrong' } }
   }

@@ -1,9 +1,3 @@
-.settings-dock {
-  display: flex;
-  flex-direction: row;
-  height: 100vh;
-}
-
 .settings-card {
   background-color: white;
   border-radius: 3px;
@@ -44,14 +38,6 @@
     width: 448px;
   }
 
-  .forgot-pwd-link {
-    color: #0d47a1;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 20px;
-    text-decoration-line: underline;
-  }
-
   p {
     font-size: 20px;
     font-weight: 100;
@@ -85,17 +71,6 @@
       border-style: none;
       cursor: pointer;
     }
-
-    .reset-pwd-valid {
-      border-radius: 4px;
-      background: #8048c8;
-      color: #fefefe;
-      cursor: pointer;
-      font-family: Inter;
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 22.4px;
-    }
   }
 
   .valid {
@@ -106,65 +81,17 @@
     color: red;
   }
 }
-.reset-password-modal {
-  background-color: #fefefe;
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  left: 0;
-  position: fixed;
-  top: 97px;
-  width: 100%;
-  z-index: 999;
 
-  .pwd-reset-success-container {
-    display: flex;
-    padding-top: 135px;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .success-status {
-    color: #000;
-    text-align: center;
-    font-size: 38px;
-    font-weight: 600;
-    line-height: 53.2px;
-  }
-
-  .success-message {
-    color: #000;
-    text-align: center;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 22.4px;
-    padding-bottom: 35px;
-  }
-
-  .navigate-to-login {
-    align-items: center;
-    background: #fa9413;
-    border-radius: 4px;
-    border-style: none;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    font-size: 16px;
-    gap: 8px;
-    padding: 10px 16px;
-  }
-}
 .delete-account-button {
   background-color: #ff1414;
   border-radius: 0.5rem;
   border-style: none;
   color: white;
+  cursor: pointer;
   font-size: 18px;
   height: 43px;
-  padding: 0px 14px;
-  cursor: pointer;
-
   margin-top: 20px;
+  padding: 0px 14px;
 }
 
 .deleteAccount-modal-buttons {
@@ -193,5 +120,248 @@
     font-weight: 100;
     margin-top: 20px;
     margin-bottom: 20px;
+  }
+}
+
+.settings-reset-password,
+.settings-change-password {
+  &.container {
+    background: #fff;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    top: 97px;
+    width: 100%;
+    z-index: 999;
+  }
+
+  &.form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    margin-top: 64px;
+    row-gap: 16px;
+    width: 328px;
+
+    .password-inputs-wrapper {
+      display: flex;
+      flex-direction: column;
+      row-gap: 16px;
+      width: 100%;
+    }
+
+    .new-password,
+    .confirm-password,
+    .current-password {
+      &.container {
+        display: flex;
+        flex-direction: column;
+
+        label {
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+        }
+
+        .password-criteria {
+          align-items: center;
+          color: #616161;
+          display: flex;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 16px;
+          padding: 0px 16px;
+
+          p {
+            margin: 0px 0;
+          }
+        }
+
+        .criteria-not-met {
+          color: #d32f2f;
+          margin: 2px 0;
+        }
+
+        .criteria-met {
+          color: #388e3c;
+          margin: 2px 0;
+        }
+
+        .match-status {
+          align-items: center;
+          display: flex;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 16px;
+
+          p {
+            margin: 2px 0;
+          }
+        }
+
+        .criteria-check {
+          color: #388e3c;
+          margin-right: 2px;
+          margin-left: -16px;
+        }
+
+        .criteria-cross {
+          color: #d32f2f;
+          margin-left: -16px;
+          margin-right: 2px;
+        }
+      }
+
+      &.input-container {
+        display: flex;
+        flex-direction: column;
+        row-gap: 4px;
+      }
+
+      &.error-message {
+        color: #b71c1c;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        padding: 0px 16px;
+      }
+
+      &.adorned-input {
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+
+        input {
+          align-self: stretch;
+          border: 1px solid #212121;
+          border-radius: 4px;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          margin-bottom: 4px;
+          margin-top: 8px;
+          padding: 8px 52px 8px 16px;
+          width: 100%;
+        }
+
+        .input-error {
+          align-self: stretch;
+          border: none;
+          box-sizing: border-box;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          margin-top: 8px;
+          outline: 1px solid #b71c1c;
+          padding: 8px 52px 8px 16px;
+          width: 100%;
+
+          &:focus-visible {
+            border: none;
+            outline: 2px solid #b71c1c;
+            outline-offset: -1px;
+          }
+        }
+      }
+
+      &.eyecon,
+      &.error-icon {
+        margin-top: 4px;
+        position: absolute;
+      }
+
+      &.error-icon {
+        align-self: center;
+        color: #b71c1c;
+        cursor: default;
+        margin-top: 7px;
+      }
+    }
+
+    .confirm-password {
+      &.container {
+        .match-status {
+          margin-top: 4px;
+          padding: 0px 16px;
+        }
+
+        .criteria-met {
+          padding: 0;
+        }
+
+        .criteria-not-met {
+          padding: 0;
+        }
+      }
+
+      &.adorned-input {
+        input {
+          margin-bottom: 0px;
+        }
+      }
+
+      &.eyecon {
+        margin-top: 7px;
+        position: absolute;
+      }
+    }
+    .current-password {
+      &.adorned-input {
+        input {
+          margin-bottom: 0px;
+        }
+      }
+
+      &.eyecon {
+        margin-top: 7px;
+      }
+    }
+  }
+
+  &.header {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 28px;
+    width: 100%;
+  }
+
+  &.button {
+    align-self: flex-end;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    margin-top: 16px;
+    padding: 0px 24px;
+    text-transform: unset !important;
+  }
+}
+
+.settings-change-password {
+  &.container {
+    background: none;
+    display: initial;
+    position: static;
+    z-index: 0;
+  }
+
+  &.button {
+    margin-top: 32px;
+  }
+
+  &.form {
+    margin: 64px 0px 0px 64px;
+
+    .confirm-password {
+      &.container {
+        .match-status {
+          margin-bottom: -16px;
+        }
+      }
+    }
   }
 }

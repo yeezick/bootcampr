@@ -1,16 +1,16 @@
 .settings-modal {
   &.main {
+    align-items: center;
     display: flex;
     justify-content: center;
-    align-items: center;
   }
 
   &.container {
-    display: flex;
-    row-gap: 16px;
-    flex-direction: column;
     background: #fff;
+    display: flex;
+    flex-direction: column;
     padding: 32px;
+    row-gap: 16px;
   }
 
   &.heading {
@@ -35,12 +35,12 @@
 
   &.input {
     border: none;
-    outline: 1px solid #212121;
     border-radius: 4px;
-    font-size: 16px;
-    padding: 8px 16px;
-    line-height: 24px;
     box-sizing: border-box;
+    font-size: 16px;
+    line-height: 24px;
+    outline: 1px solid #212121;
+    padding: 8px 16px;
   }
 
   &.input:focus-visible {
@@ -50,13 +50,13 @@
   }
 
   &.input-error {
-    border-radius: 4px;
-    font-size: 16px;
-    padding: 8px 16px;
-    line-height: 24px;
     border: none;
-    outline: 1px solid #b71c1c;
+    border-radius: 4px;
     box-sizing: border-box;
+    font-size: 16px;
+    line-height: 24px;
+    outline: 1px solid #b71c1c;
+    padding: 8px 16px;
   }
   &.input-error:focus-visible {
     border: none;
@@ -66,16 +66,16 @@
 
   &.error-message {
     color: #b71c1c;
-    padding: 0px 16px;
     font-size: 12px;
     font-weight: 400;
     line-height: 16px;
+    padding: 0px 16px;
   }
 
   &.buttons {
+    column-gap: 8px;
     display: flex;
     justify-content: flex-end;
-    column-gap: 8px;
     margin-top: 16px;
 
     .cancel,

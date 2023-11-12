@@ -1,27 +1,16 @@
 import './SuccessScreen.scss'
-import { Button } from '@mui/material'
+import { Button, ThemeProvider, createTheme } from '@mui/material'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { SuccessQueryParam } from 'utils/data/authSettingsConstants'
+import {
+  ResType,
+  SuccessQueryParam,
+  emptySuccessScreenValues,
+} from 'utils/data/authSettingsConstants'
 import { forgotPasswordEmailVerification, getOneUser } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
-
-export interface SuccessScreenValues {
-  heading: string
-  subHeading?: string
-  body: string
-  body2?: string
-  hyperlinkLabel?: string
-  hyperlinkAction?: any
-  buttonLabel?: string
-  buttonAction?: any
-}
-
-const enum ResType {
-  success = 'success',
-  error = 'error',
-}
+import { SuccessScreenValues } from 'interfaces/AccountSettingsInterface'
 
 export const SuccessScreen = () => {
   const navigate = useNavigate()
@@ -30,16 +19,19 @@ export const SuccessScreen = () => {
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   const screen = queryParams.get('screen')
-  const [values, setValues] = useState<SuccessScreenValues>({
-    heading: '',
-    subHeading: '',
-    body: '',
-    body2: '',
-    hyperlinkLabel: '',
-    hyperlinkAction: null,
-    buttonLabel: '',
-    buttonAction: null,
-  })
+  const [values, setValues] = useState<SuccessScreenValues>(
+    emptySuccessScreenValues
+  )
+  const {
+    heading,
+    subHeading,
+    body,
+    body2,
+    hyperlinkLabel,
+    hyperlinkAction,
+    buttonLabel,
+    buttonAction,
+  } = values
 
   const handleToast = (resType: 'success' | 'error') => {
     if (resType === 'success') {
@@ -88,6 +80,18 @@ export const SuccessScreen = () => {
       hyperlinkLabel: 'Re-send email',
       hyperlinkAction: () => resendForgotPasswordEmail(),
     },
+    [SuccessQueryParam.resetPassword]: {
+      heading: `You've reset your password!`,
+      body: 'Log in with your new password to have more fun working on a project with a cross-functional team.',
+      buttonLabel: 'Log in',
+      buttonAction: () => navigate('/sign-in'),
+    },
+    [SuccessQueryParam.changePassword]: {
+      heading: `You've changed your password!`,
+      body: `Log in with your new password to have more fun working on a project with a cross-functional team.`,
+      buttonLabel: 'Log in',
+      buttonAction: () => navigate('/sign-in'),
+    },
   }
 
   useEffect(() => {
@@ -96,31 +100,54 @@ export const SuccessScreen = () => {
     }
   }, [screen])
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#FFA726',
+      },
+    },
+  })
+
+  const containerClass =
+    screen === SuccessQueryParam.resetPasswordEmail
+      ? 'container-spaced'
+      : 'container'
+
+  const mainContentClass =
+    screen === SuccessQueryParam.resetPasswordEmail
+      ? 'main-content-spaced'
+      : 'main-content'
+
+  const bodyClass =
+    screen === SuccessQueryParam.resetPasswordEmail ? 'body-wide' : 'body'
+
   return (
-    <div className='success-screen container'>
-      <div className='success-screen main-content'>
+    <div className={`success-screen ${containerClass}`}>
+      <div className={`success-screen ${mainContentClass}`}>
         <div className='success-screen headers'>
-          {values.heading && (
-            <div className='headers header'>{values.heading}</div>
-          )}
-          {values.subHeading && (
-            <div className='headers subheader'>{values.subHeading}</div>
-          )}
+          {heading && <div className='headers header'>{heading}</div>}
+          {subHeading && <div className='headers subheader'>{subHeading}</div>}
         </div>
-        <div className='success-screen body'>
-          {values.body && <div className='body body1'>{values.body}</div>}
-          {values.body2 && <div className='body body2'>{values.body2}</div>}
+        <div className={`success-screen ${bodyClass}`}>
+          {body && <div className='body body1'>{body}</div>}
+          {body2 && <div className='body body2'>{body2}</div>}
         </div>
       </div>
       <div className='success-screen actions'>
-        {values.buttonLabel && (
-          <Button className='actions button' onClick={values.buttonAction}>
-            {values.buttonLabel}
-          </Button>
+        {buttonLabel && (
+          <ThemeProvider theme={theme}>
+            <Button
+              className='actions button'
+              variant='contained'
+              onClick={buttonAction}
+            >
+              {buttonLabel}
+            </Button>
+          </ThemeProvider>
         )}
-        {values.hyperlinkLabel && (
-          <div className='actions hyperlink' onClick={values.hyperlinkAction}>
-            {values.hyperlinkLabel}
+        {hyperlinkLabel && (
+          <div className='actions hyperlink' onClick={hyperlinkAction}>
+            {hyperlinkLabel}
           </div>
         )}
       </div>

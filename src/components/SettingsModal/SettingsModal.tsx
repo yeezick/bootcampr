@@ -1,32 +1,8 @@
-import { Button, CircularProgress, Modal } from '@mui/material'
 import './SettingsModal.scss'
+import { Button, CircularProgress, Modal } from '@mui/material'
 import { ButtonStyle } from 'utils/data/authSettingsConstants'
-import { ButtonStyleInterface } from 'interfaces/AccountSettingsInterface'
+import { SettingsModalProps } from 'interfaces/AccountSettingsInterface'
 import { useEffect, useState } from 'react'
-
-export interface SettingsModalProps {
-  isOpen: boolean
-  handleCancel?: () => void
-  handleConfirm?: (() => void) | ((e: React.FormEvent) => void)
-  heading: string
-  body: string | React.ReactNode
-  body2?: string | React.ReactNode
-  body3?: string | React.ReactNode
-  inputComponent?: React.ReactNode
-  isInput?: boolean
-  inputType?: string
-  inputValue?: string
-  inputOnChange?: any
-  inputPlaceholder?: string
-  isError?: boolean
-  inputErrorMessage?: string
-  cancelButtonLabel?: string
-  confirmButtonLabel?: string
-  confirmButtonDisabled?: boolean
-  customWidth?: number
-  confirmButtonStyle?: ButtonStyleInterface
-  isHandlingRequest?: boolean
-}
 
 export const SettingsModal = ({
   isOpen,
@@ -36,8 +12,6 @@ export const SettingsModal = ({
   body,
   body2,
   body3,
-  inputComponent,
-  isInput,
   inputType,
   inputValue,
   inputOnChange,
@@ -49,7 +23,7 @@ export const SettingsModal = ({
   confirmButtonDisabled,
   customWidth = 403,
   confirmButtonStyle = ButtonStyle.Orange,
-  isHandlingRequest,
+  handlingRequest = false,
 }: SettingsModalProps) => {
   const [inputClassname, setInputClassname] = useState('input')
 
@@ -114,7 +88,7 @@ export const SettingsModal = ({
                 disabled={confirmButtonDisabled}
               >
                 {confirmButtonLabel}
-                {isHandlingRequest && <CircularProgress />}
+                {handlingRequest && <CircularProgress />}
               </Button>
             )}
           </div>

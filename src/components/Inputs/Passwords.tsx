@@ -1,9 +1,12 @@
 import { useState } from 'react'
-import { FormControl, IconButton } from '@mui/material'
+import { IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { PasswordInputProps } from 'interfaces/components/Input'
 import { handleFormInputChange } from 'utils/helpers/stateHelpers'
 import { ForgotPasswordLink } from 'screens/AccountSettings/components/ForgotPasswordLink'
+import { MdCheck } from 'react-icons/md'
+import { RxCross2 } from 'react-icons/rx'
+import { HiOutlineExclamationCircle } from 'react-icons/hi'
 
 export const PasswordInputs = (props: PasswordInputProps) => {
   const [passwordMatch, setPasswordMatch] = useState(null)
@@ -16,7 +19,7 @@ export const PasswordInputs = (props: PasswordInputProps) => {
   }
 
   return (
-    <div className='passwords-wrapper'>
+    <div className='password-inputs-wrapper'>
       {passwordInputName === 'settings-pwd-reset' && (
         <CurrentPassword {...propsWithPasswordMatch} name='currentPassword' />
       )}
@@ -86,13 +89,28 @@ export const Password = ({
     )
   }
 
+  let inputLabel: string
+  const newPasswordInputLabel = (passwordInputName: string) => {
+    switch (passwordInputName) {
+      case 'sign-up':
+        inputLabel = 'Password'
+        break
+      case 'settings-pwd-reset':
+        inputLabel = 'Enter new password'
+        break
+      case 'email-pwd-reset':
+        inputLabel = 'New password'
+    }
+    return inputLabel
+  }
+
   return (
-    <div className='password'>
-      <FormControl variant='standard'>
+    <>
+      <form className='new-password container'>
         <label htmlFor={inputId}>
-          {passwordInputName === 'sign-up' ? 'Password' : 'New Password'}
+          {newPasswordInputLabel(passwordInputName)}
         </label>
-        <div className='adorned-input'>
+        <div className='new-password adorned-input'>
           <input
             id={inputId}
             name={name}
@@ -101,7 +119,7 @@ export const Password = ({
             type={inputType}
           />
           <IconButton
-            className='eyecon'
+            className='new-password eyecon'
             aria-label='toggle password visibility'
             onClick={() => toggleVisiblity(inputType, setInputType)}
           >
@@ -109,8 +127,8 @@ export const Password = ({
           </IconButton>
         </div>
         <PasswordValidations errors={passwordErrors} />
-      </FormControl>
-    </div>
+      </form>
+    </>
   )
 }
 
@@ -120,6 +138,7 @@ export const ConfirmPassword = ({
   name,
   setFormValues,
   setPasswordMatch,
+  passwordInputName,
 }) => {
   const [inputType, setInputType] = useState('password')
   const inputId = 'confirmPassword'
@@ -130,11 +149,28 @@ export const ConfirmPassword = ({
     handlePasswordMatching(value, password, setPasswordMatch)
   }
 
+  let inputLabel: string
+  const confirmPasswordInputLabel = (passwordInputName: string) => {
+    switch (passwordInputName) {
+      case 'sign-up':
+        inputLabel = 'Re-enter password'
+        break
+      case 'settings-pwd-reset':
+        inputLabel = 'Re-enter new password'
+        break
+      case 'email-pwd-reset':
+        inputLabel = 'Re-enter new password'
+    }
+    return inputLabel
+  }
+
   return (
-    <div className='confirm-password'>
-      <FormControl variant='standard'>
-        <label htmlFor={inputId}>Re-enter password</label>
-        <div className='adorned-input'>
+    <>
+      <form className='confirm-password container'>
+        <label htmlFor={inputId}>
+          {confirmPasswordInputLabel(passwordInputName)}
+        </label>
+        <div className='confirm-password adorned-input'>
           <input
             id={inputId}
             name={name}
@@ -143,7 +179,7 @@ export const ConfirmPassword = ({
             type={inputType}
           />
           <IconButton
-            className='eyecon'
+            className='confirm-password eyecon'
             aria-label='toggle password visibility'
             onClick={() => toggleVisiblity(inputType, setInputType)}
           >
@@ -151,8 +187,8 @@ export const ConfirmPassword = ({
           </IconButton>
         </div>
         <PasswordMatchError matchStatus={passwordMatch} />
-      </FormControl>
-    </div>
+      </form>
+    </>
   )
 }
 
@@ -161,12 +197,20 @@ const PasswordMatchError = ({ matchStatus }) => {
   if (matchStatus === null) {
     return
   } else if (matchStatus) {
-    return <p className='password-criteria criteria-met'>Passwords match!</p>
+    return (
+      <div className='match-status'>
+        <MdCheck className='criteria-check' size={14} />
+        <p className='password-criteria criteria-met'>Passwords match!</p>
+      </div>
+    )
   } else {
     return (
-      <p className='password-criteria criteria-not-met'>
-        Passwords do not match.
-      </p>
+      <div className='match-status'>
+        <RxCross2 className='criteria-cross' size={14} />
+        <p className='password-criteria criteria-not-met'>
+          Passwords don't match
+        </p>
+      </div>
     )
   }
 }
@@ -194,49 +238,73 @@ const PasswordCriteria = ({ criteria, errorState = 'neutral' }) => {
   return (
     <div className='password-criteria'>
       {errorState === 'criteria-met' && (
-        <div>
-          <img
-            src='/check.png'
-            className='criteria-check'
-            alt='criteria-check'
-          />
-        </div>
+        <MdCheck className='criteria-check' size={14} />
+      )}
+      {errorState === 'criteria-not-met' && (
+        <RxCross2 className='criteria-cross' size={14} />
       )}
       <p className={errorState}>{criteria}</p>
     </div>
   )
 }
 
-export const CurrentPassword = ({ formValues, name, setFormValues }) => {
+export const CurrentPassword = ({
+  formValues,
+  name,
+  setFormValues,
+  disableErrorState = () => {},
+  inputError = false,
+}) => {
   const [inputType, setInputType] = useState('password')
   const inputId = 'currentPassword'
 
   const handlePasswordChange = e => {
+    disableErrorState()
     handleFormInputChange(e, setFormValues)
   }
 
+  const inputClassname = inputError ? 'input-error' : ''
+  const eyeconClassname = inputError ? 'error-icon' : 'eyecon'
+
   return (
-    <div className='password'>
-      <FormControl variant='standard'>
-        <label htmlFor={inputId}>Current Password</label>
-        <div className='adorned-input'>
-          <input
-            id={inputId}
-            name={name}
-            required
-            onChange={handlePasswordChange}
-            type={inputType}
-          />
-          <IconButton
-            className='eyecon'
-            aria-label='toggle password visibility'
-            onClick={() => toggleVisiblity(inputType, setInputType)}
-          >
-            {inputType === 'password' ? <VisibilityOff /> : <Visibility />}
-          </IconButton>
+    <>
+      <form className='current-password container'>
+        <label htmlFor={inputId}>Current password</label>
+        <div className='current-password input-container'>
+          <div className='current-password adorned-input'>
+            <input
+              id={inputId}
+              className={inputClassname}
+              name={name}
+              required
+              onChange={handlePasswordChange}
+              type={inputType}
+            />
+            <IconButton
+              className={`current-password ${eyeconClassname}`}
+              aria-label='toggle password visibility'
+              disableRipple={inputError}
+              onClick={() => {
+                !inputError && toggleVisiblity(inputType, setInputType)
+              }}
+            >
+              {inputError ? (
+                <HiOutlineExclamationCircle />
+              ) : inputType === 'password' ? (
+                <VisibilityOff />
+              ) : (
+                <Visibility />
+              )}
+            </IconButton>
+          </div>
+          {inputError && (
+            <div className='current-password error-message'>
+              Incorrect password
+            </div>
+          )}
         </div>
-      </FormControl>
-      <ForgotPasswordLink />
-    </div>
+        <ForgotPasswordLink />
+      </form>
+    </>
   )
 }
