@@ -338,6 +338,12 @@
     margin-top: 16px;
     padding: 0px 24px;
     text-transform: unset !important;
+
+    &:disabled {
+      background-color: #ffa726;
+      color: #1a237e;
+      opacity: 0.5;
+    }
   }
 }
 
