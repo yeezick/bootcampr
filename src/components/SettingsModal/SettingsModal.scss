@@ -102,6 +102,10 @@
 
     .confirm {
       padding: 0px 24px;
+
+      &:disabled {
+        opacity: 0.5;
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 import { SettingsModal } from 'components/SettingsModal/SettingsModal'
 import { ForgotPasswordLinkProps } from 'interfaces/AccountSettingsInterface'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   forgotPasswordEmailVerification,
@@ -18,6 +18,7 @@ export const ForgotPasswordLink = ({
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const [email, setEmail] = useState('')
+  const [isInputEmpty, setIsInputEmpty] = useState(false)
   const [forgotPasswordModal, setForgotPasswordModal] = useState(false)
   const [isError, setIsError] = useState(false)
 
@@ -28,10 +29,25 @@ export const ForgotPasswordLink = ({
     setEmail(e.target.value)
   }
 
+  const emptyInput = () => {
+    if (email === '') {
+      setIsInputEmpty(true)
+    } else {
+      setIsInputEmpty(false)
+    }
+  }
+
+  useEffect(() => {
+    emptyInput()
+  }, [email])
+
   const handleSubmitForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const emailSent = await forgotPasswordEmailVerification(email)
+      const emailSent = await forgotPasswordEmailVerification(
+        email,
+        authUser._id
+      )
 
       if (emailSent) {
         if (!emailSent.data.status) {
@@ -79,6 +95,7 @@ export const ForgotPasswordLink = ({
         isOpen={forgotPasswordModal}
         handleCancel={closeModal}
         handleConfirm={handleSubmitForgotPassword}
+        confirmButtonDisabled={isInputEmpty}
         heading='Forgot your password?'
         body={`We all forget things.`}
         body2={`Enter the email address you used to sign up.`}
