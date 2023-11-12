@@ -11,7 +11,6 @@ type AllTabsInterface = {
 
 export const CalendarTabs = () => {
   const [activeTab, setActiveTab] = useState(0)
-  const [days, setDays] = useState({})
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue)
