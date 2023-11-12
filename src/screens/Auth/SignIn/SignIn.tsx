@@ -111,7 +111,6 @@ const SignIn: React.FC = (): JSX.Element => {
     e.preventDefault()
 
     const response = await signIn(formData)
-
     if (response?.message) {
       setAlertBanner({
         status: true,
@@ -127,7 +126,6 @@ const SignIn: React.FC = (): JSX.Element => {
 
     dispatch(setAuthUser(response))
     storeUserProject(dispatch, response.project)
-
     !response.onboarded
       ? navigate(`/onboarding/${response._id}`)
       : navigate(`/project/${response.project}`)
