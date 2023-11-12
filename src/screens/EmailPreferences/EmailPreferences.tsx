@@ -58,7 +58,7 @@ export default function EmailPreferences() {
         <div className='email-preference-options'>
           {Object.keys(emailPreferenceOptions).length &&
             Object.keys(emailPreferenceOptions).map(option => (
-              // Make component for each option
+              // TODO: Make component for each option
               <div className='email-preference-option' key={option}>
                 <Checkbox
                   name={option}
