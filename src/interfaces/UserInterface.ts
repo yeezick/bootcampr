@@ -86,6 +86,7 @@ export interface SignInInterface {
 
 export interface ForgotPasswordInterface {
   onClose?: () => void
+  forgotPasswordModal?: boolean
   onSuccessMessage?: string
   onFailureMessage?: string
 }
