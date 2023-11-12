@@ -13,7 +13,6 @@ export const getEmailPreferenceOptions = async () => {
 export const getUserEmailPreferences = async userId => {
   try {
     const res = await api.get(`/users/${userId}/emailPreferences`)
-    console.log(res.data)
     return res.data
   } catch (error) {
     console.error(error)

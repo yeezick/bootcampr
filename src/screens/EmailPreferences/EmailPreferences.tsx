@@ -7,7 +7,7 @@ import './EmailPreferences.scss'
 import { Checkbox, Switch } from '@mui/material'
 import { PrimaryButton } from 'components/Buttons'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser, selectUserId } from 'utils/redux/slices/userSlice'
+import { selectUserId } from 'utils/redux/slices/userSlice'
 
 export default function EmailPreferences() {
   const [emailPreferenceOptions, setEmailPreferenceOptions] = useState({})
@@ -26,14 +26,11 @@ export default function EmailPreferences() {
   useEffect(() => {
     const getOptions = async () => {
       const options = await getEmailPreferenceOptions()
-      console.log(options)
       setEmailPreferenceOptions(options)
     }
     getOptions()
 
     const getUserPreferences = async () => {
-      console.log(userPreferences)
-      console.log(userId)
       const preferences = await getUserEmailPreferences(userId)
       setUserPreferences(preferences)
     }
@@ -41,12 +38,10 @@ export default function EmailPreferences() {
   }, [userId])
 
   const handleUnsubscribeSwitch = () => {
-    console.log('switch')
     toggleDisableAll(!disableAll)
   }
 
   const handleChecks = (e, option) => {
-    console.log(userPreferences)
     setUserPreferences({
       ...userPreferences,
       [option]: !userPreferences[option],
