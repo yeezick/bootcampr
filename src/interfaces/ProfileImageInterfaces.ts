@@ -1,20 +1,23 @@
-import { RefObject } from 'react'
+import React, { RefObject } from 'react'
 import { Area, Point } from 'react-easy-crop/types'
 
 export interface AvatarProps {
-  imageUrl?: string | null
-  uploadedImage?: string | null
   clickable?: boolean | undefined
-  openModal?: React.MouseEventHandler<HTMLImageElement>
+  openModal?: (() => void) | undefined
   setAnchorEl?: React.Dispatch<React.SetStateAction<boolean>>
+  hasIcon?: boolean
+  iconButtonClassName?: string
+  addPhotoIconId?: string
+}
+
+export interface ProfilePreviewImageProps {
+  onOpen: boolean
+  onClose: () => void
 }
 
 export interface ImageEditorModalProps {
-  open: boolean
+  onOpen: boolean
   onClose: () => void
-  uploadedImage?: string | null
-  setUploadedImage?: (uploadedImage: string | null) => void
-  onSaveClick?: (image: string) => void
 }
 
 export interface ImageEditorHeaderProps {
@@ -22,7 +25,7 @@ export interface ImageEditorHeaderProps {
 }
 
 export interface ImageEditorContentProps {
-  uploadedImage: string | null
+  profilePicture: string
   crop: Point
   zoom: number
   setCrop: (crop: Point) => void
@@ -30,28 +33,7 @@ export interface ImageEditorContentProps {
   setZoom: (zoom: number) => void
 }
 
-export interface ImageEditorControlsProps {
-  fileInputRef: React.RefObject<HTMLInputElement>
-  handleUpload: (dataURL: string) => void
-  zoom: number
-  setZoom: (zoom: number) => void
-  handleSave: () => void
-}
-
-export interface ProfilePreviewImageProps {
-  open: boolean
-  onClose: () => void
-  uploadedImage?: string | null
-  setUploadedImage?: React.Dispatch<React.SetStateAction<string | null>>
-  onSaveClick?: (image: string) => void
-  onDelete?: () => void
-}
-
 export interface FileInputProps {
   onFileChange: (dataUrl: string) => void
   fileInputRef: RefObject<HTMLInputElement>
-}
-
-export interface AvatarState {
-  imageUrl: string | null
 }
