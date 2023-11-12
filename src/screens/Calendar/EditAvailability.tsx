@@ -44,7 +44,7 @@ export const EditAvailability = () => {
   }, [])
 
   return (
-    <div>
+    <div className='edit-availability-container'>
       <Availability
         days={days}
         setDays={setDays}
