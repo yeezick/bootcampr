@@ -71,9 +71,6 @@ export const PasswordSettings = () => {
       primary: {
         main: '#FFA726',
       },
-      action: {
-        disabledBackground: '',
-      },
     },
   })
 
