@@ -1,26 +1,11 @@
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd'
-import {
-  KeyOfTicketStatusType,
-  TaskInterface,
-  TicketInterface,
-  TicketStatusChangeFunc,
-} from 'interfaces'
-import {
-  updateTicketInformationAndStatus,
-  updateTicketStatus,
-} from 'utils/api/tickets'
+import { KeyOfTicketStatusType, TicketInterface } from 'interfaces'
+import { updateTicketStatus } from 'utils/api/tickets'
 import { CreateTicketTab } from '../CreateTickets/CreateTicket'
-import {
-  concatenatedString,
-  splitCamelCaseToWords,
-} from 'utils/helpers/stringHelpers'
 import { TicketDetail } from '../TicketDetail/TicketDetail'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { useParams } from 'react-router-dom'
-import {
-  changeTicketStatus,
-  selectProjectId,
-} from 'utils/redux/slices/projectSlice'
+import { changeTicketStatus } from 'utils/redux/slices/projectSlice'
 import {
   setVisibleTickets,
   selectVisibleTickets,
@@ -83,7 +68,6 @@ export const BoardColumns = () => {
                     provided={provided}
                     columnStatus={columnStatus}
                     visibleTickets={getAllTicket}
-                    setVisibleTickets={setGetAllTicket}
                   />
                 </div>
               )}
@@ -95,13 +79,7 @@ export const BoardColumns = () => {
 }
 
 // Todo: rename provided?
-export const ColumnTickets = ({
-  provided,
-  visibleTickets,
-  setVisibleTickets,
-  columnStatus,
-}) => {
-  const projectId = useAppSelector(selectProjectId)
+export const ColumnTickets = ({ provided, visibleTickets, columnStatus }) => {
   return (
     <div
       className='content'
@@ -123,15 +101,7 @@ export const ColumnTickets = ({
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
               >
-                <TicketDetail
-                  ticketDetail={ticketDetail}
-                  getAllTicket={visibleTickets}
-                  setGetAllTicket={setVisibleTickets}
-                  ticketsStatus={columnStatus}
-                  splitCamelCaseToWords={splitCamelCaseToWords}
-                  concatenatedString={concatenatedString}
-                  projectId={projectId}
-                />
+                <TicketDetail />
               </div>
             )}
           </Draggable>

@@ -98,9 +98,6 @@ const taskBoardSlice = createSlice({
     setTicketFields: (state, action: PayloadAction<TaskInterface>) => {
       state.ticketFields = { ...state.ticketFields, ...action.payload }
     },
-    changeTicketStatus: (state, action: PayloadAction<TaskInterface>) => {
-      // state.
-    },
   },
 })
 

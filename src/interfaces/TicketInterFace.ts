@@ -58,24 +58,3 @@ export interface CreateTicketInterface {
   openSnackBar?: SnackBarToastInterface
   setOpenSnackBar?: React.Dispatch<React.SetStateAction<SnackBarToastInterface>>
 }
-
-export interface TicketStatusChangeFunc {
-  item?: TicketInterface
-  initialStatus?: KeyOfTicketStatusType
-  targetStatus?: KeyOfTicketStatusType
-  ticketId?: string
-}
-export interface TicketDetailPropsInterface {
-  concatenatedString?: (str: string) => string
-  getAllTicket?: ProjectTrackerInterface
-  ref?: any
-  setGetAllTicket?: React.Dispatch<
-    React.SetStateAction<ProjectTrackerInterface>
-  >
-  splitCamelCaseToWords?: (str: string) => string
-  ticketDetail?: TicketInterface
-  ticketsStatus?: KeyOfTicketStatusType | string
-  projectId: string
-  openSnackBar?: SnackBarToastInterface
-  setOpenSnackBar?: React.Dispatch<React.SetStateAction<SnackBarToastInterface>>
-}

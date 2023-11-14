@@ -1,14 +1,7 @@
 import { useState, useRef, MutableRefObject, useEffect } from 'react'
 import { Box, Modal } from '@mui/material'
 import { SelectStatus } from 'components/Kanban'
-import { SelectChangeEvent } from '@mui/material/Select'
-import { TaskInterface, TicketDetailPropsInterface } from 'interfaces'
-import {
-  ticketStatusChange,
-  ticketStatusHasNotChange,
-} from './TicketDetailFunctions'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { useAppSelector } from 'utils/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { deleteTicketApi } from 'utils/api/tickets'
 import EditableText from './EditableText'
 import { TbPencilMinus } from 'react-icons/tb'
@@ -17,95 +10,94 @@ import { RxPerson, RxText } from 'react-icons/rx'
 import { AssignUser } from './AssignUser'
 import { SelectDate } from './SelectDate'
 import '../Ticket.scss'
-import { getMembersAttributesByProjectId } from 'utils/api'
 import { Comments } from '../Components/Comments'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
-import { useDispatch } from 'react-redux'
+import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
+import { deleteTicket, selectProjectId } from 'utils/redux/slices/projectSlice'
 
-export const TicketDetail = ({
-  ticketDetail,
-  getAllTicket,
-  setGetAllTicket,
-  ticketsStatus,
-  splitCamelCaseToWords,
-  concatenatedString,
-  projectId,
-}: TicketDetailPropsInterface) => {
-  const authUser = useAppSelector(selectAuthUser)
+export const TicketDetail = () => {
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [ticketStatus, setTicketStatus] = useState<string>()
-  const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false)
-  const [assigneesOptions, setAssigneesOptions] = useState([])
-  const [assignee, setAssignee] = useState('Unassigned')
-  const tittleRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
-  const dateRef: MutableRefObject<HTMLInputElement | null> = useRef(null)
-  const linkRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
-  const descriptionRef: MutableRefObject<HTMLParagraphElement | null> =
-    useRef(null)
-  const dispatch = useDispatch()
-  const openModal = () => setIsOpen(true)
-  const closeModal = () => setIsOpen(false)
-
-  const getAssignees = async (projectId, attributes) => {
-    let assignees = await getMembersAttributesByProjectId(projectId, attributes)
-    setAssigneesOptions(assignees)
-    setAssignee(ticketDetail.assignee)
-  }
+  const handleOpenModal = () => setIsOpen(true)
+  const handleCloseModal = () => setIsOpen(false)
 
   useEffect(() => {
-    const attributesForAssignees = 'firstName,lastName,role,profilePicture'
-    getAssignees(projectId, attributesForAssignees)
+    // fill in ticket fields from redux if an existing ticket
   }, [])
 
-  const handleSaveChanges = () => {
-    const { status } = ticketDetail
-    const updateText: TaskInterface = {
-      assignee: authUser._id,
-      dueDate: dateRef.current?.value,
-      description: descriptionRef.current?.textContent,
-      // _id: ticketDetail._id,
-      link: linkRef.current?.textContent,
-      status: ticketStatus ?? status,
-      title: tittleRef.current?.textContent,
-    }
+  return (
+    <div>
+      <TicketTab openModal={handleOpenModal} />
+      <Modal open={modalIsOpen} onClose={handleCloseModal} className='modal'>
+        <Box className='ticketDetailOpenModalBox'>
+          <Box sx={{ display: 'flex' }}>
+            <TicketDetailInputsAndComments />
+            <Box>
+              <SelectStatus />
+              <AssignUser text='Assignee' detailIcon={<RxPerson />} />
+              <SelectDate />
+              <TicketDetailButtons handleCloseModal={handleCloseModal} />
+            </Box>
+          </Box>
+        </Box>
+      </Modal>
+    </div>
+  )
+}
 
-    if ((ticketStatus ?? status) === status)
-      return ticketStatusHasNotChange({
-        updateText,
-        getAllTicket,
-        ticketDetail,
-        closeModal,
-        setGetAllTicket,
-        setIsBeingEdited,
-      })
-    if ((ticketStatus ?? status) !== status)
-      return ticketStatusChange({
-        updateText,
-        getAllTicket,
-        ticketDetail,
-        closeModal,
-        setGetAllTicket,
-        concatenatedString,
-        setIsBeingEdited,
-      })
-  }
+export const TicketDetailInputsAndComments = () => {
+  const {
+    description,
+    link,
+    _id: ticketId,
+    title,
+  } = useAppSelector(selectTicketFields)
+  const descriptionRef: MutableRefObject<HTMLParagraphElement | null> =
+    useRef(null)
+  const linkRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
+  const tittleRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
 
-  const handleEditChange = (e: SelectChangeEvent) =>
-    setTicketStatus(e.target.value)
+  return (
+    <Box sx={{ width: '50%', margin: '25px' }}>
+      <EditableText
+        detailIcon={<RxText />}
+        text='Title'
+        editRef={tittleRef}
+        ticketDetail={title}
+      />
+      <EditableText
+        detailIcon={<TbPencilMinus />}
+        text='Description'
+        editRef={descriptionRef}
+        ticketDetail={description}
+      />
 
-  const deleteTicket = async (ticketId: string) => {
-    setIsBeingEdited(true)
+      <EditableText
+        detailIcon={<BiLink />}
+        text='Link'
+        editRef={linkRef}
+        ticketDetail={link}
+      />
+      {/* Comments should not be here? maybe in a higher level component */}
+      <Comments ticketId={ticketId} />
+    </Box>
+  )
+}
 
-    const deletedTicket = getAllTicket[ticketsStatus].filter(
-      (ticket: TaskInterface) => ticket._id !== ticketId
-    )
-    await deleteTicketApi({
+export const TicketDetailButtons = ({ handleCloseModal }) => {
+  const ticketFields = useAppSelector(selectTicketFields)
+  const projectId = useAppSelector(selectProjectId)
+  const dispatch = useAppDispatch()
+
+  const handleDeleteTicket = async () => {
+    const { status, _id: ticketId } = ticketFields
+    // TODO: add guard clause for tickets that failed to delete
+    const deletedtTicket = await deleteTicketApi({
       ticketId,
-      ticketsStatus,
-      projectId: ticketDetail.projectId,
+      status,
+      projectId,
     })
-    setGetAllTicket({ ...getAllTicket, [ticketsStatus]: [...deletedTicket] })
-    setIsBeingEdited(false)
+
+    dispatch(deleteTicket({ status, ticketId }))
     dispatch(
       createSnackBar({
         isOpen: true,
@@ -117,82 +109,42 @@ export const TicketDetail = ({
         severity: 'success',
       })
     )
-    closeModal()
+    handleCloseModal()
   }
+
+  const handleSaveChanges = () => {
+    // Call API to save changes
+    // update ticket details
+    // If status has changed => dispatch to change ticket columns
+  }
+
   return (
-    <div>
-      <TicketTab openModal={openModal} ticketDetail={ticketDetail} />
-      <Modal open={modalIsOpen} onClose={closeModal} className='modal'>
-        {isBeingEdited ? (
-          <h1>Saving changes...</h1>
-        ) : (
-          <>
-            <Box className='ticketDetailOpenModalBox'>
-              <Box sx={{ display: 'flex' }}>
-                <Box sx={{ width: '50%', margin: '25px' }}>
-                  <EditableText
-                    detailIcon={<RxText />}
-                    text='Title'
-                    editRef={tittleRef}
-                    ticketDetail={ticketDetail.title}
-                  />
-                  <EditableText
-                    detailIcon={<TbPencilMinus />}
-                    text='Description'
-                    editRef={descriptionRef}
-                    ticketDetail={ticketDetail.description}
-                  />
-
-                  <EditableText
-                    detailIcon={<BiLink />}
-                    text='Link'
-                    editRef={linkRef}
-                    ticketDetail={ticketDetail.link}
-                  />
-                  <Comments ticketId={ticketDetail._id} />
-                </Box>
-
-                <Box>
-                  <SelectStatus />
-                  <AssignUser text='Assignee' detailIcon={<RxPerson />} />
-
-                  <SelectDate
-                    dateRef={dateRef}
-                    defaultValue={ticketDetail.dueDate}
-                  />
-
-                  <Box className='ticketDetailOpenModalBoxButton '>
-                    <button
-                      className='ticketDetailOpenModalButton button1'
-                      disabled={false}
-                      onClick={() => deleteTicket(ticketDetail?._id)}
-                    >
-                      Delete
-                    </button>
-                    <button
-                      className='ticketDetailOpenModalButton button2'
-                      style={{ backgroundColor: '#8048c8', color: 'white' }}
-                      disabled={false}
-                      onClick={handleSaveChanges}
-                    >
-                      Save Changes
-                    </button>
-                  </Box>
-                </Box>
-              </Box>
-            </Box>
-          </>
-        )}
-      </Modal>
-    </div>
+    <Box className='ticketDetailOpenModalBoxButton '>
+      <button
+        className='ticketDetailOpenModalButton button1'
+        disabled={false}
+        onClick={handleDeleteTicket}
+      >
+        Delete
+      </button>
+      <button
+        className='ticketDetailOpenModalButton button2'
+        style={{ backgroundColor: '#8048c8', color: 'white' }}
+        disabled={false}
+        onClick={handleSaveChanges}
+      >
+        Save Changes
+      </button>
+    </Box>
   )
 }
 
-export const TicketTab = ({ openModal, ticketDetail }) => {
+export const TicketTab = ({ openModal }) => {
+  const { title } = useAppSelector(selectTicketFields)
   return (
     <div onClick={openModal} className='ticketDetailOpenModal'>
       <div>
-        <h3>{ticketDetail.title}</h3>
+        <h3>{title}</h3>
       </div>
     </div>
   )
