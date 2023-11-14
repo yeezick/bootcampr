@@ -21,6 +21,6 @@ export const storeUserProject = async (dispatch, projectId) => {
   if (projectId) {
     const userProject = await getOneProject(projectId)
     dispatch(setProject(userProject))
-    dispatch(setInitialVisibleTickets(userProject))
+    dispatch(setInitialVisibleTickets(userProject.projectTracker))
   }
 }

@@ -41,6 +41,7 @@ const initialState: TaskBoardInterface = {
 export interface SetVisibleTicketsReducer {
   projectTracker: ProjectTrackerInterface
   userId?: string
+  changeVisibleTicketType?: boolean
 }
 
 export interface SetVisibleTicketDialogReducer {
@@ -65,8 +66,11 @@ const taskBoardSlice = createSlice({
       state,
       action: PayloadAction<SetVisibleTicketsReducer>
     ) => {
-      const { projectTracker, userId } = action.payload
-      const shouldDisplayAllTickets = !state.displayAllTickets
+      const { changeVisibleTicketType, projectTracker, userId } = action.payload
+      const shouldDisplayAllTickets = changeVisibleTicketType
+        ? !state.displayAllTickets
+        : state.displayAllTickets
+
       if (shouldDisplayAllTickets) {
         state.visibleTickets = projectTracker
       } else {

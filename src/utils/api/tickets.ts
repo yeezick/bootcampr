@@ -28,9 +28,20 @@ export const ticketDraggedToNewSectionApi = async ticketData => {
   }
 }
 
-export const updateTicketInformationAndStatus = async (ticketData: any) => {
+export const updateTicketStatus = async ticketData => {
   try {
-    const updatedData = await api.put(`/updateTicketInformation`, ticketData)
+    const updatedData = await api.put(`/updateTicket/status`, ticketData)
+    if (updatedData.status !== 200) {
+      return false
+    } else return updatedData.data
+  } catch (error) {
+    return { error: { status: 500, message: 'ticket status failed to change' } }
+  }
+}
+
+export const updateTicketInformationAndStatus = async ticketData => {
+  try {
+    const updatedData = await api.put(`/updateTicket`, ticketData)
     return updatedData.data
   } catch (error) {
     return { error: { status: 500, message: 'ticket status failed to change' } }

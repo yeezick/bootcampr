@@ -5,16 +5,22 @@ import {
   TicketInterface,
   TicketStatusChangeFunc,
 } from 'interfaces'
-import { updateTicketInformationAndStatus } from 'utils/api/tickets'
+import {
+  updateTicketInformationAndStatus,
+  updateTicketStatus,
+} from 'utils/api/tickets'
 import { CreateTicketTab } from '../CreateTickets/CreateTicket'
 import {
   concatenatedString,
   splitCamelCaseToWords,
 } from 'utils/helpers/stringHelpers'
 import { TicketDetail } from '../TicketDetail/TicketDetail'
-import { useAppSelector } from 'utils/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { useParams } from 'react-router-dom'
-import { selectProjectId } from 'utils/redux/slices/projectSlice'
+import {
+  changeTicketStatus,
+  selectProjectId,
+} from 'utils/redux/slices/projectSlice'
 import {
   setVisibleTickets,
   selectVisibleTickets,
@@ -24,56 +30,37 @@ export const BoardColumns = () => {
   // remove dep on getAllTicket => source from redux
   const getAllTicket = useAppSelector(selectVisibleTickets)
   const setGetAllTicket = setVisibleTickets
-  const { id } = useParams()
+  const dispatch = useAppDispatch()
+  const { projectId } = useParams()
 
-  const handleOnDragEnd = movingTicket => {
+  const handleOnDragEnd = async movingTicket => {
     if (movingTicket) {
-      const ticketId = movingTicket.draggableId
+      const targetTicketId = movingTicket.draggableId
       const initialStatus = movingTicket.source.droppableId
       const targetStatus = movingTicket.destination.droppableId
 
-      // Check if initialStatus and targetStatus are not the same
-      // find the ticket to change
-      // call ticketStatusChange
       if (initialStatus !== targetStatus) {
-        // if initialStatus is not the same as targetStatus => change status
+        const updatedTicket = await updateTicketStatus({
+          projectId,
+          targetStatus,
+          targetTicketId,
+          initialStatus,
+        })
 
-        const ticketToChange = getAllTicket[initialStatus].find(
-          ticket => ticket._id === ticketId
-        )
-
-        changeTicketStatus(initialStatus, targetStatus, ticketToChange)
+        if (updatedTicket) {
+          dispatch(
+            changeTicketStatus({
+              initialStatus,
+              targetStatus,
+              targetTicketId,
+              updatedTicket,
+            })
+          )
+        } else {
+          // todo: display error toast
+        }
       }
     }
-  }
-
-  const changeTicketStatus = (initialStatus, targetStatus, ticketToChange) => {
-    // remove the ticket from its original status
-    const { _id: changeTicketId } = ticketToChange
-    const filteredInitialColumn = getAllTicket[initialStatus].filter(
-      ticket => ticket._id !== changeTicketId
-    )
-
-    // add the ticket to the new status column
-    const updatedTargetColumn = [
-      ...getAllTicket[targetStatus],
-      { ...ticketToChange, status: targetStatus },
-    ]
-
-    // update in redux
-    // setGetAllTicket({
-    //   ...getAllTicket,
-    //   [initialStatus]: filteredInitialColumn,
-    //   [targetStatus]: updatedTargetColumn,
-    // })
-
-    // call api to change ticket status
-    updateTicketInformationAndStatus({
-      projectId: id,
-      newStatus: targetStatus,
-      ticketId: changeTicketId,
-      oldStatus: initialStatus,
-    })
   }
 
   return (

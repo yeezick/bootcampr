@@ -46,6 +46,13 @@ export interface AddTicketReducer {
   newTicket: TicketInterface
 }
 
+export interface ChangeTicketStatusReducer {
+  initialStatus: string
+  targetStatus: string
+  targetTicketId: string
+  updatedTicket: TicketInterface
+}
+
 const projectSlice = createSlice({
   name: 'project',
   initialState,
@@ -54,10 +61,22 @@ const projectSlice = createSlice({
       const newTicket = action.payload
       state.projectTracker[newTicket.status].push(newTicket)
     },
-    changeTicketStatus: (state, action: PayloadAction<AddTicketReducer>) => {
-      const newTicket = action.payload
-      state.projectTracker[newTicket.status].push(newTicket)
+    changeTicketStatus: (
+      state,
+      action: PayloadAction<ChangeTicketStatusReducer>
+    ) => {
+      const { initialStatus, targetStatus, targetTicketId, updatedTicket } =
+        action.payload
+      const projectTracker = state.projectTracker
+
+      const filteredInitialStatusColumn = projectTracker[initialStatus].filter(
+        ticket => ticket._id !== targetTicketId
+      )
+
+      projectTracker[targetStatus].push(updatedTicket)
+      state.projectTracker[initialStatus] = filteredInitialStatusColumn
     },
+
     updateProject: (state, action: PayloadAction<ProjectInterface>) => {
       return {
         ...state,
@@ -147,6 +166,7 @@ export const selectRenderProjectPortal = (state: RootState) =>
 
 export const {
   addTicketToStatus,
+  changeTicketStatus,
   setProject,
   updateProject,
   updateParticipatingMembers,

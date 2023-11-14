@@ -20,10 +20,12 @@ import {
   setInitialVisibleTickets,
 } from 'utils/redux/slices/taskBoardSlice'
 import { handleReduxInputChange } from 'utils/helpers'
+import { selectUserId } from 'utils/redux/slices/userSlice'
 
 // TODO: Rename projectTracker to project
 export const TaskBoard = () => {
   const projectTracker = useAppSelector(selectProjectTracker)
+  const userId = useAppSelector(selectUserId)
   const [ticketsExist, setTicketsExist] = useState(false)
   const dispatch = useAppDispatch()
 
@@ -40,8 +42,15 @@ export const TaskBoard = () => {
       setTicketsExist(oneTicketExists)
       return oneTicketExists
     }
-
     doTicketsExist()
+
+    dispatch(
+      setVisibleTickets({
+        projectTracker,
+        userId,
+        changeVisibleTicketType: false,
+      })
+    )
   }, [projectTracker])
 
   const openDialog = () => dispatch(setVisibleTicketDialog('create'))
