@@ -246,6 +246,24 @@ export const CurrentPassword = ({
     handleFormInputChange(e, setFormValues)
   }
 
+  const displayInputIcon = () => {
+    if (inputError) {
+      return <HiOutlineExclamationCircle />
+    }
+
+    if (!inputError && inputType === 'password') {
+      return <VisibilityOff />
+    } else {
+      return <Visibility />
+    }
+  }
+
+  const handleEyeconClick = () => {
+    if (!inputError) {
+      toggleVisiblity(inputType, setInputType)
+    }
+  }
+
   const inputClassname = inputError ? 'input-error' : ''
   const eyeconClassname = inputError ? 'error-icon' : 'eyecon'
 
@@ -267,17 +285,9 @@ export const CurrentPassword = ({
               className={`current-password ${eyeconClassname}`}
               aria-label='toggle password visibility'
               disableRipple={inputError}
-              onClick={() => {
-                !inputError && toggleVisiblity(inputType, setInputType)
-              }}
+              onClick={handleEyeconClick}
             >
-              {inputError ? (
-                <HiOutlineExclamationCircle />
-              ) : inputType === 'password' ? (
-                <VisibilityOff />
-              ) : (
-                <Visibility />
-              )}
+              {displayInputIcon()}
             </IconButton>
           </div>
           {inputError && (
