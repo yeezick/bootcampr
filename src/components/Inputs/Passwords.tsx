@@ -2,7 +2,10 @@ import { useState } from 'react'
 import { IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { PasswordInputProps } from 'interfaces/components/Input'
-import { handleFormInputChange } from 'utils/helpers/stateHelpers'
+import {
+  handleFormInputChange,
+  passwordInputLabel,
+} from 'utils/helpers/stateHelpers'
 import { ForgotPasswordLink } from 'screens/AccountSettings/components/ForgotPasswordLink'
 import { MdCheck } from 'react-icons/md'
 import { RxCross2 } from 'react-icons/rx'
@@ -89,27 +92,17 @@ export const Password = ({
     )
   }
 
-  let inputLabel: string
-  const newPasswordInputLabel = (passwordInputName: string) => {
-    switch (passwordInputName) {
-      case 'sign-up':
-        inputLabel = 'Password'
-        break
-      case 'settings-pwd-reset':
-        inputLabel = 'Enter new password'
-        break
-      case 'email-pwd-reset':
-        inputLabel = 'New password'
-    }
-    return inputLabel
-  }
+  const inputLabel = passwordInputLabel(
+    passwordInputName,
+    'Password',
+    'Enter new password',
+    'New password'
+  )
 
   return (
     <>
       <form className='new-password container'>
-        <label htmlFor={inputId}>
-          {newPasswordInputLabel(passwordInputName)}
-        </label>
+        <label htmlFor={inputId}>{inputLabel}</label>
         <div className='new-password adorned-input'>
           <input
             id={inputId}
@@ -149,27 +142,17 @@ export const ConfirmPassword = ({
     handlePasswordMatching(value, password, setPasswordMatch)
   }
 
-  let inputLabel: string
-  const confirmPasswordInputLabel = (passwordInputName: string) => {
-    switch (passwordInputName) {
-      case 'sign-up':
-        inputLabel = 'Re-enter password'
-        break
-      case 'settings-pwd-reset':
-        inputLabel = 'Re-enter new password'
-        break
-      case 'email-pwd-reset':
-        inputLabel = 'Re-enter new password'
-    }
-    return inputLabel
-  }
+  const inputLabel = passwordInputLabel(
+    passwordInputName,
+    'Re-enter password',
+    'Re-enter new password',
+    'Re-enter new password'
+  )
 
   return (
     <>
       <form className='confirm-password container'>
-        <label htmlFor={inputId}>
-          {confirmPasswordInputLabel(passwordInputName)}
-        </label>
+        <label htmlFor={inputId}>{inputLabel}</label>
         <div className='confirm-password adorned-input'>
           <input
             id={inputId}
