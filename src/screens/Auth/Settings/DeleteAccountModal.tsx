@@ -7,7 +7,7 @@ import * as React from 'react'
 import './Settings.scss'
 import { deleteUserAccount, logOut } from 'utils/api'
 import { useNavigate, useParams } from 'react-router-dom'
-import { SettingsModal } from 'components/SettingsModal/SettingsModal'
+import { CommonModal } from 'components/CommonModal/CommonModal'
 import { ButtonStyle } from 'utils/data/authSettingsConstants'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { logoutAuthUser } from 'utils/redux/slices/userSlice'
@@ -83,7 +83,7 @@ export const DeleteAccountModal = () => {
           </div>
         </Box>
       </Modal> */}
-      <SettingsModal
+      <CommonModal
         isOpen={open}
         heading='Delete your account?'
         body='This will delete your account and all associated information. The operation cannot be undone.'

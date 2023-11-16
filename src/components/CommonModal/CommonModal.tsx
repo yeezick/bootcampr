@@ -1,10 +1,10 @@
-import './SettingsModal.scss'
+import './CommonModal.scss'
 import { Button, CircularProgress, Modal } from '@mui/material'
 import { ButtonStyle } from 'utils/data/authSettingsConstants'
-import { SettingsModalProps } from 'interfaces/AccountSettingsInterface'
+import { CommonModalProps } from 'interfaces/AccountSettingsInterface'
 import { useEffect, useState } from 'react'
 
-export const SettingsModal = ({
+export const CommonModal = ({
   isOpen,
   handleCancel,
   handleConfirm,
@@ -24,7 +24,7 @@ export const SettingsModal = ({
   customWidth = 403,
   confirmButtonStyle = ButtonStyle.Orange,
   handlingRequest = false,
-}: SettingsModalProps) => {
+}: CommonModalProps) => {
   const [inputClassname, setInputClassname] = useState('input')
 
   useEffect(() => {
@@ -37,13 +37,10 @@ export const SettingsModal = ({
 
   return (
     <>
-      <Modal className='settings-modal main' open={isOpen}>
-        <div
-          className='settings-modal container'
-          style={{ width: customWidth }}
-        >
-          <div className='settings-modal heading'>{heading}</div>
-          <div className='settings-modal body'>
+      <Modal className='common-modal main' open={isOpen}>
+        <div className='common-modal container' style={{ width: customWidth }}>
+          <div className='common-modal heading'>{heading}</div>
+          <div className='common-modal body'>
             <div className='body1'>{body}</div>
             <div className='body2'>{body2}</div>
             <div className='body3'>{body3}</div>
@@ -51,20 +48,20 @@ export const SettingsModal = ({
           {inputType && (
             <div className='input-container'>
               <input
-                className={`settings-modal ${inputClassname}`}
+                className={`common-modal ${inputClassname}`}
                 type={inputType}
                 value={inputValue}
                 onChange={inputOnChange}
                 placeholder={inputPlaceholder}
               />
               {isError && (
-                <div className='settings-modal error-message'>
+                <div className='common-modal error-message'>
                   {inputErrorMessage}
                 </div>
               )}
             </div>
           )}
-          <div className='settings-modal buttons'>
+          <div className='common-modal buttons'>
             {cancelButtonLabel && (
               <Button
                 className='cancel'

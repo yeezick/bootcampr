@@ -1,4 +1,4 @@
-import { SettingsModal } from 'components/SettingsModal/SettingsModal'
+import { CommonModal } from 'components/CommonModal/CommonModal'
 import { ForgotPasswordLinkProps } from 'interfaces/AccountSettingsInterface'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -91,7 +91,7 @@ export const ForgotPasswordLink = ({
       <div id='forgot-password-link' onClick={openModal}>
         {hyperlinkText}
       </div>
-      <SettingsModal
+      <CommonModal
         isOpen={forgotPasswordModal}
         handleCancel={closeModal}
         handleConfirm={handleSubmitForgotPassword}

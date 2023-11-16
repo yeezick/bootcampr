@@ -3,7 +3,7 @@ export interface ButtonStyleInterface {
   color: string
 }
 
-export interface SettingsModalProps {
+export interface CommonModalProps {
   isOpen: boolean
   handleCancel?: () => void
   handleConfirm?: (e?: React.FormEvent) => void
