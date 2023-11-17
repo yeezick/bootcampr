@@ -10,7 +10,7 @@ import '../Ticket.scss'
 import TextFieldData from './TextFieldData'
 import { BiLink } from 'react-icons/bi'
 import { RxPerson, RxText } from 'react-icons/rx'
-import { SelectDate } from '../TicketDetail/SelectDate'
+import { SelectDate } from '../TicketModal/SelectDate'
 import { TbPencilMinus } from 'react-icons/tb'
 import { useDispatch } from 'react-redux'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
@@ -19,7 +19,7 @@ import {
   addTicketToStatus,
   selectProjectId,
 } from 'utils/redux/slices/projectSlice'
-import { AssignUser } from '../TicketDetail/AssignUser'
+import { AssignUser } from '../TicketModal/AssignUser'
 import {
   selectTicketFields,
   setTicketFields,

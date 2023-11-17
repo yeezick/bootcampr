@@ -2,21 +2,19 @@ import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd'
 import { KeyOfTicketStatusType, TicketInterface } from 'interfaces'
 import { updateTicketStatus } from 'utils/api/tickets'
 import { CreateTicketTab } from '../CreateTickets/CreateTicket'
-import { TicketDetail } from '../TicketDetail/TicketDetail'
+import { TicketModal } from '../TicketModal/TicketModal'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { useParams } from 'react-router-dom'
 import { changeTicketStatus } from 'utils/redux/slices/projectSlice'
-import {
-  setVisibleTickets,
-  selectVisibleTickets,
-} from 'utils/redux/slices/taskBoardSlice'
+import { selectVisibleTickets } from 'utils/redux/slices/taskBoardSlice'
+import { useState } from 'react'
 
 export const BoardColumns = () => {
   // remove dep on getAllTicket => source from redux
   const getAllTicket = useAppSelector(selectVisibleTickets)
-  const setGetAllTicket = setVisibleTickets
-  const dispatch = useAppDispatch()
+  const [visibleTicketModal, setVisibleTicketModal] = useState(false)
   const { projectId } = useParams()
+  const dispatch = useAppDispatch()
 
   const handleOnDragEnd = async movingTicket => {
     if (movingTicket) {
@@ -67,6 +65,7 @@ export const BoardColumns = () => {
                   <ColumnTickets
                     provided={provided}
                     columnStatus={columnStatus}
+                    setVisibleTicketModal={setVisibleTicketModal}
                     visibleTickets={getAllTicket}
                   />
                 </div>
@@ -74,12 +73,21 @@ export const BoardColumns = () => {
             </Droppable>
           ))}
       </DragDropContext>
+      <TicketModal
+        visibleTicketModal={visibleTicketModal}
+        setVisibleTicketModal={setVisibleTicketModal}
+      />
     </div>
   )
 }
 
 // Todo: rename provided?
-export const ColumnTickets = ({ provided, visibleTickets, columnStatus }) => {
+export const ColumnTickets = ({
+  columnStatus,
+  provided,
+  setVisibleTicketModal,
+  visibleTickets,
+}) => {
   return (
     <div
       className='content'
@@ -101,7 +109,10 @@ export const ColumnTickets = ({ provided, visibleTickets, columnStatus }) => {
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
               >
-                <TicketDetail />
+                <TicketTab
+                  setVisibleTicketModal={setVisibleTicketModal}
+                  ticketDetail={ticketDetail}
+                />
               </div>
             )}
           </Draggable>
@@ -117,6 +128,18 @@ export const ColumnHeader = ({ visibleTickets, columnStatus }) => {
     <div className='ticketStatusProgress'>
       <p>{formatTaskStatus(columnStatus)}</p>
       <span>{visibleTickets[columnStatus].length}</span>
+    </div>
+  )
+}
+
+export const TicketTab = ({ setVisibleTicketModal, ticketDetail }) => {
+  const handleOpenModal = () => setVisibleTicketModal(true)
+  const { title } = ticketDetail
+  return (
+    <div onClick={handleOpenModal} className='ticketDetailOpenModal'>
+      <div>
+        <h3>{title}</h3>
+      </div>
     </div>
   )
 }

@@ -15,32 +15,31 @@ import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
 import { deleteTicket, selectProjectId } from 'utils/redux/slices/projectSlice'
 
-export const TicketDetail = () => {
-  const [modalIsOpen, setIsOpen] = useState(false)
-  const handleOpenModal = () => setIsOpen(true)
-  const handleCloseModal = () => setIsOpen(false)
+export const TicketModal = ({ visibleTicketModal, setVisibleTicketModal }) => {
+  const handleCloseModal = () => setVisibleTicketModal(false)
 
   useEffect(() => {
     // fill in ticket fields from redux if an existing ticket
   }, [])
 
   return (
-    <div>
-      <TicketTab openModal={handleOpenModal} />
-      <Modal open={modalIsOpen} onClose={handleCloseModal} className='modal'>
-        <Box className='ticketDetailOpenModalBox'>
-          <Box sx={{ display: 'flex' }}>
-            <TicketDetailInputsAndComments />
-            <Box>
-              <SelectStatus />
-              <AssignUser text='Assignee' detailIcon={<RxPerson />} />
-              <SelectDate />
-              <TicketDetailButtons handleCloseModal={handleCloseModal} />
-            </Box>
+    <Modal
+      open={visibleTicketModal}
+      onClose={handleCloseModal}
+      className='modal'
+    >
+      <Box className='ticketDetailOpenModalBox'>
+        <Box sx={{ display: 'flex' }}>
+          <TicketDetailInputsAndComments />
+          <Box>
+            <SelectStatus />
+            <AssignUser text='Assignee' detailIcon={<RxPerson />} />
+            <SelectDate />
+            <TicketDetailButtons handleCloseModal={handleCloseModal} />
           </Box>
         </Box>
-      </Modal>
-    </div>
+      </Box>
+    </Modal>
   )
 }
 
@@ -83,6 +82,7 @@ export const TicketDetailInputsAndComments = () => {
   )
 }
 
+// TODO: Move modal to board columns, not each ticket detail
 export const TicketDetailButtons = ({ handleCloseModal }) => {
   const ticketFields = useAppSelector(selectTicketFields)
   const projectId = useAppSelector(selectProjectId)
@@ -136,16 +136,5 @@ export const TicketDetailButtons = ({ handleCloseModal }) => {
         Save Changes
       </button>
     </Box>
-  )
-}
-
-export const TicketTab = ({ openModal }) => {
-  const { title } = useAppSelector(selectTicketFields)
-  return (
-    <div onClick={openModal} className='ticketDetailOpenModal'>
-      <div>
-        <h3>{title}</h3>
-      </div>
-    </div>
   )
 }

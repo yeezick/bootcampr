@@ -4,6 +4,8 @@ import { TicketInterface } from 'interfaces'
 import { ProjectInterface } from 'interfaces/ProjectInterface'
 import { RootState } from 'utils/redux/store'
 
+// TODO: Make project tracker its own model and add to taskboard slice
+
 const initialState: ProjectInterface = {
   loading: false,
   _v: 0,
