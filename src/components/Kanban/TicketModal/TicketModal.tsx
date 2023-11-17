@@ -50,17 +50,16 @@ export const TicketDetailInputsAndComments = () => {
     _id: ticketId,
     title,
   } = useAppSelector(selectTicketFields)
-  const descriptionRef: MutableRefObject<HTMLParagraphElement | null> =
-    useRef(null)
-  const linkRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
-  const tittleRef: MutableRefObject<HTMLParagraphElement | null> = useRef(null)
+  const descriptionRef: TextRefInterface = useRef(null)
+  const linkRef: TextRefInterface = useRef(null)
+  const titleRef: TextRefInterface = useRef(null)
 
   return (
     <Box sx={{ width: '50%', margin: '25px' }}>
       <EditableText
         detailIcon={<RxText />}
         text='Title'
-        editRef={tittleRef}
+        editRef={titleRef}
         ticketDetail={title}
       />
       <EditableText
@@ -138,3 +137,5 @@ export const TicketDetailButtons = ({ handleCloseModal }) => {
     </Box>
   )
 }
+
+export type TextRefInterface = MutableRefObject<HTMLParagraphElement | null>

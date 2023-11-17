@@ -2,6 +2,7 @@ import React from 'react'
 import '../Ticket.scss'
 import { Icon } from '@mui/material'
 
+// TODO: Redo with MUI
 const EditableText = ({ editRef, ticketDetail, text, detailIcon }) => {
   return (
     <div className='EditableText'>

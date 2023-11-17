@@ -6,7 +6,10 @@ import { TicketModal } from '../TicketModal/TicketModal'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { useParams } from 'react-router-dom'
 import { changeTicketStatus } from 'utils/redux/slices/projectSlice'
-import { selectVisibleTickets } from 'utils/redux/slices/taskBoardSlice'
+import {
+  selectVisibleTickets,
+  setTicketFields,
+} from 'utils/redux/slices/taskBoardSlice'
 import { useState } from 'react'
 
 export const BoardColumns = () => {
@@ -133,7 +136,13 @@ export const ColumnHeader = ({ visibleTickets, columnStatus }) => {
 }
 
 export const TicketTab = ({ setVisibleTicketModal, ticketDetail }) => {
-  const handleOpenModal = () => setVisibleTicketModal(true)
+  const dispatch = useAppDispatch()
+
+  const handleOpenModal = () => {
+    setVisibleTicketModal(true)
+    dispatch(setTicketFields({ ...ticketDetail }))
+  }
+
   const { title } = ticketDetail
   return (
     <div onClick={handleOpenModal} className='ticketDetailOpenModal'>
