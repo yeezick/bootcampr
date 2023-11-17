@@ -50,7 +50,6 @@ export const defaultAvailabilityForm = {
 
 // Note - can we fix this structure to remove no? what will break, if anything?
 export const defaultSingleDayAvailability = {
-  '12:00 AM': 'no',
   '12:30 AM': 'no',
   '1:00 AM': 'no',
   '1:30 AM': 'no',
@@ -98,6 +97,7 @@ export const defaultSingleDayAvailability = {
   '10:30 PM': 'no',
   '11:00 PM': 'no',
   '11:30 PM': 'no',
+  '12:00 AM': 'no',
 }
 
 export const timeOptions = Object.keys(defaultSingleDayAvailability)

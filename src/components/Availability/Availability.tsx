@@ -30,6 +30,7 @@ export const Availability = ({
 
   return (
     <div className='availability-container'>
+      {/* Note: something with the timezone is not working */}
       <TimeZoneInputBanner
         timezone={uxUserTimezone}
         setTimezone={setUxUserTimezone}

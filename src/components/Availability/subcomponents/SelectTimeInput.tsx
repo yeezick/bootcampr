@@ -1,13 +1,26 @@
 import { MenuItem, Select } from '@mui/material'
 import { timeOptions } from '../utils/data'
 import { handleTimeChange } from '../utils/helpers'
+import { useState, useEffect } from 'react'
 
 export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
   const index = isStart ? 0 : 1
+  const [inputTimeOptions, setInputTimeOptions] = useState(timeOptions)
 
   // TODO:
-  // Extend options to be 24 hours
-  // If end time, time options should be based on limitations of start time
+  // make sure the case is handled where start time is 12am (check for oddities)
+  useEffect(() => {
+    if (!isStart) {
+      const earliestLogicalOptionIndex = timeOptions.findIndex(
+        timeOption => timeOption === slot[0]
+      )
+      const logicalEndOptions = timeOptions.slice(
+        earliestLogicalOptionIndex + 1,
+        timeOptions.length
+      )
+      setInputTimeOptions(logicalEndOptions)
+    }
+  }, [days])
 
   return (
     <Select
@@ -20,7 +33,7 @@ export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
       sx={selectSX}
       value={days[day].availability[idx][index]}
     >
-      {timeOptions.map(time => (
+      {inputTimeOptions.map(time => (
         <MenuItem key={`option-${time}`} value={time}>
           {time}
         </MenuItem>
