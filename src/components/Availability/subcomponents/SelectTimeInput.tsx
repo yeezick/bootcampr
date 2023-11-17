@@ -5,6 +5,10 @@ import { handleTimeChange } from '../utils/helpers'
 export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
   const index = isStart ? 0 : 1
 
+  // TODO:
+  // Extend options to be 24 hours
+  // If end time, time options should be based on limitations of start time
+
   return (
     <Select
       defaultValue={slot[index]}
