@@ -18,32 +18,12 @@ export const BoardHeader = () => {
     setViewMyTasks(state => !state)
     dispatch(
       setVisibleTickets({
+        changeVisibleTicketType: true,
         projectTracker,
         userId,
       })
     )
   }
-
-  // const handleAllTasksCheckbox = () => {
-  //   if (viewAllTasks === false) {
-  //     setViewAllTasks(true)
-  //     setViewMyTasks(false)
-  //     dispatch(setVisibleTickets(setVisibleTicketsPayload))
-  //   } else {
-  //     handleMyTasksCheckbox()
-  //   }
-  // }
-
-  // const handleMyTasksCheckbox = () => {
-  //   if (viewMyTasks === false) {
-  //     setViewAllTasks(false)
-  //     setViewMyTasks(true)
-
-  //     dispatch(setVisibleTickets(setVisibleTicketsPayload))
-  //   } else {
-  //     handleAllTasksCheckbox()
-  //   }
-  // }
 
   return (
     <div>

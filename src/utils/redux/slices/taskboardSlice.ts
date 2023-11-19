@@ -76,6 +76,7 @@ const taskBoardSlice = createSlice({
       const shouldDisplayAllTickets = changeVisibleTicketType
         ? !state.displayAllTickets
         : state.displayAllTickets
+      console.log('shouldDisplayAll', shouldDisplayAllTickets)
 
       if (shouldDisplayAllTickets) {
         state.visibleTickets = projectTracker

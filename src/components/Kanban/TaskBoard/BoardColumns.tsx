@@ -15,6 +15,8 @@ export const BoardColumns = () => {
   const dispatch = useAppDispatch()
   const visibleTickets = useAppSelector(selectVisibleTickets)
 
+  console.log('visibleTickets', visibleTickets)
+
   const handleOnDragEnd = async movingTicket => {
     if (movingTicket) {
       const targetTicketId = movingTicket.draggableId
