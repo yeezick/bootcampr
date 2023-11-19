@@ -1,4 +1,9 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import {
+  createSelector,
+  createSlice,
+  PayloadAction,
+  Update,
+} from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { TicketInterface } from 'interfaces'
 import { ProjectInterface } from 'interfaces/ProjectInterface'
@@ -60,6 +65,11 @@ export interface DeleteTicketReducer {
   ticketId: string
 }
 
+export interface UpdateTicketReducer {
+  initialStatus: string
+  updatedTicket: TicketInterface
+}
+
 const projectSlice = createSlice({
   name: 'project',
   initialState,
@@ -68,20 +78,25 @@ const projectSlice = createSlice({
       const newTicket = action.payload
       state.projectTracker[newTicket.status].push(newTicket)
     },
-    changeTicketStatus: (
-      state,
-      action: PayloadAction<ChangeTicketStatusReducer>
-    ) => {
-      const { initialStatus, targetStatus, targetTicketId, updatedTicket } =
-        action.payload
+    updateTicket: (state, action: PayloadAction<UpdateTicketReducer>) => {
+      const { initialStatus, updatedTicket } = action.payload
+      const projectTracker = state.projectTracker
+      const ticketIdx = state.projectTracker[initialStatus].findIndex(
+        ticket => ticket._id === updatedTicket._id
+      )
+      const locatedTicket = state.projectTracker[initialStatus][ticketIdx]
+
+      if (locatedTicket.status === updatedTicket.status) {
+        state.projectTracker[initialStatus][ticketIdx] = updatedTicket
+      } else {
+        changeTicketStatus(initialStatus, projectTracker, state, updatedTicket)
+      }
+    },
+    updateTicketStatus: (state, action: PayloadAction<UpdateTicketReducer>) => {
+      const { initialStatus, updatedTicket } = action.payload
       const projectTracker = state.projectTracker
 
-      const filteredInitialStatusColumn = projectTracker[initialStatus].filter(
-        ticket => ticket._id !== targetTicketId
-      )
-
-      projectTracker[targetStatus].push(updatedTicket)
-      state.projectTracker[initialStatus] = filteredInitialStatusColumn
+      changeTicketStatus(initialStatus, projectTracker, state, updatedTicket)
     },
     deleteTicket: (state, action: PayloadAction<DeleteTicketReducer>) => {
       const { status, ticketId } = action.payload
@@ -178,7 +193,7 @@ export const selectRenderProjectPortal = (state: RootState) =>
 
 export const {
   addTicketToStatus,
-  changeTicketStatus,
+  updateTicketStatus,
   deleteTicket,
   setProject,
   updateProject,
@@ -218,4 +233,18 @@ const determineRole = roleStr => {
   } else if (roleStr === 'Software Engineer') {
     return 'engineers'
   }
+}
+
+const changeTicketStatus = (
+  initialStatus,
+  projectTracker,
+  state,
+  updatedTicket
+) => {
+  const filteredInitialStatusColumn = projectTracker[initialStatus].filter(
+    ticket => ticket._id !== updatedTicket._id
+  )
+
+  projectTracker[updatedTicket.status].push(updatedTicket)
+  state.projectTracker[initialStatus] = filteredInitialStatusColumn
 }

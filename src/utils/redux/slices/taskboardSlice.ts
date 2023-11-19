@@ -14,21 +14,23 @@ export interface TaskBoardInterface {
   visibleTicketDialog: boolean
 }
 
+export const emptyTicketFields = {
+  assignee: '',
+  comments: [],
+  createdBy: '',
+  description: '',
+  dueDate: '',
+  image: '',
+  link: '',
+  projectId: '',
+  status: '',
+  title: '',
+}
+
 const initialState: TaskBoardInterface = {
   displayAllTickets: true,
   ticketDialogState: '',
-  ticketFields: {
-    assignee: '',
-    comments: [],
-    createdBy: '',
-    description: '',
-    dueDate: '',
-    image: '',
-    link: '',
-    projectId: '',
-    status: '',
-    title: '',
-  },
+  ticketFields: emptyTicketFields,
   visibleTickets: {
     completed: [],
     inProgress: [],

@@ -1,9 +1,13 @@
 import { TicketInterface } from 'interfaces'
 import { api } from './apiConfig'
 
-export const createTicketApi = async ticketBody => {
-  const ticketData = await api.post(`/createTicket`, ticketBody)
-  return ticketData.data
+export const createTicket = async ticketBody => {
+  try {
+    const ticketData = await api.post(`/createTicket`, ticketBody)
+    return ticketData.data
+  } catch (error) {
+    return { error: { status: 500, message: 'Failed to create ticket', error } }
+  }
 }
 
 export const ticketStatusChangedApi = async ticketData => {
@@ -28,7 +32,7 @@ export const ticketDraggedToNewSectionApi = async ticketData => {
   }
 }
 
-export const updateTicketStatus = async ticketData => {
+export const saveTicketStatusChange = async ticketData => {
   try {
     const updatedData = await api.put(`/updateTicket/status`, ticketData)
     if (updatedData.status !== 200) {
@@ -39,7 +43,7 @@ export const updateTicketStatus = async ticketData => {
   }
 }
 
-export const updateTicketInformationAndStatus = async ticketData => {
+export const saveUpdatedTicket = async ticketData => {
   try {
     const updatedData = await api.put(`/updateTicket`, ticketData)
     return updatedData.data

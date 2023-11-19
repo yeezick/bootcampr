@@ -3,7 +3,7 @@ import { SnackBarToastInterface } from './SnackBarToast'
 
 export interface TaskInterface {
   assignee?: string
-  comments?: []
+  comments?: CommentInterface[]
   createdBy?: string
   dueDate?: string
   description?: string
@@ -13,6 +13,19 @@ export interface TaskInterface {
   status?: string
   title?: string
   _id?: string
+}
+
+export interface CommentInterface {
+  likes: string[]
+  content: string
+  author: {
+    userId: string
+    firstName: string
+    lastName: string
+    profilePicture: string
+  }
+  replies: string[]
+  isReply: boolean
 }
 
 export interface TicketInterface {
@@ -25,7 +38,7 @@ export interface TicketInterface {
   dueDate?: string
   link?: string
   updatedAt?: string
-  createdBy?: UserInterface
+  createdBy?: string
   _v?: number
   _id?: string
 }

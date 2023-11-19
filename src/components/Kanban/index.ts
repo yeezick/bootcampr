@@ -1,4 +1,4 @@
-export * from './CreateTickets/CreateTicket'
+export * from './TaskBoard/CreateTicketTab'
 export * from './Components/SelectStatus'
-export * from './TicketModal/TicketModal'
+export * from './TicketDialog/TicketDialog'
 export * from './TaskBoard/TaskBoard'

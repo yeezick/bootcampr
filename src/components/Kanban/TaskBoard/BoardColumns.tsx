@@ -1,23 +1,19 @@
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd'
-import { KeyOfTicketStatusType, TicketInterface } from 'interfaces'
-import { updateTicketStatus } from 'utils/api/tickets'
-import { CreateTicketTab } from '../CreateTickets/CreateTicket'
-import { TicketModal } from '../TicketModal/TicketModal'
+import { saveTicketStatusChange, saveUpdatedTicket } from 'utils/api/tickets'
+import { CreateTicketTab } from './CreateTicketTab'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { useParams } from 'react-router-dom'
-import { changeTicketStatus } from 'utils/redux/slices/projectSlice'
+import { updateTicketStatus } from 'utils/redux/slices/projectSlice'
 import {
   selectVisibleTickets,
   setTicketFields,
+  setVisibleTicketDialog,
 } from 'utils/redux/slices/taskBoardSlice'
-import { useState } from 'react'
 
 export const BoardColumns = () => {
-  // remove dep on getAllTicket => source from redux
-  const getAllTicket = useAppSelector(selectVisibleTickets)
-  const [visibleTicketModal, setVisibleTicketModal] = useState(false)
   const { projectId } = useParams()
   const dispatch = useAppDispatch()
+  const visibleTickets = useAppSelector(selectVisibleTickets)
 
   const handleOnDragEnd = async movingTicket => {
     if (movingTicket) {
@@ -26,7 +22,7 @@ export const BoardColumns = () => {
       const targetStatus = movingTicket.destination.droppableId
 
       if (initialStatus !== targetStatus) {
-        const updatedTicket = await updateTicketStatus({
+        const updatedTicket = await saveTicketStatusChange({
           projectId,
           targetStatus,
           targetTicketId,
@@ -35,10 +31,8 @@ export const BoardColumns = () => {
 
         if (updatedTicket) {
           dispatch(
-            changeTicketStatus({
+            updateTicketStatus({
               initialStatus,
-              targetStatus,
-              targetTicketId,
               updatedTicket,
             })
           )
@@ -49,84 +43,52 @@ export const BoardColumns = () => {
     }
   }
 
+  // TODO: Add indexing to columns
   return (
     <div className={'AllTicketsDragDrop'}>
       <DragDropContext onDragEnd={handleOnDragEnd}>
-        {getAllTicket &&
-          Object.keys(getAllTicket)?.map((columnStatus: string, i) => (
-            <Droppable
-              droppableId={columnStatus}
-              key={`column-${columnStatus}`}
-            >
-              {provided => (
-                <div className='ticketStatusContainer' key={i}>
-                  <ColumnHeader
-                    visibleTickets={getAllTicket}
-                    columnStatus={columnStatus}
-                  />
-                  <CreateTicketTab columnStatus={columnStatus} />
-                  <ColumnTickets
-                    provided={provided}
-                    columnStatus={columnStatus}
-                    setVisibleTicketModal={setVisibleTicketModal}
-                    visibleTickets={getAllTicket}
-                  />
-                </div>
-              )}
-            </Droppable>
-          ))}
+        {Object.keys(visibleTickets).map(columnStatus => (
+          <StatusColumn columnStatus={columnStatus} />
+        ))}
       </DragDropContext>
-      <TicketModal
-        visibleTicketModal={visibleTicketModal}
-        setVisibleTicketModal={setVisibleTicketModal}
-      />
     </div>
   )
 }
 
+const StatusColumn = ({ columnStatus }) => {
+  const visibleTickets = useAppSelector(selectVisibleTickets)
+  return (
+    <Droppable droppableId={columnStatus} key={`column-${columnStatus}`}>
+      {provided => (
+        <div className='ticketStatusContainer'>
+          <ColumnHeader columnStatus={columnStatus} />
+          <CreateTicketTab columnStatus={columnStatus} />
+          <ColumnTickets provided={provided} columnStatus={columnStatus} />
+        </div>
+      )}
+    </Droppable>
+  )
+}
+
 // Todo: rename provided?
-export const ColumnTickets = ({
-  columnStatus,
-  provided,
-  setVisibleTicketModal,
-  visibleTickets,
-}) => {
+export const ColumnTickets = ({ columnStatus, provided }) => {
+  const visibleTickets = useAppSelector(selectVisibleTickets)
   return (
     <div
       className='content'
       {...provided.droppableProps}
       ref={provided.innerRef}
     >
-      {visibleTickets[columnStatus as KeyOfTicketStatusType]?.map(
-        (ticketDetail: TicketInterface, idx) => (
-          <Draggable
-            key={ticketDetail._id}
-            draggableId={ticketDetail._id}
-            index={idx}
-          >
-            {provided => (
-              <div
-                className='ticketContainer'
-                id={ticketDetail._id}
-                ref={provided.innerRef}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-              >
-                <TicketTab
-                  setVisibleTicketModal={setVisibleTicketModal}
-                  ticketDetail={ticketDetail}
-                />
-              </div>
-            )}
-          </Draggable>
-        )
-      )}
+      {visibleTickets[columnStatus].map((ticketDetail, idx) => (
+        <TicketTab idx={idx} ticketDetail={ticketDetail} />
+      ))}
       {provided.placeholder}
     </div>
   )
 }
 
-export const ColumnHeader = ({ visibleTickets, columnStatus }) => {
+export const ColumnHeader = ({ columnStatus }) => {
+  const visibleTickets = useAppSelector(selectVisibleTickets)
   return (
     <div className='ticketStatusProgress'>
       <p>{formatTaskStatus(columnStatus)}</p>
@@ -135,21 +97,43 @@ export const ColumnHeader = ({ visibleTickets, columnStatus }) => {
   )
 }
 
-export const TicketTab = ({ setVisibleTicketModal, ticketDetail }) => {
+export const TabDetails = ({ ticketDetail }) => {
+  const { title } = ticketDetail
   const dispatch = useAppDispatch()
 
   const handleOpenModal = () => {
-    setVisibleTicketModal(true)
+    dispatch(setVisibleTicketDialog('edit'))
     dispatch(setTicketFields({ ...ticketDetail }))
   }
 
-  const { title } = ticketDetail
   return (
     <div onClick={handleOpenModal} className='ticketDetailOpenModal'>
       <div>
         <h3>{title}</h3>
       </div>
     </div>
+  )
+}
+
+export const TicketTab = ({ idx, ticketDetail }) => {
+  return (
+    <Draggable
+      key={ticketDetail._id}
+      draggableId={ticketDetail._id}
+      index={idx}
+    >
+      {provided => (
+        <div
+          className='ticketContainer'
+          id={ticketDetail._id}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <TabDetails ticketDetail={ticketDetail} />
+        </div>
+      )}
+    </Draggable>
   )
 }
 
