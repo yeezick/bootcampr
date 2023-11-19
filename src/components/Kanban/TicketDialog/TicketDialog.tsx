@@ -22,25 +22,27 @@ import {
   selectTicketFields,
   selectVisibleTicketDialog,
   setTicketFields,
-  setVisibleTicketDialog,
 } from 'utils/redux/slices/taskBoardSlice'
 import {
   addTicketToStatus,
   deleteTicket,
   selectProjectId,
+  updateTicket,
 } from 'utils/redux/slices/projectSlice'
 import { selectUserId } from 'utils/redux/slices/userSlice'
 import { TicketInterface } from 'interfaces'
+import { PrimaryButton, SecondaryButton } from 'components/Buttons'
+import { handleCloseVisibleTicketDialog } from 'utils/helpers/taskHelpers'
 
 export const TicketDialog = () => {
   const visibleTicketDialog = useAppSelector(selectVisibleTicketDialog)
   const dispatch = useAppDispatch()
-  const handleCloseModal = () => dispatch(setVisibleTicketDialog(''))
+  const handleCloseDialog = () => handleCloseVisibleTicketDialog(dispatch)
 
   return (
     <Modal
       open={visibleTicketDialog}
-      onClose={handleCloseModal}
+      onClose={handleCloseDialog}
       className='modal'
     >
       <Box className='ticketDetailOpenModalBox'>
@@ -50,7 +52,7 @@ export const TicketDialog = () => {
             <SelectStatus />
             <SelectUser detailIcon={<RxPerson />} />
             <SelectDate />
-            <TicketDetailButtons handleCloseModal={handleCloseModal} />
+            <TicketDetailButtons />
           </Box>
         </Box>
       </Box>
@@ -77,15 +79,28 @@ export const TicketDetailInputsAndComments = () => {
   )
 }
 
-// TODO: Move modal to board columns, not each ticket detail
-export const TicketDetailButtons = ({ handleCloseModal }) => {
+export const TicketDetailButtons = () => {
   const ticketDialogState = useAppSelector(selectTicketDialogState)
+
+  return (
+    <Box className='ticketDetailOpenModalBoxButton '>
+      {ticketDialogState === 'edit' ? (
+        <>
+          <DeleteTicketBtn />
+          <SaveTicketBtn />
+        </>
+      ) : (
+        <CreateTicketBtn />
+      )}
+    </Box>
+  )
+}
+
+const DeleteTicketBtn = () => {
   const ticketFields = useAppSelector(selectTicketFields)
   const projectId = useAppSelector(selectProjectId)
-  const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()
-  let ctaButtonText =
-    ticketDialogState === 'edit' ? 'Save Changes' : 'Create Ticket'
+  const handleCloseDialog = () => handleCloseVisibleTicketDialog(dispatch)
 
   const handleDeleteTicket = async () => {
     const { status, _id: ticketId } = ticketFields
@@ -108,28 +123,57 @@ export const TicketDetailButtons = ({ handleCloseModal }) => {
         severity: 'success',
       })
     )
-    handleCloseModal()
+    handleCloseDialog()
   }
 
-  const handleSubmit = async e => {
-    e.preventDefault()
-    // Add ticket form should always be set to ticketStatus => can immediately concatenate here
-    let ticketPayload: TicketInterface = {
-      projectId,
-      createdBy: userId,
-    }
+  return <SecondaryButton handler={handleDeleteTicket} text={'Delete ticket'} />
+}
+const SaveTicketBtn = () => {
+  const ticketFields = useAppSelector(selectTicketFields)
+  const projectId = useAppSelector(selectProjectId)
+  const userId = useAppSelector(selectUserId)
+  const dispatch = useAppDispatch()
+  const handleCloseDialog = () => handleCloseVisibleTicketDialog(dispatch)
 
-    if (!ticketFields.assignee || ticketFields.assignee === 'Unassigned') {
-      const { assignee, ...remainingFields } = ticketFields
-      ticketPayload = { ...remainingFields, ...ticketPayload, assignee: '' }
+  const handleSaveTicket = async e => {
+    const ticketPayload = buildTicketPayload(projectId, userId, ticketFields)
+    const ticketResponse = await saveUpdatedTicket(ticketPayload)
+
+    if (ticketResponse.error) {
+      // display error banner
     } else {
-      ticketPayload = { ...ticketFields, ...ticketPayload }
+      dispatch(
+        updateTicket({
+          initialStatus: ticketFields.oldStatus,
+          updatedTicket: ticketResponse,
+        })
+      )
+      dispatch(setTicketFields(emptyTicketFields))
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message: 'Ticket created successfully',
+          duration: 3000,
+          severity: 'success',
+        })
+      )
+      handleCloseDialog()
     }
+  }
 
-    const ticketResponse =
-      ticketDialogState === 'create'
-        ? await createTicket(ticketPayload)
-        : await saveUpdatedTicket(ticketPayload)
+  return <PrimaryButton handler={handleSaveTicket} text={'Save Changes'} />
+}
+
+const CreateTicketBtn = () => {
+  const ticketFields = useAppSelector(selectTicketFields)
+  const projectId = useAppSelector(selectProjectId)
+  const userId = useAppSelector(selectUserId)
+  const dispatch = useAppDispatch()
+  const handleCloseDialog = () => handleCloseVisibleTicketDialog(dispatch)
+
+  const handleCreateTicket = async e => {
+    const ticketPayload = buildTicketPayload(projectId, userId, ticketFields)
+    const ticketResponse = await createTicket(ticketPayload)
 
     if (ticketResponse.error) {
       // display error banner
@@ -144,31 +188,28 @@ export const TicketDetailButtons = ({ handleCloseModal }) => {
           severity: 'success',
         })
       )
-      handleCloseModal()
+      handleCloseDialog()
     }
   }
 
-  return (
-    <Box className='ticketDetailOpenModalBoxButton '>
-      {ticketDialogState === 'edit' && (
-        <button
-          className='ticketDetailOpenModalButton button1'
-          disabled={false}
-          onClick={handleDeleteTicket}
-        >
-          Delete
-        </button>
-      )}
-      <button
-        className='ticketDetailOpenModalButton button2'
-        style={{ backgroundColor: '#8048c8', color: 'white' }}
-        disabled={false}
-        onClick={handleSubmit}
-      >
-        {ctaButtonText}
-      </button>
-    </Box>
-  )
+  return <PrimaryButton handler={handleCreateTicket} text={'Create Ticket'} />
+}
+
+const buildTicketPayload = (projectId, userId, ticketFields) => {
+  let ticketPayload: TicketInterface = {
+    projectId,
+    createdBy: userId,
+  }
+
+  // Determine if there is a valid value for Assignee
+  if (!ticketFields.assignee || ticketFields.assignee === 'Unassigned') {
+    const { assignee, ...remainingFields } = ticketFields
+    ticketPayload = { ...remainingFields, ...ticketPayload }
+  } else {
+    ticketPayload = { ...ticketFields, ...ticketPayload }
+  }
+
+  return ticketPayload
 }
 
 export type TextRefInterface = MutableRefObject<HTMLParagraphElement | null>

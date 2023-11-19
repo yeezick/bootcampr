@@ -196,6 +196,7 @@ export const {
   updateTicketStatus,
   deleteTicket,
   setProject,
+  updateTicket,
   updateProject,
   updateParticipatingMembers,
   updateDeployedUrl,

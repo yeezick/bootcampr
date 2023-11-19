@@ -1,3 +1,9 @@
+import {
+  emptyTicketFields,
+  setTicketFields,
+  setVisibleTicketDialog,
+} from 'utils/redux/slices/taskBoardSlice'
+
 export const filterUserTickets = (allTickets, userId) => {
   const filteredTickets = {
     completed: [],
@@ -13,4 +19,9 @@ export const filterUserTickets = (allTickets, userId) => {
   }
 
   return filteredTickets
+}
+
+export const handleCloseVisibleTicketDialog = dispatch => {
+  dispatch(setVisibleTicketDialog(''))
+  dispatch(setTicketFields(emptyTicketFields))
 }

@@ -9,9 +9,13 @@ type TicketDialogState = '' | 'create' | 'edit'
 export interface TaskBoardInterface {
   displayAllTickets: boolean
   ticketDialogState: TicketDialogState
-  ticketFields: TaskInterface
+  ticketFields: TicketFieldsInterface
   visibleTickets: ProjectTrackerInterface
   visibleTicketDialog: boolean
+}
+
+export interface TicketFieldsInterface extends TaskInterface {
+  oldStatus?: string
 }
 
 export const emptyTicketFields = {
