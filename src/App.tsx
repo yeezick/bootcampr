@@ -22,7 +22,8 @@ import './App.css'
 import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailConfirmation'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { AboutUs, HowTo } from 'screens/Landing'
-import { Account, Email, Password } from 'screens/Auth/Settings'
+import { Account, Email, PasswordSettings } from 'screens/Auth/Settings'
+import { ResetPassword } from 'screens/Auth/Settings/PasswordSettings'
 
 function App() {
   return (
@@ -41,6 +42,10 @@ function App() {
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
+          <Route
+            path='/users/:id/reset-password/:token'
+            element={<ResetPassword />}
+          />
           {/* User */}
           <Route path='/onboarding/:id' element={<Onboarding />} />
           <Route path='/users/:id' element={<UserProfile />} />
@@ -51,7 +56,7 @@ function App() {
           />
           <Route path='/users/:id/settings'>
             <Route path='email' element={<Email />} />
-            <Route path='password' element={<Password />} />
+            <Route path='password' element={<PasswordSettings />} />
             <Route path='account' element={<Account />} />
           </Route>
           {/* Project */}

@@ -1,5 +1,4 @@
 import { combineReducers, Reducer } from 'redux'
-import avatarReducer from 'utils/redux/slices/avatarSlice'
 import calendarReducer from 'utils/redux/slices/calendarSlice'
 import chatReducer from 'utils/redux/slices/chatSlice'
 import notificationReducer from 'utils/redux/slices/notificationSlice'
@@ -10,7 +9,6 @@ import userInterfaceReducer from './slices/userInterfaceSlice'
 import taskBoardSlice from './slices/taskBoardSlice'
 
 export type RootState = {
-  avatar: ReturnType<typeof avatarReducer>
   calendar: ReturnType<typeof calendarReducer>
   chat: ReturnType<typeof chatReducer>
   notification: ReturnType<typeof notificationReducer>
@@ -25,7 +23,6 @@ export type RootState = {
  * Combines all the reducers into a single rootReducer.
  */
 const rootReducer: Reducer<RootState> = combineReducers({
-  avatar: avatarReducer,
   calendar: calendarReducer,
   chat: chatReducer,
   notification: notificationReducer,

@@ -1,15 +1,19 @@
-import styles from './SignIn.module.css'
 import { useState, useEffect } from 'react'
+import { useLocation, useNavigate, Link } from 'react-router-dom'
+import { useAppDispatch } from 'utils/redux/hooks'
 import { signIn } from 'utils/api'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from 'utils/redux/store'
 import { setAuthUser } from 'utils/redux/slices/userSlice'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { SignInInterface } from 'interfaces/UserInterface'
-import { GoAlert, GoVerified } from 'react-icons/go'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import { ForgotPasswordModal } from '../ResetPassword/ForgotPasswordModal'
+import { toggleVisiblity } from 'components/Inputs'
+import { GoAlert, GoVerified } from 'react-icons/go'
+import loginBanner from '../../../assets/images/login-image.png'
+import { FormControl, IconButton } from '@mui/material'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import './SignIn.scss'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -22,17 +26,23 @@ const SignIn: React.FC = (): JSX.Element => {
     text: '',
     type: '',
   })
+  const [inputType, setInputType] = useState('password')
   const pathInfo = useLocation()
+  const [forgotPasswordModal, setForgotPasswordModal] = useState(false)
 
   const VALID_EMAIL_REGEX =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-  const dispatch: AppDispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const location = useLocation()
+
+  const openForgotModal = () => setForgotPasswordModal(!forgotPasswordModal)
+  const closeForgotModal = () => setForgotPasswordModal(false)
 
   // Event Handlers
   // This is no longer being used from <EmailVerify />
   // Retaining logic only as an example for future use case
+  // TODO: Remove this logic? (reach out to Eric)
   useEffect(() => {
     if (location.state && location.state.status) {
       setAlertBanner({
@@ -101,7 +111,6 @@ const SignIn: React.FC = (): JSX.Element => {
     e.preventDefault()
 
     const response = await signIn(formData)
-
     if (response?.message) {
       setAlertBanner({
         status: true,
@@ -117,7 +126,6 @@ const SignIn: React.FC = (): JSX.Element => {
 
     dispatch(setAuthUser(response))
     storeUserProject(dispatch, response.project)
-
     !response.onboarded
       ? navigate(`/onboarding/${response._id}`)
       : navigate(`/project/${response.project}`)
@@ -127,57 +135,98 @@ const SignIn: React.FC = (): JSX.Element => {
     formValidation()
   }, [formData])
 
+  const nextButtonStyle = `${
+    buttonDisabled ? 'sign_in_btn' : 'sign_in_btn_active'
+  }`
+
   return (
     <div>
-      <div>
-        {alertBanner.status ? (
-          <div className={alertBanner.type}>
-            {alertBanner.icon}
-            <p>{alertBanner.text}</p>
-          </div>
-        ) : null}
-      </div>
-      <div></div>
-      <div className={styles.sign_in_container}>
-        <form className={styles.sign_in_form} onSubmit={handleSubmitForm}>
-          <div className={styles.sign_in_inputs}>
-            <h3>Sign-In</h3>
+      <div className='sign_in'>
+        <div className='sign_in_container'>
+          <img src={loginBanner} alt='login-banner' />
+          <form className='sign_in_form' onSubmit={handleSubmitForm}>
+            <div className='sign_in_content'>
+              <h1>Log in</h1>
+              {alertBanner.status ? (
+                <div className='sign_in_alert'>
+                  <div className={alertBanner.type}>
+                    {alertBanner.icon}
+                    <p>{alertBanner.text}</p>
+                  </div>
+                </div>
+              ) : null}
+              <div className='sign_in_column'>
+                <label className='sign_in_label' htmlFor='email'>
+                  Email address
+                </label>
+                <input
+                  className='input'
+                  name='email'
+                  id='email'
+                  type='email'
+                  onChange={handleFormDataChange}
+                  value={formData.email}
+                  required
+                />
+              </div>
 
-            <div className={styles.flex_column}>
-              <label className={styles.input_label} htmlFor='email'>
-                Email
-              </label>
-              <input
-                className={styles.input}
-                name='email'
-                id='email'
-                type='email'
-                onChange={handleFormDataChange}
-                value={formData.email}
-                required
-              />
+              <FormControl variant='standard'>
+                <div className='sign_in_column'>
+                  <label className='sign_in_label' htmlFor='password'>
+                    Password
+                  </label>
+                  <div className='sign_in_adorned_input'>
+                    <input
+                      className='input'
+                      name='password'
+                      id='password'
+                      type={inputType}
+                      onChange={handleFormDataChange}
+                      value={formData.password}
+                      required
+                    />
+                    <IconButton
+                      className='eyecon'
+                      aria-label='toggle password visibility'
+                      onClick={() => toggleVisiblity(inputType, setInputType)}
+                    >
+                      {inputType === 'password' ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff />
+                      )}
+                    </IconButton>
+                  </div>
+                </div>
+              </FormControl>
             </div>
-
-            <div className={styles.flex_column}>
-              <label className={styles.input_label} htmlFor='password'>
-                Password
-              </label>
-              <input
-                className={styles.input}
-                name='password'
-                id='password'
-                type='password'
-                onChange={handleFormDataChange}
-                value={formData.password}
-                required
-              />
+            <div className='sign_in_forgot_pswd' onClick={openForgotModal}>
+              <p>Forgot your Password?</p>
+              {forgotPasswordModal && (
+                <ForgotPasswordModal
+                  onClose={closeForgotModal}
+                  forgotPasswordModal={forgotPasswordModal}
+                  onSuccessMessage='Email sent!'
+                  onFailureMessage='An error occurred. Please check entered email and try again.'
+                />
+              )}
             </div>
-          </div>
-
-          <button disabled={buttonDisabled} type='submit'>
-            Go
-          </button>
-        </form>
+            <div>
+              <button
+                className={nextButtonStyle}
+                disabled={buttonDisabled}
+                type='submit'
+              >
+                Log in
+              </button>
+            </div>
+            <div className='sign_in_redirect_link'>
+              <p>
+                Don't have an account? <Link to='/sign-up'>Sign up</Link>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   )
