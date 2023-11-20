@@ -1,9 +1,7 @@
 import { Box } from '@mui/material'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectTicketDialogState } from 'utils/redux/slices/taskBoardSlice'
-import { DeleteTicketBtn } from './DeleteTicketBtn'
-import { SaveTicketBtn } from './SaveTicketBtn'
-import { CreateTicketBtn } from './CreateTicketBtn'
+import { DeleteTicketBtn, SaveTicketBtn, CreateTicketBtn } from './'
 
 export const TicketDialogButtons = () => {
   const ticketDialogState = useAppSelector(selectTicketDialogState)

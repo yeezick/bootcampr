@@ -14,7 +14,7 @@ export const DeleteTicketBtn = () => {
 
   const handleDeleteTicket = async () => {
     const { status, _id: ticketId } = ticketFields
-    // TODO: add guard clause for tickets that failed to delete & display error toast
+    //BC-412: add guard clause for tickets that failed to delete & display error toast
     await deleteTicketApi({
       ticketId,
       status,

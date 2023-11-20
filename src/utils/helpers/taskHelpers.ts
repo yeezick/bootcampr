@@ -1,3 +1,4 @@
+import { Dayjs } from 'dayjs'
 import { TicketInterface } from 'interfaces'
 import { emptyTicketFields } from 'utils/data/taskBoardConstants'
 import {
@@ -57,4 +58,9 @@ export const formatTaskStatus = (status: string) => {
 export const handleCloseVisibleTicketDialog = dispatch => {
   dispatch(setVisibleTicketDialog(''))
   dispatch(setTicketFields(emptyTicketFields))
+}
+
+export const handleReduxDateChange = (dispatch, newDate: Dayjs) => {
+  const formattedDate = newDate.format('YYYY-MM-DD')
+  dispatch(setTicketFields({ dueDate: formattedDate }))
 }

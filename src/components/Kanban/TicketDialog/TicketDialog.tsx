@@ -4,12 +4,17 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { RxPerson } from 'react-icons/rx'
 import { SelectDate, SelectUser } from './'
 import '../Ticket.scss'
-import { selectVisibleTicketDialog } from 'utils/redux/slices/taskBoardSlice'
+import {
+  selectTicketFields,
+  selectVisibleTicketDialog,
+} from 'utils/redux/slices/taskBoardSlice'
 import { handleCloseVisibleTicketDialog } from 'utils/helpers/taskHelpers'
 import { TicketDialogButtons } from './Buttons'
-import { TicketDetailInputsAndComments } from './Fields/TicketFieldsAndComments'
+import { TicketInputFields } from './Fields/TicketInputFields'
+import { Comments } from './Comments/Comments'
 
 export const TicketDialog = () => {
+  const { _id: ticketId } = useAppSelector(selectTicketFields)
   const visibleTicketDialog = useAppSelector(selectVisibleTicketDialog)
   const dispatch = useAppDispatch()
   const handleCloseDialog = () => handleCloseVisibleTicketDialog(dispatch)
@@ -22,13 +27,14 @@ export const TicketDialog = () => {
     >
       <Box className='ticketDetailOpenModalBox'>
         <Box sx={{ display: 'flex' }}>
-          <TicketDetailInputsAndComments />
+          <TicketInputFields />
           <Box>
             <SelectStatus />
             <SelectUser detailIcon={<RxPerson />} />
             <SelectDate />
             <TicketDialogButtons />
           </Box>
+          <Comments ticketId={ticketId} />
         </Box>
       </Box>
     </Modal>

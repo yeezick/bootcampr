@@ -163,8 +163,8 @@ export const getUserProfileImage = (state: RootState) =>
   state.ui.auth.user.profilePicture
 export const selectAuthUser = (state: RootState) => state.ui.auth.user
 export const selectUserEmail = (state: RootState) => state.ui.auth.user.email
-// rename to selectUserProjectId
-export const selectProjectId = (state: RootState) => state.ui.auth.user.project
+export const selectUserProjectId = (state: RootState) =>
+  state.ui.auth.user.project
 export const selectUserId = (state: RootState) => state.ui.auth.user._id
 export const uiStatus = (state: RootState) => state.ui.status
 export const selectHasUploadedProfilePicture = (state: RootState) => {

@@ -63,7 +63,6 @@ function App() {
           <Route path='/project'>
             <Route path=':projectId/complete' element={<ProjectCompletion />} />
             <Route path=':projectId/calendar' element={<CalendarScreen />} />
-            <Route path=':projectId/calendar' element={<CalendarScreen />} />
             <Route path=':projectId/tasks' element={<TaskManagement />} />
             <Route path=':projectId/team' element={<TeamMembers />} />
             <Route path='unassigned' element={<UnassignedProject />} />

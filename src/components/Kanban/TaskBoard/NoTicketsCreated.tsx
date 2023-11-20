@@ -2,6 +2,8 @@ import kanbanImage from '../svg/bootcampr.png'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { setVisibleTicketDialog } from 'utils/redux/slices/taskBoardSlice'
 
+//BC- 634: convert createTicket button here into reusable MUI button
+// & test flow
 export const NoTicketsCreated = () => {
   return (
     <div className='AllTicketsDragDropNoTicket'>
@@ -25,7 +27,6 @@ export const NoTicketsCreated = () => {
   )
 }
 
-// Todo: convert createTicket button here into reusable MUI button
 export const CreateTicketButton = () => {
   const dispatch = useAppDispatch()
   const openCreateTicketDialog = () =>

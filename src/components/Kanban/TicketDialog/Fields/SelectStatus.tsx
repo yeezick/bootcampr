@@ -1,21 +1,11 @@
-import {
-  Box,
-  FormControl,
-  Icon,
-  InputLabel,
-  MenuItem,
-  Select,
-} from '@mui/material'
-import { SelectChangeEvent } from '@mui/material/Select'
-import { TicketInterface } from 'interfaces/TicketInterFace'
+import { Box, FormControl, Icon, MenuItem, Select } from '@mui/material'
 import { FiWatch } from 'react-icons/fi'
-import '../Ticket.scss'
+import '../../Ticket.scss'
 import {
   selectTicketFields,
   setTicketFields,
 } from 'utils/redux/slices/taskBoardSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { splitCamelCaseToWords } from 'utils/helpers/stringHelpers'
 import { handleReduxInputChange } from 'utils/helpers'
 import { useEffect } from 'react'
 

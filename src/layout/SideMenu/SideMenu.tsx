@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
 import { logOut } from 'utils/api/users'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { logoutAuthUser, selectProjectId } from 'utils/redux/slices/userSlice'
+import {
+  logoutAuthUser,
+  selectUserProjectId,
+} from 'utils/redux/slices/userSlice'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
 import { DomainLink } from 'layout/DomainLink'
 import { sideMenuIconMap } from 'utils/helpers'
@@ -9,7 +12,7 @@ import './SideMenu.scss'
 
 export const SideMenu = () => {
   const { title } = useAppSelector(selectSideMenu)
-  const projectId = useAppSelector(selectProjectId)
+  const projectId = useAppSelector(selectUserProjectId)
   const dispatch = useAppDispatch()
   const handleLogout = () => {
     logOut()

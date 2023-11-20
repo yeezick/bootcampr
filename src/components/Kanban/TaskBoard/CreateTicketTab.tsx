@@ -9,7 +9,7 @@ import {
   setVisibleTicketDialog,
 } from 'utils/redux/slices/taskBoardSlice'
 
-// Convert to MUI button
+// BC-634: Convert to MUI button
 export const CreateTicketTab = ({ columnStatus }) => {
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
