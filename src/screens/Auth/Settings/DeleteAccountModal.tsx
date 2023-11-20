@@ -1,18 +1,18 @@
 import * as React from 'react'
 import './Settings.scss'
 import { deleteUserAccount, logOut } from 'utils/api'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { CommonModal } from 'components/CommonModal/CommonModal'
 import { ButtonStyle } from 'utils/data/authSettingsConstants'
-import { useAppDispatch } from 'utils/redux/hooks'
-import { logoutAuthUser } from 'utils/redux/slices/userSlice'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { logoutAuthUser, selectAuthUser } from 'utils/redux/slices/userSlice'
 
 export const DeleteAccountModal = () => {
   const dispatch = useAppDispatch()
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-  const { id: userId } = useParams()
+  const { _id: userId } = useAppSelector(selectAuthUser)
   const navigate = useNavigate()
 
   const confirmDeleteUserAccount = async () => {
