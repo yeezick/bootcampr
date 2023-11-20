@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useRef } from 'react'
+import { MutableRefObject, useRef } from 'react'
 import { AiOutlineCalendar } from 'react-icons/ai'
 import { Icon } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
@@ -8,11 +8,6 @@ import {
 } from 'utils/redux/slices/taskBoardSlice'
 import { handleReduxInputChange } from 'utils/helpers'
 
-type SelectDateProps = {
-  dateRef?: React.RefObject<HTMLInputElement>
-  defaultValue?: string
-  handleOnChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
-}
 export const SelectDate = () => {
   const dispatch = useAppDispatch()
   const handleDateChange = e =>

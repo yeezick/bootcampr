@@ -1,5 +1,4 @@
-import React from 'react'
-import '../Ticket.scss'
+import '../../Ticket.scss'
 import { Icon, Input } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
@@ -9,7 +8,7 @@ import {
 import { handleReduxInputChange } from 'utils/helpers'
 
 // TODO: Redo with MUI
-const EditableText = ({ field, label, inputIcon }) => {
+export const EditableText = ({ field, label, inputIcon }) => {
   const ticketFields = useAppSelector(selectTicketFields)
   const dispatch = useAppDispatch()
   const handleInputChange = e =>
@@ -33,5 +32,3 @@ const EditableText = ({ field, label, inputIcon }) => {
     </div>
   )
 }
-
-export default EditableText

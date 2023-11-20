@@ -1,6 +1,12 @@
 import { TicketInterface, UserInterface } from 'interfaces'
 import { ProjectMemberInterface } from 'interfaces/UserInterface'
 
+export interface EmailMap {
+  [key: string]: {
+    role: string
+    index: number
+  }
+}
 export interface ProjectInterface {
   loading?: boolean
   _v?: number
@@ -35,13 +41,6 @@ export interface ProjectInterface {
   title?: string
   projectPortal: {
     renderProjectPortal: boolean
-  }
-}
-
-export interface EmailMap {
-  [key: string]: {
-    role: string
-    index: number
   }
 }
 

@@ -25,11 +25,10 @@ export const NoTicketsCreated = () => {
   )
 }
 
+// Todo: convert createTicket button here into reusable MUI button
 export const CreateTicketButton = () => {
   const dispatch = useAppDispatch()
   const openCreateTicketDialog = () =>
     dispatch(setVisibleTicketDialog('create'))
   return <button onClick={openCreateTicketDialog}>CREATE A TASK</button>
 }
-
-// Todo: convert createTicket button here into reusable MUI button

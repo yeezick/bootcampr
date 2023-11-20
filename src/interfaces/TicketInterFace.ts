@@ -1,5 +1,15 @@
-import { ProjectTrackerInterface, UserInterface } from 'interfaces'
-import { SnackBarToastInterface } from './SnackBarToast'
+export interface CommentInterface {
+  author: {
+    firstName: string
+    lastName: string
+    profilePicture: string
+    userId: string
+  }
+  content: string
+  likes: string[]
+  isReply: boolean
+  replies: string[]
+}
 
 export interface TaskInterface {
   assignee?: string
@@ -15,59 +25,18 @@ export interface TaskInterface {
   _id?: string
 }
 
-export interface CommentInterface {
-  likes: string[]
-  content: string
-  author: {
-    userId: string
-    firstName: string
-    lastName: string
-    profilePicture: string
-  }
-  replies: string[]
-  isReply: boolean
-}
-
 export interface TicketInterface {
   assignee?: string
-  createAt?: string
+  comments?: CommentInterface[]
+  createdAt?: string
+  createdBy?: string
   description?: string
+  dueDate?: string
+  link?: string
   projectId?: string
   status?: string
   title?: string
-  dueDate?: string
-  link?: string
   updatedAt?: string
-  createdBy?: string
   _v?: number
   _id?: string
-}
-
-export interface TicketStatusChangeParams {
-  id: string
-  item: TaskInterface
-  sourceCategory: keyof TicketInterface | null
-  targetCategory: keyof TicketInterface | string
-}
-
-export type KeyOfTicketStatusType = keyof TicketInterface
-export interface TicketDetailInterface {
-  getAllTicket: TicketInterface
-  setGetAllTicket: React.Dispatch<React.SetStateAction<TicketInterface[]>>
-  ticketDetail: TaskInterface
-  ticketsStatus: KeyOfTicketStatusType | string
-}
-
-export interface CreateTicketInterface {
-  getAllTicket?: ProjectTrackerInterface
-  projectId?: string
-  setGetAllTicket?: React.Dispatch<
-    React.SetStateAction<ProjectTrackerInterface>
-  >
-  splitCamelCaseToWords?: (str: string) => string
-  ticketsStatus?: string
-  buttonText?: string
-  buttonClassName?: string
-  openSnackBar?: SnackBarToastInterface
-  setOpenSnackBar?: React.Dispatch<React.SetStateAction<SnackBarToastInterface>>
 }

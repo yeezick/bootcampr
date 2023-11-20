@@ -1,6 +1,5 @@
 import { Checkbox } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { filterUserTickets } from 'utils/helpers/taskHelpers'
+import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectProjectTracker } from 'utils/redux/slices/projectSlice'
 import { setVisibleTickets } from 'utils/redux/slices/taskBoardSlice'
@@ -28,7 +27,7 @@ export const BoardHeader = () => {
   return (
     <div>
       <div className='Project-header'>
-        <h1>Kanban board</h1>
+        <h2>Kanban board</h2>
       </div>
       <div className='Project-filter'>
         <span>

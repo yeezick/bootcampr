@@ -1,5 +1,5 @@
 import { handleReduxInputChange } from 'utils/helpers'
-import '../Ticket.scss'
+import '../../Ticket.scss'
 import { Icon, MenuItem, Select } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
