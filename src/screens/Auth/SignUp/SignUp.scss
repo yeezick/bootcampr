@@ -22,12 +22,28 @@
 .signup-screen {
   display: flex;
   flex-direction: column;
+  margin-top: 64px;
+  row-gap: 32px;
 }
 
 .signup-banner {
-  align-items: center;
+  align-items: flex-start;
+  column-gap: 64px;
   display: flex;
   justify-content: center;
+
+  .honeycomb {
+    height: 400.168px;
+    overflow: hidden;
+    width: 337.483px;
+
+    img {
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      height: 100%;
+      object-fit: cover;
+      width: 100%;
+    }
+  }
 }
 
 .pwd-match {
@@ -53,67 +69,50 @@
 }
 
 .signup-header {
-  align-self: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
 
   h1 {
-    font-size: 48px;
-    margin: 30px 0;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 44px;
+    margin: 0;
   }
 
   h2 {
-    font-size: 30px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
     margin: 0;
   }
 }
 
 .signup-container {
-  border-radius: 2% / 1%;
   display: flex;
   flex-direction: column;
-  padding: 30px;
-  width: 450px;
+  width: 328px;
 
-  form {
-    padding: 36.8px 24px 16px 8px;
+  .sign-up-input-container {
+    width: 100%;
   }
 
-  form input {
-    background-color: rgb(241, 241, 241);
-    border-radius: 5px;
-    border-style: none;
-    height: 38px;
+  .signup-form .form-input {
+    border: 1px solid #212121;
+    border-radius: 4px;
     font-size: 16px;
-    margin: 5px 0 15px 0;
-    padding: 0 10px;
-    width: 400px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 8px 0px;
+    padding: 8px 16px;
   }
-
-  form input:focus {
-    border-style: none;
-    outline: none;
-  }
-}
-
-.adorned-input {
-  display: flex;
 }
 
 h3,
 h4 {
   margin: 0;
   text-align: center;
-}
-
-.honeycomb {
-  margin-top: -100px;
-  margin-left: -100px;
-  margin-right: 100px;
-
-  img {
-    height: 400px;
-    object-fit: cover;
-    width: 400px;
-  }
 }
 
 .pwd-input {
@@ -124,14 +123,8 @@ h4 {
   margin: 0 0 16px 16px;
 }
 
-.eyecon {
-  bottom: 5px;
-  position: relative;
-  right: 55px;
-}
-
 .form-btn {
-  margin: 24px 16px 0 16px;
+  width: 100%;
 
   button {
     background-color: #fa9413;
@@ -141,9 +134,8 @@ h4 {
     cursor: pointer;
     font-size: 18px;
     margin-top: 5px;
-    margin-left: -15px;
     padding: 13px;
-    width: 415px;
+    width: 100%;
   }
 
   button:disabled {
@@ -157,31 +149,116 @@ h4 {
   margin: 20px 0;
 }
 
-.password-errors {
-  margin: -8px 0 10px 0;
+.password-inputs-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  width: 100%;
 }
 
-.password-criteria {
-  display: flex;
-  font-size: 14px;
+.new-password,
+.confirm-password {
+  &.container {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
 
-  p {
-    margin: 2px 0;
+    label {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+    }
+
+    .password-criteria {
+      align-items: center;
+      display: flex;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 16px;
+      padding: 0px 16px;
+
+      p {
+        margin: 0px 0;
+      }
+    }
+
+    .criteria-not-met {
+      color: #d32f2f;
+      margin: 2px 0;
+      padding: 0;
+    }
+
+    .criteria-met {
+      color: #388e3c;
+      margin: 2px 0px;
+      padding: 0;
+    }
+
+    .match-status {
+      align-items: center;
+      display: flex;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 16px;
+
+      p {
+        margin: 2px 0;
+      }
+    }
+
+    .criteria-check {
+      color: #388e3c;
+      margin-left: -16px;
+      margin-right: 2px;
+    }
+
+    .criteria-cross {
+      color: #d32f2f;
+      margin-left: -16px;
+      margin-right: 2px;
+    }
+  }
+
+  &.input-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+  }
+
+  &.adorned-input {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+
+    input {
+      align-self: stretch;
+      border: 1px solid #212121;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      margin-bottom: 4px;
+      margin-top: 8px;
+      padding: 8px 52px 8px 16px;
+      width: 100%;
+    }
+  }
+
+  &.eyecon {
+    margin-top: 4px;
+    position: absolute;
   }
 }
 
-.criteria-not-met {
-  color: #d90000;
-  margin: 2px 0;
-}
+.confirm-password {
+  &.container {
+    .criteria-check {
+      margin-left: 0px;
+    }
 
-.criteria-met {
-  color: #23a6a1;
-  margin: 2px 0;
-}
-
-.criteria-check {
-  height: 10px;
-  margin-right: 5px;
-  width: 10px;
+    .criteria-cross {
+      margin-left: 0px;
+    }
+  }
 }

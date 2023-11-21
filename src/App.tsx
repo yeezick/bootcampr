@@ -24,6 +24,7 @@ import { Account } from 'screens/Auth/Settings/Account'
 import { TeamMembers } from 'screens/Project/TeamMembers'
 import { ProjectDetails } from 'screens/Project/ProjectDetails'
 import { ResetPassword } from 'screens/Auth/Settings/Password'
+import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             path='/sign-up/:id/confirmation-email-sent'
             element={<EmailSentConfirmation />}
           />
+          <Route path='/success/:userId' element={<SuccessScreen />} />
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
