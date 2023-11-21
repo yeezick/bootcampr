@@ -9,7 +9,7 @@ import {
 } from 'utils/redux/slices/taskBoardSlice'
 import { useEffect } from 'react'
 
-export const SelectUser = ({ detailIcon }) => {
+export const SelectAssignee = ({ detailIcon }) => {
   const projectMembers = useAppSelector(selectMembersAsTeam)
   const { assignee } = useAppSelector(selectTicketFields)
   const dispatch = useAppDispatch()

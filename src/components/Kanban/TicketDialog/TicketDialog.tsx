@@ -1,8 +1,12 @@
 import { Box, Modal } from '@mui/material'
-import { SelectStatus } from 'components/Kanban'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { RxPerson } from 'react-icons/rx'
-import { SelectDate, SelectUser } from './'
+import {
+  SelectAssignee,
+  SelectDate,
+  SelectStatus,
+  TicketInputFields,
+} from './Fields'
 import '../Ticket.scss'
 import {
   selectTicketFields,
@@ -10,7 +14,6 @@ import {
 } from 'utils/redux/slices/taskBoardSlice'
 import { handleCloseVisibleTicketDialog } from 'utils/helpers/taskHelpers'
 import { TicketDialogButtons } from './Buttons'
-import { TicketInputFields } from './Fields/TicketInputFields'
 import { Comments } from './Comments/Comments'
 
 export const TicketDialog = () => {
@@ -30,7 +33,7 @@ export const TicketDialog = () => {
           <TicketInputFields />
           <Box>
             <SelectStatus />
-            <SelectUser detailIcon={<RxPerson />} />
+            <SelectAssignee detailIcon={<RxPerson />} />
             <SelectDate />
             <TicketDialogButtons />
           </Box>
