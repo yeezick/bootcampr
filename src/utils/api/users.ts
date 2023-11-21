@@ -24,15 +24,6 @@ export const getOneUser = async (id: any) => {
   }
 }
 
-export const getOneUserByEmail = async (email: string) => {
-  try {
-    const res = await api.get(`/users/email/${email}`)
-    return res.data
-  } catch (error) {
-    throw error
-  }
-}
-
 export const updateUserProfile = async (id: any, userProfile: any) => {
   try {
     const res = await api.post(`/onboarding/${id}`, userProfile)
@@ -150,19 +141,15 @@ export const updateUsersPassword = async (
       formData
     )
     const msg = 'message'
-    const fm = 'friendlyMessage'
-    return { status, message: data[msg], friendlyMessage: data[fm] }
+    return { status, message: data[msg] }
   } catch (error) {
     return { error: { status: 500, message: 'Something went wrong' } }
   }
 }
 
-export const forgotPasswordEmailVerification = async (
-  email: string,
-  userId?: string
-) => {
+export const forgotPasswordEmailVerification = async (email: string) => {
   try {
-    const data = await api.post(`/reset-password`, { email: email, userId })
+    const data = await api.post(`/reset-password`, { email: email })
     return data
   } catch (error) {
     console.error(error)

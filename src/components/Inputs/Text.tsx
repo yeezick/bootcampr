@@ -7,7 +7,7 @@ export const Text = ({ label, name, setFormValues, required }) => {
   }
   return (
     <div className={`signup-input-${name}`}>
-      <FormControl className='sign-up-input-container' variant='standard'>
+      <FormControl variant='standard'>
         <label className='form-label' htmlFor={name}>
           {label}
         </label>

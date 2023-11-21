@@ -27,7 +27,7 @@ export const Email = ({ setFormValues }) => {
   }
   return (
     <div className='email'>
-      <FormControl className='sign-up-input-container' variant='standard'>
+      <FormControl variant='standard'>
         <label className='form-label' htmlFor={inputId}>
           Email
           <span className='password-label-helper'>{sampleEmail}</span>
@@ -35,7 +35,6 @@ export const Email = ({ setFormValues }) => {
         <input
           id={inputId}
           name={inputId}
-          className='form-input'
           onBlur={validateEmail}
           onChange={handleEmailChange}
           required

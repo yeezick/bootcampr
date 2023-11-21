@@ -1,45 +1,3 @@
-export interface ButtonStyleInterface {
-  background: string
-  color: string
-}
-
-export interface CommonModalProps {
-  isOpen: boolean
-  handleCancel?: () => void
-  handleConfirm?: (e?: React.FormEvent) => void
-  heading: string
-  body: string | React.ReactNode
-  body2?: string | React.ReactNode
-  body3?: string | React.ReactNode
-  inputType?: string
-  inputValue?: string
-  inputOnChange?: any
-  inputPlaceholder?: string
-  isError?: boolean
-  inputErrorMessage?: string
-  cancelButtonLabel?: string
-  confirmButtonLabel?: string
-  confirmButtonDisabled?: boolean
-  customWidth?: number
-  confirmButtonStyle?: ButtonStyleInterface
-  handlingRequest?: boolean
-}
-
-export interface ForgotPasswordLinkProps {
-  hyperlinkText?: string
-}
-
-export interface SuccessScreenValues {
-  heading: string
-  subHeading?: string
-  body: string
-  body2?: string
-  hyperlinkLabel?: string
-  hyperlinkAction?: any
-  buttonLabel?: string
-  buttonAction?: any
-}
-
 export interface UpdateCredentialsFeedbackMessageProps {
   updateStatus: string
 }
@@ -81,7 +39,7 @@ export interface PasswordFormData {
   currentPassword?: string
   confirmPassword?: string
   newPassword: string
-  confirmNewPassword?: string
+  confirmNewPassword: string
 }
 
 export interface FormErrorsProps {

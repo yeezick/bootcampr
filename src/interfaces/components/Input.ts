@@ -8,9 +8,7 @@ export interface PasswordErrors {
 }
 
 export interface PasswordInputProps {
-  disableErrorState?: () => void
   formValues: SignUpInterface | PasswordFormData
-  inputError?: boolean
   password: string
   passwordErrors: object
   passwordInputName?: string

@@ -1,15 +1,9 @@
 import { useState } from 'react'
-import { IconButton } from '@mui/material'
+import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { PasswordInputProps } from 'interfaces/components/Input'
-import {
-  handleFormInputChange,
-  passwordInputLabel,
-} from 'utils/helpers/stateHelpers'
-import { ForgotPasswordLink } from 'screens/AccountSettings/components/ForgotPasswordLink'
-import { MdCheck } from 'react-icons/md'
-import { RxCross2 } from 'react-icons/rx'
-import { HiOutlineExclamationCircle } from 'react-icons/hi'
+import { handleFormInputChange } from 'utils/helpers/stateHelpers'
+import { ForgotPasswordModal } from 'screens/Auth/ResetPassword/ForgotPasswordModal'
 
 export const PasswordInputs = (props: PasswordInputProps) => {
   const [passwordMatch, setPasswordMatch] = useState(null)
@@ -22,7 +16,7 @@ export const PasswordInputs = (props: PasswordInputProps) => {
   }
 
   return (
-    <div className='password-inputs-wrapper'>
+    <div className='passwords-wrapper'>
       {passwordInputName === 'settings-pwd-reset' && (
         <CurrentPassword {...propsWithPasswordMatch} name='currentPassword' />
       )}
@@ -92,18 +86,13 @@ export const Password = ({
     )
   }
 
-  const inputLabel = passwordInputLabel(
-    passwordInputName,
-    'Password',
-    'Enter new password',
-    'New password'
-  )
-
   return (
-    <>
-      <form className='new-password container'>
-        <label htmlFor={inputId}>{inputLabel}</label>
-        <div className='new-password adorned-input'>
+    <div className='password'>
+      <FormControl variant='standard'>
+        <label htmlFor={inputId}>
+          {passwordInputName === 'sign-up' ? 'Password' : 'New Password'}
+        </label>
+        <div className='adorned-input'>
           <input
             id={inputId}
             name={name}
@@ -112,16 +101,16 @@ export const Password = ({
             type={inputType}
           />
           <IconButton
-            className='new-password eyecon'
+            className='eyecon'
             aria-label='toggle password visibility'
             onClick={() => toggleVisiblity(inputType, setInputType)}
           >
-            {inputType === 'password' ? <VisibilityOff /> : <Visibility />}
+            {inputType === 'password' ? <Visibility /> : <VisibilityOff />}
           </IconButton>
         </div>
         <PasswordValidations errors={passwordErrors} />
-      </form>
-    </>
+      </FormControl>
+    </div>
   )
 }
 
@@ -131,7 +120,6 @@ export const ConfirmPassword = ({
   name,
   setFormValues,
   setPasswordMatch,
-  passwordInputName,
 }) => {
   const [inputType, setInputType] = useState('password')
   const inputId = 'confirmPassword'
@@ -142,18 +130,11 @@ export const ConfirmPassword = ({
     handlePasswordMatching(value, password, setPasswordMatch)
   }
 
-  const inputLabel = passwordInputLabel(
-    passwordInputName,
-    'Re-enter password',
-    'Re-enter new password',
-    'Re-enter new password'
-  )
-
   return (
-    <>
-      <form className='confirm-password container'>
-        <label htmlFor={inputId}>{inputLabel}</label>
-        <div className='confirm-password adorned-input'>
+    <div className='confirm-password'>
+      <FormControl variant='standard'>
+        <label htmlFor={inputId}>Re-enter password</label>
+        <div className='adorned-input'>
           <input
             id={inputId}
             name={name}
@@ -162,16 +143,16 @@ export const ConfirmPassword = ({
             type={inputType}
           />
           <IconButton
-            className='confirm-password eyecon'
+            className='eyecon'
             aria-label='toggle password visibility'
             onClick={() => toggleVisiblity(inputType, setInputType)}
           >
-            {inputType === 'password' ? <VisibilityOff /> : <Visibility />}
+            {inputType === 'password' ? <Visibility /> : <VisibilityOff />}
           </IconButton>
         </div>
         <PasswordMatchError matchStatus={passwordMatch} />
-      </form>
-    </>
+      </FormControl>
+    </div>
   )
 }
 
@@ -180,20 +161,12 @@ const PasswordMatchError = ({ matchStatus }) => {
   if (matchStatus === null) {
     return
   } else if (matchStatus) {
-    return (
-      <div className='match-status'>
-        <MdCheck className='criteria-check' size={14} />
-        <p className='password-criteria criteria-met'>Passwords match!</p>
-      </div>
-    )
+    return <p className='password-criteria criteria-met'>Passwords match!</p>
   } else {
     return (
-      <div className='match-status'>
-        <RxCross2 className='criteria-cross' size={14} />
-        <p className='password-criteria criteria-not-met'>
-          Passwords don't match
-        </p>
-      </div>
+      <p className='password-criteria criteria-not-met'>
+        Passwords do not match.
+      </p>
     )
   }
 }
@@ -221,83 +194,67 @@ const PasswordCriteria = ({ criteria, errorState = 'neutral' }) => {
   return (
     <div className='password-criteria'>
       {errorState === 'criteria-met' && (
-        <MdCheck className='criteria-check' size={14} />
-      )}
-      {errorState === 'criteria-not-met' && (
-        <RxCross2 className='criteria-cross' size={14} />
+        <div>
+          <img
+            src='/check.png'
+            className='criteria-check'
+            alt='criteria-check'
+          />
+        </div>
       )}
       <p className={errorState}>{criteria}</p>
     </div>
   )
 }
 
-export const CurrentPassword = ({
-  formValues,
-  name,
-  setFormValues,
-  disableErrorState = () => {},
-  inputError = false,
-}) => {
-  const [inputType, setInputType] = useState('password')
+export const CurrentPassword = ({ formValues, name, setFormValues }) => {
+  const [inputType, setInputType] = useState('currentPassword')
+  const [forgotPasswordModal, setForgotPasswordModal] = useState(false)
   const inputId = 'currentPassword'
 
   const handlePasswordChange = e => {
-    disableErrorState()
     handleFormInputChange(e, setFormValues)
   }
 
-  const displayInputIcon = () => {
-    if (inputError) {
-      return <HiOutlineExclamationCircle />
-    }
-
-    if (!inputError && inputType === 'password') {
-      return <VisibilityOff />
-    } else {
-      return <Visibility />
-    }
+  const openModal = () => {
+    setForgotPasswordModal(!forgotPasswordModal)
   }
 
-  const handleEyeconClick = () => {
-    if (!inputError) {
-      toggleVisiblity(inputType, setInputType)
-    }
+  const closeModal = () => {
+    setForgotPasswordModal(false)
   }
-
-  const inputClassname = inputError ? 'input-error' : ''
-  const eyeconClassname = inputError ? 'error-icon' : 'eyecon'
 
   return (
-    <>
-      <form className='current-password container'>
-        <label htmlFor={inputId}>Current password</label>
-        <div className='current-password input-container'>
-          <div className='current-password adorned-input'>
-            <input
-              id={inputId}
-              className={inputClassname}
-              name={name}
-              required
-              onChange={handlePasswordChange}
-              type={inputType}
-            />
-            <IconButton
-              className={`current-password ${eyeconClassname}`}
-              aria-label='toggle password visibility'
-              disableRipple={inputError}
-              onClick={handleEyeconClick}
-            >
-              {displayInputIcon()}
-            </IconButton>
-          </div>
-          {inputError && (
-            <div className='current-password error-message'>
-              Incorrect password
-            </div>
-          )}
+    <div className='password'>
+      <FormControl variant='standard'>
+        <label htmlFor={inputId}>Current Password</label>
+        <div className='adorned-input'>
+          <input
+            id={inputId}
+            name={name}
+            required
+            onChange={handlePasswordChange}
+            type={inputType}
+          />
+          <IconButton
+            className='eyecon'
+            aria-label='toggle password visibility'
+            onClick={() => toggleVisiblity(inputType, setInputType)}
+          >
+            {inputType === 'password' ? <Visibility /> : <VisibilityOff />}
+          </IconButton>
         </div>
-        <ForgotPasswordLink />
-      </form>
-    </>
+      </FormControl>
+      <div id='forgot-password-link' onClick={openModal}>
+        Forgot Password?
+      </div>
+      {forgotPasswordModal && (
+        <ForgotPasswordModal
+          onClose={closeModal}
+          onSuccessMessage='Email sent!'
+          onFailureMessage='An error occurred. Please check entered email and try again.'
+        />
+      )}
+    </div>
   )
 }

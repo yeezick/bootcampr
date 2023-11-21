@@ -106,11 +106,7 @@ export const SignUp: React.FC = () => {
         </div>
 
         <div className='signup-container'>
-          <form
-            className='signup-form'
-            onSubmit={handleSubmit}
-            autoComplete='off'
-          >
+          <form onSubmit={handleSubmit} autoComplete='off'>
             <Text
               label='First Name'
               name='firstName'
