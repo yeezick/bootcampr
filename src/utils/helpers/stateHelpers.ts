@@ -17,21 +17,3 @@ export const storeUserProject = async (dispatch, projectId) => {
     dispatch(setProject(randomUserProject))
   }
 }
-
-export const passwordInputLabel = (
-  passwordInputName: string,
-  signUpInput: string,
-  changePasswordInput: string,
-  resetPasswordInput: string
-) => {
-  switch (passwordInputName) {
-    case 'sign-up':
-      return signUpInput
-    case 'settings-pwd-reset':
-      return changePasswordInput
-    case 'email-pwd-reset':
-      return resetPasswordInput
-    default:
-      return ''
-  }
-}
