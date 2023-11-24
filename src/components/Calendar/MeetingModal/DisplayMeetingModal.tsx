@@ -4,6 +4,7 @@ import { convertDateFieldsForDisplay } from 'utils/helpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectDisplayedEvent,
+  selectHangoutLink,
   selectModalDisplayStatus,
   setModalDisplayStatus,
 } from 'utils/redux/slices/calendarSlice'
@@ -87,6 +88,7 @@ export const DisplayMeetingModal = () => {
             sx={{ color: iconColor }}
           />
           <p className='meeting-link'>{displayedEvent.location}</p>
+          <GoogleMeetIcon />
         </div>
 
         <div>
@@ -95,6 +97,17 @@ export const DisplayMeetingModal = () => {
       </DialogContent>
     </Dialog>
   )
+}
+
+const GoogleMeetIcon = () => {
+  const hangoutLink = useAppSelector(selectHangoutLink)
+  if (hangoutLink) {
+    return (
+      <a href={hangoutLink} target='_blank' rel='noreferrer'>
+        Meeting Link
+      </a>
+    )
+  }
 }
 
 const iconColor = '#86888A'

@@ -114,6 +114,7 @@ export const MeetingModal = () => {
   const handleClose = () => {
     setMeetingText(initialMeetingText)
     setDateFields(initialDateFields())
+    toggleGoogleMeeting(false)
     setAttendees({})
     toggleInviteAll(false)
     dispatch(setModalDisplayStatus(false))
@@ -149,6 +150,7 @@ export const MeetingModal = () => {
       attendees: attendeeList,
       description,
       location: meetingText.meetingLink,
+      enabledGoogleMeet: googleMeeting,
       end: {
         dateTime: end,
       },
@@ -280,7 +282,9 @@ export const MeetingModal = () => {
 
 // Not a priority, discuss with team.
 const GoogleMeetsToggler = ({ googleMeeting, toggleGoogleMeeting }) => {
-  const handleMeetToggler = () => toggleGoogleMeeting(!googleMeeting)
+  const handleMeetToggler = () => {
+    toggleGoogleMeeting(!googleMeeting)
+  }
 
   return (
     <div className='google-meet-toggler'>
