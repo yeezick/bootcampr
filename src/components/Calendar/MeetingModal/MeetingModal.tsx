@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectCalendarId,
   selectMembersAsTeam,
+  selectProjectId,
 } from 'utils/redux/slices/projectSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { SelectAttendees } from './SelectAttendees'
@@ -43,6 +44,25 @@ import './MeetingModalStyles.scss'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
+type AttendeeList = { email: string }
+interface EventInfo {
+  attendees: AttendeeList[]
+  description: string
+  location: string
+  googleMeetingInfo: {
+    enabledGoogleMeet: boolean
+    hangoutLink?: string
+  }
+  end: {
+    dateTime: string
+  }
+  start: {
+    dateTime: string
+  }
+  summary: string
+  projectId: string
+}
+
 export const MeetingModal = () => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
   const [dateFields, setDateFields] = useState<DateFieldsInterface>(
@@ -56,6 +76,7 @@ export const MeetingModal = () => {
   const displayedEvent = useAppSelector(selectDisplayedEvent)
   const radioGroupRef = useRef(null)
   const authUser = useAppSelector(selectAuthUser)
+  const projectId = useAppSelector(selectProjectId)
   const projectMembers = useAppSelector(selectMembersAsTeam)
   const calendarId = useAppSelector(selectCalendarId)
   const dispatch = useAppDispatch()
@@ -89,6 +110,10 @@ export const MeetingModal = () => {
         end: gDateFields.endTime,
         start: gDateFields.startTime,
         timeZone: dateFields.timeZone,
+      }
+
+      if (displayedEvent.metadata.hangoutLink) {
+        toggleGoogleMeeting(true)
       }
 
       setMeetingText(prefilledMeetingText)
@@ -146,11 +171,15 @@ export const MeetingModal = () => {
       }
     }
 
-    const eventInfo = {
+    const eventInfo: EventInfo = {
       attendees: attendeeList,
       description,
       location: meetingText.meetingLink,
-      enabledGoogleMeet: googleMeeting,
+      // Enabling hangout links for existing meetings and existing meetings that have toggled off google meet events
+      googleMeetingInfo: {
+        enabledGoogleMeet: googleMeeting,
+        // hangoutLink: displayedEvent.metadata.hangoutLink,
+      },
       end: {
         dateTime: end,
       },
@@ -158,8 +187,15 @@ export const MeetingModal = () => {
         dateTime: start,
       },
       summary,
+      projectId,
     }
+    console.log('meta', displayedEvent)
 
+    if (displayedEvent && displayedEvent.metadata.hangoutLink) {
+      eventInfo.googleMeetingInfo.hangoutLink =
+        displayedEvent.metadata.hangoutLink
+    }
+    console.log('eventInfo', eventInfo)
     if (modalDisplayStatus === 'create') {
       try {
         const newEvent = await createEvent(calendarId, eventInfo)
