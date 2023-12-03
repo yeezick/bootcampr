@@ -1,7 +1,15 @@
-import './ProjectDetails.scss'
+import { AllTickets } from 'components/Kanban'
+import { ProjectInterface } from 'interfaces'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { getOneProject, getOneUser, verifyTokenExpiration } from 'utils/api'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { toggleChatOpen } from 'utils/redux/slices/chatSlice'
+import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
 import { MdOutlineArticle } from 'react-icons/md'
 import ProjectDetailsBanner from '../../assets/Images/project-details-banner.png'
 import bootcamprIcon from '../../assets/Images/bootcamprIcon.png'
+import './ProjectDetails.scss'
 
 export const ProjectDetails = () => {
   return (

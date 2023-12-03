@@ -1,4 +1,9 @@
+import { SvgIconTypeMap } from '@mui/material'
+import { OverridableComponent } from '@mui/material/OverridableComponent'
 import { ProjectInterface } from 'interfaces'
+import { TimezonesUTC } from 'utils/data/timeZoneConstants'
+
+export type DomainStrings = 'project' | 'settings' | string
 
 export interface UserInterface {
   availability?: AvailabilityInterface
@@ -18,13 +23,36 @@ export interface UserInterface {
   ownerOfProjects?: ProjectInterface[]
   portfolioProjects?: ProjectInterface[]
   onboarded?: boolean
-  profilePicture?: string | null
+  profilePicture?: string
+  defaultProfilePicture: string
+  hasProfilePicture?: boolean
   role?: string
   unreadMessages?: {}
   savedProjects?: ProjectInterface[]
+  timezone?: TimezonesUTC
   verified?: Boolean
   __v?: number
   _id?: string
+}
+export interface UiInterface {
+  sideMenu: SideMenuInterface
+}
+export interface SideMenuIconMapInterface {
+  [key: string]: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
+    muiName: string
+  }
+}
+
+export interface SideMenuInterface {
+  active: boolean
+  links: SideMenuLinkInterface[]
+  title: string
+}
+
+export interface SideMenuLinkInterface {
+  label: string
+  route: string
+  onClick?: Function
 }
 
 export interface UiSliceInterface {
@@ -54,6 +82,13 @@ export interface SignUpInterface {
 export interface SignInInterface {
   email: string
   password: string
+}
+
+export interface ForgotPasswordInterface {
+  onClose?: () => void
+  forgotPasswordModal?: boolean
+  onSuccessMessage?: string
+  onFailureMessage?: string
 }
 
 export const timeOptions = [

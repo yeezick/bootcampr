@@ -91,6 +91,29 @@ nav {
       top: 59px;
     }
 
+    .avatar-default-picture {
+      background-color: #FFA726;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      height: 50px;
+      justify-content: center;
+      margin: 0;
+      text-align: center;
+      width: 50px;
+      cursor: pointer;
+    
+      p {
+        color: #1A237E;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 20px;
+        margin: 0;
+        text-align: center;
+      }
+    }
+
     .messages-icon {
       align-items: center;
       background-color: #ecebeb;

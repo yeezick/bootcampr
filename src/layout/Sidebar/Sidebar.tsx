@@ -24,7 +24,7 @@ export const Sidebar = () => {
           <h1>Project Portal</h1>
         ) : (
           <>
-            <Avatar />
+            <Avatar clickable={false} hasIcon={false} />
             <div>
               <p className='user-name'>
                 {firstName} {lastName}
@@ -39,9 +39,6 @@ export const Sidebar = () => {
       <div className='nav-links'>
         <Link className='link' to={`/users/${userId}`}>
           <AiFillStar size={18} viewBox={'0 0 1024 900'} /> My Profile
-        </Link>
-        <Link className='link' to={'/availability'}>
-          Availability Demo
         </Link>
         <Link className='link' to={'/all-projects'}>
           All Projects

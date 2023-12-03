@@ -219,21 +219,25 @@
   width: 638.31px;
   height: 1025px;
 
+  #imageChange {
+    color: #121212;
+    font-size: 16px;
+  }
+
   $this: &;
+
+  &__cameraIcon {
+    left: -32px;
+    top: 64px;
+    width: 32px;
+    height: 32px;
+    transform: scaleX(-1);
+  }
 
   &__cta-container {
     align-items: flex-start;
     display: flex;
     gap: 32px;
-  }
-
-  &__profile-backArrow {
-    height: 16px !important;
-    width: 16px !important;
-  }
-
-  &__profile-backBtn {
-    color: #470d91 !important;
   }
 
   &__profile-container,
@@ -262,12 +266,6 @@
     margin: auto 0 auto 50%;
     padding-top: 32px;
     width: 50%;
-  }
-
-  &__profile-cameraIcon {
-    background-color: #ecebeb !important;
-    left: 70px;
-    top: 58px;
   }
 
   &__profile-cancelBtn,
@@ -370,14 +368,6 @@
     flex-direction: column;
     gap: 16px 16px;
     padding: 32px;
-  }
-
-  &__profile-image {
-    background-color: #c4c4c4;
-    border-radius: 100%;
-    height: 100px;
-    margin: 0 0 10px 0;
-    width: 100px;
   }
 
   &__profile-imageChange {
