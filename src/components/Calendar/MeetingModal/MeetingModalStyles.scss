@@ -109,19 +109,3 @@
   flex-direction: row;
 }
 
-/* Select Attendees */
-.select-attendees-section {
-  display: flex;
-  flex-direction: row;
-  grid-area: selectAttendees;
-  margin-bottom: 32px;
-
-  :first-child {
-    margin-right: 20px;
-  }
-
-  .select-attendees-helper-text {
-    font-size: 12px;
-    font-style: italic;
-  }
-}
