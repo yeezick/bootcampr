@@ -64,6 +64,30 @@ const MemberCheckbox = ({
   dateFields,
   setAttendees,
 }) => {
+  const handleMemberSelection = e => {
+    setAttendees(state => {
+      return { ...state, [e.target.name]: e.target.checked }
+    })
+  }
+
+  return (
+    <div className='member-checkbox'>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={attendees[currMember.email] || false}
+            onChange={handleMemberSelection}
+            name={currMember.email}
+          />
+        }
+        label={`${currMember.firstName} ${currMember.lastName}`}
+      />
+      <MeetingAvailability currMember={currMember} dateFields={dateFields} />
+    </div>
+  )
+}
+
+const MeetingAvailability = ({ currMember, dateFields }) => {
   const [isAvailable, setIsAvailable] = useState('unavailable')
   const [weekday, eventDate] = generateDayJs(dateFields.start)
     .format('ddd-M/D/YYYY')
@@ -94,14 +118,16 @@ const MemberCheckbox = ({
         'minute'
       )
 
-      // All possible cases for user's availability
-      // + means later than
-      // - means eariler than
-      // Difference in time
-      // Time point A => Time point B
-      // 4:30 PM => 10:30 PM
-      // 4:30 is -360 minutes from 10:30 PM
-      // TODO: Add visuals
+      /* All possible cases for user's availability
+       * + means later than
+       * - means eariler than
+       * Difference in time
+       * Time point A => Time point B
+       * 4:30 PM => 10:30 PM
+       * 4:30 is -360 minutes from 10:30 PM
+       * Most of these are partial availability & strictly set the foundation for that logic if we were to pursue it
+       * TODO: Add visuals
+       */
       const startSlotGreaterThanEventEnd =
         differenceFromSlotStartToEventEnd >= 0
       const endSlotEarlierThanEventStart =
@@ -128,41 +154,23 @@ const MemberCheckbox = ({
         startDuringEndDuring ||
         startDuringEndLater
       ) {
-        setIsAvailable('partial')
+        setIsAvailable('unavailable')
         break
       }
     }
   }, [dateFields.start, dateFields.end])
 
-  const handleMemberSelection = e => {
-    setAttendees(state => {
-      return { ...state, [e.target.name]: e.target.checked }
-    })
+  let availabilityText = ''
+  if (isAvailable === 'available') {
+    availabilityText = 'Available'
+  } else if (isAvailable === 'partial') {
+    availabilityText = 'Partially available'
+  } else {
+    availabilityText = 'Unavailable'
   }
-
   return (
-    <div>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={attendees[currMember.email] || false}
-            onChange={handleMemberSelection}
-            name={currMember.email}
-          />
-        }
-        label={`${currMember.firstName} ${currMember.lastName}`}
-      />
-      <MeetingAvailability isAvailable={isAvailable} />
+    <div className='availability-text'>
+      <p>{availabilityText}</p>
     </div>
   )
-}
-
-const MeetingAvailability = ({ isAvailable }) => {
-  if (isAvailable === 'available') {
-    return <p>available</p>
-  } else if (isAvailable === 'partial') {
-    return <p>partial</p>
-  } else {
-    return <p>unavailable</p>
-  }
 }
