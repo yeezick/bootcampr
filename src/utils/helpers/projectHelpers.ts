@@ -7,7 +7,5 @@ export const removeAuthUserFromList = (
   const filteredMembers = allMembers.filter(
     member => member._id !== authUser._id
   )
-
-  // return filteredMembers
-  return allMembers
+  return filteredMembers
 }
