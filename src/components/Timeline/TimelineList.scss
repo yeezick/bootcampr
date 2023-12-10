@@ -1,0 +1,46 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+
+#timeline {
+  margin: 0;
+  padding: 0;
+  width: 40%;
+
+  #tl_content_cont {
+    @include flex(column);
+    gap: 8px;
+    padding: 6px 0 48px 16px;
+  }
+
+  #tl_title {
+    @include font-properties(
+      (
+        size: 16px,
+        weight: 600,
+        line-height: 24px,
+      )
+    );
+    color: #1976d2;
+  }
+
+  #tl_date {
+    @include font-properties(
+      (
+        size: 16px,
+        weight: 400,
+        line-height: 24px,
+      )
+    );
+  }
+
+  #tl_body {
+    @include font-properties(
+      (
+        size: 16px,
+        weight: 400,
+        line-height: 24px,
+      )
+    );
+    color: #212121;
+  }
+}

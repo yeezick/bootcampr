@@ -1,0 +1,160 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+
+.team_member_card {
+  @include flex(row, flex-start, center);
+
+  .tmc_profile_cont {
+    @include flex(column, flex-start, center);
+  }
+
+  .tmc_profile_img_cont {
+    @include flex(column, center, center);
+    z-index: 1;
+
+    img {
+      height: 96px;
+      margin-bottom: -8px;
+      width: 96px;
+    }
+  }
+
+  .tmc_profile_info_cont {
+    @include flex(column, center, center);
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px 2px rgba(26, 35, 126, 0.15),
+      0px 1px 2px 0px rgba(26, 35, 126, 0.3);
+    gap: 16px;
+    height: auto;
+    margin: 0;
+    padding: 16px;
+    width: auto;
+    z-index: 0;
+  }
+
+  .tmc_profile_info {
+    @include flex(column, center, center);
+    gap: 4px;
+    padding: 0;
+    position: relative;
+
+    h2 {
+      @include font-properties(
+        (
+          size: 14px,
+          weight: 600,
+          line-height: 20px,
+        )
+      );
+      align-self: stretch;
+      font-family: 'Inter-Regular', Helvetica;
+      height: 20px;
+      letter-spacing: 0;
+      margin: -1px 0 0 0;
+      position: relative;
+      text-align: center;
+      width: 203px;
+    }
+
+    p {
+      @include font-properties(
+        (
+          size: 12px,
+          weight: 300,
+          line-height: 16px,
+        )
+      );
+      align-self: stretch;
+      font-family: 'Inter-Regular', Helvetica;
+      height: 16px;
+      letter-spacing: 0;
+      margin: 0;
+      position: relative;
+      text-align: center;
+      width: 203px;
+    }
+  }
+
+  .tmc_profile_btns_cont {
+    @include flex(row, flex-start, center);
+    gap: 8px;
+    padding: 0;
+    width: 203px;
+  }
+
+  .tmc_profile_btn_cont {
+    @include flex(column, center, center);
+    height: 100%;
+    width: 100%;
+  }
+
+  .tmc_profile_btn {
+    @include flex(revert, center, center);
+    background-color: #fff;
+    border: 1px solid #5c6bc0;
+    border-radius: 4px;
+    cursor: pointer;
+    flex: 1 1 0;
+    gap: 8px;
+    height: 40px;
+    overflow: hidden;
+    padding: 0 24px;
+    position: relative;
+    width: 100%;
+  }
+
+  .tmc_link_pro_btn {
+    @include flex(column, center, center);
+    border-radius: 4px;
+    height: 40px;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    width: 100%;
+
+    p {
+      @include font-properties(
+        (
+          size: 14px,
+          weight: 600,
+          line-height: 20px,
+        )
+      );
+      color: #1a237e;
+      margin: 0;
+      word-wrap: break-word;
+    }
+  }
+
+  .tmc_message_btn_cont {
+    @include flex(revert, center, center);
+    height: 100%;
+    width: 100%;
+  }
+
+  .tmc_message_btn {
+    @include flex(revert, center, center);
+    @include font-properties(
+      (
+        size: 14px,
+        weight: 600,
+        line-height: 20px,
+      )
+    );
+    background-color: #ffa726;
+    border: none;
+    border-radius: 4px;
+    color: #1a237e;
+    cursor: pointer;
+    flex: 1 1 0;
+    gap: 8px;
+    height: 40px;
+    overflow: hidden;
+    padding: 0 24px;
+    position: relative;
+    text-decoration: none;
+    width: 106px;
+    word-wrap: break-word;
+  }
+}

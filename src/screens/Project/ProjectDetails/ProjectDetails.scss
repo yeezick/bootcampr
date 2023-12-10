@@ -1,0 +1,143 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+
+.project_details {
+  background: #ffffff;
+  box-shadow: 0px 1px 3px 1px rgba(26, 35, 126, 0.15),
+    0px 1px 2px 0px rgba(26, 36, 126, 0.3);
+  height: 100vh;
+  width: auto;
+
+  .pd_cont {
+    @include flex(column);
+  }
+
+  .pd_header_cont {
+    @include flex(column);
+    background: #fff;
+    gap: 8px;
+    height: 100%;
+    margin: 0;
+    padding-bottom: 16px;
+    position: relative;
+    width: 100%;
+  }
+
+  .pd_header {
+    @include flex(revert, flex-start, center);
+    background: #ffffff;
+    box-shadow: 0px 1px 3px 1px rgba(26, 35, 126, 0.15),
+      0px 1px 2px 0px rgba(26, 36, 126, 0.3);
+    gap: 16px;
+    height: 100%;
+    padding: 16px 32px;
+    width: 95.4%;
+
+    h1 {
+      @include font-properties(
+        (
+          size: 32px,
+          weight: 700,
+          line-height: 40px,
+        )
+      );
+      color: #313335;
+      font-style: normal;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .pd_nav_cont {
+    @include flex(column);
+    align-self: stretch;
+    background-color: #ffffff;
+    color: #212121;
+    height: 100%;
+    padding: 16px 32px;
+    width: 94%;
+  }
+
+  .pd_nav_tabs_btns {
+    @include flex(row);
+    gap: 16px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .pd_nav_tabs {
+    @include flex(column);
+    background: none;
+    border: none;
+    height: 28px;
+    padding: 0;
+    position: relative;
+
+    h1 {
+      @include font-properties(
+        (
+          size: 16px,
+          weight: 600,
+          line-height: 24px,
+        )
+      );
+      color: #212121;
+      flex: 1 1 0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      word-wrap: break-word;
+    }
+  }
+
+  .pd_nav_tabs_active {
+    @include flex(column);
+    background: none;
+    border: none;
+    height: 28px;
+    padding: 0;
+    position: relative;
+
+    h1 {
+      @include font-properties(
+        (
+          size: 16px,
+          weight: 600,
+          line-height: 24px,
+        )
+      );
+      color: #212121;
+      flex: 1 1 0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      word-wrap: break-word;
+    }
+  }
+
+  .pd_nav_content_cont {
+    width: 100%;
+    height: auto;
+  }
+
+  .pd_nav_indicator {
+    background-color: #ffa726;
+    bottom: 0;
+    height: 4px;
+    left: 0;
+    position: absolute;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .pd_nav_tabs_active:nth-child(1) .pd_nav_indicator {
+    left: 0;
+  }
+
+  .pd_nav_tabs_active:nth-child(2) .pd_nav_indicator {
+    left: 33.33%;
+  }
+
+  .pd_nav_tabs_active:nth-child(3) .pd_nav_indicator {
+    left: 66.66%;
+  }
+}

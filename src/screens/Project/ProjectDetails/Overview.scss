@@ -1,0 +1,80 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+
+.overview {
+  align-self: stretch;
+  @include flex(column);
+  background-color: #ffffff;
+  color: #212121;
+  gap: 4px;
+  height: 100%;
+  padding: 16px 0 0;
+  width: 94%;
+
+  .ov_text_cont {
+    @include flex(column);
+    flex: 1 0 0;
+    gap: 16px;
+    height: 100%;
+    padding: 0;
+    position: relative;
+    width: 100%;
+  }
+
+  .ov_header_cont {
+    @include flex(revert, flex-start, center);
+    flex: 0 0 auto;
+    gap: 8px;
+    height: 100%;
+    position: relative;
+    width: 100%;
+
+    h1 {
+      @include font-properties(
+        (
+          size: 22px,
+          weight: 700,
+          line-height: 28px,
+        )
+      );
+      color: #212121;
+      flex: 1 1 0;
+      margin: 0;
+      padding: 0;
+      word-wrap: break-word;
+    }
+  }
+
+  .ov_info_cont {
+    @include flex(column);
+    align-self: stretch;
+    font-size: 16px;
+    height: 100%;
+    width: 100%;
+  }
+
+  .ov_sub_info {
+    @include font-properties(
+      (
+        size: 16px,
+        weight: inherit,
+        line-height: 24px,
+      )
+    );
+    color: #212121;
+    width: 100%;
+    word-wrap: break-word;
+
+    b {
+      font-weight: 700;
+      padding: 0;
+      margin: 0;
+    }
+
+    p {
+      font-weight: 400;
+      padding: 0;
+      margin: 0;
+    }
+  }
+}

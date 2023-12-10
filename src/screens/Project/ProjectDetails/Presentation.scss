@@ -1,0 +1,139 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+
+.presentation {
+  align-self: stretch;
+  color: #212121;
+  @include flex(column);
+  gap: 4px;
+  height: 100%;
+  padding: 16px 0 0;
+  width: 100%;
+
+  .pre_text_cont {
+    @include flex(column);
+    flex: 1 0 0;
+    gap: 32px;
+    height: 100%;
+    padding: 0;
+    position: relative;
+    width: 100%;
+  }
+
+  .pre_detail_cont {
+    align-self: stretch;
+    @include flex(column);
+    gap: 16px;
+    height: 100%;
+    position: relative;
+    width: 100%;
+
+    h1 {
+      @include font-properties(
+        (
+          size: 22px,
+          weight: 700,
+          line-height: 28px,
+        )
+      );
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .pre_description_cont {
+    @include flex(column);
+    gap: 16px;
+    position: relative;
+  }
+
+  .pre_icons_cont {
+    @include flex(column);
+    flex: 0 0 auto;
+    gap: 8px;
+    position: relative;
+
+    p {
+      @include font-properties(
+        (
+          size: 14px,
+          weight: 400,
+          line-height: 20px,
+        )
+      );
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .pre_icon_content {
+    @include flex(row, center, center);
+    flex: 0 0 auto;
+    gap: 8px;
+    position: relative;
+  }
+
+  .pre_icon {
+    height: 24px;
+    width: 24px;
+  }
+
+  .pre_para_content {
+    height: 100%;
+    width: 80%;
+
+    p {
+      @include font-properties(
+        (
+          size: 16px,
+          weight: 400,
+          line-height: 24px,
+        )
+      );
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .pre_para_decision_cont {
+    @include flex(column);
+    height: 100%;
+    gap: 32px;
+    width: 80%;
+
+    ul {
+      margin: 4px 0;
+      padding: 0 0 0 26px;
+    }
+  }
+
+  .pre_para_decision {
+    @include flex(column);
+    height: 100%;
+    width: 80%;
+
+    h3 {
+      @include font-properties(
+        (
+          size: 16px,
+          weight: 600,
+          line-height: 24px,
+        )
+      );
+      margin: 0;
+      padding: 0;
+    }
+
+    p {
+      @include font-properties(
+        (
+          size: 16px,
+          weight: 400,
+          line-height: 24px,
+        )
+      );
+      margin: 0;
+      padding: 0;
+    }
+  }
+}

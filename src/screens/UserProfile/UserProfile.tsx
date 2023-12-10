@@ -1,28 +1,29 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { getOneUser } from 'utils/api'
+import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import Avatar from 'components/Avatar/Avatar'
+import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
+import { UserInterface } from 'interfaces'
+import { emptyUser } from 'utils/data/userConstants'
+import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 import { RiGithubLine } from 'react-icons/ri'
 import { FiLinkedin } from 'react-icons/fi'
 import { TbBriefcase } from 'react-icons/tb'
 import './UserProfile.scss'
 
 export const UserProfile: React.FC = () => {
-  const profileId = useParams()
-  const [userProfileInfo, setUser] = useState<any>()
-  const authUser = useSelector(selectAuthUser)
+  const authUser = useAppSelector(selectAuthUser)
+  const { userId } = useParams()
+  const teamMembers = useAppSelector(selectMembersAsTeam)
   const navigate = useNavigate()
+  const [userProfileInfo, setUserProfileInfo] =
+    useState<UserInterface>(emptyUser)
+  const sameProfile = authUser._id === userId ? true : false
 
   useEffect(() => {
-    async function getUser() {
-      const response = await getOneUser(profileId?.id)
-      const data = await response
-      setUser(data)
-    }
-    getUser()
-  }, [])
+    const userProfile = teamMembers.find(member => member._id === userId)
+    setUserProfileInfo(userProfile)
+  }, [teamMembers])
 
   // BC-334: should handle this case
   if (!userProfileInfo) {
@@ -43,14 +44,17 @@ export const UserProfile: React.FC = () => {
     navigate(`/users/${authUser._id}/edit`)
   }
 
-  const sameProfile = () => (profileId?.id === authUser?._id ? true : false)
+  const handleMemberMessageClick = () => {
+    //TODO: Create logic for team member message button to open chat modal with that team member directly
+    console.log('handleMemberMessageClick')
+  }
 
   return (
     <div className='userProfile'>
       <div className='userProfile__container'>
         <div className='userProfile__titleContainer'>
           <div className='userProfile__image'>
-            <Avatar hasIcon={false} clickable={false} />
+            <TeamAvatar userProfileInfo={userProfileInfo} />
           </div>
           <div className='userProfile__title'>
             {shouldShowName && (
@@ -60,13 +64,16 @@ export const UserProfile: React.FC = () => {
             )}
             {shouldShowRole && <h3>{userProfileInfo.role}</h3>}
           </div>
-          {sameProfile() ? (
+          {sameProfile ? (
             <button className='userProfile__editBtn' onClick={routeToEdit}>
               Edit Profile
             </button>
           ) : (
-            <button className='userProfile__editBtn' onClick={routeToEdit}>
-              Send Message
+            <button
+              className='userProfile__messageBtn'
+              onClick={handleMemberMessageClick}
+            >
+              Message
             </button>
           )}
         </div>

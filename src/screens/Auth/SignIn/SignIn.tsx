@@ -10,9 +10,9 @@ import { storeUserProject } from 'utils/helpers/stateHelpers'
 import { ForgotPasswordModal } from '../ResetPassword/ForgotPasswordModal'
 import { toggleVisiblity } from 'components/Inputs'
 import { GoAlert, GoVerified } from 'react-icons/go'
-import loginBanner from '../../../assets/images/login-image.png'
 import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
+import loginBanner from '../../../assets/Images/login-image.png'
 import './SignIn.scss'
 
 const SignIn: React.FC = (): JSX.Element => {
