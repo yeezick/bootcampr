@@ -8,6 +8,7 @@ export const TeamMemberCard = ({ member, loggedInUserId }) => {
 
   const handleMemberMessageClick = () => {
     //TODO: Create logic for team member message button to open chat modal with that team member directly
+    //TODO: Test the logic
     console.log('handleMemberMessageClick')
   }
 
