@@ -97,7 +97,6 @@ export const defaultSingleDayAvailability = {
   '10:30 PM': 'no',
   '11:00 PM': 'no',
   '11:30 PM': 'no',
-  '12:00 AM': 'no',
 }
 
 export const timeOptions = Object.keys(defaultSingleDayAvailability)

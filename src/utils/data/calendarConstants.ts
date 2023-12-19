@@ -66,4 +66,5 @@ export const timeOptions = [
   '10:30 PM',
   '11:00 PM',
   '11:30 PM',
+  '12:00 AM',
 ]
