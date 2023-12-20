@@ -12,20 +12,11 @@ export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
       const earliestLogicalOptionIndex = timeOptions.findIndex(
         timeOption => timeOption === slot[0]
       )
-      let logicalEndOptions = timeOptions
-      if (slot[0] === '11:30 PM') {
-        const startTimeIndex = timeOptions.findIndex(
-          timeOption => timeOption === slot[0]
-        )
-        logicalEndOptions = timeOptions.slice(0, 4)
-        setInputTimeOptions(logicalEndOptions)
-      } else {
-        logicalEndOptions = timeOptions.slice(
-          earliestLogicalOptionIndex + 1,
-          timeOptions.length
-        )
-        setInputTimeOptions(logicalEndOptions)
-      }
+      const logicalEndOptions = timeOptions.slice(
+        earliestLogicalOptionIndex + 1,
+        timeOptions.length
+      )
+      setInputTimeOptions(logicalEndOptions)
     }
   }, [days])
 
