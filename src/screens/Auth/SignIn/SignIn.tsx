@@ -1,3 +1,4 @@
+import './SignIn.scss'
 import { useState, useEffect } from 'react'
 import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { useAppDispatch } from 'utils/redux/hooks'
@@ -13,7 +14,7 @@ import { GoAlert, GoVerified } from 'react-icons/go'
 import loginBanner from '../../../assets/images/login-image.png'
 import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import './SignIn.scss'
+import { ForgotPasswordLink } from 'screens/AccountSettings/components/ForgotPasswordLink'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -166,6 +167,7 @@ const SignIn: React.FC = (): JSX.Element => {
                   type='email'
                   onChange={handleFormDataChange}
                   value={formData.email}
+                  placeholder='email@email.com'
                   required
                 />
               </div>
@@ -200,18 +202,8 @@ const SignIn: React.FC = (): JSX.Element => {
                 </div>
               </FormControl>
             </div>
-            <div className='sign_in_forgot_pswd' onClick={openForgotModal}>
-              <p>Forgot your Password?</p>
-              {forgotPasswordModal && (
-                <ForgotPasswordModal
-                  onClose={closeForgotModal}
-                  forgotPasswordModal={forgotPasswordModal}
-                  onSuccessMessage='Email sent!'
-                  onFailureMessage='An error occurred. Please check entered email and try again.'
-                />
-              )}
-            </div>
-            <div>
+            <ForgotPasswordLink hyperlinkText='Forgot your password?' />
+            <div className='sign_in_btn_container'>
               <button
                 className={nextButtonStyle}
                 disabled={buttonDisabled}
