@@ -11,20 +11,6 @@ export interface CommentInterface {
   replies: string[]
 }
 
-export interface TaskInterface {
-  assignee?: string
-  comments?: CommentInterface[]
-  createdBy?: string
-  dueDate?: string
-  description?: string
-  image?: string
-  link?: string
-  projectId?: string
-  status?: string
-  title?: string
-  _id?: string
-}
-
 export interface TicketInterface {
   assignee?: string
   comments?: CommentInterface[]
