@@ -7,8 +7,6 @@ export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
   const index = isStart ? 0 : 1
   const [inputTimeOptions, setInputTimeOptions] = useState(timeOptions)
 
-  // TODO:
-  // make sure the case is handled where start time is 12am (check for oddities)
   useEffect(() => {
     if (!isStart) {
       const earliestLogicalOptionIndex = timeOptions.findIndex(

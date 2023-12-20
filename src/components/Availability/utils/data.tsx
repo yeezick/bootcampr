@@ -48,7 +48,6 @@ export const defaultAvailabilityForm = {
   },
 }
 
-// Note - can we fix this structure to remove no? what will break, if anything?
 export const defaultSingleDayAvailability = {
   '12:30 AM': 'no',
   '1:00 AM': 'no',

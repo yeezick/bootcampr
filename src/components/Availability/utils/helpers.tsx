@@ -16,18 +16,8 @@ import { updateAvailability } from 'utils/api'
  */
 export const consolidateAvailability = availability => {
   let consolidatedAvail = [...availability]
-  // TODO: redo this logic from scratch - its too wonky right now
-
-  // for (let i = 1; i < consolidatedAvail.length; i++) {
-  //   const timeA = consolidatedAvail[i][0]
-  //   const timeB = consolidatedAvail[i - 1][1]
-  //   if (timeOptions.indexOf(timeA) <= timeOptions.indexOf(timeB)) {
-  //     consolidatedAvail[i - 1] = [
-  //       consolidatedAvail[i - 1][0],
-  //       consolidatedAvail[i][1],
-  //     ]
-  //     consolidatedAvail.splice(i, 1)
-  //   }
+  // TODO: redo this logic
+  // https://bootcamper.atlassian.net/browse/BC-652
   // }
   return consolidatedAvail
 }
@@ -44,27 +34,17 @@ export const consolidateAvailability = availability => {
  */
 export const handleTimeChange = (e, days, setDays) => {
   const context = e.target.name.split('-')
-  // console.log(`context: ${context}`)
   const day = context[0]
-  // console.log(`day: ${day}`)
   const frame = Number(context[1])
-  // console.log(`frame: ${frame}`)
   const index = context[2]
-  // console.log(`index: ${index}`)
 
   const newTime = [...days[day].availability[frame]]
-  // console.log(newTime)
   newTime[index] = e.target.value
 
   let newAvailability = [...days[day].availability]
 
   newAvailability[frame] = newTime
-  // console.log('new availability')
-  // console.log(newAvailability)
   newAvailability = consolidateAvailability(newAvailability)
-  if (newAvailability[frame][index] === '12:00 AM') {
-    console.log('need to handle midnight case')
-  }
 
   setDays({
     ...days,
@@ -73,8 +53,6 @@ export const handleTimeChange = (e, days, setDays) => {
       availability: newAvailability,
     },
   })
-  // console.log('after set days')
-  // console.log(days['SUN'].availability)
 }
 
 /**
@@ -200,14 +178,8 @@ export const deleteTimeSlot = (day, days, setDays, idx) => {
  */
 export const addTimeSlot = (day, days, setDays, idx) => {
   let nextTimeslot
-  // Why is this not doing anything?
-  // Midnight case needs to be handle here
   const currentTimeslot = days[day].availability[idx][1]
-  console.log('curret time slot in add times function')
-  console.log(currentTimeslot)
   if (currentTimeslot === '11:00 PM') {
-    console.log('handle 11 pm')
-    // nextTimeslot = ['11:30 PM', '12:00 AM']
   }
   if (currentTimeslot === '11:30 PM') {
     nextTimeslot = ['12:00 AM', '12:30 AM']
@@ -215,7 +187,6 @@ export const addTimeSlot = (day, days, setDays, idx) => {
     nextTimeslot = ['12:30 AM', '1:00 AM']
   } else {
     nextTimeslot = getNextTimeslot(currentTimeslot)
-    console.log(nextTimeslot)
   }
   const newAvailability = [...days[day].availability]
 
