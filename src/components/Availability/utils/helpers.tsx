@@ -42,7 +42,6 @@ export const handleTimeChange = (e, days, setDays) => {
   newTime[index] = e.target.value
 
   let newAvailability = [...days[day].availability]
-
   newAvailability[frame] = newTime
   newAvailability = consolidateAvailability(newAvailability)
 
@@ -94,10 +93,7 @@ export const handleCheck = (day, days, setDays) => {
  * @returns
  */
 export const getNextTimeslot = currentTime => {
-  // NOTE: next time slot anomolies should be handled here
   const index = timeOptions.indexOf(currentTime)
-  console.log('index')
-  console.log(index)
   return index
     ? [timeOptions[index + 1], timeOptions[index + 2]]
     : ['9:00 PM', '5:00 PM']
@@ -179,8 +175,6 @@ export const deleteTimeSlot = (day, days, setDays, idx) => {
 export const addTimeSlot = (day, days, setDays, idx) => {
   let nextTimeslot
   const currentTimeslot = days[day].availability[idx][1]
-  if (currentTimeslot === '11:00 PM') {
-  }
   if (currentTimeslot === '11:30 PM') {
     nextTimeslot = ['12:00 AM', '12:30 AM']
   } else if (currentTimeslot === '12:00 AM') {
