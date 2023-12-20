@@ -1,3 +1,4 @@
 export * from './Account'
 export * from './Email'
-export * from './PasswordSettings'
+export * from './ResetPassword'
+export * from './ChangePassword'
