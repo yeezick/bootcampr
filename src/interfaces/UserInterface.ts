@@ -132,7 +132,6 @@ export const timeOptions = [
 
 export type TimeOption = (typeof timeOptions)[0]
 
-//TODO: Removed string from sun interface....
 export interface AvailabilityInterface {
   SUN: {
     available: boolean
