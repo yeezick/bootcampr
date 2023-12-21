@@ -11,6 +11,7 @@ import { emptySignUp } from 'utils/data/userConstants'
 import { Email, Text, PasswordInputs } from 'components/Inputs'
 import './SignUp.scss'
 import { Checkbox, FormControlLabel } from '@mui/material'
+import signupImage from '../../../assets/images/Signup-flow-image.png'
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate()
@@ -102,7 +103,10 @@ export const SignUp: React.FC = () => {
       </div>
       <div className='signup-banner'>
         <div className='honeycomb'>
-          <img src='./drawing-wireframes.jpg' alt='' />
+          <img
+            src={signupImage}
+            alt='A person smiles while working on a laptop at a coffee shop'
+          />
         </div>
 
         <div className='signup-container'>
