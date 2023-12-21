@@ -28,17 +28,17 @@ export const TeamMembers = () => {
   // }
 
   return (
-    <div className='team_members'>
-      <div className='tm_cont'>
-        <div className='tm_header_cont'>
-          <div className='tm_header'>
+    <div className='team-members'>
+      <div className='tm-cont'>
+        <div className='tm-header-cont'>
+          <div className='tm-header'>
             <h1>Team Members</h1>
           </div>
-          {/* <div className='tm_button_cont'>
+          {/* <div className='tm-button-cont'>
             <IconButton
               aria-label='more'
-              id='tm_open_modal'
-              aria-controls={openMenu ? 'withdrawal_menu' : undefined}
+              id='tm-open-modal'
+              aria-controls={openMenu ? 'withdrawal-menu' : undefined}
               aria-expanded={openMenu ? 'true' : undefined}
               aria-haspopup='true'
               onClick={handleModalToggle}
@@ -78,11 +78,11 @@ const RenderRoleMembers = (roleMembers, role, loggedInUserId) => {
     role === 'engineers' ? 'swe' : role === 'designers' ? 'uxd' : role
 
   return (
-    <div className={`tmi_${roleClassName}_cont`} key={role}>
-      <div className={`tmi_${roleClassName}_header_cont`}>
+    <div className={`tmi-${roleClassName}-cont`} key={role}>
+      <div className={`tmi-${roleClassName}-header-cont`}>
         <h1>{roleHeader}</h1>
       </div>
-      <div className='tmi_card_cont'>
+      <div className='tmi-card-cont'>
         {roleMembers.map(member => (
           <div key={member._id}>
             <TeamMemberCard member={member} loggedInUserId={loggedInUserId} />
@@ -96,7 +96,7 @@ const RenderRoleMembers = (roleMembers, role, loggedInUserId) => {
 const TeamMemberInfo = ({ teamMembers, loggedInUserId }) => {
   return (
     <>
-      <div className='team_members_info'>
+      <div className='team-members-info'>
         {Object.entries(teamMembers).map(([role, members]) =>
           Array.isArray(members)
             ? RenderRoleMembers(members, role, loggedInUserId)

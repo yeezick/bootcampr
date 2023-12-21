@@ -12,10 +12,10 @@ export const ProjectDetails = () => {
   ]
 
   return (
-    <div className='project_details'>
-      <div className='pd_cont'>
-        <div className='pd_header_cont'>
-          <div className='pd_header'>
+    <div className='project-details-portal'>
+      <div className='pd-cont'>
+        <div className='pd-header-cont'>
+          <div className='pd-header'>
             <h1>Project Details</h1>
           </div>
           <RenderTab tabs={tabData} />
@@ -32,25 +32,25 @@ const RenderTab = ({ tabs }) => {
 
   const handleTabClick = (tabIndex: number) => {
     setActiveTab(tabIndex)
-    const buttonWidth = document.getElementById(`tab_${tabIndex}`)?.offsetWidth
-    const buttonLeft = document.getElementById(`tab_${tabIndex}`)?.offsetLeft
+    const buttonWidth = document.getElementById(`tab-${tabIndex}`)?.offsetWidth
+    const buttonLeft = document.getElementById(`tab-${tabIndex}`)?.offsetLeft
 
     setIndicatorWidth(buttonWidth)
     setIndicatorLeft(buttonLeft)
   }
 
   useEffect(() => {
-    const buttonWidth = document.getElementById(`tab_${activeTab}`)?.offsetWidth
+    const buttonWidth = document.getElementById(`tab-${activeTab}`)?.offsetWidth
     setIndicatorWidth(buttonWidth)
   }, [activeTab])
 
   return (
-    <div className='pd_nav_cont'>
-      <div className='pd_nav_tabs_btns'>
+    <div className='pd-nav-cont'>
+      <div className='pd-nav-tabs-btns'>
         {tabs.map((tab, index) => (
           <TabButton
             key={index}
-            id={`tab_${index}`}
+            id={`tab-${index}`}
             tabIndex={index}
             activeTab={activeTab}
             handleTabClick={handleTabClick}
@@ -58,14 +58,14 @@ const RenderTab = ({ tabs }) => {
           />
         ))}
         <span
-          className='pd_nav_indicator'
+          className='pd-nav-indicator'
           style={{
             width: `${indicatorWidth}px`,
             transform: `translateX(${indicatorLeft}px)`,
           }}
         />
       </div>
-      <div className='pd_nav_content_cont'>{tabs[activeTab].content}</div>
+      <div className='pd-nav-content-cont'>{tabs[activeTab].content}</div>
     </div>
   )
 }
@@ -77,7 +77,7 @@ const TabButton = ({ id, activeTab, tabIndex, handleTabClick, tabName }) => {
     handleTabClick(tabIndex)
   }
 
-  const tabClass = isActive ? 'pd_nav_tabs_active' : 'pd_nav_tabs'
+  const tabClass = isActive ? 'pd-nav-tabs-active' : 'pd-nav-tabs'
 
   return (
     <button id={id} className={tabClass} onClick={handleClick}>

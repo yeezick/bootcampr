@@ -3,12 +3,12 @@ import './ProjectTimeline.scss'
 
 export const ProjectTimeline = () => {
   return (
-    <div className='project_timeline'>
-      <div className='ptl_text_cont'>
-        <div className='ptl_header_cont'>
+    <div className='project-timeline'>
+      <div className='ptl-text-cont'>
+        <div className='ptl-header-cont'>
           <h1> Project Timeline </h1>
         </div>
-        <div className='ptl_flow_cont'>
+        <div className='ptl-flow-cont'>
           <TimelineList />
         </div>
       </div>

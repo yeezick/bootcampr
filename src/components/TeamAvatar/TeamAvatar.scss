@@ -1,10 +1,10 @@
-.team_avatar {
-  .ta_profile_pics {
+.team-avatar {
+  .ta-profile-pics {
     display: flex;
     width: min-content;
   }
 
-  .ta_imgs {
+  .ta-imgs {
     border-radius: 50%;
     cursor: pointer;
     height: 75px;
@@ -12,7 +12,7 @@
     width: 75px;
   }
 
-  .ta_default_pics {
+  .ta-default-pics {
     cursor: default;
     display: flex;
     flex-direction: column;

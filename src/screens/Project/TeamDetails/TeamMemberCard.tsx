@@ -8,29 +8,28 @@ export const TeamMemberCard = ({ member, loggedInUserId }) => {
 
   const handleMemberMessageClick = () => {
     //TODO: Create logic for team member message button to open chat modal with that team member directly
-    //TODO: Test the logic
     console.log('handleMemberMessageClick')
   }
 
   return (
     <>
-      <div className='team_member_card'>
-        <div className='tmc_profile_cont'>
-          <div className='tmc_profile_img_cont'>
+      <div className='team-member-card'>
+        <div className='tmc-profile-cont'>
+          <div className='tmc-profile-img-cont'>
             <TeamAvatar userProfileInfo={member} />
           </div>
-          <div className='tmc_profile_info_cont'>
-            <div className='tmc_profile_info'>
+          <div className='tmc-profile-info-cont'>
+            <div className='tmc-profile-info'>
               <h2>
                 {firstName} {lastName}
               </h2>
               <p>{role}</p>
             </div>
-            <div className='tmc_profile_btns_cont'>
-              <div className='tmc_profile_btn_cont'>
-                <button className='tmc_profile_btn'>
+            <div className='tmc-profile-btns-cont'>
+              <div className='tmc-profile-btn-cont'>
+                <button className='tmc-profile-btn'>
                   <Link
-                    className='tmc_link_pro_btn'
+                    className='tmc-link-pro-btn'
                     to={`/users/${memberId}`}
                     target='_blank'
                   >
@@ -39,9 +38,9 @@ export const TeamMemberCard = ({ member, loggedInUserId }) => {
                 </button>
               </div>
               {!isCurrentUser && (
-                <div className='tmc_message_btn_cont'>
+                <div className='tmc-message-btn-cont'>
                   <button
-                    className='tmc_message_btn'
+                    className='tmc-message-btn'
                     onClick={handleMemberMessageClick}
                   >
                     Message

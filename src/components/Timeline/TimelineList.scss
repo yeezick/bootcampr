@@ -6,13 +6,13 @@
   padding: 0;
   width: 40%;
 
-  #tl_content_cont {
+  #tl-content-cont {
     @include flex(column);
     gap: 8px;
     padding: 6px 0 48px 16px;
   }
 
-  #tl_title {
+  #tl-title {
     @include font-properties(
       (
         size: 16px,
@@ -23,7 +23,7 @@
     color: #1976d2;
   }
 
-  #tl_date {
+  #tl-date {
     @include font-properties(
       (
         size: 16px,
@@ -33,7 +33,7 @@
     );
   }
 
-  #tl_body {
+  #tl-body {
     @include font-properties(
       (
         size: 16px,

@@ -1,4 +1,5 @@
 import { MenuItem, Select } from '@mui/material'
+import { produce } from 'immer'
 import { useEffect, useState } from 'react'
 import { timeOptions } from 'utils/data/calendarConstants'
 import { combineDateWithTime, formatIsoToHalfHour } from 'utils/helpers'
@@ -17,16 +18,10 @@ export const SelectTime = ({ dateFields, setDateFields, type }) => {
   */
   useEffect(() => {
     const currStartTime = formatIsoToHalfHour(dateFields.start)
-    const currEndTime = formatIsoToHalfHour(dateFields.end)
-    const endIdx = timeOptions.findIndex(option => option === currEndTime)
     const startIdx = timeOptions.findIndex(option => option === currStartTime)
     if (type === 'end') {
-      const filteredOptions = timeOptions.slice(startIdx + 1)
-      const isEndEarlierThanStart = startIdx > endIdx || startIdx === endIdx
       setAvailableOptions(timeOptions.slice(startIdx + 1))
-      if (isEndEarlierThanStart) {
-        setSelectedTime(filteredOptions[0])
-      }
+      setSelectedTime(formatIsoToHalfHour(dateFields[type]))
     }
   }, [dateFields.start, dateFields.end])
 
@@ -35,9 +30,18 @@ export const SelectTime = ({ dateFields, setDateFields, type }) => {
     const updatedDateFields = { ...dateFields }
 
     if (type === 'start') {
-      const nextIdx = timeOptions.findIndex(option => option === value)
-      updatedDateFields[type] = combineDateWithTime(date, value)
-      updatedDateFields['end'] = combineDateWithTime(date, timeOptions[nextIdx])
+      const currEndTime = formatIsoToHalfHour(dateFields.end)
+      const endIdx = timeOptions.findIndex(option => option === currEndTime)
+      const startIdx = timeOptions.findIndex(option => option === value)
+      const nextIdx = startIdx + 1
+      const startTimeLaterThanEnd = startIdx >= endIdx
+
+      const updatedDateFields = produce(dateFields, draft => {
+        draft[type] = combineDateWithTime(date, value)
+        if (startTimeLaterThanEnd) {
+          draft.end = combineDateWithTime(date, timeOptions[nextIdx])
+        }
+      })
       setDateFields(updatedDateFields)
     } else if (type === 'end') {
       updatedDateFields[type] = combineDateWithTime(date, value)

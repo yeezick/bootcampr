@@ -11,7 +11,7 @@
   padding: 16px 0 0;
   width: 94%;
 
-  .ov_text_cont {
+  .ov-text-cont {
     @include flex(column);
     flex: 1 0 0;
     gap: 16px;
@@ -21,7 +21,7 @@
     width: 100%;
   }
 
-  .ov_header_cont {
+  .ov-header-cont {
     @include flex(revert, flex-start, center);
     flex: 0 0 auto;
     gap: 8px;
@@ -45,7 +45,7 @@
     }
   }
 
-  .ov_info_cont {
+  .ov-info-cont {
     @include flex(column);
     align-self: stretch;
     font-size: 16px;
@@ -53,7 +53,7 @@
     width: 100%;
   }
 
-  .ov_sub_info {
+  .ov-sub-info {
     @include font-properties(
       (
         size: 16px,

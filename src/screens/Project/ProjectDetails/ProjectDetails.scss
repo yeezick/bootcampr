@@ -1,18 +1,18 @@
 @import 'scss/variables';
 @import 'scss/mixins';
 
-.project_details {
+.project-details-portal {
   background: #ffffff;
   box-shadow: 0px 1px 3px 1px rgba(26, 35, 126, 0.15),
     0px 1px 2px 0px rgba(26, 36, 126, 0.3);
   height: 100vh;
   width: auto;
 
-  .pd_cont {
+  .pd-cont {
     @include flex(column);
   }
 
-  .pd_header_cont {
+  .pd-header-cont {
     @include flex(column);
     background: #fff;
     gap: 8px;
@@ -23,7 +23,7 @@
     width: 100%;
   }
 
-  .pd_header {
+  .pd-header {
     @include flex(revert, flex-start, center);
     background: #ffffff;
     box-shadow: 0px 1px 3px 1px rgba(26, 35, 126, 0.15),
@@ -48,7 +48,7 @@
     }
   }
 
-  .pd_nav_cont {
+  .pd-nav-cont {
     @include flex(column);
     align-self: stretch;
     background-color: #ffffff;
@@ -58,14 +58,14 @@
     width: 94%;
   }
 
-  .pd_nav_tabs_btns {
+  .pd-nav-tabs-btns {
     @include flex(row);
     gap: 16px;
     margin-bottom: 16px;
     position: relative;
   }
 
-  .pd_nav_tabs {
+  .pd-nav-tabs {
     @include flex(column);
     background: none;
     border: none;
@@ -90,7 +90,7 @@
     }
   }
 
-  .pd_nav_tabs_active {
+  .pd-nav-tabs-active {
     @include flex(column);
     background: none;
     border: none;
@@ -115,12 +115,12 @@
     }
   }
 
-  .pd_nav_content_cont {
+  .pd-nav-content-cont {
     width: 100%;
     height: auto;
   }
 
-  .pd_nav_indicator {
+  .pd-nav-indicator {
     background-color: #ffa726;
     bottom: 0;
     height: 4px;
@@ -129,15 +129,15 @@
     transition: transform 0.3s ease-in-out;
   }
 
-  .pd_nav_tabs_active:nth-child(1) .pd_nav_indicator {
+  .pd-nav-tabs-active:nth-child(1) .pd-nav-indicator {
     left: 0;
   }
 
-  .pd_nav_tabs_active:nth-child(2) .pd_nav_indicator {
+  .pd-nav-tabs-active:nth-child(2) .pd-nav-indicator {
     left: 33.33%;
   }
 
-  .pd_nav_tabs_active:nth-child(3) .pd_nav_indicator {
+  .pd-nav-tabs-active:nth-child(3) .pd-nav-indicator {
     left: 66.66%;
   }
 }

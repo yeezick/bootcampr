@@ -8,7 +8,7 @@ import {
   timelineItemClasses,
 } from '@mui/lab/'
 import { Typography } from '@mui/material'
-import { timelineData } from '../../utils/data/timelineConstants'
+import { timelineData } from 'utils/data/timelineConstants'
 import './TimelineList.scss'
 
 export const TimelineList = () => {
@@ -30,14 +30,14 @@ export const TimelineList = () => {
               <TimelineConnector sx={{ background: '#1976D2', width: '4px' }} />
             )}
           </TimelineSeparator>
-          <TimelineContent id='tl_content_cont'>
-            <Typography id='tl_title' variant='subtitle1' component='span'>
+          <TimelineContent id='tl-content-cont'>
+            <Typography id='tl-title' variant='subtitle1' component='span'>
               {item.title}
             </Typography>
-            <Typography id='tl_date' variant='subtitle2' color='text.secondary'>
+            <Typography id='tl-date' variant='subtitle2' color='text.secondary'>
               {item.date}
             </Typography>
-            <Typography id='tl_body' variant='body2'>
+            <Typography id='tl-body' variant='body2'>
               {item.description}
             </Typography>
           </TimelineContent>

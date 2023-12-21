@@ -1,7 +1,7 @@
 @import 'scss/variables';
 @import 'scss/mixins';
 
-.project_timeline {
+.project-timeline {
   @include flex(column);
   align-self: stretch;
   color: #212121;
@@ -10,7 +10,7 @@
   padding: 16px 0 0;
   width: 100%;
 
-  .ptl_text_cont {
+  .ptl-text-cont {
     @include flex(column);
     flex: 1 0 0;
     gap: 16px;
@@ -20,7 +20,7 @@
     width: 100%;
   }
 
-  .ptl_header_cont {
+  .ptl-header-cont {
     @include flex(column);
     align-self: stretch;
     gap: 16px;
@@ -41,7 +41,7 @@
     }
   }
 
-  .ptl_flow_cont {
+  .ptl-flow-cont {
     max-height: 750px;
     overflow-y: auto;
   }

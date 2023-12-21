@@ -10,7 +10,7 @@
   padding: 16px 0 0;
   width: 100%;
 
-  .pre_text_cont {
+  .pre-text-cont {
     @include flex(column);
     flex: 1 0 0;
     gap: 32px;
@@ -20,7 +20,7 @@
     width: 100%;
   }
 
-  .pre_detail_cont {
+  .pre-detail-cont {
     align-self: stretch;
     @include flex(column);
     gap: 16px;
@@ -41,13 +41,13 @@
     }
   }
 
-  .pre_description_cont {
+  .pre-description-cont {
     @include flex(column);
     gap: 16px;
     position: relative;
   }
 
-  .pre_icons_cont {
+  .pre-icons-cont {
     @include flex(column);
     flex: 0 0 auto;
     gap: 8px;
@@ -66,19 +66,19 @@
     }
   }
 
-  .pre_icon_content {
+  .pre-icon-content {
     @include flex(row, center, center);
     flex: 0 0 auto;
     gap: 8px;
     position: relative;
   }
 
-  .pre_icon {
+  .pre-icon {
     height: 24px;
     width: 24px;
   }
 
-  .pre_para_content {
+  .pre-para-content {
     height: 100%;
     width: 80%;
 
@@ -95,7 +95,7 @@
     }
   }
 
-  .pre_para_decision_cont {
+  .pre-para-decision-cont {
     @include flex(column);
     height: 100%;
     gap: 32px;
@@ -107,7 +107,7 @@
     }
   }
 
-  .pre_para_decision {
+  .pre-para-decision {
     @include flex(column);
     height: 100%;
     width: 80%;

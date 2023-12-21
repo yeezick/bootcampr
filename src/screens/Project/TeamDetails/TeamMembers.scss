@@ -4,18 +4,18 @@
 //TODO: Fix layout background-color issue for this page (Global CSS issue)
 
 // Team Members Page Styles
-.team_members {
+.team-members {
   background: #ffffff;
   box-shadow: 0px 1px 3px 1px rgba(26, 35, 126, 0.15),
     0px 1px 2px 0px rgba(26, 36, 126, 0.3);
   height: 100vh;
   width: auto;
 
-  .tm_container {
+  .tm-container {
     @include flex(column);
   }
 
-  .tm_header_cont {
+  .tm-header-cont {
     @include flex(row, space-between, center);
     background: #fff;
     box-shadow: 0px 1px 3px 1px rgba(26, 35, 126, 0.15),
@@ -26,7 +26,7 @@
     position: relative;
   }
 
-  .tm_header {
+  .tm-header {
     h1 {
       @include font-properties(
         (
@@ -42,7 +42,7 @@
     }
   }
 
-  .tm_button_cont {
+  .tm-button-cont {
     @include flex(row, center, center);
     border-radius: 23px;
     cursor: pointer;
@@ -53,7 +53,7 @@
     width: 24px;
   }
 
-  .tm_open_modal {
+  .tm-open-modal {
     @include flex(row, center, center);
     background: #fff;
     border: none;
@@ -75,14 +75,14 @@
 }
 
 // Team Members Info Styles
-.team_members_info {
+.team-members-info {
   @include flex(column);
   gap: 32px;
   height: 856px;
   padding: 0;
   width: 100%;
 
-  .tmi_swe_cont {
+  .tmi-swe-cont {
     @include flex(column);
     background-color: #fdfdfd;
     border-radius: 0;
@@ -91,7 +91,7 @@
     padding: 32px 0 0 32px;
   }
 
-  .tmi_swe_header_cont {
+  .tmi-swe-header-cont {
     background-color: #ffffff;
     border-radius: 16px;
 
@@ -111,13 +111,13 @@
     }
   }
 
-  .tmi_card_cont {
+  .tmi-card-cont {
     @include flex(row, flex-start, flex-start);
     gap: 16px;
     padding: 0;
   }
 
-  .tmi_uxd_cont {
+  .tmi-uxd-cont {
     @include flex(column);
     background-color: #ffffff;
     border-radius: 0;
@@ -126,7 +126,7 @@
     padding: 0 0 0 32px;
   }
 
-  .tmi_uxd_header_cont {
+  .tmi-uxd-header-cont {
     height: 45px;
     width: 208px;
 
@@ -148,7 +148,7 @@
 }
 
 // Team Members Withdrawal Modal Styles
-.wtd_modal_cont {
+.wtd-modal-cont {
   align-items: flex-start;
   display: flex;
   flex-direction: column;
@@ -157,7 +157,7 @@
   width: 380px;
 }
 
-.wtd_text_cont {
+.wtd-text-cont {
   align-items: flex-start;
   align-self: stretch;
   display: flex;
@@ -165,7 +165,7 @@
   gap: 16px;
 }
 
-#wtd_modal_title {
+#wtd-modal-title {
   font-family: 'Inter-Regular', Helvetica;
   font-size: 24px;
   font-weight: 700;
@@ -173,7 +173,7 @@
   padding: 0;
 }
 
-#wtd_modal_body {
+#wtd-modal-body {
   font-family: 'Inter-Regular', Helvetica;
   font-size: 16px;
   font-weight: 400;
@@ -181,7 +181,7 @@
   padding: 0;
 }
 
-#wtd_btns_cont {
+#wtd-btns-cont {
   align-items: flex-start;
   align-self: stretch;
   display: inline-flex;
@@ -190,7 +190,7 @@
   padding: 0;
 }
 
-.wtd_cancel_btn {
+.wtd-cancel-btn {
   align-items: center;
   background-color: #fdfdfd;
   border: none;
@@ -211,12 +211,12 @@
   word-wrap: break-word;
 }
 
-.wtd_cancel_btn:hover {
+.wtd-cancel-btn:hover {
   background-color: #e8eaf6;
   cursor: pointer;
 }
 
-.wtd_remove_btn {
+.wtd-remove-btn {
   align-items: center;
   background-color: #d32f2f;
   border-radius: 4px;

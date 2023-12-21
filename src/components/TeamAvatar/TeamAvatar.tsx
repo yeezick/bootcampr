@@ -10,17 +10,17 @@ export const TeamAvatar: React.FC<TeamAvatarProps> = ({ userProfileInfo }) => {
 
   return (
     <>
-      <div className='team_avatar'>
+      <div className='team-avatar'>
         {hasProfilePicture ? (
-          <div className='ta_profile_pics'>
+          <div className='ta-profile-pics'>
             <img
-              className='ta_imgs'
+              className='ta-imgs'
               src={profilePicture}
               alt='team avatar pics'
             />
           </div>
         ) : (
-          <div className='ta_default_pics'>
+          <div className='ta-default-pics'>
             <img src={defaultImageURL} alt='team avatar default' />
           </div>
         )}

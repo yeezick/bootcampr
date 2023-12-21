@@ -1,9 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
 import { Layout } from 'layout'
 import {
+  ChangePassword,
   EmailSentConfirmation,
   EmailVerify,
   ExpiredLink,
+  ResetPassword,
   SignIn,
   SignUp,
 } from 'screens/Auth'
@@ -20,10 +22,9 @@ import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailCon
 import { UnassignedProject } from 'screens/Project/UnassignedProject'
 import { AboutUs, HowTo } from 'screens/Landing'
 import { Email } from 'screens/Auth/Settings/Email'
-import { PasswordSettings } from 'screens/Auth/Settings/Password'
 import { Account } from 'screens/Auth/Settings/Account'
-import { ResetPassword } from 'screens/Auth/Settings/Password'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
+import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
 import './App.css'
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
             path='/sign-up/:id/confirmation-email-sent'
             element={<EmailSentConfirmation />}
           />
+          <Route path='/success/:userId' element={<SuccessScreen />} />
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
           <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
@@ -57,7 +59,7 @@ function App() {
           />
           <Route path='/users/:id/settings'>
             <Route path='email' element={<Email />} />
-            <Route path='password' element={<PasswordSettings />} />
+            <Route path='password' element={<ChangePassword />} />
             <Route path='account' element={<Account />} />
           </Route>
           {/* Project */}

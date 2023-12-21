@@ -1,14 +1,14 @@
 @import 'scss/variables';
 @import 'scss/mixins';
 
-.team_member_card {
+.team-member-card {
   @include flex(row, flex-start, center);
 
-  .tmc_profile_cont {
+  .tmc-profile-cont {
     @include flex(column, flex-start, center);
   }
 
-  .tmc_profile_img_cont {
+  .tmc-profile-img-cont {
     @include flex(column, center, center);
     z-index: 1;
 
@@ -19,7 +19,7 @@
     }
   }
 
-  .tmc_profile_info_cont {
+  .tmc-profile-info-cont {
     @include flex(column, center, center);
     background: #fff;
     border-radius: 8px;
@@ -33,7 +33,7 @@
     z-index: 0;
   }
 
-  .tmc_profile_info {
+  .tmc-profile-info {
     @include flex(column, center, center);
     gap: 4px;
     padding: 0;
@@ -76,20 +76,20 @@
     }
   }
 
-  .tmc_profile_btns_cont {
+  .tmc-profile-btns-cont {
     @include flex(row, flex-start, center);
     gap: 8px;
     padding: 0;
     width: 203px;
   }
 
-  .tmc_profile_btn_cont {
+  .tmc-profile-btn-cont {
     @include flex(column, center, center);
     height: 100%;
     width: 100%;
   }
 
-  .tmc_profile_btn {
+  .tmc-profile-btn {
     @include flex(revert, center, center);
     background-color: #fff;
     border: 1px solid #5c6bc0;
@@ -104,7 +104,7 @@
     width: 100%;
   }
 
-  .tmc_link_pro_btn {
+  .tmc-link-pro-btn {
     @include flex(column, center, center);
     border-radius: 4px;
     height: 40px;
@@ -127,13 +127,13 @@
     }
   }
 
-  .tmc_message_btn_cont {
+  .tmc-message-btn-cont {
     @include flex(revert, center, center);
     height: 100%;
     width: 100%;
   }
 
-  .tmc_message_btn {
+  .tmc-message-btn {
     @include flex(revert, center, center);
     @include font-properties(
       (

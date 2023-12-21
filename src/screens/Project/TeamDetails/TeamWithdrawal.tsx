@@ -22,32 +22,32 @@ export const TeamWithdrawal: React.FC<TeamWithdrawalModal> = ({
   return (
     <>
       <Menu
-        id='withdrawal_menu'
+        id='withdrawal-menu'
         anchorEl={anchorEl}
         open={openMenu}
         onClose={onCloseMenu}
         MenuListProps={{
-          'aria-labelledby': 'tm_open_modal',
+          'aria-labelledby': 'tm-open-modal',
         }}
       >
         <MenuItem onClick={onOpenModal}>Withdraw from this project</MenuItem>
       </Menu>
       <Dialog open={openModal} onClose={onCloseMenu} maxWidth='xs' fullWidth>
-        <div className='wtd_modal_cont'>
-          <div className='wtd_text_cont'>
-            <DialogTitle id='wtd_modal_title'>
+        <div className='wtd-modal-cont'>
+          <div className='wtd-text-cont'>
+            <DialogTitle id='wtd-modal-title'>
               Withdraw from project?
             </DialogTitle>
-            <DialogContent id='wtd_modal_body'>
+            <DialogContent id='wtd-modal-body'>
               You will lose access to this project portal, team messaging, and
               cannot rejoin the project
             </DialogContent>
           </div>
-          <DialogActions id='wtd_btns_cont'>
-            <button className='wtd_cancel_btn' onClick={onCloseAll}>
+          <DialogActions id='wtd-btns-cont'>
+            <button className='wtd-cancel-btn' onClick={onCloseAll}>
               Cancel
             </button>
-            <button className='wtd_remove_btn'>Withdraw from project</button>
+            <button className='wtd-remove-btn'>Withdraw from project</button>
           </DialogActions>
         </div>
       </Dialog>
