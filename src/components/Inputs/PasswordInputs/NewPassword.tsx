@@ -18,6 +18,7 @@ export const NewPassword = ({
   passwordInputName,
 }) => {
   const [inputType, setInputType] = useState('password')
+  const [inputTouched, setInputTouched] = useState(false)
   const inputId = 'password'
   const passwordErrorMessages = {
     uppercase: '1 uppercase',
@@ -58,10 +59,12 @@ export const NewPassword = ({
       <div className='password-errors'>
         {Object.keys(passwordErrorMessages).map(key => (
           <div key={key}>
-            <PasswordCriteria
-              criteria={passwordErrorMessages[key]}
-              errorState={passwordErrors[key]}
-            />
+            {inputTouched && (
+              <PasswordCriteria
+                criteria={passwordErrorMessages[key]}
+                errorState={passwordErrors[key]}
+              />
+            )}
           </div>
         ))}
       </div>
@@ -86,6 +89,7 @@ export const NewPassword = ({
             required
             onChange={handlePasswordChange}
             type={inputType}
+            onFocus={() => setInputTouched(true)}
           />
           <IconButton
             className='new-password eyecon'
