@@ -75,13 +75,13 @@ export const buildSettingsPortalLinks = (userId: string) => [
 
 /**
  * Builds the redux object for the Settings sidemenu.
- * @param projectId
+ * @param userId
  * @returns {SideMenuInterface} Context for settings sidemenu
  */
-export const buildSettingsSideMenu = (projectId: string) => {
+export const buildSettingsSideMenu = (userId: string) => {
   return {
     active: true,
-    links: buildSettingsPortalLinks(projectId),
+    links: buildSettingsPortalLinks(userId),
     title: 'Settings',
   }
 }
@@ -104,17 +104,19 @@ export const buildProjectPortalSideMenu = (projectId: string) => {
  * @param dispatch Instantiated dispatcher
  * @param domain Type of domain: "project" | "settings"
  * @param projectId
+ * @param userId
  */
 export const determineSideMenu = (
   dispatch: ThunkDispatch<RootState, undefined, AnyAction> &
     Dispatch<AnyAction>,
   domain: DomainStrings,
-  projectId: string
+  projectId: string,
+  userId: string
 ) => {
   if (domain === 'project') {
     dispatch(setSideMenu(buildProjectPortalSideMenu(projectId)))
   } else if (domain === 'settings') {
-    dispatch(setSideMenu(buildSettingsSideMenu(projectId)))
+    dispatch(setSideMenu(buildSettingsSideMenu(userId)))
   } else {
     dispatch(resetSideMenu())
   }
