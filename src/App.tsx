@@ -13,17 +13,18 @@ import { Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { ProjectCompletion } from './screens/ProjectCompletion/ProjectCompletion'
-import { AllProjects } from 'screens/Project'
-import { TaskBoard } from './screens/Project/TaskBoard'
-import { ProjectDetails } from 'screens/Project/ProjectDetails/ProjectDetails'
-import { TeamMembers } from 'screens/Project/TeamDetails/TeamMembers'
+import {
+  AllProjects,
+  ProjectDetails,
+  TaskManagement,
+  TeamMembers,
+  UnassignedProject,
+} from 'screens/Project'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailConfirmation'
-import { UnassignedProject } from 'screens/Project/UnassignedProject'
-import { AboutUs, HowTo } from 'screens/Landing'
-import { Email } from 'screens/Auth/Settings/Email'
-import { Account } from 'screens/Auth/Settings/Account'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
+import { AboutUs, HowTo } from 'screens/Landing'
+import { Account, Email } from 'screens/Auth/Settings'
 import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
 import './App.css'
 
@@ -67,7 +68,7 @@ function App() {
             <Route path=':projectId' element={<ProjectDetails />} />
             <Route path=':projectId/complete' element={<ProjectCompletion />} />
             <Route path=':projectId/calendar' element={<CalendarScreen />} />
-            <Route path=':projectId/tasks' element={<TaskBoard />} />
+            <Route path=':projectId/tasks' element={<TaskManagement />} />
             <Route path=':projectId/team' element={<TeamMembers />} />
             <Route path='unassigned' element={<UnassignedProject />} />
           </Route>
