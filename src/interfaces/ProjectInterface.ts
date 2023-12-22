@@ -49,3 +49,12 @@ export interface EmailMap {
     index: number
   }
 }
+
+export interface TeamWithdrawalModal {
+  onOpenModal?: () => void
+  openModal?: boolean
+  onCloseAll?: () => void
+  openMenu?: boolean
+  onCloseMenu?: () => void
+  anchorEl?: HTMLElement | null
+}

@@ -13,18 +13,19 @@ import { Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { ProjectCompletion } from './screens/ProjectCompletion/ProjectCompletion'
-import { AllProjects, TaskBoard } from 'screens/Project'
+import { AllProjects } from 'screens/Project'
+import { TaskBoard } from './screens/Project/TaskBoard'
+import { ProjectDetails } from 'screens/Project/ProjectDetails/ProjectDetails'
+import { TeamMembers } from 'screens/Project/TeamDetails/TeamMembers'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
-import './App.css'
 import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailConfirmation'
-import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { UnassignedProject } from 'screens/Project/UnassignedProject'
 import { AboutUs, HowTo } from 'screens/Landing'
 import { Email } from 'screens/Auth/Settings/Email'
 import { Account } from 'screens/Auth/Settings/Account'
-import { TeamMembers } from 'screens/Project/TeamMembers'
-import { ProjectDetails } from 'screens/Project/ProjectDetails'
+import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
+import './App.css'
 
 function App() {
   return (
@@ -50,7 +51,7 @@ function App() {
           />
           {/* User */}
           <Route path='/onboarding/:id' element={<Onboarding />} />
-          <Route path='/users/:id' element={<UserProfile />} />
+          <Route path='/users/:userId' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />
           <Route
             path='/users/:id/update-email-confirmation'
