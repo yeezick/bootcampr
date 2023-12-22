@@ -15,17 +15,18 @@ import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { ProjectCompletion } from './screens/ProjectCompletion/ProjectCompletion'
 import {
   AllProjects,
+  ProjectDetails,
   TaskManagement,
   TeamMembers,
   UnassignedProject,
 } from 'screens/Project'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
-import './App.css'
 import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailConfirmation'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { AboutUs, HowTo } from 'screens/Landing'
 import { Account, Email } from 'screens/Auth/Settings'
 import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
+import './App.css'
 
 function App() {
   return (
@@ -51,7 +52,7 @@ function App() {
           />
           {/* User */}
           <Route path='/onboarding/:id' element={<Onboarding />} />
-          <Route path='/users/:id' element={<UserProfile />} />
+          <Route path='/users/:userId' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />
           <Route
             path='/users/:id/update-email-confirmation'
@@ -64,6 +65,7 @@ function App() {
           </Route>
           {/* Project */}
           <Route path='/project'>
+            <Route path=':projectId' element={<ProjectDetails />} />
             <Route path=':projectId/complete' element={<ProjectCompletion />} />
             <Route path=':projectId/calendar' element={<CalendarScreen />} />
             <Route path=':projectId/tasks' element={<TaskManagement />} />

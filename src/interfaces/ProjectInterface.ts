@@ -50,3 +50,12 @@ export interface ProjectTrackerInterface {
   toDo: TicketInterface[]
   underReview: TicketInterface[]
 }
+
+export interface TeamWithdrawalModal {
+  onOpenModal?: () => void
+  openModal?: boolean
+  onCloseAll?: () => void
+  openMenu?: boolean
+  onCloseMenu?: () => void
+  anchorEl?: HTMLElement | null
+}

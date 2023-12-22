@@ -156,7 +156,7 @@ const userSlice = createSlice({
   },
 })
 
-export const getUserAvailability = (state: RootState) =>
+export const selectUserAvailability = (state: RootState) =>
   state.ui.auth.user.availability
 export const getUserTimezone = (state: RootState) => state.ui.auth.user.timezone
 export const getUserProfileImage = (state: RootState) =>
