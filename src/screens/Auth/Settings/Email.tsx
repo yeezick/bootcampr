@@ -66,30 +66,18 @@ export const Email = () => {
 
   return (
     <div className='settings-card'>
+      <h3>Update email address</h3>
       <h4>Current email address</h4>
       <p>{currentUserEmail}</p>
-      <h4>Enter updated email address (ex. jeanine@bootcampr.io)</h4>
+      <label htmlFor='newEmail'>Enter updated email address</label>
       <input
         type='text'
+        id='newEmail'
         value={newEmail}
         onChange={e => setNewEmail(e.target.value)}
+        placeholder='email@email.com'
       />
-      <h4>Re-enter updated email address</h4>
-      <input
-        type='text'
-        value={reEnterNewEmail}
-        onChange={e => setReEnterNewEmail(e.target.value)}
-      />
-      {nonEmpty &&
-        (emailMatch ? (
-          <p className='valid'>Email addresses match</p>
-        ) : (
-          <p className='invalid'>Email addresses do not match</p>
-        ))}
       <div className='buttons'>
-        <button className='cancel' onClick={refreshForm}>
-          Cancel
-        </button>
         <button
           className='update'
           disabled={isDisabled}

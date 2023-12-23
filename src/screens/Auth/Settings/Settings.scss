@@ -1,62 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Roboto&family=Rubik&display=swap');
+
 .settings-card {
-  background-color: white;
+  background-color: #FFF;
+  ;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 40px 80px;
-  padding: 22px;
+  font-family: 'Roboto', sans-serif;
+  margin: 60px 90px;
+  padding: 0;
   width: fit-content;
+  color: #212121;
+
+  h3 {
+    font-size: 22px;
+    font-weight: 700;
+    text-align: left;
+    line-height: 28px;
+  }
 
   h4 {
-    font-size: 18px;
-    font-weight: 200;
-    margin: 15px 0 5px 0;
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 16px;
     text-align: left;
+    line-height: 24px;
   }
 
   input {
-    background-color: #f5f5f5;
-    border-radius: 4px;
-    border-style: none;
-    font-size: 18px;
-    height: 40px;
-    margin: 5px 0;
-    outline: none;
-    padding: 3px 8px;
-    width: 448px;
-  }
-
-  input {
-    background-color: #FFFFFF;
+    background-color: #FFF;
     border-radius: 4px;
     border: 1px solid #212121;
     font-size: 18px;
-    height: 40px;
-    margin: 5px 0;
+    height: 24px;
     outline: none;
-    padding: 3px 8px;
-    width: 448px;
+    width: 328px;
+    padding: 8px 16px;
+    margin-top: 8px;
+  }
+
+  label {
+    font-size: 16px;
+    line-height: 24px;
   }
 
   p {
-    font-size: 20px;
-    font-weight: 100;
+    font-size: 16px;
+    margin-top: 8px;
   }
 
   .buttons {
     align-items: flex-end;
     column-gap: 20px;
     display: flex;
-    height: 80px;
+    height: 72px;
     justify-content: flex-end;
     width: 100%;
 
     button {
       border-radius: 4px;
-      font-size: 18px;
-      height: 43px;
-      padding: 0px 14px;
+      font-size: 14px;
+      height: 40px;
+      padding: 0px 24px;
     }
 
     // TODO: swap these for color variables
