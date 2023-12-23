@@ -16,12 +16,24 @@ export const Email = () => {
   const [emailMatch, setEmailMatch] = useState(false)
   const [nonEmpty, setNonEmpty] = useState(false)
   const [isDisabled, toggleIsDisabled] = useState(true)
+  const [isValidEmail, setValidEmail] = useState(true)
   const currentUserEmail = authUser.email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
   const refreshForm = () => {
     setNewEmail('')
     setReEnterNewEmail('')
     toggleIsDisabled(true)
+    setValidEmail(true)
+  }
+
+  const handleEmailChange = e => {
+    const { value } = e.target
+    setNewEmail(value)
+    setValidEmail(emailRegex.test(value))
+    if (!value) {
+      refreshForm()
+    }
   }
 
   const checkIfEmailsMatch = () => {
@@ -57,7 +69,7 @@ export const Email = () => {
 
   useEffect(() => {
     setNonEmpty(newEmail.length > 1 && reEnterNewEmail.length > 1)
-    if (checkIfEmailsMatch() && newEmail.length > 0) {
+    if (newEmail.length > 0 && isValidEmail) {
       toggleIsDisabled(false)
     } else {
       toggleIsDisabled(true)
@@ -70,13 +82,20 @@ export const Email = () => {
       <h4>Current email address</h4>
       <p>{currentUserEmail}</p>
       <label htmlFor='newEmail'>Enter updated email address</label>
-      <input
-        type='text'
-        id='newEmail'
-        value={newEmail}
-        onChange={e => setNewEmail(e.target.value)}
-        placeholder='email@email.com'
-      />
+
+      <div className='email-input-container'>
+        <input
+          type='text'
+          id='newEmail'
+          value={newEmail}
+          onChange={handleEmailChange}
+          placeholder='email@email.com'
+          className={isValidEmail ? '' : 'invalid-email'}
+        />
+        {isValidEmail ? null : (
+          <p className='invalid-msg'>Invalid email address</p>
+        )}
+      </div>
       <div className='buttons'>
         <button
           className='update'

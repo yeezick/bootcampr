@@ -2,7 +2,7 @@
 
 .settings-card {
   background-color: #FFF;
-  ;
+  position: relative;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
@@ -37,6 +37,23 @@
     width: 328px;
     padding: 8px 16px;
     margin-top: 8px;
+  }
+
+  .email-input-container {
+    position: relative;
+  }
+
+  .invalid-email {
+    border: 1px solid #B71C1C;
+  }
+
+  .invalid-msg {
+    font-size: 12px;
+    line-height: 16px;
+    color: #B71C1C;
+    padding-left: 16px;
+    position: absolute;
+    top: 100%;
   }
 
   label {
