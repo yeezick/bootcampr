@@ -44,10 +44,10 @@ export const TaskBoard = () => {
   }, [projectTracker])
 
   return (
-    <div className='AllTickets'>
+    <>
       <BoardHeader />
       {ticketsExist ? <BoardColumns /> : <NoTicketsCreated />}
       <TicketDialog />
-    </div>
+    </>
   )
 }

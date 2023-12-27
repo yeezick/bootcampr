@@ -55,5 +55,9 @@ export const TaskManagement = () => {
     emailLinkClicked && dispatch(toggleChatOpen())
   }, [authUser.project, emailLinkClicked, dispatch])
 
-  return <div className='Project'>{project && <TaskBoard />}</div>
+  if (project) {
+    return <TaskBoard />
+  } else {
+    // TODO WHAT HAPPENS HERE? CONSOLIDATE FILE?
+  }
 }

@@ -5,7 +5,7 @@ import { selectVisibleTickets } from 'utils/redux/slices/taskBoardSlice'
 export const ColumnHeader = ({ columnStatus }) => {
   const visibleTickets = useAppSelector(selectVisibleTickets)
   return (
-    <div className='ticketStatusProgress'>
+    <div className='column-header'>
       <p>{formatTaskStatus(columnStatus)}</p>
       <span>{visibleTickets[columnStatus].length}</span>
     </div>

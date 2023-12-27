@@ -1,15 +1,15 @@
 import { DragDropContext } from '@hello-pangea/dnd'
 import { saveTicketStatusChange } from 'utils/api/tickets'
-import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { useAppDispatch } from 'utils/redux/hooks'
 import { useParams } from 'react-router-dom'
 import { updateTicketStatus } from 'utils/redux/slices/projectSlice'
-import { selectVisibleTickets } from 'utils/redux/slices/taskBoardSlice'
 import { StatusColumn } from './StatusColumn'
+import '../styles/BoardColumnStyles.scss'
 
 export const BoardColumns = () => {
   const { projectId } = useParams()
   const dispatch = useAppDispatch()
-  const visibleTickets = useAppSelector(selectVisibleTickets)
+  const columnOrder = ['toDo', 'inProgress', 'underReview', 'completed']
 
   const handleOnDragEnd = async movingTicket => {
     if (movingTicket) {
@@ -41,9 +41,9 @@ export const BoardColumns = () => {
 
   // TODO: Add indexing to columns
   return (
-    <div className={'AllTicketsDragDrop'}>
+    <div className={'board-wrapper'}>
       <DragDropContext onDragEnd={handleOnDragEnd}>
-        {Object.keys(visibleTickets).map(columnStatus => (
+        {columnOrder.map(columnStatus => (
           <StatusColumn columnStatus={columnStatus} />
         ))}
       </DragDropContext>

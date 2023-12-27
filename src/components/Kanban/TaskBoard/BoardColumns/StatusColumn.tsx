@@ -7,7 +7,7 @@ export const StatusColumn = ({ columnStatus }) => {
   return (
     <Droppable droppableId={columnStatus} key={`column-${columnStatus}`}>
       {provided => (
-        <div className='ticketStatusContainer'>
+        <div className='status-column'>
           <ColumnHeader columnStatus={columnStatus} />
           <CreateTicketTab columnStatus={columnStatus} />
           <ColumnTickets provided={provided} columnStatus={columnStatus} />

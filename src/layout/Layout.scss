@@ -3,11 +3,11 @@
 }
 
 .main-content-container {
-  background-color: #e5e5e5;
+  background-color: white;
   margin-top: 93px;
   min-height: calc(100vh - 250px);
   padding-bottom: 5rem;
-  width: 100%;
+  max-width: calc(100% - 272px);
 }
 
 .landing-main-content-container {
