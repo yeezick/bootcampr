@@ -19,6 +19,7 @@ export const TaskManagement = () => {
   const { id } = useParams()
   const project = useAppSelector(selectProject)
 
+  // BC-654: Token validation and routing should be handled ata higher level like Layout
   useEffect(() => {
     if (queryToken) {
       const validateToken = async () => {

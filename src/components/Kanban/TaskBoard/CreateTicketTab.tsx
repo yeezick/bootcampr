@@ -1,4 +1,4 @@
-import { Icon } from '@mui/material'
+import { Button } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectUserId } from 'utils/redux/slices/userSlice'
@@ -9,12 +9,10 @@ import {
   setVisibleTicketDialog,
 } from 'utils/redux/slices/taskBoardSlice'
 
-// BC-634: Convert to MUI button
 export const CreateTicketTab = ({ columnStatus }) => {
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
   const openCreateTicketDialog = () => {
     dispatch(setVisibleTicketDialog('create'))
@@ -29,9 +27,13 @@ export const CreateTicketTab = ({ columnStatus }) => {
   }
 
   return (
-    <button onClick={openCreateTicketDialog} className={'createTicketButton'}>
-      <Icon {...label} component={AddIcon} />
-      <p>Create Ticket</p>
-    </button>
+    <Button
+      className='create-ticket-btn'
+      onClick={openCreateTicketDialog}
+      startIcon={<AddIcon />}
+      variant='contained'
+    >
+      Create ticket
+    </Button>
   )
 }

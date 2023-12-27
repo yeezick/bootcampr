@@ -32,5 +32,18 @@
         margin-left: 16px;
       }
     }
+
+    .create-ticket-btn {
+      background-color: #5C6BC0;
+      justify-content: flex-start;
+      height: 40px;
+      margin-top: 8px;
+      text-align: left;
+
+      .MuiButton-startIcon {
+        margin-left: 16px;
+        margin-right: 8px;
+      }
+    }
   }
 }
