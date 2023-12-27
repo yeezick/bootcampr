@@ -18,7 +18,7 @@ import {
   selectSideMenu,
 } from 'utils/redux/slices/userInterfaceSlice'
 import './Layout.scss'
-import { determineSideMenu } from 'utils/helpers'
+import { determineSideMenu, isPortalDomain } from 'utils/helpers'
 
 type LayoutProps = {
   children: React.ReactNode
@@ -74,8 +74,16 @@ export const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
       <ScrollToTop />
       <Nav />
       <div className='main-wrapper'>
-        {sideMenu?.active && <SideMenu />}
-        <div className={'main-content-container'}>{children}</div>
+        {sideMenu.active && <SideMenu />}
+        <div
+          className={
+            sideMenu.active
+              ? 'portal-content-container'
+              : 'main-content-container'
+          }
+        >
+          {children}
+        </div>
       </div>
       <Footer />
     </>

@@ -33,7 +33,7 @@ export const CreateTicketTab = ({ columnStatus }) => {
       startIcon={<AddIcon />}
       variant='contained'
     >
-      Create ticket
+      Create task
     </Button>
   )
 }

@@ -1,7 +1,7 @@
-.board-wrapper {
+.columns-wrapper {
   display: flex;
   flex-direction: row;
-  height: calc(100% - 26px); // 26px by eyesight, can be better
+  height: calc(100% - 26px); // 26px by eyesight, can be better, parent div extends into footer?
   justify-content: space-between;
   padding: 33px 38px 0px 33px;
   overflow-x: scroll;
@@ -35,10 +35,12 @@
 
     .create-ticket-btn {
       background-color: #5C6BC0;
+      font-size: 16px;
       justify-content: flex-start;
       height: 40px;
       margin-top: 8px;
       text-align: left;
+      text-transform: none;
 
       .MuiButton-startIcon {
         margin-left: 16px;

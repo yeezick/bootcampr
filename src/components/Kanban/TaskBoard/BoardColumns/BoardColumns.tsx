@@ -39,9 +39,8 @@ export const BoardColumns = () => {
     }
   }
 
-  // TODO: Add indexing to columns
   return (
-    <div className={'board-wrapper'}>
+    <div className={'columns-wrapper'}>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         {columnOrder.map(columnStatus => (
           <StatusColumn columnStatus={columnStatus} />

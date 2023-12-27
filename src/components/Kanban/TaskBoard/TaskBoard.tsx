@@ -12,7 +12,6 @@ import {
 import { selectUserId } from 'utils/redux/slices/userSlice'
 import { TicketDialog } from '../TicketDialog/TicketDialog'
 
-// TODO: Rename projectTracker to taskBoard
 export const TaskBoard = () => {
   const projectTracker = useAppSelector(selectProjectTracker)
   const userId = useAppSelector(selectUserId)
