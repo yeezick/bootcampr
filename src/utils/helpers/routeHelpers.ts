@@ -65,12 +65,12 @@ export const buildSettingsPortalLinks = (userId: string) => [
     label: 'Password',
     route: `/users/${userId}/settings/password`,
   },
-  {
-    domain: 'settings',
-    icon: 'account',
-    label: 'Account',
-    route: `/users/${userId}/settings/account`,
-  },
+  // {
+  //   domain: 'settings',
+  //   icon: 'account',
+  //   label: 'Account',
+  //   route: `/users/${userId}/settings/account`,
+  // },
 ]
 
 /**
