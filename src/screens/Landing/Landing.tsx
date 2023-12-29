@@ -149,7 +149,19 @@ export const Landing: React.FC = () => {
       </div>
       <div className='teaser-container'>
         <div className='teaser-header'>UX Designers & Software Engineers</div>
-        <div className='teaser-text'></div>
+        <div className='teaser-text'>
+          <div className='teaser-text-1'>
+            You just finished a boot camp-- <br />
+            but to get experience in the “real world” you need...experience.
+          </div>
+          <div className='teaser-text-2'>Now what?</div>
+          <div className='teaser-text-3'>
+            Connect with fellow boot camp grads to complete and ship a product.{' '}
+            <br />
+            Gain experience working on a cross-functional team to get hired
+            faster.
+          </div>
+        </div>
       </div>
     </div>
   )
