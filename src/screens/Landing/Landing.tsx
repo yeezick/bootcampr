@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import heroImage from 'assets/Images/hero-image.png'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setAuthUser } from 'utils/redux/slices/userSlice'
@@ -9,7 +10,6 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { getRandomInt } from 'screens/AccountSettings/helper/data'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
 import './Landing.scss'
-import { Button } from '@mui/material'
 import {
   onScreenUpdate,
   setCurrentConversation,
@@ -126,60 +126,30 @@ export const Landing: React.FC = () => {
 
   return (
     <div className='landing-container'>
-      <div className='header-container'>
-        <div className='header-grid'>
-          <h1>Surpass Your Competition In The Tech Job Market</h1>
-          <p>
-            A platform to collaborate on real-world projects! Don't wait to
-            build your development experience.
-          </p>
-          <Link to='/sign-up'>Start Today!</Link>
+      <div className='hero-container'>
+        <div className='hero-content'>
+          <div className='hero-text'>
+            <div className='hero-text-1'>
+              <span>Join a team.</span>
+              <span>Build a product.</span>
+              <span>Have fun!</span>
+            </div>
+            <div className='hero-text-2'>
+              Gain the experience you <span className='bold-text'>need</span> to
+              land the job you <span className='bold-text'>want</span>.
+            </div>
+          </div>
+          <Link to='/sign-up' className='hero-button'>
+            Sign up
+          </Link>
         </div>
-        <div className='developer-grid'>
-          <h1> For UX & Developers Only! </h1>
-          <h2>
-            Login as a random user using the button below <br /> Button is for
-            devs who want to skip auth user flow
-          </h2>
-          <button onClick={randomUserLogin}>Login as random user</button>
-          <LoginStatusSymbol />
+        <div className='hero-image'>
+          <img src={heroImage} alt='hero' />
         </div>
       </div>
-      <div className='members-container'>
-        {projectMembers.map(
-          ({
-            _id: memberId,
-            firstName,
-            lastName,
-            email,
-            role,
-            profilePicture,
-          }) => {
-            return (
-              <div key={memberId} className='member-card'>
-                <div>
-                  {firstName} {lastName}
-                </div>
-                <div>{role}</div>
-                <Button
-                  variant='contained'
-                  className='message-button'
-                  onClick={() =>
-                    handleButtonClick(
-                      memberId,
-                      firstName,
-                      lastName,
-                      email,
-                      profilePicture
-                    )
-                  }
-                >
-                  Message
-                </Button>
-              </div>
-            )
-          }
-        )}
+      <div className='teaser-container'>
+        <div className='teaser-header'>UX Designers & Software Engineers</div>
+        <div className='teaser-text'></div>
       </div>
     </div>
   )
