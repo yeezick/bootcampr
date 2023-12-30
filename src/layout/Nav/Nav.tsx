@@ -77,12 +77,12 @@ export const Nav = () => {
               Project Portal
             </DomainLink>
           )}
-          <Link className='header-link' to='/how-to'>
+          {/* <Link className='header-link' to='/how-to'>
             How Bootcamper works
           </Link>
           <Link className='header-link' to='/about-us'>
             About us
-          </Link>
+          </Link> */}
         </div>
         {userId ? (
           <AuthorizedNavLinks
