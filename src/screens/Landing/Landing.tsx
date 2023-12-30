@@ -343,6 +343,58 @@ export const Landing: React.FC = () => {
           </div>
         </div>
       </div>
+      <div className='get-job'>
+        <span>You've done the work.</span>
+        <span>Get the job.</span>
+        <Link className='button' to='/sign-up'>
+          Sign up
+        </Link>
+      </div>
+      <div className='contact-container'>
+        <div className='contact-wrapper'>
+          <div className='contact-header'>
+            <div className='question'>Questions?</div>
+            <div className='contact'>Contact Us</div>
+            <div className='text'>
+              Our team will get back to you within 48-72 hours.
+            </div>
+          </div>
+          <div className='contact-form'>
+            <div>
+              <label htmlFor='name'>Name</label>
+              <input
+                type='text'
+                id='name'
+                name='name'
+                placeholder='Who are we speaking to?'
+              />
+            </div>
+            <div>
+              <label htmlFor='name'>Email address</label>
+              <input
+                type='email'
+                id='email'
+                name='email'
+                placeholder='email@email.com'
+              />
+            </div>
+            <div>
+              <label htmlFor='message'>Message</label>
+              <div className='message-box'>
+                <textarea
+                  name='message'
+                  id='message'
+                  cols={99}
+                  rows={10}
+                  placeholder='Ask Away!'
+                ></textarea>
+                <p className='word-count'>0/500</p>
+              </div>
+            </div>
+          </div>
+          <div className='contact-button'>Submit</div>
+        </div>
+      </div>
     </div>
   )
 }
