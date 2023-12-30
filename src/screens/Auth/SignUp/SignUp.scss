@@ -127,26 +127,33 @@ h4 {
   margin: 0 0 16px 16px;
 }
 
-.form-btn {
+.sign-up-btn-container {
+  margin-top: -10px;
+}
+
+.sign-up-btn {
+  background-color: #ffa726;
+  border: none;
+  border-radius: 4px;
+  cursor: not-allowed;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  opacity: 0.38;
   width: 100%;
+}
 
-  button {
-    background-color: #fa9413;
-    border: none;
-    border-radius: 3px;
-    box-sizing: border-box;
-    cursor: pointer;
-    font-size: 18px;
-    margin-top: 5px;
-    padding: 13px;
-    width: 100%;
-  }
-
-  button:disabled {
-    background-color: #ecebeb;
-    color: black;
-    cursor: default;
-  }
+.sign-up-btn-active {
+  background-color: #ffa726;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  width: 100%;
 }
 
 #signup-agreement {

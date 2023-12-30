@@ -88,6 +88,10 @@ export const SignUp: React.FC = () => {
     }, 16000)
   }
 
+  const submitButtonStyle = `${
+    disabledForm ? 'sign-up-btn' : 'sign-up-btn-active'
+  }`
+
   return (
     <div className='signup-screen'>
       {alertBanner.status && (
@@ -143,8 +147,12 @@ export const SignUp: React.FC = () => {
               setIsAccepted={setIsAccepted}
             />
 
-            <div className='form-btn'>
-              <button type='submit' disabled={disabledForm}>
+            <div className='sign-up-btn-container'>
+              <button
+                className={submitButtonStyle}
+                disabled={disabledForm}
+                type='submit'
+              >
                 Sign up
               </button>
             </div>
