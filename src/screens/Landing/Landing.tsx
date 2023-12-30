@@ -8,6 +8,10 @@ import projectImage3 from 'assets/Images/project-image-3.png'
 import projectImage4 from 'assets/Images/project-image-4.png'
 import projectImage5 from 'assets/Images/project-image-5.png'
 import isThisForYou from 'assets/Images/is-this-for-you-image.png'
+import buildImage from 'assets/Images/buildImage.png'
+import gainImage from 'assets/Images/gainImage.png'
+import joinImage from 'assets/Images/joinImage.png'
+
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setAuthUser } from 'utils/redux/slices/userSlice'
@@ -316,6 +320,29 @@ export const Landing: React.FC = () => {
           </div>
         </div>
       </section>
+      <div className='team-workflow'>
+        <div className='workflow'>
+          <img src={buildImage} alt='build-icon' />
+          <div className='text'>
+            <span>Build a product</span>
+            <p>Apply what you've learned</p>
+          </div>
+        </div>
+        <div className='workflow'>
+          <img src={gainImage} alt='gain-icon' />
+          <div className='text'>
+            <span>Gain experience</span>
+            <p>Workplace-simulated environment</p>
+          </div>
+        </div>
+        <div className='workflow'>
+          <img src={joinImage} alt='join-icon' />
+          <div className='text'>
+            <span>Join a team</span>
+            <p>Hiring managers look for soft skills</p>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
