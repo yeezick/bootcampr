@@ -162,19 +162,24 @@ const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
       display: 'flex',
     },
     '& .MuiCheckbox-root': {
-      backgroundColor: '',
       alignSelf: 'flex-start',
+      backgroundColor: '',
+    },
+    '& .MuiTypography-root': {
+      fontSize: '14px',
     },
   }
 
   return (
     <div id='signup-agreement'>
+      <p>
+        Bootcampr sends important information, including project start dates and
+        team notifications by email. We will not sell your information!
+      </p>
       <FormControlLabel
         sx={checkboxStyles}
         control={<Checkbox checked={isAccepted} onChange={handleCheckbox} />}
-        label={`I agree to receive email notification(s). We will only send 
-        emails with important information, like project start dates.
-        We will not sell your information!`}
+        label={`I agree to receive emails from Bootcampr.`}
       />
     </div>
   )
