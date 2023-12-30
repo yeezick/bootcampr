@@ -30,7 +30,7 @@ export const Email = ({ setFormValues }) => {
       <FormControl className='sign-up-input-container' variant='standard'>
         <label className='form-label' htmlFor={inputId}>
           Email
-          <span className='password-label-helper'>{sampleEmail}</span>
+          <span className='email-label-helper'>{sampleEmail}</span>
         </label>
         <input
           id={inputId}
