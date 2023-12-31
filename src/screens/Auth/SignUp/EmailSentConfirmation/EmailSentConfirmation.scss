@@ -4,43 +4,50 @@
   flex-direction: column;
   height: 100vh;
   margin: 0 auto;
-  margin-top: 200px;
+  margin-top: 64px;
   text-align: center;
   width: 682px;
 
   .message-content {
     &.header {
-      font-size: 38px;
-      font-weight: 600;
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 44px;
       margin: 0;
-      margin-bottom: 45px;
+      margin-bottom: 16px;
     }
 
     &.subheader {
       font-size: 24px;
-      font-weight: 600;
+      font-weight: 700;
+      line-height: 32px;
       margin: 0;
-      margin-bottom: 15px;
+      margin-bottom: 16px;
     }
 
     &.text {
       font-size: 16px;
       font-weight: 400;
-      margin-bottom: 50px;
-      width: 463px;
+      line-height: 24px;
+      margin-bottom: 32px;
+      width: 456px;
+      text-align: left;
+
+      p {
+        margin: 0;
+      }
     }
   }
 
   button {
     background: none;
     border: none;
-    color: #8048c8;
+    color: #0d47a1;
     cursor: pointer;
     font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
     width: fit-content;
-
-    &:hover {
-      text-decoration: underline;
-    }
+    text-decoration: underline;
   }
 }

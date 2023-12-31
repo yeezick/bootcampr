@@ -42,10 +42,9 @@ export const EmailSentConfirmation: React.FC = () => {
       </p>
       <div className='message-content text'>
         <p>
-          Verify your email address to log in. If you don’t see it after a few
+          Confirm your email address to log in. If you don’t see it after a few
           minutes, please check your junk or spam folder.
         </p>
-        <p>The link provided in the email will expire in 30 minutes. </p>
       </div>
       <button className='resend-link' onClick={handleResendEmailClick}>
         Re-send email
