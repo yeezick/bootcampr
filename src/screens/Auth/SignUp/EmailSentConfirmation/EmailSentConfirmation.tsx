@@ -53,7 +53,7 @@ export const EmailSentConfirmation: React.FC = () => {
       <div className='honeycomb'>
         <img
           src={emailSentImage}
-          alt='A person smiles while working on a laptop at a coffee shop'
+          alt='A person jumps in the air in celebration'
         />
       </div>
     </div>
