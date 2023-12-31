@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaInfoCircle } from 'react-icons/fa'
 import { GoAlert } from 'react-icons/go'
 import { register, reset, uiStatus } from 'utils/redux/slices/userSlice'
@@ -155,6 +155,11 @@ export const SignUp: React.FC = () => {
               >
                 Sign up
               </button>
+            </div>
+            <div className='sign-up-redirect-link'>
+              <p>
+                Already have an account? <Link to='/sign-in'>Log in</Link>
+              </p>
             </div>
           </form>
         </div>
