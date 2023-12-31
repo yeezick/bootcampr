@@ -41,7 +41,7 @@ export const Email = ({ setFormValues }) => {
           required
           type={inputId}
           style={{
-            borderColor: error ? 'red' : '',
+            borderColor: error ? '#d32f2f' : '',
           }}
         />
         {error && (
