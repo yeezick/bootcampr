@@ -40,8 +40,15 @@ export const Email = ({ setFormValues }) => {
           onChange={handleEmailChange}
           required
           type={inputId}
+          style={{
+            borderColor: error ? 'red' : '',
+          }}
         />
-        {error && <FormHelperText error={true}>{errorMessage}</FormHelperText>}
+        {error && (
+          <FormHelperText className='email-error-message' error={true}>
+            {errorMessage}
+          </FormHelperText>
+        )}
       </FormControl>
     </div>
   )
