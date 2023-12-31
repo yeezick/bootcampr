@@ -15,8 +15,6 @@ export const ContactForm = () => {
   })
 
   const [hasErrors, setHasErrors] = useState<boolean>(false)
-  const [wordLimit, setWordLimit] = useState<boolean>(false)
-
   const [wordCount, setWordCount] = useState(0)
   const maxWordCount = 500
 
@@ -69,7 +67,6 @@ export const ContactForm = () => {
     //  check if every value in the error object is an empty string
     if (Object.values(errors).every(value => value === '')) {
       alert('Message sent successfully!')
-      console.log('Working!!')
     }
   }
   return (
