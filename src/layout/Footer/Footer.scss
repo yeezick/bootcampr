@@ -1,29 +1,18 @@
 .footer-container {
-  align-items: center;
-  background-color: #353131;
-  bottom: 0;
-  color: #ffffff;
   display: flex;
-  flex-direction: column;
-  height: fit-content;
-  padding: 20px 20px 0 20px;
-  position: relative;
-  row-gap: 20px;
-  z-index: 1;
-  &.userId {
-    padding: 20px 20px 0 272px;
-    position: static;
-  }
-
-  a {
-    color: #ffffff;
-    font-size: 1vw;
-    font-weight: 700;
-    padding: 0 10px;
-    text-decoration: none;
-
-    &:hover {
-      color: #f29e34;
-    }
+  padding: 16px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius:0px;
+  background:#5C6BC0;
+ 
+  span{
+    color:#fff;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
   }
 }
