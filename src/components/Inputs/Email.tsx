@@ -20,6 +20,9 @@ export const Email = ({ setFormValues }) => {
       setError(false)
       setErrorMessage('')
     }
+    if (!email.trim().length) {
+      setError(false)
+    }
   }
 
   const handleEmailChange = e => {
