@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import heroImage from 'assets/Images/hero-image.png'
+import React from 'react'
 import howItWorksImage from 'assets/Images/ideas-into-reality-image.png'
 import checkMark from 'assets/Images/checkmark.png'
 import projectImage1 from 'assets/Images/project-image-1.png'
@@ -14,31 +13,12 @@ import joinImage from 'assets/Images/joinImage.png'
 import { Link } from 'react-router-dom'
 import './Landing.scss'
 import { ContactForm } from './components/ContactForm/ContactForm'
+import { Hero } from './components/Hero/Hero'
 
 export const Landing: React.FC = () => {
   return (
     <div className='landing-container'>
-      <div className='hero-container'>
-        <div className='hero-content'>
-          <div className='hero-text'>
-            <div className='hero-text-1'>
-              <span>Join a team.</span>
-              <span>Build a product.</span>
-              <span>Have fun!</span>
-            </div>
-            <div className='hero-text-2'>
-              Gain the experience you <span className='bold-text'>need</span> to
-              land the job you <span className='bold-text'>want</span>.
-            </div>
-          </div>
-          <Link to='/sign-up' className='hero-button'>
-            Sign up
-          </Link>
-        </div>
-        <div className='hero-image'>
-          <img src={heroImage} alt='hero' />
-        </div>
-      </div>
+      <Hero />
       <div className='teaser-container'>
         <div className='teaser-header'>UX Designers & Software Engineers</div>
         <div className='teaser-text'>
