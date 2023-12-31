@@ -11,131 +11,11 @@ import isThisForYou from 'assets/Images/is-this-for-you-image.png'
 import buildImage from 'assets/Images/buildImage.png'
 import gainImage from 'assets/Images/gainImage.png'
 import joinImage from 'assets/Images/joinImage.png'
-
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { setAuthUser } from 'utils/redux/slices/userSlice'
-import { getAllUsers } from 'utils/api/users'
-import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai'
-import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { getRandomInt } from 'screens/AccountSettings/helper/data'
-import { storeUserProject } from 'utils/helpers/stateHelpers'
 import './Landing.scss'
-import {
-  onScreenUpdate,
-  setCurrentConversation,
-  setSelectedMember,
-  toggleChatOpen,
-} from 'utils/redux/slices/chatSlice'
-import {
-  createPrivateChatRoom,
-  getUserPrivateConversations,
-} from 'utils/api/chat'
-import dummyMembers from './members.json' // to be removed once Message button logic is properly configured in team members screen
-import { ChatScreen } from 'utils/data/chatConstants'
+import { ContactForm } from './components/ContactForm/ContactForm'
 
 export const Landing: React.FC = () => {
-  const [loginStatus, setLoginStatus] = useState<boolean | null>(null)
-  const authUser = useAppSelector(selectAuthUser)
-
-  const dispatch = useDispatch()
-
-  const randomUserLogin = async () => {
-    if (authUser._id) {
-      console.log('User already logged in')
-      return
-    }
-
-    try {
-      const gettingAllUser = await getAllUsers()
-      if (gettingAllUser && gettingAllUser.length > 0) {
-        const randomUser = gettingAllUser[getRandomInt(gettingAllUser.length)]
-        dispatch(setAuthUser(randomUser))
-        storeUserProject(dispatch, randomUser.project)
-        setLoginStatus(true)
-      } else {
-        setLoginStatus(false)
-      }
-    } catch (err) {
-      console.error('Unable to set random user:', err)
-      setLoginStatus(false)
-    }
-  }
-
-  useEffect(() => {
-    authUser._id ? setLoginStatus(true) : setLoginStatus(false)
-  }, [authUser._id])
-
-  const LoginStatusSymbol: React.FC = () => {
-    if (loginStatus === true && authUser._id) {
-      return <AiOutlineCheckCircle className='logged-in' />
-    } else {
-      return <AiOutlineStop className='logged-out' />
-    }
-  }
-
-  // ** temporary logic for Message button on Team Members screen
-  const [projectMembers, setProjectMembers] = useState([])
-
-  useEffect(() => {
-    const { designers, engineers } = dummyMembers // ** Using dummy data. Should be using API or obtaining project members from redux store
-    const members = [...designers, ...engineers]
-    setProjectMembers(members.filter(member => member._id !== authUser._id))
-  }, [])
-
-  const handleButtonClick = (
-    memberId: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    profilePicture: string
-  ) => {
-    try {
-      const fetchConversations = async () => {
-        const conversations = await getUserPrivateConversations(authUser._id)
-
-        const existingChatWithMember = conversations.messageThreads.find(
-          conversation =>
-            conversation.participants.some(
-              participant => participant._id === memberId
-            )
-        )
-
-        let conversationId: string = null
-
-        if (existingChatWithMember) {
-          conversationId = existingChatWithMember._id
-        } else {
-          const newRoom = await createPrivateChatRoom(authUser._id, email)
-
-          conversationId = newRoom.chatRoom._id
-        }
-        dispatch(
-          setCurrentConversation({
-            _id: conversationId,
-            isGroup: false,
-            participants: [memberId],
-            displayName: `${firstName} ${lastName}`,
-          })
-        )
-        dispatch(
-          setSelectedMember({
-            _id: memberId,
-            firstName,
-            lastName,
-            profilePicture,
-          })
-        )
-        dispatch(toggleChatOpen())
-        dispatch(onScreenUpdate(ChatScreen.Messages))
-      }
-      fetchConversations()
-    } catch (error) {
-      console.error('Error fetching conversations', error)
-    }
-  }
-
   return (
     <div className='landing-container'>
       <div className='hero-container'>
@@ -350,51 +230,7 @@ export const Landing: React.FC = () => {
           Sign up
         </Link>
       </div>
-      <div className='contact-container'>
-        <div className='contact-wrapper'>
-          <div className='contact-header'>
-            <div className='question'>Questions?</div>
-            <div className='contact'>Contact Us</div>
-            <div className='text'>
-              Our team will get back to you within 48-72 hours.
-            </div>
-          </div>
-          <div className='contact-form'>
-            <div>
-              <label htmlFor='name'>Name</label>
-              <input
-                type='text'
-                id='name'
-                name='name'
-                placeholder='Who are we speaking to?'
-              />
-            </div>
-            <div>
-              <label htmlFor='name'>Email address</label>
-              <input
-                type='email'
-                id='email'
-                name='email'
-                placeholder='email@email.com'
-              />
-            </div>
-            <div>
-              <label htmlFor='message'>Message</label>
-              <div className='message-box'>
-                <textarea
-                  name='message'
-                  id='message'
-                  cols={99}
-                  rows={10}
-                  placeholder='Ask Away!'
-                ></textarea>
-                <p className='word-count'>0/500</p>
-              </div>
-            </div>
-          </div>
-          <div className='contact-button'>Submit</div>
-        </div>
-      </div>
+      <ContactForm />
     </div>
   )
 }

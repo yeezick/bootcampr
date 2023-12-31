@@ -1,0 +1,130 @@
+.contact-container{
+    display: flex;
+    padding: 64px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background:#F2F4FF;
+
+    .contact-wrapper{
+      display: flex;
+      flex-direction: column;
+      gap:32px;
+      max-width: 778px;
+      width: 100%;
+    }
+    .contact-header{
+      display: flex;
+      padding: 0px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+
+      .question{
+      color: #000;
+      font-size: 22px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 28px; /* 127.273% */
+      }
+
+      .contact{
+        color: #000;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 36px; /* 128.571% */
+      }
+
+      .text{
+        color: #000;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px; /* 150% */
+      }
+    }
+
+    .contact-form{
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      div{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      label{
+        color:#212121;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px; /* 150% */
+      }
+
+      input,textarea{
+        width: 100%;
+        display: flex;
+        padding: 8px 16px;
+        align-items: center;
+        gap: 8px;
+        align-self: stretch;
+        border-radius: 4px;
+        border: 0;
+        outline: 1px solid #212121;
+        background: #fff;
+        transition: outline 0.3s ease;
+      }
+      :is(input,textarea):hover{
+        outline: 2px solid #0D47A1;
+      }
+      .helper-text{
+        width: 100%;
+        justify-content: space-between;
+        display: flex;
+        align-items: center;
+      }
+      .error{
+        color:#B71C1C;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 16px; /* 133.333% */
+        margin-left: 16px;
+      }
+
+    }
+    .contact-button{
+      cursor: pointer;
+      display: flex;
+      height: 40px;
+      justify-content: center;
+      align-items: center;
+      background: #FFA726;
+      border-radius: 4px;
+      color: #1A237E;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      padding: 0px 24px;
+      border:0;
+      text-decoration: none;
+      align-self: flex-start;
+    }
+
+    .word-count{
+      align-self: end;
+      color:#212121;
+      padding: 0;
+      margin: 0;
+      text-align: right;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 16px; /* 133.333% */
+    }
+  }
