@@ -147,6 +147,7 @@
       font-size: 12px;
       font-weight: 400;
       line-height: 16px;
+      padding: 0px 16px;
 
       p {
         margin: 2px 0;
@@ -177,6 +178,7 @@
     display: flex;
     justify-content: flex-end;
     position: relative;
+    flex-wrap: wrap;
 
     input {
       align-self: stretch;
@@ -214,6 +216,20 @@
 .pwd-mismatch {
   color: red;
   margin-top: 16px;
+}
+
+.pwd-mismatch-icon {
+  align-items: center;
+  border-radius: 50%;
+  background-color: #d32f2f;
+  display: flex;
+  height: 18px;
+  justify-content: center;
+  padding: 2px;
+  position: absolute;
+  right: 8px;
+  top: 18px;
+  width: 18px;
 }
 
 .pwd-reveal {
