@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { resendNewEmailLink } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import emailSentImage from '../../../../assets/images/email-sent-confirmation-image.png'
 
 export const EmailSentConfirmation: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -49,6 +50,12 @@ export const EmailSentConfirmation: React.FC = () => {
       <button className='resend-link' onClick={handleResendEmailClick}>
         Re-send email
       </button>
+      <div className='honeycomb'>
+        <img
+          src={emailSentImage}
+          alt='A person smiles while working on a laptop at a coffee shop'
+        />
+      </div>
     </div>
   )
 }
