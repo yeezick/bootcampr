@@ -53,17 +53,10 @@
   display: flex;
   justify-content: center;
 
-  .honeycomb {
-    height: 400.168px;
-    overflow: hidden;
-    width: 337.483px;
-
-    img {
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      height: 100%;
-      object-fit: cover;
-      width: 100%;
-    }
+  img {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
   }
 }
 
