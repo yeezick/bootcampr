@@ -273,8 +273,8 @@ export const MeetingModal = () => {
               />
 
               <SelectAttendees
-                authUser={authUser}
                 attendees={attendees}
+                dateFields={dateFields}
                 inviteAll={inviteAll}
                 handleInviteAll={handleInviteAll}
                 setAttendees={setAttendees}

@@ -1,22 +1,19 @@
 import { useEffect } from 'react'
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
 import { checkIfAllMembersInvited } from 'utils/helpers'
-import './MeetingModal'
-import { removeAuthUserFromList } from 'utils/helpers/projectHelpers'
+import './styles/SelectAttendees.scss'
+import { MemberCheckbox } from './MemberCheckbox'
 
 export const SelectAttendees = ({
-  authUser,
   attendees,
+  dateFields,
   inviteAll,
   handleInviteAll,
   setAttendees,
   toggleInviteAll,
   projectMembers,
 }) => {
-  const filteredMembers = removeAuthUserFromList(projectMembers, authUser)
-  /** Context
-   * Unselect inviteAll checkbox if user has unselected members
-   */
+  /* Unselect inviteAll checkbox if user has unselected members */
   useEffect(() => {
     checkIfAllMembersInvited(
       attendees,
@@ -37,14 +34,13 @@ export const SelectAttendees = ({
             label='Invite all'
           />
           <FormGroup>
-            {filteredMembers.map(currMember => (
-              <div key={`select-member-${currMember._id}`}>
-                <MemberCheckbox
-                  attendees={attendees}
-                  currMember={currMember}
-                  setAttendees={setAttendees}
-                />
-              </div>
+            {projectMembers.map(currMember => (
+              <MemberCheckbox
+                attendees={attendees}
+                currMember={currMember}
+                dateFields={dateFields}
+                setAttendees={setAttendees}
+              />
             ))}
           </FormGroup>
           <span className='select-attendees-helper-text'>
@@ -54,25 +50,4 @@ export const SelectAttendees = ({
       </div>
     )
   } else return null
-}
-
-const MemberCheckbox = ({ attendees, currMember, setAttendees }) => {
-  const handleMemberSelection = e => {
-    setAttendees(state => {
-      return { ...state, [e.target.name]: e.target.checked }
-    })
-  }
-
-  return (
-    <FormControlLabel
-      control={
-        <Checkbox
-          checked={attendees[currMember.email] || false}
-          onChange={handleMemberSelection}
-          name={currMember.email}
-        />
-      }
-      label={`${currMember.firstName} ${currMember.lastName}`}
-    />
-  )
 }

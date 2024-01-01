@@ -126,6 +126,10 @@ export const initialDateFields = (): DateFieldsInterface => {
   }
 }
 
+export const generateDayJs = (date: string) => {
+  return dayjs(date)
+}
+
 const generateInitialTime = type => {
   const timeStr = dayjs().format('hh:mm A')
   const [time, period] = timeStr.split(/\s/)
