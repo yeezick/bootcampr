@@ -50,7 +50,7 @@ export const EmailSentConfirmation: React.FC = () => {
       <button className='resend-link' onClick={handleResendEmailClick}>
         Re-send email
       </button>
-      <div className='honeycomb'>
+      <div className='img-container'>
         <img
           src={emailSentImage}
           alt='A person jumps in the air in celebration'

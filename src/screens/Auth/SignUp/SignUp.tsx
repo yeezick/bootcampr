@@ -106,7 +106,7 @@ export const SignUp: React.FC = () => {
         <h2>Get the experience. Get the job.</h2>
       </div>
       <div className='signup-banner'>
-        <div className='honeycomb'>
+        <div>
           <img
             src={signupImage}
             alt='A person smiles while working on a laptop at a coffee shop'
