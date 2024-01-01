@@ -11,7 +11,7 @@ import { emptySignUp } from 'utils/data/userConstants'
 import { Email, Text, PasswordInputs } from 'components/Inputs'
 import './SignUp.scss'
 import { Checkbox, FormControlLabel } from '@mui/material'
-import signupImage from '../../../assets/images/Signup-flow-image.png'
+import signupImage from '../../../assets/images/sign-up-flow-image.png'
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate()
