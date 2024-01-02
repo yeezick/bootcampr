@@ -22,14 +22,15 @@ const calendarSlice = createSlice({
   name: 'calendar',
   initialState,
   reducers: {
-    addNewEvent: (state, action: PayloadAction<ConvertedEvent[]>) => {
-      state.convertedEvents = [...state.convertedEvents, action.payload[0]]
-      const { eventId } = action.payload[0]
+    addNewEvent: (state, action: PayloadAction<ConvertedEvent>) => {
+      state.convertedEvents = [...state.convertedEvents, action.payload]
+      const { eventId } = action.payload
       state.eventMap[eventId] = state.convertedEvents.length
     },
-    updateExistingEvent: (state, action: PayloadAction<ConvertedEvent[]>) => {
-      const convertedEventIdx = state.eventMap[action.payload[0].eventId]
-      state.convertedEvents[convertedEventIdx] = action.payload[0]
+    updateExistingEvent: (state, action: PayloadAction<ConvertedEvent>) => {
+      state.convertedEvents = state.convertedEvents.map(event =>
+        event.eventId === action.payload.eventId ? action.payload : event
+      )
     },
     setModalDisplayStatus: (
       state,

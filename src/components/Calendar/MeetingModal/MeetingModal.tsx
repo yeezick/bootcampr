@@ -24,7 +24,6 @@ import { DateFields } from './DateFields'
 import { createEvent, updateEvent } from 'utils/api/events'
 import {
   checkIfAllMembersInvited,
-  convertGoogleEventsForCalendar,
   handleFormInputChange,
   initialDateFields,
 } from 'utils/helpers'
@@ -199,7 +198,7 @@ export const MeetingModal = () => {
     if (modalDisplayStatus === 'create') {
       try {
         const newEvent = await createEvent(calendarId, eventInfo)
-        dispatch(addNewEvent(convertGoogleEventsForCalendar([newEvent.data])))
+        dispatch(addNewEvent(newEvent))
         handleClose()
       } catch (error) {
         console.error(
@@ -214,11 +213,7 @@ export const MeetingModal = () => {
           displayedEvent.eventId,
           eventInfo
         )
-        dispatch(
-          updateExistingEvent(
-            convertGoogleEventsForCalendar([updatedEvent.data])
-          )
-        )
+        dispatch(updateExistingEvent(updatedEvent))
         handleClose()
       } catch (error) {
         console.error(
