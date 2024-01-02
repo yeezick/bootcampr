@@ -90,7 +90,8 @@ export const Role = ({ handlePageNavigation }) => {
             <button
               type='submit'
               style={{
-                backgroundColor: buttonEnabled ? 'orange' : 'light gray',
+                backgroundColor: buttonEnabled ? 'orange' : '#ffe0b2',
+                color: buttonEnabled ? '#1a237e' : '#c5cae9',
               }}
               disabled={!buttonEnabled}
               onClick={handleSubmit}
@@ -99,11 +100,6 @@ export const Role = ({ handlePageNavigation }) => {
             >
               <p>Set availability </p> <FiArrowRight className='arrow-icon' />
             </button>
-            <PrimaryButton
-              handler={handleSubmit}
-              paginatorBtn={false}
-              text='Set availability'
-            />
           </div>
         </div>
       </form>
