@@ -1,5 +1,5 @@
 .availability-container {
-    background-color: #f5f5f5;
+    background-color: #fafafa;
     border-radius: 5px;
     padding: 16px 32px;
     width: 600px;
@@ -15,6 +15,7 @@
     
     p {
         font-size: 15px;
+        font-weight: 500;
         margin-top: 30px;
     }
 
@@ -23,11 +24,17 @@
         column-gap: 60px;
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
 
         .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon {
             height: .8em;
             top: 3.5px;
             width: .8em;
+        }
+
+        h2 {
+            font-size: 21px;
+            font-weight: 400;
         }
     }
 
@@ -46,6 +53,7 @@
 
         .left-banner {
             align-items: flex-start;
+            column-gap: 40px;
             display: flex;
             flex-direction: row;
             height: fit-content;
@@ -53,6 +61,7 @@
 
             h2 {
                 align-self: center;
+                font-weight: 400;
             }
 
 
