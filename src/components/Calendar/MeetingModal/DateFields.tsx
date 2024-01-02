@@ -15,17 +15,19 @@ dayjs.extend(timezone)
 export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
   const [datePickerDayjs, setDayPickerDayjs] = useState(dayjs())
 
-  const handleDate = newDate =>
-    setDateFields({
+  const handleDate = newDate => {
+    const updatedDateFields = {
       ...dateFields,
       date: newDate.toISOString(),
       end: updateDateInTimeSelections(newDate, dateFields.end),
       start: updateDateInTimeSelections(newDate, dateFields.start),
-    })
+    }
+    setDateFields(updatedDateFields)
+  }
 
   useEffect(() => {
     setDayPickerDayjs(dayjs(dateFields.date))
-  }, [])
+  }, [dateFields])
 
   return (
     <div className='fields-wrapper'>

@@ -192,11 +192,11 @@ export const updateDateInTimeSelections = (newDate, timeIso) => {
   const newDateAsDayjs = dayjs(newDate)
   const newYear = newDateAsDayjs.year()
   const newMonth = newDateAsDayjs.month()
-  const newDay = newDateAsDayjs.day()
+  const newDay = newDateAsDayjs.date()
   const finalDayjs = dayjs(timeIso)
     .set('year', newYear)
     .set('month', newMonth)
-    .set('day', newDay)
+    .set('date', newDay)
 
   return finalDayjs.toISOString()
 }
