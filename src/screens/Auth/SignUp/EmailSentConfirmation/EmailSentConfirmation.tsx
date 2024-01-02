@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { resendNewEmailLink } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
-import emailSentImage from '../../../../assets/images/email-sent-confirmation-image.png'
+import emailSentImage from '../../../../assets/Images/email-sent-confirmation-image.png'
 
 export const EmailSentConfirmation: React.FC = () => {
   const dispatch = useAppDispatch()
