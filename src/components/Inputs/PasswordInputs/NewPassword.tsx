@@ -31,24 +31,27 @@ export const NewPassword = ({
     const { value } = e.target
     handleFormInputChange(e, setFormValues)
 
-    if (value.length === 0) {
-      setPasswordErrors({
-        length: 'neutral',
-        uppercase: 'neutral',
-        lowercase: 'neutral',
-        number: 'neutral',
-      })
-    } else {
-      setPasswordErrors({
-        length:
-          value.length < 8 && value.length >= 1
-            ? 'criteria-not-met'
-            : 'criteria-met',
-        uppercase: /[A-Z]/.test(value) ? 'criteria-met' : 'criteria-not-met',
-        lowercase: /[a-z]/.test(value) ? 'criteria-met' : 'criteria-not-met',
-        number: /\d/.test(value) ? 'criteria-met' : 'criteria-not-met',
-      })
-    }
+    setPasswordErrors({
+      length:
+        value.length < 8 && value.length >= 0 ? 'neutral' : 'criteria-met',
+      uppercase: /[A-Z]/.test(value) ? 'criteria-met' : 'neutral',
+      lowercase: /[a-z]/.test(value) ? 'criteria-met' : 'neutral',
+      number: /\d/.test(value) ? 'criteria-met' : 'neutral',
+    })
+
+    handlePasswordMatching(formValues.confirmPassword, value, setPasswordMatch)
+  }
+
+  const handleValidatePassword = e => {
+    const { value } = e.target
+    handleFormInputChange(e, setFormValues)
+
+    setPasswordErrors({
+      length: value.length >= 8 ? 'criteria-met' : 'criteria-not-met',
+      uppercase: /[A-Z]/.test(value) ? 'criteria-met' : 'criteria-not-met',
+      lowercase: /[a-z]/.test(value) ? 'criteria-met' : 'criteria-not-met',
+      number: /\d/.test(value) ? 'criteria-met' : 'criteria-not-met',
+    })
 
     handlePasswordMatching(formValues.confirmPassword, value, setPasswordMatch)
   }
@@ -90,6 +93,7 @@ export const NewPassword = ({
             onChange={handlePasswordChange}
             type={inputType}
             onFocus={() => setInputTouched(true)}
+            onBlur={handleValidatePassword}
           />
           <IconButton
             className='new-password eyecon'
