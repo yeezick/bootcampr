@@ -5,7 +5,7 @@ import {
   handlePasswordMatching,
   toggleVisiblity,
 } from '../Passwords'
-import { IconButton, InputAdornment } from '@mui/material'
+import { FormControl, IconButton, InputAdornment } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { FaExclamationCircle } from 'react-icons/fa'
 export const ConfirmNewPassword = ({
@@ -42,40 +42,42 @@ export const ConfirmNewPassword = ({
   }, [passwordMatch])
 
   return (
-    <form className='confirm-password container'>
-      <label htmlFor={inputId}>{inputLabel}</label>
-      <div className='confirm-password adorned-input'>
-        <input
-          id={inputId}
-          name={name}
-          onChange={handleConfirmPassword}
-          required
-          type={inputType}
-          style={{
-            borderColor: isValid === false ? '#d32f2f' : '',
-          }}
-        />
-        {isValid === false ? (
-          <InputAdornment position='end'>
-            <div className='pwd-mismatch-icon'>
-              <FaExclamationCircle
-                size={18}
-                color='white'
-                aria-label='validation error'
-              />
-            </div>
-          </InputAdornment>
-        ) : (
-          <IconButton
-            className='confirm-password eyecon'
-            aria-label='toggle password visibility'
-            onClick={() => toggleVisiblity(inputType, setInputType)}
-          >
-            {inputType === 'password' ? <VisibilityOff /> : <Visibility />}
-          </IconButton>
-        )}
-      </div>
-      <PasswordMatchError matchStatus={passwordMatch} />
-    </form>
+    <div className='confirm-password'>
+      <FormControl className='confirm-password container'>
+        <label htmlFor={inputId}>{inputLabel}</label>
+        <div className='confirm-password adorned-input'>
+          <input
+            id={inputId}
+            name={name}
+            onChange={handleConfirmPassword}
+            required
+            type={inputType}
+            style={{
+              borderColor: isValid === false ? '#d32f2f' : '',
+            }}
+          />
+          {isValid === false ? (
+            <InputAdornment position='end'>
+              <div className='pwd-mismatch-icon'>
+                <FaExclamationCircle
+                  size={18}
+                  color='white'
+                  aria-label='validation error'
+                />
+              </div>
+            </InputAdornment>
+          ) : (
+            <IconButton
+              className='confirm-password eyecon'
+              aria-label='toggle password visibility'
+              onClick={() => toggleVisiblity(inputType, setInputType)}
+            >
+              {inputType === 'password' ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          )}
+        </div>
+        <PasswordMatchError matchStatus={passwordMatch} />
+      </FormControl>
+    </div>
   )
 }

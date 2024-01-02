@@ -5,7 +5,7 @@ import {
   handlePasswordMatching,
   toggleVisiblity,
 } from '../Passwords'
-import { IconButton } from '@mui/material'
+import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 export const NewPassword = ({
@@ -79,8 +79,8 @@ export const NewPassword = ({
   )
 
   return (
-    <>
-      <form className='new-password container'>
+    <div className='new-password'>
+      <FormControl className='new-password container'>
         <label htmlFor={inputId}>{inputLabel}</label>
         <div className='new-password adorned-input'>
           <input
@@ -100,7 +100,7 @@ export const NewPassword = ({
           </IconButton>
         </div>
         <PasswordValidations errors={passwordErrors} />
-      </form>
-    </>
+      </FormControl>
+    </div>
   )
 }
