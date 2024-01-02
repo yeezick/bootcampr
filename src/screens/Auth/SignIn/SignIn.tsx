@@ -1,17 +1,15 @@
 import './SignIn.scss'
 import { useState, useEffect } from 'react'
-import { useLocation, useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { signIn } from 'utils/api'
 import { setAuthUser } from 'utils/redux/slices/userSlice'
-// import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { SignInInterface } from 'interfaces/UserInterface'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
-// import { ForgotPasswordModal } from '../ResetPassword/ForgotPasswordModal'
 import { ForgotPasswordLink } from 'screens/AccountSettings/components/ForgotPasswordLink'
 import { toggleVisiblity } from 'components/Inputs'
-import { GoAlert, GoVerified } from 'react-icons/go'
+import { GoAlert } from 'react-icons/go'
 import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import loginBanner from '../../../assets/Images/login-image.png'
@@ -29,70 +27,11 @@ const SignIn: React.FC = (): JSX.Element => {
     type: '',
   })
   const [inputType, setInputType] = useState('password')
-  // const pathInfo = useLocation()
-  // const [forgotPasswordModal, setForgotPasswordModal] = useState(false)
 
   const VALID_EMAIL_REGEX =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  // const location = useLocation()
-
-  // const openForgotModal = () => setForgotPasswordModal(!forgotPasswordModal)
-  // const closeForgotModal = () => setForgotPasswordModal(false)
-
-  // Event Handlers
-  // This is no longer being used from <EmailVerify />
-  // Retaining logic only as an example for future use case
-  // TODO: Remove this logic? (reach out to Eric)
-  // useEffect(() => {
-  //   if (location.state && location.state.status) {
-  //     setAlertBanner({
-  //       status: true,
-  //       text: location.state.message,
-  //       icon: <GoVerified />,
-  //       type: 'success',
-  //     })
-  //     setTimeout(() => {
-  //       setAlertBanner({ status: false })
-  //       location.state = { success: false }
-  //     }, 8000)
-  //   }
-
-  //   const { newEmail, status } = getEncodedEmail(pathInfo)
-
-  //   if (status === 'SUCCESS' && newEmail.length > 0) {
-  //     dispatch(
-  //       createSnackBar({
-  //         isOpen: true,
-  //         message:
-  //           'Your new email has successfully been updated in the database. Please log in with your new email address.',
-  //         duration: 5000,
-  //         vertical: 'top',
-  //         horizontal: 'center',
-  //         snackbarStyle: '',
-  //         severity: 'success',
-  //       })
-  //     )
-  //     setFormData({
-  //       ...formData,
-  //       email: newEmail,
-  //     })
-  //   } else if (newEmail.length > 0) {
-  //     dispatch(
-  //       createSnackBar({
-  //         isOpen: true,
-  //         message:
-  //           'There was an error updating your email in the database. Please try again or contact support.',
-  //         duration: 5000,
-  //         vertical: 'top',
-  //         horizontal: 'center',
-  //         snackbarStyle: '',
-  //         severity: 'error',
-  //       })
-  //     )
-  //   }
-  // }, [])
 
   const formValidation = (): void => {
     const validEmailAddressProvided = formData.email.match(VALID_EMAIL_REGEX)
