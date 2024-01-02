@@ -9,12 +9,13 @@ import { SignInInterface } from 'interfaces/UserInterface'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
 // import { ForgotPasswordModal } from '../ResetPassword/ForgotPasswordModal'
+import { ForgotPasswordLink } from 'screens/AccountSettings/components/ForgotPasswordLink'
 import { toggleVisiblity } from 'components/Inputs'
 import { GoAlert, GoVerified } from 'react-icons/go'
-import loginBanner from '../../../assets/images/login-image.png'
 import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { ForgotPasswordLink } from 'screens/AccountSettings/components/ForgotPasswordLink'
+import loginBanner from '../../../assets/Images/login-image.png'
+import './SignIn.scss'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
