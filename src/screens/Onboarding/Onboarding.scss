@@ -34,7 +34,7 @@
     height: 54px;
     font-size: 38px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 53.2px;
     margin: 0;
     text-align: left;
@@ -60,6 +60,7 @@
   padding: 0px;
 
   .select-role {
+    font-weight: 400;
     margin: 0;
   }
 
@@ -81,7 +82,7 @@
     height: 34px;
     font-size: 24px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 400;
     line-height: 34px;
     margin: 0;
     width: 250px;
@@ -111,7 +112,8 @@
 
 .radio-btn {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  row-gap: 12px;
 
   .ux-designer-btn {
     display: flex;
@@ -120,7 +122,6 @@
     font-style: normal;
     font-weight: 400;
     line-height: 22.4px;
-    width: 144px;
 
     input {
       height: 24px;
@@ -140,8 +141,6 @@
     font-style: normal;
     font-weight: 400;
     line-height: 22.4px;
-    margin-left: 16px;
-    width: 516px;
 
     input {
       margin: 0 8px 0 0;
@@ -160,8 +159,6 @@
 }
 
 .software-engineer-msg {
-  padding-left: 250px;
-
   p {
     margin: 0;
   }

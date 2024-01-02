@@ -5,6 +5,7 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
 import { FiArrowRight } from 'react-icons/fi'
 import { useParams } from 'react-router-dom'
+import { PrimaryButton } from 'components/Buttons'
 
 export const Role = ({ handlePageNavigation }) => {
   const dispatch = useDispatch()
@@ -79,9 +80,8 @@ export const Role = ({ handlePageNavigation }) => {
                 onChange={handleRoleSelect}
               />
               <div>
-                <p className='software-eng-p1'>Software Engineer</p>
-                <p className='software-eng-p2'>
-                  *SWEs should have MERN/full stack experience
+                <p className='software-eng-p1'>
+                  Software Engineer (should be comfortable with MERN/full stack)
                 </p>
               </div>
             </label>
@@ -99,6 +99,11 @@ export const Role = ({ handlePageNavigation }) => {
             >
               <p>Set availability </p> <FiArrowRight className='arrow-icon' />
             </button>
+            <PrimaryButton
+              handler={handleSubmit}
+              paginatorBtn={false}
+              text='Set availability'
+            />
           </div>
         </div>
       </form>
