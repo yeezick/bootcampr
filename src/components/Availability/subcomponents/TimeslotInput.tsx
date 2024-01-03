@@ -3,6 +3,7 @@ import {
   AddRounded,
   ContentCopyOutlined,
 } from '@mui/icons-material'
+import { FaRegTrashAlt } from 'react-icons/fa'
 import { SelectTimeInput } from './SelectTimeInput'
 import { Checkbox } from '@mui/material'
 import { useState, useEffect, useRef } from 'react'
@@ -57,8 +58,8 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
               days={days}
               setDays={setDays}
             />
-            <DeleteOutline
-              className='icon'
+            <FaRegTrashAlt
+              className='react-icon'
               onClick={() => deleteTimeSlot(day, days, setDays, idx)}
             />
           </div>
@@ -66,6 +67,7 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
             {days[day].availability.length - 1 === idx && (
               <AddRounded
                 onClick={() => addTimeSlot(day, days, setDays, idx)}
+                className='icon'
               />
             )}
             <div className='hover-icon'>
@@ -79,7 +81,10 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
                   handleRenderModal={handleRenderModal}
                 />
               )}
-              <ContentCopyOutlined onClick={e => handleRenderModal(e, idx)} />
+              <ContentCopyOutlined
+                onClick={e => handleRenderModal(e, idx)}
+                className='icon'
+              />
             </div>
           </div>
         </div>
@@ -108,14 +113,14 @@ export const CopyTimesModal = ({
     SAT: false,
   })
 
-  const uppercaseWeekdayNames = [
-    'SUNDAY',
-    'MONDAY',
-    'TUESDAY',
-    'WEDNESDAY',
-    'THURSDAY',
-    'FRIDAY',
-    'SATURDAY',
+  const weekdayNames = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
   ]
 
   const modalEl = useRef<any>()
@@ -147,19 +152,20 @@ export const CopyTimesModal = ({
         Copy <strong>{timeString}</strong> to:
       </p>
       <CopyTimesOption
-        day='EVERY DAY'
+        day='Everyday'
         selectedDay={day}
         checked={checked}
         setChecked={setChecked}
       />
-      {uppercaseWeekdayNames.map(uppercaseWeekdayName => (
+      {weekdayNames.map(weekdayName => (
         <CopyTimesOption
-          day={uppercaseWeekdayName}
+          day={weekdayName}
           selectedDay={day}
           checked={checked}
           setChecked={setChecked}
         />
       ))}
+      {/* TODO: swap for component button */}
       <button className='apply' onClick={handleApply}>
         Apply
       </button>
@@ -172,7 +178,7 @@ const CopyTimesOption = ({ day, selectedDay, checked, setChecked }) => {
   const textColor = isDisabled ? '#86888a' : 'black'
 
   const handleChange = e => {
-    if (day === 'EVERY DAY') {
+    if (day === 'Everyday') {
       const toggle = !checked.EVRY
       setChecked({
         ...{
@@ -201,11 +207,11 @@ const CopyTimesOption = ({ day, selectedDay, checked, setChecked }) => {
         checked={checked[day.slice(0, 3)]}
         onChange={handleChange}
         name={day}
-        sx={{ color: '#022888', '&.Mui-checked': { color: '#022888' } }}
+        sx={{ color: 'black', '&.Mui-checked': { color: '#022888' } }}
       />
       <h2
         className='copy-times-option-days'
-        style={{ color: textColor, width: 100 }}
+        style={{ color: textColor, width: 100, fontSize: '17px' }}
       >
         {day}
       </h2>
