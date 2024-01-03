@@ -133,7 +133,9 @@ export const Landing: React.FC = () => {
             A platform to collaborate on real-world projects! Don't wait to
             build your development experience.
           </p>
-          <Link to='/sign-up'>Start Today!</Link>
+          <Link to='/sign-up' target='_blank'>
+            Start Today!
+          </Link>
         </div>
         <div className='developer-grid'>
           <h1> For UX & Developers Only! </h1>
