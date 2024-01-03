@@ -65,6 +65,9 @@ export const buildSettingsPortalLinks = (userId: string) => [
     label: 'Password',
     route: `/users/${userId}/settings/password`,
   },
+
+  // commented out to be used for a later ticket for post soft launch
+
   // {
   //   domain: 'settings',
   //   icon: 'account',
