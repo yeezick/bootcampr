@@ -27,18 +27,17 @@ export const handleMemberMessageClick = async memberData => {
 
       const existingChatWithMember = conversations.messageThreads.find(
         conversation =>
-          conversation.participants.some(
+          conversation.participants.find(
             participant => participant._id === memberId
           )
       )
 
-      let conversationId: string = null
+      let conversationId: string = ''
 
       if (existingChatWithMember) {
         conversationId = existingChatWithMember._id
       } else {
         const newRoom = await createPrivateChatRoom(authUser._id, email)
-
         conversationId = newRoom.chatRoom._id
       }
       dispatch(

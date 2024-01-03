@@ -20,6 +20,13 @@ export const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch()
   const [userProfileInfo, setUserProfileInfo] =
     useState<UserInterface>(emptyUser)
+  const {
+    firstName,
+    lastName,
+    _id: memberId,
+    email,
+    profilePicture,
+  } = userProfileInfo
   const sameProfile = authUser._id === userId ? true : false
 
   useEffect(() => {
@@ -34,11 +41,11 @@ export const UserProfile: React.FC = () => {
 
   const handleProfileMessageClick = () => {
     handleMemberMessageClick({
-      firstName: userProfileInfo.firstName,
-      lastName: userProfileInfo.lastName,
-      memberId: userProfileInfo._id,
-      email: userProfileInfo.email,
-      profilePicture: userProfileInfo.profilePicture,
+      firstName: firstName,
+      lastName: lastName,
+      memberId: memberId,
+      email: email,
+      profilePicture: profilePicture,
       authUser,
       dispatch,
     })
