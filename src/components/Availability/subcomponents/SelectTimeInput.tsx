@@ -45,12 +45,8 @@ const selectSX = {
   fontSize: '14px',
   '& .MuiSvgIcon-root': { display: 'none' },
   backgroundColor: '#fefefe',
-  '.MuiOutlinedInput-notchedOutline': { border: 0 },
+  '.MuiOutlinedInput-notchedOutline': { border: 1 },
   width: '87px',
-  fieldset: {
-    border: 'none !important',
-    outline: 'none !important',
-  },
   elevation: '0',
 }
 
@@ -60,7 +56,7 @@ const menuPropsSX = {
       boxShadow: 0,
       marginLeft: 2.5,
       marginTop: 0.5,
-      maxHeight: 160,
+      maxHeight: 340,
       width: 130,
     },
   },

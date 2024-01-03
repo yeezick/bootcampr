@@ -92,6 +92,7 @@ export const Role = ({ handlePageNavigation }) => {
               style={{
                 backgroundColor: buttonEnabled ? 'orange' : '#ffe0b2',
                 color: buttonEnabled ? '#1a237e' : '#c5cae9',
+                cursor: buttonEnabled ? 'pointer' : 'not-allowed',
               }}
               disabled={!buttonEnabled}
               onClick={handleSubmit}

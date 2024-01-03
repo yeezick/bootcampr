@@ -21,7 +21,6 @@ export const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
       <h2>Availability</h2>
       <Select
         defaultValue={timezone}
-        disableUnderline
         IconComponent={ExpandMoreRounded}
         sx={tzSelectSx}
         value={timezone}
