@@ -67,10 +67,12 @@
       }
 
       input,textarea{
+        font-family: 'Roboto', sans-serif;
         width: 100%;
         display: flex;
         padding: 8px 16px;
         align-items: center;
+        font-size: 16px;
         gap: 8px;
         align-self: stretch;
         border-radius: 4px;

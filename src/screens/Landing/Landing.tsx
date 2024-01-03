@@ -6,6 +6,7 @@ import { Hero } from './components/Hero/Hero'
 import { HowItWorks } from './components/HowItWorks/HowItWorks'
 import { YourProjectPortal } from './components/YourProjectPortal/YourProjectPortal'
 import { IsThisForYou } from './components/IsThisForYou/IsThisForYou'
+import { WorkFlow } from './components/WorkFlow/WorkFlow'
 
 export const Landing: React.FC = () => {
   return (
@@ -32,6 +33,7 @@ export const Landing: React.FC = () => {
         <HowItWorks />
         <YourProjectPortal />
         <IsThisForYou />
+        <WorkFlow />
       </section>
 
       <div className='get-job'>
