@@ -64,10 +64,15 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
 
       <div className='setup-avail-buttons-wrapper'>
         <div className='setup-avail-buttons'>
-          <SecondaryButton handler={handleBack} text='Role' />
+          <SecondaryButton
+            handler={handleBack}
+            text='Role'
+            paginatorBtn={true}
+          />
           <PrimaryButton
             handler={handleSaveAvailability}
             text='Set up profile'
+            paginatorBtn={true}
           />
         </div>
       </div>
