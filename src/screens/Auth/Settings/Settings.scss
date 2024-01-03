@@ -1,57 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&family=Roboto&family=Rubik&display=swap');
 
-.DeleteAccount {
-  align-items: flex-start;
-  border-radius: 3px;
-  color: #212121;
-  display: flex;
-  flex-direction: column;
-  font-family: 'Roboto', sans-serif;
-  margin: 60px 90px;
-  padding: 2rem;
-  position: relative;
-  text-align: left;
-  width: fit-content;
-
-  .delete-account-button {
-    background-color: #D32F2F;
-    border-radius: 4px;
-    border-style: none;
-    color: #FFF;
-    cursor: pointer;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    height: 40px;
-    margin-left: auto;
-    margin-top: 20px;
-    padding: 0px 14px;
-    width: 142px;
-  }
-
-  .delete-button-container {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  h2 {
-    font-size: 22px;
-    line-height: 28px;
-  }
-
-  h3 {
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  p {
-    font-size: 16px;
-  }
-}
-
 .settings-card {
-  background-color: white;
   border-radius: 3px;
   color: #212121;
   display: flex;
@@ -61,6 +10,66 @@
   padding: 0;
   position: relative;
   width: fit-content;
+
+  h3 {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 28px;
+    text-align: left;
+  }
+
+  h4 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    margin-top: 16px;
+    text-align: left;
+  }
+
+  input {
+    background-color: #FFF;
+    border: 1px solid #212121;
+    border-radius: 4px;
+    font-size: 18px;
+    height: 24px;
+    margin-top: 7px;
+    outline: none;
+    padding: 8px 16px;
+    width: 328px;
+
+    &::placeholder {
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+    }
+  }
+
+  .email-input-container {
+    position: relative;
+  }
+
+  .invalid-email {
+    border: 1px solid #B71C1C;
+  }
+
+  .invalid-msg {
+    color: #B71C1C;
+    font-size: 12px;
+    line-height: 16px;
+    padding-left: 16px;
+    position: absolute;
+    top: 100%;
+  }
+
+  label {
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 8px;
+  }
+
+  p {
+    font-size: 16px;
+    margin-top: 8px;
+  }
 
   .buttons {
     align-items: flex-end;
@@ -86,76 +95,11 @@
       color: #8048cb;
     }
 
-    .email-input-container {
-      position: relative;
-    }
-
-    h3 {
-      font-size: 22px;
-      font-weight: 700;
-      line-height: 28px;
-      text-align: left;
-    }
-
-    h4 {
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 24px;
-      margin-top: 16px;
-      text-align: left;
-    }
-
-    input {
-      background-color: #FFF;
-      border: 1px solid #212121;
-      border-radius: 4px;
-      font-size: 18px;
-      height: 24px;
-      margin-top: 7px;
-      outline: none;
-      padding: 8px 16px;
-      width: 328px;
-
-      &::placeholder {
-        font-family: 'Roboto', sans-serif;
-        font-size: 16px;
-      }
-    }
-
-    .invalid {
-      color: red;
-    }
-
-    .invalid-email {
-      border: 1px solid #B71C1C;
-    }
-
-    .invalid-msg {
-      color: #B71C1C;
-      font-size: 12px;
-      line-height: 16px;
-      padding-left: 16px;
-      position: absolute;
-      top: 100%;
-    }
-
-    label {
-      font-size: 16px;
-      line-height: 24px;
-      margin-top: 8px;
-    }
-
-    p {
-      font-size: 16px;
-      margin-top: 8px;
-    }
-
-
     .update {
       background-color: #FFA726;
       border-style: none;
-      color: #1A237E;
       cursor: pointer;
+      color: #1A237E;
       font-size: 14px;
       font-weight: 500;
 
@@ -173,30 +117,59 @@
     color: green;
   }
 
+  .invalid {
+    color: red;
+  }
 }
 
-.settings-change-password {
-  &.container {
-    background: none;
-    display: initial;
-    position: static;
-    z-index: 0;
+
+.DeleteAccount {
+  align-items: flex-start;
+  border-radius: 3px;
+  color: #212121;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+  margin: 60px 90px;
+  padding: 2rem;
+  position: relative;
+  width: fit-content;
+  text-align: left;
+
+  h2 {
+    font-size: 22px;
+    line-height: 28px;
   }
 
-  &.button {
-    margin-top: 32px;
+  .delete-button-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 
-  &.form {
-    margin: 64px 0px 0px 64px;
+  .delete-account-button {
+    background-color: #D32F2F;
+    border-radius: 4px;
+    border-style: none;
+    color: #FFF;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    height: 40px;
+    margin-left: auto;
+    margin-top: 20px;
+    padding: 0px 14px;
+    width: 142px;
+  }
 
-    .confirm-password {
-      &.container {
-        .match-status {
-          margin-bottom: -16px;
-        }
-      }
-    }
+  h3 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  p {
+    font-size: 16px;
   }
 }
 
@@ -205,6 +178,7 @@
   &.container {
     background: #fff;
     display: flex;
+    font-family: 'Roboto', sans-serif;
     height: 100%;
     justify-content: center;
     left: 0;
@@ -212,7 +186,6 @@
     top: 97px;
     width: 100%;
     z-index: 999;
-    font-family: 'Roboto', sans-serif;
   }
 
   &.form {
@@ -422,6 +395,31 @@
       background-color: #ffa726;
       color: #1a237e;
       opacity: 0.5;
+    }
+  }
+}
+
+.settings-change-password {
+  &.container {
+    background: none;
+    display: initial;
+    position: static;
+    z-index: 0;
+  }
+
+  &.button {
+    margin-top: 32px;
+  }
+
+  &.form {
+    margin: 64px 0px 0px 64px;
+
+    .confirm-password {
+      &.container {
+        .match-status {
+          margin-bottom: -16px;
+        }
+      }
     }
   }
 }
