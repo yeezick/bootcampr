@@ -92,9 +92,7 @@ export const Email = () => {
           placeholder='email@email.com'
           className={isValidEmail ? '' : 'invalid-email'}
         />
-        {isValidEmail ? null : (
-          <p className='invalid-msg'>Invalid email address</p>
-        )}
+        {!isValidEmail && <p className='invalid-msg'>Invalid email address</p>}
       </div>
       <div className='buttons'>
         <button
