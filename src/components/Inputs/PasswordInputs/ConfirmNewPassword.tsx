@@ -53,10 +53,10 @@ export const ConfirmNewPassword = ({
             required
             type={inputType}
             style={{
-              borderColor: isValid === false ? '#d32f2f' : '',
+              borderColor: !isValid ? '#d32f2f' : '',
             }}
           />
-          {isValid === false ? (
+          {!isValid ? (
             <InputAdornment position='end'>
               <div className='pwd-mismatch-icon'>
                 <FaExclamationCircle
