@@ -17,7 +17,6 @@ export const NotInTeamProjectAlert = () => {
     const getProjectMembers = async () => {
       try {
         const response = await getProjectByUser(projectId)
-        console.log('response', response)
         if (response.existingProject.length === 0) {
           const messageWithBreaks = response.message.replace(/\n/g, '<br />')
           const surveyLink = `<a href="${response.surveyURL}" target="_blank" rel="noopener noreferrer">take this short survey</a> so we can improve.`
