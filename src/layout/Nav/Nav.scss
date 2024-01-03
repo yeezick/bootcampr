@@ -140,18 +140,18 @@ nav {
   }
 
   :is(.sign-up,.log-in){
-    display: flex;
-    height: 40px;
-    padding: 0px 24px;
-    justify-content: center;
     align-items: center;
-    gap: 8px;
     border-radius: 4px;
     color:#1A237E;
+    display: flex;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
+    gap: 8px;
+    height: 40px;
+    justify-content: center;
     line-height: 20px; /* 142.857% */
+    padding: 0px 24px;
     text-decoration: none;
   }
   .sign-up {
@@ -160,7 +160,7 @@ nav {
   }
 
   .log-in {
-    border: 1px solid  #5C6BC0;
     background: #FFF;
+    border: 1px solid  #5C6BC0;
   }
 }
