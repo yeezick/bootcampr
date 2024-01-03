@@ -26,7 +26,7 @@ export const DeleteAccountModal = () => {
   }
 
   return (
-    <div>
+    <div className='delete-button-container'>
       <button onClick={handleOpen} className='delete-account-button'>
         Delete Account
       </button>
