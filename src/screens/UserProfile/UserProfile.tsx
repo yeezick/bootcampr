@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useAppSelector } from 'utils/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 import { UserInterface } from 'interfaces'
 import { emptyUser } from 'utils/data/userConstants'
+import { handleMemberMessageClick } from 'utils/helpers/messagingHelpers'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 import { RiGithubLine } from 'react-icons/ri'
 import { FiLinkedin } from 'react-icons/fi'
@@ -16,6 +17,7 @@ export const UserProfile: React.FC = () => {
   const { userId } = useParams()
   const teamMembers = useAppSelector(selectMembersAsTeam)
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const [userProfileInfo, setUserProfileInfo] =
     useState<UserInterface>(emptyUser)
   const sameProfile = authUser._id === userId ? true : false
@@ -30,6 +32,18 @@ export const UserProfile: React.FC = () => {
     return <div>Loading user... or there isn't one.</div>
   }
 
+  const handleProfileMessageClick = () => {
+    handleMemberMessageClick({
+      firstName: userProfileInfo.firstName,
+      lastName: userProfileInfo.lastName,
+      memberId: userProfileInfo._id,
+      email: userProfileInfo.email,
+      profilePicture: userProfileInfo.profilePicture,
+      authUser,
+      dispatch,
+    })
+  }
+
   const shouldShowName =
     authUser && userProfileInfo.firstName && userProfileInfo.lastName
 
@@ -42,11 +56,6 @@ export const UserProfile: React.FC = () => {
 
   const routeToEdit = () => {
     navigate(`/users/${authUser._id}/edit`)
-  }
-
-  const handleMemberMessageClick = () => {
-    //TODO: Create logic for team member message button to open chat modal with that team member directly
-    console.log('handleMemberMessageClick')
   }
 
   return (
@@ -71,7 +80,7 @@ export const UserProfile: React.FC = () => {
           ) : (
             <button
               className='userProfile__messageBtn'
-              onClick={handleMemberMessageClick}
+              onClick={handleProfileMessageClick}
             >
               Message
             </button>
