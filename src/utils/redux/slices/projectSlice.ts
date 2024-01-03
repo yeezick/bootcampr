@@ -1,9 +1,4 @@
-import {
-  createSelector,
-  createSlice,
-  PayloadAction,
-  Update,
-} from '@reduxjs/toolkit'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { TicketInterface } from 'interfaces'
 import { ProjectInterface } from 'interfaces/ProjectInterface'
@@ -148,6 +143,11 @@ const projectSlice = createSlice({
     },
   },
 })
+
+export const selectUserNotInTeam = state => {
+  const { designers, engineers } = state.project.members
+  return designers.length === 0 && engineers.length === 0
+}
 
 export const selectMembersAsTeam = (state: RootState) => [
   ...state.project.members.designers,

@@ -1,10 +1,7 @@
 import { Link } from 'react-router-dom'
-import { logOut } from 'utils/api/users'
-import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import {
-  logoutAuthUser,
-  selectUserProjectId,
-} from 'utils/redux/slices/userSlice'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectUserProjectId } from 'utils/redux/slices/userSlice'
+import { selectUserNotInTeam } from 'utils/redux/slices/projectSlice'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
 import { DomainLink } from 'layout/DomainLink'
 import { sideMenuIconMap } from 'utils/helpers'
@@ -13,47 +10,54 @@ import './SideMenu.scss'
 export const SideMenu = () => {
   const { title } = useAppSelector(selectSideMenu)
   const projectId = useAppSelector(selectUserProjectId)
-  const dispatch = useAppDispatch()
-  const handleLogout = () => {
-    logOut()
-    dispatch(logoutAuthUser())
-  }
+  const notInTeam = useAppSelector(selectUserNotInTeam)
+
+  const btnClassName = `${
+    notInTeam ? 'disabled-btn' : 'completion-overflow-btn'
+  }`
 
   return (
     <div className='sidemenu-container'>
       <div className='title'>
         <h2>{title}</h2>
       </div>
-      <SideMenuLinks />
+      <SideMenuLinks notInTeam={notInTeam} />
       <Link
         className='project-completion-link'
         to={`/project/${projectId}/complete`}
       >
-        <button className='completion-overflow-btn'>Submit Project</button>
+        <button className={btnClassName} disabled={notInTeam}>
+          Submit Project
+        </button>
       </Link>
     </div>
   )
 }
 
-const SideMenuLinks = () => {
+const SideMenuLinks = ({ notInTeam }) => {
   const { links } = useAppSelector(selectSideMenu)
 
   return (
     <div className='sidemenu-links'>
       {links.map(link => (
-        <MenuLink linkDetails={link} />
+        <MenuLink linkDetails={link} notInTeam={notInTeam} />
       ))}
     </div>
   )
 }
 
-const MenuLink = ({ linkDetails }) => {
+const MenuLink = ({ linkDetails, notInTeam }) => {
   const { domain, icon, label, route } = linkDetails
   const LinkIcon = sideMenuIconMap[icon]
 
+  const isCalendarOrTask = route === 'Calendar' || route === 'Task Management'
+  const linkClassName = `${
+    notInTeam && isCalendarOrTask ? 'link-disable' : 'link'
+  }`
+
   return (
     <DomainLink
-      className='link'
+      className={linkClassName}
       domain={domain}
       key={`${domain}-${route}`}
       route={route}

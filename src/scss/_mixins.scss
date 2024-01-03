@@ -1,4 +1,4 @@
-@mixin alert-banners($background, $text-color) {
+@mixin alert-banners($background, $text-color, $maxW) {
   align-items: center;
   background-color: $background;
   box-shadow: 0 8px 12px -8px rgba(0, 0, 0, 0.7);
@@ -6,7 +6,7 @@
   column-gap: 10px;
   display: flex;
   justify-content: center;
-  max-width: 780px;
+  max-width: $maxW;
   padding: 16px 32px 16px 16px;
   width: fit-content;
 

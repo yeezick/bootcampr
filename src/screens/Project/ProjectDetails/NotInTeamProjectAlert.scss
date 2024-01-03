@@ -1,0 +1,21 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+
+.not-in-team-alert {
+  margin: 0 0 0 16px;
+
+  .nita-warning {
+    @include alert-banners(
+      $alert-warning-background,
+      $alert-warning-text-color,
+      100%
+    );
+
+    div,
+    a {
+      font-size: 16px;
+      font-size: 400;
+      line-height: 24px;
+    }
+  }
+}
