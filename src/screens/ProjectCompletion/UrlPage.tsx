@@ -8,8 +8,9 @@ import {
   selectProject,
   updateDeployedUrl,
 } from 'utils/redux/slices/projectSlice'
-import { FiRepeat, FiArrowRight } from 'react-icons/fi'
-
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
+import { BsArrowRight } from 'react-icons/bs'
+import { HiOutlineArrowRight } from 'react-icons/hi'
 export const UrlPage = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
   const project = useSelector(selectProject)
@@ -90,16 +91,11 @@ export const UrlPage = ({ handlePageNavigation }) => {
     ? 'projectcompletion__next-btn-ready'
     : 'projectcompletion__next-btn'
 
-  const NextIcon = isUrl(inputChange) ? FiArrowRight : FiRepeat
-
   return (
     <div className='projectcompletion__pag-url'>
       <form className='projectcompletion__form-url' onSubmit={handleSubmit}>
-        <h1>Congrats on deploying your project!</h1>
-        <p>
-          Let’s begin by attaching link to your project site. Make sure all the
-          requirements are met before you submit your work.
-        </p>
+        <h1>Congrats! You've shipped a live product!</h1>
+        <p>First, input the URL to your website.</p>
         <label className='projectcompletion__label' htmlFor=''>
           <p>Project URL</p>
           <input
@@ -117,7 +113,8 @@ export const UrlPage = ({ handlePageNavigation }) => {
             Cancel
           </button>
           <button type='submit' className={nextButtonStyle}>
-            Next <NextIcon className='projectcompletion__forward-icon' />
+            Presentation{' '}
+            <KeyboardBackspaceIcon className='projectcompletion__next-btn-icon' />
           </button>
         </div>
       </form>

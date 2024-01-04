@@ -4,23 +4,23 @@
   &__form-url {
     h1 {
       @include font-properties(
-      (
-        size: 38px,
-        weight: 600,
-        line-height: 53px,
-      )
-    );
+        (
+          size: 38px,
+          weight: 600,
+          line-height: 53px,
+        )
+      );
       margin: 0 7.5px 32px;
     }
 
     p {
       @include font-properties(
-      (
-        size: 16px,
-        weight: 400,
-        line-height: 22px,
-      )
-    );
+        (
+          size: 16px,
+          weight: 400,
+          line-height: 22px,
+        )
+      );
       margin: 0 66.5px 0 7.5px;
     }
   }
@@ -45,7 +45,8 @@
     padding: 10px 12px 10px 15px;
   }
 
-  &__label, &__pag-url {
+  &__label,
+  &__pag-url {
     @include flex(column, inherit, inherit);
   }
 
@@ -63,5 +64,10 @@
     height: 462px;
     margin: 88px auto auto;
     width: 675px;
+  }
+
+  &__next-btn-icon {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
   }
 }
