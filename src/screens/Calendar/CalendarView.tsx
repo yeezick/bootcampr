@@ -59,7 +59,7 @@ export const CalendarView = () => {
             events={convertedEventsAsArr}
             eventClick={handleEventClick}
             headerToolbar={{
-              start: 'dayGridMonth timeGridWeek today',
+              start: 'today',
               center: 'title',
               end: 'prev next',
             }}
