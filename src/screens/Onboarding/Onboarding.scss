@@ -31,10 +31,10 @@
   padding: 0px;
 
   h1 {
-    height: 54px;
     font-size: 38px;
     font-style: normal;
     font-weight: 700;
+    height: 54px;
     line-height: 53.2px;
     margin: 0;
     text-align: left;
@@ -79,18 +79,18 @@
   gap: 6px;
 
   .tell-role {
-    height: 34px;
     font-size: 24px;
     font-style: normal;
     font-weight: 400;
+    height: 34px;
     line-height: 34px;
     margin: 0;
     width: 250px;
   }
 
   .tell-role-content {
-    width: 462px;
     height: 48px;
+    width: 462px;
 
     p {
       font-size: 16px;
@@ -106,8 +106,8 @@
   display: flex;
   flex-direction: column;
   height: 25.25rem;
-  width: 33.625rem;
   margin: 0 auto;
+  width: 33.625rem;
 }
 
 .radio-btn {
@@ -143,8 +143,8 @@
     line-height: 22.4px;
 
     input {
-      margin: 0 8px 0 0;
       height: 20px;
+      margin: 0 8px 0 0;
       width: 20px;
     }
   }
@@ -173,7 +173,7 @@
 }
 
 .onboarding-incomplete-btn {
-  align-items: center;  
+  align-items: center;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -183,9 +183,9 @@
   height: 43px;
   justify-content: center;
   left: 598px;
+  padding: 0;
   top: 582px;
   width: 167px;
-  padding: 0;
 
   p {
     font-size: 14px;
@@ -212,9 +212,9 @@
 
 /* Onboarding setup profile */
 .setupProfile {
-  margin: 32px auto 0;
-  width: 638.31px;
   height: 1025px;
+  margin: 32px auto 0;
+  width: 590px;
 
   #imageChange {
     color: #121212;
@@ -224,11 +224,11 @@
   $this: &;
 
   &__cameraIcon {
+    height: 32px;
     left: -32px;
     top: 64px;
-    width: 32px;
-    height: 32px;
     transform: scaleX(-1);
+    width: 32px;
   }
 
   &__cta-container {
@@ -250,10 +250,11 @@
         line-height: 21px,
       )
     );
+
     background-color: #fafafa;
     color: #313335;
-    padding-right: 5px;
     max-height: 22px;
+    padding-right: 5px;
     text-align: right;
   }
 
@@ -274,6 +275,7 @@
         line-height: 20px,
       )
     );
+
     border-radius: 4px;
     box-sizing: border-box;
     cursor: pointer;
@@ -306,6 +308,7 @@
         line-height: 20px,
       )
     );
+
     align-items: center;
     background-color: lightgray;
     border: none;
@@ -328,7 +331,7 @@
 
   &__profile-header-cont {
     margin: 0 auto 32px;
-    width: 555px;
+    width: 520px;
 
     h2 {
       @include flex(row);
@@ -345,6 +348,10 @@
       text-align: left;
     }
 
+    i {
+      line-height: 23px;
+    }
+
     p {
       @include font-properties(
         (
@@ -355,7 +362,7 @@
       );
       color: #212121;
       letter-spacing: 0;
-      margin: 0;
+      margin: 0 0 10px 0;
     }
   }
 
@@ -367,11 +374,19 @@
     padding: 32px;
   }
 
+  &__profile-image {
+    img {
+      height: 90px;
+      width: 90px;
+    }
+  }
+
   &__profile-imageChange {
     color: #121212;
   }
 
   &__profile-label {
+
     @include font-properties(
       (
         size: 16px,
@@ -388,6 +403,7 @@
           line-height: 20px,
         )
       );
+
       background-color: #ffffff;
       border: 1px solid #000;
       border-radius: 4px;
@@ -405,10 +421,10 @@
   }
 
   &__profile-link {
+    background: none;
+    border: none;
     color: #1a237e;
     cursor: pointer;
-    border: none;
-    background: none;
     text-decoration: underline;
   }
 
@@ -451,9 +467,9 @@
 
   h1 {
     color: #000;
-    font-size: 38px;
-    font-weight: 600;
+    font-size: 45px;
     font-style: normal;
+    font-weight: 600;
     line-height: 53.2px;
     margin: 0;
     text-align: center;
@@ -466,7 +482,7 @@
   flex-direction: column;
   gap: 5px;
   justify-content: center;
-  margin: 40px 0 0;
+  margin: 60px 0 0;
   width: 670px;
 
   h2 {
@@ -484,10 +500,10 @@
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 22.4px;
+    line-height: 24px;
     margin: 0;
-    text-align: center;
-    width: 528px;
+    text-align: left;
+    width: 532px;
   }
 }
 
@@ -495,11 +511,10 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  margin: 65px 0 0;
+  margin: 50px 0 0;
 
   .lastscreen-feedback {
     font-size: 16px;
-    font-style: normal;
     font-weight: 700;
     line-height: 22.4px;
     text-align: center;
@@ -511,13 +526,13 @@
     font-style: normal;
     font-weight: 400;
     line-height: 22.4px;
-    margin: 0;
+    margin: 0 0 8px 0;
     text-align: center;
   }
 
   span {
     color: #022888;
-    font-size: 16px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 700;
     line-height: 22.4px;
