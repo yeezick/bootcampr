@@ -21,9 +21,9 @@
   &__next-btn-ready {
     @include font-properties(
       (
-        size: 16px,
-        weight: 500,
-        line-height: 22px,
+        font-weight: 500,
+        line-height: 20px,
+        size: 14px,
       )
     );
     cursor: pointer;
@@ -34,9 +34,9 @@
     @include container-properties(
       (
         background-color: #ffffff,
-        border: 1px solid #8048c8,
+        border: 1px solid #1a237e,
         border-radius: 4px,
-        color: #8048c8,
+        color: #1a237e,
       )
     );
   }
@@ -45,10 +45,12 @@
   &__next-btn-ready {
     @include container-properties(
       (
+        background-color: #ffa726,
         border: none,
         border-radius: 4px,
-        height: 35px,
-        width: 84px,
+        color: #1a237e,
+        height: 40px,
+        width: 152px,
       )
     );
   }
@@ -64,14 +66,13 @@
   }
 
   &__btns {
-    background-color: #ffffff;
     margin-top: 88px;
   }
 
   &__cancel-btn {
-    height: 35px;
+    height: 40px;
     margin-right: 8px;
-    width: 77px;
+    width: 91px;
   }
 
   &__forward-icon {
@@ -79,19 +80,21 @@
   }
 
   &__next-btn {
-    background-color: #ecebeb;
+    background-color: #ffa726;
+    cursor: not-allowed;
     margin-left: 8px;
+    opacity: 0.38;
   }
 
   &__next-btn-ready {
-    background-color: #fa9413;
+    background-color: #ffa726;
     margin-left: 8px;
   }
 
   &__pag-container {
     @include container-properties(
       (
-        background-color: #ffffff,
+        background-color: #e5e5e5,
         height: 800px,
         width: 800px,
       )

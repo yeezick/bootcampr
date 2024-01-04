@@ -9,8 +9,7 @@ import {
   updateDeployedUrl,
 } from 'utils/redux/slices/projectSlice'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
-import { BsArrowRight } from 'react-icons/bs'
-import { HiOutlineArrowRight } from 'react-icons/hi'
+
 export const UrlPage = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
   const project = useSelector(selectProject)
@@ -91,6 +90,8 @@ export const UrlPage = ({ handlePageNavigation }) => {
     ? 'projectcompletion__next-btn-ready'
     : 'projectcompletion__next-btn'
 
+  const isDisabled = !isUrl(inputChange)
+
   return (
     <div className='projectcompletion__pag-url'>
       <form className='projectcompletion__form-url' onSubmit={handleSubmit}>
@@ -112,8 +113,12 @@ export const UrlPage = ({ handlePageNavigation }) => {
           >
             Cancel
           </button>
-          <button type='submit' className={nextButtonStyle}>
-            Presentation{' '}
+          <button
+            type='submit'
+            className={nextButtonStyle}
+            disabled={isDisabled}
+          >
+            Presentation
             <KeyboardBackspaceIcon className='projectcompletion__next-btn-icon' />
           </button>
         </div>
