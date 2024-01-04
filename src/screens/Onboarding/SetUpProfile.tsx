@@ -79,7 +79,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
   }
 
   let inputString =
-    "I'm from... I live in... I choose this career path because... my hobbies are... A fun fact about me is..."
+    "I'm from... I live in... I chose this career path because... My hobbies are... A fun fact about me is..."
   const placeholder = inputString.replace(/\.\.\. /g, '...\n')
 
   return (
@@ -87,10 +87,15 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
       <div className='setupProfile__profile-header-cont'>
         <h2>Profile</h2>
         <p>
-          We recommend you set up your profile now. This will help your team get
-          to know you. You can start it, save it, and finish it later if you’d
-          like. You can edit your profile by going to My Account.
+          Set up your profile so your team can get to know you. Write a little
+          about yourself. Input your LinkedIn profile. Adding a link to your
+          portfolio is encouraged but not required. You can edit your profile
+          later by going to My Account.
         </p>
+        <i>
+          We've input yor first and last name for you. You can change them, but
+          a first and last name is required to complete onboarding
+        </i>
       </div>
       <div className='setupProfile__profile-container'>
         <form
@@ -135,11 +140,22 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                 className='setupProfile__profile-textarea'
                 onChange={handleInputChange}
                 maxLength={500}
+                minRows={8}
                 placeholder={placeholder}
               />
               <div className='setupProfile__profile-bioCharCount'>
                 {bioCharCount}/500 Character count
               </div>
+            </label>
+            <label className='setupProfile__profile-label'>
+              Linkedin profile (URL)
+              <input
+                type='text'
+                name='linkedinUrl'
+                className='setupProfile__profile-input'
+                onChange={handleInputChange}
+                placeholder='https://www.linkedin.com/in/name'
+              />
             </label>
             <label className='setupProfile__profile-label'>
               Portfolio
@@ -148,6 +164,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                 name='portfolioUrl'
                 className='setupProfile__profile-input'
                 onChange={handleInputChange}
+                placeholder='myportfoliokicksass.com'
               />
             </label>
             <label className='setupProfile__profile-label'>
@@ -157,15 +174,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                 name='githubUrl'
                 className='setupProfile__profile-input'
                 onChange={handleInputChange}
-              />
-            </label>
-            <label className='setupProfile__profile-label'>
-              Linkedin profile (URL)
-              <input
-                type='text'
-                name='linkedinUrl'
-                className='setupProfile__profile-input'
-                onChange={handleInputChange}
+                placeholder='myGitHubkicksass.com'
               />
             </label>
           </div>
@@ -184,12 +193,6 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                 <FiArrowRight className='setupProfile__profile-arrow-r' />
               </button>
             </div>
-            <button
-              className='setupProfile__profile-link'
-              onClick={handleSkipProfileSetup}
-            >
-              Skip profile set up
-            </button>
           </div>
         </form>
       </div>
