@@ -5,7 +5,7 @@ import {
 } from '@mui/icons-material'
 import { FaRegTrashAlt } from 'react-icons/fa'
 import { SelectTimeInput } from './SelectTimeInput'
-import { Checkbox } from '@mui/material'
+import { Checkbox, Tooltip } from '@mui/material'
 import { useState, useEffect, useRef } from 'react'
 import './CopyTimesModal.scss'
 import { useDispatch } from 'react-redux'
@@ -17,6 +17,7 @@ import {
   renderCopyTimesModal,
   copyTimes,
 } from '../utils/helpers'
+import { weekdaysMap } from '../utils/data'
 
 export const TimeSlotInput = ({ day, days, setDays }) => {
   const dispatch = useDispatch()
@@ -65,10 +66,27 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
           </div>
           <div className='right-banner'>
             {days[day].availability.length - 1 === idx && (
-              <AddRounded
-                onClick={() => addTimeSlot(day, days, setDays, idx)}
-                className='icon'
-              />
+              <Tooltip
+                title={`New time block for ${weekdaysMap[day]}`}
+                placement='top-end'
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      bgcolor: 'rgba(0, 0, 0, 0.75)',
+                      '& .MuiTooltip-arrow': {
+                        color: 'rgba(0, 0, 0, 0.3)',
+                      },
+                      fontSize: '14px',
+                      padding: '10px',
+                    },
+                  },
+                }}
+              >
+                <AddRounded
+                  onClick={() => addTimeSlot(day, days, setDays, idx)}
+                  className='icon'
+                />
+              </Tooltip>
             )}
             <div className='hover-icon'>
               {getDisplay(idx) && (
@@ -81,10 +99,27 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
                   handleRenderModal={handleRenderModal}
                 />
               )}
-              <ContentCopyOutlined
-                onClick={e => handleRenderModal(e, idx)}
-                className='icon'
-              />
+              <Tooltip
+                title='Copy available time to other days'
+                placement='top-end'
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      bgcolor: 'rgba(0, 0, 0, 0.75)',
+                      '& .MuiTooltip-arrow': {
+                        color: 'rgba(0, 0, 0, 0.3)',
+                      },
+                      fontSize: '14px',
+                      padding: '10px',
+                    },
+                  },
+                }}
+              >
+                <ContentCopyOutlined
+                  onClick={e => handleRenderModal(e, idx)}
+                  className='icon'
+                />
+              </Tooltip>
             </div>
           </div>
         </div>
