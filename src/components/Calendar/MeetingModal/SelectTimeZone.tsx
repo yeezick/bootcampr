@@ -11,7 +11,6 @@ export const SelectTimeZone = ({ dateFields, setDateFields, timeZone }) => {
 
   return (
     <div className='timezone-wrapper'>
-      <p>TimeZone </p>
       <FormControl
         aria-label='timezone'
         hiddenLabel={true}
@@ -24,7 +23,6 @@ export const SelectTimeZone = ({ dateFields, setDateFields, timeZone }) => {
           onClick={toggleSelect}
           open={openSelect}
           sx={timeZoneSelectStyles}
-          variant='standard'
           value={timeZone}
         >
           {usTimeZones.map(timeZone => (
@@ -45,12 +43,15 @@ const CustomArrowDown = toggleSelect => {
 }
 
 const timeZoneSelectStyles = {
-  color: '#022888',
+  color: '#212121',
   fontSize: '14px',
   '& .MuiSelect-select.MuiInputBase-input': {
-    paddingRight: '0px',
+    padding: '10px',
   },
   ':hover': {
     cursor: 'pointer',
   },
+  padding: '0px',
+  border: '0px',
+  width: '330px',
 }

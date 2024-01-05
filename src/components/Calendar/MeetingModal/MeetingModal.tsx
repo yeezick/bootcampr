@@ -211,7 +211,7 @@ export const MeetingModal = () => {
           </div>
           <div className='content-wrapper'>
             <TextField
-              label='Add Title'
+              placeholder='Add Title'
               name='summary'
               InputLabelProps={{ className: 'title-input-label' }}
               onChange={e => handleFormInputChange(e, setMeetingText)}
@@ -220,6 +220,7 @@ export const MeetingModal = () => {
               value={meetingText.summary}
               variant='standard'
             />
+            <p className='title-required'>This field is required</p>
             <div className='date-attendee-wrapper'>
               <div className='clock-icon'>
                 <AccessTime sx={{ color: iconColor }} />
@@ -295,13 +296,16 @@ const GoogleMeetsToggler = ({ googleMeeting, toggleGoogleMeeting }) => {
 }
 
 const titleInputFieldStyles = {
-  marginBottom: '32px',
   width: '100%',
   '& .MuiInputLabel-asterisk': {
     color: 'orange',
   },
   '& .MuiInput-underline': {
     paddingTop: '17px',
+  },
+  '& .MuiInputBase-input': {
+    fontSize: '20px',
+    fontFamily: 'Roboto',
   },
 }
 

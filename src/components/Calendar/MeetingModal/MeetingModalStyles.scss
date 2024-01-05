@@ -1,6 +1,10 @@
 .meeting-modal {
+ 
+
   .modal-dialog-content {
     overflow-x:hidden;
+    padding-right: 40px;
+    padding-left: 40px;
   }
   .meeting-modal-icons {
     align-items: center;;
@@ -27,6 +31,15 @@
 
     .title-input-label {
       font-size: 32px;
+    }
+
+    .title-required {
+      margin-top: 3px;
+      margin-bottom: 15px;
+      font-size: 12px;
+      font-style: italic;
+      font-weight: 400;
+
     }
   }
 
@@ -92,10 +105,10 @@
 }
 
 .timezone-wrapper {
-  align-self: center;
+  margin-top: 20px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
    p {
     font-size: 14px;
