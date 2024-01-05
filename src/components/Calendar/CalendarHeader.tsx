@@ -34,5 +34,7 @@ const OrangeButton = styled(Button)(() => ({
   color: 'black',
   ':hover': {
     backgroundColor: '#FFA726',
+    boxShadow: 'none',
   },
+  boxShadow: 'none',
 }))
