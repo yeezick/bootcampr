@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Box, Tabs, Tab } from '@mui/material'
 import { CalendarView } from 'screens/Calendar/CalendarView'
 import { EditAvailability } from 'screens/Calendar/EditAvailability'
+import './CalendarTabs.scss'
 
 type AllTabsInterface = {
   label: string
