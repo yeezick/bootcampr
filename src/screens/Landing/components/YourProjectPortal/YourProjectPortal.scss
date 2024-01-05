@@ -37,6 +37,7 @@
       justify-content: space-between;
       min-height: 1756px;
 
+
       .details-content{
         align-items: center;
         display: flex;
@@ -66,7 +67,12 @@
             max-width: 506px;
             width: 100%;
           }
+         
         }
+           &:nth-child(even) .details-text{
+            order:-1;
+          }
+
       }
 
     }
