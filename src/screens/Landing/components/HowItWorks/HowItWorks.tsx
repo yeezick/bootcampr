@@ -11,10 +11,7 @@ export const HowItWorks = () => {
         <div className='text-list'>
           <TextListItem text='Sign up' />
           <TextListItem text='Tell us your role and availability for meetings' />
-          <TextListItem
-            text=' View the project prompt while Bootcampr matches you with a team
-              based on your role and availability'
-          />
+          <TextListItem text=' View the project prompt while Bootcampr matches you with a team based on your role and availability' />
         </div>
       </div>
       <div className='image'>

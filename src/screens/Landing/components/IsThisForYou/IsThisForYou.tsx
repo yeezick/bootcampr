@@ -17,14 +17,8 @@ export const IsThisForYou = () => {
             smallText='*SWEs should have MERN/full stack experience'
           />
           <TextListItem text='You want to sharpen the skills you’ve developed' />
-          <TextListItem
-            text='You want to work on a cross-functional team in a simulated work
-              environment'
-          />
-          <TextListItem
-            text="You're ready to showcase a shipped product on your portfolio to
-            talk about in interviews"
-          />
+          <TextListItem text='You want to work on a cross-functional team in a simulated work environment' />
+          <TextListItem text="You're ready to showcase a shipped product on your portfolio to talk about in interviews" />
         </div>
       </div>
     </div>
