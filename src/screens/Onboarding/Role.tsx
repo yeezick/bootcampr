@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { updateUserProfile } from 'utils/api'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from 'utils/redux/hooks'
@@ -33,6 +33,14 @@ export const Role = ({ handlePageNavigation }) => {
       console.error(error)
     }
   }
+
+  useEffect(() => {
+    const { role } = authUser
+    if (role) {
+      setSelectedRole(role)
+      setButtonEnabled(true)
+    }
+  }, [])
 
   return (
     <div className='onboarding-incomplete-container'>
@@ -92,7 +100,7 @@ export const Role = ({ handlePageNavigation }) => {
               style={{
                 backgroundColor: buttonEnabled ? 'orange' : '#ffe0b2',
                 color: buttonEnabled ? '#1a237e' : '#c5cae9',
-                cursor: buttonEnabled ? 'pointer' : 'not-allowed',
+                cursor: buttonEnabled ? 'pointer' : 'auto',
               }}
               disabled={!buttonEnabled}
               onClick={handleSubmit}

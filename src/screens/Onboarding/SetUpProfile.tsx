@@ -20,7 +20,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
   const params = useParams()
   const dispatch = useDispatch()
   const { displayNotification } = useNotification()
-  const { firstName, lastName } = updateUserForm
+  const { firstName, lastName, bio, links } = updateUserForm
   const nestedLinks = Object.keys(updateUserForm.links)
 
   useEffect(() => {
@@ -68,10 +68,6 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     } catch (error) {
       console.log('Error occured when trying to create User Profile', error)
     }
-  }
-
-  const handleSkipProfileSetup = () => {
-    handlePageNavigation('next')
   }
 
   const handleCancel = () => {
@@ -142,6 +138,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                 maxLength={500}
                 minRows={8}
                 placeholder={placeholder}
+                value={bio}
               />
               <div className='setupProfile__profile-bioCharCount'>
                 {bioCharCount}/500 Character count
@@ -155,6 +152,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                 className='setupProfile__profile-input'
                 onChange={handleInputChange}
                 placeholder='https://www.linkedin.com/in/name'
+                value={links.linkedinUrl}
               />
             </label>
             <label className='setupProfile__profile-label'>
@@ -165,6 +163,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                 className='setupProfile__profile-input'
                 onChange={handleInputChange}
                 placeholder='myportfoliokicksass.com'
+                value={links.portfolioUrl}
               />
             </label>
             <label className='setupProfile__profile-label'>
@@ -175,6 +174,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                 className='setupProfile__profile-input'
                 onChange={handleInputChange}
                 placeholder='myGitHubkicksass.com'
+                value={links.githubUrl}
               />
             </label>
           </div>
