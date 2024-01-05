@@ -7,7 +7,7 @@ export const Email = ({ setFormValues }) => {
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const inputId = 'email'
-  const sampleEmail = ' (ex. jeanine@bootcampr.io)'
+  const sampleEmail = ' (ex. uxdesigner@bootcampr.io)'
 
   const validateEmail = async e => {
     const email = e.target.value
@@ -20,6 +20,9 @@ export const Email = ({ setFormValues }) => {
       setError(false)
       setErrorMessage('')
     }
+    if (!email.trim().length) {
+      setError(false)
+    }
   }
 
   const handleEmailChange = e => {
@@ -30,7 +33,7 @@ export const Email = ({ setFormValues }) => {
       <FormControl className='sign-up-input-container' variant='standard'>
         <label className='form-label' htmlFor={inputId}>
           Email
-          <span className='password-label-helper'>{sampleEmail}</span>
+          <span className='email-label-helper'>{sampleEmail}</span>
         </label>
         <input
           id={inputId}
@@ -40,8 +43,15 @@ export const Email = ({ setFormValues }) => {
           onChange={handleEmailChange}
           required
           type={inputId}
+          style={{
+            borderColor: error ? '#d32f2f' : '',
+          }}
         />
-        {error && <FormHelperText error={true}>{errorMessage}</FormHelperText>}
+        {error && (
+          <FormHelperText className='email-error-message' error={true}>
+            {errorMessage}
+          </FormHelperText>
+        )}
       </FormControl>
     </div>
   )

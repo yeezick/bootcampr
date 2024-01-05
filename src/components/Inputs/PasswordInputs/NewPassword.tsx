@@ -5,7 +5,7 @@ import {
   handlePasswordMatching,
   toggleVisiblity,
 } from '../Passwords'
-import { IconButton } from '@mui/material'
+import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 export const NewPassword = ({
@@ -18,6 +18,7 @@ export const NewPassword = ({
   passwordInputName,
 }) => {
   const [inputType, setInputType] = useState('password')
+  const [inputTouched, setInputTouched] = useState(false)
   const inputId = 'password'
   const passwordErrorMessages = {
     uppercase: '1 uppercase',
@@ -30,24 +31,27 @@ export const NewPassword = ({
     const { value } = e.target
     handleFormInputChange(e, setFormValues)
 
-    if (value.length === 0) {
-      setPasswordErrors({
-        length: 'neutral',
-        uppercase: 'neutral',
-        lowercase: 'neutral',
-        number: 'neutral',
-      })
-    } else {
-      setPasswordErrors({
-        length:
-          value.length < 8 && value.length >= 1
-            ? 'criteria-not-met'
-            : 'criteria-met',
-        uppercase: /[A-Z]/.test(value) ? 'criteria-met' : 'criteria-not-met',
-        lowercase: /[a-z]/.test(value) ? 'criteria-met' : 'criteria-not-met',
-        number: /\d/.test(value) ? 'criteria-met' : 'criteria-not-met',
-      })
-    }
+    setPasswordErrors({
+      length:
+        value.length < 8 && value.length >= 0 ? 'neutral' : 'criteria-met',
+      uppercase: /[A-Z]/.test(value) ? 'criteria-met' : 'neutral',
+      lowercase: /[a-z]/.test(value) ? 'criteria-met' : 'neutral',
+      number: /\d/.test(value) ? 'criteria-met' : 'neutral',
+    })
+
+    handlePasswordMatching(formValues.confirmPassword, value, setPasswordMatch)
+  }
+
+  const handleValidatePassword = e => {
+    const { value } = e.target
+    handleFormInputChange(e, setFormValues)
+
+    setPasswordErrors({
+      length: value.length >= 8 ? 'criteria-met' : 'criteria-not-met',
+      uppercase: /[A-Z]/.test(value) ? 'criteria-met' : 'criteria-not-met',
+      lowercase: /[a-z]/.test(value) ? 'criteria-met' : 'criteria-not-met',
+      number: /\d/.test(value) ? 'criteria-met' : 'criteria-not-met',
+    })
 
     handlePasswordMatching(formValues.confirmPassword, value, setPasswordMatch)
   }
@@ -58,10 +62,12 @@ export const NewPassword = ({
       <div className='password-errors'>
         {Object.keys(passwordErrorMessages).map(key => (
           <div key={key}>
-            <PasswordCriteria
-              criteria={passwordErrorMessages[key]}
-              errorState={passwordErrors[key]}
-            />
+            {inputTouched && (
+              <PasswordCriteria
+                criteria={passwordErrorMessages[key]}
+                errorState={passwordErrors[key]}
+              />
+            )}
           </div>
         ))}
       </div>
@@ -76,8 +82,8 @@ export const NewPassword = ({
   )
 
   return (
-    <>
-      <form className='new-password container'>
+    <div className='new-password'>
+      <FormControl className='new-password container'>
         <label htmlFor={inputId}>{inputLabel}</label>
         <div className='new-password adorned-input'>
           <input
@@ -86,6 +92,8 @@ export const NewPassword = ({
             required
             onChange={handlePasswordChange}
             type={inputType}
+            onFocus={() => setInputTouched(true)}
+            onBlur={handleValidatePassword}
           />
           <IconButton
             className='new-password eyecon'
@@ -96,7 +104,7 @@ export const NewPassword = ({
           </IconButton>
         </div>
         <PasswordValidations errors={passwordErrors} />
-      </form>
-    </>
+      </FormControl>
+    </div>
   )
 }
