@@ -1,5 +1,5 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { IconButton } from '@mui/material'
+import { FormControl, IconButton } from '@mui/material'
 import { useState } from 'react'
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 import { ForgotPasswordLink } from 'screens/AccountSettings/components/ForgotPasswordLink'
@@ -43,8 +43,8 @@ export const CurrentPassword = ({
   const eyeconClassname = inputError ? 'error-icon' : 'eyecon'
 
   return (
-    <>
-      <form className='current-password container'>
+    <div className='current-password'>
+      <FormControl className='current-password container'>
         <label htmlFor={inputId}>Current password</label>
         <div className='current-password input-container'>
           <div className='current-password adorned-input'>
@@ -72,7 +72,7 @@ export const CurrentPassword = ({
           )}
         </div>
         <ForgotPasswordLink />
-      </form>
-    </>
+      </FormControl>
+    </div>
   )
 }
