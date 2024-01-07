@@ -1,12 +1,16 @@
-import { CalendarHeader, CalendarTabs, MeetingModal } from 'components/Calendar'
-import 'components/Calendar/Calendar.scss'
+import {
+  CalendarHeader,
+  CalendarTabs,
+  EditableMeetingModal,
+} from 'screens/Calendar'
+import './Calendar.scss'
 
 export const CalendarScreen = () => {
   return (
     <div className='calendar'>
       <CalendarHeader />
       <CalendarTabs />
-      <MeetingModal />
+      <EditableMeetingModal />
     </div>
   )
 }

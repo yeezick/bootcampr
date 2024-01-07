@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectMembersByEmail } from 'utils/redux/slices/projectSlice'
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined'
+import { selectDisplayedEvent } from 'utils/redux/slices/calendarSlice'
 
-export const DisplayAttendees = ({ attendees }) => {
-  const emailQueries = attendees.map(attendee => attendee.email)
+export const DisplayAttendees = () => {
   const [invitedMembers, setInvitedMembers] = useState([])
+  const { attendees } = useAppSelector(selectDisplayedEvent)
+  const emailQueries = attendees.map(attendee => attendee.email)
   const teamMembers = useAppSelector(selectMembersByEmail(emailQueries))
 
   useEffect(() => {
@@ -26,11 +29,14 @@ export const DisplayAttendees = ({ attendees }) => {
   }, [])
 
   return (
-    <div className='invited-members'>
-      {invitedMembers.map(member => (
-        <InvitedMember member={member} />
-      ))}
-    </div>
+    <>
+      <GroupsOutlinedIcon className='people-icon centered-icon' />
+      <div className='invited-members'>
+        {invitedMembers.map(member => (
+          <InvitedMember member={member} />
+        ))}
+      </div>
+    </>
   )
 }
 
