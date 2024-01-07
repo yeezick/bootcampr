@@ -3,6 +3,7 @@ import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
 import { checkIfAllMembersInvited } from 'utils/helpers'
 import './styles/SelectAttendees.scss'
 import { MemberCheckbox } from './MemberCheckbox'
+import { People } from '@mui/icons-material'
 
 export const SelectAttendees = ({
   attendees,
@@ -23,8 +24,9 @@ export const SelectAttendees = ({
     )
   }, [attendees])
 
-  if (projectMembers) {
-    return (
+  return (
+    <>
+      <People className='people-icon' />
       <div className='select-attendees-section'>
         <div className='select-attendees-wrapper'>
           <FormControlLabel
@@ -48,6 +50,6 @@ export const SelectAttendees = ({
           </span>
         </div>
       </div>
-    )
-  } else return null
+    </>
+  )
 }

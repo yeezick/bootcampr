@@ -23,35 +23,49 @@
   }
 
   .content-wrapper {
+    display:grid;
+    gap: 16px;
+    grid-template-areas: 
+    "title title"
+    "clockIcon dateFields"
+    "peopleIcon selectAttendees"
+    "divider divider"
+    "meetIcon meetToggler"
+    "descriptionIcon description";
     margin-top: 20px;
 
     .title-input-label {
       font-size: 32px;
     }
+
+    .title-field {
+      grid-area:title;
+      margin: 0;
+    }
+
+    .description-icon {
+      grid-area: descriptionIcon;
+      margin-top: 15px;
+    }
+
+    .description-field {
+      grid-area: description
+    }
+
   }
-
-  .date-attendee-wrapper {
-    display:grid;
-    grid-template-areas: 
-    "clock dateFields"
-    "people selectAttendees";
-    flex-direction: row;
-
     .clock-icon {
-      grid-area: clock;
-      margin-right: 10px;
-      padding-top: 5px;
+      grid-area: clockIcon;
+      margin-top: 10px;
     }
 
     .people-icon {
-      grid-area: people;
-      margin-right: 10px;
-
+      grid-area: peopleIcon;
+      margin-top: 10px;
     }
-  }
 
   .meeting-modal-divider {
     background-color: #313335;
+    grid-area: divider;
     height: 1px;
     position: relative;
     right: 24px;
@@ -109,3 +123,17 @@
   flex-direction: row;
 }
 
+  .google-meet-icon {
+    grid-area: meetIcon;
+    margin-top: 5px;
+  }
+
+  .google-meet-text {
+    margin: 0;
+    color:  #212121;
+    font-size: 12px;
+  }
+
+  .google-meet-toggler {
+    grid-area: meetToggler;
+  }

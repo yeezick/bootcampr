@@ -1,4 +1,4 @@
-import { ArrowDropDown } from '@mui/icons-material'
+import { AccessTime, ArrowDropDown } from '@mui/icons-material'
 import { DatePicker } from '@mui/x-date-pickers'
 import { updateDateInTimeSelections } from 'utils/helpers'
 import { SelectTimeZone } from './SelectTimeZone'
@@ -30,40 +30,43 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
   }, [dateFields])
 
   return (
-    <div className='fields-wrapper'>
-      <div className='time-fields'>
-        <DatePicker
-          disablePast
-          format='dddd, MM/DD/YY'
-          onChange={handleDate}
-          slots={{ openPickerIcon: ArrowDropDown }}
-          slotProps={{
-            textField: { size: 'small' },
-            openPickerIcon: { sx: { position: 'absolute', right: '5px' } },
-          }}
-          sx={datePickerStyles}
-          value={datePickerDayjs}
-        />
-        <span>from</span>
-        <SelectTime
+    <>
+      <AccessTime className='clock-icon' />
+      <div className='fields-wrapper'>
+        <div className='time-fields'>
+          <DatePicker
+            disablePast
+            format='dddd, MM/DD/YY'
+            onChange={handleDate}
+            slots={{ openPickerIcon: ArrowDropDown }}
+            slotProps={{
+              textField: { size: 'small' },
+              openPickerIcon: { sx: { position: 'absolute', right: '5px' } },
+            }}
+            sx={datePickerStyles}
+            value={datePickerDayjs}
+          />
+          <span>from</span>
+          <SelectTime
+            dateFields={dateFields}
+            setDateFields={setDateFields}
+            type={'start'}
+          />
+          <span className='span-dash'>-</span>
+          <SelectTime
+            dateFields={dateFields}
+            setDateFields={setDateFields}
+            type={'end'}
+          />
+        </div>
+
+        <SelectTimeZone
           dateFields={dateFields}
           setDateFields={setDateFields}
-          type={'start'}
-        />
-        <span className='span-dash'>-</span>
-        <SelectTime
-          dateFields={dateFields}
-          setDateFields={setDateFields}
-          type={'end'}
+          timeZone={dateFields.timeZone}
         />
       </div>
-
-      <SelectTimeZone
-        dateFields={dateFields}
-        setDateFields={setDateFields}
-        timeZone={dateFields.timeZone}
-      />
-    </div>
+    </>
   )
 }
 

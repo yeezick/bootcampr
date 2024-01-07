@@ -6,6 +6,9 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
+  Switch,
+  styled,
+  SwitchProps,
 } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { BooleanObject, DateFieldsInterface } from 'interfaces'
@@ -28,7 +31,7 @@ import {
   initialDateFields,
 } from 'utils/helpers'
 import { AccessTime, Clear, People } from '@mui/icons-material'
-import { MeetingTextField } from './MeetingTextField'
+import { DescriptionField } from './MeetingTextField'
 import { initialMeetingText } from 'utils/data/calendarConstants'
 import {
   addNewEvent,
@@ -39,6 +42,7 @@ import {
 } from 'utils/redux/slices/calendarSlice'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import './MeetingModalStyles.scss'
+import { RiGoogleLine } from 'react-icons/ri'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -47,7 +51,6 @@ type AttendeeList = { email: string }
 interface EventInfo {
   attendees: AttendeeList[]
   description: string
-  location: string
   googleMeetingInfo: {
     enabled: boolean
     hangoutLink?: string
@@ -149,7 +152,6 @@ export const MeetingModal = () => {
     if (projectMembers) {
       const updatedAttendance = { ...attendees }
       projectMembers?.forEach(member => {
-        // inviteAll is the current state
         if (member.email !== authUser.email) {
           updatedAttendance[member.email] = !inviteAll
         }
@@ -174,7 +176,6 @@ export const MeetingModal = () => {
     const eventInfo: EventInfo = {
       attendees: attendeeList,
       description,
-      location: googleMeeting ? 'enabled' : '',
       // Enabling hangout links for existing meetings and existing meetings that have toggled off google meet events
       googleMeetingInfo: {
         enabled: googleMeeting,
@@ -188,13 +189,7 @@ export const MeetingModal = () => {
       summary,
       projectId,
     }
-    console.log('meta', displayedEvent)
 
-    // if (displayedEvent && displayedEvent.googleMeetingInfo.hangoutLink) {
-    //   eventInfo.googleMeetingInfo.hangoutLink =
-    //     displayedEvent.googleMeetingInfo.hangoutLink
-    // }
-    console.log('eventInfo', eventInfo)
     if (modalDisplayStatus === 'create') {
       try {
         const newEvent = await createEvent(calendarId, eventInfo)
@@ -224,8 +219,6 @@ export const MeetingModal = () => {
     }
   }
 
-  const handleBackToDisplay = () => dispatch(setModalDisplayStatus('display'))
-
   return (
     <Dialog
       className='meeting-modal'
@@ -235,15 +228,10 @@ export const MeetingModal = () => {
     >
       <form onSubmit={handleSubmit}>
         <DialogContent className='modal-dialog-content'>
-          <div className='meeting-modal-icons'>
-            <ArrowBackIcon
-              className='back-arrow-icon'
-              onClick={handleBackToDisplay}
-            />
-            <Clear className='clear-icon' onClick={handleClose} />
-          </div>
+          <MeetingModalHeaderIcons handleClose={handleClose} />
           <div className='content-wrapper'>
             <TextField
+              className='title-field'
               label='Add Title'
               name='summary'
               InputLabelProps={{ className: 'title-input-label' }}
@@ -253,49 +241,34 @@ export const MeetingModal = () => {
               value={meetingText.summary}
               variant='standard'
             />
-            <div className='date-attendee-wrapper'>
-              <div className='clock-icon'>
-                <AccessTime sx={{ color: iconColor }} />
-              </div>
-              <div className='people-icon'>
-                <People sx={{ color: iconColor, marginTop: '8px' }} />
-              </div>
+            <DateFields
+              dateFields={dateFields}
+              setDateFields={setDateFields}
+              dayjs={dayjs}
+            />
 
-              <DateFields
-                dateFields={dateFields}
-                setDateFields={setDateFields}
-                dayjs={dayjs}
-              />
-
-              <SelectAttendees
-                attendees={attendees}
-                dateFields={dateFields}
-                inviteAll={inviteAll}
-                handleInviteAll={handleInviteAll}
-                setAttendees={setAttendees}
-                toggleInviteAll={toggleInviteAll}
-                projectMembers={projectMembers}
-              />
-            </div>
+            <SelectAttendees
+              attendees={attendees}
+              dateFields={dateFields}
+              inviteAll={inviteAll}
+              handleInviteAll={handleInviteAll}
+              setAttendees={setAttendees}
+              toggleInviteAll={toggleInviteAll}
+              projectMembers={projectMembers}
+            />
 
             <div className='meeting-modal-divider' />
-            <MeetingTextField
+            <GoogleMeetsToggler
+              googleMeeting={googleMeeting}
+              toggleGoogleMeeting={toggleGoogleMeeting}
+            />
+            <DescriptionField
               label='Add description'
               name='description'
               setMeetingText={setMeetingText}
               value={meetingText.description}
             />
-            <MeetingTextField
-              label='Add meeting link'
-              name='meetingLink'
-              setMeetingText={setMeetingText}
-              value={meetingText.meetingLink}
-            />
           </div>
-          <GoogleMeetsToggler
-            googleMeeting={googleMeeting}
-            toggleGoogleMeeting={toggleGoogleMeeting}
-          />
         </DialogContent>
         <DialogActions>
           <Button
@@ -303,11 +276,26 @@ export const MeetingModal = () => {
             type='submit'
             variant='contained'
           >
-            CREATE
+            {modalDisplayStatus === 'create' ? 'CREATE' : 'SAVE'}
           </Button>
         </DialogActions>
       </form>
     </Dialog>
+  )
+}
+
+const MeetingModalHeaderIcons = ({ handleClose }) => {
+  const dispatch = useAppDispatch()
+  const handleBackToDisplay = () => dispatch(setModalDisplayStatus('display'))
+
+  return (
+    <div className='meeting-modal-icons'>
+      <ArrowBackIcon
+        className='back-arrow-icon'
+        onClick={handleBackToDisplay}
+      />
+      <Clear className='clear-icon' onClick={handleClose} />
+    </div>
   )
 }
 
@@ -317,17 +305,63 @@ const GoogleMeetsToggler = ({ googleMeeting, toggleGoogleMeeting }) => {
   }
 
   return (
-    <div className='google-meet-toggler'>
-      <FormControlLabel
-        control={
-          <Checkbox checked={googleMeeting} onChange={handleMeetToggler} />
-        }
-        label='Add Google Meet (video call)'
-      />
-    </div>
+    <>
+      <RiGoogleLine className='google-meet-icon' size={23} />
+      <div className='google-meet-toggler'>
+        <FormControlLabel
+          control={
+            <IOSSwitch
+              sx={{ m: 1, marginLeft: '16px' }}
+              checked={googleMeeting}
+              onChange={handleMeetToggler}
+            />
+          }
+          label='Google Meet'
+          labelPlacement='start'
+          sx={{ margin: 0 }}
+        />
+        <p className='google-meet-text'>
+          A Google Meet link will be added to the calendar event.
+        </p>
+      </div>
+    </>
   )
 }
 
+// Taken directly from MUI docs & modified to fit figma
+const IOSSwitch = styled((props: SwitchProps) => <Switch {...props} />)(() => ({
+  overflow: 'visible',
+  width: 32,
+  height: 16,
+  padding: 0,
+  '& .MuiSwitch-switchBase': {
+    padding: 0,
+    transitionDuration: '300ms',
+    '&.Mui-checked': {
+      transform: 'translateX(16px)',
+      color: '#fff',
+      '& + .MuiSwitch-track': {
+        backgroundColor: '#5C6BC0',
+        opacity: 1,
+        border: '0.5px solid #5C6BC0',
+      },
+    },
+  },
+  '& .MuiSwitch-thumb': {
+    boxShadow: 'none',
+    boxSizing: 'border-box',
+    border: '0.5px solid #5C6BC0',
+    marginTop: 0.5,
+    width: 16,
+    height: 16,
+  },
+  '& .MuiSwitch-track': {
+    border: '0.5px solid #5C6BC0',
+    borderRadius: 13,
+    backgroundColor: '#fff',
+    opacity: 1,
+  },
+}))
 const titleInputFieldStyles = {
   marginBottom: '32px',
   width: '100%',
@@ -338,5 +372,3 @@ const titleInputFieldStyles = {
     paddingTop: '17px',
   },
 }
-
-const iconColor = '#86888A'

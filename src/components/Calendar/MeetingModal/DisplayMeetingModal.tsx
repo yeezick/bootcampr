@@ -13,7 +13,6 @@ import EditNoteIcon from '@mui/icons-material/EditNote'
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
 import CloseIcon from '@mui/icons-material/Close'
 import { RiGoogleLine } from 'react-icons/ri'
-
 import './DisplayMeetingModalStyles.scss'
 
 export const DisplayMeetingModal = () => {
@@ -27,10 +26,6 @@ export const DisplayMeetingModal = () => {
   const modalDisplayStatus = useAppSelector(selectModalDisplayStatus)
   const dispatch = useAppDispatch()
   const handleClose = () => dispatch(setModalDisplayStatus(false))
-  const handleEdit = () => {
-    dispatch(setModalDisplayStatus('edit'))
-    setDisplayMeeting(false)
-  }
 
   useEffect(() => {
     if (modalDisplayStatus === 'display') {
@@ -47,24 +42,20 @@ export const DisplayMeetingModal = () => {
     return null
   }
 
-  const { creator, description, summary } = displayedEvent
-  const { date, end, start } = displayedFields
+  const { creator, summary } = displayedEvent
 
   return (
     <Dialog open={displayMeeting} onClose={handleClose}>
       <DialogContent>
-        <div className='modal-icons'>
-          <EditNoteIcon onClick={handleEdit} />
-          <CloseIcon onClick={handleClose} />
-        </div>
-
+        <DisplayModalHeaderIcons
+          handleClose={handleClose}
+          setDisplayMeeting={setDisplayMeeting}
+        />
         <div className='display-modal-wrapper'>
-          <div className='header-content'>
-            <h3>{summary}</h3>
-            <p>
-              {date} {start} - {end}
-            </p>
-          </div>
+          <DisplayTimeAndSummary
+            displayedFields={displayedFields}
+            summary={summary}
+          />
           <DisplayAttendees />
           <DisplayMeetingLink />
           <DisplayDescription />
@@ -72,6 +63,32 @@ export const DisplayMeetingModal = () => {
         </div>
       </DialogContent>
     </Dialog>
+  )
+}
+
+export const DisplayTimeAndSummary = ({ displayedFields, summary }) => {
+  const { date, end, start } = displayedFields
+
+  return (
+    <div className='header-content'>
+      <h3>{summary}</h3>
+      <p>
+        {date} {start} - {end}
+      </p>
+    </div>
+  )
+}
+export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
+  const dispatch = useAppDispatch()
+  const handleEdit = () => {
+    dispatch(setModalDisplayStatus('edit'))
+    setDisplayMeeting(false)
+  }
+  return (
+    <div className='modal-icons'>
+      <EditNoteIcon onClick={handleEdit} />
+      <CloseIcon onClick={handleClose} />
+    </div>
   )
 }
 
