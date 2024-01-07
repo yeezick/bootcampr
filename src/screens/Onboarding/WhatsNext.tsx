@@ -1,17 +1,17 @@
-import React from 'react'
 import './Onboarding.scss'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { PrimaryButton } from 'components/Buttons'
 
-//TODO: make CSS true to Figma, inspect margins//
-
 export const WhatsNext = ({ handlePageNavigation }) => {
   const authUser = useAppSelector(selectAuthUser)
+  const navigate = useNavigate()
 
-  const handlePrevious = () => {
-    handlePageNavigation('previous')
+  const handleViewProjectDetails = () => {
+    // If user is not yet assigned a project, route them to the generic Project Details page
+    const projectSlug = authUser.project ? authUser.project : 'not-yet-assigned'
+    navigate(`/project/${projectSlug}`)
   }
 
   return (
@@ -45,16 +45,11 @@ export const WhatsNext = ({ handlePageNavigation }) => {
         </div>
         <div className='project-details'>
           <p>You can view the project details at any time.</p>
-          <Link className='link' to={`/project/${authUser.project}`}>
-            {/* <button className='project-details-btn'>
-              View project details
-            </button> */}
-            <PrimaryButton
-              handler={() => console.log('add navigation handler')}
-              paginatorBtn={false}
-              text='View project details'
-            />
-          </Link>
+          <PrimaryButton
+            handler={handleViewProjectDetails}
+            paginatorBtn={false}
+            text='View project details'
+          />
         </div>
       </div>
     </div>
