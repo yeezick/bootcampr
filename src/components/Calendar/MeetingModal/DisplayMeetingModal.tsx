@@ -34,7 +34,7 @@ export const DisplayMeetingModal = () => {
   useEffect(() => {
     if (modalDisplayStatus === 'display') {
       setDisplayedFields(
-        convertDateFieldsForDisplay(displayedEvent.gDateFields)
+        convertDateFieldsForDisplay(displayedEvent.googleDateFields)
       )
       setDisplayMeeting(true)
     } else {

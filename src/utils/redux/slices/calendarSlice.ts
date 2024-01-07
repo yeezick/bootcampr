@@ -62,7 +62,7 @@ export const selectDisplayedEvent = (state: RootState) =>
   state.calendar.displayedEvent
 
 export const selectHangoutLink = (state: RootState) =>
-  state.calendar.displayedEvent.metadata.hangoutLink
+  state.calendar.displayedEvent.googleMeetingInfo.hangoutLink
 
 export const selectModalDisplayStatus = (state: RootState) =>
   state.calendar.modalDisplayStatus

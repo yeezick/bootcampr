@@ -16,14 +16,17 @@ export interface ConvertedEvent {
   attendees?: Attendee
   creator?: string
   description?: string
-  gDateFields: {
+  googleDateFields: {
     endTime: string
     startTime: string
+  }
+  googleMeetingInfo: {
+    hangoutLink?: string
+    enabled: boolean
   }
   end?: string
   eventId?: string
   location: string
-  metadata: any
   start?: string
   timeZone?: string
   title?: string
@@ -51,10 +54,10 @@ export interface MeetingText {
 
 export interface MeetingModalInfo {
   attendees: gAttendees[]
-  description: string
   creator: {
     email: string
   }
+  description: string
   dateFields: {
     date: string
     end: string
@@ -62,9 +65,13 @@ export interface MeetingModalInfo {
     timeZone: string
   }
   eventId: string
-  gDateFields: {
+  googleDateFields: {
     endTime: string
     startTime: string
+  }
+  googleMeetingInfo: {
+    hangoutLink?: string
+    enabled: boolean
   }
   location?: string
   summary: string

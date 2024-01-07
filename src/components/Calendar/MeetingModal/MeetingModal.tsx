@@ -49,7 +49,7 @@ interface EventInfo {
   description: string
   location: string
   googleMeetingInfo: {
-    enabledGoogleMeet: boolean
+    enabled: boolean
     hangoutLink?: string
   }
   end: {
@@ -88,7 +88,8 @@ export const MeetingModal = () => {
 
       toggleVisibleModal(true)
     } else if (modalDisplayStatus === 'edit') {
-      const { description, gDateFields, location, summary } = displayedEvent
+      const { description, googleDateFields, location, summary } =
+        displayedEvent
 
       if (displayedEvent?.attendees) {
         const prefilledAttendees = {}
@@ -105,13 +106,13 @@ export const MeetingModal = () => {
       }
 
       const prefilledDateFields: DateFieldsInterface = {
-        date: gDateFields.startTime,
-        end: gDateFields.endTime,
-        start: gDateFields.startTime,
+        date: googleDateFields.startTime,
+        end: googleDateFields.endTime,
+        start: googleDateFields.startTime,
         timeZone: dateFields.timeZone,
       }
 
-      if (displayedEvent.metadata.hangoutLink) {
+      if (displayedEvent.googleMeetingInfo.enabled) {
         toggleGoogleMeeting(true)
       }
 
@@ -173,11 +174,10 @@ export const MeetingModal = () => {
     const eventInfo: EventInfo = {
       attendees: attendeeList,
       description,
-      location: meetingText.meetingLink,
+      location: googleMeeting ? 'enabled' : '',
       // Enabling hangout links for existing meetings and existing meetings that have toggled off google meet events
       googleMeetingInfo: {
-        enabledGoogleMeet: googleMeeting,
-        // hangoutLink: displayedEvent.metadata.hangoutLink,
+        enabled: googleMeeting,
       },
       end: {
         dateTime: end,
@@ -190,10 +190,10 @@ export const MeetingModal = () => {
     }
     console.log('meta', displayedEvent)
 
-    if (displayedEvent && displayedEvent.metadata.hangoutLink) {
-      eventInfo.googleMeetingInfo.hangoutLink =
-        displayedEvent.metadata.hangoutLink
-    }
+    // if (displayedEvent && displayedEvent.googleMeetingInfo.hangoutLink) {
+    //   eventInfo.googleMeetingInfo.hangoutLink =
+    //     displayedEvent.googleMeetingInfo.hangoutLink
+    // }
     console.log('eventInfo', eventInfo)
     if (modalDisplayStatus === 'create') {
       try {
@@ -311,7 +311,6 @@ export const MeetingModal = () => {
   )
 }
 
-// Not a priority, discuss with team.
 const GoogleMeetsToggler = ({ googleMeeting, toggleGoogleMeeting }) => {
   const handleMeetToggler = () => {
     toggleGoogleMeeting(!googleMeeting)

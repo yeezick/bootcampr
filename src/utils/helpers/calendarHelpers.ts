@@ -30,8 +30,8 @@ export const checkIfAllMembersInvited = (
   }
 }
 
-export const convertDateFieldsForDisplay = gDateFields => {
-  const { startTime, endTime } = gDateFields
+export const convertDateFieldsForDisplay = googleDateFields => {
+  const { startTime, endTime } = googleDateFields
   return {
     date: dayjs(startTime).format('dddd, MMMM D'),
     end: dayjs(endTime).format('h:mm A'),

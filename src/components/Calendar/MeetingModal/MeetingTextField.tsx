@@ -14,7 +14,6 @@ export const MeetingTextField = ({ label, name, setMeetingText, value }) => {
         name={name}
         fullWidth
         onChange={handleMeetingTextField}
-        required={name !== 'description' && true}
         sx={{
           '& .MuiInputLabel-asterisk': {
             color: 'orange',
