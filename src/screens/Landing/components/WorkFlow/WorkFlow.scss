@@ -1,9 +1,9 @@
-.team-workflow{
+.team-workflow {
     display: flex;
     justify-content: center;
     width: 100%;
 
-    .workflow{
+    .workflow {
       align-items: center;
       display: inline-flex;
       flex-direction: column;
@@ -11,11 +11,11 @@
       justify-content: center;
       padding: 0px;
 
-      img{
+      img {
         max-width: 100%;
       }
 
-      .text{
+      .text {
         align-items: center;
         display: flex;
         flex-direction: column;
@@ -23,7 +23,7 @@
         justify-content: center;
         padding: 0px;
 
-        span{
+        span {
           color: #000;
           font-size: 22px;
           font-style: normal;
@@ -32,7 +32,8 @@
           margin: 0;
           padding: 0;
         }
-        p{
+
+        p {
           color: #000;
           font-size: 22px;
           font-style: italic;

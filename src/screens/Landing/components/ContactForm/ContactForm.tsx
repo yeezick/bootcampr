@@ -22,14 +22,12 @@ export const ContactForm = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
-    // Update word count
     if (name === 'message') {
       const trimmedValue = value.trim()
-      const limitedValue = trimmedValue.slice(0, maxWordCount) // Take the first 500 characters
+      const limitedValue = trimmedValue.slice(0, maxWordCount)
       setWordCount(limitedValue.length)
     }
 
-    // Update form data
     setFormData({
       ...formData,
       [name]: value,
@@ -38,8 +36,6 @@ export const ContactForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
-    // Validation logic
     const errors: { name: string; email: string; message: string } = {
       name: '',
       email: '',
@@ -60,11 +56,7 @@ export const ContactForm = () => {
 
     setFormErrors(errors)
 
-    // Check if there are any errors
     setHasErrors(Object.keys(errors).length > 0)
-
-    //   If no errors , proceed to submitting
-    //  check if every value in the error object is an empty string
     if (Object.values(errors).every(value => value === '')) {
       alert('Message sent successfully!')
     }
