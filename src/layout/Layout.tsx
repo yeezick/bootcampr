@@ -4,6 +4,7 @@ import { verify } from 'utils/api/users'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectAuthUser,
+  selectUserId,
   uiStatus,
   updateAuthUser,
 } from 'utils/redux/slices/userSlice'
@@ -30,6 +31,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
   const status = useAppSelector(uiStatus)
   const { project } = useAppSelector(selectAuthUser)
   const authUser = useAppSelector(selectAuthUser)
+  const userId = useAppSelector(selectUserId)
   const sideMenu = useAppSelector(selectSideMenu)
   const [searchParams, setSearchParams] = useSearchParams()
   const { state } = location
@@ -46,7 +48,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
 
   useEffect(() => {
     if (state) {
-      determineSideMenu(dispatch, state.domain, project)
+      determineSideMenu(dispatch, state.domain, project, userId)
     } else {
       dispatch(resetSideMenu())
     }
@@ -61,7 +63,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
   useEffect(() => {
     const domain = searchParams.get('domain')
     if (domain) {
-      determineSideMenu(dispatch, domain, project)
+      determineSideMenu(dispatch, domain, project, userId)
     }
   }, [])
 

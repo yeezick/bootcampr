@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { resendNewEmailLink } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import emailSentImage from '../../../../assets/Images/email-sent-confirmation-image.png'
 
 export const EmailSentConfirmation: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -42,14 +43,19 @@ export const EmailSentConfirmation: React.FC = () => {
       </p>
       <div className='message-content text'>
         <p>
-          Verify your email address to log in. If you don’t see it after a few
+          Confirm your email address to log in. If you don’t see it after a few
           minutes, please check your junk or spam folder.
         </p>
-        <p>The link provided in the email will expire in 30 minutes. </p>
       </div>
       <button className='resend-link' onClick={handleResendEmailClick}>
         Re-send email
       </button>
+      <div className='img-container'>
+        <img
+          src={emailSentImage}
+          alt='A person jumps in the air in celebration'
+        />
+      </div>
     </div>
   )
 }
