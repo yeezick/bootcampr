@@ -4,16 +4,15 @@ import { convertDateFieldsForDisplay } from 'utils/helpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectDisplayedEvent,
-  selectHangoutLink,
   selectModalDisplayStatus,
   setModalDisplayStatus,
 } from 'utils/redux/slices/calendarSlice'
 import { DisplayAttendees } from './DisplayAttendees'
-import EditNoteIcon from '@mui/icons-material/EditNote'
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
-import CloseIcon from '@mui/icons-material/Close'
-import { RiGoogleLine } from 'react-icons/ri'
-import './DisplayMeetingModalStyles.scss'
+import '../styles/DisplayMeetingModalStyles.scss'
+import { DisplayTimeAndSummary } from './DisplayTimeAndSummary'
+import { DisplayModalHeaderIcons } from './DisplayModalHeaderIcons'
+import { DisplayDescription } from './DisplayDescription'
+import { DisplayMeetingLink } from './DisplayMeetingLink'
 
 export const DisplayMeetingModal = () => {
   const [displayMeeting, setDisplayMeeting] = useState(false)
@@ -41,7 +40,6 @@ export const DisplayMeetingModal = () => {
   if (!displayedEvent) {
     return null
   }
-
   const { creator, summary } = displayedEvent
 
   return (
@@ -63,62 +61,5 @@ export const DisplayMeetingModal = () => {
         </div>
       </DialogContent>
     </Dialog>
-  )
-}
-
-export const DisplayTimeAndSummary = ({ displayedFields, summary }) => {
-  const { date, end, start } = displayedFields
-
-  return (
-    <div className='header-content'>
-      <h3>{summary}</h3>
-      <p>
-        {date} {start} - {end}
-      </p>
-    </div>
-  )
-}
-export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
-  const dispatch = useAppDispatch()
-  const handleEdit = () => {
-    dispatch(setModalDisplayStatus('edit'))
-    setDisplayMeeting(false)
-  }
-  return (
-    <div className='modal-icons'>
-      <EditNoteIcon onClick={handleEdit} />
-      <CloseIcon onClick={handleClose} />
-    </div>
-  )
-}
-
-export const DisplayDescription = () => {
-  const { description } = useAppSelector(selectDisplayedEvent)
-  return (
-    description && (
-      <>
-        <DescriptionOutlinedIcon className='description-icon centered-icon' />
-        <p className='description'>{description}</p>
-      </>
-    )
-  )
-}
-
-const DisplayMeetingLink = () => {
-  const hangoutLink = useAppSelector(selectHangoutLink)
-  return (
-    hangoutLink && (
-      <>
-        <RiGoogleLine className='google-meet-icon' size={23} />
-        <a
-          className='meeting-link'
-          href={hangoutLink}
-          target='_blank'
-          rel='noreferrer'
-        >
-          Google Meet Link
-        </a>
-      </>
-    )
   )
 }

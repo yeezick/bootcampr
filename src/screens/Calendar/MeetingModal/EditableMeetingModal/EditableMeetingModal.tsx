@@ -41,7 +41,7 @@ import {
   updateExistingEvent,
 } from 'utils/redux/slices/calendarSlice'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import './MeetingModalStyles.scss'
+import '../styles/MeetingModalStyles.scss'
 import { RiGoogleLine } from 'react-icons/ri'
 
 dayjs.extend(utc)
@@ -65,7 +65,7 @@ interface EventInfo {
   projectId: string
 }
 
-export const MeetingModal = () => {
+export const EditableMeetingModal = () => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
   const [dateFields, setDateFields] = useState<DateFieldsInterface>(
     initialDateFields()

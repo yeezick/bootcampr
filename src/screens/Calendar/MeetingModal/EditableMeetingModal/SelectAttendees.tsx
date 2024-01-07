@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material'
 import { checkIfAllMembersInvited } from 'utils/helpers'
-import './styles/SelectAttendees.scss'
+import '../styles/SelectAttendees.scss'
 import { MemberCheckbox } from './MemberCheckbox'
 import { People } from '@mui/icons-material'
 
