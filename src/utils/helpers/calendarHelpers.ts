@@ -1,11 +1,7 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import {
-  ConvertedEvent,
-  DateFieldsInterface,
-  MeetingModalInfo,
-} from 'interfaces/CalendarInterfaces'
+import { DateFieldsInterface, MeetingModalInfo } from 'interfaces'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)

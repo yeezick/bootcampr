@@ -1,5 +1,6 @@
-import { BooleanObject, NumberObject } from './GenericInterfaces'
+import { NumberObject } from './GenericInterfaces'
 import dayjs from 'dayjs'
+import { MeetingModalInfo, ModalDisplayStatus } from './MeetingModalInterfaces'
 
 export interface Attendee {
   email: string
@@ -35,46 +36,3 @@ export interface DateFieldsAsDayjs {
   start: dayjs.Dayjs
   timeZone: dayjs.Dayjs | string
 }
-
-export interface DateFieldsInterface {
-  date: string
-  end: string
-  start: string
-  timeZone: string
-}
-
-export interface MeetingText {
-  description: string
-  meetingLink?: string
-  summary: string
-}
-
-export interface MeetingModalInfo {
-  attendees: gAttendees[]
-  creator: {
-    email: string
-  }
-  description: string
-  dateFields: {
-    date: string
-    end: string
-    start: string
-    timeZone: string
-  }
-  eventId: string
-  googleDateFields: {
-    endTime: string
-    startTime: string
-  }
-  hangoutLink?: string
-  location?: string
-  summary: string
-  metadata: any
-}
-
-interface gAttendees {
-  email: string
-  responseStatus: string
-}
-
-export type ModalDisplayStatus = 'display' | 'edit' | 'create' | false

@@ -4,14 +4,14 @@ import {
   ConvertedEvent,
   MeetingModalInfo,
   ModalDisplayStatus,
-} from 'interfaces/CalendarInterfaces'
+} from 'interfaces'
 import { RootState } from 'utils/redux/store'
+
 /** Context:
  * Used to manage the MeetingModal open/close state & rendered info.
  * This state should be empty if the Modal is not open.
  * On render will populate the relevant information.
  */
-
 const initialState: CalendarInterface = {
   eventMap: {},
   convertedEvents: [],

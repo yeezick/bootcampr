@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import '../styles/MeetingModalStyles.scss'
+import '../styles/DisplayMeetingModal.scss'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)

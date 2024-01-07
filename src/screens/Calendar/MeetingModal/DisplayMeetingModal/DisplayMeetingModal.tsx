@@ -8,7 +8,7 @@ import {
   setModalDisplayStatus,
 } from 'utils/redux/slices/calendarSlice'
 import { DisplayAttendees } from './DisplayAttendees'
-import '../styles/DisplayMeetingModalStyles.scss'
+import '../styles/DisplayMeetingModal.scss'
 import { DisplayTimeAndSummary } from './DisplayTimeAndSummary'
 import { DisplayModalHeaderIcons } from './DisplayModalHeaderIcons'
 import { DisplayDescription } from './DisplayDescription'
