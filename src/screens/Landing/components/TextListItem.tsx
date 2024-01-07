@@ -1,9 +1,5 @@
 import checkMark from 'assets/Images/checkmark.png'
-
-type TextListItemProps = {
-  text: string
-  smallText?: string
-}
+import { TextListItemProps } from 'interfaces/LandingPageInterfaces'
 
 export const TextListItem: React.FC<TextListItemProps> = ({
   text,

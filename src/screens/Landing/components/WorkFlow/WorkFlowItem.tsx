@@ -1,21 +1,17 @@
-type WorkFlowItemProps = {
-  imagePath: string
-  altText: string
-  text1: string
-  text2: string
-}
+import { WorkFlowItemProps } from 'interfaces/LandingPageInterfaces'
+
 export const WorkFlowItem: React.FC<WorkFlowItemProps> = ({
   imagePath,
   altText,
-  text1,
-  text2,
+  subtitle,
+  actualText,
 }) => {
   return (
     <div className='workflow'>
       <img src={imagePath} alt={altText} />
       <div className='text'>
-        <span>{text1}</span>
-        <p>{text2}</p>
+        <span>{subtitle}</span>
+        <p>{actualText}</p>
       </div>
     </div>
   )

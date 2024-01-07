@@ -1,8 +1,5 @@
-type DetailsContentProps = {
-  imagePath: string
-  textHeader: string
-  textContent: string
-}
+import { DetailsContentProps } from 'interfaces/LandingPageInterfaces'
+
 export const DetailsContent: React.FC<DetailsContentProps> = ({
   imagePath,
   textHeader,

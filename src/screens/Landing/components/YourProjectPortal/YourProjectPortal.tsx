@@ -31,9 +31,8 @@ export const YourProjectPortal = () => {
         <DetailsContent
           imagePath={projectImage3}
           textHeader='Calendar'
-          textContent=' Communication with your team is important. We provide a calendar showing your full team’s availability to make it easy to schedule meetings. We schedule the first one for you!'
+          textContent=' Communication with your team is important. We provide a calendar showing your full team availability to make it easy to schedule meetings. We schedule the first one for you!'
         />
-
         <DetailsContent
           imagePath={projectImage4}
           textHeader='Task Management'
