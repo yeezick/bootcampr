@@ -1,7 +1,8 @@
 .date-picker {
-  font-size: '10px';
   background: '#ECEBEB';
   border: 'none';
+  font-size: '10px';
+
   &.MuiOutlinedInput-notchedOutline {
     border: 'none',
   }
@@ -35,9 +36,9 @@
     padding: 0 5px;
   }
   .span-dash {
+    background-color: 'black';
     font-size: large;
     font-weight: 900;
-    background-color: 'black';
     height: 15px;
     width: 8px;
   }

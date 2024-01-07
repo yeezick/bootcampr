@@ -152,9 +152,10 @@ export const EditableMeetingModal = () => {
     const eventInfo: EventInfo = {
       attendees: attendeeList,
       description,
-      // Enabling hangout links for existing meetings and existing meetings that have toggled off google meet events
       googleMeetingInfo: {
         enabled: googleMeeting,
+        hangoutLink:
+          modalDisplayStatus === 'edit' && displayedEvent.hangoutLink,
       },
       end: {
         dateTime: end,

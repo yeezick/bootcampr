@@ -19,7 +19,7 @@ export const SelectTime = ({ dateFields, setDateFields, type }) => {
   useEffect(() => {
     const currStartTime = formatIsoToHalfHour(dateFields.start)
     const startIdx = timeOptions.findIndex(option => option === currStartTime)
-    // TODO: end is missing use case when user selects 11:30pm and available times should reset and day should be set for the next
+    // BC-649: end is missing use case when user selects 11:30pm and available times should reset and day should be set for the next
     if (type === 'end') {
       setAvailableOptions(timeOptions.slice(startIdx + 1))
       setSelectedTime(formatIsoToHalfHour(dateFields[type]))

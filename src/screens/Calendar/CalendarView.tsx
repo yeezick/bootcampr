@@ -11,7 +11,7 @@ import {
   setDisplayedEvent,
   storeConvertedEvents,
 } from 'utils/redux/slices/calendarSlice'
-import { DisplayMeetingModal } from 'screens/Calendar/MeetingModal/DisplayMeetingModal/DisplayMeetingModal'
+import { DisplayMeetingModal } from 'screens/Calendar/MeetingModal'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 
 export const CalendarView = () => {
