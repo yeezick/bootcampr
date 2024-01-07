@@ -29,7 +29,11 @@ export const ProjectCompletion = () => {
     <div className='projectcompletion'>
       <div className='projectcompletion__empty-header'></div>
       <div className='projectcompletion__pag-container'>
-        <Paginator exitRoute='/' orderedPages={orderedPages} />
+        <Paginator
+          exitRoute='/'
+          orderedPages={orderedPages}
+          manualNavigationAllowed={true}
+        />
       </div>
     </div>
   )

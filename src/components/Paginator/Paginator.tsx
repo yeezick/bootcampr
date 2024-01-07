@@ -18,7 +18,11 @@ import {
 import { useSearchParams } from 'react-router-dom'
 import './paginator.scss'
 
-export const Paginator = ({ exitRoute, orderedPages }) => {
+export const Paginator = ({
+  exitRoute,
+  orderedPages,
+  manualNavigationAllowed,
+}) => {
   const [currentPage, setCurrentPage] = useState<PageItem>(initialCurrentPage)
   const [pageRouter, setPageRouter] = useState<PageRouter>(initialPageRouter)
   const [searchParams, setSearchParams] = useSearchParams()
@@ -67,7 +71,7 @@ export const Paginator = ({ exitRoute, orderedPages }) => {
       handleNextPage(pageHandlers, pageProps)
     } else if (type === 'previous') {
       handlePreviousPage(pageHandlers, pageProps)
-    } else if (type === 'specific') {
+    } else if (type === 'specific' && manualNavigationAllowed) {
       pageProps.specificPageId = specificPageId
       handleSpecificPage(pageHandlers, pageProps)
     } else {
