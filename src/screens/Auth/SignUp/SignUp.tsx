@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaInfoCircle } from 'react-icons/fa'
 import { GoAlert } from 'react-icons/go'
 import { register, reset, uiStatus } from 'utils/redux/slices/userSlice'
@@ -11,6 +11,7 @@ import { emptySignUp } from 'utils/data/userConstants'
 import { Email, Text, PasswordInputs } from 'components/Inputs'
 import './SignUp.scss'
 import { Checkbox, FormControlLabel } from '@mui/material'
+import signupImage from '../../../assets/Images/sign-up-flow-image.png'
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate()
@@ -87,6 +88,10 @@ export const SignUp: React.FC = () => {
     }, 16000)
   }
 
+  const submitButtonStyle = `${
+    disabledForm ? 'sign-up-btn' : 'sign-up-btn-active'
+  }`
+
   return (
     <div className='signup-screen'>
       {alertBanner.status && (
@@ -101,8 +106,11 @@ export const SignUp: React.FC = () => {
         <h2>Get the experience. Get the job.</h2>
       </div>
       <div className='signup-banner'>
-        <div className='honeycomb'>
-          <img src='./drawing-wireframes.jpg' alt='' />
+        <div>
+          <img
+            src={signupImage}
+            alt='A person smiles while working on a laptop at a coffee shop'
+          />
         </div>
 
         <div className='signup-container'>
@@ -139,10 +147,19 @@ export const SignUp: React.FC = () => {
               setIsAccepted={setIsAccepted}
             />
 
-            <div className='form-btn'>
-              <button type='submit' disabled={disabledForm}>
+            <div className='sign-up-btn-container'>
+              <button
+                className={submitButtonStyle}
+                disabled={disabledForm}
+                type='submit'
+              >
                 Sign up
               </button>
+            </div>
+            <div className='sign-up-redirect-link'>
+              <p>
+                Already have an account? <Link to='/sign-in'>Log in</Link>
+              </p>
             </div>
           </form>
         </div>
@@ -158,19 +175,24 @@ const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
       display: 'flex',
     },
     '& .MuiCheckbox-root': {
-      backgroundColor: '',
       alignSelf: 'flex-start',
+      backgroundColor: '',
+    },
+    '& .MuiTypography-root': {
+      fontSize: '14px',
     },
   }
 
   return (
     <div id='signup-agreement'>
+      <p>
+        Bootcampr sends important information, including project start dates and
+        team notifications by email. We will not sell your information!
+      </p>
       <FormControlLabel
         sx={checkboxStyles}
         control={<Checkbox checked={isAccepted} onChange={handleCheckbox} />}
-        label={`I agree to receive email notification(s). We will only send 
-        emails with important information, like project start dates.
-        We will not sell your information!`}
+        label={`I agree to receive emails from Bootcampr.`}
       />
     </div>
   )
