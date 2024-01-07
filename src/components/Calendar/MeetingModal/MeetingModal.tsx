@@ -112,7 +112,7 @@ export const MeetingModal = () => {
         timeZone: dateFields.timeZone,
       }
 
-      if (displayedEvent.googleMeetingInfo.enabled) {
+      if (displayedEvent.hangoutLink) {
         toggleGoogleMeeting(true)
       }
 

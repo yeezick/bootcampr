@@ -20,10 +20,7 @@ export interface ConvertedEvent {
     endTime: string
     startTime: string
   }
-  googleMeetingInfo: {
-    hangoutLink?: string
-    enabled: boolean
-  }
+  hangoutLink?: string
   end?: string
   eventId?: string
   location: string
@@ -69,10 +66,7 @@ export interface MeetingModalInfo {
     endTime: string
     startTime: string
   }
-  googleMeetingInfo: {
-    hangoutLink?: string
-    enabled: boolean
-  }
+  hangoutLink?: string
   location?: string
   summary: string
   metadata: any

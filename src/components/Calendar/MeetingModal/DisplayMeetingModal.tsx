@@ -10,9 +10,10 @@ import {
 } from 'utils/redux/slices/calendarSlice'
 import { DisplayAttendees } from './DisplayAttendees'
 import EditNoteIcon from '@mui/icons-material/EditNote'
-import LinkIcon from '@mui/icons-material/Link'
-import PeopleIcon from '@mui/icons-material/People'
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
 import CloseIcon from '@mui/icons-material/Close'
+import { RiGoogleLine } from 'react-icons/ri'
+
 import './DisplayMeetingModalStyles.scss'
 
 export const DisplayMeetingModal = () => {
@@ -48,7 +49,6 @@ export const DisplayMeetingModal = () => {
 
   const { creator, description, summary } = displayedEvent
   const { date, end, start } = displayedFields
-  const eventHasAttendees = displayedEvent.attendees ? true : false
 
   return (
     <Dialog open={displayMeeting} onClose={handleClose}>
@@ -59,55 +59,49 @@ export const DisplayMeetingModal = () => {
         </div>
 
         <div className='display-modal-wrapper'>
-          <div className='header-img'>img</div>
           <div className='header-content'>
             <h3>{summary}</h3>
             <p>
               {date} {start} - {end}
             </p>
           </div>
-
-          {eventHasAttendees && (
-            <PeopleIcon
-              className='people-icon centered-icon'
-              sx={{ color: iconColor }}
-            />
-          )}
-          {eventHasAttendees && (
-            <DisplayAttendees attendees={displayedEvent.attendees} />
-          )}
-
-          <EditNoteIcon
-            className='description-icon centered-icon'
-            sx={{ color: iconColor }}
-          />
-          <p className='description'>{description}</p>
-
-          <LinkIcon
-            className='link-icon centered-icon'
-            sx={{ color: iconColor }}
-          />
-          <p className='meeting-link'>{displayedEvent.location}</p>
-          <GoogleMeetIcon />
-        </div>
-
-        <div>
-          <p> Created by: {creator.email}</p>
+          <DisplayAttendees />
+          <DisplayMeetingLink />
+          <DisplayDescription />
+          <p className='created-by'> Created by: {creator.email}</p>
         </div>
       </DialogContent>
     </Dialog>
   )
 }
 
-const GoogleMeetIcon = () => {
-  const hangoutLink = useAppSelector(selectHangoutLink)
-  if (hangoutLink) {
-    return (
-      <a href={hangoutLink} target='_blank' rel='noreferrer'>
-        Meeting Link
-      </a>
+export const DisplayDescription = () => {
+  const { description } = useAppSelector(selectDisplayedEvent)
+  return (
+    description && (
+      <>
+        <DescriptionOutlinedIcon className='description-icon centered-icon' />
+        <p className='description'>{description}</p>
+      </>
     )
-  }
+  )
 }
 
-const iconColor = '#86888A'
+const DisplayMeetingLink = () => {
+  const hangoutLink = useAppSelector(selectHangoutLink)
+  return (
+    hangoutLink && (
+      <>
+        <RiGoogleLine className='google-meet-icon' size={23} />
+        <a
+          className='meeting-link'
+          href={hangoutLink}
+          target='_blank'
+          rel='noreferrer'
+        >
+          Google Meet Link
+        </a>
+      </>
+    )
+  )
+}
