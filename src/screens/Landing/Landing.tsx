@@ -1,27 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setAuthUser } from 'utils/redux/slices/userSlice'
-import { getAllUsers } from 'utils/api/users'
-import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { getRandomInt } from 'screens/AccountSettings/helper/data'
+import { setAuthUser, selectAuthUser } from 'utils/redux/slices/userSlice'
+import { getAllUsers } from 'utils/api/users'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
+import { getRandomInt } from 'screens/AccountSettings/helper/data'
+import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai'
 import './Landing.scss'
-import { Button } from '@mui/material'
-import {
-  onScreenUpdate,
-  setCurrentConversation,
-  setSelectedMember,
-  toggleChatOpen,
-} from 'utils/redux/slices/chatSlice'
-import {
-  createPrivateChatRoom,
-  getUserPrivateConversations,
-} from 'utils/api/chat'
-import dummyMembers from './members.json' // to be removed once Message button logic is properly configured in team members screen
-import { ChatScreen } from 'utils/data/chatConstants'
 
 export const Landing: React.FC = () => {
   const [loginStatus, setLoginStatus] = useState<boolean | null>(null)
@@ -63,67 +49,6 @@ export const Landing: React.FC = () => {
     }
   }
 
-  // ** temporary logic for Message button on Team Members screen
-  const [projectMembers, setProjectMembers] = useState([])
-
-  useEffect(() => {
-    const { designers, engineers } = dummyMembers // ** Using dummy data. Should be using API or obtaining project members from redux store
-    const members = [...designers, ...engineers]
-    setProjectMembers(members.filter(member => member._id !== authUser._id))
-  }, [])
-
-  const handleButtonClick = (
-    memberId: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    profilePicture: string
-  ) => {
-    try {
-      const fetchConversations = async () => {
-        const conversations = await getUserPrivateConversations(authUser._id)
-
-        const existingChatWithMember = conversations.messageThreads.find(
-          conversation =>
-            conversation.participants.some(
-              participant => participant._id === memberId
-            )
-        )
-
-        let conversationId: string = null
-
-        if (existingChatWithMember) {
-          conversationId = existingChatWithMember._id
-        } else {
-          const newRoom = await createPrivateChatRoom(authUser._id, email)
-
-          conversationId = newRoom.chatRoom._id
-        }
-        dispatch(
-          setCurrentConversation({
-            _id: conversationId,
-            isGroup: false,
-            participants: [memberId],
-            displayName: `${firstName} ${lastName}`,
-          })
-        )
-        dispatch(
-          setSelectedMember({
-            _id: memberId,
-            firstName,
-            lastName,
-            profilePicture,
-          })
-        )
-        dispatch(toggleChatOpen())
-        dispatch(onScreenUpdate(ChatScreen.Messages))
-      }
-      fetchConversations()
-    } catch (error) {
-      console.error('Error fetching conversations', error)
-    }
-  }
-
   return (
     <div className='landing-container'>
       <div className='header-container'>
@@ -146,42 +71,6 @@ export const Landing: React.FC = () => {
           <button onClick={randomUserLogin}>Login as random user</button>
           <LoginStatusSymbol />
         </div>
-      </div>
-      <div className='members-container'>
-        {projectMembers.map(
-          ({
-            _id: memberId,
-            firstName,
-            lastName,
-            email,
-            role,
-            profilePicture,
-          }) => {
-            return (
-              <div key={memberId} className='member-card'>
-                <div>
-                  {firstName} {lastName}
-                </div>
-                <div>{role}</div>
-                <Button
-                  variant='contained'
-                  className='message-button'
-                  onClick={() =>
-                    handleButtonClick(
-                      memberId,
-                      firstName,
-                      lastName,
-                      email,
-                      profilePicture
-                    )
-                  }
-                >
-                  Message
-                </Button>
-              </div>
-            )
-          }
-        )}
       </div>
     </div>
   )
