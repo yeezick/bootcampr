@@ -144,11 +144,6 @@ const projectSlice = createSlice({
   },
 })
 
-export const selectUserNotInTeam = state => {
-  const { designers, engineers } = state.project.members
-  return designers.length === 0 && engineers.length === 0
-}
-
 export const selectMembersAsTeam = (state: RootState) => [
   ...state.project.members.designers,
   ...state.project.members.engineers,

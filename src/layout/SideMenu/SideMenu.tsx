@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectUserProjectId } from 'utils/redux/slices/userSlice'
-import { selectUserNotInTeam } from 'utils/redux/slices/projectSlice'
+import { selectUserHasProjectId } from 'utils/redux/slices/userSlice'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
 import { DomainLink } from 'layout/DomainLink'
 import { sideMenuIconMap } from 'utils/helpers'
@@ -10,10 +10,10 @@ import './SideMenu.scss'
 export const SideMenu = () => {
   const { title } = useAppSelector(selectSideMenu)
   const projectId = useAppSelector(selectUserProjectId)
-  const notInTeam = useAppSelector(selectUserNotInTeam)
+  const userInTeam = useAppSelector(selectUserHasProjectId)
 
   const btnClassName = `${
-    notInTeam ? 'disabled-btn' : 'completion-overflow-btn'
+    userInTeam ? 'completion-overflow-btn' : 'disabled-btn'
   }`
 
   return (
@@ -21,12 +21,12 @@ export const SideMenu = () => {
       <div className='title'>
         <h2>{title}</h2>
       </div>
-      <SideMenuLinks notInTeam={notInTeam} />
+      <SideMenuLinks />
       <Link
         className='project-completion-link'
         to={`/project/${projectId}/complete`}
       >
-        <button className={btnClassName} disabled={notInTeam}>
+        <button className={btnClassName} disabled={userInTeam}>
           Submit Project
         </button>
       </Link>
@@ -34,25 +34,25 @@ export const SideMenu = () => {
   )
 }
 
-const SideMenuLinks = ({ notInTeam }) => {
+const SideMenuLinks = () => {
   const { links } = useAppSelector(selectSideMenu)
 
   return (
     <div className='sidemenu-links'>
       {links.map(link => (
-        <MenuLink linkDetails={link} notInTeam={notInTeam} />
+        <MenuLink linkDetails={link} />
       ))}
     </div>
   )
 }
 
-const MenuLink = ({ linkDetails, notInTeam }) => {
+const MenuLink = ({ linkDetails }) => {
+  const userInTeam = useAppSelector(selectUserHasProjectId)
   const { domain, icon, label, route } = linkDetails
   const LinkIcon = sideMenuIconMap[icon]
-
-  const isCalendarOrTask = route === 'Calendar' || route === 'Task Management'
+  const isCalendarOrTask = label === 'Calendar' || label === 'Task Management'
   const linkClassName = `${
-    notInTeam && isCalendarOrTask ? 'link-disable' : 'link'
+    !userInTeam && isCalendarOrTask ? 'link-disable' : 'link'
   }`
 
   return (
