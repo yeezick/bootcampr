@@ -71,7 +71,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
   }
 
   return (
-    <div className='layout'>
+    <>
       <ScrollToTop />
       <Nav />
       {sideMenu.active ? (
@@ -80,7 +80,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
         <DefaultView>{children}</DefaultView>
       )}
       <Footer />
-    </div>
+    </>
   )
 }
 
