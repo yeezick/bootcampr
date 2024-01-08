@@ -9,11 +9,7 @@
   padding: 20px 20px 0 20px;
   position: relative;
   row-gap: 20px;
-  z-index: 1;
-  &.userId {
-    padding: 20px 20px 0 272px;
-    position: static;
-  }
+  z-index: 3;
 
   a {
     color: #ffffff;

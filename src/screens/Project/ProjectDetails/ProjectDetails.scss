@@ -3,8 +3,6 @@
 
 .project-details-portal {
   background: #ffffff;
-  box-shadow: 0px 1px 3px 1px rgba(26, 35, 126, 0.15),
-    0px 1px 2px 0px rgba(26, 36, 126, 0.3);
   height: 100vh;
   width: auto;
 
@@ -52,6 +50,7 @@
     @include flex(column);
     align-self: stretch;
     background-color: #ffffff;
+    box-sizing: border-box;
     color: #212121;
     height: 100%;
     padding: 16px 32px;

@@ -78,12 +78,14 @@ export const buildSettingsPortalLinks = (userId: string) => [
  * @param projectId
  * @returns {SideMenuInterface} Context for settings sidemenu
  */
-export const buildSettingsSideMenu = (projectId: string) => {
-  return {
+export const buildSettingsSideMenu = (userId: string, pageTitle?: string) => {
+  const settingsSideMenu = {
     active: true,
-    links: buildSettingsPortalLinks(projectId),
-    title: 'Settings',
+    links: buildSettingsPortalLinks(userId),
+    pageTitle: pageTitle || 'Email',
+    title: 'Project Portal',
   }
+  return settingsSideMenu
 }
 
 /**
@@ -91,12 +93,17 @@ export const buildSettingsSideMenu = (projectId: string) => {
  * @param projectId
  * @returns {SideMenuInterface} Context for Project Portal sidemenu
  */
-export const buildProjectPortalSideMenu = (projectId: string) => {
-  return {
+export const buildProjectPortalSideMenu = (
+  projectId: string,
+  pageTitle?: string
+) => {
+  const projectPortalSideMenu = {
     active: true,
     links: buildProjectPortalLinks(projectId),
+    pageTitle: pageTitle || 'Project Details',
     title: 'Project Portal',
   }
+  return projectPortalSideMenu
 }
 
 /**
@@ -105,6 +112,7 @@ export const buildProjectPortalSideMenu = (projectId: string) => {
  * @param domain Type of domain: "project" | "settings"
  * @param projectId
  */
+// TODO: Look into this, settings logic takes userID not project ID
 export const determineSideMenu = (
   dispatch: ThunkDispatch<RootState, undefined, AnyAction> &
     Dispatch<AnyAction>,

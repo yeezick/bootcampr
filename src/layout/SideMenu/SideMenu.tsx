@@ -20,17 +20,19 @@ export const SideMenu = () => {
   }
 
   return (
-    <div className='sidemenu-container'>
-      <div className='title'>
-        <h2>{title}</h2>
+    <div className='sidemenu'>
+      <div className='sidemenu-content'>
+        <div className='title'>
+          <h2>{title}</h2>
+        </div>
+        <SideMenuLinks />
+        <Link
+          className='project-completion-link'
+          to={`/project/${projectId}/complete`}
+        >
+          <button className='completion-overflow-btn'>Submit Project</button>
+        </Link>
       </div>
-      <SideMenuLinks />
-      <Link
-        className='project-completion-link'
-        to={`/project/${projectId}/complete`}
-      >
-        <button className='completion-overflow-btn'>Submit Project</button>
-      </Link>
     </div>
   )
 }

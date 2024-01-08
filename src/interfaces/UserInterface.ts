@@ -46,6 +46,7 @@ export interface SideMenuIconMapInterface {
 export interface SideMenuInterface {
   active: boolean
   links: SideMenuLinkInterface[]
+  pageTitle: string
   title: string
 }
 

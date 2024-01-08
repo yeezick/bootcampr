@@ -15,9 +15,6 @@ export const ProjectDetails = () => {
     <div className='project-details-portal'>
       <div className='pd-cont'>
         <div className='pd-header-cont'>
-          <div className='pd-header'>
-            <h1>Project Details</h1>
-          </div>
           <RenderTab tabs={tabData} />
         </div>
       </div>

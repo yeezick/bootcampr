@@ -8,7 +8,7 @@ export const Footer: React.FC = () => {
   const userId = useAppSelector(state => state.ui.auth.user._id)
 
   return (
-    <div className={`footer-container ${userId ? 'userId' : ''}`}>
+    <div className='footer-container'>
       <Link className='link' to='/'>
         <img src={Logo} alt='logo' />
       </Link>

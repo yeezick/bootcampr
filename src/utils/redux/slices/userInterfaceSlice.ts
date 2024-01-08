@@ -4,8 +4,9 @@ import { SideMenuInterface, UiInterface } from 'interfaces'
 const initialState: UiInterface = {
   sideMenu: {
     active: false,
-    title: '',
     links: [],
+    pageTitle: '',
+    title: '',
   },
 }
 
@@ -19,8 +20,9 @@ const userInterface = createSlice({
     resetSideMenu: state => {
       state.sideMenu = {
         active: false,
-        title: '',
         links: [],
+        pageTitle: '',
+        title: '',
       }
     },
   },
