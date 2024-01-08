@@ -42,6 +42,7 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
       {consolidateAvailability(days[day].availability).map((slot, idx) => (
         <div key={`${slot}-${idx}`} className='timeslot-input'>
           <div className='left-banner'>
+            {/* TODO: make a reusable component for these? */}
             <SelectTimeInput
               isStart={true}
               idx={idx}
@@ -192,14 +193,17 @@ export const CopyTimesModal = ({
         checked={checked}
         setChecked={setChecked}
       />
-      {weekdayNames.map(weekdayName => (
-        <CopyTimesOption
-          day={weekdayName}
-          selectedDay={day}
-          checked={checked}
-          setChecked={setChecked}
-        />
-      ))}
+      {weekdayNames.map(
+        weekdayName =>
+          weekdayName != weekdaysMap[day] && (
+            <CopyTimesOption
+              day={weekdayName}
+              selectedDay={day}
+              checked={checked}
+              setChecked={setChecked}
+            />
+          )
+      )}
       {/* TODO: swap for component button */}
       <button className='apply' onClick={handleApply}>
         Apply

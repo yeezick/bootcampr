@@ -45,7 +45,10 @@ const selectSX = {
   fontSize: '14px',
   '& .MuiSvgIcon-root': { display: 'none' },
   backgroundColor: '#fefefe',
-  '.MuiOutlinedInput-notchedOutline': { border: 1 },
+  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+    border: 1,
+    borderColor: 'black',
+  },
   width: '87px',
   elevation: '0',
 }
