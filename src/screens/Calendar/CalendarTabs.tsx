@@ -29,7 +29,7 @@ export const CalendarTabs = () => {
 
   return (
     <Box className='calendar-body'>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={tabsSelectStyles}>
         <Tabs value={activeTab} onChange={handleTabChange}>
           {allTabs.map(tab => (
             <Tab label={tab.label} key={`tab-label-${tab.label}`} />
@@ -60,4 +60,24 @@ const TabContent = props => {
       {activeTab === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   )
+}
+
+const tabsSelectStyles = {
+  borderBottom: 'none',
+  color: 'black',
+  '& .MuiTabs-indicator': {
+    backgroundColor: 'orange',
+    height: '4px',
+  },
+  '& .MuiButtonBase-root.Mui-selected': {
+    color: 'black',
+  },
+  '& .MuiButtonBase-root': {
+    color: 'black',
+    padding: '0px',
+    margin: '0px',
+    marginRight: '10px',
+    minWidth: '82px',
+    fontWeight: '600',
+  },
 }

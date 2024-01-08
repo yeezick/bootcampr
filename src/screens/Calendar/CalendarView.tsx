@@ -13,6 +13,7 @@ import {
 } from 'utils/redux/slices/calendarSlice'
 import { DisplayMeetingModal } from 'screens/Calendar/MeetingModal'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
+import './CalendarView.scss'
 
 export const CalendarView = () => {
   const calendarId = useAppSelector(selectCalendarId)
@@ -52,9 +53,9 @@ export const CalendarView = () => {
             events={convertedEventsAsArr}
             eventClick={handleEventClick}
             headerToolbar={{
-              start: 'dayGridMonth timeGridWeek today',
-              center: 'title',
-              end: 'prev next',
+              start: 'today prev next',
+              center: '',
+              end: '',
             }}
             initialView='timeGridWeek'
             nowIndicator={true}

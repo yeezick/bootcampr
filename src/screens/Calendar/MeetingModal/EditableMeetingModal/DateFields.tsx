@@ -36,9 +36,8 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
         <div className='time-fields'>
           <DatePicker
             disablePast
-            format='dddd, MM/DD/YY'
+            format='MM/DD/YY'
             onChange={handleDate}
-            slots={{ openPickerIcon: ArrowDropDown }}
             slotProps={{
               textField: { size: 'small' },
               openPickerIcon: { sx: { position: 'absolute', right: '5px' } },
@@ -46,7 +45,7 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
             sx={datePickerStyles}
             value={datePickerDayjs}
           />
-          <span>from</span>
+
           <SelectTime
             dateFields={dateFields}
             setDateFields={setDateFields}
@@ -71,10 +70,11 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
 }
 
 const datePickerStyles = {
-  fontSize: '10px',
-  background: '#ECEBEB',
+  fontSize: '14px',
   border: 'none',
   '& .MuiOutlinedInput-notchedOutline': {
-    border: 'none',
+    border: '1.5px solid black',
   },
+  marginRight: '20px',
+  width: '180px',
 }
