@@ -8,7 +8,8 @@ import {
   selectProject,
   updateDeployedUrl,
 } from 'utils/redux/slices/projectSlice'
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
+import { Stack } from '@mui/material'
+import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 
 export const UrlPage = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
@@ -86,42 +87,38 @@ export const UrlPage = ({ handlePageNavigation }) => {
     return urlPattern.test(string)
   }
 
-  const nextButtonStyle = isUrl(inputChange)
-    ? 'projectcompletion__next-btn-ready'
-    : 'projectcompletion__next-btn'
-
   const isDisabled = !isUrl(inputChange)
 
   return (
-    <div className='projectcompletion__pag-url'>
-      <form className='projectcompletion__form-url' onSubmit={handleSubmit}>
-        <h1>Congrats! You've shipped a live product!</h1>
-        <p>First, input the URL to your website.</p>
-        <label className='projectcompletion__label' htmlFor=''>
-          <p>Project URL</p>
+    <div
+      className='project-completion-url-page'
+      aria-live='polite'
+      aria-labelledby='formHeading'
+    >
+      <h1 id='formHeading'>Congrats! You've shipped a live product!</h1>
+      <form onSubmit={handleSubmit}>
+        <Stack className='form-content' spacing={'32px'}>
+          <p>First, input the URL to your website.</p>
+          <label htmlFor='projectUrl'>
+            <p>Project URL</p>
+          </label>
           <input
-            className='projectcompletion__input'
+            id='projectUrl'
+            onChange={handleInputChange}
             type='text'
             value={inputChange}
-            onChange={handleInputChange}
           />
-        </label>
-        <div className='projectcompletion__btns'>
-          <button
-            className='projectcompletion__cancel-btn'
-            onClick={handleCancel}
-          >
-            Cancel
-          </button>
-          <button
-            type='submit'
-            className={nextButtonStyle}
-            disabled={isDisabled}
-          >
-            Presentation
-            <KeyboardBackspaceIcon className='projectcompletion__next-btn-icon' />
-          </button>
-        </div>
+          <Stack className='btn-container'>
+            <SecondaryButton handler={handleCancel} text='Cancel' />
+            <PrimaryButton
+              isDisabled={isDisabled}
+              paginatorBtn
+              text='Presentation'
+              type='submit'
+              aria-disabled={isDisabled}
+            />
+          </Stack>
+        </Stack>
       </form>
     </div>
   )

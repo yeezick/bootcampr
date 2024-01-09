@@ -1,0 +1,37 @@
+.project-completion-url-page {
+  height: auto;
+  margin-top: 32px;
+  width: 100%;
+
+  h1 {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 44px;
+    margin: 0;
+  }
+
+  .form-content {
+    margin-top: 8px;
+
+    p {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      margin: 0;
+    }
+
+    input {
+      box-sizing: border-box;
+      height: 40px;
+      margin-top: 8px;
+      padding: 8px 16px;
+      width: 50%;
+    }
+
+    .btn-container {
+      flex-direction: row;
+      justify-content: flex-end;
+      width: 100%;
+    }
+  }
+}
