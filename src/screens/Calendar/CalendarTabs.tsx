@@ -65,19 +65,26 @@ const TabContent = props => {
 const tabsSelectStyles = {
   borderBottom: 'none',
   color: 'black',
+  '& .MuiTabs-scroller': {
+    height: '40px',
+  },
   '& .MuiTabs-indicator': {
     backgroundColor: 'orange',
     height: '4px',
+    bottom: '0',
+    position: 'absolute',
   },
   '& .MuiButtonBase-root.Mui-selected': {
     color: 'black',
   },
   '& .MuiButtonBase-root': {
+    fontSize: '16px',
+    fontWeight: '600',
+    lineHeight: '24px',
     color: 'black',
     padding: '0px',
     margin: '0px',
     marginRight: '10px',
     minWidth: '82px',
-    fontWeight: '600',
   },
 }

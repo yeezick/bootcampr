@@ -205,7 +205,7 @@ export const EditableMeetingModal = () => {
     >
       <form onSubmit={handleSubmit}>
         <DialogContent className='modal-dialog-content'>
-          <MeetingModalHeaderIcons handleClose={handleClose} />
+          <MeetingModalHeaderIcons handleCloseMeetingModal={handleClose} />
           <div className='content-wrapper'>
             <TextField
               className='title-field'

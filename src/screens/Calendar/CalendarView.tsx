@@ -48,7 +48,7 @@ export const CalendarView = () => {
   switch (eventFetchingStatus) {
     case 'success':
       return (
-        <div>
+        <div className='calendar-container'>
           <FullCalendar
             events={convertedEventsAsArr}
             eventClick={handleEventClick}
