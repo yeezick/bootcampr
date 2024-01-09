@@ -53,7 +53,6 @@ export const UrlPage = ({ handlePageNavigation }) => {
 
       try {
         setIsLoading(true)
-        setIsDisabled(true)
         const response = await editProject(projectID, updatedProject)
 
         if (response) {
@@ -64,7 +63,6 @@ export const UrlPage = ({ handlePageNavigation }) => {
       } catch (error) {
         console.error('An error occurred while saving the URL.', error)
         setIsLoading(false)
-        setIsDisabled(false)
       }
     } else {
       alert('Please enter a valid URL')
@@ -113,11 +111,11 @@ export const UrlPage = ({ handlePageNavigation }) => {
           <Stack className='btn-container'>
             <SecondaryButton handler={handleCancel} text='Cancel' />
             <PrimaryButton
-              isDisabled={isDisabled}
+              isDisabled={isDisabled || isLoading}
               paginatorBtn
               text='Presentation'
               type='submit'
-              aria-disabled={isDisabled}
+              aria-disabled={isDisabled || isLoading}
             />
           </Stack>
         </Stack>
