@@ -10,8 +10,8 @@ export interface DetailsContentProps {
 }
 
 export interface WorkFlowItemProps {
-  imagePath: string
-  altText: string
-  subtitle: string
   actualText: string
+  altText: string
+  imagePath: string
+  subtitle: string
 }
