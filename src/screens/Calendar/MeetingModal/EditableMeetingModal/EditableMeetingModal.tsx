@@ -4,11 +4,9 @@ import {
   DialogContent,
   DialogActions,
   TextField,
-  FormControlLabel,
-  Checkbox,
 } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
-import { BooleanObject, DateFieldsInterface } from 'interfaces'
+import { BooleanObject, DateFieldsInterface, EventInfo } from 'interfaces'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
@@ -16,6 +14,7 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectCalendarId,
   selectMembersAsTeam,
+  selectProjectId,
 } from 'utils/redux/slices/projectSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { SelectAttendees } from './SelectAttendees'
@@ -23,12 +22,10 @@ import { DateFields } from './DateFields'
 import { createEvent, updateEvent } from 'utils/api/events'
 import {
   checkIfAllMembersInvited,
-  convertGoogleEventsForCalendar,
   handleFormInputChange,
   initialDateFields,
 } from 'utils/helpers'
-import { AccessTime, Clear, People } from '@mui/icons-material'
-import { MeetingTextField } from './MeetingTextField'
+import { DescriptionField } from './MeetingTextField'
 import { initialMeetingText } from 'utils/data/calendarConstants'
 import {
   addNewEvent,
@@ -37,13 +34,14 @@ import {
   setModalDisplayStatus,
   updateExistingEvent,
 } from 'utils/redux/slices/calendarSlice'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import './MeetingModalStyles.scss'
+import '../styles/EditableMeetingModal.scss'
+import { MeetingModalHeaderIcons } from './MeetingModalHeaderIcons'
+import { GoogleMeetsToggler } from './GoogleMeetsToggler'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-export const MeetingModal = () => {
+export const EditableMeetingModal = () => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
   const [dateFields, setDateFields] =
     useState<DateFieldsInterface>(initialDateFields())
@@ -55,6 +53,7 @@ export const MeetingModal = () => {
   const displayedEvent = useAppSelector(selectDisplayedEvent)
   const radioGroupRef = useRef(null)
   const authUser = useAppSelector(selectAuthUser)
+  const projectId = useAppSelector(selectProjectId)
   const projectMembers = useAppSelector(selectMembersAsTeam)
   const calendarId = useAppSelector(selectCalendarId)
   const dispatch = useAppDispatch()
@@ -67,7 +66,8 @@ export const MeetingModal = () => {
 
       toggleVisibleModal(true)
     } else if (modalDisplayStatus === 'edit') {
-      const { description, gDateFields, location, summary } = displayedEvent
+      const { description, googleDateFields, location, summary } =
+        displayedEvent
 
       if (displayedEvent?.attendees) {
         const prefilledAttendees = {}
@@ -84,10 +84,14 @@ export const MeetingModal = () => {
       }
 
       const prefilledDateFields: DateFieldsInterface = {
-        date: gDateFields.startTime,
-        end: gDateFields.endTime,
-        start: gDateFields.startTime,
+        date: googleDateFields.startTime,
+        end: googleDateFields.endTime,
+        start: googleDateFields.startTime,
         timeZone: dateFields.timeZone,
+      }
+
+      if (displayedEvent.hangoutLink) {
+        toggleGoogleMeeting(true)
       }
 
       setMeetingText(prefilledMeetingText)
@@ -113,6 +117,7 @@ export const MeetingModal = () => {
   const handleClose = () => {
     setMeetingText(initialMeetingText)
     setDateFields(initialDateFields())
+    toggleGoogleMeeting(false)
     setAttendees({})
     toggleInviteAll(false)
     dispatch(setModalDisplayStatus(false))
@@ -122,7 +127,6 @@ export const MeetingModal = () => {
     if (projectMembers) {
       const updatedAttendance = { ...attendees }
       projectMembers?.forEach(member => {
-        // inviteAll is the current state
         if (member.email !== authUser.email) {
           updatedAttendance[member.email] = !inviteAll
         }
@@ -144,10 +148,14 @@ export const MeetingModal = () => {
       }
     }
 
-    const eventInfo = {
+    const eventInfo: EventInfo = {
       attendees: attendeeList,
       description,
-      location: meetingText.meetingLink,
+      googleMeetingInfo: {
+        enabled: googleMeeting,
+        hangoutLink:
+          modalDisplayStatus === 'edit' && displayedEvent.hangoutLink,
+      },
       end: {
         dateTime: end,
       },
@@ -155,12 +163,13 @@ export const MeetingModal = () => {
         dateTime: start,
       },
       summary,
+      projectId,
     }
 
     if (modalDisplayStatus === 'create') {
       try {
         const newEvent = await createEvent(calendarId, eventInfo)
-        dispatch(addNewEvent(convertGoogleEventsForCalendar([newEvent.data])))
+        dispatch(addNewEvent(newEvent))
         handleClose()
       } catch (error) {
         console.error(
@@ -175,11 +184,7 @@ export const MeetingModal = () => {
           displayedEvent.eventId,
           eventInfo
         )
-        dispatch(
-          updateExistingEvent(
-            convertGoogleEventsForCalendar([updatedEvent.data])
-          )
-        )
+        dispatch(updateExistingEvent(updatedEvent))
         handleClose()
       } catch (error) {
         console.error(
@@ -190,8 +195,6 @@ export const MeetingModal = () => {
     }
   }
 
-  const handleBackToDisplay = () => dispatch(setModalDisplayStatus('display'))
-
   return (
     <Dialog
       className='meeting-modal'
@@ -201,15 +204,10 @@ export const MeetingModal = () => {
     >
       <form onSubmit={handleSubmit}>
         <DialogContent className='modal-dialog-content'>
-          <div className='meeting-modal-icons'>
-            <ArrowBackIcon
-              className='back-arrow-icon'
-              onClick={handleBackToDisplay}
-            />
-            <Clear className='clear-icon' onClick={handleClose} />
-          </div>
+          <MeetingModalHeaderIcons handleClose={handleClose} />
           <div className='content-wrapper'>
             <TextField
+              className='title-field'
               label='Add Title'
               name='summary'
               InputLabelProps={{ className: 'title-input-label' }}
@@ -219,49 +217,34 @@ export const MeetingModal = () => {
               value={meetingText.summary}
               variant='standard'
             />
-            <div className='date-attendee-wrapper'>
-              <div className='clock-icon'>
-                <AccessTime sx={{ color: iconColor }} />
-              </div>
-              <div className='people-icon'>
-                <People sx={{ color: iconColor, marginTop: '8px' }} />
-              </div>
+            <DateFields
+              dateFields={dateFields}
+              setDateFields={setDateFields}
+              dayjs={dayjs}
+            />
 
-              <DateFields
-                dateFields={dateFields}
-                setDateFields={setDateFields}
-                dayjs={dayjs}
-              />
-
-              <SelectAttendees
-                attendees={attendees}
-                dateFields={dateFields}
-                inviteAll={inviteAll}
-                handleInviteAll={handleInviteAll}
-                setAttendees={setAttendees}
-                toggleInviteAll={toggleInviteAll}
-                projectMembers={projectMembers}
-              />
-            </div>
+            <SelectAttendees
+              attendees={attendees}
+              dateFields={dateFields}
+              inviteAll={inviteAll}
+              handleInviteAll={handleInviteAll}
+              setAttendees={setAttendees}
+              toggleInviteAll={toggleInviteAll}
+              projectMembers={projectMembers}
+            />
 
             <div className='meeting-modal-divider' />
-            <MeetingTextField
+            <GoogleMeetsToggler
+              googleMeeting={googleMeeting}
+              toggleGoogleMeeting={toggleGoogleMeeting}
+            />
+            <DescriptionField
               label='Add description'
               name='description'
               setMeetingText={setMeetingText}
               value={meetingText.description}
             />
-            <MeetingTextField
-              label='Add meeting link'
-              name='meetingLink'
-              setMeetingText={setMeetingText}
-              value={meetingText.meetingLink}
-            />
           </div>
-          <GoogleMeetsToggler
-            googleMeeting={googleMeeting}
-            toggleGoogleMeeting={toggleGoogleMeeting}
-          />
         </DialogContent>
         <DialogActions>
           <Button
@@ -269,27 +252,11 @@ export const MeetingModal = () => {
             type='submit'
             variant='contained'
           >
-            CREATE
+            {modalDisplayStatus === 'create' ? 'CREATE' : 'SAVE'}
           </Button>
         </DialogActions>
       </form>
     </Dialog>
-  )
-}
-
-// Not a priority, discuss with team.
-const GoogleMeetsToggler = ({ googleMeeting, toggleGoogleMeeting }) => {
-  const handleMeetToggler = () => toggleGoogleMeeting(!googleMeeting)
-
-  return (
-    <div className='google-meet-toggler'>
-      <FormControlLabel
-        control={
-          <Checkbox checked={googleMeeting} onChange={handleMeetToggler} />
-        }
-        label='Add Google Meet (video call)'
-      />
-    </div>
   )
 }
 
@@ -303,5 +270,3 @@ const titleInputFieldStyles = {
     paddingTop: '17px',
   },
 }
-
-const iconColor = '#86888A'

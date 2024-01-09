@@ -28,14 +28,12 @@ export const Landing: React.FC = () => {
           </div>
         </div>
       </div>
-
       <section>
         <HowItWorks />
         <YourProjectPortal />
         <IsThisForYou />
         <WorkFlow />
       </section>
-
       <div className='get-job'>
         <span>You've done the work.</span>
         <span>Get the job.</span>
