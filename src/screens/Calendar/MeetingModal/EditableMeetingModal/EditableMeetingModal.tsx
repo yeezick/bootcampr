@@ -253,7 +253,7 @@ export const EditableMeetingModal = () => {
             type='submit'
             variant='contained'
           >
-            {modalDisplayStatus === 'create' ? 'CREATE' : 'SAVE'}
+            {modalDisplayStatus === 'create' ? 'Send Invite' : 'SAVE'}
           </Button>
         </DialogActions>
       </form>

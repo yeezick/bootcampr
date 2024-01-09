@@ -4,6 +4,7 @@ import { checkIfAllMembersInvited } from 'utils/helpers'
 import '../styles/SelectAttendees.scss'
 import { MemberCheckbox } from './MemberCheckbox'
 import { People } from '@mui/icons-material'
+import List from '@mui/material/List'
 
 export const SelectAttendees = ({
   attendees,
@@ -35,7 +36,7 @@ export const SelectAttendees = ({
             }
             label='Invite all'
           />
-          <FormGroup>
+          <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
             {projectMembers.map(currMember => (
               <MemberCheckbox
                 attendees={attendees}
@@ -44,7 +45,7 @@ export const SelectAttendees = ({
                 setAttendees={setAttendees}
               />
             ))}
-          </FormGroup>
+          </List>
           <span className='select-attendees-helper-text'>
             Email invite will be sent to selected members
           </span>
