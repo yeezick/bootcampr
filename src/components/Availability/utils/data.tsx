@@ -9,11 +9,13 @@ export const weekdaysMap = {
 }
 
 export enum Timezones {
+  NT = 'Newfoundland Time (NT)',
+  AT = 'Atlantic Time (AT)',
   ET = 'Eastern Time (ET)',
   CT = 'Central Time (CT)',
   MT = 'Mountain Time (MT)',
   PT = 'Pacific Time (PT)',
-  AT = 'Alaska Time (AKT)',
+  AKT = 'Alaska Time (AKT)',
   HST = 'Hawaii-Aleutian Time (HT)',
 }
 

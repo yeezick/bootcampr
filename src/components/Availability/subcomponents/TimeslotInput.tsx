@@ -192,6 +192,7 @@ export const CopyTimesModal = ({
         selectedDay={day}
         checked={checked}
         setChecked={setChecked}
+        key={idx}
       />
       {weekdayNames.map(
         weekdayName =>
