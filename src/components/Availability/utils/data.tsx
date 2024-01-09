@@ -13,7 +13,7 @@ export enum Timezones {
   CT = 'Central Time (CT)',
   MT = 'Mountain Time (MT)',
   PT = 'Pacific Time (PT)',
-  AT = 'Alaskan Time (AKT)',
+  AT = 'Alaska Time (AKT)',
   HST = 'Hawaii-Aleutian Time (HT)',
 }
 
