@@ -16,6 +16,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
   const project = useSelector(selectProject)
   const [inputChange, setInputChange] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isDisabled, setIsDisabled] = useState(true)
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
   const projectID = project._id
@@ -52,6 +53,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
 
       try {
         setIsLoading(true)
+        setIsDisabled(true)
         const response = await editProject(projectID, updatedProject)
 
         if (response) {
@@ -62,6 +64,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
       } catch (error) {
         console.error('An error occurred while saving the URL.', error)
         setIsLoading(false)
+        setIsDisabled(false)
       }
     } else {
       alert('Please enter a valid URL')
@@ -70,6 +73,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
 
   const handleInputChange = e => {
     setInputChange(e.target.value)
+    setIsDisabled(!isUrl(inputChange))
   }
 
   const handleCancel = () => {
@@ -86,8 +90,6 @@ export const UrlPage = ({ handlePageNavigation }) => {
     )
     return urlPattern.test(string)
   }
-
-  const isDisabled = !isUrl(inputChange)
 
   return (
     <div
