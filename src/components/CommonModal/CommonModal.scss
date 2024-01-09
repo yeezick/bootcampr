@@ -2,6 +2,7 @@
   &.main {
     align-items: center;
     display: flex;
+    font-family: 'Roboto' sans-serif;
     justify-content: center;
   }
 
@@ -61,6 +62,7 @@
     outline: 1px solid #b71c1c;
     padding: 8px 16px;
   }
+
   &.input-error:focus-visible {
     border: none;
     outline: 2px solid #b71c1c;
