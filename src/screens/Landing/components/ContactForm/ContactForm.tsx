@@ -35,6 +35,10 @@ export const ContactForm = () => {
     })
   }
 
+  const checkForErrors = inputName => {
+    return hasErrors && formErrors[inputName] ? '#B71C1C' : ''
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const errors: { name: string; email: string; message: string } = {
@@ -84,7 +88,7 @@ export const ContactForm = () => {
                 onChange={handleChange}
                 placeholder='Who are we speaking to?'
                 style={{
-                  outlineColor: hasErrors && formErrors.name ? '#B71C1C' : '',
+                  outlineColor: checkForErrors('name'),
                 }}
               />
               {formErrors.name && (
@@ -101,7 +105,7 @@ export const ContactForm = () => {
                 onChange={handleChange}
                 placeholder='email@email.com'
                 style={{
-                  outlineColor: hasErrors && formErrors.email ? '#B71C1C' : '',
+                  outlineColor: checkForErrors('email'),
                 }}
               />
               {formErrors.email && (
@@ -121,8 +125,7 @@ export const ContactForm = () => {
                   onChange={handleChange}
                   placeholder='Ask Away!'
                   style={{
-                    outlineColor:
-                      hasErrors && formErrors.message ? '#B71C1C' : '',
+                    outlineColor: checkForErrors('message'),
                   }}
                 ></textarea>
                 <span className='helper-text'>
@@ -131,7 +134,7 @@ export const ContactForm = () => {
                   </span>
                   <p
                     style={{
-                      color: hasErrors && formErrors.message ? '#B71C1C' : '',
+                      color: checkForErrors('message'),
                     }}
                     className='word-count'
                   >
