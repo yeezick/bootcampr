@@ -27,6 +27,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
 
   const [days, setDays] = useState<AvailabilityInterface>(defaultAvailability)
   const [uxUserTimezone, setUxUserTimezone] = useState(Timezones.ET)
+  const [isDisabled, setIsDisabled] = useState(true)
 
   const handleBack = () => handlePageNavigation('previous')
   const handleSaveAvailability = async () => {
@@ -45,6 +46,23 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
     }
     setUxUserTimezone(userFriendlyTZ)
   }, [])
+
+  useEffect(() => {
+    const disabled = disableForwardButton()
+    setIsDisabled(disabled)
+  }, [days])
+
+  const disableForwardButton = (): boolean => {
+    let disabled = true
+
+    Object.keys(days).forEach(day => {
+      if (days[day].available) {
+        disabled = false
+      }
+    })
+
+    return disabled
+  }
 
   return (
     <div className='setup-avail-page'>
@@ -73,6 +91,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
             handler={handleSaveAvailability}
             text='Set up profile'
             paginatorBtn={true}
+            disabled={isDisabled}
           />
         </div>
       </div>
