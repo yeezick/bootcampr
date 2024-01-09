@@ -8,8 +8,8 @@ import { updateUser } from 'utils/api/users'
 import { useNotification } from 'utils/redux/slices/notificationSlice'
 import Avatar from 'components/Avatar/Avatar'
 import TextareaAutosize from 'react-textarea-autosize'
-import { FiArrowRight, FiArrowLeft } from 'react-icons/fi'
 import './Onboarding.scss'
+import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 
 // TODO: Add Toasts also error handling Toasts as well
 
@@ -77,6 +77,15 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
   let inputString =
     "I'm from... I live in... I chose this career path because... My hobbies are... A fun fact about me is..."
   const placeholder = inputString.replace(/\.\.\. /g, '...\n')
+
+  const disableButton = (): boolean => {
+    return !(
+      firstName.length > 0 &&
+      lastName.length > 0 &&
+      bio.length > 0 &&
+      links.linkedinUrl.length > 0
+    )
+  }
 
   return (
     <div className='setupProfile'>
@@ -180,18 +189,18 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
           </div>
           <div className='setupProfile__profile-btns'>
             <div className='setupProfile__cta-container'>
-              <button
-                type='submit'
-                className='setupProfile__profile-cancelBtn'
-                onClick={handleCancel}
-              >
-                <FiArrowLeft className='setupProfile__profile-arrow-l' />
-                <p>Availability</p>
-              </button>
-              <button type='submit' className='setupProfile__profile-saveBtn'>
-                <p>Save profile</p>
-                <FiArrowRight className='setupProfile__profile-arrow-r' />
-              </button>
+              {/* TODO: save info locally on back click? */}
+              <SecondaryButton
+                text='Availability'
+                handler={handleCancel}
+                paginatorBtn={true}
+              />
+              <PrimaryButton
+                text='Save profile'
+                handler={handleProfileSetup}
+                paginatorBtn={true}
+                disabled={disableButton()}
+              />
             </div>
           </div>
         </form>
