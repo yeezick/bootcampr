@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './ContactForm.scss'
+import { Button } from '@mui/material'
 
 export const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -140,7 +141,14 @@ export const ContactForm = () => {
               </div>
             </div>
           </div>
-          <button className='contact-button'>Submit</button>
+          <Button
+            className='contact-button'
+            variant='contained'
+            type='submit'
+            disableElevation
+          >
+            Submit
+          </Button>
         </form>
       </div>
     </div>

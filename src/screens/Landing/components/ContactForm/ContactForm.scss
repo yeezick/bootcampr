@@ -120,6 +120,11 @@
       line-height: 20px;
       padding: 0px 24px;
       text-decoration: none;
+
+      &:hover {
+        background: #FFA726;
+        opacity: 0.8;
+      }
     }
 
     .word-count {
