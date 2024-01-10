@@ -105,19 +105,19 @@ export const PresentationPage = ({ handlePageNavigation }) => {
     <div className='project-completion-presentation-page'>
       <form onSubmit={handleSubmit}>
         <Stack spacing={'32px'} className='page-content'>
-          <div className='details-container'>
-            <h1>Project Presentation</h1>
+          <section aria-labelledby='formHeading' className='details-container'>
+            <h1 id='formHeading'>Project Presentation</h1>
             <Stack spacing={'8px'} className='details-content'>
               <div className='detail'>
-                <CalendarTodayOutlinedIcon />
+                <CalendarTodayOutlinedIcon aria-label='Calendar Icon' />
                 <p>Sep 1, 2023 | 12:00pm - 2:00pm PST</p>
               </div>
               <div className='detail'>
-                <AccessTimeOutlinedIcon />
+                <AccessTimeOutlinedIcon aria-label='Clock Icon' />
                 <p>15 min presentation</p>
               </div>
               <div className='detail'>
-                <VideocamOutlinedIcon />
+                <VideocamOutlinedIcon aria-label='Camera Icon' />
                 <p>Meeting detail will be provided upon confirmation</p>
               </div>
             </Stack>
@@ -125,9 +125,9 @@ export const PresentationPage = ({ handlePageNavigation }) => {
               Present your team’s work to professional Product Managers, UX
               Designers, and Software Engineers.
             </p>
-          </div>
+          </section>
 
-          <div className='faq-container'>
+          <section className='faq-container'>
             <h2>Why present your project?</h2>
             <ul>
               <li>
@@ -144,8 +144,8 @@ export const PresentationPage = ({ handlePageNavigation }) => {
                 with confidence!
               </li>
             </ul>
-          </div>
-          <div className='faq-container'>
+          </section>
+          <section className='faq-container'>
             <h2>Who is presenting your project?</h2>
             <ul>
               <li>
@@ -156,9 +156,9 @@ export const PresentationPage = ({ handlePageNavigation }) => {
                 encouraged.
               </li>
             </ul>
-          </div>
+          </section>
 
-          <div className='participation-container'>
+          <section className='participation-container'>
             <h2>Let us know if your team will be presenting.</h2>
             <div className='radio-btn-container'>
               <div className='radio-btn'>
@@ -189,16 +189,16 @@ export const PresentationPage = ({ handlePageNavigation }) => {
             <p className='helper-text'>
               *Please let us know by xx/xx if you plan to participate.
             </p>
-          </div>
+          </section>
 
           <Stack className='btn-container'>
             <SecondaryButton handler={handleCancel} text='URL' paginatorBtn />
             <PrimaryButton
+              aria-disabled={isDisabled || isLoading}
               isDisabled={isDisabled || isLoading}
               paginatorBtn
               text='Confirmation'
               type='submit'
-              aria-disabled={isDisabled || isLoading}
             />
           </Stack>
         </Stack>
