@@ -8,88 +8,88 @@
 .projectcompletion {
   // Main Pag
 
-  &__back-btn,
-  &__btns,
-  &__next-btn,
-  &__next-btn-ready {
-    @include flex(row, center, center);
-  }
+  // &__back-btn,
+  // &__btns,
+  // &__next-btn,
+  // &__next-btn-ready {
+  //   @include flex(row, center, center);
+  // }
 
-  &__back-btn,
-  &__cancel-btn,
-  &__next-btn,
-  &__next-btn-ready {
-    @include font-properties(
-      (
-        font-weight: 500,
-        line-height: 20px,
-        size: 14px,
-      )
-    );
-    cursor: pointer;
-  }
+  // &__back-btn,
+  // &__cancel-btn,
+  // &__next-btn,
+  // &__next-btn-ready {
+  //   @include font-properties(
+  //     (
+  //       font-weight: 500,
+  //       line-height: 20px,
+  //       size: 14px,
+  //     )
+  //   );
+  //   cursor: pointer;
+  // }
 
-  &__back-btn,
-  &__cancel-btn {
-    @include container-properties(
-      (
-        background-color: #ffffff,
-        border: 1px solid #1a237e,
-        border-radius: 4px,
-        color: #1a237e,
-      )
-    );
-  }
+  // &__back-btn,
+  // &__cancel-btn {
+  //   @include container-properties(
+  //     (
+  //       background-color: #ffffff,
+  //       border: 1px solid #1a237e,
+  //       border-radius: 4px,
+  //       color: #1a237e,
+  //     )
+  //   );
+  // }
 
-  &__next-btn,
-  &__next-btn-ready {
-    @include container-properties(
-      (
-        background-color: #ffa726,
-        border: none,
-        border-radius: 4px,
-        color: #1a237e,
-        height: 40px,
-        width: 152px,
-      )
-    );
-  }
+  // &__next-btn,
+  // &__next-btn-ready {
+  //   @include container-properties(
+  //     (
+  //       background-color: #ffa726,
+  //       border: none,
+  //       border-radius: 4px,
+  //       color: #1a237e,
+  //       height: 40px,
+  //       width: 152px,
+  //     )
+  //   );
+  // }
 
-  &__back-btn {
-    height: 35px;
-    width: 84px;
-    margin-right: 8px;
-  }
+  // &__back-btn {
+  //   height: 35px;
+  //   width: 84px;
+  //   margin-right: 8px;
+  // }
 
-  &__back-icon {
-    margin: 9.5px 8px 9.5px 0;
-  }
+  // &__back-icon {
+  //   margin: 9.5px 8px 9.5px 0;
+  // }
 
-  &__btns {
-    margin-top: 88px;
-  }
+  // &__btns {
+  //   margin-top: 88px;
+  // }
 
-  &__cancel-btn {
-    height: 40px;
-    margin-right: 8px;
-    width: 91px;
-  }
+  // &__cancel-btn {
+  //   height: 40px;
+  //   margin-right: 8px;
+  //   width: 91px;
+  // }
 
-  &__forward-icon {
-    margin: 9.5px 0 9.5px 8px;
-  }
+  // &__forward-icon {
+  //   margin: 9.5px 0 9.5px 8px;
+  // }
 
-  &__next-btn {
-    background-color: #ffa726;
-    cursor: not-allowed;
-    margin-left: 8px;
-    opacity: 0.38;
-  }
+  // &__next-btn {
+  //   background-color: #ffa726;
+  //   cursor: not-allowed;
+  //   margin-left: 8px;
+  //   opacity: 0.38;
+  // }
 
-  &__next-btn-ready {
-    background-color: #ffa726;
-    margin-left: 8px;
-  }
+  // &__next-btn-ready {
+  //   background-color: #ffa726;
+  //   margin-left: 8px;
+  // }
 
   &__pag-container {
     @include container-properties(

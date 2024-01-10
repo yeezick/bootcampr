@@ -5,9 +5,10 @@ import { getOneProject, editProject } from 'utils/api'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { updateParticipatingMembers } from 'utils/redux/slices/projectSlice'
 import { FiRepeat } from 'react-icons/fi'
-import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined'
+import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined'
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined'
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
+import { Stack } from '@mui/material'
 
 export const PresentationPage = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
@@ -102,36 +103,32 @@ export const PresentationPage = ({ handlePageNavigation }) => {
   }
 
   return (
-    <div className='projectcompletion__pag-presentation'>
-      <form
-        className='projectcompletion__presentation-form'
-        onSubmit={handleSubmit}
-      >
-        <div className='projectcompletion__pre-contents'>
-          <div className='projectcompletion__pre-details'>
+    <div className='project-completion-presentation-page'>
+      <form onSubmit={handleSubmit}>
+        <Stack spacing={'32px'} className='page-content'>
+          <div className='details-container'>
             <h1>Project Presentation</h1>
-            <div className='projectcompletion__pre-icons-containter'>
-              <div className='projectcompletion__pre-icon-content'>
-                <CalendarMonthOutlinedIcon className='projectcompletion__pre-icon' />
+            <Stack spacing={'8px'}>
+              <div className='detail-content'>
+                <CalendarTodayOutlinedIcon />
                 <p>Sep 1, 2023 | 12:00pm - 2:00pm PST</p>
               </div>
-              <div className='projectcompletion__pre-icon-content'>
-                <AccessTimeOutlinedIcon className='projectcompletion__pre-icon' />
+              <div className='detail-content'>
+                <AccessTimeOutlinedIcon />
                 <p>15 min presentation</p>
               </div>
-              <div className='projectcompletion__pre-icon-content'>
-                <VideocamOutlinedIcon className='projectcompletion__pre-icon' />
+              <div className='detail-content'>
+                <VideocamOutlinedIcon />
                 <p>Meeting detail will be provided upon confirmation</p>
               </div>
-            </div>
-            <div className='projectcompletion__pre-para-content'>
-              <p>
-                Present your team’s work to professional Product Managers, UX
-                Designers, and Software Engineers.
-              </p>
-            </div>
+            </Stack>
+            <p className='details-brief'>
+              Present your team’s work to professional Product Managers, UX
+              Designers, and Software Engineers.
+            </p>
           </div>
-          <div className='projectcompletion__pre-part-container'>
+
+          {/* <div className='projectcompletion__pre-part-container'>
             <div>
               <h2>Why present your project?</h2>
               <ul>
@@ -201,18 +198,18 @@ export const PresentationPage = ({ handlePageNavigation }) => {
               </label>
             </div>
           </div>
-        </div>
-        <div className='projectcompletion__btns'>
-          <button
-            className='projectcompletion__back-btn'
-            onClick={handleCancel}
-          >
-            <FiRepeat className='projectcompletion__back-icon' /> Back
-          </button>
-          <button type='submit' className={getButtonClassName()}>
-            Next <FiRepeat className='projectcompletion__forward-icon' />
-          </button>
-        </div>
+          <div className='projectcompletion__btns'>
+            <button
+              className='projectcompletion__back-btn'
+              onClick={handleCancel}
+            >
+              <FiRepeat className='projectcompletion__back-icon' /> Back
+            </button>
+            <button type='submit' className={getButtonClassName()}>
+              Next <FiRepeat className='projectcompletion__forward-icon' />
+            </button>
+          </div> */}
+        </Stack>
       </form>
     </div>
   )
