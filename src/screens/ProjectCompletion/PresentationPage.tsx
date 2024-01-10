@@ -1,28 +1,35 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch } from 'utils/redux/store'
 import { getOneProject, editProject } from 'utils/api'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { updateParticipatingMembers } from 'utils/redux/slices/projectSlice'
-import { FiRepeat } from 'react-icons/fi'
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined'
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined'
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
 import { Stack } from '@mui/material'
+import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 
 export const PresentationPage = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
   const dispatch: AppDispatch = useDispatch()
   const [selectedRadio, setSelectedRadio] = useState('')
+  const [isDisabled, setIsDisabled] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const projectId = authUser.project
+
+  useEffect(() => {
+    setIsLoading(false)
+  }, [])
 
   //TODO: convert alerts to MUI toast to match Figma designs
 
   const handleSubmit = async e => {
     e.preventDefault()
 
-    if (isValidForm()) {
+    if (!isDisabled) {
       try {
+        setIsLoading(true)
         const project = await getOneProject(projectId)
 
         const member = {
@@ -71,9 +78,11 @@ export const PresentationPage = ({ handlePageNavigation }) => {
         if (response) {
           dispatch(updateParticipatingMembers(updatedMembers))
           handlePageNavigation('next')
+          setIsLoading(false)
         }
       } catch (error) {
         console.error('An error occurred while saving the decision.', error)
+        setIsLoading(false)
       }
     } else {
       alert(
@@ -84,22 +93,12 @@ export const PresentationPage = ({ handlePageNavigation }) => {
 
   const handleRadioChange = e => {
     setSelectedRadio(e.target.value)
+    setIsDisabled(false)
   }
 
   const handleCancel = () => {
     setSelectedRadio('')
     handlePageNavigation('previous')
-  }
-
-  const isValidForm = () => {
-    return selectedRadio === 'option1' || selectedRadio === 'option2'
-  }
-
-  const getButtonClassName = () => {
-    if (!selectedRadio) return 'projectcompletion__next-btn'
-    return isValidForm()
-      ? 'projectcompletion__next-btn-ready'
-      : 'projectcompletion__next-btn'
   }
 
   return (
@@ -191,18 +190,17 @@ export const PresentationPage = ({ handlePageNavigation }) => {
               *Please let us know by xx/xx if you plan to participate.
             </p>
           </div>
-          {/* </div> */}
-          {/* adspoijfsdpoijgpoisjgdpoisjdopgijs */}
-          {/* <div className='projectcompletion__btns'> */}
-          <button
-            className='projectcompletion__back-btn'
-            onClick={handleCancel}
-          >
-            <FiRepeat className='projectcompletion__back-icon' /> Back
-          </button>
-          <button type='submit' className={getButtonClassName()}>
-            Next <FiRepeat className='projectcompletion__forward-icon' />
-          </button>
+
+          <Stack className='btn-container'>
+            <SecondaryButton handler={handleCancel} text='URL' paginatorBtn />
+            <PrimaryButton
+              isDisabled={isDisabled || isLoading}
+              paginatorBtn
+              text='Confirmation'
+              type='submit'
+              aria-disabled={isDisabled || isLoading}
+            />
+          </Stack>
         </Stack>
       </form>
     </div>
