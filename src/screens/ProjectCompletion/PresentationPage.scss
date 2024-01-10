@@ -174,8 +174,8 @@
       margin: 0px 0px 16px;
     }
 
-    .detail-content {
-      @include flex(row, start, center);
+    .detail {
+      @include flex(row, flex-start, center);
       gap: 8px;
 
       p {
@@ -210,6 +210,38 @@
       content: '\2022';
       font-size: 14px;
       margin-right: 8px;
+    }
+  }
+
+  .participation-container {
+    h2 {
+      margin-bottom: 4px;
+    }
+
+    .radio-btn-container {
+      @include flex(column);
+      gap: 8px;
+
+      .radio-btn {
+        @include flex(row, flex-start, center);
+        gap: 8px;
+        padding-left: 8px;
+      }
+    }
+
+    p {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      margin: 0;
+    }
+
+    .helper-text {
+      color: #616161;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 16px;
+      margin-left: 36px;
     }
   }
 }

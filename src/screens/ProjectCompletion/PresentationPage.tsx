@@ -108,16 +108,16 @@ export const PresentationPage = ({ handlePageNavigation }) => {
         <Stack spacing={'32px'} className='page-content'>
           <div className='details-container'>
             <h1>Project Presentation</h1>
-            <Stack spacing={'8px'}>
-              <div className='detail-content'>
+            <Stack spacing={'8px'} className='details-content'>
+              <div className='detail'>
                 <CalendarTodayOutlinedIcon />
                 <p>Sep 1, 2023 | 12:00pm - 2:00pm PST</p>
               </div>
-              <div className='detail-content'>
+              <div className='detail'>
                 <AccessTimeOutlinedIcon />
                 <p>15 min presentation</p>
               </div>
-              <div className='detail-content'>
+              <div className='detail'>
                 <VideocamOutlinedIcon />
                 <p>Meeting detail will be provided upon confirmation</p>
               </div>
@@ -127,6 +127,7 @@ export const PresentationPage = ({ handlePageNavigation }) => {
               Designers, and Software Engineers.
             </p>
           </div>
+
           <div className='faq-container'>
             <h2>Why present your project?</h2>
             <ul>
@@ -145,7 +146,6 @@ export const PresentationPage = ({ handlePageNavigation }) => {
               </li>
             </ul>
           </div>
-          {/* daskfsdlidhsolgohdsfolighs */}
           <div className='faq-container'>
             <h2>Who is presenting your project?</h2>
             <ul>
@@ -158,44 +158,38 @@ export const PresentationPage = ({ handlePageNavigation }) => {
               </li>
             </ul>
           </div>
-          {/* sdlojgfdspoigjsfpodijghoipfdjshgop */}
-          <div className='projectcompletion__pre-part-title'>
+
+          <div className='participation-container'>
             <h2>Let us know if your team will be presenting.</h2>
-          </div>
-          <div className='projectcompletion__pre-part-radios'>
-            <label
-              className='projectcompletion__pre-part-label1'
-              htmlFor='participate'
-            >
-              <input
-                type='radio'
-                id='participate'
-                value='option1'
-                checked={selectedRadio === 'option1'}
-                onChange={handleRadioChange}
-              />
-              <p>My team will participate</p>
-            </label>
-            <label
-              className='projectcompletion__pre-part-label2'
-              htmlFor='dontParticipate'
-            >
-              <input
-                type='radio'
-                id='dontParticipate'
-                value='option2'
-                checked={selectedRadio === 'option2'}
-                onChange={handleRadioChange}
-              />
-              <div>
-                <p className='projectcompletion__pre-part-para1'>
-                  My team will not participate
-                </p>
-                <p className='projectcompletion__pre-part-para2'>
-                  *Please let us know by xx/xx if you plan to participate. 1
-                </p>
+            <div className='radio-btn-container'>
+              <div className='radio-btn'>
+                <input
+                  type='radio'
+                  id='participate'
+                  value='option1'
+                  checked={selectedRadio === 'option1'}
+                  onChange={handleRadioChange}
+                />
+                <label htmlFor='participate'>
+                  <p>My team will participate</p>
+                </label>
               </div>
-            </label>
+              <div className='radio-btn'>
+                <input
+                  type='radio'
+                  id='dontParticipate'
+                  value='option2'
+                  checked={selectedRadio === 'option2'}
+                  onChange={handleRadioChange}
+                />
+                <label htmlFor='dontParticipate'>
+                  <p>My team will not participate</p>
+                </label>
+              </div>
+            </div>
+            <p className='helper-text'>
+              *Please let us know by xx/xx if you plan to participate.
+            </p>
           </div>
           {/* </div> */}
           {/* adspoijfsdpoijgpoisjgdpoisjdopgijs */}
