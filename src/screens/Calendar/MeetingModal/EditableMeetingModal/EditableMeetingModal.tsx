@@ -43,9 +43,8 @@ dayjs.extend(timezone)
 
 export const EditableMeetingModal = () => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
-  const [dateFields, setDateFields] = useState<DateFieldsInterface>(
-    initialDateFields()
-  )
+  const [dateFields, setDateFields] =
+    useState<DateFieldsInterface>(initialDateFields())
   const [attendees, setAttendees] = useState<BooleanObject>({})
   const [inviteAll, toggleInviteAll] = useState(false)
   const [visibleModal, toggleVisibleModal] = useState(false)
