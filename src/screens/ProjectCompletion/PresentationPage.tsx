@@ -127,88 +127,88 @@ export const PresentationPage = ({ handlePageNavigation }) => {
               Designers, and Software Engineers.
             </p>
           </div>
-
-          {/* <div className='projectcompletion__pre-part-container'>
-            <div>
-              <h2>Why present your project?</h2>
-              <ul>
-                <li>
-                  Hone your presentation skills in front of the Bootcampr
-                  product team.
-                </li>
-                <li>
-                  Get feedback from people with experience launching a new
-                  product.
-                </li>
-                <li>Identify room for improvements.</li>
-                <li>
-                  Use the feedback you receive to present your work in
-                  interviews with confidence!
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h2>Who is presenting your project?</h2>
-              <ul>
-                <li>
-                  At least one person must participate to present team’s work.
-                </li>
-                <li>
-                  Participation by all team members is not required but
-                  encouraged.
-                </li>
-              </ul>
-            </div>
-            <div className='projectcompletion__pre-part-title'>
-              <h2>Let us know if your team will be presenting.</h2>
-            </div>
-            <div className='projectcompletion__pre-part-radios'>
-              <label
-                className='projectcompletion__pre-part-label1'
-                htmlFor='participate'
-              >
-                <input
-                  type='radio'
-                  id='participate'
-                  value='option1'
-                  checked={selectedRadio === 'option1'}
-                  onChange={handleRadioChange}
-                />
-                <p>My team will participate</p>
-              </label>
-              <label
-                className='projectcompletion__pre-part-label2'
-                htmlFor='dontParticipate'
-              >
-                <input
-                  type='radio'
-                  id='dontParticipate'
-                  value='option2'
-                  checked={selectedRadio === 'option2'}
-                  onChange={handleRadioChange}
-                />
-                <div>
-                  <p className='projectcompletion__pre-part-para1'>
-                    My team will not participate
-                  </p>
-                  <p className='projectcompletion__pre-part-para2'>
-                    *Please let us know by xx/xx if you plan to participate. 1
-                  </p>
-                </div>
-              </label>
-            </div>
+          <div className='faq-container'>
+            <h2>Why present your project?</h2>
+            <ul>
+              <li>
+                Hone your presentation skills in front of the Bootcampr product
+                team.
+              </li>
+              <li>
+                Get feedback from people with experience launching a new
+                product.
+              </li>
+              <li>Identify room for improvements.</li>
+              <li>
+                Use the feedback you receive to present your work in interviews
+                with confidence!
+              </li>
+            </ul>
           </div>
-          <div className='projectcompletion__btns'>
-            <button
-              className='projectcompletion__back-btn'
-              onClick={handleCancel}
+          {/* daskfsdlidhsolgohdsfolighs */}
+          <div className='faq-container'>
+            <h2>Who is presenting your project?</h2>
+            <ul>
+              <li>
+                At least one person must participate to present team’s work.
+              </li>
+              <li>
+                Participation by all team members is not required but
+                encouraged.
+              </li>
+            </ul>
+          </div>
+          {/* sdlojgfdspoigjsfpodijghoipfdjshgop */}
+          <div className='projectcompletion__pre-part-title'>
+            <h2>Let us know if your team will be presenting.</h2>
+          </div>
+          <div className='projectcompletion__pre-part-radios'>
+            <label
+              className='projectcompletion__pre-part-label1'
+              htmlFor='participate'
             >
-              <FiRepeat className='projectcompletion__back-icon' /> Back
-            </button>
-            <button type='submit' className={getButtonClassName()}>
-              Next <FiRepeat className='projectcompletion__forward-icon' />
-            </button>
-          </div> */}
+              <input
+                type='radio'
+                id='participate'
+                value='option1'
+                checked={selectedRadio === 'option1'}
+                onChange={handleRadioChange}
+              />
+              <p>My team will participate</p>
+            </label>
+            <label
+              className='projectcompletion__pre-part-label2'
+              htmlFor='dontParticipate'
+            >
+              <input
+                type='radio'
+                id='dontParticipate'
+                value='option2'
+                checked={selectedRadio === 'option2'}
+                onChange={handleRadioChange}
+              />
+              <div>
+                <p className='projectcompletion__pre-part-para1'>
+                  My team will not participate
+                </p>
+                <p className='projectcompletion__pre-part-para2'>
+                  *Please let us know by xx/xx if you plan to participate. 1
+                </p>
+              </div>
+            </label>
+          </div>
+          {/* </div> */}
+          {/* adspoijfsdpoijgpoisjgdpoisjdopgijs */}
+          {/* <div className='projectcompletion__btns'> */}
+          <button
+            className='projectcompletion__back-btn'
+            onClick={handleCancel}
+          >
+            <FiRepeat className='projectcompletion__back-icon' /> Back
+          </button>
+          <button type='submit' className={getButtonClassName()}>
+            Next <FiRepeat className='projectcompletion__forward-icon' />
+          </button>
         </Stack>
       </form>
     </div>
