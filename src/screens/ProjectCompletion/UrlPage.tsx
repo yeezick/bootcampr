@@ -104,7 +104,11 @@ export const UrlPage = ({ handlePageNavigation }) => {
           />
           <Stack className='btn-container'>
             <SecondaryButton>
-              <DomainLink route={`/project/${projectID}`} domain={'project'}>
+              <DomainLink
+                className='cancel-btn'
+                route={`/project/${projectID}`}
+                domain={'project'}
+              >
                 Cancel
               </DomainLink>
             </SecondaryButton>

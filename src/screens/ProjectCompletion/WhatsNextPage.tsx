@@ -15,10 +15,6 @@ export const WhatsNextPage = () => {
   const projectID = project._id
   const [isDisabled, setIsDisabled] = useState(false)
 
-  const handleSubmit = () => {
-    navigate(`/`)
-  }
-
   const handleSurvey = e => {
     e.preventDefault()
     alert('TBD Google Survey Path')
@@ -32,11 +28,9 @@ export const WhatsNextPage = () => {
   const latestMemberIndex = completedInfo.participatingMembers.length - 1
   const latestMember = completedInfo.participatingMembers[latestMemberIndex]
   const userParticipating = latestMember?.decision === 'Participate'
-  console.log(userParticipating)
-  console.log(latestMember?.decision)
+
   return (
     <div className='project-completion-whats-next-page'>
-      {/* <form className='projectcompletion__what-form' onClick={handleSubmit}> */}
       <h1>Yay! You did it!</h1>
       <div className='content'>
         <section>
@@ -79,7 +73,6 @@ export const WhatsNextPage = () => {
           text='Answer survey'
         />
       </Stack>
-      {/* </form> */}
     </div>
   )
 }

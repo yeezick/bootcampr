@@ -31,7 +31,13 @@
     .btn-container {
       flex-direction: row;
       justify-content: flex-end;
+      text-decoration: none;
       width: 100%;
+
+      .cancel-btn {
+        color: inherit;
+        text-decoration: none;
+      }
     }
   }
 }
