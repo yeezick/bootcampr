@@ -3,6 +3,7 @@ import { ButtonProps } from 'interfaces/components'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 
 export const PrimaryButton = ({
+  children,
   className,
   handler,
   isDisabled,
@@ -32,6 +33,7 @@ export const PrimaryButton = ({
       variant='contained'
     >
       {text}
+      {children}
       {paginatorBtn && (
         <KeyboardBackspaceIcon
           sx={{

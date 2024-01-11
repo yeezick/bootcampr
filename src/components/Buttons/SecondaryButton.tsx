@@ -3,6 +3,7 @@ import { ButtonProps } from 'interfaces/components'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 
 export const SecondaryButton = ({
+  children,
   className,
   handler,
   paginatorBtn,
@@ -27,6 +28,7 @@ export const SecondaryButton = ({
     >
       {paginatorBtn && <KeyboardBackspaceIcon sx={{ marginRight: '8px' }} />}
       {text}
+      {children}
     </Button>
   )
 }
