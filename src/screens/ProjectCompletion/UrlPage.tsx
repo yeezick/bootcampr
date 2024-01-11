@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { editProject } from 'utils/api'
-import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch } from 'utils/redux/store'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
@@ -10,14 +9,14 @@ import {
 } from 'utils/redux/slices/projectSlice'
 import { Stack } from '@mui/material'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
+import { DomainLink } from 'layout/DomainLink'
 
 export const UrlPage = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
-  const project = useSelector(selectProject)
   const [inputChange, setInputChange] = useState('')
+  const project = useSelector(selectProject)
   const [isLoading, setIsLoading] = useState(false)
   const [isDisabled, setIsDisabled] = useState(true)
-  const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
   const projectID = project._id
 
@@ -74,11 +73,6 @@ export const UrlPage = ({ handlePageNavigation }) => {
     setIsDisabled(!isUrl(inputChange))
   }
 
-  const handleCancel = () => {
-    setInputChange('')
-    navigate(`/`)
-  }
-
   const isUrl = string => {
     const urlPattern = new RegExp(
       '^(https?:\\/\\/)?' +
@@ -109,7 +103,11 @@ export const UrlPage = ({ handlePageNavigation }) => {
             value={inputChange}
           />
           <Stack className='btn-container'>
-            <SecondaryButton handler={handleCancel} text='Cancel' />
+            <SecondaryButton>
+              <DomainLink route={`/project/${projectID}`} domain={'project'}>
+                Cancel
+              </DomainLink>
+            </SecondaryButton>
             <PrimaryButton
               isDisabled={isDisabled || isLoading}
               paginatorBtn
