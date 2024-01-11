@@ -1,63 +1,52 @@
-.project-completion-presentation-page {
+.project-completion-confirmation-page {
   height: auto;
   margin-top: 32px;
   width: 100%;
 
-  h2 {
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
-  }
+  .title {
+    @include flex(column);
+    gap: 8px;
 
-  .details-container {
     h1 {
-      font-size: 24px;
+      font-size: 36px;
       font-weight: 700;
-      line-height: 32px;
-      margin: 0px 0px 16px;
+      line-height: 44px;
+      margin: 0;
     }
-
-    .detail {
-      @include flex(row, flex-start, center);
-      gap: 8px;
-
-      p {
-        @include font-properties();
-        margin: 0;
-      }
-    }
-
-    .details-brief {
+    p {
       font-size: 16px;
       font-weight: 400;
       line-height: 24px;
-      margin: 16px 0px 0px;
-      width: 608px;
+      margin: 0;
     }
   }
 
-  .faq-container {
-    ul {
-      margin: 0;
-      padding-left: 10px;
-    }
+  .url-container {
+    margin-top: 32px;
 
-    li {
+    p {
       font-size: 16px;
-      font-weight: 400;
+      font-weight: 500;
       line-height: 24px;
-      list-style-type: none;
+      margin: 0;
     }
 
-    li::before {
-      content: '\2022';
-      font-size: 14px;
-      margin-right: 8px;
+    input {
+      box-sizing: border-box;
+      height: 40px;
+      margin-top: 8px;
+      padding: 8px 16px;
+      width: 50%;
     }
   }
 
   .participation-container {
+    margin-top: 16px;
+
     h2 {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
       margin-bottom: 4px;
     }
 
@@ -91,6 +80,7 @@
   .btn-container {
     flex-direction: row;
     justify-content: flex-end;
+    margin-top: 32px;
     width: 100%;
   }
 }
