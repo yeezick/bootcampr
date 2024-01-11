@@ -70,10 +70,10 @@ export const UrlPage = ({ handlePageNavigation }) => {
 
   const handleInputChange = e => {
     const inputValue = e.target.value.trim()
-    console.log(inputValue)
     setInputChange(inputValue)
-    setIsDisabled(!isUrl(inputChange))
+    setIsDisabled(!isUrl(inputValue))
   }
+
   const isUrl = string => {
     const urlPattern = new RegExp(
       '^(https?:\\/\\/)?' +
