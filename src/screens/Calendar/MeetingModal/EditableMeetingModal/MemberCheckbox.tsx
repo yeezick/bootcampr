@@ -17,7 +17,6 @@ export const MemberCheckbox = ({
       return { ...state, [e.target.name]: e.target.checked }
     })
   }
-  console.log(currMember)
 
   return (
     <div key={`select-member-${currMember._id}`} className='member-checkbox'>

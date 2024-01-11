@@ -1,5 +1,7 @@
 import Popover from '@mui/material/Popover'
 import Typography from '@mui/material/Typography'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectDisplayedEvent } from 'utils/redux/slices/calendarSlice'
 
 export const DisplayPopover = ({
   handleClosePopover,
@@ -7,7 +9,10 @@ export const DisplayPopover = ({
   id,
   open,
   anchorEl,
+  handleDelete,
 }) => {
+  const { eventId } = useAppSelector(selectDisplayedEvent)
+
   return (
     <>
       <Popover
@@ -24,7 +29,9 @@ export const DisplayPopover = ({
         <Typography sx={{ p: 2 }} onClick={handleEdit}>
           Edit
         </Typography>
-        <Typography sx={{ p: 2 }}>Cancel Meeting</Typography>
+        <Typography sx={{ p: 2 }} onClick={handleDelete}>
+          Cancel Meeting
+        </Typography>
       </Popover>
     </>
   )

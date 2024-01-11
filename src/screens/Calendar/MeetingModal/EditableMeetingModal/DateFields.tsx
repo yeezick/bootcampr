@@ -8,7 +8,8 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import '../styles/DisplayMeetingModal.scss'
-
+import '../styles/Datefields.scss'
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
@@ -45,18 +46,19 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
             sx={datePickerStyles}
             value={datePickerDayjs}
           />
-
-          <SelectTime
-            dateFields={dateFields}
-            setDateFields={setDateFields}
-            type={'start'}
-          />
-          <span className='span-dash'>-</span>
-          <SelectTime
-            dateFields={dateFields}
-            setDateFields={setDateFields}
-            type={'end'}
-          />
+          <div className='select-time-wrapper'>
+            <SelectTime
+              dateFields={dateFields}
+              setDateFields={setDateFields}
+              type={'start'}
+            />
+            <span className='span-dash'>&#8212;</span>
+            <SelectTime
+              dateFields={dateFields}
+              setDateFields={setDateFields}
+              type={'end'}
+            />
+          </div>
         </div>
 
         <SelectTimeZone

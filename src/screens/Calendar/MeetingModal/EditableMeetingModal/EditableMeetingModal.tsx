@@ -37,6 +37,7 @@ import {
 import '../styles/EditableMeetingModal.scss'
 import { MeetingModalHeaderIcons } from './MeetingModalHeaderIcons'
 import { GoogleMeetsToggler } from './GoogleMeetsToggler'
+import { MeetingTitleField } from './MeetingTitleField'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -196,6 +197,10 @@ export const EditableMeetingModal = () => {
     }
   }
 
+  const handleFormInputChange = e => {
+    setMeetingText(e)
+  }
+
   return (
     <Dialog
       className='meeting-modal'
@@ -207,16 +212,9 @@ export const EditableMeetingModal = () => {
         <DialogContent className='modal-dialog-content'>
           <MeetingModalHeaderIcons handleCloseMeetingModal={handleClose} />
           <div className='content-wrapper'>
-            <TextField
-              className='title-field'
-              label='Add Title'
-              name='summary'
-              InputLabelProps={{ className: 'title-input-label' }}
-              onChange={e => handleFormInputChange(e, setMeetingText)}
-              required
-              sx={titleInputFieldStyles}
-              value={meetingText.summary}
-              variant='standard'
+            <MeetingTitleField
+              handleFormInputChange={handleFormInputChange}
+              meetingText={meetingText}
             />
             <DateFields
               dateFields={dateFields}

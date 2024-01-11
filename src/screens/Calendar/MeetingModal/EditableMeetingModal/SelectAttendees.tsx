@@ -46,9 +46,6 @@ export const SelectAttendees = ({
               />
             ))}
           </List>
-          <span className='select-attendees-helper-text'>
-            Email invite will be sent to selected members
-          </span>
         </div>
       </div>
     </>

@@ -49,6 +49,7 @@ const calendarSlice = createSlice({
       state.displayedEvent = action.payload
       state.modalDisplayStatus = 'display'
     },
+    deleteEvent: (state, action) => {},
   },
 })
 

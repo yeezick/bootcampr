@@ -2,14 +2,7 @@
   display: flex;
   flex-direction: row;
   grid-area: selectAttendees;
-  margin-bottom: 32px;
   .select-attendees-wrapper {
     width: 100%
-  }
-
-
-  .select-attendees-helper-text {
-    font-size: 12px;
-    font-style: italic;
   }
 }

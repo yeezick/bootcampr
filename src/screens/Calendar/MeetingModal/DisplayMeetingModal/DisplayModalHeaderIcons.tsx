@@ -25,6 +25,9 @@ export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
     dispatch(setModalDisplayStatus('edit'))
     setDisplayMeeting(false)
   }
+
+  const handleDelete = () => {}
+
   return (
     <div className='modal-icons'>
       <MoreVertIcon onClick={handleClick} />
@@ -34,6 +37,7 @@ export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
         id={id}
         open={open}
         anchorEl={anchorEl}
+        handleDelete={handleDelete}
       />
       <Close onClick={handleClose} />
     </div>

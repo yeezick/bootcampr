@@ -1,9 +1,11 @@
 .meeting-modal {
 
+
   .modal-dialog-content {
     overflow-x:hidden;
-    padding-right: 40px;
-    padding-left: 40px;
+    padding-right: 10px;
+    padding-left: 10px;
+  
   }
   .meeting-modal-icons {
     align-items: center;;
@@ -37,13 +39,26 @@
     "descriptionIcon description";
     margin-top: 20px;
 
+
     .title-input-label {
       font-size: 32px;
     }
 
     .title-field {
+      padding-left: 35px;
       grid-area:title;
       margin: 0;
+    }
+
+    .required-span {
+      margin: 0;
+      font-size: 12px;
+      font-style: italic;
+    }
+
+    .time-fields{
+      display: flex;
+      flex-direction: row;
     }
 
     .description-icon {
