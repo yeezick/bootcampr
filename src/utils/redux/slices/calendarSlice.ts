@@ -78,6 +78,7 @@ export const {
   setDisplayedEvent,
   storeConvertedEvents,
   setModalDisplayStatus,
+  deleteEvent,
 } = calendarSlice.actions
 
 export default calendarSlice.reducer
