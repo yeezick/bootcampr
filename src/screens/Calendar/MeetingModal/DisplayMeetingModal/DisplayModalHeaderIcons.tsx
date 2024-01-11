@@ -33,8 +33,6 @@ export const DisplayModalHeaderIcons = ({
   }
 
   const handleDelete = async e => {
-    console.log('delete')
-    console.log(calendarId, eventId)
     try {
       await deleteEvent(calendarId, eventId)
     } catch (error) {
