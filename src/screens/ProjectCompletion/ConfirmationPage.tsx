@@ -63,10 +63,13 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
   }
 
   return (
-    <div className='project-completion-confirmation-page'>
+    <div
+      className='project-completion-confirmation-page'
+      aria-aria-labelledby='formHeader'
+    >
       <form onSubmit={handleSubmit}>
         <section className='title'>
-          <h1>Great! You’re almost done!</h1>
+          <h1 id='formHeader'>Great! You’re almost done!</h1>
           <p>
             Make sure to double check the information and submit your project!
           </p>

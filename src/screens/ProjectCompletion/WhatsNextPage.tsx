@@ -30,8 +30,11 @@ export const WhatsNextPage = () => {
   const userParticipating = latestMember?.decision === 'Participate'
 
   return (
-    <div className='project-completion-whats-next-page'>
-      <h1>Yay! You did it!</h1>
+    <div
+      className='project-completion-whats-next-page'
+      aria-aria-labelledby='pageHeader'
+    >
+      <h1 id='pageHeader'>Yay! You did it!</h1>
       <div className='content'>
         <section>
           <h2>What's next?</h2>

@@ -69,14 +69,15 @@ export const UrlPage = ({ handlePageNavigation }) => {
   }
 
   const handleInputChange = e => {
-    setInputChange(e.target.value)
+    const inputValue = e.target.value.trim()
+    console.log(inputValue)
+    setInputChange(inputValue)
     setIsDisabled(!isUrl(inputChange))
   }
-
   const isUrl = string => {
     const urlPattern = new RegExp(
       '^(https?:\\/\\/)?' +
-        '(www\\.)' +
+        '(www\\.)?' +
         '(([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}$',
       'i'
     )
@@ -84,11 +85,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
   }
 
   return (
-    <div
-      className='project-completion-url-page'
-      aria-live='polite'
-      aria-labelledby='formHeading'
-    >
+    <div className='project-completion-url-page' aria-labelledby='formHeading'>
       <h1 id='formHeading'>Congrats! You've shipped a live product!</h1>
       <form onSubmit={handleSubmit}>
         <Stack className='form-content' spacing={'32px'}>
