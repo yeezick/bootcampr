@@ -1,7 +1,5 @@
 import Popover from '@mui/material/Popover'
 import Typography from '@mui/material/Typography'
-import { useAppSelector } from 'utils/redux/hooks'
-import { selectDisplayedEvent } from 'utils/redux/slices/calendarSlice'
 
 export const DisplayPopover = ({
   handleClosePopover,
@@ -11,8 +9,6 @@ export const DisplayPopover = ({
   anchorEl,
   handleDelete,
 }) => {
-  const { eventId } = useAppSelector(selectDisplayedEvent)
-
   return (
     <>
       <Popover

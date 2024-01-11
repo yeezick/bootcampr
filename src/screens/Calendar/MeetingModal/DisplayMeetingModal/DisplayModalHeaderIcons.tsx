@@ -4,8 +4,14 @@ import { setModalDisplayStatus } from 'utils/redux/slices/calendarSlice'
 import { Close } from '@mui/icons-material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { DisplayPopover } from './DisplayPopover'
+import { deleteEvent } from 'utils/api/events'
 
-export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
+export const DisplayModalHeaderIcons = ({
+  handleClose,
+  setDisplayMeeting,
+  eventId,
+  calendarId,
+}) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   const handleClick = event => {
@@ -26,7 +32,15 @@ export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
     setDisplayMeeting(false)
   }
 
-  const handleDelete = () => {}
+  const handleDelete = async e => {
+    console.log('delete')
+    console.log(calendarId, eventId)
+    try {
+      await deleteEvent(calendarId, eventId)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className='modal-icons'>

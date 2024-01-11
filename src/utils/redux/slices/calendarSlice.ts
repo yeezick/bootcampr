@@ -49,7 +49,11 @@ const calendarSlice = createSlice({
       state.displayedEvent = action.payload
       state.modalDisplayStatus = 'display'
     },
-    deleteEvent: (state, action) => {},
+
+    deleteEvent: (state, action) => {
+      const { eventId } = action.payload
+      state.convertedEvents.filter(event => event.eventId !== eventId)
+    },
   },
 })
 
