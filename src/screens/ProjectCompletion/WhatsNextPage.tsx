@@ -37,12 +37,10 @@ export const WhatsNextPage = () => {
   return (
     <div className='project-completion-whats-next-page'>
       {/* <form className='projectcompletion__what-form' onClick={handleSubmit}> */}
-      <div className='projectcompletion__what-contents'>
-        <div className='projectcompletion__what-title'>
-          <h1>Yay! You did it!</h1>
-        </div>
-        <div className='projectcompletion__what-info'>
-          <h2>What's Next</h2>
+      <h1>Yay! You did it!</h1>
+      <div className='content'>
+        <section>
+          <h2>What's next?</h2>
           {userParticipating ? (
             <p>
               We’ll send all team members a meeting link for the presentation
@@ -56,9 +54,9 @@ export const WhatsNextPage = () => {
               see you again in the future!
             </p>
           )}
-        </div>
-        <div className='projectcompletion__what-info'>
-          <h2>In the Meantime...</h2>
+        </section>
+        <section>
+          <h2>In the meantime...</h2>
           <p>
             We love feedback! Please answer a short survey about your experience
             with Bootcampr. We’ll send the survey to your team members, too.
@@ -67,7 +65,7 @@ export const WhatsNextPage = () => {
             Upon completion, we’ll send you a certificate of completion by email
             for you to show off on LinkedIn!
           </p>
-        </div>
+        </section>
       </div>
       <Stack className='btn-container'>
         <SecondaryButton
