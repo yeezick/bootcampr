@@ -7,6 +7,7 @@ import userReducer from 'utils/redux/slices/userSlice'
 import snackBarSlice from './slices/snackBarSlice'
 import userInterfaceReducer from './slices/userInterfaceSlice'
 import taskBoardSlice from './slices/taskBoardSlice'
+import projectCompletionSlice from './slices/projectCompletionSlice'
 
 export type RootState = {
   calendar: ReturnType<typeof calendarReducer>
@@ -27,6 +28,7 @@ const rootReducer: Reducer<RootState> = combineReducers({
   chat: chatReducer,
   notification: notificationReducer,
   project: projectReducer,
+  projectCompletion: projectCompletionSlice,
   snackBar: snackBarSlice,
   taskBoard: taskBoardSlice,
   ui: userReducer,
