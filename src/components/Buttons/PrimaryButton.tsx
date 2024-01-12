@@ -10,17 +10,7 @@ export const PrimaryButton = ({
 }: ButtonProps) => {
   return (
     <Button
-      sx={{
-        backgroundColor: '#FFA726',
-        color: '#1A237E',
-        '&:disabled': {
-          backgroundColor: '#FFE0B2',
-          color: '#C5CAE9',
-        },
-        marginLeft: '8px',
-        textTransform: 'none',
-        minWidth: '150px',
-      }}
+      sx={primaryButtonStyle}
       onClick={handler}
       variant='contained'
       disabled={disabled}
@@ -29,4 +19,17 @@ export const PrimaryButton = ({
       {paginatorBtn && <ArrowForwardIcon sx={{ marginLeft: '8px' }} />}
     </Button>
   )
+}
+
+const primaryButtonStyle = {
+  backgroundColor: '#FFA726',
+  color: '#1A237E',
+  '&:disabled': {
+    backgroundColor: '#FFE0B2',
+    color: '#C5CAE9',
+  },
+  fontWeight: '600',
+  marginLeft: '8px',
+  minWidth: '150px',
+  textTransform: 'none',
 }

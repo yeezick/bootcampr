@@ -72,14 +72,12 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
         <p>You can edit this later in the project portal calendar page.</p>
         <i>Select at least one day per week with a block of time.</i>
       </div>
-
       <Availability
         days={days}
         setDays={setDays}
         uxUserTimezone={uxUserTimezone}
         setUxUserTimezone={setUxUserTimezone}
       />
-
       <div className='setup-avail-buttons-wrapper'>
         <div className='setup-avail-buttons'>
           <SecondaryButton

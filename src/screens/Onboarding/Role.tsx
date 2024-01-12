@@ -3,8 +3,8 @@ import { updateUserProfile } from 'utils/api'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
-import { FiArrowRight } from 'react-icons/fi'
 import { useParams } from 'react-router-dom'
+import { PrimaryButton } from 'components/Buttons'
 
 export const Role = ({ handlePageNavigation }) => {
   const dispatch = useDispatch()
@@ -94,20 +94,12 @@ export const Role = ({ handlePageNavigation }) => {
             </label>
           </div>
           <div className='onboarding-button-section'>
-            <button
-              type='submit'
-              style={{
-                backgroundColor: buttonEnabled ? 'orange' : '#ffe0b2',
-                color: buttonEnabled ? '#1a237e' : '#c5cae9',
-                cursor: buttonEnabled ? 'pointer' : 'auto',
-              }}
+            <PrimaryButton
+              handler={handleSubmit}
+              text='Set availability'
+              paginatorBtn={true}
               disabled={!buttonEnabled}
-              onClick={handleSubmit}
-              className='onboarding-incomplete-btn'
-              id='set-availability'
-            >
-              <p>Set availability </p> <FiArrowRight className='arrow-icon' />
-            </button>
+            />
           </div>
         </div>
       </form>
