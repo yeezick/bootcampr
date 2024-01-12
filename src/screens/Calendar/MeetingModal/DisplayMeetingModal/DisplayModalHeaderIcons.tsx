@@ -9,7 +9,6 @@ import { deleteEvent } from 'utils/api/events'
 export const DisplayModalHeaderIcons = ({
   handleClose,
   setDisplayMeeting,
-  eventId,
   calendarId,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -34,7 +33,7 @@ export const DisplayModalHeaderIcons = ({
 
   const handleDelete = async e => {
     try {
-      await deleteEvent(calendarId, eventId)
+      // await deleteEvent(calendarId, eventId)
     } catch (error) {
       console.log(error)
     }

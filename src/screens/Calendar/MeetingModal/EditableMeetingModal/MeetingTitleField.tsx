@@ -20,11 +20,11 @@ export const MeetingTitleField = ({ handleFormInputChange, meetingText }) => {
 
 const titleInputFieldStyles = {
   marginBottom: '5px',
-
+  color: '#616161',
   width: '100%',
   '& .MuiInputBase-input': {
     fontSize: '28px',
-    color: '#616161',
+
     '&:focus': {},
   },
   '& .MuiInputLabel-asterisk': {

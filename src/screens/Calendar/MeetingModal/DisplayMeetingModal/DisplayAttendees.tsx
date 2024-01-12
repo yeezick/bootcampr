@@ -15,11 +15,12 @@ export const DisplayAttendees = () => {
       if (attendees.length) {
         const invitedMemberInfo = []
         for (const member of teamMembers) {
-          const { firstName, lastName, profilePicture } = member
+          const { firstName, lastName, profilePicture, role } = member
           invitedMemberInfo.push({
             firstName: firstName,
             profilePicture: profilePicture,
             lastName: lastName,
+            role: role,
           })
         }
         setInvitedMembers(invitedMemberInfo)
@@ -45,7 +46,10 @@ const InvitedMember = ({ member }) => {
   return (
     <div className='invited-member' key={`${memberName}`}>
       <img className='member-photo' src={member.profilePicture} />
-      <p>{memberName}</p>
+      <div className='member-info'>
+        <p>{memberName}</p>
+        <p className='role'>{member.role}</p>
+      </div>
     </div>
   )
 }

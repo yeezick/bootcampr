@@ -22,7 +22,7 @@ export const DisplayMeetingModal = () => {
     end: '',
     start: '',
   })
-  const { eventId } = useAppSelector(selectDisplayedEvent)
+  //const { eventId } = useAppSelector(selectDisplayedEvent)
   const calendarId = useAppSelector(selectCalendarId)
   const displayedEvent = useAppSelector(selectDisplayedEvent)
   const modalDisplayStatus = useAppSelector(selectModalDisplayStatus)
@@ -51,9 +51,9 @@ export const DisplayMeetingModal = () => {
         <DisplayModalHeaderIcons
           handleClose={handleClose}
           setDisplayMeeting={setDisplayMeeting}
-          eventId={eventId}
           calendarId={calendarId}
         />
+        {/*eventId={eventId}*/}
         <div className='display-modal-wrapper'>
           <DisplayTimeAndSummary
             displayedFields={displayedFields}
