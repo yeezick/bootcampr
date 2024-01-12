@@ -17,8 +17,15 @@ import {
 export const guessUserTimezone = () => {
   const userTZ = dayjs.tz.guess()
 
-  const utc = dayJSformattedTZdata[userTZ].utc
-  const userFriendlyTZ = utcToBootcamprTimezoneMap[utc]
+  if (dayJSformattedTZdata[userTZ]) {
+    const utc = dayJSformattedTZdata[userTZ].utc
+    const userFriendlyTZ = utcToBootcamprTimezoneMap[utc]
 
-  return { utc, userFriendlyTZ }
+    return {
+      utc,
+      userFriendlyTZ,
+    }
+  } else {
+    return undefined
+  }
 }

@@ -30,17 +30,6 @@ export const EditAvailability = () => {
   useEffect(() => {
     const userFriendlyTimezone = utcToBootcamprTimezoneMap[userTimezoneInUTC]
     setUxUserTimezone(userFriendlyTimezone)
-
-    // Placeholder to eventually handle when user's stored TZ does not match DayJS identified local TZ for user
-    const userTimezoneGuess = guessUserTimezone()
-
-    if (userTimezoneGuess.utc !== userTimezoneInUTC) {
-      console.log(
-        "User's stored timezone does not match detected local timezone"
-      )
-    } else {
-      console.log("User's stored timezone matches our local guess")
-    }
   }, [])
 
   return (

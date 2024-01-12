@@ -2,7 +2,12 @@ import { useState, useEffect } from 'react'
 import { Availability } from 'components/Availability/Availability'
 import { defaultAvailability } from 'utils/data/userConstants'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { getUserTimezone, selectAuthUser } from 'utils/redux/slices/userSlice'
+import {
+  getUserTimezone,
+  selectAuthUser,
+  selectUserAvailability,
+  setUserAvailability,
+} from 'utils/redux/slices/userSlice'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { AvailabilityInterface } from 'interfaces'
 import { saveAvailability } from 'components/Availability/utils/helpers'
@@ -42,7 +47,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
       userFriendlyTZ = utcToBootcamprTimezoneMap[storedUserTZinUTC]
     } else {
       const userTZguess = guessUserTimezone()
-      userFriendlyTZ = userTZguess.userFriendlyTZ
+      userFriendlyTZ = userTZguess ? userTZguess.userFriendlyTZ : Timezones.ET
     }
     setUxUserTimezone(userFriendlyTZ)
   }, [])
