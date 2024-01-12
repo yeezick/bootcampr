@@ -34,7 +34,7 @@ export const WhatsNext = ({ handlePageNavigation }) => {
             We love feedback. Please take{' '}
             <span>
               {' '}
-              <a href='https://forms.gle/AjQkB3tUkWXiJtcs9' target='_blank'>
+              <a href='https://forms.gle/vfdAQpNMv2tZBwBB6' target='_blank'>
                 {' '}
                 this short survey
               </a>
