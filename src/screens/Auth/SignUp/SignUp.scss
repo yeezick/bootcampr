@@ -2,11 +2,15 @@
 @import 'scss/mixins';
 
 .info {
-  @include alert-banners($alert-info-background, $alert-info-text-color);
+  @include alert-banners($alert-info-background, $alert-info-text-color, 780px);
 }
 
 .warning {
-  @include alert-banners($alert-warning-background, $alert-warning-text-color);
+  @include alert-banners(
+    $alert-warning-background,
+    $alert-warning-text-color,
+    780px
+  );
 
   p {
     font-size: 16px;
@@ -16,7 +20,11 @@
 }
 
 .success {
-  @include alert-banners($alert-success-background, $alert-success-text-color);
+  @include alert-banners(
+    $alert-success-background,
+    $alert-success-text-color,
+    780px
+  );
 }
 
 .signup-screen {

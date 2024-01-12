@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { NotInTeamProjectAlert } from './NotInTeamProjectAlert'
 import { Overview } from './Overview'
 import { ProjectTimeline } from './ProjectTimeline'
 import { Presentation } from './Presentation'
@@ -18,6 +19,7 @@ export const ProjectDetails = () => {
           <div className='pd-header'>
             <h1>Project Details</h1>
           </div>
+          <NotInTeamProjectAlert />
           <RenderTab tabs={tabData} />
         </div>
       </div>

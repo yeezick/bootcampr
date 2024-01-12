@@ -1,0 +1,57 @@
+.date-picker {
+  background: '#ECEBEB';
+  border: 'none';
+  font-size: '10px';
+
+  &.MuiOutlinedInput-notchedOutline {
+    border: 'none',
+  }
+}
+
+.clock-icon {
+  grid-area: clockIcon;
+  margin-top: 10px;
+}
+
+.fields-wrapper {
+  display: flex;
+  flex-direction: column;
+  grid-area: dateFields;
+  justify-content:center;
+}
+
+.time-fields {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+
+  .time-icon {
+    position: relative;
+    right: 17px;
+    width: 17px;
+  }
+
+  span {
+    padding: 0 5px;
+  }
+  .span-dash {
+    background-color: 'black';
+    font-size: large;
+    font-weight: 900;
+    height: 15px;
+    width: 8px;
+  }
+}
+
+.timezone-wrapper {
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+   p {
+    font-size: 14px;
+    margin-right: 19px;
+   }
+}

@@ -1,29 +1,19 @@
 .footer-container {
   align-items: center;
-  background-color: #353131;
-  bottom: 0;
-  color: #ffffff;
+  background: #5C6BC0;
+  border-radius: 0px;
   display: flex;
-  flex-direction: column;
-  height: fit-content;
-  padding: 20px 20px 0 20px;
-  position: relative;
-  row-gap: 20px;
-  z-index: 1;
-  &.userId {
-    padding: 20px 20px 0 272px;
-    position: static;
-  }
+  gap: 10px;
+  justify-content: center;
+  padding: 16px 32px;
 
-  a {
-    color: #ffffff;
-    font-size: 1vw;
-    font-weight: 700;
-    padding: 0 10px;
-    text-decoration: none;
-
-    &:hover {
-      color: #f29e34;
-    }
+  span {
+    color: #fff;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    text-align: center;
   }
 }
+

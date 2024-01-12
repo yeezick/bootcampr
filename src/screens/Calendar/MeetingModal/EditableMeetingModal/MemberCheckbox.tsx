@@ -1,6 +1,6 @@
 import { Checkbox, FormControlLabel } from '@mui/material'
 import { MeetingAvailability } from './MeetingAvailability'
-import './styles/MemberCheckbox.scss'
+import '../styles/MemberCheckbox.scss'
 
 export const MemberCheckbox = ({
   attendees,
