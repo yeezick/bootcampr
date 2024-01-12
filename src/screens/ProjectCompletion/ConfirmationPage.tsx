@@ -65,7 +65,7 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
   return (
     <div
       className='project-completion-confirmation-page'
-      aria-aria-labelledby='formHeader'
+      aria-labelledby='formHeader'
     >
       <form onSubmit={handleSubmit}>
         <section className='title'>

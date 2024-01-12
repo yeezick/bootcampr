@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { editProject } from 'utils/api'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch } from 'utils/redux/store'
@@ -10,78 +10,71 @@ import {
 import { Stack } from '@mui/material'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { DomainLink } from 'layout/DomainLink'
+import { ProjectUrl } from 'components/Inputs/ProjectUrl'
+import {
+  selectIsDisabled,
+  selectIsLoading,
+  selectProjectUrl,
+  setIsLoadingFalse,
+} from 'utils/redux/slices/projectCompletionSlice'
+import { CommentsDisabledOutlined } from '@mui/icons-material'
 
 export const UrlPage = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
-  const [inputChange, setInputChange] = useState('')
   const project = useSelector(selectProject)
-  const [isLoading, setIsLoading] = useState(false)
-  const [isDisabled, setIsDisabled] = useState(true)
+  const isLoading = useSelector(selectIsLoading)
+  const isDisabled = useSelector(selectIsDisabled)
+  const projectUrl = useSelector(selectProjectUrl)
   const dispatch: AppDispatch = useDispatch()
   const projectID = project._id
-
+  console.log(project)
   useEffect(() => {
-    setIsLoading(false)
+    dispatch(setIsLoadingFalse())
   }, [])
 
   //TODO: convert alerts to MUI toast to match Figma designs
 
   const handleSubmit = async e => {
     e.preventDefault()
-    if (isUrl(inputChange)) {
-      const isDuplicate = Object.entries(
-        project.completedInfo?.deployedUrl || {}
-      ).some(([userId, url]: [string, string]) => {
-        return userId === authUser._id && url === inputChange
-      })
+    // if (isUrl(projectUrl)) {
+    // TODO: does this check with/out https:// and www????
+    const isDuplicate = Object.entries(
+      project.completedInfo?.deployedUrl || {}
+    ).some(([userId, url]: [string, string]) => {
+      return userId === authUser._id && url === projectUrl
+    })
 
-      if (isDuplicate) {
-        alert('URL already exists in the list.')
-        return
-      }
-
-      const updatedProject = {
-        completedInfo: {
-          ...project.completedInfo,
-          deployedUrl: {
-            ...project.completedInfo?.deployedUrl,
-            [authUser._id]: inputChange,
-          },
-        },
-      }
-
-      try {
-        setIsLoading(true)
-        const response = await editProject(projectID, updatedProject)
-
-        if (response) {
-          dispatch(updateDeployedUrl(updatedProject.completedInfo.deployedUrl))
-          handlePageNavigation('next')
-          setIsLoading(false)
-        }
-      } catch (error) {
-        console.error('An error occurred while saving the URL.', error)
-        setIsLoading(false)
-      }
-    } else {
-      alert('Please enter a valid URL')
+    if (isDuplicate) {
+      alert('URL already exists in the list.')
+      return
     }
-  }
 
-  const handleInputChange = e => {
-    const inputValue = e.target.value.trim()
-    setInputChange(inputValue)
-    setIsDisabled(!isUrl(inputValue))
-  }
+    // const updatedProject = {
+    //   completedInfo: {
+    //     ...project.completedInfo,
+    //     deployedUrl: {
+    //       ...project.completedInfo?.deployedUrl,
+    //       [authUser._id]: projectUrl,
+    //     },
+    //   },
+    // }
 
-  const isUrl = string => {
-    const urlPattern = new RegExp(
-      '^(https?:\\/\\/)?' +
-        '(www\\.)?' +
-        '(([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}$',
-      'i'
-    )
-    return urlPattern.test(string)
+    // try {
+    //   setIsLoading(true)
+    //   const response = await editProject(projectID, updatedProject)
+
+    //   if (response) {
+    //     dispatch(updateDeployedUrl(updatedProject.completedInfo.deployedUrl))
+    //     handlePageNavigation('next')
+    //     setIsLoading(false)
+    //   }
+    // } catch (error) {
+    //   console.error('An error occurred while saving the URL.', error)
+    //   setIsLoading(false)
+    // }
+    // } else {
+    //   alert('Please enter a valid URL')
+    // }
   }
 
   return (
@@ -90,7 +83,8 @@ export const UrlPage = ({ handlePageNavigation }) => {
       <form onSubmit={handleSubmit}>
         <Stack className='form-content' spacing={'32px'}>
           <p>First, input the URL to your website.</p>
-          <label htmlFor='projectUrl'>
+          <ProjectUrl labelText='Project URL' />
+          {/* <label htmlFor='projectUrl'>
             <p>Project URL</p>
           </label>
           <input
@@ -98,7 +92,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
             onChange={handleInputChange}
             type='text'
             value={inputChange}
-          />
+          /> */}
           <Stack className='btn-container'>
             <SecondaryButton>
               <DomainLink
