@@ -5,7 +5,6 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
 import { FiArrowRight } from 'react-icons/fi'
 import { useParams } from 'react-router-dom'
-import { PrimaryButton } from 'components/Buttons'
 
 export const Role = ({ handlePageNavigation }) => {
   const dispatch = useDispatch()
@@ -40,7 +39,7 @@ export const Role = ({ handlePageNavigation }) => {
       setSelectedRole(role)
       setButtonEnabled(true)
     }
-  }, [])
+  }, [authUser])
 
   return (
     <div className='onboarding-incomplete-container'>
