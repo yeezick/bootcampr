@@ -22,6 +22,12 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
   const { displayNotification } = useNotification()
   const { firstName, lastName, bio, links } = updateUserForm
   const nestedLinks = Object.keys(updateUserForm.links)
+  const [errorStates, setErrorStates] = useState({
+    firstName: false,
+    lastName: false,
+    bio: false,
+    linkedinUrl: false,
+  })
 
   useEffect(() => {
     if (authUser) {
@@ -87,6 +93,13 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     )
   }
 
+  const checkErrorState = (name, value) => {
+    setErrorStates({
+      ...errorStates,
+      [name]: value.length === 0,
+    })
+  }
+
   return (
     <div className='setupProfile'>
       <div className='setupProfile__profile-header-cont'>
@@ -121,36 +134,64 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
               <input
                 type='text'
                 name='firstName'
-                className='setupProfile__profile-input'
+                className={`setupProfile__profile-input ${
+                  errorStates.firstName && 'error'
+                }`}
                 value={firstName}
                 onChange={handleInputChange}
+                onBlur={e => checkErrorState(e.target.name, e.target.value)}
                 required
               />
+              {errorStates.firstName && (
+                <h6 className='error'>First name is required.</h6>
+              )}
             </label>
             <label className='setupProfile__profile-label'>
               Last name
               <input
                 type='text'
                 name='lastName'
-                className='setupProfile__profile-input'
+                className={`setupProfile__profile-input ${
+                  errorStates.lastName && 'error'
+                }`}
                 value={lastName}
                 onChange={handleInputChange}
+                onBlur={e => checkErrorState(e.target.name, e.target.value)}
                 required
               />
+              {errorStates.lastName && (
+                <h6 className='error'>Last name is required.</h6>
+              )}
             </label>
             <label className='setupProfile__profile-label'>
               About me
               <TextareaAutosize
                 name='bio'
-                className='setupProfile__profile-textarea'
+                className={`setupProfile__profile-label ${
+                  errorStates.bio && 'error'
+                }`}
                 onChange={handleInputChange}
+                onBlur={e => checkErrorState(e.target.name, e.target.value)}
                 maxLength={500}
                 minRows={8}
                 placeholder={placeholder}
                 value={bio}
               />
-              <div className='setupProfile__profile-bioCharCount'>
-                {bioCharCount}/500 Character count
+              <div className='bio-undertext'>
+                <div>
+                  {errorStates.bio && (
+                    <h6 className='error'>Tell us something about yourself.</h6>
+                  )}
+                </div>
+                <div
+                  className={`setupProfile__profile-bioCharCount ${
+                    errorStates.bio && 'error'
+                  }`}
+                >
+                  <p className={`${errorStates.bio && 'error'}`}>
+                    {bioCharCount}/500
+                  </p>
+                </div>
               </div>
             </label>
             <label className='setupProfile__profile-label'>
@@ -158,11 +199,17 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
               <input
                 type='text'
                 name='linkedinUrl'
-                className='setupProfile__profile-input'
+                className={`setupProfile__profile-input ${
+                  errorStates.linkedinUrl && 'error'
+                }`}
                 onChange={handleInputChange}
+                onBlur={e => checkErrorState(e.target.name, e.target.value)}
                 placeholder='https://www.linkedin.com/in/name'
                 value={links.linkedinUrl}
               />
+              {errorStates.linkedinUrl && (
+                <h6 className='error'>LinkedIn profile is required.</h6>
+              )}
             </label>
             <label className='setupProfile__profile-label'>
               Portfolio

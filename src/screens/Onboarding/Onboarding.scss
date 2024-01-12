@@ -247,6 +247,15 @@
       )
     );
 
+    p {
+      margin: 0;
+      align-self: flex-end;
+    }
+
+    p.error {
+      color: #B71C1C;
+    }
+
     background-color: #fafafa;
     color: #313335;
     max-height: 22px;
@@ -404,6 +413,24 @@
       border: 1px solid #000;
       border-radius: 4px;
       margin: 8px 0 auto 0;
+    }
+
+    .error {
+      border-color: #B71C1C;
+    }
+
+    .bio-undertext {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    h6.error {
+      color: #B71C1C;
+      margin: 0 0 0 20px;
+      font-size: 14px;
+      font-weight: 400;
     }
 
     input {
