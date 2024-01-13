@@ -25,6 +25,7 @@ export const PresentationPage = ({ handlePageNavigation }) => {
       )
       return
     } else {
+      setIsDisabled(true)
       handlePageNavigation('next')
       window.scrollTo(0, 0)
     }
@@ -92,11 +93,6 @@ export const PresentationPage = ({ handlePageNavigation }) => {
     // }
   }
 
-  // const handleRadioChange = e => {
-  //   setSelectedRadio(e.target.value)
-  //   setIsDisabled(false)
-  // }
-
   const handleCancel = () => {
     handlePageNavigation('previous')
     window.scrollTo(0, 0)
@@ -162,7 +158,7 @@ export const PresentationPage = ({ handlePageNavigation }) => {
 
           <section className='participation-container'>
             <ParticipationRadio
-              labelText='Let us know if your team will be presenting'
+              labelText='Let us know if your team will be presenting.'
               setIsDisabled={setIsDisabled}
             />
             {/* <h2>Let us know if your team will be presenting.</h2>
@@ -172,8 +168,8 @@ export const PresentationPage = ({ handlePageNavigation }) => {
                   type='radio'
                   id='participate'
                   value='option1'
-                  checked={selectedRadio === 'option1'}
-                  onChange={handleRadioChange}
+                  // checked={selectedRadio === 'option1'}
+                  // onChange={handleRadioChange}
                 />
                 <label htmlFor='participate'>
                   <p>My team will participate</p>
@@ -184,8 +180,8 @@ export const PresentationPage = ({ handlePageNavigation }) => {
                   type='radio'
                   id='dontParticipate'
                   value='option2'
-                  checked={selectedRadio === 'option2'}
-                  onChange={handleRadioChange}
+                  // checked={selectedRadio === 'option2'}
+                  // onChange={handleRadioChange}
                 />
                 <label htmlFor='dontParticipate'>
                   <p>My team will not participate</p>

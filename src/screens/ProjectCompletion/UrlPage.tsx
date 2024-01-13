@@ -45,6 +45,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
     if (isDuplicate) {
       alert('URL already exists in the list.')
     } else {
+      setIsDisabled(true)
       handlePageNavigation('next')
       window.scrollTo(0, 0)
     }

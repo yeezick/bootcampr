@@ -1,7 +1,7 @@
 import {
   FormControl,
   FormControlLabel,
-  FormLabel,
+  FormHelperText,
   Radio,
   RadioGroup,
 } from '@mui/material'
@@ -22,30 +22,37 @@ export const ParticipationRadio = ({ labelText, setIsDisabled }) => {
     setIsDisabled(false)
   }
 
+  const radioStyles = {
+    color: 'black',
+    '&.Mui-checked': {
+      color: '#0d47a1',
+    },
+  }
+
   return (
     <FormControl>
-      <FormLabel id='participation'>
+      <label htmlFor='participationRadio'>
         <h2>{labelText}</h2>
-      </FormLabel>
+      </label>
       <RadioGroup
-        aria-labelledby='participation'
-        name='participation-radio-buttons-group'
+        id='participationRadio'
         value={participation}
         onChange={handleChange}
       >
         <FormControlLabel
           value='true'
-          control={<Radio />}
+          control={<Radio sx={radioStyles} />}
           label='My team will participate'
         />
         <FormControlLabel
           value='false'
-          control={<Radio />}
+          control={<Radio sx={radioStyles} />}
           label='My team will not participate'
         />
-        <p className='helper-text'>
+        <FormHelperText className='helper-text'>
+          {/* //TODO: refactor date to dynamic value */}
           *Please let us know by xx/xx if you plan to participate.
-        </p>
+        </FormHelperText>
       </RadioGroup>
     </FormControl>
   )

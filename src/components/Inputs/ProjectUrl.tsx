@@ -1,3 +1,4 @@
+import { FormControl } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import {
@@ -26,7 +27,7 @@ export const ProjectUrl = ({ labelText, setIsDisabled }) => {
   }
 
   return (
-    <>
+    <FormControl>
       <label htmlFor='projectUrl'>
         <p>{labelText}</p>
       </label>
@@ -36,6 +37,6 @@ export const ProjectUrl = ({ labelText, setIsDisabled }) => {
         type='text'
         value={projectUrl}
       />
-    </>
+    </FormControl>
   )
 }

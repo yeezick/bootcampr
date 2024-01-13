@@ -57,26 +57,12 @@
   }
 
   .participation-container {
-    h2 {
-      margin-bottom: 4px;
-    }
+    .MuiRadio-root {
+      padding-left: 15px;
 
-    .radio-btn-container {
-      @include flex(column);
-      gap: 8px;
-
-      .radio-btn {
-        @include flex(row, flex-start, center);
-        gap: 8px;
-        padding-left: 8px;
+      & .MuiSvgIcon-root {
+        font-size: 16px;
       }
-    }
-
-    p {
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 24px;
-      margin: 0;
     }
 
     .helper-text {
@@ -84,7 +70,7 @@
       font-size: 12px;
       font-weight: 400;
       line-height: 16px;
-      margin-left: 36px;
+      margin: -5px 0px 0px 30px;
     }
   }
 
