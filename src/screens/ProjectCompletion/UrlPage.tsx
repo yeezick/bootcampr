@@ -6,23 +6,23 @@ import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { DomainLink } from 'layout/DomainLink'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
 import {
-  selectIsDisabled,
   selectProjectUrl,
-  setIsDisabledTrue,
+  updateParticipation,
   updateProjectUrl,
 } from 'utils/redux/slices/projectCompletionSlice'
+import { useState } from 'react'
 
 export const UrlPage = ({ handlePageNavigation }) => {
   const project = useSelector(selectProject)
-  const isDisabled = useSelector(selectIsDisabled)
   const projectUrl = useSelector(selectProjectUrl)
+  const [isDisabled, setIsDisabled] = useState(projectUrl ? false : true)
   const dispatch: AppDispatch = useDispatch()
   const projectID = project._id
 
   //TODO: convert alerts to MUI toast to match Figma designs
 
   //TODO: In theory we don't need any uniqueness validation as there should only be one url per project and this can be stripped down to just navigation, leaving it for now.
-  const handleSubmit = async e => {
+  const handleSubmit = e => {
     e.preventDefault()
     if (isDisabled) {
       alert('Please enter a valid URL')
@@ -44,9 +44,9 @@ export const UrlPage = ({ handlePageNavigation }) => {
 
     if (isDuplicate) {
       alert('URL already exists in the list.')
-      dispatch(setIsDisabledTrue())
     } else {
       handlePageNavigation('next')
+      window.scrollTo(0, 0)
     }
 
     // const updatedProject = {
@@ -76,6 +76,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
 
   const handleCancel = () => {
     dispatch(updateProjectUrl(''))
+    dispatch(updateParticipation(null))
   }
 
   return (
@@ -84,7 +85,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
       <form onSubmit={handleSubmit}>
         <Stack className='form-content' spacing={'32px'}>
           <p>First, input the URL to your website.</p>
-          <ProjectUrl labelText='Project URL' />
+          <ProjectUrl labelText='Project URL' setIsDisabled={setIsDisabled} />
           <Stack className='btn-container'>
             <SecondaryButton handler={handleCancel}>
               <DomainLink

@@ -2,21 +2,17 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import {
   selectProjectUrl,
-  setIsDisabledFalse,
-  setIsDisabledTrue,
   updateProjectUrl,
 } from 'utils/redux/slices/projectCompletionSlice'
 
-export const ProjectUrl = ({ labelText }) => {
+export const ProjectUrl = ({ labelText, setIsDisabled }) => {
   const dispatch = useDispatch()
   const projectUrl = useSelector(selectProjectUrl)
 
   const handleUrlChange = e => {
     const inputValue = e.target.value.trim()
     dispatch(updateProjectUrl(inputValue))
-    isUrl(inputValue)
-      ? dispatch(setIsDisabledFalse())
-      : dispatch(setIsDisabledTrue())
+    isUrl(inputValue) ? setIsDisabled(false) : setIsDisabled(true)
   }
 
   const isUrl = string => {
