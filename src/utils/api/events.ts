@@ -24,7 +24,7 @@ export const updateEvent = async (calendarId: string, eventId, eventInfo) => {
 export const deleteEvent = async (calendarId: string, eventId) => {
   try {
     const res = await api.delete(
-      `/calendar/${calendarId}/fetchEvents/${eventId}`
+      `/calendar/${calendarId}/fetchEvent/${eventId}`
     )
     return res.data
   } catch (error) {

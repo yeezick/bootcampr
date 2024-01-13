@@ -245,12 +245,8 @@ export const EditableMeetingModal = () => {
             />
           </div>
         </DialogContent>
-        <DialogActions>
-          <Button
-            sx={{ backgroundColor: '#8048c8', textTransform: 'none' }}
-            type='submit'
-            variant='contained'
-          >
+        <DialogActions sx={buttonDivStyles}>
+          <Button sx={submitButtonStyles} type='submit' variant='contained'>
             {modalDisplayStatus === 'create' ? 'Send Invite' : 'SAVE'}
           </Button>
         </DialogActions>
@@ -259,13 +255,22 @@ export const EditableMeetingModal = () => {
   )
 }
 
-const titleInputFieldStyles = {
-  marginBottom: '32px',
-  width: '100%',
-  '& .MuiInputLabel-asterisk': {
-    color: 'orange',
+const submitButtonStyles = {
+  backgroundColor: '#fa9413',
+  borderRadius: '4px',
+  border: 'none',
+  color: '#1A237E',
+  cursor: 'pointer',
+  fontSize: '16px',
+  fontWeight: '500',
+  textTransform: 'none',
+  boxShadow: 'none',
+  '&:hover': {
+    backgroundColor: '#fa9413',
+    boxShadow: 'none',
   },
-  '& .MuiInput-underline': {
-    paddingTop: '17px',
-  },
+}
+
+const buttonDivStyles = {
+  padding: '20px',
 }

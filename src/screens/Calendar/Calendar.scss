@@ -1,16 +1,21 @@
+.main-content-container {
+  background-color: white;
+}
+
 .calendar {
   display: flex;
   flex-direction: column;
-  background-color: white;
 
   .calendar-header { 
     align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-left: 37px;
+    margin-left: 0px;
     padding: 20px;
     box-shadow: 0px 1px 3px 1px #1A237E26;
+    background-color: white;
+    
 
     .header-title {
       font-size: 32px;
@@ -21,7 +26,8 @@
   }
 
   .calendar-body {
-    margin: 0 115px 0 37px;
+    margin: 0 115px 0 0px;
     padding-top: 30px;
+    padding-left: 20px;
   }
 }

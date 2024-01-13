@@ -50,9 +50,10 @@ const calendarSlice = createSlice({
       state.modalDisplayStatus = 'display'
     },
 
-    deleteEvent: (state, action) => {
+    deleteExistingEvent: (state, action: PayloadAction<ConvertedEvent>) => {
       const { eventId } = action.payload
       state.convertedEvents.filter(event => event.eventId !== eventId)
+      delete state.eventMap[eventId]
     },
   },
 })
@@ -78,7 +79,7 @@ export const {
   setDisplayedEvent,
   storeConvertedEvents,
   setModalDisplayStatus,
-  deleteEvent,
+  deleteExistingEvent,
 } = calendarSlice.actions
 
 export default calendarSlice.reducer

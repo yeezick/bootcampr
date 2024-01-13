@@ -1,6 +1,9 @@
 import * as React from 'react'
 import { useAppDispatch } from 'utils/redux/hooks'
-import { setModalDisplayStatus } from 'utils/redux/slices/calendarSlice'
+import {
+  setModalDisplayStatus,
+  deleteExistingEvent,
+} from 'utils/redux/slices/calendarSlice'
 import { Close } from '@mui/icons-material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { DisplayPopover } from './DisplayPopover'
@@ -10,6 +13,7 @@ export const DisplayModalHeaderIcons = ({
   handleClose,
   setDisplayMeeting,
   calendarId,
+  eventId,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -33,12 +37,14 @@ export const DisplayModalHeaderIcons = ({
 
   const handleDelete = async e => {
     try {
-      // await deleteEvent(calendarId, eventId)
+      await deleteEvent(calendarId, eventId)
+      dispatch(deleteExistingEvent(eventId))
     } catch (error) {
       console.log(error)
     }
   }
 
+  console.log(calendarId)
   return (
     <div className='modal-icons'>
       <MoreVertIcon onClick={handleClick} />
