@@ -71,8 +71,8 @@ const RenderRoleMembers = (roleMembers, role, loggedInUserId) => {
     role === 'engineers'
       ? 'Software Engineers'
       : role === 'designers'
-        ? 'UX Designers'
-        : role
+      ? 'UX Designers'
+      : role
 
   const roleClassName =
     role === 'engineers' ? 'swe' : role === 'designers' ? 'uxd' : role
