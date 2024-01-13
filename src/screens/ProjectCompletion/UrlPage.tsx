@@ -1,11 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch } from 'utils/redux/store'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import {
-  selectProject,
-  updateDeployedUrl,
-} from 'utils/redux/slices/projectSlice'
+import { selectProject } from 'utils/redux/slices/projectSlice'
 import { Stack } from '@mui/material'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { DomainLink } from 'layout/DomainLink'
@@ -13,11 +9,11 @@ import { ProjectUrl } from 'components/Inputs/ProjectUrl'
 import {
   selectIsDisabled,
   selectProjectUrl,
+  setIsDisabledTrue,
   setIsLoadingFalse,
 } from 'utils/redux/slices/projectCompletionSlice'
 
 export const UrlPage = ({ handlePageNavigation }) => {
-  const authUser = useSelector(selectAuthUser)
   const project = useSelector(selectProject)
   const isDisabled = useSelector(selectIsDisabled)
   const projectUrl = useSelector(selectProjectUrl)
@@ -30,6 +26,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
 
   //TODO: convert alerts to MUI toast to match Figma designs
 
+  //TODO: In theory we don't need any uniqueness validation as there should only be one url per project and this can be stripped down to just navigation, leaving it for now.
   const handleSubmit = async e => {
     e.preventDefault()
 
@@ -37,25 +34,18 @@ export const UrlPage = ({ handlePageNavigation }) => {
       return url.replace(/^(https?:\/\/)?(www\.)?/, '')
     }
 
-    //TODO: do we need to check that the url is unique to a user or to a project?
-    // const isDuplicate = Object.entries(
-    //   project.completedInfo?.deployedUrl || {}
-    // ).some(([userId, url]: [string, string]) => {
-    //   return userId === authUser._id && url === projectUrl
-    // })
-
     const isDuplicate = Object.values(
       project.completedInfo?.deployedUrl || {}
-    ).some((url: string) => {
-      const normalizedUrl = normalizeUrl(url)
-      const normalizedProjectUrl = normalizeUrl(projectUrl)
+    ).some(url => {
+      const existingUrl = normalizeUrl(url)
+      const submittedUrl = normalizeUrl(projectUrl)
 
-      return normalizedUrl === normalizedProjectUrl
+      return existingUrl === submittedUrl
     })
 
     if (isDuplicate) {
       alert('URL already exists in the list.')
-      return
+      dispatch(setIsDisabledTrue())
     } else {
       handlePageNavigation('next')
     }
