@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import { editProject } from 'utils/api'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch } from 'utils/redux/store'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
@@ -13,21 +12,18 @@ import { DomainLink } from 'layout/DomainLink'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
 import {
   selectIsDisabled,
-  selectIsLoading,
   selectProjectUrl,
   setIsLoadingFalse,
 } from 'utils/redux/slices/projectCompletionSlice'
-import { CommentsDisabledOutlined } from '@mui/icons-material'
 
 export const UrlPage = ({ handlePageNavigation }) => {
   const authUser = useSelector(selectAuthUser)
   const project = useSelector(selectProject)
-  const isLoading = useSelector(selectIsLoading)
   const isDisabled = useSelector(selectIsDisabled)
   const projectUrl = useSelector(selectProjectUrl)
   const dispatch: AppDispatch = useDispatch()
   const projectID = project._id
-  console.log(project)
+
   useEffect(() => {
     dispatch(setIsLoadingFalse())
   }, [])
@@ -36,17 +32,32 @@ export const UrlPage = ({ handlePageNavigation }) => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    // if (isUrl(projectUrl)) {
-    // TODO: does this check with/out https:// and www????
-    const isDuplicate = Object.entries(
+
+    const normalizeUrl = url => {
+      return url.replace(/^(https?:\/\/)?(www\.)?/, '')
+    }
+
+    //TODO: do we need to check that the url is unique to a user or to a project?
+    // const isDuplicate = Object.entries(
+    //   project.completedInfo?.deployedUrl || {}
+    // ).some(([userId, url]: [string, string]) => {
+    //   return userId === authUser._id && url === projectUrl
+    // })
+
+    const isDuplicate = Object.values(
       project.completedInfo?.deployedUrl || {}
-    ).some(([userId, url]: [string, string]) => {
-      return userId === authUser._id && url === projectUrl
+    ).some((url: string) => {
+      const normalizedUrl = normalizeUrl(url)
+      const normalizedProjectUrl = normalizeUrl(projectUrl)
+
+      return normalizedUrl === normalizedProjectUrl
     })
 
     if (isDuplicate) {
       alert('URL already exists in the list.')
       return
+    } else {
+      handlePageNavigation('next')
     }
 
     // const updatedProject = {
@@ -72,9 +83,6 @@ export const UrlPage = ({ handlePageNavigation }) => {
     //   console.error('An error occurred while saving the URL.', error)
     //   setIsLoading(false)
     // }
-    // } else {
-    //   alert('Please enter a valid URL')
-    // }
   }
 
   return (
@@ -84,15 +92,6 @@ export const UrlPage = ({ handlePageNavigation }) => {
         <Stack className='form-content' spacing={'32px'}>
           <p>First, input the URL to your website.</p>
           <ProjectUrl labelText='Project URL' />
-          {/* <label htmlFor='projectUrl'>
-            <p>Project URL</p>
-          </label>
-          <input
-            id='projectUrl'
-            onChange={handleInputChange}
-            type='text'
-            value={inputChange}
-          /> */}
           <Stack className='btn-container'>
             <SecondaryButton>
               <DomainLink
@@ -104,11 +103,11 @@ export const UrlPage = ({ handlePageNavigation }) => {
               </DomainLink>
             </SecondaryButton>
             <PrimaryButton
-              isDisabled={isDisabled || isLoading}
+              isDisabled={isDisabled}
               paginatorBtn
               text='Presentation'
               type='submit'
-              aria-disabled={isDisabled || isLoading}
+              aria-disabled={isDisabled}
             />
           </Stack>
         </Stack>
