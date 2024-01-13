@@ -276,9 +276,7 @@ const submitButtonStyles = {
   },
 }
 
-const buttonDivStyles = {
-  padding: '20px',
-}
+
 
 const titleInputFieldStyles = {
   marginBottom: '5px',
@@ -309,4 +307,8 @@ const titleInputFieldStyles = {
   '&:after': {
     borderBottom: 'none',
   },
+}
+
+const buttonDivStyles = {
+  padding: '20px',
 }
