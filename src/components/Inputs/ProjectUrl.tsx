@@ -1,4 +1,5 @@
 import { FormControl } from '@mui/material'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import {
@@ -13,8 +14,11 @@ export const ProjectUrl = ({ setIsDisabled }) => {
   const handleUrlChange = e => {
     const inputValue = e.target.value.trim()
     dispatch(updateProjectUrl(inputValue))
-    isUrl(inputValue) ? setIsDisabled(false) : setIsDisabled(true)
   }
+
+  useEffect(() => {
+    isUrl(projectUrl) ? setIsDisabled(false) : setIsDisabled(true)
+  }, [projectUrl])
 
   const isUrl = string => {
     const urlPattern = new RegExp(
@@ -33,6 +37,7 @@ export const ProjectUrl = ({ setIsDisabled }) => {
       </label>
       <input
         id='projectUrl'
+        onBlur={handleUrlChange}
         onChange={handleUrlChange}
         type='text'
         value={projectUrl}

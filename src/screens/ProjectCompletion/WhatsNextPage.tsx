@@ -32,7 +32,7 @@ export const WhatsNextPage = () => {
   return (
     <div
       className='project-completion-whats-next-page'
-      aria-aria-labelledby='pageHeader'
+      aria-labelledby='pageHeader'
     >
       <h1 id='pageHeader'>Yay! You did it!</h1>
       <div className='content'>

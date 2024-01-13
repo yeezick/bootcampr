@@ -1,12 +1,19 @@
 import { useSelector } from 'react-redux'
-import { selectCompletedInfo } from 'utils/redux/slices/projectSlice'
+import {
+  selectCompletedInfo,
+  selectProject,
+} from 'utils/redux/slices/projectSlice'
 import { getGroupClassName, getRowBreak } from 'utils/functions/paginatorLogic'
 import { FiRepeat } from 'react-icons/fi'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Stack } from '@mui/material'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
+import {
+  selectParticipation,
+  selectProjectUrl,
+} from 'utils/redux/slices/projectCompletionSlice'
 
 export const ConfirmationPage = ({ handlePageNavigation }) => {
   const completedInfo = useSelector(selectCompletedInfo)
@@ -23,13 +30,31 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
   const deployedUrls = completedInfo.deployedUrl
   const latestUrlEntryIndex = Object.keys(deployedUrls).length - 1
   const latestUrl = deployedUrls[Object.keys(deployedUrls)[latestUrlEntryIndex]]
+  // ---------------------------------------------------------------
+  const projectUrl = useSelector(selectProjectUrl)
+  const participation = useSelector(selectParticipation)
 
-  const [isDisabled, setIsDisabled] = useState(true)
+  const [invalidUrl, setInvalidUrl] = useState(projectUrl ? false : true)
+  const [invalidRadio, setInvalidRadio] = useState(participation ? false : true)
+  const [isDisabled, setIsDisabled] = useState(
+    invalidUrl || invalidRadio ? true : false
+  )
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    setIsLoading(false)
+  }, [setIsLoading])
+
+  useEffect(() => {
+    setIsDisabled(invalidUrl || invalidRadio ? true : false)
+  }, [setIsDisabled, invalidUrl, invalidRadio])
 
   const handleSubmit = e => {
     e.preventDefault()
+
+    if (isDisabled) return
     handlePageNavigation('next')
+    window.scrollTo(0, 0)
   }
 
   const handleGoToSelectedPage = id => {
@@ -40,6 +65,7 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
 
   const handleCancel = () => {
     handlePageNavigation('previous')
+    window.scrollTo(0, 0)
   }
 
   return (
@@ -56,13 +82,13 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
         </section>
 
         <section className='url-container'>
-          <ProjectUrl setIsDisabled={setIsDisabled} />
+          <ProjectUrl setIsDisabled={setInvalidUrl} />
         </section>
 
         <section className='participation-container'>
           <ParticipationRadio
             labelText='Presentation'
-            setIsDisabled={setIsDisabled}
+            setIsDisabled={setInvalidRadio}
           />
         </section>
 
