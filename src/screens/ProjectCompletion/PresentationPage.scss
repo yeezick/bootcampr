@@ -56,24 +56,6 @@
     }
   }
 
-  .participation-container {
-    .MuiRadio-root {
-      padding-left: 15px;
-
-      & .MuiSvgIcon-root {
-        font-size: 16px;
-      }
-    }
-
-    .helper-text {
-      color: #616161;
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 16px;
-      margin: -5px 0px 0px 30px;
-    }
-  }
-
   .btn-container {
     flex-direction: row;
     justify-content: flex-end;

@@ -49,7 +49,7 @@ export const ParticipationRadio = ({ labelText, setIsDisabled }) => {
           control={<Radio sx={radioStyles} />}
           label='My team will not participate'
         />
-        <FormHelperText className='helper-text'>
+        <FormHelperText className='participation-helper-text'>
           {/* //TODO: refactor date to dynamic value */}
           *Please let us know by xx/xx if you plan to participate.
         </FormHelperText>

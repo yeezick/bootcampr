@@ -156,42 +156,10 @@ export const PresentationPage = ({ handlePageNavigation }) => {
             </ul>
           </section>
 
-          <section className='participation-container'>
-            <ParticipationRadio
-              labelText='Let us know if your team will be presenting.'
-              setIsDisabled={setIsDisabled}
-            />
-            {/* <h2>Let us know if your team will be presenting.</h2>
-            <div className='radio-btn-container'>
-              <div className='radio-btn'>
-                <input
-                  type='radio'
-                  id='participate'
-                  value='option1'
-                  // checked={selectedRadio === 'option1'}
-                  // onChange={handleRadioChange}
-                />
-                <label htmlFor='participate'>
-                  <p>My team will participate</p>
-                </label>
-              </div>
-              <div className='radio-btn'>
-                <input
-                  type='radio'
-                  id='dontParticipate'
-                  value='option2'
-                  // checked={selectedRadio === 'option2'}
-                  // onChange={handleRadioChange}
-                />
-                <label htmlFor='dontParticipate'>
-                  <p>My team will not participate</p>
-                </label>
-              </div>
-            </div>
-            <p className='helper-text'>
-              *Please let us know by xx/xx if you plan to participate.
-            </p> */}
-          </section>
+          <ParticipationRadio
+            labelText='Let us know if your team will be presenting.'
+            setIsDisabled={setIsDisabled}
+          />
 
           <Stack className='btn-container'>
             <SecondaryButton handler={handleCancel} text='URL' paginatorBtn />

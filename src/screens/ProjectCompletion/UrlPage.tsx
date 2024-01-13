@@ -86,7 +86,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
       <form onSubmit={handleSubmit}>
         <Stack className='form-content' spacing={'32px'}>
           <p>First, input the URL to your website.</p>
-          <ProjectUrl labelText='Project URL' setIsDisabled={setIsDisabled} />
+          <ProjectUrl setIsDisabled={setIsDisabled} />
           <Stack className='btn-container'>
             <SecondaryButton handler={handleCancel}>
               <DomainLink

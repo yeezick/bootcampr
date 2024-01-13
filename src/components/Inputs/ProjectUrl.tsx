@@ -6,7 +6,7 @@ import {
   updateProjectUrl,
 } from 'utils/redux/slices/projectCompletionSlice'
 
-export const ProjectUrl = ({ labelText, setIsDisabled }) => {
+export const ProjectUrl = ({ setIsDisabled }) => {
   const dispatch = useDispatch()
   const projectUrl = useSelector(selectProjectUrl)
 
@@ -27,9 +27,9 @@ export const ProjectUrl = ({ labelText, setIsDisabled }) => {
   }
 
   return (
-    <FormControl>
+    <FormControl className='url-input'>
       <label htmlFor='projectUrl'>
-        <p>{labelText}</p>
+        <p>Project Url</p>
       </label>
       <input
         id='projectUrl'
