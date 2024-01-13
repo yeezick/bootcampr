@@ -12,13 +12,16 @@ export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
       const earliestLogicalOptionIndex = timeOptions.findIndex(
         timeOption => timeOption === slot[0]
       )
-      const logicalEndOptions = timeOptions.slice(
-        earliestLogicalOptionIndex + 1,
-        timeOptions.length
-      )
+
+      const isLastOption = earliestLogicalOptionIndex === timeOptions.length - 1
+
+      const logicalEndOptions = isLastOption
+        ? [timeOptions[0]]
+        : timeOptions.slice(earliestLogicalOptionIndex + 1, timeOptions.length)
+
       setInputTimeOptions(logicalEndOptions)
     }
-  }, [days])
+  }, [days, isStart, slot, timeOptions])
 
   return (
     <Select
