@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch } from 'utils/redux/store'
 import { selectProject } from 'utils/redux/slices/projectSlice'
@@ -10,7 +9,7 @@ import {
   selectIsDisabled,
   selectProjectUrl,
   setIsDisabledTrue,
-  setIsLoadingFalse,
+  updateProjectUrl,
 } from 'utils/redux/slices/projectCompletionSlice'
 
 export const UrlPage = ({ handlePageNavigation }) => {
@@ -20,15 +19,15 @@ export const UrlPage = ({ handlePageNavigation }) => {
   const dispatch: AppDispatch = useDispatch()
   const projectID = project._id
 
-  useEffect(() => {
-    dispatch(setIsLoadingFalse())
-  }, [])
-
   //TODO: convert alerts to MUI toast to match Figma designs
 
   //TODO: In theory we don't need any uniqueness validation as there should only be one url per project and this can be stripped down to just navigation, leaving it for now.
   const handleSubmit = async e => {
     e.preventDefault()
+    if (isDisabled) {
+      alert('Please enter a valid URL')
+      return
+    }
 
     const normalizeUrl = url => {
       return url.replace(/^(https?:\/\/)?(www\.)?/, '')
@@ -75,6 +74,10 @@ export const UrlPage = ({ handlePageNavigation }) => {
     // }
   }
 
+  const handleCancel = () => {
+    dispatch(updateProjectUrl(''))
+  }
+
   return (
     <div className='project-completion-url-page' aria-labelledby='formHeading'>
       <h1 id='formHeading'>Congrats! You've shipped a live product!</h1>
@@ -83,7 +86,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
           <p>First, input the URL to your website.</p>
           <ProjectUrl labelText='Project URL' />
           <Stack className='btn-container'>
-            <SecondaryButton>
+            <SecondaryButton handler={handleCancel}>
               <DomainLink
                 className='cancel-btn'
                 route={`/project/${projectID}`}
