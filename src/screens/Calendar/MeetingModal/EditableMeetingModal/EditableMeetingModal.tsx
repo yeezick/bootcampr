@@ -42,7 +42,7 @@ import { MeetingTitleField } from './MeetingTitleField'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-export const EditableMeetingModal = () => {
+export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
   const [dateFields, setDateFields] = useState<DateFieldsInterface>(
     initialDateFields()
@@ -173,6 +173,7 @@ export const EditableMeetingModal = () => {
         const newEvent = await createEvent(calendarId, eventInfo)
         dispatch(addNewEvent(newEvent))
         handleClose()
+        handleOpenAlert()
       } catch (error) {
         console.error(
           `Error creating event for calendar (${calendarId}): `,

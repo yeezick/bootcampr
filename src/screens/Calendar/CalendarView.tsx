@@ -14,12 +14,14 @@ import {
 import { DisplayMeetingModal } from 'screens/Calendar/MeetingModal'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import './CalendarView.scss'
+import AlertNotification from './MeetingModal/EditableMeetingModal/AlertNotification'
 
 export const CalendarView = () => {
   const calendarId = useAppSelector(selectCalendarId)
   const convertedEventsAsArr = useAppSelector(selectConvertedEventsAsArr)
   const userEmail = useAppSelector(selectUserEmail)
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
+
   const dispatch = useAppDispatch()
 
   useEffect(() => {
