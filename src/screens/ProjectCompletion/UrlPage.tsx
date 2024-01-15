@@ -1,71 +1,75 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch } from 'utils/redux/store'
-import { selectProject } from 'utils/redux/slices/projectSlice'
+import {
+  selectProject,
+  updateDeployedUrl,
+} from 'utils/redux/slices/projectSlice'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { Stack } from '@mui/material'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { DomainLink } from 'layout/DomainLink'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
-import {
-  selectProjectUrl,
-  updateParticipation,
-  updateProjectUrl,
-} from 'utils/redux/slices/projectCompletionSlice'
 import { useState } from 'react'
 
 export const UrlPage = ({ handlePageNavigation }) => {
+  const authUser = useSelector(selectAuthUser)
   const project = useSelector(selectProject)
-  const projectUrl = useSelector(selectProjectUrl)
+  const projectID = project._id
+  const userID = authUser._id
+  const currentUrl =
+    Object.keys(project.completedInfo?.deployedUrl || {}).length > 0
+      ? project.completedInfo?.deployedUrl[userID] || ''
+      : ''
+
+  const [projectUrl, setProjectUrl] = useState(currentUrl)
   const [isDisabled, setIsDisabled] = useState(projectUrl ? false : true)
   const dispatch: AppDispatch = useDispatch()
-  const projectID = project._id
 
   //TODO: convert alerts to MUI toast to match Figma designs
 
-  //TODO: In theory we don't need any uniqueness validation as there should only be one url per project and this can be stripped down to just navigation, leaving it for now.
   const handleSubmit = e => {
     e.preventDefault()
+
     if (isDisabled) {
       alert('Please enter a valid URL')
       return
     }
 
-    const normalizeUrl = url => {
-      return url.replace(/^(https?:\/\/)?(www\.)?/, '')
-    }
+    //TODO: In theory we don't need any uniqueness validation as there should only be one url per project and this can be stripped down to redux update and navigation.
+    // const normalizeUrl = url => {
+    //   return url.replace(/^(https?:\/\/)?(www\.)?/, '')
+    // }
 
-    const isDuplicate = Object.values(
-      project.completedInfo?.deployedUrl || {}
-    ).some(url => {
-      const existingUrl = normalizeUrl(url)
-      const submittedUrl = normalizeUrl(projectUrl)
+    // const isDuplicate = Object.values(
+    //   project.completedInfo?.deployedUrl || {}
+    // ).some(url => {
+    //   const existingUrl = normalizeUrl(url)
+    //   const submittedUrl = normalizeUrl(projectUrl)
 
-      return existingUrl === submittedUrl
-    })
+    //   return existingUrl === submittedUrl
+    // })
 
-    if (isDuplicate) {
-      alert('URL already exists in the list.')
-    } else {
+    // if (isDuplicate) {
+    //   alert('URL already exists in the list.')
+    // }
+    else {
       setIsDisabled(true)
+      dispatch(
+        updateDeployedUrl({
+          [userID]: projectUrl,
+        })
+      )
       handlePageNavigation('next')
       window.scrollTo(0, 0)
     }
 
-    // const updatedProject = {
-    //   completedInfo: {
-    //     ...project.completedInfo,
-    //     deployedUrl: {
-    //       ...project.completedInfo?.deployedUrl,
-    //       [authUser._id]: projectUrl,
-    //     },
-    //   },
-    // }
-
+    //TODO: I changed the logic to rely on updating the regex through the main flow and only submitting the db update on the final submit
     // try {
     //   setIsLoading(true)
     //   const response = await editProject(projectID, updatedProject)
 
     //   if (response) {
-    //     dispatch(updateDeployedUrl(updatedProject.completedInfo.deployedUrl))
+    // dispatch(updateDeployedUrl(updatedProject.completedInfo.deployedUrl))
     //     handlePageNavigation('next')
     //     setIsLoading(false)
     //   }
@@ -76,8 +80,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
   }
 
   const handleCancel = () => {
-    dispatch(updateProjectUrl(''))
-    dispatch(updateParticipation(null))
+    dispatch(updateDeployedUrl({}))
   }
 
   return (
@@ -86,7 +89,11 @@ export const UrlPage = ({ handlePageNavigation }) => {
       <form onSubmit={handleSubmit}>
         <Stack className='form-content' spacing={'32px'}>
           <p>First, input the URL to your website.</p>
-          <ProjectUrl setIsDisabled={setIsDisabled} />
+          <ProjectUrl
+            setIsDisabled={setIsDisabled}
+            projectUrl={projectUrl}
+            setProjectUrl={setProjectUrl}
+          />
           <Stack className='btn-container'>
             <SecondaryButton handler={handleCancel}>
               <DomainLink

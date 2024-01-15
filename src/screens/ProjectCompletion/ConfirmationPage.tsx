@@ -31,9 +31,10 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
   const latestUrlEntryIndex = Object.keys(deployedUrls).length - 1
   const latestUrl = deployedUrls[Object.keys(deployedUrls)[latestUrlEntryIndex]]
   // ---------------------------------------------------------------
-  const projectUrl = useSelector(selectProjectUrl)
+  // const projectUrl = useSelector(selectProjectUrl)
   const participation = useSelector(selectParticipation)
-
+  const deployedUrl = completedInfo.deployedUrl
+  const [projectUrl, setProjectUrl] = useState(deployedUrl)
   const [invalidUrl, setInvalidUrl] = useState(projectUrl ? false : true)
   const [invalidRadio, setInvalidRadio] = useState(participation ? false : true)
   const [isDisabled, setIsDisabled] = useState(
@@ -82,7 +83,7 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
         </section>
 
         <section className='url-container'>
-          <ProjectUrl setIsDisabled={setInvalidUrl} />
+          {/* <ProjectUrl setIsDisabled={setInvalidUrl} projectUrl={projectUrl} /> */}
         </section>
 
         <section className='participation-container'>

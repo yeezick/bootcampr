@@ -1,19 +1,10 @@
 import { FormControl } from '@mui/material'
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
-import {
-  selectProjectUrl,
-  updateProjectUrl,
-} from 'utils/redux/slices/projectCompletionSlice'
 
-export const ProjectUrl = ({ setIsDisabled }) => {
-  const dispatch = useDispatch()
-  const projectUrl = useSelector(selectProjectUrl)
-
+export const ProjectUrl = ({ setIsDisabled, projectUrl, setProjectUrl }) => {
   const handleUrlChange = e => {
     const inputValue = e.target.value.trim()
-    dispatch(updateProjectUrl(inputValue))
+    setProjectUrl(inputValue)
   }
 
   useEffect(() => {
