@@ -22,13 +22,6 @@ export const ParticipationRadio = ({ labelText, setIsDisabled }) => {
     setIsDisabled(false)
   }
 
-  const radioStyles = {
-    color: 'black',
-    '&.Mui-checked': {
-      color: '#0d47a1',
-    },
-  }
-
   return (
     <FormControl>
       <label htmlFor='participationRadio'>
@@ -41,12 +34,12 @@ export const ParticipationRadio = ({ labelText, setIsDisabled }) => {
       >
         <FormControlLabel
           value='true'
-          control={<Radio sx={radioStyles} />}
+          control={<Radio className='participation-radio' />}
           label='My team will participate'
         />
         <FormControlLabel
           value='false'
-          control={<Radio sx={radioStyles} />}
+          control={<Radio className='participation-radio' />}
           label='My team will not participate'
         />
         <FormHelperText className='participation-helper-text'>

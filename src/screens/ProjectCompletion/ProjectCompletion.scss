@@ -119,11 +119,18 @@
     }
   }
 
-  .MuiRadio-root {
-    padding-left: 15px;
+  .participation-radio {
+    &.MuiRadio-root {
+      color: black;
+      padding-left: 15px;
 
-    & .MuiSvgIcon-root {
-      font-size: 16px;
+      &.Mui-checked {
+        color: #0d47a1;
+      }
+
+      .MuiSvgIcon-root {
+        font-size: 16px;
+      }
     }
   }
 
