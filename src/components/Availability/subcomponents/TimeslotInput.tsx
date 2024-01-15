@@ -60,10 +60,12 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
               days={days}
               setDays={setDays}
             />
-            <FaRegTrashAlt
-              className='react-icon'
-              onClick={() => deleteTimeSlot(day, days, setDays, idx)}
-            />
+            <div className='clickable-icon'>
+              <FaRegTrashAlt
+                className='react-icon'
+                onClick={() => deleteTimeSlot(day, days, setDays, idx)}
+              />
+            </div>
           </div>
           <div className='right-banner'>
             {days[day].availability.length - 1 === idx && (
@@ -83,13 +85,15 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
                   },
                 }}
               >
-                <AddRounded
-                  onClick={() => addTimeSlot(day, days, setDays, idx)}
-                  className='icon'
-                />
+                <div className='clickable-icon'>
+                  <AddRounded
+                    onClick={() => addTimeSlot(day, days, setDays, idx)}
+                    className='icon'
+                  />
+                </div>
               </Tooltip>
             )}
-            <div className='hover-icon'>
+            <div>
               {getDisplay(idx) && (
                 <CopyTimesModal
                   days={days}
@@ -116,10 +120,12 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
                   },
                 }}
               >
-                <ContentCopyOutlined
-                  onClick={e => handleRenderModal(e, idx)}
-                  className='icon'
-                />
+                <div className='clickable-icon'>
+                  <ContentCopyOutlined
+                    onClick={e => handleRenderModal(e, idx)}
+                    className='icon'
+                  />
+                </div>
               </Tooltip>
             </div>
           </div>

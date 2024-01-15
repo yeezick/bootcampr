@@ -82,11 +82,26 @@
         }
 
         .right-banner {
+            align-items: center;
             display: flex;
         }
 
         .right-banner > * {
             margin: 8px 5px 0 5px;
+        }
+
+        .clickable-icon {
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 45px;
+            margin: 0 3px;
+            width: 45px;
+        }
+
+        .clickable-icon:hover {
+            background-color: rgba(0,0,0,.08);
         }
 
         .timeslot-input {
