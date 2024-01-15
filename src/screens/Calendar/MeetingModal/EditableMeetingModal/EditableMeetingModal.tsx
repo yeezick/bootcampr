@@ -37,7 +37,6 @@ import {
 import '../styles/EditableMeetingModal.scss'
 import { MeetingModalHeaderIcons } from './MeetingModalHeaderIcons'
 import { GoogleMeetsToggler } from './GoogleMeetsToggler'
-import { MeetingTitleField } from './MeetingTitleField'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -198,10 +197,6 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
     }
   }
 
-  const handleFormInputChange = e => {
-    setMeetingText(e)
-  }
-
   return (
     <Dialog
       className='meeting-modal'
@@ -213,10 +208,19 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
         <DialogContent className='modal-dialog-content'>
           <MeetingModalHeaderIcons handleCloseMeetingModal={handleClose} />
           <div className='content-wrapper'>
-            <MeetingTitleField
-              handleFormInputChange={handleFormInputChange}
-              meetingText={meetingText}
-            />
+            <div className='title-field'>
+              <TextField
+                placeholder='Add Title'
+                name='summary'
+                InputLabelProps={{ className: 'title-input-label' }}
+                onChange={e => handleFormInputChange(e, setMeetingText)}
+                required
+                sx={titleInputFieldStyles}
+                value={meetingText.summary}
+                variant='standard'
+              />
+              <span className='required-span'>This field is required</span>
+            </div>
             <DateFields
               dateFields={dateFields}
               setDateFields={setDateFields}
@@ -274,4 +278,21 @@ const submitButtonStyles = {
 
 const buttonDivStyles = {
   padding: '20px',
+}
+
+const titleInputFieldStyles = {
+  marginBottom: '5px',
+  color: '#616161',
+  width: '100%',
+  '& .MuiInputBase-input': {
+    fontSize: '28px',
+
+    '&:focus': {},
+  },
+  '& .MuiInputLabel-asterisk': {
+    color: 'orange',
+  },
+  '& .MuiInput-underline': {
+    paddingTop: '17px',
+  },
 }

@@ -1,29 +1,24 @@
 import Button from '@mui/material/Button'
 
-export const DiscardChangesButtons = ({
-  handleClose,
-  handleCloseDiscardChanges,
-}) => {
+export const CancelMeetingButtons = ({ handleCloseModal }) => {
   return (
     <div className='discard-buttons-container'>
-      <Button onClick={handleClose} sx={cancelButtonStyles}>
+      <Button sx={cancelButtonStyles} onClick={handleCloseModal}>
         Cancel
       </Button>
-      <Button onClick={handleCloseDiscardChanges} sx={discardButtonStyles}>
-        Discard
-      </Button>
+      <Button sx={discardButtonStyles}>Cancel Meeting</Button>
     </div>
   )
 }
 
 const discardButtonStyles = {
-  backgroundColor: '#fa9413',
-  color: '#1A237E',
+  backgroundColor: '#D32F2F',
+  color: 'white',
   textTransform: 'none',
   padding: '8px 20px',
   fontWeight: '600',
   '&:hover': {
-    backgroundColor: '#fa9413',
+    backgroundColor: '#D32F2F',
   },
 }
 

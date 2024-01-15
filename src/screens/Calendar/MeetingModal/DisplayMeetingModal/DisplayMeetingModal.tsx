@@ -62,7 +62,6 @@ export const DisplayMeetingModal = () => {
           <DisplayAttendees />
           <DisplayMeetingLink />
           <DisplayDescription />
-          <p className='created-by'> Created by: {creator.email}</p>
         </div>
       </DialogContent>
     </Dialog>
