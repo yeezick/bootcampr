@@ -5,15 +5,9 @@ import { Stack } from '@mui/material'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { selectProject } from 'utils/redux/slices/projectSlice'
 
 export const PresentationPage = ({ handlePageNavigation }) => {
-  const project = useSelector(selectProject)
-  const presenting = project.completedInfo.presenting
-  const [isDisabled, setIsDisabled] = useState(
-    presenting === null ? true : false
-  )
+  const [isDisabled, setIsDisabled] = useState(true)
 
   //TODO: convert alerts to MUI toast to match Figma designs
 
@@ -162,7 +156,6 @@ export const PresentationPage = ({ handlePageNavigation }) => {
           <ParticipationRadio
             labelText='Let us know if your team will be presenting.'
             setIsDisabled={setIsDisabled}
-            presenting={presenting}
           />
 
           <Stack className='btn-container'>

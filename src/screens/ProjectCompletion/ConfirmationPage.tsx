@@ -1,23 +1,13 @@
 import { useSelector } from 'react-redux'
-import {
-  selectCompletedInfo,
-  selectProject,
-} from 'utils/redux/slices/projectSlice'
-import { getGroupClassName, getRowBreak } from 'utils/functions/paginatorLogic'
-import { FiRepeat } from 'react-icons/fi'
+import { selectCompletedInfo } from 'utils/redux/slices/projectSlice'
 import { useEffect, useState } from 'react'
 import { Stack } from '@mui/material'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
-import {
-  selectParticipation,
-  selectProjectUrl,
-} from 'utils/redux/slices/projectCompletionSlice'
 
 export const ConfirmationPage = ({ handlePageNavigation }) => {
-  const completedInfo = useSelector(selectCompletedInfo)
-  console.log({ completedInfo })
+  //TODO: None of this logic should be needed if we end up slimming completedInfo down as discussed. Leaving it for review/confirmation
   // const latestMemberIndex = completedInfo.participatingMembers.length - 1
   // const latestMember = completedInfo.participatingMembers[latestMemberIndex]
   // const latestDecision =
@@ -32,14 +22,13 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
   // const latestUrlEntryIndex = Object.keys(deployedUrls).length - 1
   // const latestUrl = deployedUrls[Object.keys(deployedUrls)[latestUrlEntryIndex]]
   // ---------------------------------------------------------------
-  // const projectUrl = useSelector(selectProjectUrl)
-  const participation = useSelector(selectParticipation)
+  const completedInfo = useSelector(selectCompletedInfo)
   const deployedUrl = completedInfo.deployedUrl
-  const [projectUrl, setProjectUrl] = useState(deployedUrl)
-  const [invalidUrl, setInvalidUrl] = useState(projectUrl ? false : true)
-  const [invalidRadio, setInvalidRadio] = useState(participation ? false : true)
+  const participation = completedInfo.presenting
+  const [isInvalidUrl, setIsInvalidUrl] = useState(!deployedUrl)
+  const [isInvalidRadio, setIsInvalidRadio] = useState(participation === null)
   const [isDisabled, setIsDisabled] = useState(
-    invalidUrl || invalidRadio ? true : false
+    isInvalidUrl || isInvalidRadio ? true : false
   )
   const [isLoading, setIsLoading] = useState(false)
 
@@ -48,8 +37,8 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
   }, [setIsLoading])
 
   useEffect(() => {
-    setIsDisabled(invalidUrl || invalidRadio ? true : false)
-  }, [setIsDisabled, invalidUrl, invalidRadio])
+    setIsDisabled(isInvalidUrl || isInvalidRadio ? true : false)
+  }, [setIsDisabled, isInvalidUrl, isInvalidRadio])
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -57,12 +46,6 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
     if (isDisabled) return
     handlePageNavigation('next')
     window.scrollTo(0, 0)
-  }
-
-  const handleGoToSelectedPage = id => {
-    return () => {
-      handlePageNavigation('specific', id)
-    }
   }
 
   const handleCancel = () => {
@@ -84,14 +67,14 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
         </section>
 
         <section className='url-container'>
-          {/* <ProjectUrl setIsDisabled={setInvalidUrl} projectUrl={projectUrl} /> */}
+          <ProjectUrl setIsDisabled={setIsInvalidUrl} />
         </section>
 
         <section className='participation-container'>
-          {/* <ParticipationRadio
+          <ParticipationRadio
             labelText='Presentation'
-            setIsDisabled={setInvalidRadio}
-          /> */}
+            setIsDisabled={setIsInvalidRadio}
+          />
         </section>
 
         <Stack className='btn-container'>

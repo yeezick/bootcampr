@@ -5,7 +5,6 @@ import {
   updateDeployedUrl,
   updatePresenting,
 } from 'utils/redux/slices/projectSlice'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { Stack } from '@mui/material'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { DomainLink } from 'layout/DomainLink'
@@ -13,16 +12,9 @@ import { ProjectUrl } from 'components/Inputs/ProjectUrl'
 import { useState } from 'react'
 
 export const UrlPage = ({ handlePageNavigation }) => {
-  const authUser = useSelector(selectAuthUser)
   const project = useSelector(selectProject)
   const projectID = project._id
-  const userID = authUser._id
-  const currentUrl =
-    Object.keys(project.completedInfo?.deployedUrl || {}).length > 0
-      ? project.completedInfo?.deployedUrl[userID] || ''
-      : ''
-
-  const [isDisabled, setIsDisabled] = useState(currentUrl ? false : true)
+  const [isDisabled, setIsDisabled] = useState(true)
   const dispatch: AppDispatch = useDispatch()
 
   //TODO: convert alerts to MUI toast to match Figma designs
@@ -85,11 +77,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
       <form onSubmit={handleSubmit}>
         <Stack className='form-content' spacing={'32px'}>
           <p>First, input the URL to your website.</p>
-          <ProjectUrl
-            setIsDisabled={setIsDisabled}
-            userID={userID}
-            currentUrl={currentUrl}
-          />
+          <ProjectUrl setIsDisabled={setIsDisabled} />
           <Stack className='btn-container'>
             <SecondaryButton handler={handleCancel}>
               <DomainLink

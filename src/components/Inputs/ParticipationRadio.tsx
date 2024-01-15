@@ -5,15 +5,17 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material'
+import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { updatePresenting } from 'utils/redux/slices/projectSlice'
+import {
+  selectCompletedInfo,
+  updatePresenting,
+} from 'utils/redux/slices/projectSlice'
 
-export const ParticipationRadio = ({
-  labelText,
-  setIsDisabled,
-  presenting,
-}) => {
+export const ParticipationRadio = ({ labelText, setIsDisabled }) => {
   const dispatch = useDispatch()
+  const completedInfo = useSelector(selectCompletedInfo)
+  const presenting = completedInfo.presenting
 
   const handleChange = e => {
     const participating = e.target.value
