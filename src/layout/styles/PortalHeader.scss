@@ -5,7 +5,7 @@
   @include flex(column);
   background: #fff;
   gap: 8px;
-  height: 72px;
+  height: $header-height;
   position: relative;
   width: 100%;
 

@@ -1,7 +1,9 @@
 .columns-wrapper {
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  height: calc(100% - 26px); // 26px by eyesight, can be better, parent div extends into footer?
+  gap: 32px;
+  height: 100%; 
   justify-content: space-between;
   padding: 33px 38px 0px 33px;
   overflow-x: scroll;
@@ -12,7 +14,6 @@
     display: flex;
     flex-direction: column;
     height: fit-content;
-    margin-right: 32px;
     min-width: 241px;
     padding: 8px;
 

@@ -1,6 +1,8 @@
+@import 'scss/variables';
+
 .main-wrapper {
   display: flex;
-  margin-top: 96px;
+  margin-top: $nav-height;
 }
 
 .main-content-container {
@@ -12,9 +14,17 @@
 
 .portal-layout {
     background-color: white;
-    min-height: calc(100vh - 250px);
-    padding-bottom: 5rem;
-    width: 100%;
+    height: calc(100vh - $nav-height);
+    overflow-y: scroll;
+    width: calc(100% - $sidemenu-width); 
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .portal-screen { 
+     height: calc(100% - $header-height);
+    }
 }
 
 .landing-main-content-container {
