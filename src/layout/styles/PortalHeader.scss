@@ -1,7 +1,7 @@
 @import 'scss/variables';
 @import 'scss/mixins';
 
-.portal-header-wrapper {
+.portal-header {
   @include flex(column);
   background: #fff;
   gap: 8px;
@@ -9,8 +9,8 @@
   position: relative;
   width: 100%;
 
-  .portal-header {
-    @include flex(revert, flex-start, center);
+  .body {
+    @include flex(row, normal,  center);
     background: #ffffff;
     box-shadow: 0px 1px 3px 1px rgba(26, 35, 126, 0.15),
     0px 1px 2px 0px rgba(26, 36, 126, 0.3);

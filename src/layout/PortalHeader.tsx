@@ -1,15 +1,19 @@
 import React from 'react'
 import './styles/PortalHeader.scss'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
+import { selectPortal } from 'utils/redux/slices/userInterfaceSlice'
+import { TicketFilter } from 'components/Kanban/TaskBoard/TicketFilter'
 
 export const PortalHeader = () => {
-  const { pageTitle } = useAppSelector(selectSideMenu)
-  return (
-    <div className='portal-header-wrapper'>
+  const { active, type, headerTitle } = useAppSelector(selectPortal)
+  if (active && type === 'project') {
+    return (
       <div className='portal-header'>
-        <h1>{pageTitle}</h1>
+        <div className='body'>
+          <h1>{headerTitle}</h1>
+          {headerTitle === 'Task Management' && <TicketFilter />}
+        </div>
       </div>
-    </div>
-  )
+    )
+  } else return null
 }

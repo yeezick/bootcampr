@@ -1,23 +1,14 @@
 import { Link } from 'react-router-dom'
-import { logOut } from 'utils/api/users'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import {
-  logoutAuthUser,
-  selectUserProjectId,
-} from 'utils/redux/slices/userSlice'
+import { selectUserProjectId } from 'utils/redux/slices/userSlice'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
-import { DomainLink } from 'layout/DomainLink'
-import { sideMenuIconMap } from 'utils/helpers'
+import { changePortalPage, sideMenuIconMap } from 'utils/helpers'
 import './SideMenu.scss'
 
 export const SideMenu = () => {
-  const { title } = useAppSelector(selectSideMenu)
+  const sideMenu = useAppSelector(selectSideMenu)
+  const { title } = sideMenu
   const projectId = useAppSelector(selectUserProjectId)
-  const dispatch = useAppDispatch()
-  const handleLogout = () => {
-    logOut()
-    dispatch(logoutAuthUser())
-  }
 
   return (
     <div className='sidemenu'>
@@ -50,17 +41,19 @@ const SideMenuLinks = () => {
 }
 
 const MenuLink = ({ linkDetails }) => {
-  const { domain, icon, label, route } = linkDetails
+  const { domain, icon, label, route, headerTitle } = linkDetails
   const LinkIcon = sideMenuIconMap[icon]
+  const dispatch = useAppDispatch()
+  const handlePortalLinkClick = () => changePortalPage(dispatch, headerTitle)
 
   return (
-    <DomainLink
+    <Link
       className='link'
-      domain={domain}
-      key={`${domain}-${route}`}
-      route={route}
+      key={`${domain}-${label}`}
+      to={route}
+      onClick={handlePortalLinkClick}
     >
       <LinkIcon /> {label}
-    </DomainLink>
+    </Link>
   )
 }

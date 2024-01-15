@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectProjectTracker } from 'utils/redux/slices/projectSlice'
 import { BoardColumns } from './BoardColumns/BoardColumns'
 import { NoTicketsCreated } from './NoTicketsCreated'
-import { BoardHeader } from './BoardHeader'
 import {
   setVisibleTickets,
   setInitialVisibleTickets,
@@ -44,7 +43,6 @@ export const TaskBoard = () => {
 
   return (
     <>
-      <BoardHeader />
       {ticketsExist ? <BoardColumns /> : <NoTicketsCreated />}
       <TicketDialog />
     </>

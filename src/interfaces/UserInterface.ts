@@ -35,7 +35,8 @@ export interface UserInterface {
   _id?: string
 }
 export interface UiInterface {
-  sideMenu: SideMenuInterface
+  portal: Portal
+  sideMenu: SideMenu
 }
 export interface SideMenuIconMapInterface {
   [key: string]: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
@@ -43,11 +44,21 @@ export interface SideMenuIconMapInterface {
   }
 }
 
-export interface SideMenuInterface {
+export interface BuildPortal {
+  portal: Portal
+  sideMenu: SideMenu
+}
+
+export interface Portal {
+  active: Boolean
+  headerTitle?: string
+  type?: 'project' | 'settings'
+}
+
+export interface SideMenu {
   active: boolean
   links: SideMenuLinkInterface[]
-  pageTitle: string
-  title: string
+  title?: 'Project Portal' | 'Settings'
 }
 
 export interface SideMenuLinkInterface {

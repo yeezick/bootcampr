@@ -16,7 +16,8 @@ import {
 import { ChatIconBadge } from 'components/ChatDialog/ChatIconBadge/ChatIconBadge'
 import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
 import './Nav.scss'
-import { DomainLink } from 'layout/DomainLink'
+import { buildPortal } from 'utils/helpers'
+import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
@@ -57,11 +58,14 @@ export const Nav = () => {
     dispatch(toggleChatClose())
   }, [dispatch, location])
 
+  const handlePortalLink = () => buildPortal(dispatch, 'project', projectId)
+  const handleNonPortalLink = () => dispatch(resetPortal())
+
   return (
     <nav>
       <div className='nav-container'>
         <div className='logo'>
-          <Link to='/'>
+          <Link to='/' onClick={handleNonPortalLink}>
             <img src={Logo} alt='logo' />
           </Link>
         </div>
@@ -69,18 +73,26 @@ export const Nav = () => {
       <div className='navbar-wrapper'>
         <div className='header-list'>
           {projectId && (
-            <DomainLink
+            <Link
               className='header-link'
-              route={`/project/${projectId}`}
-              domain={'project'}
+              to={`/project/${projectId}`}
+              onClick={handlePortalLink}
             >
               Project Portal
-            </DomainLink>
+            </Link>
           )}
-          <Link className='header-link' to='/how-to'>
+          <Link
+            className='header-link'
+            to='/how-to'
+            onClick={handleNonPortalLink}
+          >
             How Bootcamper works
           </Link>
-          <Link className='header-link' to='/about-us'>
+          <Link
+            className='header-link'
+            to='/about-us'
+            onClick={handleNonPortalLink}
+          >
             About us
           </Link>
         </div>

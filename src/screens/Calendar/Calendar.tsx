@@ -4,7 +4,6 @@ import 'components/Calendar/Calendar.scss'
 export const CalendarScreen = () => {
   return (
     <div className='calendar'>
-      <CalendarHeader />
       <CalendarTabs />
       <MeetingModal />
     </div>

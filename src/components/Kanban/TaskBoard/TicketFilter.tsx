@@ -4,9 +4,9 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectProjectTracker } from 'utils/redux/slices/projectSlice'
 import { setVisibleTickets } from 'utils/redux/slices/taskBoardSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import './styles/BoardHeaderStyles.scss'
+import './styles/TicketFilter.scss'
 
-export const BoardHeader = () => {
+export const TicketFilter = () => {
   const projectTracker = useAppSelector(selectProjectTracker)
   const { _id: userId } = useAppSelector(selectAuthUser)
   const [viewAllTasks, setViewAllTasks] = useState(true)
@@ -26,27 +26,24 @@ export const BoardHeader = () => {
   }
 
   return (
-    <div className='board-header'>
-      <h2>Kanban board</h2>
-      <div className='board-filter'>
-        <div className='filter-option'>
-          <Radio
-            className='filter-radio'
-            checked={viewAllTasks}
-            onChange={handleTaskFilterCheckbox}
-            name='view-all-tasks'
-          />
-          <p>All tasks</p>
-        </div>
-        <div className='filter-option'>
-          <Radio
-            checked={viewMyTasks}
-            className='filter-radio'
-            onChange={handleTaskFilterCheckbox}
-            name='view-my-tasks'
-          />
-          <p>My tasks</p>
-        </div>
+    <div className='ticket-filter'>
+      <div className='filter-option'>
+        <Radio
+          className='filter-radio'
+          checked={viewAllTasks}
+          onChange={handleTaskFilterCheckbox}
+          name='view-all-tasks'
+        />
+        <p>All tasks</p>
+      </div>
+      <div className='filter-option'>
+        <Radio
+          checked={viewMyTasks}
+          className='filter-radio'
+          onChange={handleTaskFilterCheckbox}
+          name='view-my-tasks'
+        />
+        <p>My tasks</p>
       </div>
     </div>
   )
