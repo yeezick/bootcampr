@@ -29,11 +29,14 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   const [uxUserTimezone, setUxUserTimezone] = useState(Timezones.ET)
   const [isDisabled, setIsDisabled] = useState(true)
 
-  const handleBack = () => handlePageNavigation('previous')
-  const handleSaveAvailability = async () => {
+  const storeAvailability = async () => {
     const userTZinUTC = bootcamprTimezoneToUTCMap[uxUserTimezone]
     await saveAvailability(dispatch, authUser._id, days, userTZinUTC)
-    handlePageNavigation('next')
+  }
+
+  const handleNavigationButtons = async (direction: 'previous' | 'next') => {
+    await storeAvailability()
+    handlePageNavigation(direction)
   }
 
   useEffect(() => {
@@ -81,12 +84,12 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
       <div className='setup-avail-buttons-wrapper'>
         <div className='setup-avail-buttons'>
           <SecondaryButton
-            handler={handleBack}
+            handler={() => handleNavigationButtons('previous')}
             text='Role'
             paginatorBtn={true}
           />
           <PrimaryButton
-            handler={handleSaveAvailability}
+            handler={() => handleNavigationButtons('next')}
             text='Set up profile'
             paginatorBtn={true}
             disabled={isDisabled}

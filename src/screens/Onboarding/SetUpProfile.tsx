@@ -11,23 +11,28 @@ import TextareaAutosize from 'react-textarea-autosize'
 import './Onboarding.scss'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 
-// TODO: Add Toasts also error handling Toasts as well
-
 export const SetUpProfile = ({ handlePageNavigation }) => {
-  const authUser = useSelector(selectAuthUser)
-  const [updateUserForm, setUpdateUserForm] = useState<UserInterface>(emptyUser)
-  const [bioCharCount, setBioCharCount] = useState(0)
   const params = useParams()
   const dispatch = useDispatch()
+  const authUser = useSelector(selectAuthUser)
   const { displayNotification } = useNotification()
-  const { firstName, lastName, bio, links } = updateUserForm
-  const nestedLinks = Object.keys(updateUserForm.links)
+
+  const [updateUserForm, setUpdateUserForm] = useState<UserInterface>(emptyUser)
+  const [bioCharCount, setBioCharCount] = useState(0)
   const [errorStates, setErrorStates] = useState({
     firstName: false,
     lastName: false,
     bio: false,
     linkedinUrl: false,
   })
+  const [isDisabled, setIsDisabled] = useState(true)
+
+  const { firstName, lastName, bio, links } = updateUserForm
+  const nestedLinks = Object.keys(updateUserForm.links)
+
+  let inputString =
+    "I'm from... I live in... I chose this career path because... My hobbies are... A fun fact about me is..."
+  const placeholder = inputString.replace(/\.\.\. /g, '...\n')
 
   useEffect(() => {
     if (authUser) {
@@ -35,14 +40,29 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
         return { ...currForm, ...authUser }
       })
     }
-
-    setBioCharCount(authUser.bio.length)
   }, [])
+
+  useEffect(() => {
+    const charCount =
+      authUser.bio && authUser.bio.length > 0 ? authUser.bio.length : 0
+    setBioCharCount(charCount)
+
+    const { firstName, lastName, bio, links } = updateUserForm
+    const validForm =
+      firstName.length > 0 &&
+      lastName.length > 0 &&
+      bio.length > 0 &&
+      links.linkedinUrl &&
+      links.linkedinUrl.length > 0
+
+    setIsDisabled(!validForm)
+  }, [updateUserForm])
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
+    checkErrorState(name, value)
 
     if (nestedLinks.includes(name)) {
       setUpdateUserForm(prevForm => ({
@@ -61,7 +81,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     }
   }
 
-  const handleProfileSetup = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleNavigationButtons = async (e, direction: 'previous' | 'next') => {
     e.preventDefault()
 
     try {
@@ -70,27 +90,10 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
       displayNotification({
         message: 'User profile successfully updated.',
       })
-      handlePageNavigation('next')
+      handlePageNavigation(direction)
     } catch (error) {
-      console.log('Error occured when trying to create User Profile', error)
+      console.error('Error occured when trying to create User Profile', error)
     }
-  }
-
-  const handleCancel = () => {
-    handlePageNavigation('previous')
-  }
-
-  let inputString =
-    "I'm from... I live in... I chose this career path because... My hobbies are... A fun fact about me is..."
-  const placeholder = inputString.replace(/\.\.\. /g, '...\n')
-
-  const disableButton = (): boolean => {
-    return !(
-      firstName.length > 0 &&
-      lastName.length > 0 &&
-      bio.length > 0 &&
-      links.linkedinUrl.length > 0
-    )
   }
 
   const checkErrorState = (name, value) => {
@@ -117,7 +120,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
       </div>
       <div className='setupProfile__profile-container'>
         <form
-          onSubmit={handleProfileSetup}
+          onSubmit={e => handlePageNavigation(e, 'next')}
           className='setupProfile__profile-form'
         >
           <div className='setupProfile__inputs-container'>
@@ -236,17 +239,16 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
           </div>
           <div className='setupProfile__profile-btns'>
             <div className='setupProfile__cta-container'>
-              {/* TODO: save info locally on back click? */}
               <SecondaryButton
                 text='Availability'
-                handler={handleCancel}
+                handler={e => handleNavigationButtons(e, 'previous')}
                 paginatorBtn={true}
               />
               <PrimaryButton
                 text='Save profile'
-                handler={handleProfileSetup}
+                handler={e => handleNavigationButtons(e, 'next')}
                 paginatorBtn={true}
-                disabled={disableButton()}
+                disabled={isDisabled}
               />
             </div>
           </div>

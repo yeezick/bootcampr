@@ -4,8 +4,55 @@ import { Role } from './Role'
 import { WhatsNext } from './WhatsNext'
 import './Onboarding.scss'
 import { SetupAvailability } from './SetupAvailability'
+import { useEffect } from 'react'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { useAppSelector } from 'utils/redux/hooks'
+import { useNavigate } from 'react-router-dom'
 
 export const Onboarding = () => {
+  const authUser = useAppSelector(selectAuthUser)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const hasSetAvailability = checkIfSetAvailability()
+    const hasSetProfileInfo = checkIfSetProfileInfo()
+
+    if (authUser.role && hasSetAvailability && hasSetProfileInfo) {
+      navigate(`/project/${authUser.project}`)
+    } else if (authUser.role && hasSetAvailability) {
+      navigate(`/onboarding/${authUser._id}?pageId=setUpProfile`)
+    } else if (authUser.role) {
+      navigate(`/onboarding/${authUser._id}?pageId=availability`)
+    }
+  }, [])
+
+  const checkIfSetAvailability = () => {
+    let hasSet = false
+    const { availability } = authUser
+
+    Object.keys(availability).forEach(day => {
+      if (availability[day].available) {
+        hasSet = true
+      }
+    })
+
+    return hasSet
+  }
+
+  const checkIfSetProfileInfo = () => {
+    const { firstName, lastName, bio, links } = authUser
+
+    return (
+      firstName.length > 0 &&
+      lastName.length > 0 &&
+      bio &&
+      bio.length > 0 &&
+      links &&
+      links.linkedinUrl &&
+      links.linkedinUrl.length > 0
+    )
+  }
+
   const orderedPages = [
     {
       component: Role,
