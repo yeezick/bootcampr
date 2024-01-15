@@ -17,19 +17,19 @@ import {
 
 export const ConfirmationPage = ({ handlePageNavigation }) => {
   const completedInfo = useSelector(selectCompletedInfo)
-  const latestMemberIndex = completedInfo.participatingMembers.length - 1
-  const latestMember = completedInfo.participatingMembers[latestMemberIndex]
-  const latestDecision =
-    latestMember?.decision === 'Participate'
-      ? 'Participate'
-      : 'Not Participating'
-  const shouldDisplayMember = latestMember?.decision === 'Participate'
-  const participatingMembers = completedInfo.participatingMembers.filter(
-    member => member.decision === 'Participate'
-  )
-  const deployedUrls = completedInfo.deployedUrl
-  const latestUrlEntryIndex = Object.keys(deployedUrls).length - 1
-  const latestUrl = deployedUrls[Object.keys(deployedUrls)[latestUrlEntryIndex]]
+  // const latestMemberIndex = completedInfo.participatingMembers.length - 1
+  // const latestMember = completedInfo.participatingMembers[latestMemberIndex]
+  // const latestDecision =
+  //   latestMember?.decision === 'Participate'
+  //     ? 'Participate'
+  //     : 'Not Participating'
+  // const shouldDisplayMember = latestMember?.decision === 'Participate'
+  // const participatingMembers = completedInfo.participatingMembers.filter(
+  //   member => member.decision === 'Participate'
+  // )
+  // const deployedUrls = completedInfo.deployedUrl
+  // const latestUrlEntryIndex = Object.keys(deployedUrls).length - 1
+  // const latestUrl = deployedUrls[Object.keys(deployedUrls)[latestUrlEntryIndex]]
   // ---------------------------------------------------------------
   // const projectUrl = useSelector(selectProjectUrl)
   const participation = useSelector(selectParticipation)
@@ -87,10 +87,10 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
         </section>
 
         <section className='participation-container'>
-          <ParticipationRadio
+          {/* <ParticipationRadio
             labelText='Presentation'
             setIsDisabled={setInvalidRadio}
-          />
+          /> */}
         </section>
 
         <Stack className='btn-container'>

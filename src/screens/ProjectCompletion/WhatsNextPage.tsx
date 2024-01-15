@@ -25,9 +25,10 @@ export const WhatsNextPage = () => {
     navigate(`/project/${projectID}`)
   }
 
-  const latestMemberIndex = completedInfo.participatingMembers.length - 1
-  const latestMember = completedInfo.participatingMembers[latestMemberIndex]
-  const userParticipating = latestMember?.decision === 'Participate'
+  // const latestMemberIndex = completedInfo.participatingMembers.length - 1
+  // const latestMember = completedInfo.participatingMembers[latestMemberIndex]
+  // const userParticipating = latestMember?.decision === 'Participate'
+  const teamPresenting = completedInfo.presenting
 
   return (
     <div
@@ -38,7 +39,7 @@ export const WhatsNextPage = () => {
       <div className='content'>
         <section>
           <h2>What's next?</h2>
-          {userParticipating ? (
+          {teamPresenting ? (
             <p>
               We’ll send all team members a meeting link for the presentation
               day. Your team can present in any way or format, so be creative!

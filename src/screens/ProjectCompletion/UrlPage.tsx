@@ -3,6 +3,7 @@ import { AppDispatch } from 'utils/redux/store'
 import {
   selectProject,
   updateDeployedUrl,
+  updatePresenting,
 } from 'utils/redux/slices/projectSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { Stack } from '@mui/material'
@@ -63,7 +64,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
       window.scrollTo(0, 0)
     }
 
-    //TODO: I changed the logic to rely on updating the regex through the main flow and only submitting the db update on the final submit
+    //TODO: I changed the logic to rely on updating the redux through the main flow and only submitting the db update on the final submit
     // try {
     //   setIsLoading(true)
     //   const response = await editProject(projectID, updatedProject)
@@ -81,6 +82,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
 
   const handleCancel = () => {
     dispatch(updateDeployedUrl({}))
+    dispatch(updatePresenting(null))
   }
 
   return (

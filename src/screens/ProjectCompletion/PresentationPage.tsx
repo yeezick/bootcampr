@@ -6,12 +6,20 @@ import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { selectParticipation } from 'utils/redux/slices/projectCompletionSlice'
+import {
+  selectProject,
+  updatePresenting,
+} from 'utils/redux/slices/projectSlice'
+import { AppDispatch } from 'utils/redux/store'
+import { useDispatch } from 'react-redux'
 
 export const PresentationPage = ({ handlePageNavigation }) => {
-  const participation = useSelector(selectParticipation)
+  const dispatch: AppDispatch = useDispatch()
+  const project = useSelector(selectProject)
+  const presenting = project.completedInfo.presenting
+  const [isPresenting, setIsPresenting] = useState(presenting)
   const [isDisabled, setIsDisabled] = useState(
-    participation === null ? true : false
+    presenting === null ? true : false
   )
 
   //TODO: convert alerts to MUI toast to match Figma designs
@@ -21,14 +29,17 @@ export const PresentationPage = ({ handlePageNavigation }) => {
 
     if (isDisabled) {
       alert(
-        `Please select "Participate" or select "Don't participate" before submitting.`
+        `Please indicate whether or not your team will be presenting before submitting.`
       )
       return
     } else {
       setIsDisabled(true)
+      dispatch(updatePresenting(isPresenting))
       handlePageNavigation('next')
       window.scrollTo(0, 0)
     }
+
+    //TODO: I changed the logic to rely on updating the redux through the main flow and only submitting the db update on the final submit
     // if (!isDisabled) {
     //   try {
     //     setIsLoading(true)
@@ -159,6 +170,8 @@ export const PresentationPage = ({ handlePageNavigation }) => {
           <ParticipationRadio
             labelText='Let us know if your team will be presenting.'
             setIsDisabled={setIsDisabled}
+            isPresenting={isPresenting}
+            setIsPresenting={setIsPresenting}
           />
 
           <Stack className='btn-container'>

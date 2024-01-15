@@ -29,7 +29,8 @@ export interface ProjectInterface {
   problem: string
   projectTracker?: ProjectTrackerInterface
   completedInfo?: {
-    participatingMembers?: { user: ProjectMemberInterface; decision: string }[]
+    // participatingMembers?: { user: ProjectMemberInterface; decision: string }[]
+    presenting?: boolean
     deployedUrl?: {
       [key: string]: string
     }
