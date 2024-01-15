@@ -18,6 +18,7 @@ import {
   copyTimes,
 } from '../utils/helpers'
 import { weekdaysMap } from '../utils/data'
+import { PrimaryButton } from 'components/Buttons'
 
 export const TimeSlotInput = ({ day, days, setDays }) => {
   const dispatch = useDispatch()
@@ -145,15 +146,16 @@ export const CopyTimesModal = ({
 }) => {
   const timeString = `${days[day].availability[idx][0]} - ${days[day].availability[idx][1]}`
   const [checked, setChecked] = useState({
-    EVRY: false,
-    SUN: false,
-    MON: false,
-    TUE: false,
-    WED: false,
-    THU: false,
-    FRI: false,
-    SAT: false,
+    Everyday: false,
+    Sunday: false,
+    Monday: false,
+    Tuesday: false,
+    Wednesday: false,
+    Thursday: false,
+    Friday: false,
+    Saturday: false,
   })
+  const [isDisabled, setIsDisabled] = useState(true)
 
   const weekdayNames = [
     'Sunday',
@@ -188,6 +190,30 @@ export const CopyTimesModal = ({
     }
   }, [])
 
+  useEffect(() => {
+    const {
+      Everyday,
+      Sunday,
+      Monday,
+      Tuesday,
+      Wednesday,
+      Thursday,
+      Friday,
+      Saturday,
+    } = checked
+    const validSelection =
+      Everyday ||
+      Sunday ||
+      Monday ||
+      Tuesday ||
+      Wednesday ||
+      Thursday ||
+      Friday ||
+      Saturday
+
+    setIsDisabled(!validSelection)
+  }, [checked])
+
   return (
     <div className='copy-times-modal' ref={modalEl}>
       <p className='copy-times-text'>
@@ -208,13 +234,11 @@ export const CopyTimesModal = ({
               selectedDay={day}
               checked={checked}
               setChecked={setChecked}
+              key={weekdayName}
             />
           )
       )}
-      {/* TODO: swap for component button */}
-      <button className='apply' onClick={handleApply}>
-        Apply
-      </button>
+      <PrimaryButton handler={handleApply} text='Apply' disabled={isDisabled} />
     </div>
   )
 }
@@ -225,24 +249,24 @@ const CopyTimesOption = ({ day, selectedDay, checked, setChecked }) => {
 
   const handleChange = e => {
     if (day === 'Everyday') {
-      const toggle = !checked.EVRY
+      const toggle = !checked.Everyday
       setChecked({
         ...{
-          EVRY: toggle,
-          SUN: toggle,
-          MON: toggle,
-          TUE: toggle,
-          WED: toggle,
-          THU: toggle,
-          FRI: toggle,
-          SAT: toggle,
+          Everyday: toggle,
+          Sunday: toggle,
+          Monday: toggle,
+          Tuesday: toggle,
+          Wednesday: toggle,
+          Thursday: toggle,
+          Friday: toggle,
+          Saturday: toggle,
           [selectedDay]: false,
         },
       })
     } else {
       setChecked({
         ...checked,
-        [day.slice(0, 3)]: !checked[day.slice(0, 3)],
+        [day]: !checked[day],
       })
     }
   }
