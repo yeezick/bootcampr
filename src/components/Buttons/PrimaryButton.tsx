@@ -1,21 +1,31 @@
 import { Button } from '@mui/material'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import { ButtonProps } from 'interfaces/components'
+import { CommonButton, ConditionalButtonProps } from 'interfaces/components'
+import { fetchIcon } from 'utils/components/Icons'
 
-export const PrimaryButton = ({ handler, paginatorBtn, text }: ButtonProps) => {
+export const PrimaryButton = ({
+  handler,
+  startIcon,
+  endIcon,
+  text,
+}: CommonButton) => {
+  const conditionalProps: ConditionalButtonProps = {}
+  if (startIcon) conditionalProps.startIcon = fetchIcon(startIcon)
+  if (endIcon) conditionalProps.endIcon = fetchIcon(endIcon)
+
   return (
     <Button
       sx={{
         backgroundColor: '#FFA726',
         color: '#1A237E',
+        height: '40px',
         marginLeft: '8px',
         textTransform: 'none',
       }}
       onClick={handler}
       variant='contained'
+      {...conditionalProps}
     >
       {text}
-      {paginatorBtn && <ArrowForwardIcon sx={{ marginLeft: '8px' }} />}
     </Button>
   )
 }

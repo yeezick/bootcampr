@@ -12,22 +12,11 @@
   width: 100%;
 }
 
-.AllTicketsDragDropNoTicket {
-  display: flex;
-  gap: 10px;
-  height: 10rem;
-  justify-content: space-between;
-  width: 100%;
-}
 
 .ticketStatusContainer {
   display: flex;
   flex-direction: column;
   width: 20%;
-}
-
-.content {
-  min-height: 10rem;
 }
 
 .textFieldStyle {
@@ -320,24 +309,4 @@
   font-weight: 600;
   margin: 0;
   padding: 13px 23px;
-}
-
-.ifTheresNoTicket {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  img {
-    width: 50%;
-  }
-
-  .ifTheresNoTicketImageContainer {
-    display: flex;
-    justify-content: center;
-  }
-
-  .textBox {
-    font-size: 20px;
-    text-align: center;
-    width: 50%;
-  }
 }

@@ -1,14 +1,20 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectUserProjectId } from 'utils/redux/slices/userSlice'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
-import { changePortalPage, sideMenuIconMap } from 'utils/helpers'
+import { changePortalPage } from 'utils/helpers'
 import './SideMenu.scss'
+import { iconMap } from 'utils/components/Icons'
+import { PrimaryButton } from 'components/Buttons'
 
 export const SideMenu = () => {
   const sideMenu = useAppSelector(selectSideMenu)
   const { title } = sideMenu
   const projectId = useAppSelector(selectUserProjectId)
+  const navigate = useNavigate()
+
+  const handleProjectCompletion = () =>
+    navigate(`/project/${projectId}/complete`)
 
   return (
     <div className='sidemenu'>
@@ -17,12 +23,10 @@ export const SideMenu = () => {
           <h2>{title}</h2>
         </div>
         <SideMenuLinks />
-        <Link
-          className='project-completion-link'
-          to={`/project/${projectId}/complete`}
-        >
-          <button className='completion-overflow-btn'>Submit Project</button>
-        </Link>
+        <PrimaryButton
+          handler={handleProjectCompletion}
+          text='Submit Project'
+        />
       </div>
     </div>
   )
@@ -42,7 +46,7 @@ const SideMenuLinks = () => {
 
 const MenuLink = ({ linkDetails }) => {
   const { domain, icon, label, route, headerTitle } = linkDetails
-  const LinkIcon = sideMenuIconMap[icon]
+  const LinkIcon = iconMap[icon]
   const dispatch = useAppDispatch()
   const handlePortalLinkClick = () => changePortalPage(dispatch, headerTitle)
 

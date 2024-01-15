@@ -14,7 +14,6 @@ import { TicketDialog } from '../TicketDialog/TicketDialog'
 export const TaskBoard = () => {
   const projectTracker = useAppSelector(selectProjectTracker)
   const userId = useAppSelector(selectUserId)
-  const [ticketsExist, setTicketsExist] = useState(false)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -22,16 +21,6 @@ export const TaskBoard = () => {
   }, [])
 
   useEffect(() => {
-    const doTicketsExist = () => {
-      const oneTicketExists = Object.keys(projectTracker).some(
-        status => projectTracker[status]?.length > 0
-      )
-
-      setTicketsExist(oneTicketExists)
-      return oneTicketExists
-    }
-    doTicketsExist()
-
     dispatch(
       setVisibleTickets({
         projectTracker,
@@ -43,7 +32,8 @@ export const TaskBoard = () => {
 
   return (
     <>
-      {ticketsExist ? <BoardColumns /> : <NoTicketsCreated />}
+      <BoardColumns />
+      <NoTicketsCreated />
       <TicketDialog />
     </>
   )

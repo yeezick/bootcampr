@@ -16,23 +16,9 @@
   height: calc(100vh - $nav-height);
   padding: 32px 16px;
   transition: 0.3s ease-in-out;
-  width: 272px;
+  width: $sidemenu-width;
 
-  .completion-overflow-btn {
-    align-self: center;
-    background-color: #fa9413;
-    border-radius: 4px;
-    border: none;
-    color: #313335;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    height: 51px;
-    line-height: 22px;
-    width: 216px;
-  }
-  .project-completion-link {
-    align-self: center;
+  button {
     margin-top: auto;
   }
 

@@ -1,17 +1,5 @@
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined'
-import ChecklistOutlinedIcon from '@mui/icons-material/ChecklistOutlined'
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
-import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit'
-import {
-  DomainStrings,
-  Portal,
-  SideMenu,
-  SideMenuIconMapInterface,
-} from 'interfaces'
+import { DomainStrings, Portal, SideMenu } from 'interfaces'
 import { Dispatch } from 'react'
 import { NavigateFunction } from 'react-router-dom'
 import {
@@ -189,13 +177,3 @@ export const navigateToDomain = (
   route: string,
   domain: DomainStrings
 ) => navigate(route, { state: { domain } })
-
-export const sideMenuIconMap: SideMenuIconMapInterface = {
-  account: AccountCircleOutlinedIcon,
-  calendar: CalendarTodayOutlinedIcon,
-  description: DescriptionOutlinedIcon,
-  email: EmailOutlinedIcon,
-  group: GroupsOutlinedIcon,
-  lock: LockOutlinedIcon,
-  tasks: ChecklistOutlinedIcon,
-}
