@@ -17,6 +17,7 @@ import {
 
 export const ConfirmationPage = ({ handlePageNavigation }) => {
   const completedInfo = useSelector(selectCompletedInfo)
+  console.log({ completedInfo })
   // const latestMemberIndex = completedInfo.participatingMembers.length - 1
   // const latestMember = completedInfo.participatingMembers[latestMemberIndex]
   // const latestDecision =

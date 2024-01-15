@@ -1,15 +1,23 @@
 import { FormControl } from '@mui/material'
 import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { updateDeployedUrl } from 'utils/redux/slices/projectSlice'
 
-export const ProjectUrl = ({ setIsDisabled, projectUrl, setProjectUrl }) => {
+export const ProjectUrl = ({ setIsDisabled, userID, currentUrl }) => {
+  const dispatch = useDispatch()
+
   const handleUrlChange = e => {
     const inputValue = e.target.value.trim()
-    setProjectUrl(inputValue)
+    dispatch(
+      updateDeployedUrl({
+        [userID]: inputValue,
+      })
+    )
   }
 
   useEffect(() => {
-    isUrl(projectUrl) ? setIsDisabled(false) : setIsDisabled(true)
-  }, [projectUrl])
+    isUrl(currentUrl) ? setIsDisabled(false) : setIsDisabled(true)
+  }, [currentUrl])
 
   const isUrl = string => {
     const urlPattern = new RegExp(
@@ -31,7 +39,7 @@ export const ProjectUrl = ({ setIsDisabled, projectUrl, setProjectUrl }) => {
         onBlur={handleUrlChange}
         onChange={handleUrlChange}
         type='text'
-        value={projectUrl}
+        value={currentUrl}
       />
     </FormControl>
   )

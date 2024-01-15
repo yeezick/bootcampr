@@ -6,18 +6,11 @@ import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import {
-  selectProject,
-  updatePresenting,
-} from 'utils/redux/slices/projectSlice'
-import { AppDispatch } from 'utils/redux/store'
-import { useDispatch } from 'react-redux'
+import { selectProject } from 'utils/redux/slices/projectSlice'
 
 export const PresentationPage = ({ handlePageNavigation }) => {
-  const dispatch: AppDispatch = useDispatch()
   const project = useSelector(selectProject)
   const presenting = project.completedInfo.presenting
-  const [isPresenting, setIsPresenting] = useState(presenting)
   const [isDisabled, setIsDisabled] = useState(
     presenting === null ? true : false
   )
@@ -34,7 +27,6 @@ export const PresentationPage = ({ handlePageNavigation }) => {
       return
     } else {
       setIsDisabled(true)
-      dispatch(updatePresenting(isPresenting))
       handlePageNavigation('next')
       window.scrollTo(0, 0)
     }
@@ -170,8 +162,7 @@ export const PresentationPage = ({ handlePageNavigation }) => {
           <ParticipationRadio
             labelText='Let us know if your team will be presenting.'
             setIsDisabled={setIsDisabled}
-            isPresenting={isPresenting}
-            setIsPresenting={setIsPresenting}
+            presenting={presenting}
           />
 
           <Stack className='btn-container'>

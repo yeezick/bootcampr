@@ -22,8 +22,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
       ? project.completedInfo?.deployedUrl[userID] || ''
       : ''
 
-  const [projectUrl, setProjectUrl] = useState(currentUrl)
-  const [isDisabled, setIsDisabled] = useState(projectUrl ? false : true)
+  const [isDisabled, setIsDisabled] = useState(currentUrl ? false : true)
   const dispatch: AppDispatch = useDispatch()
 
   //TODO: convert alerts to MUI toast to match Figma designs
@@ -55,11 +54,6 @@ export const UrlPage = ({ handlePageNavigation }) => {
     // }
     else {
       setIsDisabled(true)
-      dispatch(
-        updateDeployedUrl({
-          [userID]: projectUrl,
-        })
-      )
       handlePageNavigation('next')
       window.scrollTo(0, 0)
     }
@@ -93,8 +87,8 @@ export const UrlPage = ({ handlePageNavigation }) => {
           <p>First, input the URL to your website.</p>
           <ProjectUrl
             setIsDisabled={setIsDisabled}
-            projectUrl={projectUrl}
-            setProjectUrl={setProjectUrl}
+            userID={userID}
+            currentUrl={currentUrl}
           />
           <Stack className='btn-container'>
             <SecondaryButton handler={handleCancel}>
