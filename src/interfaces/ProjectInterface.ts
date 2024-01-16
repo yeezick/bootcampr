@@ -59,3 +59,7 @@ export interface TeamWithdrawalModal {
   onCloseMenu?: () => void
   anchorEl?: HTMLElement | null
 }
+
+export type ProjectParams = {
+  projectId: string
+}

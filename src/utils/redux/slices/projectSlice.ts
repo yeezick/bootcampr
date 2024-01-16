@@ -1,9 +1,4 @@
-import {
-  createSelector,
-  createSlice,
-  PayloadAction,
-  Update,
-} from '@reduxjs/toolkit'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { TicketInterface } from 'interfaces'
 import { ProjectInterface } from 'interfaces/ProjectInterface'

@@ -2,9 +2,9 @@ import { useEffect, useState, useRef } from 'react'
 import { BsPaperclip } from 'react-icons/bs'
 import { AiOutlineSend } from 'react-icons/ai'
 import {
-  createGroupMessage,
+  createGroupChatMessage,
   createPrivateMessage,
-  getAllGroupMessages,
+  getGroupChatMessages,
   getAllPrivateMessages,
 } from 'utils/api/chat'
 import { useSocket } from 'components/Notifications/Socket'
@@ -55,7 +55,7 @@ export const Messages = ({ setChatRecipientId }) => {
       try {
         let messageRes
         if (currentConversation.isGroup) {
-          messageRes = await getAllGroupMessages(
+          messageRes = await getGroupChatMessages(
             authUser._id,
             currentConversation._id
           )
@@ -174,7 +174,7 @@ export const Messages = ({ setChatRecipientId }) => {
       let res
 
       if (currentConversation.isGroup) {
-        res = await createGroupMessage(
+        res = await createGroupChatMessage(
           authUser._id,
           currentConversation._id,
           textForm.text
