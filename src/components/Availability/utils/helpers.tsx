@@ -216,7 +216,10 @@ export const renderCopyTimesModal = (idx, displayModal, toggleDisplayModal) => {
 
 export const copyTimes = (checked, day, days, idx, setDays) => {
   const daysToPasteTo = Object.keys(checked).filter(
-    day => day != 'EVRY' && checked[day]
+    checkedDay =>
+      checkedDay != 'Everyday' &&
+      checked[checkedDay] &&
+      daysMap[checkedDay] != day
   )
   const copiedTimeslot = [days[day].availability[idx]]
   const newAvail = {}
