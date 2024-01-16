@@ -22,10 +22,10 @@ export const CalendarHeader = () => {
 }
 
 const OrangeButton = styled(Button)(() => ({
-  backgroundColor: '#FFA726',
+  backgroundColor: '#fa9413',
   color: 'black',
   ':hover': {
-    backgroundColor: '#FFA726',
+    backgroundColor: '#fa9413',
     boxShadow: 'none',
   },
   boxShadow: 'none',
