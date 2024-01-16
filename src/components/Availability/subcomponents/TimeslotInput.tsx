@@ -221,9 +221,6 @@ export const CopyTimesModal = ({
 }
 
 const CopyTimesOption = ({ day, selectedDay, checked, setChecked }) => {
-  const isDisabled = day.substring(0, 3) === selectedDay
-  const textColor = isDisabled ? '#86888a' : 'black'
-
   const handleChange = e => {
     if (day === 'Everyday') {
       const toggle = !checked.Everyday
@@ -241,24 +238,28 @@ const CopyTimesOption = ({ day, selectedDay, checked, setChecked }) => {
         },
       })
     } else {
+      let newEveryday = checked.Everyday
+      if (checked[day]) {
+        newEveryday = false
+      }
       setChecked({
         ...checked,
         [day]: !checked[day],
+        Everyday: newEveryday,
       })
     }
   }
   return (
     <div className='copy-times-option'>
       <Checkbox
-        disabled={isDisabled}
-        checked={checked[day.slice(0, 3)]}
+        checked={checked[day]}
         onChange={handleChange}
         name={day}
         sx={{ color: 'black', '&.Mui-checked': { color: '#022888' } }}
       />
       <h2
         className='copy-times-option-days'
-        style={{ color: textColor, width: 100, fontSize: '17px' }}
+        style={{ color: 'black', width: 100, fontSize: '17px' }}
       >
         {day}
       </h2>
