@@ -3,4 +3,5 @@ export interface ButtonProps {
   paginatorBtn?: boolean
   text: string
   disabled?: boolean
+  customStyle?: object
 }

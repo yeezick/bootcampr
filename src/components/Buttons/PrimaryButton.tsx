@@ -7,10 +7,11 @@ export const PrimaryButton = ({
   paginatorBtn,
   text,
   disabled,
+  customStyle,
 }: ButtonProps) => {
   return (
     <Button
-      sx={primaryButtonStyle}
+      sx={{ ...primaryButtonStyle, ...customStyle }}
       onClick={handler}
       variant='contained'
       disabled={disabled}

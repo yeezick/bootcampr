@@ -31,15 +31,9 @@
         }
     }
 
-    button.apply {
-        background-color: #ffa726;
-        border-radius: 3px;
-        border-style: none;
-        cursor: pointer;
-        font-size: 14px;
-        letter-spacing: 1px;
-        margin-top: 5px;
-        padding: 10px;
-        width: 100%;
+    .apply-submit-button {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
     }
 }
