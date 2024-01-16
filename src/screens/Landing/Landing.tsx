@@ -1,188 +1,47 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { setAuthUser } from 'utils/redux/slices/userSlice'
-import { getAllUsers } from 'utils/api/users'
-import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai'
-import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { getRandomInt } from 'screens/AccountSettings/helper/data'
-import { storeUserProject } from 'utils/helpers/stateHelpers'
 import './Landing.scss'
-import { Button } from '@mui/material'
-import {
-  onScreenUpdate,
-  setCurrentConversation,
-  setSelectedMember,
-  toggleChatOpen,
-} from 'utils/redux/slices/chatSlice'
-import {
-  createPrivateChatRoom,
-  getUserPrivateConversations,
-} from 'utils/api/chat'
-import dummyMembers from './members.json' // to be removed once Message button logic is properly configured in team members screen
-import { ChatScreen } from 'utils/data/chatConstants'
+import { ContactForm } from './components/ContactForm/ContactForm'
+import { Hero } from './components/Hero/Hero'
+import { HowItWorks } from './components/HowItWorks/HowItWorks'
+import { YourProjectPortal } from './components/YourProjectPortal/YourProjectPortal'
+import { IsThisForYou } from './components/IsThisForYou/IsThisForYou'
+import { WorkFlow } from './components/WorkFlow/WorkFlow'
 
 export const Landing: React.FC = () => {
-  const [loginStatus, setLoginStatus] = useState<boolean | null>(null)
-  const authUser = useAppSelector(selectAuthUser)
-
-  const dispatch = useDispatch()
-
-  const randomUserLogin = async () => {
-    if (authUser._id) {
-      console.log('User already logged in')
-      return
-    }
-
-    try {
-      const gettingAllUser = await getAllUsers()
-      if (gettingAllUser && gettingAllUser.length > 0) {
-        const randomUser = gettingAllUser[getRandomInt(gettingAllUser.length)]
-        dispatch(setAuthUser(randomUser))
-        storeUserProject(dispatch, randomUser.project)
-        setLoginStatus(true)
-      } else {
-        setLoginStatus(false)
-      }
-    } catch (err) {
-      console.error('Unable to set random user:', err)
-      setLoginStatus(false)
-    }
-  }
-
-  useEffect(() => {
-    authUser._id ? setLoginStatus(true) : setLoginStatus(false)
-  }, [authUser._id])
-
-  const LoginStatusSymbol: React.FC = () => {
-    if (loginStatus === true && authUser._id) {
-      return <AiOutlineCheckCircle className='logged-in' />
-    } else {
-      return <AiOutlineStop className='logged-out' />
-    }
-  }
-
-  // ** temporary logic for Message button on Team Members screen
-  const [projectMembers, setProjectMembers] = useState([])
-
-  useEffect(() => {
-    const { designers, engineers } = dummyMembers // ** Using dummy data. Should be using API or obtaining project members from redux store
-    const members = [...designers, ...engineers]
-    setProjectMembers(members.filter(member => member._id !== authUser._id))
-  }, [])
-
-  const handleButtonClick = (
-    memberId: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    profilePicture: string
-  ) => {
-    try {
-      const fetchConversations = async () => {
-        const conversations = await getUserPrivateConversations(authUser._id)
-
-        const existingChatWithMember = conversations.messageThreads.find(
-          conversation =>
-            conversation.participants.some(
-              participant => participant._id === memberId
-            )
-        )
-
-        let conversationId: string = null
-
-        if (existingChatWithMember) {
-          conversationId = existingChatWithMember._id
-        } else {
-          const newRoom = await createPrivateChatRoom(authUser._id, email)
-
-          conversationId = newRoom.chatRoom._id
-        }
-        dispatch(
-          setCurrentConversation({
-            _id: conversationId,
-            isGroup: false,
-            participants: [memberId],
-            displayName: `${firstName} ${lastName}`,
-          })
-        )
-        dispatch(
-          setSelectedMember({
-            _id: memberId,
-            firstName,
-            lastName,
-            profilePicture,
-          })
-        )
-        dispatch(toggleChatOpen())
-        dispatch(onScreenUpdate(ChatScreen.Messages))
-      }
-      fetchConversations()
-    } catch (error) {
-      console.error('Error fetching conversations', error)
-    }
-  }
-
   return (
     <div className='landing-container'>
-      <div className='header-container'>
-        <div className='header-grid'>
-          <h1>Surpass Your Competition In The Tech Job Market</h1>
-          <p>
-            A platform to collaborate on real-world projects! Don't wait to
-            build your development experience.
-          </p>
-          <Link to='/sign-up' target='_blank'>
-            Start Today!
-          </Link>
-        </div>
-        <div className='developer-grid'>
-          <h1> For UX & Developers Only! </h1>
-          <h2>
-            Login as a random user using the button below <br /> Button is for
-            devs who want to skip auth user flow
-          </h2>
-          <button onClick={randomUserLogin}>Login as random user</button>
-          <LoginStatusSymbol />
+      <Hero />
+      <div className='teaser-container'>
+        <div className='teaser-header'>UX Designers & Software Engineers</div>
+        <div className='teaser-text'>
+          <div className='teaser-text-1'>
+            You just finished a boot camp-- <br />
+            but to get experience in the “real world” you need...experience.
+          </div>
+          <div className='teaser-text-2'>Now what?</div>
+          <div className='teaser-text-3'>
+            Connect with fellow boot camp grads to complete and ship a product.{' '}
+            <br />
+            Gain experience working on a cross-functional team to get hired
+            faster.
+          </div>
         </div>
       </div>
-      <div className='members-container'>
-        {projectMembers.map(
-          ({
-            _id: memberId,
-            firstName,
-            lastName,
-            email,
-            role,
-            profilePicture,
-          }) => {
-            return (
-              <div key={memberId} className='member-card'>
-                <div>
-                  {firstName} {lastName}
-                </div>
-                <div>{role}</div>
-                <Button
-                  variant='contained'
-                  className='message-button'
-                  onClick={() =>
-                    handleButtonClick(
-                      memberId,
-                      firstName,
-                      lastName,
-                      email,
-                      profilePicture
-                    )
-                  }
-                >
-                  Message
-                </Button>
-              </div>
-            )
-          }
-        )}
+      <section>
+        <HowItWorks />
+        <YourProjectPortal />
+        <IsThisForYou />
+        <WorkFlow />
+      </section>
+      <div className='get-job'>
+        <span>You've done the work.</span>
+        <span>Get the job.</span>
+        <Link className='button' to='/sign-up'>
+          Sign up
+        </Link>
       </div>
+      <ContactForm />
     </div>
   )
 }

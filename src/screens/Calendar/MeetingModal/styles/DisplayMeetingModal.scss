@@ -1,10 +1,17 @@
 .display-modal-wrapper {
   display: grid;
+  gap: 16px;
   grid-template-areas: 
-  "headerImg headerContent"
+  "headerSpace headerContent"
   "attendeeIcon attendees"
+  "meetIcon meetingLink"
   "descriptionIcon description"
-  "linkIcon meetingLink";
+  "createdBySpace createdBy";
+
+  p { 
+    margin: 0px;
+    padding: 0px;
+  }
 
   .description {
     grid-area: description
@@ -16,30 +23,37 @@
 
   .header-content {
     grid-area: headerContent;
+
     h3 {
       text-align: left;
     }
   }
 
-  .header-img {
-    grid-area: headerImg;
+  .header-space {
+    grid-area: headerSpace;
   }
 
   .centered-icon {
-    margin-right: 13px;
-    padding-top: 12px;
-  }
-
-  .link-icon {
-    grid-area: linkIcon
+    color: #212121;
   }
 
   .meeting-link {
+    font-size: 16px;
+    font-weight: 700;
     grid-area: meetingLink
   }
 
   .people-icon {
     grid-area: attendeeIcon
+  }
+
+  .google-meet-icon {
+    color: #212121;
+    grid-area: meetIcon;
+  }
+
+  .created-by {
+    grid-area: createdBy;
   }
 
 }

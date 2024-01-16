@@ -49,6 +49,7 @@ export const CurrentPassword = ({
         <div className='current-password input-container'>
           <div className='current-password adorned-input'>
             <input
+              aria-required
               id={inputId}
               className={inputClassname}
               name={name}

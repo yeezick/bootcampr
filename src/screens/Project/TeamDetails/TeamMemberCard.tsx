@@ -1,14 +1,33 @@
 import { Link } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
+import { handleMemberMessageClick } from 'utils/helpers/messagingHelpers'
 import './TeamMemberCard.scss'
 
 export const TeamMemberCard = ({ member, loggedInUserId }) => {
-  const { firstName, lastName, role, _id: memberId } = member
+  const {
+    firstName,
+    lastName,
+    role,
+    _id: memberId,
+    email,
+    profilePicture,
+  } = member
   const isCurrentUser = memberId === loggedInUserId
+  const authUser = useAppSelector(selectAuthUser)
+  const dispatch = useAppDispatch()
 
-  const handleMemberMessageClick = () => {
-    //TODO: Create logic for team member message button to open chat modal with that team member directly
-    console.log('handleMemberMessageClick')
+  const handleChatMemberClick = () => {
+    handleMemberMessageClick({
+      firstName,
+      lastName,
+      memberId,
+      email,
+      profilePicture,
+      authUser,
+      dispatch,
+    })
   }
 
   return (
@@ -41,7 +60,7 @@ export const TeamMemberCard = ({ member, loggedInUserId }) => {
                 <div className='tmc-message-btn-cont'>
                   <button
                     className='tmc-message-btn'
-                    onClick={handleMemberMessageClick}
+                    onClick={handleChatMemberClick}
                   >
                     Message
                   </button>

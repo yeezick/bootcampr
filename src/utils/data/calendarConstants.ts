@@ -1,4 +1,4 @@
-import { MeetingText } from 'interfaces/CalendarInterfaces'
+import { MeetingText } from 'interfaces'
 
 export const initialMeetingText: MeetingText = {
   description: '',
