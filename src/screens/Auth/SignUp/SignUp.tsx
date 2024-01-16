@@ -148,6 +148,7 @@ export const SignUp: React.FC = () => {
             />
 
             <div className='sign-up-btn-container'>
+              {/* //TODO: refactor this to a PrimaryButton */}
               <button
                 className={submitButtonStyle}
                 disabled={disabledForm}
@@ -191,7 +192,13 @@ const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
       </p>
       <FormControlLabel
         sx={checkboxStyles}
-        control={<Checkbox checked={isAccepted} onChange={handleCheckbox} />}
+        control={
+          <Checkbox
+            checked={isAccepted}
+            onChange={handleCheckbox}
+            aria-required
+          />
+        }
         label={`I agree to receive emails from Bootcampr.`}
       />
     </div>

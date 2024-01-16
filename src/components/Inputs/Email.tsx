@@ -10,7 +10,14 @@ export const Email = ({ setFormValues }) => {
   const sampleEmail = ' (ex. uxdesigner@bootcampr.io)'
 
   const validateEmail = async e => {
-    const email = e.target.value
+    const email = e.target.value.trim()
+
+    if (email === '') {
+      setError(true)
+      setErrorMessage('This field is required')
+      return
+    }
+
     const { status, message } = await verifyEmail(email)
 
     if (status >= 400) {
@@ -20,14 +27,17 @@ export const Email = ({ setFormValues }) => {
       setError(false)
       setErrorMessage('')
     }
-    if (!email.trim().length) {
-      setError(false)
-    }
   }
 
   const handleEmailChange = e => {
+    const email = e.target.value.trim()
+    if (email.length) {
+      setError(false)
+    }
+
     handleFormInputChange(e, setFormValues)
   }
+
   return (
     <div className='email'>
       <FormControl className='sign-up-input-container' variant='standard'>
@@ -35,23 +45,25 @@ export const Email = ({ setFormValues }) => {
           Email
           <span className='email-label-helper'>{sampleEmail}</span>
         </label>
-        <input
-          id={inputId}
-          name={inputId}
-          className='form-input'
-          onBlur={validateEmail}
-          onChange={handleEmailChange}
-          required
-          type={inputId}
-          style={{
-            borderColor: error ? '#d32f2f' : '',
-          }}
-        />
-        {error && (
-          <FormHelperText className='email-error-message' error={true}>
-            {errorMessage}
-          </FormHelperText>
-        )}
+        <div className='form-input'>
+          <input
+            aria-required
+            id={inputId}
+            name={inputId}
+            onBlur={validateEmail}
+            onChange={handleEmailChange}
+            required
+            type={inputId}
+            style={{
+              borderColor: error ? '#d32f2f' : '',
+            }}
+          />
+          {error && (
+            <FormHelperText className='error-message' error={true}>
+              {errorMessage}
+            </FormHelperText>
+          )}
+        </div>
       </FormControl>
     </div>
   )

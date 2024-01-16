@@ -1,5 +1,5 @@
 import './SuccessScreen.scss'
-import { Button, ThemeProvider, createTheme } from '@mui/material'
+import { Button, Snackbar, ThemeProvider, createTheme } from '@mui/material'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import {

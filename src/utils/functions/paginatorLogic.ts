@@ -6,8 +6,8 @@ export const getGroupClassName = index => {
       ? 'projectcompletion__confir-mem-group with-margin'
       : 'projectcompletion__confir-mem-group no-margin'
     : isFirstOrFourthOrSeventh
-      ? 'projectcompletion__confir-mem-group2 with-margin'
-      : 'projectcompletion__confir-mem-group2 no-margin'
+    ? 'projectcompletion__confir-mem-group2 with-margin'
+    : 'projectcompletion__confir-mem-group2 no-margin'
 }
 
 export const getRowBreak = index => index % 4 === 3
