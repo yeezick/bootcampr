@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux'
-import { selectCompletedInfo } from 'utils/redux/slices/projectSlice'
+import { selectProject } from 'utils/redux/slices/projectSlice'
 import { useEffect, useState } from 'react'
 import { Stack } from '@mui/material'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
+import { editProject } from 'utils/api'
 
 export const ConfirmationPage = ({ handlePageNavigation }) => {
   //TODO: None of this logic should be needed if we end up slimming completedInfo down as discussed. Leaving it for review/confirmation
@@ -22,15 +23,19 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
   // const latestUrlEntryIndex = Object.keys(deployedUrls).length - 1
   // const latestUrl = deployedUrls[Object.keys(deployedUrls)[latestUrlEntryIndex]]
   // ---------------------------------------------------------------
-  const completedInfo = useSelector(selectCompletedInfo)
+  const project = useSelector(selectProject)
+  const projectID = project._id
+  const completedInfo = project.completedInfo
   const deployedUrl = completedInfo.deployedUrl
-  const participation = completedInfo.presenting
+  const presenting = completedInfo.presenting
   const [isInvalidUrl, setIsInvalidUrl] = useState(!deployedUrl)
-  const [isInvalidRadio, setIsInvalidRadio] = useState(participation === null)
+  const [isInvalidRadio, setIsInvalidRadio] = useState(presenting === null)
   const [isDisabled, setIsDisabled] = useState(
     isInvalidUrl || isInvalidRadio ? true : false
   )
   const [isLoading, setIsLoading] = useState(false)
+
+  //TODO: convert alerts to MUI toast to match Figma designs
 
   useEffect(() => {
     setIsLoading(false)
@@ -40,12 +45,39 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
     setIsDisabled(isInvalidUrl || isInvalidRadio ? true : false)
   }, [setIsDisabled, isInvalidUrl, isInvalidRadio])
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
 
-    if (isDisabled) return
-    handlePageNavigation('next')
-    window.scrollTo(0, 0)
+    const updatedProject = {
+      completedInfo: {
+        deployedUrl: deployedUrl,
+        presenting: presenting,
+      },
+    }
+
+    if (isDisabled) {
+      alert(
+        `Please enter a valid URL and indicate whether or not your team is presenting`
+      )
+      return
+    } else {
+      try {
+        setIsLoading(true)
+        const response = await editProject(projectID, updatedProject)
+
+        if (response) {
+          handlePageNavigation('next')
+          window.scrollTo(0, 0)
+          setIsLoading(false)
+        }
+      } catch (error) {
+        console.error(
+          `An error occurred while saving presentation details.`,
+          error
+        )
+        setIsLoading(false)
+      }
+    }
   }
 
   const handleCancel = () => {
