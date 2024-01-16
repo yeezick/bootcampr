@@ -40,7 +40,7 @@ const SideMenuLinks = () => {
   return (
     <div className='sidemenu-links'>
       {links.map(link => (
-        <MenuLink linkDetails={link} />
+        <MenuLink key={link.route} linkDetails={link} />
       ))}
     </div>
   )
