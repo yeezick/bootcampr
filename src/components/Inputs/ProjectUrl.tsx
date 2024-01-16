@@ -29,7 +29,7 @@ export const ProjectUrl = ({ setIsDisabled }) => {
 
   useEffect(() => {
     isUrl(deployedUrl) ? setIsDisabled(false) : setIsDisabled(true)
-  }, [deployedUrl])
+  }, [deployedUrl, setIsDisabled])
 
   const isUrl = string => {
     const urlPattern = new RegExp(

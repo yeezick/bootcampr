@@ -26,9 +26,8 @@ export const ProjectCompletion = () => {
   ]
 
   return (
-    <div className='projectcompletion'>
-      <div className='projectcompletion__empty-header'></div>
-      <div className='projectcompletion__pag-container'>
+    <div className='project-completion'>
+      <div className='page-container'>
         <Paginator exitRoute='/' orderedPages={orderedPages} />
       </div>
     </div>
