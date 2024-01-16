@@ -115,11 +115,12 @@ const PageBar = ({ currentPageId, handlePageNavigation, allPages }) => {
 }
 
 const PageBarItem = ({ page, currentPageId, handlePageNavigation }) => {
-  const { completed, title } = page
+  const { title } = page
   const pageId = convertTitleToId(title)
-  const completedItem = pageId === currentPageId || completed
+  const currentPage = pageId === currentPageId
+
   const pageBarClassNames = `page-bar-item ${
-    completedItem ? 'complete-page-bar-item' : 'incomplete-page-bar-item'
+    currentPage ? 'current-page-bar-item' : 'non-current-page-bar-item'
   }`
   return (
     <div
