@@ -28,7 +28,11 @@ export const ProjectCompletion = () => {
   return (
     <div className='project-completion'>
       <div className='page-container'>
-        <Paginator exitRoute='/' orderedPages={orderedPages} />
+        <Paginator
+          exitRoute='/'
+          orderedPages={orderedPages}
+          trackCompletion={false}
+        />
       </div>
     </div>
   )
