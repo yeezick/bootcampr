@@ -19,6 +19,7 @@ import {
 } from '../utils/helpers'
 import { weekdaysMap } from '../utils/data'
 import { PrimaryButton } from 'components/Buttons'
+import { BCToolTip } from 'components/ToolTip/ToolTip'
 
 export const TimeSlotInput = ({ day, days, setDays }) => {
   const dispatch = useDispatch()
@@ -70,29 +71,17 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
           </div>
           <div className='right-banner'>
             {days[day].availability.length - 1 === idx && (
-              <Tooltip
-                title={`New time block for ${weekdaysMap[day]}`}
-                placement='top-end'
-                componentsProps={{
-                  tooltip: {
-                    sx: {
-                      bgcolor: 'rgba(0, 0, 0, 0.75)',
-                      '& .MuiTooltip-arrow': {
-                        color: 'rgba(0, 0, 0, 0.3)',
-                      },
-                      fontSize: '14px',
-                      padding: '10px',
-                    },
-                  },
-                }}
-              >
-                <div className='clickable-icon'>
-                  <AddRounded
-                    onClick={() => addTimeSlot(day, days, setDays, idx)}
-                    className='icon'
-                  />
-                </div>
-              </Tooltip>
+              <BCToolTip
+                text={`New time block for ${weekdaysMap[day]}`}
+                child={
+                  <div className='clickable-icon'>
+                    <AddRounded
+                      onClick={() => addTimeSlot(day, days, setDays, idx)}
+                      className='icon'
+                    />
+                  </div>
+                }
+              />
             )}
             <div>
               {getDisplay(idx) && (
@@ -105,29 +94,17 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
                   handleRenderModal={handleRenderModal}
                 />
               )}
-              <Tooltip
-                title='Copy available time to other days'
-                placement='top-end'
-                componentsProps={{
-                  tooltip: {
-                    sx: {
-                      bgcolor: 'rgba(0, 0, 0, 0.75)',
-                      '& .MuiTooltip-arrow': {
-                        color: 'rgba(0, 0, 0, 0.3)',
-                      },
-                      fontSize: '14px',
-                      padding: '10px',
-                    },
-                  },
-                }}
-              >
-                <div className='clickable-icon'>
-                  <ContentCopyOutlined
-                    onClick={e => handleRenderModal(e, idx)}
-                    className='icon'
-                  />
-                </div>
-              </Tooltip>
+              <BCToolTip
+                text='Copy available time to other days'
+                child={
+                  <div className='clickable-icon'>
+                    <ContentCopyOutlined
+                      onClick={e => handleRenderModal(e, idx)}
+                      className='icon'
+                    />
+                  </div>
+                }
+              />
             </div>
           </div>
         </div>
