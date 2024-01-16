@@ -220,14 +220,27 @@ export const copyTimes = (checked, day, days, idx, setDays) => {
   )
   const copiedTimeslot = [days[day].availability[idx]]
   const newAvail = {}
+
   daysToPasteTo?.forEach(day => {
-    newAvail[day] = {
+    const storageDay = daysMap[day]
+    newAvail[storageDay] = {
       available: true,
-      availability: days[day].availability.concat(copiedTimeslot),
+      availability: days[storageDay].availability.concat(copiedTimeslot),
     }
   })
+
   setDays({
     ...days,
     ...newAvail,
   })
+}
+
+const daysMap = {
+  Sunday: 'SUN',
+  Monday: 'MON',
+  Tuesday: 'TUE',
+  Wednesday: 'WED',
+  Thursday: 'THU',
+  Friday: 'FRI',
+  Saturday: 'SAT',
 }
