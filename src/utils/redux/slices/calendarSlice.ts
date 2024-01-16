@@ -50,7 +50,7 @@ const calendarSlice = createSlice({
       state.modalDisplayStatus = 'display'
     },
 
-    deleteExistingEvent: (state, action: PayloadAction<ConvertedEvent>) => {
+    deleteExistingEvent: (state, action) => {
       const { eventId } = action.payload
       state.convertedEvents.filter(event => event.eventId !== eventId)
       delete state.eventMap[eventId]

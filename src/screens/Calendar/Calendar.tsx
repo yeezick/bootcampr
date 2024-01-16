@@ -8,7 +8,7 @@ import { useState } from 'react'
 import AlertNotification from './MeetingModal/EditableMeetingModal/AlertNotification'
 
 export const CalendarScreen = () => {
-  const [openAlert, setOpenAlert] = useState(true)
+  const [openAlert, setOpenAlert] = useState(false)
 
   const handleCloseAlert = () => setOpenAlert(false)
   const handleOpenAlert = () => setOpenAlert(true)

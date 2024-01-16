@@ -59,7 +59,7 @@ export const DisplayMeetingModal = () => {
             displayedFields={displayedFields}
             summary={summary}
           />
-          <DisplayAttendees />
+          <DisplayAttendees creator={creator} />
           <DisplayMeetingLink />
           <DisplayDescription />
         </div>

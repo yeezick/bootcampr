@@ -30,4 +30,18 @@
     padding-top: 30px;
     padding-left: 20px;
   }
+
+  .alert-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+ 
+
+    .MuiPaper-root{
+      position: fixed;
+      bottom: 30px;
+      z-index: 1;
+  
+    }
+  }
 }

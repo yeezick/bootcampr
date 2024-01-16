@@ -3,8 +3,9 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { selectMembersByEmail } from 'utils/redux/slices/projectSlice'
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined'
 import { selectDisplayedEvent } from 'utils/redux/slices/calendarSlice'
+import { EmailOutlined } from '@mui/icons-material'
 
-export const DisplayAttendees = () => {
+export const DisplayAttendees = ({ creator }) => {
   const [invitedMembers, setInvitedMembers] = useState([])
   const { attendees } = useAppSelector(selectDisplayedEvent)
   const emailQueries = attendees.map(attendee => attendee.email)
@@ -15,12 +16,13 @@ export const DisplayAttendees = () => {
       if (attendees.length) {
         const invitedMemberInfo = []
         for (const member of teamMembers) {
-          const { firstName, lastName, profilePicture, role } = member
+          const { firstName, lastName, profilePicture, role, email } = member
           invitedMemberInfo.push({
             firstName: firstName,
             profilePicture: profilePicture,
             lastName: lastName,
             role: role,
+            email: email,
           })
         }
         setInvitedMembers(invitedMemberInfo)
@@ -28,6 +30,10 @@ export const DisplayAttendees = () => {
     }
     prepareInvitedMembers()
   }, [])
+
+  // const index = invitedMembers.find(({email})=> email === creator.email)
+  //   console.log(index)
+  //   console.log(creator)
 
   return (
     <>

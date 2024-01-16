@@ -284,6 +284,14 @@ const titleInputFieldStyles = {
   marginBottom: '5px',
   color: '#616161',
   width: '100%',
+  '& .MuiInputBase-root': {
+    '&:hover': {
+      borderBottom: 'none',
+    },
+  },
+  '&:hover': {
+    borderBottom: 'none',
+  },
   '& .MuiInputBase-input': {
     fontSize: '28px',
 
@@ -294,5 +302,11 @@ const titleInputFieldStyles = {
   },
   '& .MuiInput-underline': {
     paddingTop: '17px',
+  },
+  '&:before': {
+    borderBottom: 'none',
+  },
+  '&:after': {
+    borderBottom: 'none',
   },
 }

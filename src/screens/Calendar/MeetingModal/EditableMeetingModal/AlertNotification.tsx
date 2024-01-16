@@ -4,7 +4,7 @@ import CheckIcon from '@mui/icons-material/Check'
 
 export default function AlertNotification({ handleCloseAlert, openAlert }) {
   return (
-    <>
+    <div className='alert-container'>
       {openAlert ? (
         <Alert
           icon={<CheckIcon fontSize='inherit' />}
@@ -14,6 +14,6 @@ export default function AlertNotification({ handleCloseAlert, openAlert }) {
           Invite sent successfully!
         </Alert>
       ) : null}
-    </>
+    </div>
   )
 }
