@@ -31,6 +31,9 @@ export const initialState: ChatSliceInterface = {
     },
   },
   unreadConversations: 0,
+  chatText: {
+    text: '',
+  },
 }
 
 export enum ChatIcons {

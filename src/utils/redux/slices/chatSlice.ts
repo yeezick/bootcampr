@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import {
+  ChatMessageInterface,
   ChatSelectedMemberInterface,
   ChatSliceInterface,
 } from 'interfaces/ChatInterface'
@@ -7,8 +8,6 @@ import { ChatScreen } from 'utils/data/chatConstants'
 import { RootState } from 'utils/redux/store'
 
 // todo: chats from project slice should be moved here
-// todo: looks like we are using this slice to handle individual instances of a chat
-//    this should be handled by the local state of components and not in the central store
 const initialState: ChatSliceInterface = {
   ui: {
     visibleChat: false,
@@ -28,6 +27,9 @@ const initialState: ChatSliceInterface = {
     },
   },
   unreadConversations: 0,
+  chatText: {
+    text: '',
+  },
 }
 
 const chatSlice = createSlice({
@@ -84,6 +86,9 @@ const chatSlice = createSlice({
     setUnreadMessages: (state, action: PayloadAction<number>) => {
       state.unreadConversations = action.payload
     },
+    setChatText: (state, action: PayloadAction<ChatMessageInterface>) => {
+      state.chatText = action.payload
+    },
   },
 })
 
@@ -100,5 +105,6 @@ export const {
   setCurrentConversation,
   setSelectedMember,
   setUnreadMessages,
+  setChatText,
 } = chatSlice.actions
 export default chatSlice.reducer

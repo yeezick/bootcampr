@@ -14,6 +14,7 @@ export interface ChatSliceInterface {
     selectedMember: ChatSelectedMemberInterface
   }
   unreadConversations: number
+  chatText: ChatMessageInterface
 }
 
 export interface ChatMessageInterface {
