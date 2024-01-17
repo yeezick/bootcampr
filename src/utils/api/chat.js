@@ -1,6 +1,6 @@
 import { api } from './apiConfig'
 
-export const getAllConversations = async userId => {
+export const getUserConversations = async userId => {
   try {
     const res = await api.get(`/users/${userId}/messages`)
     return res.data.combinedThreads
@@ -55,7 +55,7 @@ export const createPrivateMessage = async (userId, privateChatId, text) => {
 //Group chats
 export const getGroupChatMessages = async (userId, groupChatId) => {
   try {
-    const res = await api.get(`/user/groupChats/${groupChatId}/messages`)
+    const res = await api.get(`/groupChats/${groupChatId}/messages`)
     return res.data
   } catch (error) {
     console.error(error)
