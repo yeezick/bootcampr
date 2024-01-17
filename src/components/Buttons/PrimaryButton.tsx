@@ -1,21 +1,48 @@
 import { Button } from '@mui/material'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { ButtonProps } from 'interfaces/components'
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 
-export const PrimaryButton = ({ handler, paginatorBtn, text }: ButtonProps) => {
+export const PrimaryButton = ({
+  children,
+  className,
+  handler,
+  isDisabled,
+  paginatorBtn,
+  text,
+  type,
+}: ButtonProps) => {
   return (
     <Button
+      className={className}
+      onClick={handler}
       sx={{
         backgroundColor: '#FFA726',
+        boxShadow: 'none',
         color: '#1A237E',
+        cursor: isDisabled ? 'not-allowed' : '',
         marginLeft: '8px',
+        opacity: isDisabled ? 0.38 : 1,
         textTransform: 'none',
+        '&:hover': {
+          backgroundColor: '#FFA726',
+          boxShadow: 'none',
+          color: '#1A237E',
+        },
       }}
-      onClick={handler}
+      type={type}
       variant='contained'
     >
       {text}
-      {paginatorBtn && <ArrowForwardIcon sx={{ marginLeft: '8px' }} />}
+      {children}
+      {paginatorBtn && (
+        <KeyboardBackspaceIcon
+          sx={{
+            marginLeft: '8px',
+            transform: 'scaleX(-1)',
+            WebkitTransform: 'scaleX(-1)', //included for broader browser compatibility
+          }}
+        />
+      )}
     </Button>
   )
 }

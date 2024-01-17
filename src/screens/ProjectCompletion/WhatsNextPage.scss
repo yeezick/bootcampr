@@ -1,0 +1,38 @@
+.project-completion-whats-next-page {
+  text-align: center;
+
+  h1 {
+    font-size: 45px;
+    font-weight: 700;
+    line-height: 52px;
+    margin: 32px 0 64px;
+  }
+
+  .content {
+    @include flex(column);
+    gap: 32px;
+    width: 535px;
+
+    h2 {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 32px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      margin: 0;
+      text-align: start;
+    }
+  }
+
+  .btn-container {
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 64px;
+    width: 100%;
+  }
+}

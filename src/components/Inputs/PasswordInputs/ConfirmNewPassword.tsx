@@ -47,6 +47,7 @@ export const ConfirmNewPassword = ({
         <label htmlFor={inputId}>{inputLabel}</label>
         <div className='confirm-password adorned-input'>
           <input
+            aria-required
             id={inputId}
             name={name}
             onChange={handleConfirmPassword}

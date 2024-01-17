@@ -87,6 +87,7 @@ export const NewPassword = ({
         <label htmlFor={inputId}>{inputLabel}</label>
         <div className='new-password adorned-input'>
           <input
+            aria-required
             id={inputId}
             name={name}
             required
