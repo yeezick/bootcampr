@@ -5,9 +5,6 @@ import { useState } from 'react'
 import { DiscardChangesModal } from './DiscardChangesModal'
 
 export const MeetingModalHeaderIcons = ({ handleCloseMeetingModal }) => {
-  // const dispatch = useAppDispatch()
-  // const openDiscardChangesModal = () =>
-  // const handleBackToDisplay = () => dispatch(setModalDisplayStatus('display'))
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)

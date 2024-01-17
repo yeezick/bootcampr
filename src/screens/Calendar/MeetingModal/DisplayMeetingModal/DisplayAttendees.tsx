@@ -3,7 +3,6 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { selectMembersByEmail } from 'utils/redux/slices/projectSlice'
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined'
 import { selectDisplayedEvent } from 'utils/redux/slices/calendarSlice'
-import { EmailOutlined } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 
 export const DisplayAttendees = ({ creator }) => {
@@ -11,7 +10,6 @@ export const DisplayAttendees = ({ creator }) => {
   const { attendees } = useAppSelector(selectDisplayedEvent)
   const emailQueries = attendees.map(attendee => attendee.email)
   const teamMembers = useAppSelector(selectMembersByEmail(emailQueries))
-  const navigate = useNavigate()
 
   useEffect(() => {
     const prepareInvitedMembers = () => {
@@ -35,25 +33,20 @@ export const DisplayAttendees = ({ creator }) => {
     prepareInvitedMembers()
   }, [])
 
-  console.log(invitedMembers)
-
-  // const index = invitedMembers.find(({email})=> email === creator.email)
-  //   console.log(index)
-  //   console.log(creator)
-
   return (
     <>
       <GroupsOutlinedIcon className='people-icon centered-icon' />
       <div className='invited-members'>
         {invitedMembers.map(member => (
-          <InvitedMember member={member} navigate={navigate} />
+          <InvitedMember member={member} />
         ))}
       </div>
     </>
   )
 }
 
-const InvitedMember = ({ member, navigate }) => {
+const InvitedMember = ({ member }) => {
+  const navigate = useNavigate()
   const memberName = `${member.firstName} ${member.lastName}`
 
   return (

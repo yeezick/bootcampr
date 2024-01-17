@@ -9,7 +9,7 @@ export default function AlertNotification({ handleCloseAlert, openAlert }) {
         <Alert
           icon={<CheckIcon fontSize='inherit' />}
           severity='success'
-          onClose={() => handleCloseAlert()}
+          onClose={handleCloseAlert}
         >
           Invite sent successfully!
         </Alert>
