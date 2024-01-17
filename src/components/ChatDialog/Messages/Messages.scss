@@ -1,46 +1,54 @@
 .messages-container {
   display: flex;
   flex-direction: column;
-
+  font-size: 16px;
+  line-height: 24px;
+  font-family: 'Roboto';
   .messages-grid {
     display: flex;
     flex-direction: column;
     height: 416px;
-    margin: 0 -18px 0 -12px;
+    padding: 8px 8px 0 8px;
+    margin-bottom: 8px;
     overflow-y: auto;
-    padding-right: 3px;
-    padding-top: 10px;
+    //removed for now it create inconsistency in the app
+    // &::-webkit-scrollbar {
+    //   background-color: #f5f5f500;
+    //   height: 8px;
+    //   width: 4px;
+    // }
 
-    &::-webkit-scrollbar {
-      background-color: #f5f5f500;
-      height: 8px;
-      width: 3px;
-    }
+    // &::-webkit-scrollbar-thumb {
+    //   background-color: rgba(0, 0, 0, 0);
+    //   border-radius: 4px;
+    //   opacity: 0;
+    //   transition: opacity 0.2s ease-in-out;
+    // }
 
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 0, 0, 0);
-      border-radius: 4px;
-      opacity: 0;
-      transition: opacity 0.2s ease-in-out;
-    }
+    // &:hover::-webkit-scrollbar-thumb {
+    //   opacity: 1;
+    // }
 
-    &:hover::-webkit-scrollbar-thumb {
-      opacity: 1;
-    }
+    // &:hover::-webkit-scrollbar-thumb,
+    // &.scrolling::-webkit-scrollbar-thumb {
+    //   background-color: rgba(0, 0, 0, 0.2);
+    // }
 
-    &:hover::-webkit-scrollbar-thumb,
-    &.scrolling::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 0, 0, 0.2);
-    }
-
-    &.scrolling::-webkit-scrollbar-thumb {
-      opacity: 1;
-    }
+    // &.scrolling::-webkit-scrollbar-thumb {
+    //   opacity: 1;
+    // }
 
     .message-container {
       display: flex;
       flex-direction: column;
-
+      justify-content: space-between;
+      .message-sender-name {
+        font-size: 12px;
+        line-height: 16px;
+        font-style: italic;
+        color: #616161;
+        margin-left: 40px;
+      }
       .message-grid {
         align-items: flex-end;
         display: flex;
@@ -76,21 +84,15 @@
           margin-top: 2px;
         }
 
-        .other-user-text-margin {
-          margin-top: 8px;
-        }
-
         .auth-text {
-          background-color: #f6bf79;
+          background-color: #ffe0b2;
           border-radius: 16px 5px 5px 16px;
-          line-height: 16.8px;
           margin-left: auto;
           max-width: 170px;
           padding: 8px;
           width: fit-content;
 
           p {
-            font-size: 12px;
             overflow-wrap: break-word;
             text-align: left;
             white-space: pre-wrap;
@@ -98,7 +100,7 @@
           }
 
           &.selected-message {
-            background-color: #fca73a;
+            background-color: #ffa726;
           }
 
           &.same-sender-first-message {
@@ -115,16 +117,14 @@
         }
 
         .recipient-text {
-          background-color: #ecebeb;
+          background-color: #e5e5e5;
           border-radius: 5px 16px 16px 5px;
-          line-height: 16.8px;
           max-width: 170px;
           padding: 8px;
           text-align: left;
           width: fit-content;
 
           p {
-            font-size: 12px;
             overflow-wrap: break-word;
             text-align: left;
             white-space: pre-wrap;
@@ -161,19 +161,53 @@
         height: 150px;
         padding: 0;
       }
-
-      p {
-        font-size: 15px;
-        line-height: 22.4px;
-      }
     }
   }
 
-  .message-timestamp p {
-    font-size: 11px;
-    text-align: left;
-  }
+  .convo-input-container {
+    display: flex;
+    align-items: flex-end;
+    position: absolute;
+    background-color: #ffffff;
+    justify-content: space-between;
+    border: 1px solid #212121;
+    border-radius: 4px;
+    overflow: hidden;
+    padding: 4px 12px 4px 16px;
+    bottom: 0px;
+    right: 0px;
+    margin: 8px 16px 16px;
+    left: 0px;
+    &:focus-within {
+      outline: 2px solid #0d47a1;
+    }
 
+    textarea {
+      align-self: flex-end;
+      flex-grow: 1;
+      border: none;
+      font-family: 'Roboto', sans-serif;
+      line-height: 24px;
+      font-size: 16px;
+      min-height: 12px;
+      max-height: 144px;
+      overflow-y: auto;
+      padding-right: 8px;
+      resize: none;
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .send-button {
+      cursor: pointer;
+      display: flex;
+      padding-bottom: 8px;
+      &:hover {
+        color: #f29e34;
+      }
+    }
+  }
   .details-right {
     margin-bottom: 5px;
     margin-left: auto;
@@ -183,35 +217,13 @@
     margin-bottom: 6px;
     margin-left: 40px;
   }
-
+  .message-timestamp p {
+    font-size: 12px;
+    line-height: 16px;
+    text-align: left;
+  }
   p {
     margin: 0;
     text-align: left;
-  }
-
-  .convo-input-container {
-    align-items: center;
-    column-gap: 7px;
-    display: flex;
-    margin: 13px -12px 0 -12px;
-    width: 320px;
-
-    textarea {
-      background-color: #ecebeb;
-      border: none;
-      border-radius: 5px;
-      font-family: Arial, Helvetica, sans-serif;
-      height: 23px;
-      overflow: hidden;
-      padding: 8px 30px 0 8px;
-      resize: none;
-      width: 100%;
-    }
-
-    .send-button {
-      cursor: pointer;
-      position: absolute;
-      right: 12px;
-    }
   }
 }
