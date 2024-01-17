@@ -5,7 +5,7 @@ import {
 } from '@mui/icons-material'
 import { FaRegTrashAlt } from 'react-icons/fa'
 import { SelectTimeInput } from './SelectTimeInput'
-import { Checkbox, Tooltip } from '@mui/material'
+import { Checkbox } from '@mui/material'
 import { useState, useEffect, useRef } from 'react'
 import './CopyTimesModal.scss'
 import { useDispatch } from 'react-redux'
@@ -44,7 +44,6 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
       {consolidateAvailability(days[day].availability).map((slot, idx) => (
         <div key={`${slot}-${idx}`} className='timeslot-input'>
           <div className='left-banner'>
-            {/* TODO: make a reusable component for these? */}
             <SelectTimeInput
               isStart={true}
               idx={idx}
