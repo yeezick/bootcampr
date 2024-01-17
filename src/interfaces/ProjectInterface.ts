@@ -1,7 +1,7 @@
 import { TicketInterface, UserInterface } from 'interfaces'
 import { ProjectMemberInterface } from 'interfaces/UserInterface'
 
-export interface EmailMap {
+export interface UserMap {
   [key: string]: {
     role: string
     index: number
@@ -21,10 +21,10 @@ export interface ProjectInterface {
   goal?: string
   meetings?: string[]
   members?: {
-    all?: UserInterface[]
     designers?: UserInterface[]
-    emailMap?: EmailMap
+    emailMap?: UserMap
     engineers?: UserInterface[]
+    idMap?: UserMap
   }
   problem: string
   projectTracker?: ProjectTrackerInterface

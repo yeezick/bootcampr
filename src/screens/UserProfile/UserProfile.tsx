@@ -26,7 +26,7 @@ export const UserProfile: React.FC = () => {
   }, [teamMembers])
 
   // BC-334: should handle this case
-  if (!userProfileInfo) {
+  if (!userProfileInfo || !userProfileInfo._id) {
     return <div>Loading user... or there isn't one.</div>
   }
 
@@ -54,7 +54,7 @@ export const UserProfile: React.FC = () => {
       <div className='userProfile__container'>
         <div className='userProfile__titleContainer'>
           <div className='userProfile__image'>
-            <TeamAvatar userProfileInfo={userProfileInfo} />
+            <TeamAvatar userId={userId} />
           </div>
           <div className='userProfile__title'>
             {shouldShowName && (

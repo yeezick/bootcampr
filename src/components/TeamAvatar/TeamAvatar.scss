@@ -10,6 +10,11 @@
     height: 75px;
     object-fit: cover;
     width: 75px;
+
+    &.small {
+      height: 24px;
+      width: 24px;
+    }
   }
 
   .ta-default-pics {

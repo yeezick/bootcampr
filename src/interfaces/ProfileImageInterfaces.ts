@@ -12,7 +12,8 @@ export interface AvatarProps {
 }
 
 export interface TeamAvatarProps {
-  userProfileInfo: UserInterface
+  size?: 'small'
+  userId: string
 }
 
 export interface ProfilePreviewImageProps {

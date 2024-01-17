@@ -16,7 +16,7 @@ export const TeamMemberCard = ({ member, loggedInUserId }) => {
       <div className='team-member-card'>
         <div className='tmc-profile-cont'>
           <div className='tmc-profile-img-cont'>
-            <TeamAvatar userProfileInfo={member} />
+            <TeamAvatar userId={memberId} />
           </div>
           <div className='tmc-profile-info-cont'>
             <div className='tmc-profile-info'>

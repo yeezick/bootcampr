@@ -6,7 +6,7 @@ export const ColumnTickets = ({ columnStatus, provided }) => {
   const visibleTickets = useAppSelector(selectVisibleTickets)
   return (
     <div
-      className='content'
+      className='tickets'
       {...provided.droppableProps}
       ref={provided.innerRef}
     >

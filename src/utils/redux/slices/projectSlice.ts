@@ -128,6 +128,7 @@ const projectSlice = createSlice({
       const updatedProject = produce(action.payload, draft => {
         const { engineers, designers } = draft.members
         draft.members.emailMap = mapMembersByEmail([engineers, designers])
+        draft.members.idMap = mapMembersById([engineers, designers])
         draft.projectPortal = { renderProjectPortal: false }
       })
       return updatedProject
@@ -166,7 +167,6 @@ export const selectMembers = createSelector(
 )
 
 /**
- *
  * @param {string[]} emails Takes an array of user emails,
  *     then looks that user up using the role and index stored in the emailMap.
  * @returns An array of user objects
@@ -175,6 +175,20 @@ export const selectMembersByEmail = emails => (state: RootState) => {
   const allMembers = []
   for (const email of emails) {
     const { index, role } = state.project.members.emailMap[email]
+    allMembers.push(state.project.members[role][index])
+  }
+  return allMembers
+}
+
+/**
+ * @param {string[]} ids Takes an array of user emails,
+ *     then looks that user up using the role and index stored in the emailMap.
+ * @returns An array of user objects
+ */
+export const selectMembersById = userIds => (state: RootState) => {
+  const allMembers = []
+  for (const userId of userIds) {
+    const { index, role } = state.project.members.idMap[userId]
     allMembers.push(state.project.members[role][index])
   }
   return allMembers
@@ -226,6 +240,20 @@ export const mapMembersByEmail = roles => {
     }
   }
   return emailMap
+}
+
+export const mapMembersById = roles => {
+  const idMap = {}
+  for (const role of roles) {
+    for (let i = 0; i < role.length; i++) {
+      const currMember = role[i]
+      idMap[currMember._id] = {
+        role: determineRole(currMember.role),
+        index: i,
+      }
+    }
+  }
+  return idMap
 }
 
 const determineRole = roleStr => {
