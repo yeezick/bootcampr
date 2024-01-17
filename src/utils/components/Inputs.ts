@@ -44,3 +44,13 @@ const passwordValidator = (
     },
   })
 }
+
+export const isUrl = string => {
+  const urlPattern = new RegExp(
+    '^(https?:\\/\\/)?' +
+      '(www\\.)?' +
+      '(([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}$',
+    'i'
+  )
+  return urlPattern.test(string)
+}
