@@ -1,5 +1,9 @@
 export interface ButtonProps {
-  handler: any
+  children?: React.ReactNode
+  className?: string
+  handler?: any
+  isDisabled?: boolean
   paginatorBtn?: boolean
-  text: string
+  text?: string
+  type?: 'button' | 'reset' | 'submit'
 }
