@@ -25,45 +25,11 @@ export const UrlPage = ({ handlePageNavigation }) => {
     if (isDisabled) {
       alert('Please enter a valid URL')
       return
-    }
-
-    //TODO: In theory we don't need any uniqueness validation as there should only be one url per project and this can be stripped down to redux update and navigation.
-    // const normalizeUrl = url => {
-    //   return url.replace(/^(https?:\/\/)?(www\.)?/, '')
-    // }
-
-    // const isDuplicate = Object.values(
-    //   project.completedInfo?.deployedUrl || {}
-    // ).some(url => {
-    //   const existingUrl = normalizeUrl(url)
-    //   const submittedUrl = normalizeUrl(projectUrl)
-
-    //   return existingUrl === submittedUrl
-    // })
-
-    // if (isDuplicate) {
-    //   alert('URL already exists in the list.')
-    // }
-    else {
+    } else {
       setIsDisabled(true)
       handlePageNavigation('next')
       window.scrollTo(0, 0)
     }
-
-    //TODO: I changed the logic to rely on updating the redux through the main flow and only submitting the db update on the final submit
-    // try {
-    //   setIsLoading(true)
-    //   const response = await editProject(projectID, updatedProject)
-
-    //   if (response) {
-    // dispatch(updateDeployedUrl(updatedProject.completedInfo.deployedUrl))
-    //     handlePageNavigation('next')
-    //     setIsLoading(false)
-    //   }
-    // } catch (error) {
-    //   console.error('An error occurred while saving the URL.', error)
-    //   setIsLoading(false)
-    // }
   }
 
   const handleCancel = () => {

@@ -8,21 +8,6 @@ import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
 import { editProject } from 'utils/api'
 
 export const ConfirmationPage = ({ handlePageNavigation }) => {
-  //TODO: None of this logic should be needed if we end up slimming completedInfo down as discussed. Leaving it for review/confirmation
-  // const latestMemberIndex = completedInfo.participatingMembers.length - 1
-  // const latestMember = completedInfo.participatingMembers[latestMemberIndex]
-  // const latestDecision =
-  //   latestMember?.decision === 'Participate'
-  //     ? 'Participate'
-  //     : 'Not Participating'
-  // const shouldDisplayMember = latestMember?.decision === 'Participate'
-  // const participatingMembers = completedInfo.participatingMembers.filter(
-  //   member => member.decision === 'Participate'
-  // )
-  // const deployedUrls = completedInfo.deployedUrl
-  // const latestUrlEntryIndex = Object.keys(deployedUrls).length - 1
-  // const latestUrl = deployedUrls[Object.keys(deployedUrls)[latestUrlEntryIndex]]
-  // ---------------------------------------------------------------
   const project = useSelector(selectProject)
   const projectID = project._id
   const completedInfo = project.completedInfo
