@@ -11,7 +11,6 @@ export const SideMenu = () => {
   const { title } = useAppSelector(selectSideMenu)
   const projectId = useAppSelector(selectUserProjectId)
   const userInTeam = useAppSelector(selectUserHasProjectId)
-
   const btnClassName = `${
     userInTeam ? 'completion-overflow-btn' : 'disabled-btn'
   }`
@@ -26,7 +25,7 @@ export const SideMenu = () => {
         className='project-completion-link'
         to={`/project/${projectId}/complete`}
       >
-        <button className={btnClassName} disabled={userInTeam}>
+        <button className={btnClassName} disabled={!userInTeam}>
           Submit Project
         </button>
       </Link>
@@ -40,7 +39,7 @@ const SideMenuLinks = () => {
   return (
     <div className='sidemenu-links'>
       {links.map(link => (
-        <MenuLink linkDetails={link} />
+        <MenuLink key={link.route} linkDetails={link} />
       ))}
     </div>
   )
