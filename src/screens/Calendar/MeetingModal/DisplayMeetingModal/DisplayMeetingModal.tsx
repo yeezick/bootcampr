@@ -40,7 +40,7 @@ export const DisplayMeetingModal = () => {
   if (!displayedEvent) {
     return null
   }
-  const { creator, summary } = displayedEvent
+  const { creator, summary, eventId } = displayedEvent
 
   return (
     <Dialog open={displayMeeting} onClose={handleClose}>
@@ -49,15 +49,15 @@ export const DisplayMeetingModal = () => {
           handleClose={handleClose}
           setDisplayMeeting={setDisplayMeeting}
         />
+
         <div className='display-modal-wrapper'>
           <DisplayTimeAndSummary
             displayedFields={displayedFields}
             summary={summary}
           />
-          <DisplayAttendees />
+          <DisplayAttendees creator={creator} />
           <DisplayMeetingLink />
           <DisplayDescription />
-          <p className='created-by'> Created by: {creator.email}</p>
         </div>
       </DialogContent>
     </Dialog>

@@ -20,3 +20,14 @@ export const updateEvent = async (calendarId: string, eventId, eventInfo) => {
     throw error
   }
 }
+
+export const deleteEvent = async (calendarId: string, eventId) => {
+  try {
+    const res = await api.delete(
+      `/calendar/${calendarId}/fetchEvent/${eventId}`
+    )
+    return res.data
+  } catch (error) {
+    throw error
+  }
+}

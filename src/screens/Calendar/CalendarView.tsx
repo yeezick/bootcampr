@@ -13,12 +13,15 @@ import {
 } from 'utils/redux/slices/calendarSlice'
 import { DisplayMeetingModal } from 'screens/Calendar/MeetingModal'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
+import './CalendarView.scss'
+import AlertNotification from './MeetingModal/EditableMeetingModal/AlertNotification'
 
 export const CalendarView = () => {
   const calendarId = useAppSelector(selectCalendarId)
   const convertedEventsAsArr = useAppSelector(selectConvertedEventsAsArr)
   const userEmail = useAppSelector(selectUserEmail)
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
+
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -47,14 +50,14 @@ export const CalendarView = () => {
   switch (eventFetchingStatus) {
     case 'success':
       return (
-        <div>
+        <div className='calendar-container'>
           <FullCalendar
             events={convertedEventsAsArr}
             eventClick={handleEventClick}
             headerToolbar={{
-              start: 'dayGridMonth timeGridWeek today',
-              center: 'title',
-              end: 'prev next',
+              start: 'today prev next',
+              center: '',
+              end: '',
             }}
             initialView='timeGridWeek'
             nowIndicator={true}
