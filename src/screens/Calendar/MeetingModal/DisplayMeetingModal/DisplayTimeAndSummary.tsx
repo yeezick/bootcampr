@@ -5,7 +5,7 @@ export const DisplayTimeAndSummary = ({ displayedFields, summary }) => {
     <div className='header-content'>
       <h3>{summary}</h3>
       <p>
-        {date} {start} - {end}
+        {date}, {start} - {end}
       </p>
     </div>
   )

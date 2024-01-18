@@ -11,7 +11,7 @@ export const DescriptionField = ({ label, name, setMeetingText, value }) => {
       <div className='meeting-text-field'>
         <TextField
           className='description-field'
-          label={label}
+          placeholder={label}
           InputLabelProps={{ sx: { fontSize: '14px' } }}
           name={name}
           fullWidth
@@ -19,6 +19,11 @@ export const DescriptionField = ({ label, name, setMeetingText, value }) => {
           sx={{
             '& .MuiInputLabel-asterisk': {
               color: 'orange',
+            },
+            '& .MuiInputBase-root': {
+              '&:after': {
+                borderBottom: 'none',
+              },
             },
           }}
           value={value}

@@ -69,10 +69,9 @@ export const SelectTime = ({ dateFields, setDateFields, type }) => {
 }
 
 const selectTimeStyles = {
-  background: '#ECEBEB',
-  border: 'none',
+  background: 'none',
   '& .MuiOutlinedInput-notchedOutline': {
-    border: 'none',
+    border: '1.5px solid black',
   },
   '& .Mui-Paper-root': {
     height: '50px',
