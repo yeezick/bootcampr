@@ -3,7 +3,11 @@ import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
 import { CancelMeetingButtons } from './CancelMeetingButtons'
 
-export const CancelMeetingModal = ({ openModal, handleCloseModal }) => {
+export const CancelMeetingModal = ({
+  openModal,
+  handleCloseModal,
+  handleDelete,
+}) => {
   return (
     <div>
       <Modal
@@ -17,7 +21,10 @@ export const CancelMeetingModal = ({ openModal, handleCloseModal }) => {
             All invitees will receive an email notification the meeting is
             canceled.
           </p>
-          <CancelMeetingButtons handleCloseModal={handleCloseModal} />
+          <CancelMeetingButtons
+            handleCloseModal={handleCloseModal}
+            handleDelete={handleDelete}
+          />
         </Box>
       </Modal>
     </div>

@@ -58,4 +58,8 @@ export interface MeetingText {
   summary: string
 }
 
+export interface DeleteEvent {
+  eventId: string
+}
+
 export type ModalDisplayStatus = 'display' | 'edit' | 'create' | false

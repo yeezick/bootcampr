@@ -1,12 +1,14 @@
 import Button from '@mui/material/Button'
 
-export const CancelMeetingButtons = ({ handleCloseModal }) => {
+export const CancelMeetingButtons = ({ handleCloseModal, handleDelete }) => {
   return (
     <div className='discard-buttons-container'>
       <Button sx={cancelButtonStyles} onClick={handleCloseModal}>
         Cancel
       </Button>
-      <Button sx={discardButtonStyles}>Cancel Meeting</Button>
+      <Button sx={discardButtonStyles} onClick={handleDelete}>
+        Cancel Meeting
+      </Button>
     </div>
   )
 }

@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   setModalDisplayStatus,
   selectDisplayedEvent,
+  deleteExistingEvent,
 } from 'utils/redux/slices/calendarSlice'
 import { Close } from '@mui/icons-material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
@@ -33,6 +34,8 @@ export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
   const handleDelete = async e => {
     try {
       await deleteEvent(calendarId, eventId)
+      dispatch(deleteExistingEvent({ eventId }))
+      handleClose()
     } catch (error) {
       console.log(error)
     }

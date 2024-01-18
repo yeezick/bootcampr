@@ -37,6 +37,7 @@ export const DisplayPopover = ({
       <CancelMeetingModal
         openModal={openModal}
         handleCloseModal={handleCloseModal}
+        handleDelete={handleDelete}
       />
     </>
   )
