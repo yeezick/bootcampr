@@ -1,19 +1,20 @@
 import { useState } from 'react'
-import { useAppDispatch } from 'utils/redux/hooks'
-import { setModalDisplayStatus } from 'utils/redux/slices/calendarSlice'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import {
+  setModalDisplayStatus,
+  selectDisplayedEvent,
+} from 'utils/redux/slices/calendarSlice'
 import { Close } from '@mui/icons-material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { DisplayPopover } from './DisplayPopover'
 import { deleteEvent } from 'utils/api/events'
-import { CancelMeetingModal } from './CancelMeetingModal'
+import { selectCalendarId } from 'utils/redux/slices/projectSlice'
 
-export const DisplayModalHeaderIcons = ({
-  handleClose,
-  setDisplayMeeting,
-  calendarId,
-  eventId,
-}) => {
+export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
   const [anchorEl, setAnchorEl] = useState(null)
+  const displayedEvent = useAppSelector(selectDisplayedEvent)
+  const { eventId } = displayedEvent
+  const calendarId = useAppSelector(selectCalendarId)
 
   const handleClick = event => setAnchorEl(event.currentTarget)
 

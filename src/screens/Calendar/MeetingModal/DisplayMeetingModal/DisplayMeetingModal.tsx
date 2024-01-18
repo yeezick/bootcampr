@@ -2,7 +2,6 @@ import { Dialog, DialogContent } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { convertDateFieldsForDisplay } from 'utils/helpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { selectCalendarId } from 'utils/redux/slices/projectSlice'
 import {
   selectDisplayedEvent,
   selectModalDisplayStatus,
@@ -22,7 +21,6 @@ export const DisplayMeetingModal = () => {
     end: '',
     start: '',
   })
-  const calendarId = useAppSelector(selectCalendarId)
   const displayedEvent = useAppSelector(selectDisplayedEvent)
   const modalDisplayStatus = useAppSelector(selectModalDisplayStatus)
   const dispatch = useAppDispatch()
@@ -50,8 +48,6 @@ export const DisplayMeetingModal = () => {
         <DisplayModalHeaderIcons
           handleClose={handleClose}
           setDisplayMeeting={setDisplayMeeting}
-          calendarId={calendarId}
-          eventId={eventId}
         />
 
         <div className='display-modal-wrapper'>
