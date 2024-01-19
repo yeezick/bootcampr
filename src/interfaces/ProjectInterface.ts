@@ -30,6 +30,7 @@ export interface ProjectInterface {
   projectTracker?: ProjectTrackerInterface
   completedInfo?: {
     participatingMembers?: { user: ProjectMemberInterface; decision: string }[]
+    presenting?: boolean
     deployedUrl?: {
       [key: string]: string
     }
