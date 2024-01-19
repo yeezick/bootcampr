@@ -98,7 +98,7 @@ export const Role = ({ handlePageNavigation }) => {
               handler={handleSubmit}
               text='Set availability'
               paginatorBtn={true}
-              disabled={!buttonEnabled}
+              isDisabled={!buttonEnabled}
             />
           </div>
         </div>

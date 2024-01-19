@@ -95,7 +95,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
             handler={() => handleNavigationButtons('next')}
             text='Set up profile'
             paginatorBtn={true}
-            disabled={isDisabled}
+            isDisabled={isDisabled}
           />
         </div>
       </div>

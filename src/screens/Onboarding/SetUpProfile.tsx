@@ -248,7 +248,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                 text='Save profile'
                 handler={e => handleNavigationButtons(e, 'next')}
                 paginatorBtn={true}
-                disabled={isDisabled}
+                isDisabled={isDisabled}
               />
             </div>
           </div>

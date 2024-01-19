@@ -10,17 +10,21 @@ export const PrimaryButton = ({
   paginatorBtn,
   text,
   type,
-  disabled,
   customStyle,
 }: ButtonProps) => {
   return (
     <Button
       className={className}
       onClick={handler}
-      sx={{ ...primaryButtonStyle, ...customStyle }}
+      sx={{
+        ...primaryButtonStyle,
+        ...customStyle,
+        cursor: isDisabled ? 'not-allowed' : '',
+        opacity: isDisabled ? 0.38 : 1,
+      }}
       type={type}
       variant='contained'
-      disabled={disabled}
+      disabled={isDisabled}
     >
       {text}
       {children}
@@ -45,11 +49,9 @@ const primaryButtonStyle = {
     backgroundColor: '#FFE0B2',
     color: '#C5CAE9',
   },
-  cursor: isDisabled ? 'not-allowed' : '',
   fontWeight: '600',
   marginLeft: '8px',
   minWidth: '150px',
-  opacity: isDisabled ? 0.38 : 1,
   textTransform: 'none',
   '&:hover': {
     backgroundColor: '#FFA726',
