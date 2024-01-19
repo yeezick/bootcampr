@@ -45,7 +45,10 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
       userFriendlyTZ = utcToBootcamprTimezoneMap[storedUserTZinUTC]
     } else {
       const userTZguess = guessUserTimezone()
-      userFriendlyTZ = userTZguess.userFriendlyTZ
+
+      userFriendlyTZ = userFriendlyTZ
+        ? userTZguess.userFriendlyTZ
+        : Timezones.ET
     }
     setUxUserTimezone(userFriendlyTZ)
   }, [])

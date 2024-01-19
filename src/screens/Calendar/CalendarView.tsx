@@ -4,17 +4,14 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { fetchUserCalendar } from 'utils/api/calendar'
 import { selectCalendarId } from 'utils/redux/slices/projectSlice'
-import {
-  convertGoogleEventsForCalendar,
-  parseCalendarEventForMeetingInfo,
-} from 'utils/helpers/calendarHelpers'
+import { parseCalendarEventForMeetingInfo } from 'utils/helpers/calendarHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectConvertedEventsAsArr,
   setDisplayedEvent,
   storeConvertedEvents,
 } from 'utils/redux/slices/calendarSlice'
-import { DisplayMeetingModal } from 'components/Calendar/MeetingModal/DisplayMeetingModal'
+import { DisplayMeetingModal } from 'screens/Calendar/MeetingModal'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 
 export const CalendarView = () => {
@@ -35,11 +32,7 @@ export const CalendarView = () => {
         setEventFetchingStatus('error')
       } else {
         setEventFetchingStatus('success')
-        dispatch(
-          storeConvertedEvents(
-            convertGoogleEventsForCalendar(googleCalendarEvents)
-          )
-        )
+        dispatch(storeConvertedEvents(googleCalendarEvents))
       }
     }
 

@@ -51,6 +51,7 @@ export const defaultAvailabilityForm = {
 }
 
 export const defaultSingleDayAvailability = {
+  '12:00 AM': 'no',
   '12:30 AM': 'no',
   '1:00 AM': 'no',
   '1:30 AM': 'no',

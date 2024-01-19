@@ -30,6 +30,7 @@ export interface ProjectInterface {
   projectTracker?: ProjectTrackerInterface
   completedInfo?: {
     participatingMembers?: { user: ProjectMemberInterface; decision: string }[]
+    presenting?: boolean
     deployedUrl?: {
       [key: string]: string
     }
@@ -58,4 +59,8 @@ export interface TeamWithdrawalModal {
   openMenu?: boolean
   onCloseMenu?: () => void
   anchorEl?: HTMLElement | null
+}
+
+export type ProjectParams = {
+  projectId: string
 }

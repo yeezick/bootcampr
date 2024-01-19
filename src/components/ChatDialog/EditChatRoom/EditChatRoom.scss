@@ -2,10 +2,9 @@
   display: flex;
   flex-direction: column;
   height: 465px;
-  margin: 0 -15px;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 0 15px;
+  padding: 0 4px;
   row-gap: 35px;
 
   &::-webkit-scrollbar {

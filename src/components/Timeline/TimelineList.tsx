@@ -6,7 +6,7 @@ import {
   TimelineContent,
   TimelineDot,
   timelineItemClasses,
-} from '@mui/lab/'
+} from '@mui/lab'
 import { Typography } from '@mui/material'
 import { timelineData } from 'utils/data/timelineConstants'
 import './TimelineList.scss'

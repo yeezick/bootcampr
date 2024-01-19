@@ -1,61 +1,55 @@
 import { useEffect, useState, useRef } from 'react'
-import { BsPaperclip } from 'react-icons/bs'
 import { AiOutlineSend } from 'react-icons/ai'
 import {
-  createGroupMessage,
+  createGroupChatMessage,
   createPrivateMessage,
-  getAllGroupMessages,
+  getGroupChatMessages,
   getAllPrivateMessages,
 } from 'utils/api/chat'
 import { useSocket } from 'components/Notifications/Socket'
-import { useAppSelector } from 'utils/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { selectConversation } from 'utils/redux/slices/chatSlice'
-import { formatTimestamp } from 'utils/functions/chatLogic'
-import { ChatIcons, emptyChatText } from 'utils/data/chatConstants'
-import { ChatMessageInterface } from 'interfaces/ChatInterface'
-import {
-  isFirstMessageBySameUser,
-  isLastMessageBySameRecipient,
-  isLastMessageBySameUser,
-  isMessageSameSender,
-  isOnlyMessageBySameSender,
-  isRecipientMessageSameSender,
-  isSameSenderAsPrevious,
-} from 'utils/functions/chatLogic'
-import './Messages.scss'
+import { selectConversation, setChatText } from 'utils/redux/slices/chatSlice'
 import { setUnreadMessages } from 'utils/api'
+import { MessagesList } from './MessagesList'
+import './Messages.scss'
 
 export const Messages = ({ setChatRecipientId }) => {
   const socket = useSocket()
+  const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const currentConversation = useAppSelector(selectConversation)
+  const textForm = useAppSelector(state => state.chat.chatText)
   const [messages, setMessages] = useState([])
   const [chatParticipants, setChatParticipants] = useState([])
   const [listResults, setListResults] = useState('empty')
   const [selectedMessages, setSelectedMessages] = useState([])
-  const [textForm, setTextForm] = useState<ChatMessageInterface>(emptyChatText)
-  const [newMessage, setNewMessage] = useState(false)
-  const containerRef = useRef(null)
-  const [receivedMessages, setReceivedMessages] = useState({})
+  const [newMessage, setNewMessage] = useState('')
+  //to trigger fetch
+  const [isNewMessageReceived, setIsNewMessageReceived] = useState(false)
   const [membersWithUnreadMessages, setMembersWithUnreadMessages] = useState<
     string[]
   >([])
+  const containerRef = useRef(null)
 
   useEffect(() => {
     if (socket) {
-      socket.on('message-from-server', data => {
-        setReceivedMessages(data)
-      })
-    }
-  }, [socket])
+      const handleNewMessage = receivedMessage => {
+        setNewMessage(receivedMessage.newMessage)
+      }
 
+      socket.on('message-from-server', handleNewMessage)
+      return () => {
+        socket.off('message-from-server', handleNewMessage)
+      }
+    }
+  }, [socket, dispatch])
   useEffect(() => {
     const fetchMessages = async () => {
       try {
         let messageRes
         if (currentConversation.isGroup) {
-          messageRes = await getAllGroupMessages(
+          messageRes = await getGroupChatMessages(
             authUser._id,
             currentConversation._id
           )
@@ -66,7 +60,7 @@ export const Messages = ({ setChatRecipientId }) => {
           )
           setChatParticipants(messageRes.participants)
         }
-
+        // combined messages = groupchat/private + media messages, this has text and sender info
         setMessages(messageRes.combinedMessages)
 
         if (
@@ -78,7 +72,6 @@ export const Messages = ({ setChatRecipientId }) => {
         } else {
           setListResults('messages')
         }
-        setNewMessage(false)
       } catch (error) {
         console.error('Error fetching messages:', error)
       }
@@ -89,25 +82,27 @@ export const Messages = ({ setChatRecipientId }) => {
     currentConversation._id,
     currentConversation.isGroup,
     newMessage,
-    receivedMessages,
+    isNewMessageReceived,
   ])
-
   useEffect(() => {
-    // Scroll messages container to bottom for last message when component mounts
+    if (socket) {
+      const handleNewMessage = receivedMessage => {
+        setNewMessage(receivedMessage.newMessage)
+      }
+
+      socket.on('message-from-server', handleNewMessage)
+      return () => {
+        socket.off('message-from-server', handleNewMessage)
+      }
+    }
+  }, [socket, dispatch])
+
+  // Scroll messages container to bottom for last message when component mounts and when the height change because of textarea
+  useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight
     }
-  }, [messages])
-
-  useEffect(() => {
-    // Extracting recipient's ID in private chat
-    if (chatParticipants) {
-      const recipientId = chatParticipants.filter(
-        memberId => memberId !== authUser._id
-      )
-      setChatRecipientId(recipientId)
-    }
-  }, [authUser._id, setChatRecipientId, chatParticipants])
+  }, [messages, containerRef.current?.style.height])
 
   const isArrayOfStrings = (arr: []) => {
     return arr.every(element => typeof element === 'string')
@@ -161,20 +156,20 @@ export const Messages = ({ setChatRecipientId }) => {
   }
 
   const handleChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setTextForm({ ...textForm, [name]: value })
+    const { value } = e.target
+    //To keep the text draft when close or change the page
+    dispatch(setChatText({ text: value }))
   }
 
   const handleSubmitText = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (textForm.text === '') return // Message will not send if textarea is empty
+    if (textForm.text.trim() === '') return // Message will not send if textarea is empty
 
     try {
       let res
-
       if (currentConversation.isGroup) {
-        res = await createGroupMessage(
+        res = await createGroupChatMessage(
           authUser._id,
           currentConversation._id,
           textForm.text
@@ -186,23 +181,19 @@ export const Messages = ({ setChatRecipientId }) => {
           textForm.text
         )
       }
-
       if (membersWithUnreadMessages.length > 0) {
         await setUnreadMessages(
           currentConversation._id,
           membersWithUnreadMessages
         )
       }
-
-      // Emit Socket.IO event: sends message data to backend socket server
       socket.emit('send-message', {
-        authUser: authUser,
-        chatRoom: currentConversation._id,
-        newMessage: res.newMessage,
+        senderId: authUser._id,
+        chatRoomId: currentConversation._id,
+        newMessage: textForm.text,
       })
-
-      setTextForm(emptyChatText)
-      setNewMessage(true)
+      setIsNewMessageReceived(true)
+      dispatch(setChatText({ text: '' }))
     } catch (error) {
       console.error('Error sending message:', error)
     }
@@ -216,6 +207,12 @@ export const Messages = ({ setChatRecipientId }) => {
     }
   }
 
+  const handleTextInputHeightChange = (heightDifference: Number) => {
+    if (containerRef.current) {
+      //Height should be the initial height(440) to calculate changes dynamically
+      containerRef.current.style.height = `calc(440px - ${heightDifference}px)`
+    }
+  }
   return (
     <div className='messages-container'>
       <section className='messages-grid' ref={containerRef}>
@@ -232,133 +229,9 @@ export const Messages = ({ setChatRecipientId }) => {
         handleChangeText={handleChangeText}
         handleKeyDown={handleKeyDown}
         handleSubmitText={handleSubmitText}
+        onHeightChange={handleTextInputHeightChange}
       />
     </div>
-  )
-}
-
-const MessagesList = ({
-  authUser,
-  listResults,
-  messages,
-  selectedMessages,
-  handleTimestampClick,
-}) => {
-  if (listResults === 'messages') {
-    return messages.map((message, index) => {
-      // Check if message is by same recipient user and/or by authUser:
-      const isSenderAuthUser = message.sender._id === authUser._id
-      const isSameUser = isSameSenderAsPrevious(messages, message, index)
-        ? 'same-user-text-margin'
-        : 'other-user-text-margin'
-      // Check message position if consecutive messages are sent by same user:
-      const isLastMessageAndSameRecipient =
-        isRecipientMessageSameSender(messages, message, index, authUser._id) ||
-        isLastMessageBySameRecipient(messages, index, authUser._id)
-      const isLastMessage =
-        (isMessageSameSender(messages, message, index) ||
-          isLastMessageBySameUser(messages, index)) &&
-        'same-sender-last-message'
-      const isFirstMessage =
-        (isMessageSameSender(messages, message, index) ||
-          isFirstMessageBySameUser(messages, index)) &&
-        'same-sender-first-message'
-      const isOnlyMessage =
-        isOnlyMessageBySameSender(messages, index) && 'same-sender-one-message'
-      const isAvatarDisplayed = isLastMessageAndSameRecipient
-        ? 'avatar'
-        : 'no-avatar'
-      // ClassName logic for displaying message timestamps on click:
-      const isMessageSelected = selectedMessages.includes(message)
-        ? 'selected-message'
-        : 'not-selected'
-      const timestampClasses = isSenderAuthUser
-        ? 'details-right'
-        : 'details-left'
-
-      return (
-        <div key={index} className='message-container'>
-          <div className='message-grid'>
-            {isLastMessageAndSameRecipient && (
-              <RecipientsAvatar message={message} />
-            )}
-            <MessageText
-              isSenderAuthUser={isSenderAuthUser}
-              message={message}
-              isSameUser={isSameUser}
-              isAvatarDisplayed={isAvatarDisplayed}
-              isLastMessage={isLastMessage}
-              isFirstMessage={isFirstMessage}
-              isOnlyMessage={isOnlyMessage}
-              isMessageSelected={isMessageSelected}
-              handleTimestampClick={handleTimestampClick}
-            />
-          </div>
-          <TimestampDisplay
-            timestampClasses={timestampClasses}
-            message={message}
-            selectedMessages={selectedMessages}
-          />
-        </div>
-      )
-    })
-  }
-
-  if (listResults === 'noMessages') {
-    return (
-      <div className='no-results'>
-        <img src={ChatIcons.NoMessages} alt='no data' />
-        <p>Don't be shy! Start a conversation</p>
-      </div>
-    )
-  }
-}
-
-const RecipientsAvatar = ({ message }) => {
-  return (
-    <div className='recipient-avatar'>
-      <img src={message.sender.profilePicture} alt='avatar' />
-    </div>
-  )
-}
-
-const MessageText = ({
-  isSenderAuthUser,
-  message,
-  isSameUser,
-  isAvatarDisplayed,
-  isLastMessage,
-  isFirstMessage,
-  isOnlyMessage,
-  isMessageSelected,
-  handleTimestampClick,
-}) => {
-  const defineDynamicClassNames = () => {
-    return `${
-      isSenderAuthUser ? 'auth-text' : 'recipient-text'
-    } ${isSameUser} ${isAvatarDisplayed} ${isLastMessage} ${isFirstMessage} ${isOnlyMessage} ${isMessageSelected}`
-  }
-  return (
-    <div
-      className={defineDynamicClassNames()}
-      onClick={() => handleTimestampClick(message)}
-    >
-      <p>{message.text}</p>
-    </div>
-  )
-}
-
-const TimestampDisplay = ({ timestampClasses, message, selectedMessages }) => {
-  return (
-    <>
-      {selectedMessages.includes(message) && message.timestamp && (
-        <div className={`message-details ${timestampClasses}`}>
-          <div className='message-timestamp'>
-            <p>{formatTimestamp(message.timestamp)}</p>
-          </div>
-        </div>
-      )}
-    </>
   )
 }
 
@@ -367,17 +240,34 @@ const TextInput = ({
   handleChangeText,
   handleKeyDown,
   handleSubmitText,
+  onHeightChange,
 }) => {
+  const MAX_HEIGHT = 160
+  const textareaRef = useRef<null | HTMLTextAreaElement>(null)
+
+  const adjustHeight = () => {
+    if (!textareaRef.current) return
+    textareaRef.current.style.height = 'auto'
+    const scrollHeight = textareaRef.current.scrollHeight
+    let newHeight = Math.min(scrollHeight, MAX_HEIGHT)
+    textareaRef.current.style.height = `${newHeight}px`
+    onHeightChange(newHeight)
+  }
+
+  useEffect(() => {
+    adjustHeight()
+  }, [textForm.text])
+
   return (
-    <div className='convo-input-container'>
-      <BsPaperclip size={23} />
+    <div className='convo-input-container' tabIndex={0}>
       <textarea
-        className='convo-input'
+        ref={textareaRef}
         onChange={handleChangeText}
         onKeyDown={handleKeyDown}
         name='text'
         value={textForm.text}
         placeholder='Type your message here...'
+        rows={1}
       />
       {textForm.text !== '' && (
         <AiOutlineSend

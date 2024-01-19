@@ -22,6 +22,7 @@ export const Paginator = ({
   exitRoute,
   orderedPages,
   manualNavigationAllowed,
+  trackCompletion = true,
 }) => {
   const [currentPage, setCurrentPage] = useState<PageItem>(initialCurrentPage)
   const [pageRouter, setPageRouter] = useState<PageRouter>(initialPageRouter)
@@ -86,6 +87,7 @@ export const Paginator = ({
         currentPageId={currentPage.id}
         handlePageNavigation={handlePageNavigation}
         allPages={pageRouter.allPages}
+        trackCompletion={trackCompletion}
       />
       <article className='current-page-wrapper'>
         {CurrentPageComponent && (
@@ -99,7 +101,12 @@ export const Paginator = ({
   )
 }
 
-const PageBar = ({ currentPageId, handlePageNavigation, allPages }) => {
+const PageBar = ({
+  currentPageId,
+  handlePageNavigation,
+  allPages,
+  trackCompletion,
+}) => {
   return (
     <div className='page-bar'>
       {Object.keys(allPages).map(pageTitle => (
@@ -108,17 +115,28 @@ const PageBar = ({ currentPageId, handlePageNavigation, allPages }) => {
           page={allPages[pageTitle]}
           handlePageNavigation={handlePageNavigation}
           currentPageId={currentPageId}
+          trackCompletion={trackCompletion}
         />
       ))}
     </div>
   )
 }
 
-const PageBarItem = ({ page, currentPageId, handlePageNavigation }) => {
-  const { title } = page
+const PageBarItem = ({
+  page,
+  currentPageId,
+  handlePageNavigation,
+  trackCompletion,
+}) => {
+  const { completed, title } = page
   const pageId = convertTitleToId(title)
+  let completedItem
+  if (trackCompletion) {
+    completedItem = pageId === currentPageId || completed
+  } else {
+    completedItem = pageId === currentPageId
+  }
   const currentPage = pageId === currentPageId
-
   const pageBarClassNames = `page-bar-item ${
     currentPage ? 'current-page-bar-item' : 'non-current-page-bar-item'
   }`

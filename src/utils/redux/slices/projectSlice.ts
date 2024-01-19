@@ -1,9 +1,4 @@
-import {
-  createSelector,
-  createSlice,
-  PayloadAction,
-  Update,
-} from '@reduxjs/toolkit'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { TicketInterface } from 'interfaces'
 import { ProjectInterface } from 'interfaces/ProjectInterface'
@@ -35,7 +30,7 @@ const initialState: ProjectInterface = {
     underReview: [],
   },
   completedInfo: {
-    participatingMembers: [],
+    presenting: null,
     deployedUrl: {},
   },
   members: {
@@ -110,13 +105,11 @@ const projectSlice = createSlice({
         ...action.payload,
       }
     },
-    updateParticipatingMembers: (
+    updatePresenting: (
       state,
-      action: PayloadAction<
-        ProjectInterface['completedInfo']['participatingMembers']
-      >
+      action: PayloadAction<ProjectInterface['completedInfo']['presenting']>
     ) => {
-      state.completedInfo.participatingMembers = action.payload
+      state.completedInfo.presenting = action.payload
     },
     updateDeployedUrl: (
       state,
@@ -198,7 +191,7 @@ export const {
   setProject,
   updateTicket,
   updateProject,
-  updateParticipatingMembers,
+  updatePresenting,
   updateDeployedUrl,
   setProjectStart,
   setProjectSuccess,
