@@ -42,15 +42,7 @@ export const Onboarding = () => {
   const checkIfSetProfileInfo = () => {
     const { firstName, lastName, bio, links } = authUser
 
-    return (
-      firstName.length > 0 &&
-      lastName.length > 0 &&
-      bio &&
-      bio.length > 0 &&
-      links &&
-      links.linkedinUrl &&
-      links.linkedinUrl.length > 0
-    )
+    return firstName && lastName && bio && links && links.linkedinUrl
   }
 
   const orderedPages = [

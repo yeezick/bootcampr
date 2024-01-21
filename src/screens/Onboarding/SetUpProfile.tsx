@@ -28,7 +28,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
   const [isDisabled, setIsDisabled] = useState(true)
 
   const { firstName, lastName, bio, links } = updateUserForm
-  const nestedLinks = Object.keys(updateUserForm.links)
+  const nestedLinks = ['githubUrl', 'linkedinUrl', 'portfolioUrl']
 
   let inputString =
     "I'm from... I live in... I chose this career path because... My hobbies are... A fun fact about me is..."
@@ -48,12 +48,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     setBioCharCount(charCount)
 
     const { firstName, lastName, bio, links } = updateUserForm
-    const validForm =
-      firstName.length > 0 &&
-      lastName.length > 0 &&
-      bio.length > 0 &&
-      links.linkedinUrl &&
-      links.linkedinUrl.length > 0
+    const validForm = firstName && lastName && bio && links.linkedinUrl
 
     setIsDisabled(!validForm)
   }, [updateUserForm])
