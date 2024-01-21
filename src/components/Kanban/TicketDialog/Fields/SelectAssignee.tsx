@@ -1,6 +1,5 @@
 import { handleReduxInputChange } from 'utils/helpers'
-import '../../Ticket.scss'
-import { Icon, MenuItem, Select } from '@mui/material'
+import { MenuItem, Select } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 import {
@@ -9,6 +8,7 @@ import {
 } from 'utils/redux/slices/taskBoardSlice'
 import { useEffect } from 'react'
 import { TicketTextLabel } from './TicketTextFields'
+import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 
 export const SelectAssignee = () => {
   const projectMembers = useAppSelector(selectMembersAsTeam)
@@ -25,36 +25,31 @@ export const SelectAssignee = () => {
     handleReduxInputChange(e, dispatch, setTicketFields)
 
   return (
-    <div className='UserAssignee'>
+    <div className='assignee'>
       <TicketTextLabel icon='person' label='Assignee' />
       <Select
-        displayEmpty
-        className='UserAssigneeUserInfo'
+        className='select'
         name={'assignee'}
         onChange={handleAssigneeChange}
-        sx={{ width: 250 }}
         value={assignee}
       >
         <MenuItem value='Unassigned'>
-          <div className='user-card'>
-            <img className='assignee-thumbnail' src='/default_profile.png' />
+          <div className='unassigned-card'>
+            <TeamAvatar userId={'unassigned'} size='small' />
             <div className='assignee-metadata'>
-              <h1>Unassigned</h1>
+              <p className='name'>Unassigned</p>
             </div>
           </div>
         </MenuItem>
         {projectMembers.map(member => (
           <MenuItem key={member._id} value={member._id}>
             <div className='user-card'>
-              <img
-                className='assignee-thumbnail'
-                src={`${member.profilePicture}`}
-              />
+              <TeamAvatar userId={member._id} size='small' />
               <div className='assignee-metadata'>
-                <h1>
+                <p className='name'>
                   {member.firstName} {member.lastName}
-                </h1>
-                <h2>{member.role}</h2>
+                </p>
+                <p className='role'>{member.role}</p>
               </div>
             </div>
           </MenuItem>

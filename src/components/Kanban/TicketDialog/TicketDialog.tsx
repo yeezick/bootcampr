@@ -63,7 +63,7 @@ const TicketCreator = () => {
   )
 
   return (
-    <>
+    <div>
       <TicketTextLabel icon='person' label='Created by' />
       <div className='ticket-creator'>
         <TeamAvatar userId={userId} size='small' />
@@ -72,6 +72,6 @@ const TicketCreator = () => {
           <p className='role'>{role}</p>
         </div>
       </div>
-    </>
+    </div>
   )
 }

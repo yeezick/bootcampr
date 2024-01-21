@@ -41,7 +41,7 @@ const TabIcons = ({ ticketDetail }) => {
   const { assignee, comments, description, dueDate, link } = ticketDetail
   return (
     <div className='tab-icons'>
-      {assignee && <TeamAvatar userId={assignee} size='small' />}
+      {assignee && <TeamAvatar userId={assignee} size='tiny' />}
       {description && fetchIcon('description')}
       {link && fetchIcon('link')}
       {comments.length > 0 && (

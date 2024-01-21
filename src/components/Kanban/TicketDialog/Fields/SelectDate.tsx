@@ -30,16 +30,15 @@ export const SelectDate = () => {
   }
 
   return (
-    <div className='dateContainer'>
+    <div className='due-date'>
       <TicketTextLabel icon='calendar' label='Due date' />
-      <div>
-        <DatePicker
-          disablePast
-          format='MM/DD/YY'
-          onChange={handleDateChange}
-          value={datePickerDayjs}
-        />
-      </div>
+      <DatePicker
+        disablePast
+        className='select-date'
+        format='MM/DD/YY'
+        onChange={handleDateChange}
+        value={datePickerDayjs}
+      />
     </div>
   )
 }

@@ -187,6 +187,7 @@ export const selectMembersByEmail = emails => (state: RootState) => {
  */
 export const selectMembersById = userIds => (state: RootState) => {
   const allMembers = []
+  if (userIds[0] === 'unassigned') return [null]
   for (const userId of userIds) {
     const { index, role } = state.project.members.idMap[userId]
     allMembers.push(state.project.members[role][index])
