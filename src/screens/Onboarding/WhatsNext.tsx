@@ -31,15 +31,13 @@ export const WhatsNext = ({ handlePageNavigation }) => {
         </div>
         <div className='lastscreen-survey'>
           <p className='lastscreen-feedback'>
-            We love feedback. Please take{' '}
+            We love feedback. Please take&ensp;
             <span>
-              {' '}
               <a href='https://forms.gle/vfdAQpNMv2tZBwBB6' target='_blank'>
-                {' '}
                 this short survey
               </a>
-            </span>{' '}
-            so we can improve.
+            </span>
+            &ensp;so we can improve.
           </p>
           <p>Your answers will be kept confidential. Thank you!</p>
         </div>
