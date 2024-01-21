@@ -47,7 +47,7 @@ const TabIcons = ({ ticketDetail }) => {
       {comments.length > 0 && (
         <div className='comments'>
           {fetchIcon('chatBubble')}
-          <span className='count'>{comments.lenght}</span>
+          <span className='count'>{comments.length}</span>
         </div>
       )}
       {dueDate && <span>{dueDate}</span>}

@@ -1,4 +1,4 @@
-import { FormControl, MenuItem, Select } from '@mui/material'
+import { MenuItem, Select } from '@mui/material'
 import {
   selectTicketFields,
   setTicketFields,
@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { handleReduxInputChange } from 'utils/helpers'
 import { useEffect } from 'react'
 import { TicketTextLabel } from './TicketTextFields'
-import { red } from '@mui/material/colors'
 
 export const SelectStatus = () => {
   const { status } = useAppSelector(selectTicketFields)
@@ -30,10 +29,8 @@ export const SelectStatus = () => {
       <Select
         className='select'
         inputProps={{ 'aria-label': 'Without label' }}
-        sx={{ borderColor: 'red' }}
         name='status'
         onChange={handleStatusChange}
-        variant='outlined'
         value={status}
       >
         <MenuItem value={'toDo'}>To Do</MenuItem>
