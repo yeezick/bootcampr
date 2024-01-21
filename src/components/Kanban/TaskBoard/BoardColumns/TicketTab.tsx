@@ -44,10 +44,10 @@ const TabIcons = ({ ticketDetail }) => {
       {assignee && <TeamAvatar userId={assignee} size='small' />}
       {description && fetchIcon('description')}
       {link && fetchIcon('link')}
-      {comments.length === 0 && (
+      {comments.length > 0 && (
         <div className='comments'>
           {fetchIcon('chatBubble')}
-          <span className='count'>{999}</span>
+          <span className='count'>{comments.lenght}</span>
         </div>
       )}
       {dueDate && <span>{dueDate}</span>}

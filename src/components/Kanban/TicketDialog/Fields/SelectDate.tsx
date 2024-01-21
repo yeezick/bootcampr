@@ -1,17 +1,12 @@
 import { useEffect, useState } from 'react'
-import { AiOutlineCalendar } from 'react-icons/ai'
-import { Icon } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import {
-  selectTicketFields,
-  setTicketFields,
-} from 'utils/redux/slices/taskBoardSlice'
-import { handleReduxInputChange } from 'utils/helpers'
+import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
 import { DatePicker } from '@mui/x-date-pickers'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import { handleReduxDateChange } from 'utils/helpers/taskHelpers'
+import { TicketTextLabel } from './TicketTextFields'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -36,12 +31,7 @@ export const SelectDate = () => {
 
   return (
     <div className='dateContainer'>
-      <div className='date-icon-container'>
-        <Icon>
-          <AiOutlineCalendar />
-        </Icon>
-        <h1>Due date</h1>
-      </div>
+      <TicketTextLabel icon='calendar' label='Due date' />
       <div>
         <DatePicker
           disablePast

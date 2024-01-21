@@ -8,8 +8,9 @@ import {
   setTicketFields,
 } from 'utils/redux/slices/taskBoardSlice'
 import { useEffect } from 'react'
+import { TicketTextLabel } from './TicketTextFields'
 
-export const SelectAssignee = ({ detailIcon }) => {
+export const SelectAssignee = () => {
   const projectMembers = useAppSelector(selectMembersAsTeam)
   const { assignee } = useAppSelector(selectTicketFields)
   const dispatch = useAppDispatch()
@@ -25,12 +26,7 @@ export const SelectAssignee = ({ detailIcon }) => {
 
   return (
     <div className='UserAssignee'>
-      {/* TODO: Turn into component */}
-      <div className='UserAssigneeIconText'>
-        <Icon>{detailIcon}</Icon>
-        <h3>Assignee</h3>
-      </div>
-      {/*  */}
+      <TicketTextLabel icon='person' label='Assignee' />
       <Select
         displayEmpty
         className='UserAssigneeUserInfo'

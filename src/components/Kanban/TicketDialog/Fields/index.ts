@@ -1,5 +1,4 @@
-export * from './EditableText'
 export * from './SelectDate'
 export * from './SelectStatus'
 export * from './SelectAssignee'
-export * from './TicketInputFields'
+export * from './TicketTextFields'

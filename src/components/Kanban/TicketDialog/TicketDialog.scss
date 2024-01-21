@@ -1,0 +1,95 @@
+.ticket-dialog {
+  background-color: #EEE;
+  box-sizing: border-box;
+
+  &.MuiDialogContent-root {
+    padding: 48px;
+  }
+
+  .ticket-fields { 
+    display: flex;
+    gap: 64px;
+    justify-content: space-evenly;
+    
+    .text-label {
+      align-items: center;
+      display: flex;
+      margin-bottom: 8px;
+      
+      span { 
+        margin-left: 8px;
+      }
+    }
+    
+    .ticket-text-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      
+      
+      .text-input {
+        background-color: #fff;
+        margin-left: 32px;
+
+        .MuiInputBase-root {
+          padding:0;
+        }
+        
+        .MuiOutlinedInput-input {
+          border-radius: 4px;
+          padding: 8px 16px;
+          width: 438px;
+        }
+      }
+    }
+
+    .ticket-dropdown-fields {
+      .status {
+        .select {
+          background: #fff;
+          box-sizing: border-box;
+          margin-left: 32px;
+          font-size: 16px;
+          width: calc(100% - 32px); // 32px from margin
+          .MuiOutlinedInput-notchedOutline {
+            border: none;
+            padding: 8px 16px;
+          }
+          // .MuiSelect-iconOutlined {
+          //   display: none;
+          // }
+        }
+      }
+
+
+      .ticket-creator {
+        align-items: center;;
+        background-color: #fff;
+        border-radius: 4px;
+        box-sizing: border-box;
+        display: flex; 
+        gap: 16px;
+        margin-left: 32px;
+        padding: 8px;
+
+        .creator-info {
+          p {
+            margin: 0;
+          }
+
+          .name {
+            color: #212121;
+            font-size: 16px;
+            line-height: 24px;
+          }
+
+          .role {
+            color: #616161;
+            font-size: 14px;
+            line-height: 20px;
+          }
+        }
+      }
+    }
+  }
+}

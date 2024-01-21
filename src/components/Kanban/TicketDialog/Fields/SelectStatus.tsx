@@ -1,6 +1,4 @@
-import { Box, FormControl, Icon, MenuItem, Select } from '@mui/material'
-import { FiWatch } from 'react-icons/fi'
-import '../../Ticket.scss'
+import { FormControl, MenuItem, Select } from '@mui/material'
 import {
   selectTicketFields,
   setTicketFields,
@@ -8,6 +6,8 @@ import {
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { handleReduxInputChange } from 'utils/helpers'
 import { useEffect } from 'react'
+import { TicketTextLabel } from './TicketTextFields'
+import { red } from '@mui/material/colors'
 
 export const SelectStatus = () => {
   const { status } = useAppSelector(selectTicketFields)
@@ -25,27 +25,22 @@ export const SelectStatus = () => {
     handleReduxInputChange(e, dispatch, setTicketFields)
 
   return (
-    <Box sx={{ minWidth: 10 }} className='selectStatus'>
-      <div className='selectStatusIconText'>
-        <Icon>
-          <FiWatch />
-        </Icon>
-        <h3>Status</h3>
-      </div>
-      <FormControl className='selectStatusFormControl'>
-        <Select
-          className='selectStatusSelect'
-          inputProps={{ 'aria-label': 'Without label' }}
-          name='status'
-          onChange={handleStatusChange}
-          value={status}
-        >
-          <MenuItem value={'toDo'}>To Do</MenuItem>
-          <MenuItem value={'inProgress'}>In progress</MenuItem>
-          <MenuItem value={'underReview'}>Under Review</MenuItem>
-          <MenuItem value={'completed'}>Completed </MenuItem>
-        </Select>
-      </FormControl>
-    </Box>
+    <div className='status'>
+      <TicketTextLabel icon='localOffer' label='Status' />
+      <Select
+        className='select'
+        inputProps={{ 'aria-label': 'Without label' }}
+        sx={{ borderColor: 'red' }}
+        name='status'
+        onChange={handleStatusChange}
+        variant='outlined'
+        value={status}
+      >
+        <MenuItem value={'toDo'}>To Do</MenuItem>
+        <MenuItem value={'inProgress'}>In progress</MenuItem>
+        <MenuItem value={'underReview'}>Under Review</MenuItem>
+        <MenuItem value={'completed'}>Completed </MenuItem>
+      </Select>
+    </div>
   )
 }
