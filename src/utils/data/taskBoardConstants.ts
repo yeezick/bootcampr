@@ -4,7 +4,7 @@ import {
 } from 'interfaces/TaskBoardInterface'
 
 export const emptyTicketFields: TicketFieldsInterface = {
-  assignee: '',
+  assignee: 'Unassigned',
   comments: [],
   createdBy: '',
   description: '',

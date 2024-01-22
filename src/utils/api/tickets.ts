@@ -3,7 +3,7 @@ import { api } from './apiConfig'
 
 export const createTicket = async ticketBody => {
   try {
-    const ticketData = await api.post(`/createTicket`, ticketBody)
+    const ticketData = await api.post(`/tickets/create`, ticketBody)
     return ticketData.data
   } catch (error) {
     return { error: { status: 500, message: 'Failed to create ticket', error } }

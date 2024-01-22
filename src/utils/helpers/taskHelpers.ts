@@ -13,13 +13,12 @@ export const buildTicketPayload = (projectId, userId, ticketFields) => {
   }
 
   // Determine if there is a valid value for Assignee
-  if (!ticketFields.assignee || ticketFields.assignee === 'Unassigned') {
+  if (ticketFields.assignee === 'Unassigned') {
     const { assignee, ...remainingFields } = ticketFields
     ticketPayload = { ...remainingFields, ...ticketPayload }
   } else {
     ticketPayload = { ...ticketFields, ...ticketPayload }
   }
-
   return ticketPayload
 }
 

@@ -35,7 +35,7 @@ export const SelectAssignee = () => {
       >
         <MenuItem value='Unassigned'>
           <div className='unassigned-card'>
-            <TeamAvatar userId={'unassigned'} size='small' />
+            <TeamAvatar userId={'Unassigned'} size='small' />
             <div className='assignee-metadata'>
               <p className='name'>Unassigned</p>
             </div>

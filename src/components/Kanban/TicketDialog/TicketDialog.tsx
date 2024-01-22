@@ -18,6 +18,7 @@ import { Comments } from './Comments/Comments'
 import './TicketDialog.scss'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 import { selectMembersById } from 'utils/redux/slices/projectSlice'
+import { useEffect, useState } from 'react'
 
 export const TicketDialog = () => {
   const { _id: ticketId } = useAppSelector(selectTicketFields)
@@ -58,9 +59,21 @@ const TicketDropdownFields = () => {
 
 const TicketCreator = () => {
   const { createdBy } = useAppSelector(selectTicketFields)
-  const [{ firstName, lastName, role, _id: userId }] = useAppSelector(
-    selectMembersById([createdBy])
-  )
+  const [user] = useAppSelector(selectMembersById([createdBy]))
+  const [creator, setCreator] = useState({
+    userId: 'Unassigned',
+    firstName: '',
+    lastName: '',
+    role: '',
+  })
+  const { firstName, lastName, role, userId } = creator
+
+  useEffect(() => {
+    if (user) {
+      const { firstName, lastName, role, _id: userId } = user
+      setCreator({ firstName, lastName, role, userId })
+    }
+  }, [])
 
   return (
     <div>
