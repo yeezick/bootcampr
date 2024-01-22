@@ -1,10 +1,10 @@
-import './Onboarding.scss'
+import './WhatsNext.scss'
 import { useNavigate } from 'react-router-dom'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { PrimaryButton } from 'components/Buttons'
 
-export const WhatsNext = ({ handlePageNavigation }) => {
+export const WhatsNext = () => {
   const authUser = useAppSelector(selectAuthUser)
   const navigate = useNavigate()
 

@@ -1,3 +1,4 @@
+import './SetUpProfile.scss'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -8,12 +9,11 @@ import { updateUser } from 'utils/api/users'
 import { useNotification } from 'utils/redux/slices/notificationSlice'
 import Avatar from 'components/Avatar/Avatar'
 import TextareaAutosize from 'react-textarea-autosize'
-import './Onboarding.scss'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 
 export const SetUpProfile = ({ handlePageNavigation }) => {
-  const params = useParams()
   const dispatch = useDispatch()
+  const params = useParams()
   const authUser = useSelector(selectAuthUser)
   const { displayNotification } = useNotification()
 

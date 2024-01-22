@@ -1,3 +1,4 @@
+import './Role.scss'
 import { useEffect, useState } from 'react'
 import { updateUserProfile } from 'utils/api'
 import { useDispatch } from 'react-redux'
@@ -42,7 +43,7 @@ export const Role = ({ handlePageNavigation }) => {
   }, [authUser])
 
   return (
-    <div className='onboarding-incomplete-container'>
+    <div className='onboarding-container'>
       <form className='onboarding-form-container'>
         <div className='welcome-container'>
           <h1>Welcome, {authUser.firstName}!</h1>
