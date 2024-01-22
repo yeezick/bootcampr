@@ -1,6 +1,12 @@
 import { TicketInterface, UserInterface } from 'interfaces'
 import { ProjectMemberInterface } from 'interfaces/UserInterface'
 
+export interface EmailMap {
+  [key: string]: {
+    role: string
+    index: number
+  }
+}
 export interface ProjectInterface {
   loading?: boolean
   _v?: number
@@ -21,14 +27,10 @@ export interface ProjectInterface {
     engineers?: UserInterface[]
   }
   problem: string
-  projectTracker?: {
-    completed?: TicketInterface[]
-    inProgress?: TicketInterface[]
-    toDo?: TicketInterface[]
-    underReview?: TicketInterface[]
-  }
+  projectTracker?: ProjectTrackerInterface
   completedInfo?: {
     participatingMembers?: { user: ProjectMemberInterface; decision: string }[]
+    presenting?: boolean
     deployedUrl?: {
       [key: string]: string
     }
@@ -43,9 +45,22 @@ export interface ProjectInterface {
   }
 }
 
-export interface EmailMap {
-  [key: string]: {
-    role: string
-    index: number
-  }
+export interface ProjectTrackerInterface {
+  completed: TicketInterface[]
+  inProgress: TicketInterface[]
+  toDo: TicketInterface[]
+  underReview: TicketInterface[]
+}
+
+export interface TeamWithdrawalModal {
+  onOpenModal?: () => void
+  openModal?: boolean
+  onCloseAll?: () => void
+  openMenu?: boolean
+  onCloseMenu?: () => void
+  anchorEl?: HTMLElement | null
+}
+
+export type ProjectParams = {
+  projectId: string
 }

@@ -1,0 +1,108 @@
+.meeting-modal {
+
+
+  .modal-dialog-content {
+    overflow-x:hidden;
+    padding-right: 10px;
+    padding-left: 10px;
+  
+  }
+  .meeting-modal-icons {
+    align-items: center;;
+    background-color: white;
+    display: flex; 
+    height: 44px;
+    justify-content: space-between;
+    position: absolute;
+    top: 0px;
+    width: 87%;
+    z-index: 2;
+  }
+
+  .back-arrow-icon {
+    cursor: pointer;
+  }
+  
+  .clear-icon {
+    cursor: pointer;
+  }
+
+  .content-wrapper {
+    display:grid;
+    gap: 16px;
+    grid-template-areas: 
+    "title title"
+    "clockIcon dateFields"
+    "peopleIcon selectAttendees"
+    "divider divider"
+    "meetIcon meetToggler"
+    "descriptionIcon description";
+    margin-top: 20px;
+
+
+    .title-input-label {
+      font-size: 32px;
+    }
+
+    .title-field {
+      padding-left: 35px;
+      grid-area:title;
+      margin: 0;
+    }
+
+    .required-span {
+      margin: 0;
+      font-size: 12px;
+      font-style: italic;
+    }
+
+    .time-fields{
+      display: flex;
+      flex-direction: row;
+    }
+
+    .description-icon {
+      grid-area: descriptionIcon;
+      margin-top: 15px;
+    }
+
+    .description-field {
+      grid-area: description
+    }
+  }
+
+  .people-icon {
+    grid-area: peopleIcon;
+    margin-top: 10px;
+  }
+
+  .meeting-modal-divider {
+    background-color: #313335;
+    grid-area: divider;
+    height: 1px;
+    position: relative;
+    right: 24px;
+    width: 120%;
+  }
+
+  .meeting-text-field {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .google-meet-icon {
+    grid-area: meetIcon;
+    margin-top: 5px;
+  }
+
+  .google-meet-text {
+    color:  #212121;
+    margin: 0;
+    font-size: 12px;
+  }
+
+  .google-meet-toggler {
+    grid-area: meetToggler;
+  }
+}
+

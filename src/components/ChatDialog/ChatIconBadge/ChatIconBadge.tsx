@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { useSocket } from 'components/Notifications/Socket'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import {
-  selectConversation,
-  setUnreadMessages,
-} from 'utils/redux/slices/chatSlice'
+import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
+import { setUnreadMessages } from 'utils/redux/slices/chatSlice'
 import './ChatIconBadge.scss'
 import { getOneUser } from 'utils/api'
 
@@ -42,11 +39,9 @@ export const ChatIconBadge = ({
     const getAuthUserUnreadMessages = async () => {
       try {
         const res = await getOneUser(authUser._id)
-
         if (res) {
-          const unreadCount = Object.keys(res.unreadMessages).length
-
-          dispatch(setUnreadMessages(unreadCount))
+          dispatch(setAuthUser(res))
+          dispatch(setUnreadMessages(res.unreadMessages))
           setIsChatBadgeUpdated(true)
         }
       } catch (error) {
@@ -61,11 +56,12 @@ export const ChatIconBadge = ({
     isChatBadgeUpdated,
   ])
 
-  const badgeClassName = unreadConversations === 0 ? 'hidden' : 'visible'
+  const badgeClassName =
+    Object.keys(unreadConversations).length === 0 ? 'hidden' : 'visible'
 
   return (
     <div className={`messages-badge ${badgeClassName}`}>
-      <p>{unreadConversations}</p>
+      <p>{Object.keys(unreadConversations).length}</p>
     </div>
   )
 }

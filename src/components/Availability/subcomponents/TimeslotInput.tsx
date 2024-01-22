@@ -5,7 +5,7 @@ import {
 } from '@mui/icons-material'
 import { SelectTimeInput } from './SelectTimeInput'
 import { Checkbox } from '@mui/material'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './CopyTimesModal.scss'
 import { useDispatch } from 'react-redux'
 import { setUserAvailability } from 'utils/redux/slices/userSlice'
@@ -30,6 +30,10 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
   useEffect(() => {
     dispatch(setUserAvailability(days))
   }, [days])
+
+  const handleRenderModal = (e, idx) => {
+    renderCopyTimesModal(idx, displayModal, toggleDisplayModal)
+  }
 
   return (
     <div className='timeslots-container'>
@@ -72,13 +76,10 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
                   idx={idx}
                   copyTimes={copyTimes}
                   setDays={setDays}
+                  handleRenderModal={handleRenderModal}
                 />
               )}
-              <ContentCopyOutlined
-                onClick={() =>
-                  renderCopyTimesModal(idx, displayModal, toggleDisplayModal)
-                }
-              />
+              <ContentCopyOutlined onClick={e => handleRenderModal(e, idx)} />
             </div>
           </div>
         </div>
@@ -87,7 +88,14 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
   )
 }
 
-export const CopyTimesModal = ({ days, day, idx, copyTimes, setDays }) => {
+export const CopyTimesModal = ({
+  days,
+  day,
+  idx,
+  copyTimes,
+  setDays,
+  handleRenderModal,
+}) => {
   const timeString = `${days[day].availability[idx][0]} - ${days[day].availability[idx][1]}`
   const [checked, setChecked] = useState({
     EVRY: false,
@@ -110,9 +118,32 @@ export const CopyTimesModal = ({ days, day, idx, copyTimes, setDays }) => {
     'SATURDAY',
   ]
 
+  const modalEl = useRef<any>()
+
+  const handleApply = e => {
+    copyTimes(checked, day, days, idx, setDays)
+    handleRenderModal(e, idx)
+  }
+
+  useEffect(() => {
+    const handler = e => {
+      if (!modalEl.current) {
+        return
+      }
+      if (!modalEl.current.contains(e.target)) {
+        handleRenderModal(e, idx)
+      }
+    }
+
+    document.addEventListener('click', handler, true)
+    return () => {
+      document.removeEventListener('click', handler)
+    }
+  }, [])
+
   return (
-    <div className='copy-times-modal'>
-      <p>
+    <div className='copy-times-modal' ref={modalEl}>
+      <p className='copy-times-text'>
         Copy <strong>{timeString}</strong> to:
       </p>
       <CopyTimesOption
@@ -129,10 +160,7 @@ export const CopyTimesModal = ({ days, day, idx, copyTimes, setDays }) => {
           setChecked={setChecked}
         />
       ))}
-      <button
-        className='apply'
-        onClick={() => copyTimes(checked, day, days, idx, setDays)}
-      >
+      <button className='apply' onClick={handleApply}>
         Apply
       </button>
     </div>
@@ -175,7 +203,12 @@ const CopyTimesOption = ({ day, selectedDay, checked, setChecked }) => {
         name={day}
         sx={{ color: '#022888', '&.Mui-checked': { color: '#022888' } }}
       />
-      <h2 style={{ color: textColor }}>{day}</h2>
+      <h2
+        className='copy-times-option-days'
+        style={{ color: textColor, width: 100 }}
+      >
+        {day}
+      </h2>
     </div>
   )
 }

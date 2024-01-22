@@ -5,7 +5,7 @@ import {
   TimeZoneInputBanner,
 } from './subcomponents'
 import {
-  getUserAvailability,
+  selectUserAvailability,
   getUserTimezone,
 } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
@@ -18,7 +18,7 @@ export const Availability = ({
   uxUserTimezone,
   setUxUserTimezone,
 }): JSX.Element => {
-  const userAvailability = useAppSelector(getUserAvailability)
+  const userAvailability = useAppSelector(selectUserAvailability)
   const storedUserTimezone = useAppSelector(getUserTimezone)
 
   useEffect(() => {
@@ -36,10 +36,11 @@ export const Availability = ({
       />
       <p>Set weekly availability</p>
       <hr />
-      {Object.keys(weekdaysMap).map(day => (
+      {Object.keys(weekdaysMap).map((day, idx) => (
         <DayAvailabilityInputBanner
           day={day}
           days={days}
+          idx={idx}
           key={`${day}-banner`}
           setDays={setDays}
         />

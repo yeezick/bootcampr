@@ -16,12 +16,24 @@ export const Email = () => {
   const [emailMatch, setEmailMatch] = useState(false)
   const [nonEmpty, setNonEmpty] = useState(false)
   const [isDisabled, toggleIsDisabled] = useState(true)
+  const [isValidEmail, setValidEmail] = useState(true)
   const currentUserEmail = authUser.email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
   const refreshForm = () => {
     setNewEmail('')
     setReEnterNewEmail('')
     toggleIsDisabled(true)
+    setValidEmail(true)
+  }
+
+  const handleEmailChange = e => {
+    const { value } = e.target
+    setNewEmail(value)
+    setValidEmail(emailRegex.test(value))
+    if (!value) {
+      refreshForm()
+    }
   }
 
   const checkIfEmailsMatch = () => {
@@ -57,7 +69,7 @@ export const Email = () => {
 
   useEffect(() => {
     setNonEmpty(newEmail.length > 1 && reEnterNewEmail.length > 1)
-    if (checkIfEmailsMatch() && newEmail.length > 0) {
+    if (newEmail.length > 0 && isValidEmail) {
       toggleIsDisabled(false)
     } else {
       toggleIsDisabled(true)
@@ -66,30 +78,23 @@ export const Email = () => {
 
   return (
     <div className='settings-card'>
+      <h3>Update email address</h3>
       <h4>Current email address</h4>
       <p>{currentUserEmail}</p>
-      <h4>Enter updated email address (ex. jeanine@bootcampr.io)</h4>
-      <input
-        type='text'
-        value={newEmail}
-        onChange={e => setNewEmail(e.target.value)}
-      />
-      <h4>Re-enter updated email address</h4>
-      <input
-        type='text'
-        value={reEnterNewEmail}
-        onChange={e => setReEnterNewEmail(e.target.value)}
-      />
-      {nonEmpty &&
-        (emailMatch ? (
-          <p className='valid'>Email addresses match</p>
-        ) : (
-          <p className='invalid'>Email addresses do not match</p>
-        ))}
+      <label htmlFor='newEmail'>Enter updated email address</label>
+
+      <div className='email-input-container'>
+        <input
+          type='text'
+          id='newEmail'
+          value={newEmail}
+          onChange={handleEmailChange}
+          placeholder='email@email.com'
+          className={isValidEmail ? '' : 'invalid-email'}
+        />
+        {!isValidEmail && <p className='invalid-msg'>Invalid email address</p>}
+      </div>
       <div className='buttons'>
-        <button className='cancel' onClick={refreshForm}>
-          Cancel
-        </button>
         <button
           className='update'
           disabled={isDisabled}

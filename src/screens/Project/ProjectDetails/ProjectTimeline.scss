@@ -1,0 +1,48 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+
+.project-timeline {
+  @include flex(column);
+  align-self: stretch;
+  color: #212121;
+  gap: 4px;
+  height: 100%;
+  padding: 16px 0 0;
+  width: 100%;
+
+  .ptl-text-cont {
+    @include flex(column);
+    flex: 1 0 0;
+    gap: 16px;
+    height: 100%;
+    padding: 0;
+    position: relative;
+    width: 100%;
+  }
+
+  .ptl-header-cont {
+    @include flex(column);
+    align-self: stretch;
+    gap: 16px;
+    height: 100%;
+    position: relative;
+    width: 100%;
+
+    h1 {
+      @include font-properties(
+        (
+          size: 22px,
+          weight: 700,
+          line-height: 28px,
+        )
+      );
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .ptl-flow-cont {
+    max-height: 750px;
+    overflow-y: auto;
+  }
+}

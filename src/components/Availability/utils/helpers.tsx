@@ -16,17 +16,9 @@ import { updateAvailability } from 'utils/api'
  */
 export const consolidateAvailability = availability => {
   let consolidatedAvail = [...availability]
-  for (let i = 1; i < consolidatedAvail.length; i++) {
-    const timeA = consolidatedAvail[i][0]
-    const timeB = consolidatedAvail[i - 1][1]
-    if (timeOptions.indexOf(timeA) <= timeOptions.indexOf(timeB)) {
-      consolidatedAvail[i - 1] = [
-        consolidatedAvail[i - 1][0],
-        consolidatedAvail[i][1],
-      ]
-      consolidatedAvail.splice(i, 1)
-    }
-  }
+  // TODO: redo this logic
+  // https://bootcamper.atlassian.net/browse/BC-652
+  // }
   return consolidatedAvail
 }
 
@@ -181,8 +173,15 @@ export const deleteTimeSlot = (day, days, setDays, idx) => {
  * @param idx
  */
 export const addTimeSlot = (day, days, setDays, idx) => {
+  let nextTimeslot
   const currentTimeslot = days[day].availability[idx][1]
-  const nextTimeslot = getNextTimeslot(currentTimeslot)
+  if (currentTimeslot === '11:30 PM') {
+    nextTimeslot = ['12:00 AM', '12:30 AM']
+  } else if (currentTimeslot === '12:00 AM') {
+    nextTimeslot = ['12:30 AM', '1:00 AM']
+  } else {
+    nextTimeslot = getNextTimeslot(currentTimeslot)
+  }
   const newAvailability = [...days[day].availability]
 
   newAvailability.push(nextTimeslot)

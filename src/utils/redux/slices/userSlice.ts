@@ -156,14 +156,17 @@ const userSlice = createSlice({
   },
 })
 
-export const getUserAvailability = (state: RootState) =>
+export const selectUserAvailability = (state: RootState) =>
   state.ui.auth.user.availability
 export const getUserTimezone = (state: RootState) => state.ui.auth.user.timezone
 export const getUserProfileImage = (state: RootState) =>
   state.ui.auth.user.profilePicture
 export const selectAuthUser = (state: RootState) => state.ui.auth.user
 export const selectUserEmail = (state: RootState) => state.ui.auth.user.email
-export const selectProjectId = (state: RootState) => state.ui.auth.user.project
+export const selectUserProjectId = (state: RootState) =>
+  state.ui.auth.user.project
+export const selectUserHasProjectId = state =>
+  state.ui.auth.user.project ? true : false
 export const selectUserId = (state: RootState) => state.ui.auth.user._id
 export const uiStatus = (state: RootState) => state.ui.status
 export const selectHasUploadedProfilePicture = (state: RootState) => {

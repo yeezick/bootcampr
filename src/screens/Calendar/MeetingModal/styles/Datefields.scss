@@ -1,0 +1,29 @@
+.date-picker {
+  background: '#ECEBEB';
+  border: 'none';
+  font-size: '10px';
+
+  &.MuiOutlinedInput-notchedOutline {
+    border: 'none',
+  }
+}
+
+.clock-icon {
+  grid-area: clockIcon;
+  margin-top: 10px;
+}
+
+.select-time-wrapper {
+  margin-left: 10px;
+  margin-right: 50px;
+
+ }
+
+.span-dash {
+  font-weight: 600;
+  padding: 10px;
+  letter-spacing: 2px;
+  font-size: 14px;
+}
+
+

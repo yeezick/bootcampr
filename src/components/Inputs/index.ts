@@ -1,3 +1,4 @@
 export * from './Email'
-export * from './Passwords'
 export * from './Text'
+export * from './Passwords'
+export * from './PasswordInputs'

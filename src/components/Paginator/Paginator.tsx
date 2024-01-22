@@ -18,7 +18,11 @@ import {
 import { useSearchParams } from 'react-router-dom'
 import './paginator.scss'
 
-export const Paginator = ({ exitRoute, orderedPages }) => {
+export const Paginator = ({
+  exitRoute,
+  orderedPages,
+  trackCompletion = true,
+}) => {
   const [currentPage, setCurrentPage] = useState<PageItem>(initialCurrentPage)
   const [pageRouter, setPageRouter] = useState<PageRouter>(initialPageRouter)
   const [searchParams, setSearchParams] = useSearchParams()
@@ -82,6 +86,7 @@ export const Paginator = ({ exitRoute, orderedPages }) => {
         currentPageId={currentPage.id}
         handlePageNavigation={handlePageNavigation}
         allPages={pageRouter.allPages}
+        trackCompletion={trackCompletion}
       />
       <article className='current-page-wrapper'>
         {CurrentPageComponent && (
@@ -95,7 +100,12 @@ export const Paginator = ({ exitRoute, orderedPages }) => {
   )
 }
 
-const PageBar = ({ currentPageId, handlePageNavigation, allPages }) => {
+const PageBar = ({
+  currentPageId,
+  handlePageNavigation,
+  allPages,
+  trackCompletion,
+}) => {
   return (
     <div className='page-bar'>
       {Object.keys(allPages).map(pageTitle => (
@@ -104,16 +114,27 @@ const PageBar = ({ currentPageId, handlePageNavigation, allPages }) => {
           page={allPages[pageTitle]}
           handlePageNavigation={handlePageNavigation}
           currentPageId={currentPageId}
+          trackCompletion={trackCompletion}
         />
       ))}
     </div>
   )
 }
 
-const PageBarItem = ({ page, currentPageId, handlePageNavigation }) => {
+const PageBarItem = ({
+  page,
+  currentPageId,
+  handlePageNavigation,
+  trackCompletion,
+}) => {
   const { completed, title } = page
   const pageId = convertTitleToId(title)
-  const completedItem = pageId === currentPageId || completed
+  let completedItem
+  if (trackCompletion) {
+    completedItem = pageId === currentPageId || completed
+  } else {
+    completedItem = pageId === currentPageId
+  }
   const pageBarClassNames = `page-bar-item ${
     completedItem ? 'complete-page-bar-item' : 'incomplete-page-bar-item'
   }`

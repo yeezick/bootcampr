@@ -1,7 +1,10 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { produce } from 'immer'
+import { TicketInterface } from 'interfaces'
 import { ProjectInterface } from 'interfaces/ProjectInterface'
 import { RootState } from 'utils/redux/store'
+
+// TODO: Make project tracker its own model and add to taskboard slice
 
 const initialState: ProjectInterface = {
   loading: false,
@@ -27,7 +30,7 @@ const initialState: ProjectInterface = {
     underReview: [],
   },
   completedInfo: {
-    participatingMembers: [],
+    presenting: null,
     deployedUrl: {},
   },
   members: {
@@ -40,10 +43,80 @@ const initialState: ProjectInterface = {
   },
 }
 
+export interface AddTicketReducer {
+  status: string
+  newTicket: TicketInterface
+}
+
+export interface ChangeTicketStatusReducer {
+  initialStatus: string
+  targetStatus: string
+  targetTicketId: string
+  updatedTicket: TicketInterface
+}
+
+export interface DeleteTicketReducer {
+  status: string
+  ticketId: string
+}
+
+export interface UpdateTicketReducer {
+  initialStatus: string
+  updatedTicket: TicketInterface
+}
+
 const projectSlice = createSlice({
   name: 'project',
   initialState,
   reducers: {
+    addTicketToStatus: (state, action: PayloadAction<AddTicketReducer>) => {
+      const newTicket = action.payload
+      state.projectTracker[newTicket.status].push(newTicket)
+    },
+    updateTicket: (state, action: PayloadAction<UpdateTicketReducer>) => {
+      const { initialStatus, updatedTicket } = action.payload
+      const projectTracker = state.projectTracker
+      const ticketIdx = state.projectTracker[initialStatus].findIndex(
+        ticket => ticket._id === updatedTicket._id
+      )
+      const locatedTicket = state.projectTracker[initialStatus][ticketIdx]
+
+      if (locatedTicket.status === updatedTicket.status) {
+        state.projectTracker[initialStatus][ticketIdx] = updatedTicket
+      } else {
+        changeTicketStatus(initialStatus, projectTracker, state, updatedTicket)
+      }
+    },
+    updateTicketStatus: (state, action: PayloadAction<UpdateTicketReducer>) => {
+      const { initialStatus, updatedTicket } = action.payload
+      const projectTracker = state.projectTracker
+
+      changeTicketStatus(initialStatus, projectTracker, state, updatedTicket)
+    },
+    deleteTicket: (state, action: PayloadAction<DeleteTicketReducer>) => {
+      const { status, ticketId } = action.payload
+      state.projectTracker[status] = state.projectTracker[status].filter(
+        ticket => ticket._id !== ticketId
+      )
+    },
+    updateProject: (state, action: PayloadAction<ProjectInterface>) => {
+      return {
+        ...state,
+        ...action.payload,
+      }
+    },
+    updatePresenting: (
+      state,
+      action: PayloadAction<ProjectInterface['completedInfo']['presenting']>
+    ) => {
+      state.completedInfo.presenting = action.payload
+    },
+    updateDeployedUrl: (
+      state,
+      action: PayloadAction<ProjectInterface['completedInfo']['deployedUrl']>
+    ) => {
+      state.completedInfo.deployedUrl = action.payload
+    },
     setProject: (state, action: PayloadAction<ProjectInterface>) => {
       const updatedProject = produce(action.payload, draft => {
         const { engineers, designers } = draft.members
@@ -52,25 +125,8 @@ const projectSlice = createSlice({
       })
       return updatedProject
     },
-    updateProject: (state, action: PayloadAction<ProjectInterface>) => {
-      return {
-        ...state,
-        ...action.payload,
-      }
-    },
-    updateParticipatingMembers: (
-      state,
-      action: PayloadAction<
-        ProjectInterface['completedInfo']['participatingMembers']
-      >
-    ) => {
-      state.completedInfo.participatingMembers = action.payload
-    },
-    updateDeployedUrl: (
-      state,
-      action: PayloadAction<ProjectInterface['completedInfo']['deployedUrl']>
-    ) => {
-      state.completedInfo.deployedUrl = action.payload
+    setProjectFailure: state => {
+      state.loading = false
     },
     setProjectStart: state => {
       state.loading = true
@@ -78,9 +134,6 @@ const projectSlice = createSlice({
     setProjectSuccess: (state, action: PayloadAction<ProjectInterface>) => {
       state.loading = false
       return action.payload
-    },
-    setProjectFailure: state => {
-      state.loading = false
     },
     renderProjectPortal: state => {
       state.projectPortal.renderProjectPortal =
@@ -120,19 +173,25 @@ export const selectMembersByEmail = emails => (state: RootState) => {
   return allMembers
 }
 
-export const selectMembersByRole = (state: RootState) => state.project.members
 export const selectCalendarId = (state: RootState) => state.project.calendarId
-export const selectProject = (state: RootState) => state.project
-export const selectProjectId = (state: RootState) => state.project._id
 export const selectCompletedInfo = (state: RootState) =>
   state.project.completedInfo
+export const selectMembersByRole = (state: RootState) => state.project.members
+export const selectProject = (state: RootState) => state.project
+export const selectProjectId = (state: RootState) => state.project._id
+export const selectProjectTracker = (state: RootState) =>
+  state.project.projectTracker
 export const selectRenderProjectPortal = (state: RootState) =>
   state.project.projectPortal.renderProjectPortal
 
 export const {
+  addTicketToStatus,
+  updateTicketStatus,
+  deleteTicket,
   setProject,
+  updateTicket,
   updateProject,
-  updateParticipatingMembers,
+  updatePresenting,
   updateDeployedUrl,
   setProjectStart,
   setProjectSuccess,
@@ -168,4 +227,18 @@ const determineRole = roleStr => {
   } else if (roleStr === 'Software Engineer') {
     return 'engineers'
   }
+}
+
+const changeTicketStatus = (
+  initialStatus,
+  projectTracker,
+  state,
+  updatedTicket
+) => {
+  const filteredInitialStatusColumn = projectTracker[initialStatus].filter(
+    ticket => ticket._id !== updatedTicket._id
+  )
+
+  projectTracker[updatedTicket.status].push(updatedTicket)
+  state.projectTracker[initialStatus] = filteredInitialStatusColumn
 }

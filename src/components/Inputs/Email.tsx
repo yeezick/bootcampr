@@ -7,10 +7,17 @@ export const Email = ({ setFormValues }) => {
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const inputId = 'email'
-  const sampleEmail = ' (ex. jeanine@bootcampr.io)'
+  const sampleEmail = ' (ex. uxdesigner@bootcampr.io)'
 
   const validateEmail = async e => {
-    const email = e.target.value
+    const email = e.target.value.trim()
+
+    if (email === '') {
+      setError(true)
+      setErrorMessage('This field is required')
+      return
+    }
+
     const { status, message } = await verifyEmail(email)
 
     if (status >= 400) {
@@ -23,24 +30,40 @@ export const Email = ({ setFormValues }) => {
   }
 
   const handleEmailChange = e => {
+    const email = e.target.value.trim()
+    if (email.length) {
+      setError(false)
+    }
+
     handleFormInputChange(e, setFormValues)
   }
+
   return (
     <div className='email'>
-      <FormControl variant='standard'>
+      <FormControl className='sign-up-input-container' variant='standard'>
         <label className='form-label' htmlFor={inputId}>
           Email
-          <span className='password-label-helper'>{sampleEmail}</span>
+          <span className='email-label-helper'>{sampleEmail}</span>
         </label>
-        <input
-          id={inputId}
-          name={inputId}
-          onBlur={validateEmail}
-          onChange={handleEmailChange}
-          required
-          type={inputId}
-        />
-        {error && <FormHelperText error={true}>{errorMessage}</FormHelperText>}
+        <div className='form-input'>
+          <input
+            aria-required
+            id={inputId}
+            name={inputId}
+            onBlur={validateEmail}
+            onChange={handleEmailChange}
+            required
+            type={inputId}
+            style={{
+              borderColor: error ? '#d32f2f' : '',
+            }}
+          />
+          {error && (
+            <FormHelperText className='error-message' error={true}>
+              {errorMessage}
+            </FormHelperText>
+          )}
+        </div>
       </FormControl>
     </div>
   )

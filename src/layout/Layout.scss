@@ -6,7 +6,6 @@
   background-color: #e5e5e5;
   margin-top: 93px;
   min-height: calc(100vh - 250px);
-  padding-bottom: 5rem;
   width: 100%;
 }
 
@@ -15,8 +14,11 @@
 }
 
 #forgot-password-link {
-  color: #022888;
+  color: #0d47a1;
+  cursor: pointer;
   font-size: 14px;
-  font-weight: 400;
-  line-height: 19.6px;
+  font-weight: 700;
+  line-height: 20px;
+  margin-top: 4px;
+  text-decoration: underline;
 }

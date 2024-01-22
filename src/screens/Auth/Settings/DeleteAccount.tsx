@@ -4,11 +4,16 @@ import './Settings.scss'
 export const DeleteAccount = ({}) => {
   return (
     <div className='DeleteAccount'>
-      <h1>Deleting your account cannot be undone.</h1>
-      <p className='delete-paragraph'>
-        All saved information will be lost. We’re sorry to see you go but wish
-        you all the best! Delete account
-      </p>
+      <div className='delete-header'>
+        <h2>Delete account</h2>
+        <h3>Deleting your account cannot be undone.</h3>
+        <p>All saved information will be lost.</p>
+      </div>
+      <div className='joke-div'>
+        <p>We're sorry to see you go.</p>
+        <p>How do robots say goodbye?</p>
+        <p>Bye-nary.</p>
+      </div>
       <DeleteAccountModal />
     </div>
   )

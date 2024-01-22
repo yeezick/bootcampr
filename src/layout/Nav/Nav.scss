@@ -11,12 +11,12 @@
 
 nav {
   align-items: center;
-  background-color: #313335;
+  background-color: #5C6BC0;
   display: flex;
-  height: 65px;
+  height: 96px;
   justify-content: space-between;
   left: 0;
-  padding: 16px 32px;
+  padding: 0 32px;
   position: fixed;
   right: 0;
   top: 0;
@@ -139,28 +139,28 @@ nav {
     gap: 16px;
   }
 
-  .sign-up {
-    background: #fa9413;
+  :is(.sign-up,.log-in){
+    align-items: center;
     border-radius: 4px;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    color: #313335;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 22.4px;
-    padding: 6px 12px;
+    color:#1A237E;
+    display: flex;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    gap: 8px;
+    height: 40px;
+    justify-content: center;
+    line-height: 20px; /* 142.857% */
+    padding: 0px 24px;
     text-decoration: none;
+  }
+  .sign-up {
+    background:#FFA726;
+   
   }
 
   .log-in {
-    background: #fefefe;
-    border: 1px solid #8048c8;
-    border-radius: 4px;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    color: #8048c8;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 22.4px;
-    padding: 6px 12px;
-    text-decoration: none;
+    background: #FFF;
+    border: 1px solid  #5C6BC0;
   }
 }

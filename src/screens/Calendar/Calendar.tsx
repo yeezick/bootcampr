@@ -1,12 +1,27 @@
-import { CalendarHeader, CalendarTabs, MeetingModal } from 'components/Calendar'
-import 'components/Calendar/Calendar.scss'
+import {
+  CalendarHeader,
+  CalendarTabs,
+  EditableMeetingModal,
+} from 'screens/Calendar'
+import './Calendar.scss'
+import { useState } from 'react'
+import AlertNotification from './MeetingModal/EditableMeetingModal/AlertNotification'
 
 export const CalendarScreen = () => {
+  const [openAlert, setOpenAlert] = useState(false)
+
+  const handleCloseAlert = () => setOpenAlert(false)
+  const handleOpenAlert = () => setOpenAlert(true)
+
   return (
     <div className='calendar'>
       <CalendarHeader />
       <CalendarTabs />
-      <MeetingModal />
+      <EditableMeetingModal handleOpenAlert={handleOpenAlert} />
+      <AlertNotification
+        handleCloseAlert={handleCloseAlert}
+        openAlert={openAlert}
+      />
     </div>
   )
 }

@@ -86,6 +86,7 @@ export interface SignInInterface {
 
 export interface ForgotPasswordInterface {
   onClose?: () => void
+  forgotPasswordModal?: boolean
   onSuccessMessage?: string
   onFailureMessage?: string
 }
@@ -132,48 +133,34 @@ export const timeOptions = [
 export type TimeOption = (typeof timeOptions)[0]
 
 export interface AvailabilityInterface {
-  SUN:
-    | string
-    | {
-        available: boolean
-        availability: TimeOption[][]
-      }
-  MON:
-    | string
-    | {
-        available: boolean
-        availability: TimeOption[][]
-      }
-  TUE:
-    | string
-    | {
-        available: boolean
-        availability: TimeOption[][]
-      }
-  WED:
-    | string
-    | {
-        available: boolean
-        availability: TimeOption[][]
-      }
-  THU:
-    | string
-    | {
-        available: boolean
-        availability: TimeOption[][]
-      }
-  FRI:
-    | string
-    | {
-        available: boolean
-        availability: TimeOption[][]
-      }
-  SAT:
-    | string
-    | {
-        available: boolean
-        availability: TimeOption[][]
-      }
+  SUN: {
+    available: boolean
+    availability: TimeOption[][]
+  }
+  MON: {
+    available: boolean
+    availability: TimeOption[][]
+  }
+  TUE: {
+    available: boolean
+    availability: TimeOption[][]
+  }
+  WED: {
+    available: boolean
+    availability: TimeOption[][]
+  }
+  THU: {
+    available: boolean
+    availability: TimeOption[][]
+  }
+  FRI: {
+    available: boolean
+    availability: TimeOption[][]
+  }
+  SAT: {
+    available: boolean
+    availability: TimeOption[][]
+  }
 }
 
 export interface ProjectMemberInterface {

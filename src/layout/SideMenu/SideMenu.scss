@@ -1,17 +1,18 @@
 .sidemenu-container {
   background: #ffffff;
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 3px 1px #1a237e26;
   display: flex;
   flex-direction: column;
   padding: calc(93px + 1rem) 16px 32px;
   transition: 0.3s ease-in-out;
   width: 272px;
+  border: 1.5px solid #1a237e26;
 
   .completion-overflow-btn {
     align-self: center;
     background-color: #fa9413;
-    border-radius: 4px;
     border: none;
+    border-radius: 4px;
     color: #313335;
     cursor: pointer;
     font-size: 16px;
@@ -20,6 +21,23 @@
     line-height: 22px;
     width: 216px;
   }
+
+  .disabled-btn {
+    align-self: center;
+    background-color: #fa9413;
+    border: none;
+    border-radius: 4px;
+    color: #313335;
+    cursor: not-allowed;
+    font-size: 16px;
+    font-weight: 500;
+    height: 51px;
+    line-height: 22px;
+    opacity: 0.6;
+    pointer-events: none;
+    width: 216px;
+  }
+
   .project-completion-link {
     align-self: center;
     margin-top: auto;
@@ -32,9 +50,8 @@
       font-size: 22px;
       font-style: normal;
       font-weight: 700;
-      line-height: 28px; 
+      line-height: 28px;
     }
-
   }
 
   .sidemenu-links {
@@ -61,8 +78,30 @@
     }
   }
 
+  .link-disable {
+    align-items: center;
+    border-radius: 4px;
+    color: #ccc;
+    cursor: not-allowed;
+    display: flex;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 28px;
+    margin-bottom: 8px;
+    opacity: 0.5;
+    padding: 16px;
+    pointer-events: none;
+    text-decoration: none;
+
+    .MuiSvgIcon-root {
+      color: 'red';
+      margin-right: 16px;
+    }
+  }
+
   .link:hover {
-    background-color: #F2F4FF;
-    color: #1A237E;
+    background-color: #f2f4ff;
+    color: #1a237e;
   }
 }
