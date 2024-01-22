@@ -276,8 +276,6 @@ const submitButtonStyles = {
   },
 }
 
-
-
 const titleInputFieldStyles = {
   marginBottom: '5px',
   color: '#616161',

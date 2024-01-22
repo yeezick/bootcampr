@@ -32,7 +32,9 @@ export default function EmailPreferences() {
     toggleDisableAll(!disableAll)
   }
 
-  const handleChecks = (e, option) => {
+  const handleChecks = e => {
+    const option = e.target.name
+
     setUserPreferences({
       ...userPreferences,
       [option]: !userPreferences[option],
@@ -58,7 +60,7 @@ export default function EmailPreferences() {
                 name={option}
                 checked={userPreferences[option]}
                 disabled={disableAll}
-                onChange={e => handleChecks(e, option)}
+                onChange={handleChecks}
                 className='email-preference-option-checkbox'
               />
               <div
