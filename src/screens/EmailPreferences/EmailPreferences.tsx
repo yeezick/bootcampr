@@ -1,6 +1,6 @@
+import './EmailPreferences.scss'
 import { useEffect, useState } from 'react'
 import { getUserEmailPreferences } from '../../utils/api/communications.js'
-import './EmailPreferences.scss'
 import { Checkbox, Switch } from '@mui/material'
 import { PrimaryButton } from 'components/Buttons'
 import { useAppSelector } from 'utils/redux/hooks'
@@ -37,6 +37,10 @@ export default function EmailPreferences() {
       ...userPreferences,
       [option]: !userPreferences[option],
     })
+  }
+
+  const handleSavePreferences = () => {
+    // Placeholder funtion for when we implement Email Preferences
   }
 
   return (
@@ -77,7 +81,7 @@ export default function EmailPreferences() {
         </div>
         <div className='email-preferences-submit'>
           <PrimaryButton
-            handler={() => console.log('save preferences')}
+            handler={handleSavePreferences}
             paginatorBtn={false}
             text={'Save preferences'}
           />
