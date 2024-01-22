@@ -8,7 +8,7 @@
 
   .ticket-fields { 
     display: flex;
-    gap: 64px;
+    gap: 146px;
     justify-content: space-evenly;
     
     .text-label {
@@ -98,10 +98,32 @@
 
       .due-date {
         .select-date {
+          background-color: #fff;
+          border-radius: 4px;
           margin-left: 32px;
+          padding: 8px 12px 8px 16px;
+
+          .MuiOutlinedInput-input {
+            line-height: 0px;
+            padding: 0;
+          }
+
+          .MuiSvgIcon-root {
+            color: #212121;
+          }
+
+          .MuiIconButton-root {
+            padding: 0;
+          }
         }
       }
     }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
   }
 }
 

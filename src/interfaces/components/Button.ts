@@ -1,8 +1,14 @@
 import { ReactElement } from 'react'
-import { SvgIconTypeMap } from '@mui/material'
+import {
+  ButtonBaseProps,
+  ButtonProps,
+  ButtonTypeMap,
+  ExtendButtonBase,
+  SvgIconTypeMap,
+} from '@mui/material'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
 
-export interface CommonButton {
+export interface CommonButton extends ButtonProps {
   endIcon?: string
   handler: any
   paginatorBtn?: boolean
@@ -10,7 +16,7 @@ export interface CommonButton {
   text: string
 }
 
-export interface ConditionalButtonProps {
+export interface ConditionalButtonProps extends ButtonProps {
   endIcon?: ReactElement
   startIcon?: ReactElement
 }

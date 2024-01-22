@@ -1,4 +1,4 @@
-import { PrimaryButton } from 'components/Buttons'
+import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { createTicket } from 'utils/api/tickets'
 import { emptyTicketFields } from 'utils/data/taskBoardConstants'
 import {
@@ -45,5 +45,48 @@ export const CreateTicketBtn = () => {
     }
   }
 
-  return <PrimaryButton handler={handleCreateTicket} text={'Create Ticket'} />
+  return (
+    <PrimaryButton
+      handler={handleCreateTicket}
+      text={'Create Ticket'}
+      disableElevation
+    />
+  )
+}
+
+export const CancelTicketBtn = () => {
+  const ticketFields = useAppSelector(selectTicketFields)
+  const projectId = useAppSelector(selectProjectId)
+  const userId = useAppSelector(selectUserId)
+  const dispatch = useAppDispatch()
+  const handleCloseDialog = () => handleCloseVisibleTicketDialog(dispatch)
+
+  const handleCreateTicket = async e => {
+    const ticketPayload = buildTicketPayload(projectId, userId, ticketFields)
+    const ticketResponse = await createTicket(ticketPayload)
+
+    if (ticketResponse.error) {
+      // display error banner
+    } else {
+      dispatch(addTicketToStatus(ticketResponse))
+      dispatch(setTicketFields(emptyTicketFields))
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          message: 'Ticket created successfully',
+          duration: 3000,
+          severity: 'success',
+        })
+      )
+      handleCloseDialog()
+    }
+  }
+
+  return (
+    <SecondaryButton
+      handler={handleCreateTicket}
+      text={'Cancel'}
+      sx={{ backgroundColor: '#fff' }}
+    />
+  )
 }

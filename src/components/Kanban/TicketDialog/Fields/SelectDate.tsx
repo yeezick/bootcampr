@@ -7,6 +7,7 @@ import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import { handleReduxDateChange } from 'utils/helpers/taskHelpers'
 import { TicketTextLabel } from './TicketTextFields'
+import { fetchIcon, iconMap } from 'utils/components/Icons'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -37,6 +38,7 @@ export const SelectDate = () => {
         className='select-date'
         format='MM/DD/YY'
         onChange={handleDateChange}
+        slots={{ openPickerIcon: iconMap['calendar'] }}
         value={datePickerDayjs}
       />
     </div>

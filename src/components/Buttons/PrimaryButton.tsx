@@ -7,8 +7,9 @@ export const PrimaryButton = ({
   startIcon,
   endIcon,
   text,
+  ...MuiProps
 }: CommonButton) => {
-  const conditionalProps: ConditionalButtonProps = {}
+  const conditionalProps: ConditionalButtonProps = { ...MuiProps }
   if (startIcon) conditionalProps.startIcon = fetchIcon(startIcon)
   if (endIcon) conditionalProps.endIcon = fetchIcon(endIcon)
 
