@@ -41,7 +41,6 @@ export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
     }
   }
 
-  console.log(calendarId)
   return (
     <div className='modal-icons'>
       <MoreVertIcon onClick={handleClick} />
