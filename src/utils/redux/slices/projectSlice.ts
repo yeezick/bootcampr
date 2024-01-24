@@ -183,6 +183,8 @@ export const selectProjectTracker = (state: RootState) =>
   state.project.projectTracker
 export const selectRenderProjectPortal = (state: RootState) =>
   state.project.projectPortal.renderProjectPortal
+export const selectProjectTimeline = (state: RootState) =>
+  state.project.timeline
 
 export const {
   addTicketToStatus,

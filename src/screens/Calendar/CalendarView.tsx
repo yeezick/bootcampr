@@ -3,25 +3,28 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { fetchUserCalendar } from 'utils/api/calendar'
-import { selectCalendarId } from 'utils/redux/slices/projectSlice'
+import {
+  selectCalendarId,
+  selectProjectTimeline,
+} from 'utils/redux/slices/projectSlice'
 import { parseCalendarEventForMeetingInfo } from 'utils/helpers/calendarHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectConvertedEventsAsArr,
   setDisplayedEvent,
   storeConvertedEvents,
+  setModalDisplayStatus,
 } from 'utils/redux/slices/calendarSlice'
 import { DisplayMeetingModal } from 'screens/Calendar/MeetingModal'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import './CalendarView.scss'
-import AlertNotification from './MeetingModal/EditableMeetingModal/AlertNotification'
 
 export const CalendarView = () => {
   const calendarId = useAppSelector(selectCalendarId)
   const convertedEventsAsArr = useAppSelector(selectConvertedEventsAsArr)
   const userEmail = useAppSelector(selectUserEmail)
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
-
+  const timeline = useAppSelector(selectProjectTimeline)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -57,11 +60,21 @@ export const CalendarView = () => {
             headerToolbar={{
               start: 'today prev next',
               center: '',
-              end: '',
+              end: 'myCustomButton',
             }}
             initialView='timeGridWeek'
             nowIndicator={true}
             plugins={[dayGridPlugin, timeGridPlugin]}
+            validRange={{
+              start: '2024-02-04',
+              end: '2024-03-03',
+            }}
+            customButtons={{
+              myCustomButton: {
+                text: '+ Creating Meeting',
+                click: () => dispatch(setModalDisplayStatus('create')),
+              },
+            }}
           />
           <DisplayMeetingModal />
         </div>

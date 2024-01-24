@@ -22,5 +22,34 @@
   .fc-theme-standard .fc-scrollgrid{
     border: none;
   }
+
+  .fc .fc-myCustomButton-button {
+    background-color: #fa9413;
+    border: none;
+    color: #1A237E;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 8px 15px;
+
+  }
+
+  .fc .fc-myCustomButton-button:focus{
+    box-shadow: none;
+  }
+
+  .fc .fc-myCustomButton-button:active{
+    background-color: #fa9413;
+    border: none;
+    color: #1A237E;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+  }
+
+  .fc .fc-myCustomButton-button:active:focus{
+    box-shadow: none;
+  }
+
+
 }
 
