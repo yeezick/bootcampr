@@ -1,14 +1,59 @@
+.css-19kzrtu {
+  padding: 0px;
+  box-shadow: 0.5px 2px 5px -2px #1a237e;
+  border-radius: 4px;
+  padding: 20px;
+  width: 100%;
+  margin-top: 20px;
+}
+
 .calendar-container{
 
-  .fc .fc-today-button {
+  .fc .fc-today-button,  .fc  .fc-today-button:active  {
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
     text-transform: capitalize;
     background-color: white;
-    color:black;
+    border-color: #1A237E;
+    padding: 7px 18px;
+    color: #1a237e;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .fc .fc-prev-button{
+    border: none;
+    color: #212121;
+    background-color: transparent;
+  }
+
+  .fc .fc-prev-button:active:focus, .fc .fc-prev-button:focus{
+    box-shadow: none;
+  }
+
+  .fc .fc-prev-button:active{
+    box-shadow: none;
+    background-color: transparent;
+    border: none;
+  }
+
+  .fc .fc-next-button{
+    border: none;
+    color: #212121; 
+    background-color: transparent;
+  }
+
+  .fc .fc-next-button:active:focus,  .fc .fc-next-button:focus{
+    box-shadow: none;
+  }
+
+  .fc .fc-next-button:active{
+    box-shadow: none;
+    background-color: transparent;
+    border: none;
   }
   
   .fc .fc-button-primary:disabled {
-    background-color: white;
-    color:black;
+    background-color: transparent;
   }
 
   .tbody{
@@ -24,15 +69,13 @@
   }
 
   .fc .fc-myCustomButton-button {
-    background-color: #fa9413;
+    background-color: #ffa726;
     border: none;
     color: #1A237E;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
-    text-transform: uppercase;
     font-weight: 500;
     font-size: 14px;
-    padding: 8px 15px;
-
+    padding: 9px 21px;
   }
 
   .fc .fc-myCustomButton-button:focus{
@@ -40,7 +83,7 @@
   }
 
   .fc .fc-myCustomButton-button:active{
-    background-color: #fa9413;
+    background-color: #ffa726;
     border: none;
     color: #1A237E;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -49,7 +92,5 @@
   .fc .fc-myCustomButton-button:active:focus{
     box-shadow: none;
   }
-
-
 }
 

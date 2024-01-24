@@ -25,6 +25,7 @@ export const CalendarView = () => {
   const userEmail = useAppSelector(selectUserEmail)
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
   const timeline = useAppSelector(selectProjectTimeline)
+  //use startDate and endDate for validRange in FullCalendar
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -66,8 +67,8 @@ export const CalendarView = () => {
             nowIndicator={true}
             plugins={[dayGridPlugin, timeGridPlugin]}
             validRange={{
-              start: '2024-02-04',
-              end: '2024-03-03',
+              start: '',
+              end: '',
             }}
             customButtons={{
               myCustomButton: {
