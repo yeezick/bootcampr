@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSocket } from 'components/Notifications/Socket'
-import { MdOutlineSearch } from 'react-icons/md'
-import { RxDotFilled } from 'react-icons/rx'
-import { getAllConversations } from 'utils/api/chat'
+
+import { getUserConversations } from 'utils/api/chat'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectAuthUser,
@@ -13,12 +12,9 @@ import {
   setCurrentConversation,
   setSelectedMember,
 } from 'utils/redux/slices/chatSlice'
-import { formatLastMessageTimestamp } from 'utils/functions/chatLogic'
-import { AvatarGrid } from 'components/ChatDialog/AvatarGrid/AvatarGrid'
-import { extractConversationAvatars } from 'utils/functions/chatLogic'
-import { ChatIcons } from 'utils/data/chatConstants'
 import './Conversations.scss'
 import { markConversationAsRead } from 'utils/api'
+import { ConversationsScreen } from './ConversationsScreen'
 
 export const Conversations = ({ handleConversationClick }) => {
   const socket = useSocket()
@@ -26,39 +22,37 @@ export const Conversations = ({ handleConversationClick }) => {
   const authUser = useAppSelector(selectAuthUser)
   const currentConversation = useAppSelector(selectConversation)
   const [threads, setThreads] = useState([])
-  const [listResults, setListResults] = useState('empty')
-  const [receivedMessages, setReceivedMessages] = useState({})
+  const [chatsListStatus, setChatsListStatus] = useState('empty')
 
+  const [newMessage, setNewMessage] = useState('')
   useEffect(() => {
     if (socket) {
-      // Updates conversation thumbnails when new message is received
       socket.on('message-from-server', data => {
-        setReceivedMessages(data)
+        setNewMessage(data.newMessage)
       })
-
-      // Checks for any unread messages in all conversations onMount
       socket.emit('check-any-unread-messages', {
         authUser: authUser._id,
       })
     }
-  }, [socket])
+  }, [socket, authUser._id])
 
   useEffect(() => {
     const getThreads = async () => {
       try {
-        const res = await getAllConversations(authUser._id)
+        //this gets a summary of the thread.
+        const res = await getUserConversations(authUser._id)
         if (res) {
           setThreads(res)
           res.length > 0
-            ? setListResults('conversations')
-            : setListResults('noConversations')
+            ? setChatsListStatus('conversations')
+            : setChatsListStatus('noConversations')
         }
       } catch (error) {
         console.error('Error fetching messages:', error)
       }
     }
     getThreads()
-  }, [authUser._id, receivedMessages])
+  }, [authUser._id, newMessage])
 
   const handleConvoClick = async (
     chatId: string,
@@ -116,182 +110,12 @@ export const Conversations = ({ handleConversationClick }) => {
 
   return (
     <div className='conversations-container'>
-      <div className='search'>
-        <MdOutlineSearch size={24} />
-        <input placeholder='Search Chat'></input>
-      </div>
-      <ConversationsList
+      <ConversationsScreen
         authUser={authUser}
-        listResults={listResults}
+        chatsListStatus={chatsListStatus}
         threads={threads}
         handleConvoClick={handleConvoClick}
       />
     </div>
   )
-}
-
-const ConversationsList = ({
-  authUser,
-  listResults,
-  threads,
-  handleConvoClick,
-}) => {
-  if (listResults === 'empty') {
-    return <></>
-  }
-
-  if (listResults === 'conversations') {
-    return (
-      <div className='conversations-list'>
-        {threads.map(
-          ({
-            _id: chatId,
-            participants,
-            groupName,
-            lastMessage,
-            lastActive,
-          }) => {
-            const messageIsUnread = chatId in authUser.unreadMessages
-
-            return (
-              <div
-                className='conversation-grid'
-                key={chatId}
-                onClick={() =>
-                  handleConvoClick(chatId, participants, groupName)
-                }
-              >
-                <ConversationThumbnail
-                  authUser={authUser}
-                  groupName={groupName}
-                  participants={participants}
-                  lastMessage={lastMessage}
-                  lastActive={lastActive}
-                  messageIsUnread={messageIsUnread}
-                />
-              </div>
-            )
-          }
-        )}
-      </div>
-    )
-  }
-
-  if (listResults === 'noConversations') {
-    return (
-      <div className='no-results'>
-        <img src={ChatIcons.NoConversations} alt='no data' />
-        <p>Don't be shy! Start a conversation</p>
-      </div>
-    )
-  }
-}
-
-const ConversationThumbnail = ({
-  authUser,
-  groupName,
-  participants,
-  lastMessage,
-  lastActive,
-  messageIsUnread,
-}) => {
-  const thumbnailTextClass =
-    lastMessage && messageIsUnread ? 'unread-message' : ''
-  const thumbnailUnreadDotClass = messageIsUnread
-    ? 'unread-dot-visible'
-    : 'unread-dot-hidden'
-
-  if (participants.length > 2) {
-    const pictures = extractConversationAvatars(participants, authUser._id)
-
-    return (
-      <>
-        <div className='avatar-grid'>
-          <AvatarGrid
-            pictures={pictures}
-            avatarSize={'medium'}
-            chatType={'group'}
-          />
-        </div>
-        <div className='thumbnail-right'>
-          <div className='thread-details-grid'>
-            <h5 className={thumbnailTextClass}>{groupName || 'Group Chat'}</h5>
-            <LastMessageText
-              lastMessage={lastMessage}
-              authUser={authUser}
-              messageIsUnread={messageIsUnread}
-            />
-          </div>
-          <div className='dot-grid'>
-            {lastMessage ? (
-              <>
-                <p>{formatLastMessageTimestamp(lastMessage.timestamp)}</p>
-                <RxDotFilled size={26} className={thumbnailUnreadDotClass} />
-              </>
-            ) : (
-              <>
-                <p>{formatLastMessageTimestamp(lastActive)}</p>
-                <RxDotFilled size={26} className='unread-dot-hidden' />
-              </>
-            )}
-          </div>
-        </div>
-      </>
-    )
-  }
-
-  if (participants.length === 2) {
-    const recipient = participants.filter(
-      participant => participant._id !== authUser._id
-    )
-    return (
-      <>
-        <AvatarGrid
-          pictures={recipient[0].profilePicture}
-          avatarSize={'medium'}
-          chatType={'private'}
-        />
-        <div className='thumbnail-right'>
-          <div className='thread-details-grid'>
-            <h5 className={thumbnailTextClass}>
-              {recipient[0].firstName} {recipient[0].lastName}
-            </h5>
-            <LastMessageText
-              lastMessage={lastMessage}
-              authUser={authUser}
-              messageIsUnread={messageIsUnread}
-            />
-          </div>
-          <div className='dot-grid'>
-            {lastMessage ? (
-              <>
-                <p>{formatLastMessageTimestamp(lastMessage.timestamp)}</p>
-                <RxDotFilled size={26} className={thumbnailUnreadDotClass} />
-              </>
-            ) : (
-              <>
-                <p>{formatLastMessageTimestamp(lastActive)}</p>
-                <RxDotFilled size={26} className='unread-dot-hidden' />
-              </>
-            )}
-          </div>
-        </div>
-      </>
-    )
-  }
-}
-
-const LastMessageText = ({ lastMessage, authUser, messageIsUnread }) => {
-  if (lastMessage) {
-    return (
-      <p className={messageIsUnread ? 'unread-message' : ''}>
-        {lastMessage.sender._id === authUser._id
-          ? 'You'
-          : lastMessage.sender.firstName}
-        : {lastMessage.text || 'Media message'}
-      </p>
-    )
-  } else {
-    return <p>No messages...</p>
-  }
 }

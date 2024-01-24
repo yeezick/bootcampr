@@ -41,7 +41,7 @@ import { GoogleMeetsToggler } from './GoogleMeetsToggler'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-export const EditableMeetingModal = () => {
+export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
   const [dateFields, setDateFields] = useState<DateFieldsInterface>(
     initialDateFields()
@@ -172,6 +172,7 @@ export const EditableMeetingModal = () => {
         const newEvent = await createEvent(calendarId, eventInfo)
         dispatch(addNewEvent(newEvent))
         handleClose()
+        handleOpenAlert()
       } catch (error) {
         console.error(
           `Error creating event for calendar (${calendarId}): `,
@@ -205,19 +206,21 @@ export const EditableMeetingModal = () => {
     >
       <form onSubmit={handleSubmit}>
         <DialogContent className='modal-dialog-content'>
-          <MeetingModalHeaderIcons handleClose={handleClose} />
+          <MeetingModalHeaderIcons handleCloseMeetingModal={handleClose} />
           <div className='content-wrapper'>
-            <TextField
-              className='title-field'
-              label='Add Title'
-              name='summary'
-              InputLabelProps={{ className: 'title-input-label' }}
-              onChange={e => handleFormInputChange(e, setMeetingText)}
-              required
-              sx={titleInputFieldStyles}
-              value={meetingText.summary}
-              variant='standard'
-            />
+            <div className='title-field'>
+              <TextField
+                placeholder='Add Title'
+                name='summary'
+                InputLabelProps={{ className: 'title-input-label' }}
+                onChange={e => handleFormInputChange(e, setMeetingText)}
+                required
+                sx={titleInputFieldStyles}
+                value={meetingText.summary}
+                variant='standard'
+              />
+              <span className='required-span'>This field is required</span>
+            </div>
             <DateFields
               dateFields={dateFields}
               setDateFields={setDateFields}
@@ -247,13 +250,9 @@ export const EditableMeetingModal = () => {
             />
           </div>
         </DialogContent>
-        <DialogActions>
-          <Button
-            sx={{ backgroundColor: '#8048c8', textTransform: 'none' }}
-            type='submit'
-            variant='contained'
-          >
-            {modalDisplayStatus === 'create' ? 'CREATE' : 'SAVE'}
+        <DialogActions sx={buttonDivStyles}>
+          <Button sx={submitButtonStyles} type='submit' variant='contained'>
+            {modalDisplayStatus === 'create' ? 'Send Invite' : 'SAVE'}
           </Button>
         </DialogActions>
       </form>
@@ -261,13 +260,53 @@ export const EditableMeetingModal = () => {
   )
 }
 
+const submitButtonStyles = {
+  backgroundColor: '#fa9413',
+  borderRadius: '4px',
+  border: 'none',
+  color: '#1A237E',
+  cursor: 'pointer',
+  fontSize: '16px',
+  fontWeight: '500',
+  textTransform: 'none',
+  boxShadow: 'none',
+  '&:hover': {
+    backgroundColor: '#fa9413',
+    boxShadow: 'none',
+  },
+}
+
 const titleInputFieldStyles = {
-  marginBottom: '32px',
+  marginBottom: '5px',
+  color: '#616161',
   width: '100%',
+  '& .MuiInputBase-root': {
+    '&:hover': {
+      borderBottom: 'none',
+    },
+  },
+  '&:hover': {
+    borderBottom: 'none',
+  },
+  '& .MuiInputBase-input': {
+    fontSize: '28px',
+
+    '&:focus': {},
+  },
   '& .MuiInputLabel-asterisk': {
     color: 'orange',
   },
   '& .MuiInput-underline': {
     paddingTop: '17px',
   },
+  '&:before': {
+    borderBottom: 'none',
+  },
+  '&:after': {
+    borderBottom: 'none',
+  },
+}
+
+const buttonDivStyles = {
+  padding: '20px',
 }

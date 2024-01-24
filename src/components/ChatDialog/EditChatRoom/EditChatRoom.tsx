@@ -56,32 +56,6 @@ export const EditChatRoom = () => {
     }
   }, [groupChat, authUser._id, isModified])
 
-  const handleChange = e => {
-    const { value } = e.target
-    setDisplayName(value)
-    setIsModified(true)
-  }
-
-  const handleBlurGroupNameUpdate = async () => {
-    try {
-      const updatedDisplayName = isModified ? displayName : initialDisplayName
-      setDisplayName(updatedDisplayName)
-      await updateGroupChat(authUser._id, currentConversation._id, {
-        groupName: updatedDisplayName,
-      })
-
-      dispatch(
-        setCurrentConversation({
-          _id: currentConversation._id,
-          isGroup: true,
-          displayName: updatedDisplayName,
-        })
-      )
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   const handleMemberClick = (
     memberId: string,
     firstName: string,
@@ -102,13 +76,6 @@ export const EditChatRoom = () => {
           avatarSize={'large'}
           chatType={'group'}
         />
-        <ChatRoomInfo
-          displayName={displayName}
-          handleChange={handleChange}
-          handleBlurGroupNameUpdate={handleBlurGroupNameUpdate}
-          isModified={isModified}
-          initialDisplayName={initialDisplayName}
-        />
         <GroupMembers
           groupChat={groupChat}
           handleMemberClick={handleMemberClick}
@@ -117,27 +84,6 @@ export const EditChatRoom = () => {
         />
       </div>
     )
-  )
-}
-
-const ChatRoomInfo = ({
-  displayName,
-  handleChange,
-  handleBlurGroupNameUpdate,
-  isModified,
-  initialDisplayName,
-}) => {
-  const displayValue = !isModified ? initialDisplayName : displayName
-
-  return (
-    <div className='room-info-grid'>
-      <h5>Display Name</h5>
-      <input
-        value={displayValue}
-        onChange={handleChange}
-        onBlur={handleBlurGroupNameUpdate}
-      />
-    </div>
   )
 }
 

@@ -11,6 +11,7 @@
   p { 
     margin: 0px;
     padding: 0px;
+    cursor: pointer;
   }
 
   .description {
@@ -25,7 +26,15 @@
     grid-area: headerContent;
 
     h3 {
+      font-size: 16px;
       text-align: left;
+      margin-top: 0px;
+      margin-bottom: 5px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #616161;
     }
   }
 
@@ -64,6 +73,7 @@
   .invited-member {
     align-items: center;
     display: flex; 
+    margin-bottom: 10px;
 
     .member-photo {
       border-radius: 100%;
@@ -71,6 +81,15 @@
       margin-right: 15px;
       width: 30px;
     }
+  }
+  .p{
+    font-size: 16px;
+  }
+
+  .role {
+    margin-top: 3px;
+    font-size: 14px;
+    color: #616161;
   }
 }
 

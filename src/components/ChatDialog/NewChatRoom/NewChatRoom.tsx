@@ -20,6 +20,9 @@ import { ChatIcons, ChatScreen } from 'utils/data/chatConstants'
 import { isMemberSelected } from 'utils/functions/chatLogic'
 import { MemberThumbnail } from 'components/ChatDialog/MemberThumbnail/MemberThumbnail'
 import './NewChatRoom.scss'
+import { Button } from '@mui/material'
+import { ButtonStyle } from 'utils/data/authSettingsConstants'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 export const NewChatRoom = ({ chatScreen }) => {
   const dispatch = useAppDispatch()
@@ -36,7 +39,8 @@ export const NewChatRoom = ({ chatScreen }) => {
   const [allMembersSelected, setAllMembersSelected] = useState(false)
   const [stillRemainingMembers, setStillRemainingMembers] = useState(true)
   const [isAssignedToProject, setIsAssignedToProject] = useState(true)
-
+  const membersInviteInfo =
+    'Invited members will immediately join the chat but they will still receive an email notification.'
   useEffect(() => {
     const fetchProjectMembers = async () => {
       try {
@@ -155,84 +159,114 @@ export const NewChatRoom = ({ chatScreen }) => {
 
   const handleSubmitNewChatRoom = async () => {
     // Only in New Chat Room to create a new conversation:
-    let newRoom
-    // Selected members to add to new GROUP conversation
-    if (selectedMembers.length > 1) {
-      const participants = selectedMembers.map(member => member._id)
+    try {
+      let newRoom
+      // Selected members to add to new GROUP conversation
+      if (selectedMembers.length > 1) {
+        const participants = selectedMembers.map(member => member._id)
 
-      // Concatenating participant names
-      const participantsNames = selectedMembers
-        .map(member => `${member.firstName} ${member.lastName}`)
-        .join(', ')
-      // POST request to create new group chat with selected participants
-      newRoom = await createGroupChatRoom(
-        authUser._id,
-        participants,
-        participantsNames
-      )
+        // Concatenating participant names
+        const participantsNames = selectedMembers
+          .map(member => `${member.firstName} ${member.lastName}`)
+          .join(', ')
+        // POST request to create new group chat with selected participants
+        newRoom = await createGroupChatRoom(
+          authUser._id,
+          participants,
+          participantsNames
+        )
 
-      // Updating Redux chat state
+        // Updating Redux chat state
+        dispatch(
+          setCurrentConversation({
+            _id: newRoom.newRoomId,
+            isGroup: true,
+            participants,
+            displayName: participantsNames,
+          })
+        )
+        dispatch(onScreenUpdate(ChatScreen.Messages))
+      } else {
+        const participants = selectedMembers.map(member => member._id)
+        // Selected member to add to PRIVATE conversation
+        const recipientEmail = selectedMembers[0].email
+        // POST request to create new private chat with selected participant
+        newRoom = await createPrivateChatRoom(authUser._id, recipientEmail)
+        // Updating Redux chat state
+        dispatch(
+          setCurrentConversation({
+            _id: newRoom.chatRoom._id,
+            isGroup: false,
+            participants,
+            displayName: `${selectedMembers[0].firstName} ${selectedMembers[0].lastName}`,
+          })
+        )
+        // Set selectedMember in Redux for private chats
+        dispatch(
+          setSelectedMember({
+            _id: selectedMembers[0]._id,
+            firstName: selectedMembers[0].firstName,
+            lastName: selectedMembers[0].lastName,
+            profilePicture: selectedMembers[0].profilePicture,
+          })
+        )
+        dispatch(onScreenUpdate(ChatScreen.Messages))
+        dispatch(
+          createSnackBar({
+            isOpen: true,
+            horizontal: 'right',
+            message: 'Successfully created a chat room.',
+            duration: 5000,
+            severity: 'success',
+          })
+        )
+      }
+    } catch (error) {
+      console.error(error)
       dispatch(
-        setCurrentConversation({
-          _id: newRoom.newRoomId,
-          isGroup: true,
-          participants,
-          displayName: participantsNames,
+        createSnackBar({
+          isOpen: true,
+          horizontal: 'right',
+          message: "Couldn't create a chat room. Please try again later",
+          duration: 5000,
+          severity: 'error',
         })
       )
-      dispatch(onScreenUpdate(ChatScreen.Messages))
-    } else {
-      const participants = selectedMembers.map(member => member._id)
-      // Selected member to add to PRIVATE conversation
-      const recipientEmail = selectedMembers[0].email
-      // POST request to create new private chat with selected participant
-      newRoom = await createPrivateChatRoom(authUser._id, recipientEmail)
-      // Updating Redux chat state
-      dispatch(
-        setCurrentConversation({
-          _id: newRoom.chatRoom._id,
-          isGroup: false,
-          participants,
-          displayName: `${selectedMembers[0].firstName} ${selectedMembers[0].lastName}`,
-        })
-      )
-      // Set selectedMember in Redux for private chats
-      dispatch(
-        setSelectedMember({
-          _id: selectedMembers[0]._id,
-          firstName: selectedMembers[0].firstName,
-          lastName: selectedMembers[0].lastName,
-          profilePicture: selectedMembers[0].profilePicture,
-        })
-      )
-      dispatch(onScreenUpdate(ChatScreen.Messages))
     }
   }
 
   return (
-    <div className='new-chat-room-container'>
-      <section>
-        <SelectedMembersGrid
-          handleMemberClick={handleMemberClick}
-          selectedMembers={selectedMembers}
-        />
-        <p>Invite members from your project</p>
-        <SelectAllMembersCheck
-          allMembersSelected={allMembersSelected}
-          selectAllClick={selectAllClick}
-        />
-        {isAssignedToProject ? (
-          <ProjectMembersList
-            projectMembers={projectMembers}
-            selectedMembers={selectedMembers}
-            handleMemberClick={handleMemberClick}
-            stillRemainingMembers={stillRemainingMembers}
-          />
-        ) : (
-          <NoAssignedProject />
-        )}
+    <div className='new-chat-container'>
+      <section className='members-invite'>
+        <div className='members-invite-select'>
+          <p>Select members to invite to your chat room</p>
+          <div className='members-grid'>
+            <SelectAllMembersCheck
+              allMembersSelected={allMembersSelected}
+              selectAllClick={selectAllClick}
+            />
+            {isAssignedToProject ? (
+              <ProjectMembersList
+                projectMembers={projectMembers}
+                selectedMembers={selectedMembers}
+                handleMemberClick={handleMemberClick}
+                stillRemainingMembers={stillRemainingMembers}
+              />
+            ) : (
+              <NoAssignedProject />
+            )}
+          </div>
+        </div>
+        <p className='members-invite-info'>{membersInviteInfo}</p>
       </section>
-      <button
+      <Button
+        className='chat-button'
+        variant='contained'
+        type='submit'
+        style={{
+          background: ButtonStyle.Orange.background,
+          color: ButtonStyle.Orange.color,
+        }}
         disabled={selectedMembers.length === 0}
         onClick={
           chatScreen === ChatScreen.ComposeNewChat
@@ -241,34 +275,15 @@ export const NewChatRoom = ({ chatScreen }) => {
         }
       >
         {chatScreen === ChatScreen.ComposeNewChat
-          ? 'Create a Room'
+          ? 'Create Chat Room'
           : 'Add Members'}
-      </button>
+      </Button>
     </div>
   )
 }
-
-const SelectedMembersGrid = ({ selectedMembers, handleMemberClick }) => {
-  return (
-    <div className='to-container'>
-      <p>To:</p>
-      <div className='to-member-grid'>
-        {selectedMembers.map(member => (
-          <div key={member._id} className='member-bar'>
-            <p>
-              {member.firstName} {member.lastName}
-            </p>
-            <IoMdCloseCircleOutline onClick={() => handleMemberClick(member)} />
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 const SelectAllMembersCheck = ({ allMembersSelected, selectAllClick }) => {
   return (
-    <div className='select-all-grid'>
+    <div className='member-grid'>
       <SelectAllCheckbox
         allMembersSelected={allMembersSelected}
         selectAllClick={selectAllClick}
@@ -286,7 +301,7 @@ const ProjectMembersList = ({
 }) => {
   if (stillRemainingMembers) {
     return (
-      <div className='members-container'>
+      <>
         {projectMembers.map(member => (
           <div
             className='member-grid'
@@ -300,7 +315,7 @@ const ProjectMembersList = ({
             <MemberThumbnail user={member} />
           </div>
         ))}
-      </div>
+      </>
     )
   } else {
     return (

@@ -8,7 +8,8 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import '../styles/DisplayMeetingModal.scss'
-
+import '../styles/Datefields.scss'
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
@@ -36,9 +37,8 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
         <div className='time-fields'>
           <DatePicker
             disablePast
-            format='dddd, MM/DD/YY'
+            format='MM/DD/YY'
             onChange={handleDate}
-            slots={{ openPickerIcon: ArrowDropDown }}
             slotProps={{
               textField: { size: 'small' },
               openPickerIcon: { sx: { position: 'absolute', right: '5px' } },
@@ -46,18 +46,19 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
             sx={datePickerStyles}
             value={datePickerDayjs}
           />
-          <span>from</span>
-          <SelectTime
-            dateFields={dateFields}
-            setDateFields={setDateFields}
-            type={'start'}
-          />
-          <span className='span-dash'>-</span>
-          <SelectTime
-            dateFields={dateFields}
-            setDateFields={setDateFields}
-            type={'end'}
-          />
+          <div className='select-time-wrapper'>
+            <SelectTime
+              dateFields={dateFields}
+              setDateFields={setDateFields}
+              type={'start'}
+            />
+            <span className='span-dash'>&#8212;</span>
+            <SelectTime
+              dateFields={dateFields}
+              setDateFields={setDateFields}
+              type={'end'}
+            />
+          </div>
         </div>
 
         <SelectTimeZone
@@ -71,10 +72,11 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
 }
 
 const datePickerStyles = {
-  fontSize: '10px',
-  background: '#ECEBEB',
+  fontSize: '14px',
   border: 'none',
   '& .MuiOutlinedInput-notchedOutline': {
-    border: 'none',
+    border: '1.5px solid black',
   },
+  marginRight: '20px',
+  width: '180px',
 }
