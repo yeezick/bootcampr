@@ -63,6 +63,7 @@ export const CalendarView = () => {
               center: '',
               end: 'myCustomButton',
             }}
+            allDaySlot={false}
             initialView='timeGridWeek'
             nowIndicator={true}
             plugins={[dayGridPlugin, timeGridPlugin]}

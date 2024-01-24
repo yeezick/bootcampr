@@ -9,6 +9,7 @@
 
 .calendar-container{
 
+  //calendar buttons
   .fc .fc-today-button,  .fc  .fc-today-button:active  {
     font-family: "Roboto","Helvetica","Arial",sans-serif;
     text-transform: capitalize;
@@ -64,11 +65,15 @@
     height: 64px;
   }
 
+  .fc-col-header-cell.fc-day-today {
+    background: #E3F2FD !important;
+  }
+
   .fc-theme-standard .fc-scrollgrid{
     border: none;
   }
 
-  .fc .fc-myCustomButton-button {
+  .fc .fc-myCustomButton-button, .fc .fc-myCustomButton-button:active{
     background-color: #ffa726;
     border: none;
     color: #1A237E;
@@ -78,19 +83,58 @@
     padding: 9px 21px;
   }
 
-  .fc .fc-myCustomButton-button:focus{
+  .fc .fc-myCustomButton-button:focus, .fc .fc-myCustomButton-button:active:focus {
     box-shadow: none;
   }
 
-  .fc .fc-myCustomButton-button:active{
-    background-color: #ffa726;
-    border: none;
-    color: #1A237E;
+  //calendar date/day labels
+  .fc .fc-col-header-cell-cushion {
+    text-transform: uppercase;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
+    padding: 10px 0px 0px 10px;
   }
 
-  .fc .fc-myCustomButton-button:active:focus{
-    box-shadow: none;
+  //calendar timeslots
+  .fc .fc-timegrid-slot {
+    height: 2.3em
+  }
+
+  //calendar timeslot time labels
+  .fc .fc-timegrid-slot-label-cushion{
+    text-transform: uppercase;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-size: 12px;
+    color: #616161;
+  }
+
+  //calendar events
+  .fc .fc-v-event{
+    border: none;
+    border-left: 3px solid #FFA726;
+    background-color: #FFF3E0;
+
+    .fc-event-frame{
+      font-size: 12px;
+    }
+
+    .fc-event-title-container{
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    .fc-event-main{
+      color: #212121;
+      font-size: 12px;
+    }
+  }
+
+  .fc .fc-day-today {
+    background: #FFF;
+    //border: none !important;
+  } 
+
+  .fc-day-sat, .fc-day-sun {
+    background: #FAFAFA;
   }
 }
 
