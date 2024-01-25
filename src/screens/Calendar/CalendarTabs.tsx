@@ -69,7 +69,7 @@ const tabsSelectStyles = {
     height: '40px',
   },
   '& .MuiTabs-indicator': {
-    backgroundColor: 'orange',
+    backgroundColor: '#ffa726',
     height: '4px',
     bottom: '0',
     position: 'absolute',

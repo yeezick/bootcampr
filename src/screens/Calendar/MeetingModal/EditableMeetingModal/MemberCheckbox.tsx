@@ -22,6 +22,8 @@ export const MemberCheckbox = ({
 
   const [isAvailable, setIsAvailable] = useState('unavailable')
 
+  console.log(currMember)
+
   useEffect(() => {
     determineUserAvailability(currMember, dateFields, setIsAvailable)
   }, [dateFields.start, dateFields.end])
@@ -52,9 +54,7 @@ export const MemberCheckbox = ({
           sx={{ checkboxStyle }}
         />
         <ListItemAvatar>
-          <Avatar>
-            <img src={currMember.defaultProfilePicture} />
-          </Avatar>
+          <Avatar src={currMember.profilePicture} />
         </ListItemAvatar>
         <ListItemText
           primary={`${currMember.firstName} ${currMember.lastName}`}

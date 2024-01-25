@@ -58,6 +58,11 @@ export const CalendarView = () => {
           <FullCalendar
             events={convertedEventsAsArr}
             eventClick={handleEventClick}
+            eventTimeFormat={{
+              hour: 'numeric',
+              minute: '2-digit',
+              meridiem: true,
+            }}
             headerToolbar={{
               start: 'today prev next',
               center: '',

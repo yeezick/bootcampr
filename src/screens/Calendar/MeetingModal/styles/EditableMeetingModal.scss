@@ -50,6 +50,10 @@
       margin: 0;
     }
 
+    .css-v4u5dn-MuiInputBase-root-MuiInput-root:after {
+      border-bottom: none;
+    }
+
     .required-span {
       margin: 0;
       font-size: 12px;
@@ -69,6 +73,10 @@
     .description-field {
       grid-area: description
     }
+
+    .css-l4u8b9-MuiInputBase-root-MuiInput-root:after {
+      border-bottom: none;
+    } 
   }
 
   .people-icon {
@@ -103,6 +111,10 @@
 
   .google-meet-toggler {
     grid-area: meetToggler;
+  }
+
+  .css-1x51dt5-MuiInputBase-input-MuiInput-input {
+    margin-top: 5px;
   }
 }
 

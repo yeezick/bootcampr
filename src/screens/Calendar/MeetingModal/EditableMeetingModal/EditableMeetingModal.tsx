@@ -261,7 +261,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
 }
 
 const submitButtonStyles = {
-  backgroundColor: '#fa9413',
+  backgroundColor: '#ffa726',
   borderRadius: '4px',
   border: 'none',
   color: '#1A237E',
