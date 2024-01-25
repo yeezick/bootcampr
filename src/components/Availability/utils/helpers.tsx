@@ -15,7 +15,10 @@ import { updateAvailability } from 'utils/api'
  * @returns new consolidate availability (array)
  */
 
-const convertTimeSlotToLogicalArray = (startTime: string, endTime: string) => {
+const convertTimeSlotToLogical = (
+  startTime: string,
+  endTime: string
+): Array<number> => {
   const startIndex: number = timeOptions.indexOf(startTime)
   const endIndex: number = timeOptions.indexOf(endTime)
 
@@ -33,7 +36,7 @@ const createFullAvailability = (
   let fullLogical = []
 
   userFriendlyFullDayAvailability.forEach((array, idx) => {
-    const logicalArray = convertTimeSlotToLogicalArray(array[0], array[1])
+    const logicalArray = convertTimeSlotToLogical(array[0], array[1])
     fullLogical = [...fullLogical, ...logicalArray]
   })
 
