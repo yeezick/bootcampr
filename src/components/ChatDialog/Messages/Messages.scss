@@ -11,32 +11,6 @@
     padding: 8px 8px 0 8px;
     margin-bottom: 8px;
     overflow-y: auto;
-    //removed for now it create inconsistency in the app
-    // &::-webkit-scrollbar {
-    //   background-color: #f5f5f500;
-    //   height: 8px;
-    //   width: 4px;
-    // }
-
-    // &::-webkit-scrollbar-thumb {
-    //   background-color: rgba(0, 0, 0, 0);
-    //   border-radius: 4px;
-    //   opacity: 0;
-    //   transition: opacity 0.2s ease-in-out;
-    // }
-
-    // &:hover::-webkit-scrollbar-thumb {
-    //   opacity: 1;
-    // }
-
-    // &:hover::-webkit-scrollbar-thumb,
-    // &.scrolling::-webkit-scrollbar-thumb {
-    //   background-color: rgba(0, 0, 0, 0.2);
-    // }
-
-    // &.scrolling::-webkit-scrollbar-thumb {
-    //   opacity: 1;
-    // }
 
     .message-container {
       display: flex;
