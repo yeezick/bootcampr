@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { TeamAvatarProps } from 'interfaces/ProfileImageInterfaces'
 import './TeamAvatar.scss'
 

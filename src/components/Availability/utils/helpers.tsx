@@ -30,12 +30,10 @@ const convertTimeSlotToLogical = (
   return logicalArray
 }
 
-const createFullAvailability = (
-  userFriendlyFullDayAvailability
-): Array<number> => {
+const createFullAvailability = (userFriendlyFullDay): Array<number> => {
   let fullLogical = []
 
-  userFriendlyFullDayAvailability.forEach((array, idx) => {
+  userFriendlyFullDay.forEach(array => {
     const logicalArray = convertTimeSlotToLogical(array[0], array[1])
     fullLogical = [...fullLogical, ...logicalArray]
   })
