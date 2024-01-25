@@ -29,9 +29,7 @@ export interface ProjectInterface {
   projectTracker?: ProjectTrackerInterface
   completedInfo?: {
     presenting?: boolean
-    deployedUrl?: {
-      [key: string]: string
-    }
+    deployedUrl?: string
   }
   timeline?: {
     startDate?: string
