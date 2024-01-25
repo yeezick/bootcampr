@@ -21,6 +21,7 @@ import './paginator.scss'
 export const Paginator = ({
   exitRoute,
   orderedPages,
+  manualNavigationAllowed,
   trackCompletion = true,
 }) => {
   const [currentPage, setCurrentPage] = useState<PageItem>(initialCurrentPage)
@@ -71,7 +72,7 @@ export const Paginator = ({
       handleNextPage(pageHandlers, pageProps)
     } else if (type === 'previous') {
       handlePreviousPage(pageHandlers, pageProps)
-    } else if (type === 'specific') {
+    } else if (type === 'specific' && manualNavigationAllowed) {
       pageProps.specificPageId = specificPageId
       handleSpecificPage(pageHandlers, pageProps)
     } else {
@@ -135,8 +136,9 @@ const PageBarItem = ({
   } else {
     completedItem = pageId === currentPageId
   }
+  const currentPage = pageId === currentPageId
   const pageBarClassNames = `page-bar-item ${
-    completedItem ? 'complete-page-bar-item' : 'incomplete-page-bar-item'
+    currentPage ? 'current-page-bar-item' : 'non-current-page-bar-item'
   }`
   return (
     <div

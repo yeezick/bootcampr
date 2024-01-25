@@ -19,7 +19,7 @@ export const DayAvailabilityInputBanner = ({ day, days, idx, setDays }) => {
           {days[day]['available'] ? (
             <TimeSlotInput day={day} days={days} setDays={setDays} />
           ) : (
-            <h2>Unavailable</h2>
+            <h2 className='unavailable'>Unavailable</h2>
           )}
         </div>
       </div>
@@ -29,6 +29,6 @@ export const DayAvailabilityInputBanner = ({ day, days, idx, setDays }) => {
 }
 
 const checkBoxStyle = {
-  color: '#022888',
+  color: 'black',
   '&.Mui-checked': { color: '#022888' },
 }

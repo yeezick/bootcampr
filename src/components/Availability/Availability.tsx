@@ -11,6 +11,7 @@ import {
 import { useAppSelector } from 'utils/redux/hooks'
 import './Availability.scss'
 import { utcToBootcamprTimezoneMap } from 'utils/data/timeZoneConstants'
+import { guessUserTimezone } from 'utils/helpers/availabilityHelpers'
 
 export const Availability = ({
   days,
@@ -23,8 +24,14 @@ export const Availability = ({
 
   useEffect(() => {
     setDays(userAvailability)
-    const userFriendlyTimezone =
-      utcToBootcamprTimezoneMap[storedUserTimezone] || Timezones.ET
+    const guessedUserTimezone = guessUserTimezone()
+    let userFriendlyTimezone = Timezones.ET
+
+    if (storedUserTimezone) {
+      userFriendlyTimezone = utcToBootcamprTimezoneMap[storedUserTimezone]
+    } else if (guessedUserTimezone) {
+      userFriendlyTimezone = guessedUserTimezone.userFriendlyTZ
+    }
     setUxUserTimezone(userFriendlyTimezone)
   }, [])
 

@@ -19,6 +19,7 @@ export const SecondaryButton = ({
         color: '#1A237E',
         marginRight: '8px',
         textTransform: 'none',
+        minWidth: '150px',
         '&:hover': {
           backgroundColor: '#ffffff',
           color: '#1A237E',
