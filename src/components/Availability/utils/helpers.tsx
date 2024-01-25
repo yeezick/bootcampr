@@ -14,12 +14,81 @@ import { updateAvailability } from 'utils/api'
  * @param availability (Array)
  * @returns new consolidate availability (array)
  */
+
+const convertTimeSlotToLogicalArray = (startTime: string, endTime: string) => {
+  const startIndex: number = timeOptions.indexOf(startTime)
+  const endIndex: number = timeOptions.indexOf(endTime)
+
+  let logicalArray = []
+
+  for (let i = startIndex; i < endIndex; i++) {
+    logicalArray.push(i)
+  }
+  return logicalArray
+}
+
+const createFullAvailability = (
+  userFriendlyFullDayAvailability
+): Array<number> => {
+  let fullLogical = []
+
+  userFriendlyFullDayAvailability.forEach((array, idx) => {
+    const logicalArray = convertTimeSlotToLogicalArray(array[0], array[1])
+    fullLogical = [...fullLogical, ...logicalArray]
+  })
+
+  const sortedFullLogical = sortArray(fullLogical)
+  const reducedFullLogical = removeDuplicates(sortedFullLogical)
+
+  return reducedFullLogical
+}
+
+const sortArray = array => {
+  array.sort(function (a, b) {
+    return a - b
+  })
+  return array
+}
+
+const removeDuplicates = array => {
+  return array.filter((value, index) => array.indexOf(value) === index)
+}
+
 export const consolidateAvailability = availability => {
   let consolidatedAvail = [...availability]
-  // TODO: redo this logic
-  // https://bootcamper.atlassian.net/browse/BC-652
-  // }
-  return consolidatedAvail
+
+  let reducedFullLogical = createFullAvailability(consolidatedAvail)
+  let userFriendlyConsolidated =
+    convertLogicalToUserFriendly(reducedFullLogical)
+
+  return userFriendlyConsolidated
+}
+
+const convertLogicalToUserFriendly = logical => {
+  let userFriendly = [timeOptions[logical[0]]]
+
+  for (let i = 1; i < logical.length; i++) {
+    if (logical[i] - logical[i - 1] === 1) {
+      if (i === logical.length - 1) {
+        userFriendly.push(timeOptions[logical[i] + 1])
+      }
+    } else {
+      const indexBefore = logical[i - 1]
+
+      userFriendly.push(timeOptions[indexBefore + 1])
+      userFriendly.push(timeOptions[logical[i]])
+
+      if (i === logical.length - 1) {
+        userFriendly.push(timeOptions[logical[i] + 1])
+      }
+    }
+  }
+  const convertedUserFriendly = []
+
+  for (let i = 0; i < userFriendly.length; i += 2) {
+    convertedUserFriendly.push([userFriendly[i], userFriendly[i + 1]])
+  }
+  return convertedUserFriendly
 }
 
 /**
