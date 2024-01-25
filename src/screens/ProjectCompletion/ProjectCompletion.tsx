@@ -32,6 +32,7 @@ export const ProjectCompletion = () => {
           exitRoute='/'
           orderedPages={orderedPages}
           trackCompletion={false}
+          manualNavigationAllowed={true}
         />
       </div>
     </div>

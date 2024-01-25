@@ -2,14 +2,14 @@
  * User friendly timezone strings defined by Bootcampr UX team
  */
 export enum UserFriendlyTimezones {
-  'Hawaii-Aleutian Time (HT)',
-  'Alaska Time (AKT)',
-  'Pacific Time (PT)',
-  'Mountain Time (MT)',
-  'Central Time (CT)',
-  'Eastern Time (ET)',
-  'Atlantic Time (AT)',
   'Newfoundland Time (NT)',
+  'Atlantic Time (AT)',
+  'Eastern Time (ET)',
+  'Central Time (CT)',
+  'Mountain Time (MT)',
+  'Pacific Time (PT)',
+  'Alaska Time (AKT)',
+  'Hawaii-Aleutian Time (HT)',
 }
 
 /**

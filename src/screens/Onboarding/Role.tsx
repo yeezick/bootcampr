@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import './Role.scss'
+import { useEffect, useState } from 'react'
 import { updateUserProfile } from 'utils/api'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
-import { FiArrowRight } from 'react-icons/fi'
 import { useParams } from 'react-router-dom'
+import { PrimaryButton } from 'components/Buttons'
 
 export const Role = ({ handlePageNavigation }) => {
   const dispatch = useDispatch()
@@ -33,8 +34,16 @@ export const Role = ({ handlePageNavigation }) => {
     }
   }
 
+  useEffect(() => {
+    const { role } = authUser
+    if (role) {
+      setSelectedRole(role)
+      setButtonEnabled(true)
+    }
+  }, [authUser])
+
   return (
-    <div className='onboarding-incomplete-container'>
+    <div className='onboarding-container'>
       <form className='onboarding-form-container'>
         <div className='welcome-container'>
           <h1>Welcome, {authUser.firstName}!</h1>
@@ -79,26 +88,19 @@ export const Role = ({ handlePageNavigation }) => {
                 onChange={handleRoleSelect}
               />
               <div>
-                <p className='software-eng-p1'>Software Engineer</p>
-                <p className='software-eng-p2'>
-                  *SWEs should have MERN/full stack experience
+                <p className='software-eng-p1'>
+                  Software Engineer (should be comfortable with MERN/full stack)
                 </p>
               </div>
             </label>
           </div>
           <div className='onboarding-button-section'>
-            <button
-              type='submit'
-              style={{
-                backgroundColor: buttonEnabled ? 'orange' : 'light gray',
-              }}
-              disabled={!buttonEnabled}
-              onClick={handleSubmit}
-              className='onboarding-incomplete-btn'
-              id='set-availability'
-            >
-              <p>Set availability </p> <FiArrowRight className='arrow-icon' />
-            </button>
+            <PrimaryButton
+              handler={handleSubmit}
+              text='Set availability'
+              paginatorBtn={true}
+              isDisabled={!buttonEnabled}
+            />
           </div>
         </div>
       </form>
