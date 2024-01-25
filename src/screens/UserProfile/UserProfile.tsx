@@ -20,19 +20,18 @@ export const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch()
   const [userProfileInfo, setUserProfileInfo] =
     useState<UserInterface>(emptyUser)
-  const {
-    firstName,
-    lastName,
-    _id: memberId,
-    email,
-    profilePicture,
-  } = userProfileInfo
   const sameProfile = authUser._id === userId ? true : false
 
   useEffect(() => {
-    const userProfile = teamMembers.find(member => member._id === userId)
+    let userProfile
+    if (authUser._id === userId) {
+      userProfile = authUser
+    } else {
+      userProfile = teamMembers.find(member => member._id === userId)
+    }
+
     setUserProfileInfo(userProfile)
-  }, [teamMembers])
+  }, [teamMembers, userProfileInfo])
 
   // BC-334: should handle this case
   if (!userProfileInfo) {
@@ -40,15 +39,25 @@ export const UserProfile: React.FC = () => {
   }
 
   const handleProfileMessageClick = () => {
-    handleMemberMessageClick({
-      firstName: firstName,
-      lastName: lastName,
-      memberId: memberId,
-      email: email,
-      profilePicture: profilePicture,
-      authUser,
-      dispatch,
-    })
+    if (userProfileInfo) {
+      const {
+        firstName,
+        lastName,
+        _id: memberId,
+        email,
+        profilePicture,
+      } = userProfileInfo
+
+      handleMemberMessageClick({
+        firstName: firstName,
+        lastName: lastName,
+        memberId: memberId,
+        email: email,
+        profilePicture: profilePicture,
+        authUser,
+        dispatch,
+      })
+    }
   }
 
   const shouldShowName =
