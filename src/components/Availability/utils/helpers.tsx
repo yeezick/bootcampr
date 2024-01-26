@@ -2,8 +2,6 @@ import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { timeOptions } from '../utils/data'
 import { updateAvailability } from 'utils/api'
 
-// TODO: handle case where time slot B end time is earlier than timeslot A end time
-// Consider if using Math.min / Math.max could help consolidate better
 /**
  * CONSOLIDATE AVAILABILITY
  *
@@ -14,48 +12,7 @@ import { updateAvailability } from 'utils/api'
  * @param availability (Array)
  * @returns new consolidate availability (array)
  */
-
-const convertTimeSlotToLogical = (
-  startTime: string,
-  endTime: string
-): Array<number> => {
-  const startIndex: number = timeOptions.indexOf(startTime)
-  const endIndex: number = timeOptions.indexOf(endTime)
-
-  let logicalArray = []
-
-  for (let i = startIndex; i < endIndex; i++) {
-    logicalArray.push(i)
-  }
-  return logicalArray
-}
-
-const createFullAvailability = (userFriendlyFullDay): Array<number> => {
-  let fullLogical = []
-
-  userFriendlyFullDay.forEach(array => {
-    const logicalArray = convertTimeSlotToLogical(array[0], array[1])
-    fullLogical = [...fullLogical, ...logicalArray]
-  })
-
-  const sortedFullLogical = sortArray(fullLogical)
-  const reducedFullLogical = removeDuplicates(sortedFullLogical)
-
-  return reducedFullLogical
-}
-
-const sortArray = array => {
-  array.sort(function (a, b) {
-    return a - b
-  })
-  return array
-}
-
-const removeDuplicates = array => {
-  return array.filter((value, index) => array.indexOf(value) === index)
-}
-
-export const consolidateAvailability = availability => {
+export const consolidateAvailability = (availability): string[][] => {
   let consolidatedAvail = [...availability]
 
   let reducedFullLogical = createFullAvailability(consolidatedAvail)
@@ -65,7 +22,10 @@ export const consolidateAvailability = availability => {
   return userFriendlyConsolidated
 }
 
-const convertLogicalToUserFriendly = logical => {
+/**
+ * Convert Logical Availabilty to User Friendly
+ */
+const convertLogicalToUserFriendly = (logical: number[]): string[][] => {
   let userFriendly = [timeOptions[logical[0]]]
 
   for (let i = 1; i < logical.length; i++) {
@@ -89,7 +49,61 @@ const convertLogicalToUserFriendly = logical => {
   for (let i = 0; i < userFriendly.length; i += 2) {
     convertedUserFriendly.push([userFriendly[i], userFriendly[i + 1]])
   }
+
   return convertedUserFriendly
+}
+
+/**
+ * Convert Time slot to Logical Availability
+ */
+const convertTimeSlotToLogical = (
+  startTime: string,
+  endTime: string
+): Array<number> => {
+  const startIndex: number = timeOptions.indexOf(startTime)
+  const endIndex: number = timeOptions.indexOf(endTime)
+  let logicalArray = []
+
+  for (let i = startIndex; i < endIndex; i++) {
+    logicalArray.push(i)
+  }
+  return logicalArray
+}
+
+/**
+ * Create a holisitc logical availabilty array for full day
+ */
+const createFullAvailability = (
+  userFriendlyFullDay: Array<string>
+): Array<number> => {
+  let fullLogical = []
+
+  userFriendlyFullDay.forEach(array => {
+    const logicalArray = convertTimeSlotToLogical(array[0], array[1])
+    fullLogical = [...fullLogical, ...logicalArray]
+  })
+
+  const sortedFullLogical = sortArray(fullLogical)
+  const reducedFullLogical = removeDuplicates(sortedFullLogical)
+
+  return reducedFullLogical
+}
+
+/**
+ * Sort a numeric array
+ */
+const sortArray = array => {
+  array.sort(function (a, b) {
+    return a - b
+  })
+  return array
+}
+
+/**
+ * Remove duplicate values of an array
+ */
+const removeDuplicates = array => {
+  return array.filter((value, index) => array.indexOf(value) === index)
 }
 
 /**
