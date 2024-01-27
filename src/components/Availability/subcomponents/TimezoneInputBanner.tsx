@@ -18,14 +18,12 @@ export const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
 
   return (
     <div className='timezone-input-container'>
-      <h2>Time zone</h2>
+      <h2>Availability</h2>
       <Select
         defaultValue={timezone}
-        disableUnderline
         IconComponent={ExpandMoreRounded}
         sx={tzSelectSx}
         value={timezone}
-        variant='standard'
         onChange={handleChange}
       >
         {Object.keys(Timezones).map(zone => (
@@ -39,7 +37,11 @@ export const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
 }
 
 const tzSelectSx = {
-  color: '#022888',
-  fontSize: '12px',
-  '& .MuiSvgIcon-root': { color: '#022888' },
+  backgroundColor: 'white',
+  borderColor: 'black',
+  color: 'black',
+  fontSize: '14px',
+  height: '35px',
+  width: '300px',
+  '& .MuiSvgIcon-root': { color: 'black' },
 }

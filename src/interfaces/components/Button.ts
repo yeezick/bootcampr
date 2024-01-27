@@ -4,6 +4,7 @@ export interface ButtonProps {
   handler?: any
   isDisabled?: boolean
   paginatorBtn?: boolean
+  customStyle?: object
   text?: string
   type?: 'button' | 'reset' | 'submit'
 }

@@ -27,12 +27,16 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
 
   const [days, setDays] = useState<AvailabilityInterface>(defaultAvailability)
   const [uxUserTimezone, setUxUserTimezone] = useState(Timezones.ET)
+  const [isDisabled, setIsDisabled] = useState(true)
 
-  const handleBack = () => handlePageNavigation('previous')
-  const handleSaveAvailability = async () => {
+  const storeAvailability = async () => {
     const userTZinUTC = bootcamprTimezoneToUTCMap[uxUserTimezone]
     await saveAvailability(dispatch, authUser._id, days, userTZinUTC)
-    handlePageNavigation('next')
+  }
+
+  const handleNavigationButtons = async (direction: 'previous' | 'next') => {
+    await storeAvailability()
+    handlePageNavigation(direction)
   }
 
   useEffect(() => {
@@ -49,30 +53,49 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
     setUxUserTimezone(userFriendlyTZ)
   }, [])
 
+  useEffect(() => {
+    const disabled = disableForwardButton()
+    setIsDisabled(disabled)
+  }, [days])
+
+  const disableForwardButton = (): boolean => {
+    let disabled = true
+
+    Object.keys(days).forEach(day => {
+      if (days[day].available) {
+        disabled = false
+      }
+    })
+
+    return disabled
+  }
+
   return (
     <div className='setup-avail-page'>
       <div className='setup-avail-header'>
         <h2>When are you available for meetings?</h2>
-        <p>
-          We will match project teams according to availability to meet. You can
-          edit this later in the project portal calendar page.
-        </p>
+        <p>We will match project teams according to availability to meet.</p>
+        <p>You can edit this later in the project portal calendar page.</p>
         <i>Select at least one day per week with a block of time.</i>
       </div>
-
       <Availability
         days={days}
         setDays={setDays}
         uxUserTimezone={uxUserTimezone}
         setUxUserTimezone={setUxUserTimezone}
       />
-
       <div className='setup-avail-buttons-wrapper'>
         <div className='setup-avail-buttons'>
-          <SecondaryButton handler={handleBack} text='Role' />
+          <SecondaryButton
+            handler={() => handleNavigationButtons('previous')}
+            text='Role'
+            paginatorBtn={true}
+          />
           <PrimaryButton
-            handler={handleSaveAvailability}
+            handler={() => handleNavigationButtons('next')}
             text='Set up profile'
+            paginatorBtn={true}
+            isDisabled={isDisabled}
           />
         </div>
       </div>

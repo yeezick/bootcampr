@@ -1,0 +1,126 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+
+.welcome-container {
+  align-items: flex-start;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  padding: 0px;
+
+  h1 {
+    font-size: 38px;
+    font-style: normal;
+    font-weight: 700;
+    height: 54px;
+    line-height: 53.2px;
+    margin: 0;
+    text-align: left;
+  }
+
+  p {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+    margin: 0px;
+    text-align: left;
+  }
+}
+
+.role-selection-container {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 32px;
+  padding: 0px;
+
+  .select-role {
+    font-weight: 400;
+    margin: 0;
+  }
+
+  ul {
+    margin: 0;
+  }
+
+  h2 {
+    gap: 6px;
+  }
+}
+
+.role-title-explanation {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .tell-role {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    height: 34px;
+    line-height: 34px;
+    margin: 0;
+    width: 250px;
+  }
+
+  .tell-role-content {
+    height: 48px;
+    width: 462px;
+
+    p {
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 22px;
+      margin: 0px;
+    }
+  }
+}
+
+.radio-btn {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+
+  input {
+    accent-color: #0d47a1;
+    align-self: center;
+    height: 18px;
+    margin: 0 8px 0 0;
+    width: 18px;
+  }
+
+  .ux-designer-btn {
+    display: flex;
+    flex-direction: row;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22.4px;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .software-engineer-btn {
+    display: flex;
+    flex-direction: row;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22.4px;
+  }
+
+  .software-eng-p1 {
+    margin: 0;
+  }
+
+  .software-eng-p2 {
+    margin: 0;
+  }
+}

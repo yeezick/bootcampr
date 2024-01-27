@@ -33,7 +33,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
   }
 
   const handleCancel = () => {
-    dispatch(updateDeployedUrl({}))
+    dispatch(updateDeployedUrl(''))
     dispatch(updatePresenting(null))
   }
 

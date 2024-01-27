@@ -2,8 +2,6 @@ import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { timeOptions } from '../utils/data'
 import { updateAvailability } from 'utils/api'
 
-// TODO: handle case where time slot B end time is earlier than timeslot A end time
-// Consider if using Math.min / Math.max could help consolidate better
 /**
  * CONSOLIDATE AVAILABILITY
  *
@@ -14,12 +12,98 @@ import { updateAvailability } from 'utils/api'
  * @param availability (Array)
  * @returns new consolidate availability (array)
  */
-export const consolidateAvailability = availability => {
+export const consolidateAvailability = (availability): string[][] => {
   let consolidatedAvail = [...availability]
-  // TODO: redo this logic
-  // https://bootcamper.atlassian.net/browse/BC-652
-  // }
-  return consolidatedAvail
+
+  let reducedFullLogical = createFullAvailability(consolidatedAvail)
+  let userFriendlyConsolidated =
+    convertLogicalToUserFriendly(reducedFullLogical)
+
+  return userFriendlyConsolidated
+}
+
+/**
+ * Convert Logical Availabilty to User Friendly
+ */
+const convertLogicalToUserFriendly = (logical: number[]): string[][] => {
+  let userFriendly = [timeOptions[logical[0]]]
+
+  for (let i = 1; i < logical.length; i++) {
+    if (logical[i] - logical[i - 1] === 1) {
+      if (i === logical.length - 1) {
+        userFriendly.push(timeOptions[logical[i] + 1])
+      }
+    } else {
+      const indexBefore = logical[i - 1]
+
+      userFriendly.push(timeOptions[indexBefore + 1])
+      userFriendly.push(timeOptions[logical[i]])
+
+      if (i === logical.length - 1) {
+        userFriendly.push(timeOptions[logical[i] + 1])
+      }
+    }
+  }
+  const convertedUserFriendly = []
+
+  for (let i = 0; i < userFriendly.length; i += 2) {
+    convertedUserFriendly.push([userFriendly[i], userFriendly[i + 1]])
+  }
+
+  return convertedUserFriendly
+}
+
+/**
+ * Convert Time slot to Logical Availability
+ */
+const convertTimeSlotToLogical = (
+  startTime: string,
+  endTime: string
+): Array<number> => {
+  const startIndex: number = timeOptions.indexOf(startTime)
+  const endIndex: number = timeOptions.indexOf(endTime)
+  let logicalArray = []
+
+  for (let i = startIndex; i < endIndex; i++) {
+    logicalArray.push(i)
+  }
+  return logicalArray
+}
+
+/**
+ * Create a holisitc logical availabilty array for full day
+ */
+const createFullAvailability = (
+  userFriendlyFullDay: Array<string>
+): Array<number> => {
+  let fullLogical = []
+
+  userFriendlyFullDay.forEach(array => {
+    const logicalArray = convertTimeSlotToLogical(array[0], array[1])
+    fullLogical = [...fullLogical, ...logicalArray]
+  })
+
+  const sortedFullLogical = sortArray(fullLogical)
+  const reducedFullLogical = removeDuplicates(sortedFullLogical)
+
+  return reducedFullLogical
+}
+
+/**
+ * Sort a numeric array
+ */
+const sortArray = array => {
+  array.sort(function (a, b) {
+    return a - b
+  })
+  return array
+}
+
+/**
+ * Remove duplicate values of an array
+ */
+const removeDuplicates = array => {
+  return array.filter((value, index) => array.indexOf(value) === index)
 }
 
 /**
@@ -216,18 +300,34 @@ export const renderCopyTimesModal = (idx, displayModal, toggleDisplayModal) => {
 
 export const copyTimes = (checked, day, days, idx, setDays) => {
   const daysToPasteTo = Object.keys(checked).filter(
-    day => day != 'EVRY' && checked[day]
+    checkedDay =>
+      checkedDay != 'Everyday' &&
+      checked[checkedDay] &&
+      daysMap[checkedDay] != day
   )
   const copiedTimeslot = [days[day].availability[idx]]
   const newAvail = {}
+
   daysToPasteTo?.forEach(day => {
-    newAvail[day] = {
+    const storageDay = daysMap[day]
+    newAvail[storageDay] = {
       available: true,
-      availability: days[day].availability.concat(copiedTimeslot),
+      availability: days[storageDay].availability.concat(copiedTimeslot),
     }
   })
+
   setDays({
     ...days,
     ...newAvail,
   })
+}
+
+const daysMap = {
+  Sunday: 'SUN',
+  Monday: 'MON',
+  Tuesday: 'TUE',
+  Wednesday: 'WED',
+  Thursday: 'THU',
+  Friday: 'FRI',
+  Saturday: 'SAT',
 }

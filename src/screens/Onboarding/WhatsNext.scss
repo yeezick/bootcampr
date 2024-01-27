@@ -1,0 +1,135 @@
+.onboarding-lastscreen-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 547px;
+  width: 675px;
+}
+  
+.lastscreen-text-container {
+  display: flex;
+  flex-direction: column;
+  height: 547px;
+  left: 382px;
+  top: 147px;
+  width: 675px;
+}
+  
+.lastscreen-header {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 50px 0 0;
+  padding: 0 74px;
+
+  h1 {
+    color: #000;
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 53.2px;
+    margin: 0;
+    text-align: center;
+  }
+}
+
+.whats-next {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  margin: 60px 0 0;
+  width: 670px;
+
+  h2 {
+    color: #000;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 33.6px;
+    margin: 0;
+    text-align: center;
+  }
+
+  p {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 0;
+    text-align: left;
+    width: 532px;
+  }
+}
+
+.lastscreen-survey {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 50px 0 0;
+
+  .lastscreen-feedback {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 22.4px;
+    text-align: center;
+    width: 650px;
+  }
+
+  p {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22.4px;
+    margin: 0 0 8px 0;
+    text-align: center;
+  }
+
+  span {
+    color: #022888;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22.4px;
+    text-decoration-line: underline;
+  }
+}
+
+.project-details {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 65px 0 0;
+
+  p {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22.4px;
+    margin: 0 0 25px 0;
+  }
+}
+
+.link {
+  text-decoration: none;
+}
+
+.project-details-btn {
+  align-items: center;
+  background-color: #fa9413;
+  border: none;
+  border-radius: 4px;
+  color: #313335;
+  display: flex;
+  font-size: 16px;
+  font-weight: 500;
+  gap: 8px;
+  justify-content: center;
+  line-height: 22.4px;
+  padding: 10px 16px;
+  width: 183px;
+}

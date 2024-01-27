@@ -25,9 +25,6 @@ export const WhatsNextPage = () => {
     navigate(`/project/${projectID}`)
   }
 
-  // const latestMemberIndex = completedInfo.participatingMembers.length - 1
-  // const latestMember = completedInfo.participatingMembers[latestMemberIndex]
-  // const userParticipating = latestMember?.decision === 'Participate'
   const teamPresenting = completedInfo.presenting
 
   return (
