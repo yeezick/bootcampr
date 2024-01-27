@@ -30,6 +30,7 @@
       text-align: left;
       margin-top: 0px;
       margin-bottom: 5px;
+      text-transform: capitalize;
     }
 
     p {
@@ -91,7 +92,15 @@
     font-size: 14px;
     color: #616161;
   }
+
+  .organizer {
+    font-size: 14px;
+    color: #616161;
+    margin: 0px 60px;
+    font-style: italic;
+  }
 }
+  
 
 .modal-icons {
   display:flex;

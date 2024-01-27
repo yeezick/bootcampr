@@ -5,6 +5,7 @@ import { MeetingModalInfo, ModalDisplayStatus } from './MeetingModalInterfaces'
 export interface Attendee {
   email: string
   responseStatus: string
+  comment: string
 }
 export interface CalendarInterface {
   convertedEvents: ConvertedEvent[]

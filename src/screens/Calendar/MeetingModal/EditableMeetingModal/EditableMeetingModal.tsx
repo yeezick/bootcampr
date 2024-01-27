@@ -37,6 +37,9 @@ import {
 import '../styles/EditableMeetingModal.scss'
 import { MeetingModalHeaderIcons } from './MeetingModalHeaderIcons'
 import { GoogleMeetsToggler } from './GoogleMeetsToggler'
+import { selectUserEmail } from 'utils/redux/slices/userSlice'
+import { isBoolean } from 'util'
+import { createReadStream } from 'fs'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -57,6 +60,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const projectId = useAppSelector(selectProjectId)
   const projectMembers = useAppSelector(selectMembersAsTeam)
   const calendarId = useAppSelector(selectCalendarId)
+  const userEmail = useAppSelector(selectUserEmail)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -148,6 +152,12 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
         attendeeList.push({ email })
       }
     }
+
+    attendeeList.forEach(attendee => {
+      attendee.email === userEmail
+        ? (attendee.comment = 'organizer')
+        : (attendee.comment = 'not organizer')
+    })
 
     const eventInfo: EventInfo = {
       attendees: attendeeList,

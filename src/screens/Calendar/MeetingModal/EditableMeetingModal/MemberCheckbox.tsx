@@ -19,10 +19,7 @@ export const MemberCheckbox = ({
       return { ...state, [e.target.name]: e.target.checked }
     })
   }
-
   const [isAvailable, setIsAvailable] = useState('unavailable')
-
-  console.log(currMember)
 
   useEffect(() => {
     determineUserAvailability(currMember, dateFields, setIsAvailable)
