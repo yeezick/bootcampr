@@ -1,4 +1,4 @@
-export type AttendeeList = { email: string; organizer: boolean }
+export type AttendeeList = { email: string }
 
 export interface DateFieldsInterface {
   date: string
@@ -34,9 +34,6 @@ export interface MeetingModalInfo {
   attendees: GoogleAttendees[]
   creator: {
     email: string
-  }
-  organizer: {
-    self: boolean
   }
   description: string
   dateFields: {
