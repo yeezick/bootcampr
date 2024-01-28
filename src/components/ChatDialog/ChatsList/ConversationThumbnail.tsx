@@ -1,35 +1,78 @@
 import { RxDotFilled } from 'react-icons/rx'
-import { formatLastMessageTimestamp } from 'utils/functions/chatLogic'
+import {
+  formatLastMessageTimestamp,
+  getParticipantsNames,
+} from 'utils/functions/chatLogic'
 import { AvatarGrid } from 'components/ChatDialog/AvatarGrid/AvatarGrid'
 import { extractConversationAvatars } from 'utils/functions/chatLogic'
 import { UserThumbnail } from '../UserThumbnail/UserThumbnail'
 import { Badge } from '@mui/material'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 export const ConversationThumbnail = ({
-  authUser,
   groupName,
   participants,
-  // lastMessage,
+  lastMessage,
   lastActive,
 }) => {
+  const authUser = useAppSelector(selectAuthUser)
   const pictures = extractConversationAvatars(participants, authUser._id)
-  // const description = `${
-  //   lastMessage.sender._id === authUser._id
-  //     ? 'You'
-  //     : lastMessage.sender.firstName
-  // } : ${lastMessage.text}}`
 
+  const lastMessageText = lastMessage.text
+    ? lastMessage.text
+    : 'No messages to show'
+  const senderInfo = !lastMessage.sender
+    ? ''
+    : `${
+        lastMessage.sender._id === authUser._id
+          ? 'You'
+          : lastMessage.sender.firstName
+      }:`
+  const ppAuth = participants.find(pp => pp.participant._id === authUser._id)
+  console.log('ppAuth', ppAuth)
+  const description = `${senderInfo} ${lastMessageText}`
+  const groupTitle = groupName
+    ? groupName
+    : getParticipantsNames(participants, 'group', groupName, authUser)
   return (
     <>
       <UserThumbnail
-        title={groupName}
-        description={'No Messages...'}
+        title={groupTitle}
+        description={description}
         profilePicture={pictures}
-        chatType='group'
+        avatarType='grid'
         avatarSize='medium'
       />
-      {/* create component */}
-      <Badge />
+      <div>{formatLastMessageTimestamp(lastMessage.timestamp)}</div>
+      <CustomBadge variant='dot' invisible={!ppAuth.hasUnreadMessage} />
     </>
+  )
+}
+interface BadgeInterface {
+  content?: React.ReactNode
+  invisible?: boolean
+  variant?: 'standard' | 'dot'
+  children?: React.ReactNode
+}
+
+// Define the component with the specified interface
+export const CustomBadge: React.FC<BadgeInterface> = ({
+  content,
+  invisible = false,
+  variant = 'standard',
+  children,
+}) => {
+  return (
+    <div>
+      <Badge
+        color='secondary'
+        badgeContent={content}
+        variant={variant}
+        invisible={invisible}
+      >
+        {children}
+      </Badge>
+    </div>
   )
 }
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { FiCamera } from 'react-icons/fi'
 import './AvatarGrid.scss'
 
-export const AvatarGrid = ({ pictures, avatarSize, chatType }) => {
+export const AvatarGrid = ({ pictures, avatarSize, avatarType }) => {
   const [profilePictures, setProfilePictures] = useState<string | []>([])
   const [avatarClassName, setAvatarClassName] = useState('')
 
@@ -10,13 +10,13 @@ export const AvatarGrid = ({ pictures, avatarSize, chatType }) => {
     if (pictures && pictures.length !== 0) {
       setProfilePictures(pictures)
 
-      if (chatType === 'group') {
+      if (avatarType === 'grid') {
         setAvatarClassName(`group-photo-container ${avatarSize}`)
-      } else if (chatType === 'private') {
+      } else if (avatarType === 'single') {
         setAvatarClassName(`avatar-grid ${avatarSize}`)
       }
     }
-  }, [chatType, pictures])
+  }, [avatarType, pictures])
 
   const gridClassName = () => {
     if (pictures.length === 2) {
@@ -28,7 +28,7 @@ export const AvatarGrid = ({ pictures, avatarSize, chatType }) => {
     }
   }
 
-  return chatType === 'group' ? (
+  return avatarType === 'grid' ? (
     <GroupAvatar
       profilePictures={profilePictures}
       avatarSize={avatarSize}

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { FiArrowLeft } from 'react-icons/fi'
 import { HiOutlinePencilAlt } from 'react-icons/hi'
 import { BiPencil } from 'react-icons/bi'
@@ -12,30 +13,20 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 import { CommonModal } from 'components/CommonModal/CommonModal'
-import { extractConversationAvatars } from 'utils/functions/chatLogic'
+import {
+  extractConversationAvatars,
+  getParticipantsNames,
+} from 'utils/functions/chatLogic'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { Participant } from 'interfaces/ChatInterface'
 import './ChatDialogMain.scss'
-//group or private - main or pages
-//this should be default value and should be handled somewhere else
-const getParticipantsNames = (currentConversation, authUser) => {
-  const participantsWithoutAuthUser = currentConversation.participants
-    .filter(({ participant }) => participant._id !== authUser._id)
-    .map(
-      ({ participant }) => `${participant.firstName} ${participant.lastName}`
-    )
-    .join(',')
-  if (currentConversation.chatType === 'private') {
-    return participantsWithoutAuthUser
-  } else {
-    const authUserName = `${authUser.firstName} ${authUser.lastName}`
-    return currentConversation.groupName
-      ? currentConversation.groupName
-      : participantsWithoutAuthUser.concat(', ', authUserName)
-  }
-}
+
 const getTitleText = (chatScreen, currentConversation, authUser) => {
-  const title = getParticipantsNames(currentConversation, authUser)
+  const title = getParticipantsNames(
+    currentConversation.participants,
+    currentConversation.chatType,
+    currentConversation.groupName,
+    authUser
+  )
   const titleTextLookup = {
     [ChatScreen.ChatRoom]: `${title}`,
     [ChatScreen.ComposeNewChat]: 'New Chat Room',
@@ -47,20 +38,19 @@ const getTitleText = (chatScreen, currentConversation, authUser) => {
 }
 export const ChatMainPageHeader = () => {
   const dispatch = useAppDispatch()
-
-  const handleComposeMessage = () => {
+  const handleCreateChatRoom = () => {
     dispatch(onScreenUpdate(ChatScreen.ComposeNewChat))
   }
   return (
     <div className='main-page-title'>
       <h1>Chats</h1>
-      <HiOutlinePencilAlt size={22} onClick={handleComposeMessage} />
+      <HiOutlinePencilAlt size={22} onClick={handleCreateChatRoom} />
     </div>
   )
 }
 export const ChatPageHeader = () => {
   const currentConversation = useAppSelector(selectChat)
-  // const selectedMember = useAppSelector(selectSelectedMember)
+  const [openEditNameModal, setOpenEditNameModal] = useState(false)
   const { chatScreen } = useAppSelector(selectChatUI)
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
@@ -79,17 +69,20 @@ export const ChatPageHeader = () => {
         <AvatarGrid
           pictures={profilePictures}
           avatarSize={'small'}
-          chatType={currentConversation.chatType ? 'group' : 'private'}
+          avatarType={
+            currentConversation.chatType === 'group' ? 'grid' : 'single'
+          }
         />
       )}
       <h5
-        // onClick={() => updateScreen(ChatScreen.EditChatRoom)}
+        onClick={() => dispatch(onScreenUpdate(ChatScreen.EditChatRoom))}
         className='group-link'
       >
         {getTitleText(chatScreen, currentConversation, authUser)}
-        {/* {currentConversation.isGroupChat && chatScreen === 'editChatRoom' && (
-          <BiPencil onClick={() => setOpenEditNameModal(true)} />
-        )} */}
+        {currentConversation.chatType === 'group' &&
+          chatScreen === 'editChatRoom' && (
+            <BiPencil onClick={() => setOpenEditNameModal(true)} />
+          )}
       </h5>
       {/* <CommonModal
         isOpen={openEditNameModal}
