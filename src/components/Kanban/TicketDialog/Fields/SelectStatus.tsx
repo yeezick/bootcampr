@@ -1,5 +1,6 @@
 import { MenuItem, Select } from '@mui/material'
 import {
+  selectTicketDialogState,
   selectTicketFields,
   setTicketFields,
 } from 'utils/redux/slices/taskBoardSlice'
@@ -10,10 +11,11 @@ import { TicketTextLabel } from './TicketTextFields'
 
 export const SelectStatus = () => {
   const { status } = useAppSelector(selectTicketFields)
+  const ticketDialogState = useAppSelector(selectTicketDialogState)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (status) {
+    if (ticketDialogState === 'edit') {
       dispatch(setTicketFields({ oldStatus: status }))
     } else {
       dispatch(setTicketFields({ status: 'toDo' }))

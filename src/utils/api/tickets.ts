@@ -53,9 +53,8 @@ export const saveUpdatedTicket = async ticketData => {
 }
 
 export const deleteTicketApi = async ticketData => {
-  await api.post(`/deleteTicket`, ticketData)
+  await api.put(`/tickets/delete/${ticketData.ticketId}`, ticketData)
 }
-export const getOneTicketById = async () => {}
 
 export const getTicketComments = async (
   ticketId: number

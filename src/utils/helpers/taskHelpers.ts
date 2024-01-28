@@ -2,6 +2,7 @@ import { Dayjs } from 'dayjs'
 import { TicketInterface } from 'interfaces'
 import { emptyTicketFields } from 'utils/data/taskBoardConstants'
 import {
+  resetTicketFields,
   setTicketFields,
   setVisibleTicketDialog,
 } from 'utils/redux/slices/taskBoardSlice'
@@ -20,6 +21,12 @@ export const buildTicketPayload = (projectId, userId, ticketFields) => {
     ticketPayload = { ...ticketFields, ...ticketPayload }
   }
   return ticketPayload
+}
+
+export const doTicketsExist = projectTracker => {
+  return Object.keys(projectTracker).some(
+    status => projectTracker[status]?.length > 0
+  )
 }
 
 export const filterUserTickets = (allTickets, userId) => {
@@ -56,7 +63,7 @@ export const formatTaskStatus = (status: string) => {
 
 export const handleCloseVisibleTicketDialog = dispatch => {
   dispatch(setVisibleTicketDialog(''))
-  dispatch(setTicketFields(emptyTicketFields))
+  dispatch(resetTicketFields({}))
 }
 
 export const handleReduxDateChange = (dispatch, newDate: Dayjs) => {

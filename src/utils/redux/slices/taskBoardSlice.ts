@@ -7,11 +7,15 @@ import {
   SetVisibleTicketsReducer,
   TicketDialogState,
 } from 'interfaces/TaskBoardInterface'
+import { emptyTicketFields } from 'utils/data/taskBoardConstants'
 
 const taskBoardSlice = createSlice({
   name: 'taskBoard',
   initialState: initialTaskBoardState,
   reducers: {
+    resetTicketFields: (state, action: PayloadAction<TicketInterface>) => {
+      state.ticketFields = { ...emptyTicketFields, ...action.payload }
+    },
     setInitialVisibleTickets: (
       state,
       action: PayloadAction<ProjectTrackerInterface>
@@ -69,6 +73,7 @@ export const selectVisibleTickets = (state: RootState) =>
   state.taskBoard.visibleTickets
 
 export const {
+  resetTicketFields,
   setInitialVisibleTickets,
   setTicketFields,
   setVisibleTickets,

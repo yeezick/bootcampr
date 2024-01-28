@@ -3,8 +3,9 @@ import kanbanImage from '../svg/bootcampr.png'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { setVisibleTicketDialog } from 'utils/redux/slices/taskBoardSlice'
 import { selectProjectTracker } from 'utils/redux/slices/projectSlice'
-import './styles/NoTicketsCreated.scss'
+import '../styles/NoTicketsCreated.scss'
 import { PrimaryButton } from 'components/Buttons'
+import { doTicketsExist } from 'utils/helpers/taskHelpers'
 
 export const NoTicketsCreated = () => {
   const [ticketsExist, setTicketsExist] = useState(false)
@@ -14,13 +15,7 @@ export const NoTicketsCreated = () => {
     dispatch(setVisibleTicketDialog('create'))
 
   useEffect(() => {
-    const doTicketsExist = () => {
-      const oneTicketExists = Object.keys(projectTracker).some(
-        status => projectTracker[status]?.length > 0
-      )
-      setTicketsExist(oneTicketExists)
-    }
-    doTicketsExist()
+    setTicketsExist(doTicketsExist(projectTracker))
   }, [projectTracker])
 
   if (!ticketsExist) {

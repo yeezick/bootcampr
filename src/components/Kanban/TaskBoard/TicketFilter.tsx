@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectProjectTracker } from 'utils/redux/slices/projectSlice'
 import { setVisibleTickets } from 'utils/redux/slices/taskBoardSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import './styles/TicketFilter.scss'
+import '../styles/TicketFilter.scss'
 
 export const TicketFilter = () => {
   const projectTracker = useAppSelector(selectProjectTracker)

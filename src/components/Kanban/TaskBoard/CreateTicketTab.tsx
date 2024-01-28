@@ -5,9 +5,11 @@ import { selectUserId } from 'utils/redux/slices/userSlice'
 import '../Ticket.scss'
 import { selectProjectId } from 'utils/redux/slices/projectSlice'
 import {
+  resetTicketFields,
   setTicketFields,
   setVisibleTicketDialog,
 } from 'utils/redux/slices/taskBoardSlice'
+import { emptyTicketFields } from 'utils/data/taskBoardConstants'
 
 export const CreateTicketTab = ({ columnStatus }) => {
   const projectId = useAppSelector(selectProjectId)
@@ -17,8 +19,7 @@ export const CreateTicketTab = ({ columnStatus }) => {
   const openCreateTicketDialog = () => {
     dispatch(setVisibleTicketDialog('create'))
     dispatch(
-      setTicketFields({
-        assignee: 'Unassigned',
+      resetTicketFields({
         createdBy: userId,
         status: columnStatus,
         projectId,

@@ -9,8 +9,8 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectProjectId, updateTicket } from 'utils/redux/slices/projectSlice'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import {
+  resetTicketFields,
   selectTicketFields,
-  setTicketFields,
 } from 'utils/redux/slices/taskBoardSlice'
 import { selectUserId } from 'utils/redux/slices/userSlice'
 
@@ -34,7 +34,7 @@ export const SaveTicketBtn = () => {
           updatedTicket: ticketResponse,
         })
       )
-      dispatch(setTicketFields(emptyTicketFields))
+      dispatch(resetTicketFields({}))
       dispatch(
         createSnackBar({
           isOpen: true,

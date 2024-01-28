@@ -12,6 +12,7 @@ import {
 } from 'utils/redux/slices/projectSlice'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import {
+  resetTicketFields,
   selectTicketFields,
   setTicketFields,
 } from 'utils/redux/slices/taskBoardSlice'
@@ -32,7 +33,7 @@ export const CreateTicketBtn = () => {
       // display error banner
     } else {
       dispatch(addTicketToStatus(ticketResponse))
-      dispatch(setTicketFields(emptyTicketFields))
+      dispatch(resetTicketFields({}))
       dispatch(
         createSnackBar({
           isOpen: true,
@@ -69,7 +70,7 @@ export const CancelTicketBtn = () => {
       // display error banner
     } else {
       dispatch(addTicketToStatus(ticketResponse))
-      dispatch(setTicketFields(emptyTicketFields))
+      dispatch(resetTicketFields({}))
       dispatch(
         createSnackBar({
           isOpen: true,

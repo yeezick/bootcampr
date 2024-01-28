@@ -1,15 +1,23 @@
 import { DragDropContext } from '@hello-pangea/dnd'
 import { saveTicketStatusChange } from 'utils/api/tickets'
-import { useAppDispatch } from 'utils/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { useParams } from 'react-router-dom'
-import { updateTicketStatus } from 'utils/redux/slices/projectSlice'
+import {
+  selectProjectTracker,
+  updateTicketStatus,
+} from 'utils/redux/slices/projectSlice'
 import { StatusColumn } from './StatusColumn'
-import '../styles/BoardColumnStyles.scss'
+import '../../styles/BoardColumnStyles.scss'
+import { doTicketsExist } from 'utils/helpers/taskHelpers'
 
 export const BoardColumns = () => {
   const { projectId } = useParams()
+  const projectTracker = useAppSelector(selectProjectTracker)
   const dispatch = useAppDispatch()
   const columnOrder = ['toDo', 'inProgress', 'underReview', 'completed']
+  const classes = doTicketsExist(projectTracker)
+    ? 'columns-wrapper full-height'
+    : 'columns-wrapper'
 
   const handleOnDragEnd = async movingTicket => {
     if (movingTicket) {
@@ -40,7 +48,7 @@ export const BoardColumns = () => {
   }
 
   return (
-    <div className={'columns-wrapper'}>
+    <div className={classes}>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         {columnOrder.map(columnStatus => (
           <StatusColumn columnStatus={columnStatus} />

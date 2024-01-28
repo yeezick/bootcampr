@@ -12,21 +12,24 @@ export const PrimaryButton = ({
   const conditionalProps: ConditionalButtonProps = { ...MuiProps }
   if (startIcon) conditionalProps.startIcon = fetchIcon(startIcon)
   if (endIcon) conditionalProps.endIcon = fetchIcon(endIcon)
+  if (MuiProps.sx) conditionalProps.sx = MuiProps.sx
+  conditionalProps.sx = {
+    ...primaryButtonSx,
+    ...conditionalProps.sx,
+    textTransform: 'none', // textTransform can't be added to secondaryButtonSx or it throws a type error?
+  }
 
   return (
-    <Button
-      sx={{
-        backgroundColor: '#FFA726',
-        color: '#1A237E',
-        height: '40px',
-        marginLeft: '8px',
-        textTransform: 'none',
-      }}
-      onClick={handler}
-      variant='contained'
-      {...conditionalProps}
-    >
+    <Button onClick={handler} variant='contained' {...conditionalProps}>
       {text}
     </Button>
   )
+}
+
+const primaryButtonSx = {
+  backgroundColor: '#FFA726',
+  color: '#1A237E',
+  height: '40px',
+  marginLeft: '8px',
+  textTransform: 'none',
 }

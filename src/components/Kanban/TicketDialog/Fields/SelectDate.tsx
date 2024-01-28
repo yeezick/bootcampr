@@ -20,6 +20,7 @@ export const SelectDate = () => {
   useEffect(() => {
     if (!dueDate) {
       setDayPickerDayjs(dayjs())
+      handleReduxDateChange(dispatch, datePickerDayjs)
     } else {
       setDayPickerDayjs(dayjs(dueDate))
     }

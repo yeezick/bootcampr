@@ -14,8 +14,8 @@ export const SecondaryButton = ({
   if (endIcon) conditionalProps.endIcon = fetchIcon(endIcon)
   if (MuiProps.sx) conditionalProps.sx = MuiProps.sx
   conditionalProps.sx = {
-    ...conditionalProps.sx,
     ...secondaryButtonSx,
+    ...conditionalProps.sx,
     textTransform: 'none', // textTransform can't be added to secondaryButtonSx or it throws a type error?
   }
 
