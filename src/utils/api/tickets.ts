@@ -45,7 +45,7 @@ export const saveTicketStatusChange = async ticketData => {
 
 export const saveUpdatedTicket = async ticketData => {
   try {
-    const updatedData = await api.put(`/updateTicket`, ticketData)
+    const updatedData = await api.put(`/tickets/${ticketData._id}`, ticketData)
     return updatedData.data
   } catch (error) {
     return { error: { status: 500, message: 'ticket status failed to change' } }
