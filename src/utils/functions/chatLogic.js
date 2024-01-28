@@ -40,7 +40,28 @@ export const formatLastMessageTimestamp = lastMessageTimestamp => {
 
   return formattedTimestamp
 }
-
+export const getParticipantsNames = (
+  participants,
+  chatType,
+  groupName,
+  authUser
+) => {
+  const participantsWithoutAuthUser = participants
+    .filter(({ participant }) => participant._id !== authUser._id)
+    .map(
+      ({ participant }) => `${participant.firstName} ${participant.lastName}`
+    )
+    .join(', ')
+  if (chatType === 'private') {
+    return participantsWithoutAuthUser
+  } else {
+    const authUserName = `${authUser.firstName} ${authUser.lastName}`
+    return groupName
+      ? groupName
+      : participantsWithoutAuthUser.concat(', ', authUserName)
+  }
+}
+//Messages
 export const isMemberSelected = (selectedMembers, member) => {
   return selectedMembers.some(mem => mem._id === member._id)
 }
@@ -103,4 +124,50 @@ export const isOnlyMessageBySameSender = (messages, i) => {
 
 export const isSameSenderAsPrevious = (messages, m, i) => {
   return i > 0 && messages[i - 1].sender._id === m.sender._id
+}
+
+export const getMessageClassNames = (messages, message, index, authUser) => {
+  const isSenderAuthUser = message.sender._id === authUser._id
+
+  const isSameUser = isSameSenderAsPrevious(messages, message, index)
+    ? 'same-user-text-margin'
+    : 'other-user-text-margin'
+
+  const isLastMessageAndSameRecipient =
+    isRecipientMessageSameSender(messages, message, index, authUser._id) ||
+    isLastMessageBySameRecipient(messages, index, authUser._id)
+
+  const isLastMessage =
+    (isMessageSameSender(messages, message, index) ||
+      isLastMessageBySameUser(messages, index)) &&
+    'same-sender-last-message'
+
+  const isFirstMessage =
+    (isMessageSameSender(messages, message, index) ||
+      isFirstMessageBySameUser(messages, index)) &&
+    'same-sender-first-message'
+
+  const isOnlyMessage =
+    isOnlyMessageBySameSender(messages, index) && 'same-sender-one-message'
+
+  const isAvatarDisplayed = isLastMessageAndSameRecipient
+    ? 'avatar'
+    : 'no-avatar'
+
+  // const isMessageSelected = selectedMessages.includes(message)
+  //   ? 'selected-message'
+  //   : 'not-selected';
+
+  const timestampClasses = isSenderAuthUser ? 'details-right' : 'details-left'
+
+  return {
+    isSameUser,
+    isLastMessage,
+    isFirstMessage,
+    isOnlyMessage,
+    isAvatarDisplayed,
+    isLastMessageAndSameRecipient,
+    // isMessageSelected,
+    timestampClasses,
+  }
 }
