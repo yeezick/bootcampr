@@ -162,12 +162,11 @@ export interface AvailabilityInterface {
     availability: TimeOption[][]
   }
 }
-
-export interface ProjectMemberInterface {
+export interface BasicUserInfoInterface {
   _id?: string
+  email?: string
   firstName?: string
   lastName?: string
-  email?: string
-  role?: string
   profilePicture?: string
+  role?: string
 }

@@ -1,4 +1,5 @@
 import { ChatScreen } from 'utils/data/chatConstants'
+import { BasicUserInfoInterface, UserInterface } from './UserInterface'
 
 export interface ChatSliceInterface {
   ui: {
@@ -6,24 +7,44 @@ export interface ChatSliceInterface {
     chatScreen: ChatScreen
     chatScreenPath: ChatScreen[]
   }
-  conversation: {
-    _id: string
-    isGroup: boolean
-    participants: []
-    displayName?: string
-    selectedMember: ChatSelectedMemberInterface
-  }
+  chat: ChatInterface
+  threads: ChatInterface[]
+  selectedChatUsers: UserInterface[]
+  chatText: string
   unreadConversations: number
-  chatText: ChatMessageInterface
 }
-
-export interface ChatMessageInterface {
-  text: string
-}
-
-export interface ChatSelectedMemberInterface {
+export interface ChatInterface {
   _id: string
-  firstName: string
-  lastName: string
-  profilePicture: string
+  lastMessage?: {
+    text: string
+    sender: BasicUserInfoInterface
+    timestamp: string
+  }
+  participants: Participant[]
+  typingUsers?: string[]
+  messages: ChatMessage[]
+  chatType: 'group' | 'private'
+  groupName?: string
+  groupDescription?: string
+  groupPhoto?: string
+  lastActive?: string
+}
+
+export interface Participant {
+  participant: BasicUserInfoInterface
+  isAdmin?: boolean
+  hasUnreadMessage?: boolean
+}
+export interface ChatMessage {
+  _id?: string
+  text: string
+  sender: BasicUserInfoInterface
+  timestamp: string
+  status: 'sent' | 'read' | 'failed'
+}
+
+export interface EmptyChatPage {
+  screen: string
+  text: string
+  className: string
 }

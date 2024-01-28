@@ -3,37 +3,37 @@
   flex-direction: column;
   flex-grow: 1;
   justify-content: space-between;
-  .checkbox {
-    background-color: white;
-    border: 2px solid #212121;
-    border-radius: 2px;
-    cursor: pointer;
-    height: 16px;
-    width: 16px;
-  }
+  // .checkbox {
+  //   background-color: white;
+  //   border: 2px solid #212121;
+  //   border-radius: 2px;
+  //   cursor: pointer;
+  //   height: 16px;
+  //   width: 16px;
+  // }
 
-  .checkbox-checked,
-  .all-checked {
-    align-items: center;
-    background-color: #1a237e;
-    border: 2px solid #1a237e;
-    border-radius: 2px;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    height: 16px;
-    justify-content: center;
-    width: 16px;
+  // .checkbox-checked,
+  // .all-checked {
+  //   align-items: center;
+  //   background-color: #1a237e;
+  //   border: 2px solid #1a237e;
+  //   border-radius: 2px;
+  //   color: white;
+  //   cursor: pointer;
+  //   display: flex;
+  //   height: 16px;
+  //   justify-content: center;
+  //   width: 16px;
 
-    .checkmark {
-      font-size: 10px;
-      stroke-width: 1.75px;
+  //   .checkmark {
+  //     font-size: 10px;
+  //     stroke-width: 1.75px;
 
-      &:hover {
-        color: white;
-      }
-    }
-  }
+  //     &:hover {
+  //       color: white;
+  //     }
+  //   }
+  // }
 
   &::-webkit-scrollbar {
     background-color: #f5f5f500;
@@ -76,6 +76,19 @@
         display: flex;
         flex-direction: column;
         row-gap: 8px;
+        .MuiFormControlLabel-root {
+          > .MuiFormControlLabel-label {
+            margin-left: 8px;
+          }
+        }
+        .member-chat-checkbox {
+          color: #022888;
+          padding: 8px;
+          &.Mui-checked {
+            padding: 8px;
+            color: #022888;
+          }
+        }
         .member-grid {
           display: flex;
           align-items: center;

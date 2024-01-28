@@ -3,31 +3,33 @@ import { useSocket } from 'components/Notifications/Socket'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
+  selectChat,
   setCurrentChat,
   updateCurrentChatMessages,
+  selectThreads,
+  fetchMessages,
+  fetchThreads,
 } from 'utils/redux/slices/chatSlice'
-import {
-  getAllPrivateMessages,
-  getGroupChatMessages,
-  getUserChatThreads,
-} from 'utils/api/chat'
+import { getUserChatThreads } from 'utils/api/chat'
 import { ConversationThumbnail } from './ConversationThumbnail'
-import { Thread } from 'interfaces/ChatInterface'
 import { EmptyChatPage } from '../ChatRoom/EmptyChatPage'
 import './ChatsList.scss'
+import { ChatInterface } from 'interfaces/ChatInterface'
 
 export const ChatsList = ({ handleConversationClick }) => {
   const socket = useSocket()
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
-  const [threads, setThreads] = useState([])
+  const threads = useAppSelector(selectThreads)
 
+  console.log(threads)
   useEffect(() => {
     if (socket) {
       //Todo - check if this necessary maybe we can solve with redux
-      // socket.on('message-from-server', newMessage => {
-      //   dispatch(updateCurrentChatMessages(newMessage))
-      // })
+      socket.on('message-from-server', newMessage => {
+        console.log('new message on lists', newMessage)
+        // dispatch(updateCurrentChatMessages(newMessage))
+      })
       socket.emit('check-any-unread-messages', {
         authUser: authUser._id,
       })
@@ -35,23 +37,13 @@ export const ChatsList = ({ handleConversationClick }) => {
   }, [socket, authUser._id])
 
   useEffect(() => {
-    const handleThreads = async () => {
-      const chatThreads = await getUserChatThreads()
-      console.log(chatThreads)
-      setThreads(chatThreads)
-    }
-    handleThreads()
-  }, [])
+    dispatch(fetchThreads())
+  }, [dispatch])
 
   const handleSelectChat = async (chatId: string, chatType) => {
     try {
-      if (chatType === 'group') {
-        const groupChatMessages = await getGroupChatMessages(chatId)
-        dispatch(setCurrentChat(groupChatMessages))
-      } else {
-        const privateChatMessages = await getAllPrivateMessages(chatId)
-        dispatch(setCurrentChat(privateChatMessages))
-      }
+      dispatch(fetchMessages({ chatId: chatId, chatType: chatType }))
+      dispatch(setCurrentChat({ chatId: chatId }))
       handleConversationClick()
     } catch (error) {
       console.log(error)
@@ -70,15 +62,16 @@ export const ChatsList = ({ handleConversationClick }) => {
 
   return (
     <div className='conversations-container'>
-      {threads.map((thread: Thread) => {
+      {threads.map((thread: ChatInterface) => {
         const {
           _id: chatId,
-          // lastMessage,
+          lastMessage,
           lastActive,
           participants,
           chatType,
           groupName,
         } = thread
+        console.log(thread)
         return (
           <div
             className='conversation-grid'
@@ -86,10 +79,9 @@ export const ChatsList = ({ handleConversationClick }) => {
             onClick={() => handleSelectChat(chatId, chatType)}
           >
             <ConversationThumbnail
-              authUser={authUser}
               groupName={groupName}
               participants={participants}
-              // lastMessage={lastMessage}
+              lastMessage={lastMessage}
               lastActive={lastActive}
             />
           </div>
