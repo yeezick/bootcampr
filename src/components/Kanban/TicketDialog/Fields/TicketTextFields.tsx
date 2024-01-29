@@ -1,4 +1,3 @@
-import '../../Ticket.scss'
 import { TextField } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {

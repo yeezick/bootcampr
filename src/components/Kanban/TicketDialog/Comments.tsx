@@ -1,4 +1,4 @@
-import './Comments.scss'
+import '../styles/Comments.scss'
 import { BiComment, BiLike } from 'react-icons/bi'
 import {
   createComment,

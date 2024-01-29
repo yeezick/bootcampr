@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react'
-import '../Ticket.scss'
+import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectProjectTracker } from 'utils/redux/slices/projectSlice'
 import { BoardColumns } from './BoardColumns/BoardColumns'

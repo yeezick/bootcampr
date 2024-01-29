@@ -18,7 +18,6 @@ export const SaveTicketBtn = () => {
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()
-  const handleCloseDialog = () => closeVisibleTicketDialog(dispatch)
 
   const handleSaveTicket = async e => {
     const ticketPayload = buildTicketPayload(projectId, userId, ticketFields)
@@ -42,7 +41,7 @@ export const SaveTicketBtn = () => {
           severity: 'success',
         })
       )
-      handleCloseDialog()
+      closeVisibleTicketDialog(dispatch)
     }
   }
 

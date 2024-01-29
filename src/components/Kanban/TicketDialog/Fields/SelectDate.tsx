@@ -7,7 +7,7 @@ import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import { handleReduxDateChange } from 'utils/helpers/taskHelpers'
 import { TicketTextLabel } from './TicketTextFields'
-import { fetchIcon, iconMap } from 'utils/components/Icons'
+import { iconMap } from 'utils/components/Icons'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)

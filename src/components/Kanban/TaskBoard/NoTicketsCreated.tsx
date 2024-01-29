@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import kanbanImage from '../svg/bootcampr.png'
+import openBox from 'assets/Images/open-box.png'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { setVisibleTicketDialog } from 'utils/redux/slices/taskBoardSlice'
 import { selectProjectTracker } from 'utils/redux/slices/projectSlice'
@@ -23,7 +23,7 @@ export const NoTicketsCreated = () => {
       <div className='no-tickets-created'>
         <div className='content'>
           <div className='image'>
-            <img src={kanbanImage} alt='kanbanImage' />
+            <img src={openBox} alt='kanbanImage' />
           </div>
           <div className='text'>
             <h3>Your team hasn’t created any tasks.</h3>
@@ -36,18 +36,11 @@ export const NoTicketsCreated = () => {
           </div>
           <PrimaryButton
             handler={openCreateTicketDialog}
-            text='Create first task'
+            text='Create a task'
             startIcon='plus'
           />
         </div>
       </div>
     )
   } else return null
-}
-
-export const CreateTicketButton = () => {
-  const dispatch = useAppDispatch()
-  const openCreateTicketDialog = () =>
-    dispatch(setVisibleTicketDialog('create'))
-  return <button onClick={openCreateTicketDialog}>CREATE A TASK</button>
 }

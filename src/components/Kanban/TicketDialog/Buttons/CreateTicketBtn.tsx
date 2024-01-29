@@ -1,10 +1,8 @@
-import { PrimaryButton, SecondaryButton } from 'components/Buttons'
+import { PrimaryButton } from 'components/Buttons'
 import { createTicket } from 'utils/api/tickets'
 import {
   buildTicketPayload,
   closeVisibleTicketDialog,
-  hasUserEditedFields,
-  toggleCancelDialog,
 } from 'utils/helpers/taskHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
@@ -15,7 +13,6 @@ import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import {
   resetTicketFields,
   selectTicketFields,
-  setConfirmationDialogType,
 } from 'utils/redux/slices/taskBoardSlice'
 import { selectUserId } from 'utils/redux/slices/userSlice'
 
@@ -51,23 +48,6 @@ export const CreateTicketBtn = () => {
       handler={handleCreateTicket}
       text={'Create Ticket'}
       disableElevation
-    />
-  )
-}
-
-export const CancelTicketBtn = () => {
-  const projectId = useAppSelector(selectProjectId)
-  const userId = useAppSelector(selectUserId)
-  const ticketFields = useAppSelector(selectTicketFields)
-  const dispatch = useAppDispatch()
-  const handleCancel = () =>
-    toggleCancelDialog(dispatch, userId, projectId, ticketFields)
-
-  return (
-    <SecondaryButton
-      handler={handleCancel}
-      text={'Cancel'}
-      sx={{ backgroundColor: '#fff' }}
     />
   )
 }
