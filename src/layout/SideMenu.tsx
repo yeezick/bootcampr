@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectUserProjectId } from 'utils/redux/slices/userSlice'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
 import { changePortalPage } from 'utils/helpers'
-import './SideMenu.scss'
+import './styles/SideMenu.scss'
 import { iconMap } from 'utils/components/Icons'
 import { PrimaryButton } from 'components/Buttons'
 
@@ -13,9 +13,7 @@ export const SideMenu = () => {
   const navigate = useNavigate()
   const handleProjectCompletion = () =>
     navigate(`/project/${projectId}/complete`)
-  const btnClassName = `${
-    projectId ? 'completion-overflow-btn' : 'disabled-btn'
-  }`
+  const btnClassName = `completion-btn ${!projectId && 'disabled-btn'}`
 
   return (
     <div className='sidemenu'>

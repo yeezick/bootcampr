@@ -9,12 +9,12 @@ import {
 } from 'utils/redux/slices/userSlice'
 import { SideMenu } from './'
 import { Nav } from './'
-import { Footer } from 'layout/Footer/Footer'
+import { Footer } from 'layout/Footer'
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
 import { useLocation, useSearchParams } from 'react-router-dom'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
 import { selectPortal } from 'utils/redux/slices/userInterfaceSlice'
-import './Layout.scss'
+import './styles/Layout.scss'
 import {
   buildPortal,
   determinePortalFromUrl,

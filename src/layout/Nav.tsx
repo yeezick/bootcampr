@@ -15,7 +15,7 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { ChatIconBadge } from 'components/ChatDialog/ChatIconBadge/ChatIconBadge'
 import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
-import './Nav.scss'
+import './styles/Nav.scss'
 import { buildPortal } from 'utils/helpers'
 import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
 

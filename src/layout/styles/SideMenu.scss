@@ -20,34 +20,25 @@
   transition: 0.3s ease-in-out;
   width: $sidemenu-width;
 
-  .completion-overflow-btn {
+  .completion-btn {
     align-self: center;
     background-color: #fa9413;
     border: none;
     border-radius: 4px;
     color: #313335;
-    cursor: pointer;
+    cursor: pointer; 
     font-size: 16px;
     font-weight: 500;
     height: 51px;
     line-height: 22px;
     width: 216px;
+    margin-top: auto;
   }
 
   .disabled-btn {
-    align-self: center;
-    background-color: #fa9413;
-    border: none;
-    border-radius: 4px;
-    color: #313335;
     cursor: not-allowed;
-    font-size: 16px;
-    font-weight: 500;
-    height: 51px;
-    line-height: 22px;
-    opacity: 0.6;
-    pointer-events: none;
-    width: 216px;
+    opacity: 0.6; 
+    pointer-events: none; 
   }
 
   .project-completion-link {
