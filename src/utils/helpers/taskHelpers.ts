@@ -10,20 +10,16 @@ import {
 import { blankDayJs } from './calendarHelpers'
 import { deepEqual } from 'utils/functions/utilityFunctions'
 
-export const buildTicketPayload = (projectId, userId, ticketFields) => {
-  let ticketPayload: TicketInterface = {
+export const buildTicketPayload = (
+  projectId,
+  userId,
+  ticketFields
+): TicketInterface => {
+  return {
     projectId,
     createdBy: userId,
+    ...ticketFields,
   }
-
-  // Determine if there is a valid value for Assignee
-  if (ticketFields.assignee === 'Unassigned') {
-    const { assignee, ...remainingFields } = ticketFields
-    ticketPayload = { ...remainingFields, ...ticketPayload }
-  } else {
-    ticketPayload = { ...ticketFields, ...ticketPayload }
-  }
-  return ticketPayload
 }
 
 export const closeVisibleTicketDialog = dispatch => {
