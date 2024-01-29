@@ -5,21 +5,18 @@ import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutline
 import ChecklistOutlinedIcon from '@mui/icons-material/ChecklistOutlined'
 import ClearIcon from '@mui/icons-material/Clear'
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
+import EastIcon from '@mui/icons-material/East'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined'
 import InsertLinkOutlinedIcon from '@mui/icons-material/InsertLinkOutlined'
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
 import TitleIcon from '@mui/icons-material/Title'
-import { SvgIconTypeMap } from '@mui/material'
-import { DefaultComponentProps } from '@mui/material/OverridableComponent'
-import { IconMap, MappedIcons } from 'interfaces/components'
+import { IconMap, IconProps, MappedIcons } from 'interfaces/components'
 
-export const fetchIcon = (
-  name: MappedIcons,
-  props?: DefaultComponentProps<SvgIconTypeMap>
-) => {
+export const fetchIcon = (name: MappedIcons, props?: IconProps) => {
   const MappedIcon = iconMap[name]
   return <MappedIcon {...props} />
 }
@@ -36,11 +33,13 @@ export const iconMap: IconMap = {
   description: DescriptionOutlinedIcon,
   email: EmailOutlinedIcon,
   group: GroupsOutlinedIcon,
-  localOffer: LocalOfferOutlinedIcon,
+  leftArrow: KeyboardBackspaceIcon,
   link: InsertLinkOutlinedIcon,
+  localOffer: LocalOfferOutlinedIcon,
   lock: LockOutlinedIcon,
   person: PersonOutlineOutlinedIcon,
   plus: AddIcon,
+  rightArrow: EastIcon,
   tasks: ChecklistOutlinedIcon,
   title: TitleIcon,
 }

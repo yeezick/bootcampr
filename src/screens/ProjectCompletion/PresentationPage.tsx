@@ -2,9 +2,9 @@ import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined'
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
 import { Stack } from '@mui/material'
-import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
 import { useState } from 'react'
+import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 
 export const PresentationPage = ({ handlePageNavigation }) => {
   const [isDisabled, setIsDisabled] = useState(true)
@@ -95,11 +95,15 @@ export const PresentationPage = ({ handlePageNavigation }) => {
           />
 
           <Stack className='btn-container'>
-            <SecondaryButton handler={handleCancel} text='URL' paginatorBtn />
-            <PrimaryButton
+            <PaginatorButton
+              buttonType='secondary'
+              handler={handleCancel}
+              text='URL'
+            />
+            <PaginatorButton
+              buttonType='primary'
               aria-disabled={isDisabled}
-              isDisabled={isDisabled}
-              paginatorBtn
+              disabled={isDisabled}
               text='Confirmation'
               type='submit'
             />

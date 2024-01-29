@@ -72,15 +72,13 @@ export const Nav = () => {
       </div>
       <div className='navbar-wrapper'>
         <div className='header-list'>
-          {projectId && (
-            <Link
-              className='header-link'
-              to={`/project/${projectId}`}
-              onClick={handlePortalLink}
-            >
-              Project Portal
-            </Link>
-          )}
+          <Link
+            className='header-link'
+            to={`/project/${projectId ? projectId : 'unassigned'}`}
+            onClick={handlePortalLink}
+          >
+            Project Portal
+          </Link>
           <Link
             className='header-link'
             to='/how-to'

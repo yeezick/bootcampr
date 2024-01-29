@@ -8,8 +8,7 @@ import { iconMap } from 'utils/components/Icons'
 import { PrimaryButton } from 'components/Buttons'
 
 export const SideMenu = () => {
-  const sideMenu = useAppSelector(selectSideMenu)
-  const { title } = sideMenu
+  const { title } = useAppSelector(selectSideMenu)
   const projectId = useAppSelector(selectUserProjectId)
   const navigate = useNavigate()
   const handleProjectCompletion = () =>
@@ -25,12 +24,14 @@ export const SideMenu = () => {
           <h2>{title}</h2>
         </div>
         <SideMenuLinks />
-        <PrimaryButton
-          className={btnClassName}
-          // disabled={!projectId}
-          handler={handleProjectCompletion}
-          text='Submit Project'
-        />
+        {title === 'Project Portal' && (
+          <PrimaryButton
+            className={btnClassName}
+            disabled={!projectId}
+            handler={handleProjectCompletion}
+            text='Submit Project'
+          />
+        )}
       </div>
     </div>
   )
@@ -53,7 +54,8 @@ const MenuLink = ({ linkDetails }) => {
   const { domain, icon, label, route, headerTitle } = linkDetails
   const LinkIcon = iconMap[icon]
   const dispatch = useAppDispatch()
-  const isCalendarOrTask = label === 'Calendar' || label === 'Task Management'
+  const isCalendarOrTask =
+    label === 'Calendar' || label === 'Task Management' || label === 'Team'
   const linkClassName = `${
     !projectId && isCalendarOrTask ? 'link-disable' : 'link'
   }`

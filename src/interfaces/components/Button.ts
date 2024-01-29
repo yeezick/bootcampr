@@ -1,23 +1,17 @@
 import { ReactElement } from 'react'
 import { ButtonProps, SvgIconTypeMap } from '@mui/material'
-import { OverridableComponent } from '@mui/material/OverridableComponent'
+import {
+  DefaultComponentProps,
+  OverridableComponent,
+} from '@mui/material/OverridableComponent'
 
 export interface CommonButton extends ButtonProps {
   endIcon?: MappedIcons
-  handler: any
-  paginatorBtn?: boolean
-  startIcon?: MappedIcons
-  text: string
-}
-export interface ButtonPropsCustom {
-  children?: React.ReactNode
-  className?: string
   handler?: any
-  isDisabled?: boolean
-  paginatorBtn?: boolean
-  customStyle?: object
-  text?: string
-  type?: 'button' | 'reset' | 'submit'
+  startIcon?: MappedIcons
+  startIconProps?: IconProps
+  endIconProps?: IconProps
+  text: string
 }
 
 export interface ConditionalButtonProps extends ButtonProps {
@@ -31,6 +25,8 @@ export interface IconMap {
   }
 }
 
+export type IconProps = DefaultComponentProps<SvgIconTypeMap>
+
 export type MappedIcons =
   | 'account'
   | 'calendar'
@@ -39,10 +35,18 @@ export type MappedIcons =
   | 'description'
   | 'email'
   | 'group'
-  | 'localOffer'
+  | 'leftArrow'
   | 'link'
+  | 'localOffer'
   | 'lock'
   | 'person'
   | 'plus'
+  | 'rightArrow'
   | 'tasks'
   | 'title'
+
+export interface PaginatorButtonInterface extends ButtonProps {
+  buttonType: 'secondary' | 'primary'
+  handler?: any
+  text: string
+}

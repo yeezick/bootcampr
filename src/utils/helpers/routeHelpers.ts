@@ -14,36 +14,41 @@ import { RootState } from 'utils/redux/store'
  * @param userId
  * @returns {SideMenuInterface} Context for Project Portal sidemenu
  */
-export const buildProjectPortalLinks = (projectId: string) => [
-  {
-    domain: 'project',
-    headerTitle: 'Project Details',
-    icon: 'description',
-    label: 'Project Details',
-    route: `/project/${projectId}`,
-  },
-  {
-    domain: 'project',
-    headerTitle: 'Team Members',
-    icon: 'group',
-    label: 'Team',
-    route: `/project/${projectId}/team`,
-  },
-  {
-    domain: 'project',
-    headerTitle: 'Calendar',
-    icon: 'calendar',
-    label: 'Calendar',
-    route: `/project/${projectId}/calendar`,
-  },
-  {
-    domain: 'project',
-    headerTitle: 'Task Management',
-    icon: 'tasks',
-    label: 'Task Management',
-    route: `/project/${projectId}/tasks`,
-  },
-]
+export const buildProjectPortalLinks = (projectId: string) => {
+  let urlProjectId = 'unassigned'
+  if (projectId) urlProjectId = projectId
+
+  return [
+    {
+      domain: 'project',
+      headerTitle: 'Project Details',
+      icon: 'description',
+      label: 'Project Details',
+      route: `/project/${urlProjectId}`,
+    },
+    {
+      domain: 'project',
+      headerTitle: 'Team Members',
+      icon: 'group',
+      label: 'Team',
+      route: `/project/${urlProjectId}/team`,
+    },
+    {
+      domain: 'project',
+      headerTitle: 'Calendar',
+      icon: 'calendar',
+      label: 'Calendar',
+      route: `/project/${urlProjectId}/calendar`,
+    },
+    {
+      domain: 'project',
+      headerTitle: 'Task Management',
+      icon: 'tasks',
+      label: 'Task Management',
+      route: `/project/${urlProjectId}/tasks`,
+    },
+  ]
+}
 
 /**
  * Builds the metadata for each link that renders in the Settings sidemenu.
@@ -145,6 +150,8 @@ export const changePortalPage = (dispatch, headerTitle) => {
  * @returns The type of portal the URL belongs to.
  */
 export const doesUrlBelongToPortal = (pathname, userId, projectId) => {
+  console.log('buildprojportal', buildProjectPortalLinks(projectId))
+
   if (buildSettingsPortalLinks(userId).find(link => link.route === pathname)) {
     return 'settings'
   } else if (

@@ -9,7 +9,7 @@ import { updateUser } from 'utils/api/users'
 import { useNotification } from 'utils/redux/slices/notificationSlice'
 import Avatar from 'components/Avatar/Avatar'
 import TextareaAutosize from 'react-textarea-autosize'
-import { PrimaryButton, SecondaryButton } from 'components/Buttons'
+import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 
 export const SetUpProfile = ({ handlePageNavigation }) => {
   const dispatch = useDispatch()
@@ -76,6 +76,13 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     }
   }
 
+  const checkErrorState = (name, value) => {
+    setErrorStates({
+      ...errorStates,
+      [name]: value.length === 0,
+    })
+  }
+
   const handleNavigationButtons = async (e, direction: 'previous' | 'next') => {
     e.preventDefault()
 
@@ -91,12 +98,8 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     }
   }
 
-  const checkErrorState = (name, value) => {
-    setErrorStates({
-      ...errorStates,
-      [name]: value.length === 0,
-    })
-  }
+  const handleSecondaryClick = e => handleNavigationButtons(e, 'previous')
+  const handlePrimaryClick = e => handleNavigationButtons(e, 'next')
 
   return (
     <div className='setupProfile'>
@@ -234,16 +237,16 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
           </div>
           <div className='setupProfile__profile-btns'>
             <div className='setupProfile__cta-container'>
-              <SecondaryButton
+              <PaginatorButton
+                buttonType='secondary'
                 text='Availability'
-                handler={e => handleNavigationButtons(e, 'previous')}
-                paginatorBtn={true}
+                handler={handleSecondaryClick}
               />
-              <PrimaryButton
+              <PaginatorButton
+                buttonType='primary'
                 text='Save profile'
-                handler={e => handleNavigationButtons(e, 'next')}
-                paginatorBtn={true}
-                isDisabled={isDisabled}
+                handler={handlePrimaryClick}
+                disabled={isDisabled}
               />
             </div>
           </div>
