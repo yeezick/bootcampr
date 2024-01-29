@@ -10,7 +10,7 @@ export const PortalHeader = () => {
     return (
       <div className='portal-header'>
         <div className='body'>
-          <h1>{headerTitle}</h1>
+          <h2>{headerTitle}</h2>
           {headerTitle === 'Task Management' && <TicketFilter />}
         </div>
       </div>
