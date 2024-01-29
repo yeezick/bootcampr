@@ -1,8 +1,12 @@
 import { Button } from '@mui/material'
 import { CommonButton, ConditionalButtonProps } from 'interfaces/components'
 import { fetchIcon } from 'utils/components/Icons'
+// import { ButtonProps } from 'interfaces/components'
+// import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 
 export const SecondaryButton = ({
+  children,
+  className,
   handler,
   startIcon,
   endIcon,
@@ -20,8 +24,26 @@ export const SecondaryButton = ({
   }
 
   return (
-    <Button onClick={handler} variant='outlined' {...conditionalProps}>
+    <Button
+      className={className}
+      onClick={handler}
+      sx={{
+        backgroundColor: '#ffffff',
+        borderColor: '#5C6BC0',
+        color: '#1A237E',
+        marginRight: '8px',
+        textTransform: 'none',
+        minWidth: '150px',
+        '&:hover': {
+          backgroundColor: '#ffffff',
+          color: '#1A237E',
+        },
+      }}
+      variant='outlined'
+    >
+      {/* {paginatorBtn && <KeyboardBackspaceIcon sx={{ marginRight: '8px' }} />} */}
       {text}
+      {children}
     </Button>
   )
 }
@@ -32,3 +54,6 @@ const secondaryButtonSx = {
   height: '40px',
   marginRight: '8px',
 }
+
+//     <Button onClick={handler} variant='outlined' {...conditionalProps}>
+// </Button>

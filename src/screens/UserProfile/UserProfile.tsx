@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useAppSelector } from 'utils/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 import { UserInterface } from 'interfaces'
 import { emptyUser } from 'utils/data/userConstants'
+import { handleMemberMessageClick } from 'utils/helpers/messagingHelpers'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 import { RiGithubLine } from 'react-icons/ri'
 import { FiLinkedin } from 'react-icons/fi'
@@ -16,18 +17,47 @@ export const UserProfile: React.FC = () => {
   const { userId } = useParams()
   const teamMembers = useAppSelector(selectMembersAsTeam)
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const [userProfileInfo, setUserProfileInfo] =
     useState<UserInterface>(emptyUser)
   const sameProfile = authUser._id === userId ? true : false
 
   useEffect(() => {
-    const userProfile = teamMembers.find(member => member._id === userId)
+    let userProfile
+    if (authUser._id === userId) {
+      userProfile = authUser
+    } else {
+      userProfile = teamMembers.find(member => member._id === userId)
+    }
+
     setUserProfileInfo(userProfile)
-  }, [teamMembers])
+  }, [teamMembers, userProfileInfo])
 
   // BC-334: should handle this case
   if (!userProfileInfo || !userProfileInfo._id) {
     return <div>Loading user... or there isn't one.</div>
+  }
+
+  const handleProfileMessageClick = () => {
+    if (userProfileInfo) {
+      const {
+        firstName,
+        lastName,
+        _id: memberId,
+        email,
+        profilePicture,
+      } = userProfileInfo
+
+      handleMemberMessageClick({
+        firstName: firstName,
+        lastName: lastName,
+        memberId: memberId,
+        email: email,
+        profilePicture: profilePicture,
+        authUser,
+        dispatch,
+      })
+    }
   }
 
   const shouldShowName =
@@ -42,11 +72,6 @@ export const UserProfile: React.FC = () => {
 
   const routeToEdit = () => {
     navigate(`/users/${authUser._id}/edit`)
-  }
-
-  const handleMemberMessageClick = () => {
-    //TODO: Create logic for team member message button to open chat modal with that team member directly
-    console.log('handleMemberMessageClick')
   }
 
   return (
@@ -71,7 +96,7 @@ export const UserProfile: React.FC = () => {
           ) : (
             <button
               className='userProfile__messageBtn'
-              onClick={handleMemberMessageClick}
+              onClick={handleProfileMessageClick}
             >
               Message
             </button>

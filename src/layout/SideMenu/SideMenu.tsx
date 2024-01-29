@@ -12,9 +12,11 @@ export const SideMenu = () => {
   const { title } = sideMenu
   const projectId = useAppSelector(selectUserProjectId)
   const navigate = useNavigate()
-
   const handleProjectCompletion = () =>
     navigate(`/project/${projectId}/complete`)
+  const btnClassName = `${
+    projectId ? 'completion-overflow-btn' : 'disabled-btn'
+  }`
 
   return (
     <div className='sidemenu'>
@@ -24,6 +26,8 @@ export const SideMenu = () => {
         </div>
         <SideMenuLinks />
         <PrimaryButton
+          className={btnClassName}
+          // disabled={!projectId}
           handler={handleProjectCompletion}
           text='Submit Project'
         />
@@ -38,21 +42,26 @@ const SideMenuLinks = () => {
   return (
     <div className='sidemenu-links'>
       {links.map(link => (
-        <MenuLink linkDetails={link} />
+        <MenuLink key={link.route} linkDetails={link} />
       ))}
     </div>
   )
 }
 
 const MenuLink = ({ linkDetails }) => {
+  const projectId = useAppSelector(selectUserProjectId)
   const { domain, icon, label, route, headerTitle } = linkDetails
   const LinkIcon = iconMap[icon]
   const dispatch = useAppDispatch()
+  const isCalendarOrTask = label === 'Calendar' || label === 'Task Management'
+  const linkClassName = `${
+    !projectId && isCalendarOrTask ? 'link-disable' : 'link'
+  }`
   const handlePortalLinkClick = () => changePortalPage(dispatch, headerTitle)
 
   return (
     <Link
-      className='link'
+      className={linkClassName}
       key={`${domain}-${label}`}
       to={route}
       onClick={handlePortalLinkClick}

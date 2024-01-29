@@ -12,10 +12,12 @@ export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
       const earliestLogicalOptionIndex = timeOptions.findIndex(
         timeOption => timeOption === slot[0]
       )
-      const logicalEndOptions = timeOptions.slice(
-        earliestLogicalOptionIndex + 1,
-        timeOptions.length
-      )
+
+      const logicalEndOptions = [
+        ...timeOptions.slice(earliestLogicalOptionIndex + 1),
+        timeOptions[0],
+      ]
+
       setInputTimeOptions(logicalEndOptions)
     }
   }, [days])
@@ -45,12 +47,11 @@ const selectSX = {
   fontSize: '14px',
   '& .MuiSvgIcon-root': { display: 'none' },
   backgroundColor: '#fefefe',
-  '.MuiOutlinedInput-notchedOutline': { border: 0 },
-  width: '87px',
-  fieldset: {
-    border: 'none !important',
-    outline: 'none !important',
+  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+    border: 1,
+    borderColor: 'black',
   },
+  width: '87px',
   elevation: '0',
 }
 
@@ -60,7 +61,7 @@ const menuPropsSX = {
       boxShadow: 0,
       marginLeft: 2.5,
       marginTop: 0.5,
-      maxHeight: 160,
+      maxHeight: 340,
       width: 130,
     },
   },

@@ -1,5 +1,4 @@
 import { TicketInterface, UserInterface } from 'interfaces'
-import { ProjectMemberInterface } from 'interfaces/UserInterface'
 
 export interface UserMap {
   [key: string]: {
@@ -29,10 +28,8 @@ export interface ProjectInterface {
   problem: string
   projectTracker?: ProjectTrackerInterface
   completedInfo?: {
-    participatingMembers?: { user: ProjectMemberInterface; decision: string }[]
-    deployedUrl?: {
-      [key: string]: string
-    }
+    presenting?: boolean
+    deployedUrl?: string
   }
   timeline?: {
     startDate?: string
@@ -58,4 +55,8 @@ export interface TeamWithdrawalModal {
   openMenu?: boolean
   onCloseMenu?: () => void
   anchorEl?: HTMLElement | null
+}
+
+export type ProjectParams = {
+  projectId: string
 }

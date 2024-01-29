@@ -1,101 +1,112 @@
 import { useSelector } from 'react-redux'
-import { selectCompletedInfo } from 'utils/redux/slices/projectSlice'
-import { getGroupClassName, getRowBreak } from 'utils/functions/paginatorLogic'
-import { FiRepeat } from 'react-icons/fi'
+import { selectProject } from 'utils/redux/slices/projectSlice'
+import { useEffect, useState } from 'react'
+import { Stack } from '@mui/material'
+import { PrimaryButton, SecondaryButton } from 'components/Buttons'
+import { ProjectUrl } from 'components/Inputs/ProjectUrl'
+import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
+import { editProject } from 'utils/api'
 
 export const ConfirmationPage = ({ handlePageNavigation }) => {
-  const completedInfo = useSelector(selectCompletedInfo)
+  const project = useSelector(selectProject)
+  const projectID = project._id
+  const completedInfo = project.completedInfo
+  const deployedUrl = completedInfo.deployedUrl
+  const presenting = completedInfo.presenting
+  const [isInvalidUrl, setIsInvalidUrl] = useState(!deployedUrl)
+  const [isInvalidRadio, setIsInvalidRadio] = useState(presenting === null)
+  const [isDisabled, setIsDisabled] = useState(
+    isInvalidUrl || isInvalidRadio ? true : false
+  )
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = e => {
+  //TODO: convert alerts to MUI toast to match Figma designs
+
+  useEffect(() => {
+    setIsLoading(false)
+  }, [setIsLoading])
+
+  useEffect(() => {
+    setIsDisabled(isInvalidUrl || isInvalidRadio ? true : false)
+  }, [setIsDisabled, isInvalidUrl, isInvalidRadio])
+
+  const handleSubmit = async e => {
     e.preventDefault()
-    handlePageNavigation('next')
-  }
 
-  const handleGoToSelectedPage = id => {
-    return () => {
-      handlePageNavigation('specific', id)
+    const updatedProject = {
+      completedInfo: {
+        deployedUrl: deployedUrl,
+        presenting: presenting,
+      },
+    }
+
+    if (isDisabled) {
+      alert(
+        `Please enter a valid URL and indicate whether or not your team is presenting`
+      )
+      return
+    } else {
+      try {
+        setIsLoading(true)
+        const response = await editProject(projectID, updatedProject)
+
+        if (response) {
+          handlePageNavigation('next')
+          window.scrollTo(0, 0)
+          setIsLoading(false)
+        }
+      } catch (error) {
+        console.error(
+          `An error occurred while saving presentation details.`,
+          error
+        )
+        setIsLoading(false)
+      }
     }
   }
 
   const handleCancel = () => {
     handlePageNavigation('previous')
+    window.scrollTo(0, 0)
   }
 
-  const latestMemberIndex = completedInfo.participatingMembers.length - 1
-  const latestMember = completedInfo.participatingMembers[latestMemberIndex]
-  const latestDecision =
-    latestMember?.decision === 'Participate'
-      ? 'Participate'
-      : 'Not Participating'
-  const shouldDisplayMember = latestMember?.decision === 'Participate'
-  const participatingMembers = completedInfo.participatingMembers.filter(
-    member => member.decision === 'Participate'
-  )
-  const deployedUrls = completedInfo.deployedUrl
-  const latestUrlEntryIndex = Object.keys(deployedUrls).length - 1
-  const latestUrl = deployedUrls[Object.keys(deployedUrls)[latestUrlEntryIndex]]
-
   return (
-    <div className='projectcompletion__pag-confirmation'>
-      <form
-        className='projectcompletion__confirmation-form'
-        onSubmit={handleSubmit}
-      >
-        <div className='projectcompletion__confir-contents'>
-          <div className='projectcompletion__confir-title'>
-            <h1>Great! You’re almost done!</h1>
-            <p>
-              Make sure to double check the information and submit your project!
-            </p>
-          </div>
-          <div className='projectcompletion__confir-info'>
-            <div className='projectcompletion__confir-url'>
-              <div className='projectcompletion__confir-header'>
-                <h3>Project URL</h3>
-                <p onClick={handleGoToSelectedPage('url')}>Edit</p>
-              </div>
-              <p>{latestUrl || 'No URL entered'}</p>
-            </div>
-            <div className='projectcompletion__confir-time'>
-              <div className='projectcompletion__confir-header'>
-                <h3>Presentation</h3>
-                <p onClick={handleGoToSelectedPage('presentation')}>Edit</p>
-              </div>
-              <p>{latestDecision}</p>
-            </div>
-            {shouldDisplayMember && (
-              <div className='projectcompletion__confir-part'>
-                <div className='projectcompletion__confir-header'>
-                  <h3>Participating Members</h3>
-                  <p onClick={handleGoToSelectedPage('presentation')}>Edit</p>
-                </div>
-                <div className='projectcompletion__confir-members'>
-                  {participatingMembers.map((member, index) => (
-                    <div key={member.user._id}>
-                      <div className={getGroupClassName(index)}>
-                        <p>{`${member.user.firstName} ${member.user.lastName}`}</p>
-                      </div>
-                      {getRowBreak(index) && (
-                        <div className='projectcompletion__confir-mem-row-break' />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className='projectcompletion__btns'>
-          <button
-            className='projectcompletion__back-btn'
-            onClick={handleCancel}
-          >
-            <FiRepeat className='projectcompletion__back-icon' /> Back
-          </button>
-          <button className='projectcompletion__confir-next-btn'>
-            Submit <FiRepeat className='projectcompletion__forward-icon' />
-          </button>
-        </div>
+    <div
+      className='project-completion-confirmation-page'
+      aria-labelledby='formHeader'
+    >
+      <form onSubmit={handleSubmit}>
+        <section className='title'>
+          <h1 id='formHeader'>Great! You’re almost done!</h1>
+          <p>
+            Make sure to double check the information and submit your project!
+          </p>
+        </section>
+
+        <section className='url-container'>
+          <ProjectUrl setIsDisabled={setIsInvalidUrl} />
+        </section>
+
+        <section className='participation-container'>
+          <ParticipationRadio
+            labelText='Presentation'
+            setIsDisabled={setIsInvalidRadio}
+          />
+        </section>
+
+        <Stack className='btn-container'>
+          <SecondaryButton
+            handler={handleCancel}
+            text='Presentation'
+            paginatorBtn
+          />
+          <PrimaryButton
+            aria-disabled={isDisabled || isLoading}
+            isDisabled={isDisabled || isLoading}
+            text='Submit'
+            type='submit'
+          />
+        </Stack>
       </form>
     </div>
   )

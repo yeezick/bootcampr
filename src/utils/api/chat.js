@@ -1,6 +1,6 @@
 import { api } from './apiConfig'
 
-export const getAllConversations = async userId => {
+export const getUserConversations = async userId => {
   try {
     const res = await api.get(`/users/${userId}/messages`)
     return res.data.combinedThreads
@@ -29,9 +29,22 @@ export const getAllPrivateMessages = async (userId, privateChatId) => {
   }
 }
 
-export const getAllGroupMessages = async (userId, groupChatId) => {
+export const createPrivateChatRoom = async (userId, recipientEmail) => {
   try {
-    const res = await api.get(`/${userId}/groupChats/${groupChatId}`)
+    const res = await api.post(`/${userId}/privateChats`, {
+      email: `${recipientEmail}`,
+    })
+    return res.data
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
+export const createPrivateMessage = async (userId, privateChatId, text) => {
+  try {
+    const res = await api.post(`/${userId}/privateChats/${privateChatId}`, {
+      text,
+    })
     return res.data
   } catch (error) {
     console.error(error)
@@ -39,11 +52,10 @@ export const getAllGroupMessages = async (userId, groupChatId) => {
   }
 }
 
-export const createPrivateChatRoom = async (userId, recipientEmail) => {
+//Group chats
+export const getGroupChatMessages = async (userId, groupChatId) => {
   try {
-    const res = await api.post(`/${userId}/privateChats`, {
-      email: `${recipientEmail}`,
-    })
+    const res = await api.get(`/groupChats/${groupChatId}/messages`)
     return res.data
   } catch (error) {
     console.error(error)
@@ -57,7 +69,7 @@ export const createGroupChatRoom = async (
   displayName
 ) => {
   try {
-    const res = await api.post(`/${userId}/groupChats`, {
+    const res = await api.post(`/user/groupChats`, {
       participants: participants,
       groupName: displayName,
     })
@@ -68,21 +80,11 @@ export const createGroupChatRoom = async (
   }
 }
 
-export const createPrivateMessage = async (userId, privateChatId, text) => {
+export const createGroupChatMessage = async (userId, groupChatId, text) => {
   try {
-    const res = await api.post(`/${userId}/privateChats/${privateChatId}`, {
+    const res = await api.post(`/user/groupChats/${groupChatId}/messages`, {
       text,
     })
-    return res.data
-  } catch (error) {
-    console.error(error)
-    return false
-  }
-}
-
-export const createGroupMessage = async (userId, groupChatId, text) => {
-  try {
-    const res = await api.post(`/${userId}/groupChats/${groupChatId}`, { text })
     return res.data
   } catch (error) {
     console.error(error)
@@ -102,7 +104,7 @@ export const getGroupChatByChatId = async groupChatId => {
 
 export const updateGroupChat = async (userId, groupChatId, data) => {
   try {
-    const res = await api.put(`/${userId}/groupChats/${groupChatId}`, data)
+    const res = await api.put(`/user/groupChats/${groupChatId}`, data)
     return res.data
   } catch (error) {
     console.error(error)

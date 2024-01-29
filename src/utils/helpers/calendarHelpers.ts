@@ -1,11 +1,7 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import {
-  ConvertedEvent,
-  DateFieldsInterface,
-  MeetingModalInfo,
-} from 'interfaces/CalendarInterfaces'
+import { DateFieldsInterface, MeetingModalInfo } from 'interfaces'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -32,8 +28,8 @@ export const checkIfAllMembersInvited = (
   }
 }
 
-export const convertDateFieldsForDisplay = gDateFields => {
-  const { startTime, endTime } = gDateFields
+export const convertDateFieldsForDisplay = googleDateFields => {
+  const { startTime, endTime } = googleDateFields
   return {
     date: dayjs(startTime).format('dddd, MMMM D'),
     end: dayjs(endTime).format('h:mm A'),
@@ -64,53 +60,6 @@ export const combineDateWithTime = (newDate, selectedTime) => {
 
   updatedDate = updatedDate.set('minute', minutes)
   return updatedDate.toISOString()
-}
-
-/**
- * Translates raw google calendar events into objects that are consumable by FullCalendarJS
- * @param {ConvertedEvent[]} googleEvents
- * @returns Array of converted events
- */
-export const convertGoogleEventsForCalendar = googleEvents => {
-  if (!googleEvents) {
-    return []
-  }
-
-  const convertedEvents = []
-  for (const singleEvent of googleEvents) {
-    const {
-      attendees,
-      creator,
-      description,
-      end,
-      id,
-      location,
-      start,
-      summary,
-      ...metadata
-    } = singleEvent
-
-    const currentEvent: ConvertedEvent = {
-      attendees: attendees || null,
-      creator,
-      // Todo: FullCalendar handles time conversions in an unusual way, saving them as UTC instead of as ISO acounting for TZ. This is a workaround.
-      gDateFields: {
-        endTime: end.dateTime,
-        startTime: start.dateTime,
-      },
-      description: description || null,
-      end: end.dateTime,
-      eventId: id,
-      location,
-      metadata,
-      start: start.dateTime,
-      timeZone: start.timeZone,
-      title: summary,
-    }
-
-    convertedEvents.push(currentEvent)
-  }
-  return convertedEvents
 }
 
 export const formatIsoToHalfHour = isoStr => dayjs(isoStr).format('h:mm A')
@@ -194,11 +143,11 @@ export const updateDateInTimeSelections = (newDate, timeIso) => {
   const newDateAsDayjs = dayjs(newDate)
   const newYear = newDateAsDayjs.year()
   const newMonth = newDateAsDayjs.month()
-  const newDay = newDateAsDayjs.day()
+  const newDay = newDateAsDayjs.date()
   const finalDayjs = dayjs(timeIso)
     .set('year', newYear)
     .set('month', newMonth)
-    .set('day', newDay)
+    .set('date', newDay)
 
   return finalDayjs.toISOString()
 }

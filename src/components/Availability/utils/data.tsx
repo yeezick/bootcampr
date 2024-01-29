@@ -9,11 +9,13 @@ export const weekdaysMap = {
 }
 
 export enum Timezones {
+  NT = 'Newfoundland Time (NT)',
+  AT = 'Atlantic Time (AT)',
   ET = 'Eastern Time (ET)',
   CT = 'Central Time (CT)',
   MT = 'Mountain Time (MT)',
   PT = 'Pacific Time (PT)',
-  AT = 'Alaskan Time (AKT)',
+  AKT = 'Alaska Time (AKT)',
   HST = 'Hawaii-Aleutian Time (HT)',
 }
 
@@ -49,6 +51,7 @@ export const defaultAvailabilityForm = {
 }
 
 export const defaultSingleDayAvailability = {
+  '12:00 AM': 'no',
   '12:30 AM': 'no',
   '1:00 AM': 'no',
   '1:30 AM': 'no',

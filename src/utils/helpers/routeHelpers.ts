@@ -63,17 +63,20 @@ export const buildSettingsPortalLinks = (userId: string) => [
     label: 'Password',
     route: `/users/${userId}/settings/password`,
   },
-  {
-    domain: 'settings',
-    icon: 'account',
-    label: 'Account',
-    route: `/users/${userId}/settings/account`,
-  },
+
+  // commented out to be used for a later ticket for post soft launch
+
+  // {
+  //   domain: 'settings',
+  //   icon: 'account',
+  //   label: 'Account',
+  //   route: `/users/${userId}/settings/account`,
+  // },
 ]
 
 /**
  * Builds the redux object for the Settings sidemenu.
- * @param projectId
+ * @param userId
  * @returns {SideMenuInterface} Context for settings sidemenu
  */
 export const buildSettingsPortal = (userId: string) => {
@@ -116,6 +119,7 @@ export const buildProjectPortal = (projectId: string) => {
  * @param dispatch Instantiated dispatcher
  * @param domain Type of domain: "project" | "settings"
  * @param projectId
+ * @param userId
  */
 export const buildPortal = (
   dispatch: ThunkDispatch<RootState, undefined, AnyAction> &

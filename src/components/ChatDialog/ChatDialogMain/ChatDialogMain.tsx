@@ -1,6 +1,7 @@
 import { HiOutlinePencilAlt } from 'react-icons/hi'
 import { IoMdClose } from 'react-icons/io'
 import { FiArrowLeft } from 'react-icons/fi'
+import { BiPencil } from 'react-icons/bi'
 import { Conversations } from 'components/ChatDialog/Conversations/Conversations'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
@@ -9,6 +10,7 @@ import {
   selectChatUI,
   selectConversation,
   selectSelectedMember,
+  setCurrentConversation,
   toggleChatClose,
 } from 'utils/redux/slices/chatSlice'
 import { Messages } from 'components/ChatDialog/Messages/Messages'
@@ -21,17 +23,21 @@ import { ChatMemberProfile } from 'components/ChatDialog/ChatMemberProfile/ChatM
 import { AvatarGrid } from 'components/ChatDialog/AvatarGrid/AvatarGrid'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { extractConversationAvatars } from 'utils/functions/chatLogic'
+import { CommonModal } from 'components/CommonModal/CommonModal'
+import { updateGroupChat } from 'utils/api/chat'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 export const ChatDialogMain = () => {
   const dispatch = useAppDispatch()
   const { chatScreen } = useAppSelector(selectChatUI)
   const authUser = useAppSelector(selectAuthUser)
+  //To display conversation summary/tumbnail.
   const currentConversation = useAppSelector(selectConversation)
   const selectedMember = useAppSelector(selectSelectedMember)
   const [chatRecipientId, setChatRecipientId] = useState('')
   const [profilePictures, setProfilePictures] = useState([])
-
-  const updateScreen = (screen: ChatScreen) => {
+  //it will change the screen that user's viewing
+  const changeScreen = (screen: ChatScreen) => {
     dispatch(onScreenUpdate(screen))
   }
 
@@ -40,11 +46,11 @@ export const ChatDialogMain = () => {
   }
 
   const handleConversationClick = () => {
-    updateScreen(ChatScreen.Messages)
+    changeScreen(ChatScreen.Messages)
   }
 
   const handleComposeMessage = () => {
-    updateScreen(ChatScreen.ComposeNewChat)
+    changeScreen(ChatScreen.ComposeNewChat)
   }
 
   const closeChatBox = () => {
@@ -69,20 +75,19 @@ export const ChatDialogMain = () => {
   return (
     <div className='chat-dialog-container'>
       <section
-        className={
-          chatScreen === ChatScreen.Messages
-            ? 'chat-header-messages'
-            : 'chat-header-main'
-        }
+        className={`chat-header ${
+          chatScreen === ChatScreen.Main ? 'main' : 'room'
+        }`}
       >
         <ChatTitle
           chatScreen={chatScreen}
           handleBackArrowClick={handleBackArrowClick}
-          updateScreen={updateScreen}
+          updateScreen={changeScreen}
           currentConversation={currentConversation}
           selectedMember={selectedMember}
           profilePictures={profilePictures}
           getTitleText={getTitleText}
+          authUser={authUser}
         />
         <ChatHeaderActions
           chatScreen={chatScreen}
@@ -109,7 +114,12 @@ const ChatTitle = ({
   selectedMember,
   profilePictures,
   getTitleText,
+  authUser,
 }) => {
+  const dispatch = useAppDispatch()
+  const [openEditNameModal, setOpenEditNameModal] = useState(false)
+  const [displayName, setDisplayName] = useState('')
+
   const titleContentLookup = {
     [ChatScreen.Main]: <h1 className='main-title'>Chats</h1>,
     [ChatScreen.Messages]: currentConversation.isGroup ? (
@@ -147,21 +157,84 @@ const ChatTitle = ({
       </div>
     ),
   }
-
+  const handleChangeChatName = async () => {
+    try {
+      setDisplayName(displayName)
+      await updateGroupChat(authUser._id, currentConversation._id, {
+        groupName: displayName,
+      })
+      dispatch(
+        setCurrentConversation({
+          _id: currentConversation._id,
+          isGroup: true,
+          displayName: displayName,
+        })
+      )
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          horizontal: 'right',
+          message: 'Successfully updated the chat name.',
+          duration: 5000,
+          severity: 'success',
+        })
+      )
+      setOpenEditNameModal(false)
+    } catch (error) {
+      console.error(error)
+      setOpenEditNameModal(false)
+      setDisplayName('')
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          horizontal: 'right',
+          message: "Couldn't update the chat name. Please try again later.",
+          duration: 5000,
+          severity: 'error',
+        })
+      )
+    }
+  }
+  const handleChange = e => {
+    const { value } = e.target
+    setDisplayName(value)
+  }
+  const handleCancel = () => {
+    setOpenEditNameModal(false)
+    setDisplayName('')
+  }
   return (
     titleContentLookup[chatScreen] || (
       <div className='back-arrow'>
         <FiArrowLeft size={23} onClick={handleBackArrowClick} />
-        <h5>{getTitleText({ chatScreen, selectedMember })}</h5>
+        <h5 className='edit-chat-title'>
+          {getTitleText({ chatScreen, selectedMember, currentConversation })}
+          {currentConversation.isGroup && chatScreen === 'editChatRoom' && (
+            <BiPencil onClick={() => setOpenEditNameModal(true)} />
+          )}
+        </h5>
+        <CommonModal
+          isOpen={openEditNameModal}
+          heading='Edit Chat Name'
+          body='Changing the name of the group changes it for everyone.'
+          inputType='string'
+          inputValue={displayName}
+          inputOnChange={handleChange}
+          confirmButtonLabel='Save Name'
+          confirmButtonDisabled={!displayName}
+          handleConfirm={handleChangeChatName}
+          cancelButtonLabel='Cancel'
+          handleCancel={handleCancel}
+        />
       </div>
     )
   )
 }
 
-const getTitleText = ({ chatScreen, selectedMember }) => {
+const getTitleText = ({ chatScreen, selectedMember, currentConversation }) => {
   const titleTextLookup = {
     [ChatScreen.ComposeNewChat]: 'New Chat Room',
-    [ChatScreen.EditChatRoom]: 'Edit Chat Room',
+    [ChatScreen.EditChatRoom]: `${currentConversation.displayName}`,
     [ChatScreen.InviteNewMembers]: 'Edit Chat Room',
     [ChatScreen.MemberProfile]: `${selectedMember.firstName}'s Profile`,
   }
@@ -195,6 +268,7 @@ const ChatBody = ({
     [ChatScreen.Main]: (
       <Conversations handleConversationClick={handleConversationClick} />
     ),
+    //user is active and displayin the messages
     [ChatScreen.Messages]: <Messages setChatRecipientId={setChatRecipientId} />,
     [ChatScreen.ComposeNewChat]: <NewChatRoom chatScreen={chatScreen} />,
     [ChatScreen.InviteNewMembers]: <NewChatRoom chatScreen={chatScreen} />,

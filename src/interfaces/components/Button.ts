@@ -9,6 +9,16 @@ export interface CommonButton extends ButtonProps {
   startIcon?: MappedIcons
   text: string
 }
+export interface ButtonPropsCustom {
+  children?: React.ReactNode
+  className?: string
+  handler?: any
+  isDisabled?: boolean
+  paginatorBtn?: boolean
+  customStyle?: object
+  text?: string
+  type?: 'button' | 'reset' | 'submit'
+}
 
 export interface ConditionalButtonProps extends ButtonProps {
   endIcon?: ReactElement

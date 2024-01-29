@@ -4,24 +4,24 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { fetchUserCalendar } from 'utils/api/calendar'
 import { selectCalendarId } from 'utils/redux/slices/projectSlice'
-import {
-  convertGoogleEventsForCalendar,
-  parseCalendarEventForMeetingInfo,
-} from 'utils/helpers/calendarHelpers'
+import { parseCalendarEventForMeetingInfo } from 'utils/helpers/calendarHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectConvertedEventsAsArr,
   setDisplayedEvent,
   storeConvertedEvents,
 } from 'utils/redux/slices/calendarSlice'
-import { DisplayMeetingModal } from 'components/Calendar/MeetingModal/DisplayMeetingModal'
+import { DisplayMeetingModal } from 'screens/Calendar/MeetingModal'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
+import './CalendarView.scss'
+import AlertNotification from './MeetingModal/EditableMeetingModal/AlertNotification'
 
 export const CalendarView = () => {
   const calendarId = useAppSelector(selectCalendarId)
   const convertedEventsAsArr = useAppSelector(selectConvertedEventsAsArr)
   const userEmail = useAppSelector(selectUserEmail)
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
+
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -35,11 +35,7 @@ export const CalendarView = () => {
         setEventFetchingStatus('error')
       } else {
         setEventFetchingStatus('success')
-        dispatch(
-          storeConvertedEvents(
-            convertGoogleEventsForCalendar(googleCalendarEvents)
-          )
-        )
+        dispatch(storeConvertedEvents(googleCalendarEvents))
       }
     }
 
@@ -54,14 +50,14 @@ export const CalendarView = () => {
   switch (eventFetchingStatus) {
     case 'success':
       return (
-        <div>
+        <div className='calendar-container'>
           <FullCalendar
             events={convertedEventsAsArr}
             eventClick={handleEventClick}
             headerToolbar={{
-              start: 'dayGridMonth timeGridWeek today',
-              center: 'title',
-              end: 'prev next',
+              start: 'today prev next',
+              center: '',
+              end: '',
             }}
             initialView='timeGridWeek'
             nowIndicator={true}

@@ -1,0 +1,104 @@
+.display-modal-wrapper {
+  display: grid;
+  gap: 16px;
+  grid-template-areas: 
+  "headerSpace headerContent"
+  "attendeeIcon attendees"
+  "meetIcon meetingLink"
+  "descriptionIcon description"
+  "createdBySpace createdBy";
+
+  p { 
+    margin: 0px;
+    padding: 0px;
+    cursor: pointer;
+  }
+
+  .description {
+    grid-area: description
+  }
+
+  .description-icon {
+    grid-area: descriptionIcon
+  }
+
+  .header-content {
+    grid-area: headerContent;
+
+    h3 {
+      font-size: 16px;
+      text-align: left;
+      margin-top: 0px;
+      margin-bottom: 5px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #616161;
+    }
+  }
+
+  .header-space {
+    grid-area: headerSpace;
+  }
+
+  .centered-icon {
+    color: #212121;
+  }
+
+  .meeting-link {
+    font-size: 16px;
+    font-weight: 700;
+    grid-area: meetingLink
+  }
+
+  .people-icon {
+    grid-area: attendeeIcon
+  }
+
+  .google-meet-icon {
+    color: #212121;
+    grid-area: meetIcon;
+  }
+
+  .created-by {
+    grid-area: createdBy;
+  }
+
+}
+
+.invited-members {
+  grid-area: attendees;
+
+  .invited-member {
+    align-items: center;
+    display: flex; 
+    margin-bottom: 10px;
+
+    .member-photo {
+      border-radius: 100%;
+      height: 30px;
+      margin-right: 15px;
+      width: 30px;
+    }
+  }
+  .p{
+    font-size: 16px;
+  }
+
+  .role {
+    margin-top: 3px;
+    font-size: 14px;
+    color: #616161;
+  }
+}
+
+.modal-icons {
+  display:flex;
+  flex-direction: row;;
+  justify-content: flex-end;
+
+  :first-child {
+    margin-right: 10px;
+  }
+}

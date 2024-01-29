@@ -1,14 +1,22 @@
+.current-page-bar-item {
+  background-color: #ffa726 ;
+}
+
+.non-current-page-bar-item {
+  background-color: #5c6bc0;
+}
+
 .complete-page-bar-item {
-  background-color: black ;
+  background-color: #ffa726;
 }
 
 .incomplete-page-bar-item {
-  background-color: #86888A;
+  background-color: #5c6bc0;
 }
 
 .page-bar {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   justify-content: space-between;
 }
 
@@ -32,13 +40,13 @@
     border-radius: 25px;
     height: 6px;
     margin-bottom: 4px;
-    width: 150px
+    width: 150px;
   }
 
   span {
     font-weight: 700;
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 16px;
+    line-height: 24px;
   }
 }
 
