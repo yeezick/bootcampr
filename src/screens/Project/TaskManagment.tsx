@@ -1,4 +1,4 @@
-import { TaskBoard } from 'components/Kanban'
+import { TaskBoard } from 'screens/Project/TaskManagement'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { getOneUser, verifyTokenExpiration } from 'utils/api'

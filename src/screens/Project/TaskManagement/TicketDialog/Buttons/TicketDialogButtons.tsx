@@ -5,7 +5,7 @@ import {
   SaveTicketBtn,
   CreateTicketBtn,
   CancelTicketBtn,
-} from './'
+} from '.'
 
 export const TicketDialogButtons = () => {
   const ticketDialogState = useAppSelector(selectTicketDialogState)

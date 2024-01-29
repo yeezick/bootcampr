@@ -1,5 +1,6 @@
 import { TicketDialogButtons } from '../Buttons'
-import { SelectAssignee, SelectDate, SelectStatus, TicketCreator } from './'
+import { SelectAssignee, SelectDate, SelectStatus, TicketCreator } from '.'
+import '../../styles/TicketDropdownFields.scss'
 
 export const TicketDropdownFields = () => {
   return (

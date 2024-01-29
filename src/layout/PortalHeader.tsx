@@ -2,7 +2,7 @@ import React from 'react'
 import './styles/PortalHeader.scss'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectPortal } from 'utils/redux/slices/userInterfaceSlice'
-import { TicketFilter } from 'components/Kanban/TaskBoard/TicketFilter'
+import { TicketFilter } from 'screens/Project/TaskManagement/TaskBoard/TicketFilter'
 
 export const PortalHeader = () => {
   const { active, type, headerTitle } = useAppSelector(selectPortal)
