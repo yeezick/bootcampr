@@ -74,7 +74,7 @@ export const Nav = () => {
         <div className='header-list'>
           <Link
             className='header-link'
-            to={`/project/${projectId ? projectId : 'unassigned'}`}
+            to={`/project/${projectId || 'unassigned'}`}
             onClick={handlePortalLink}
           >
             Project Portal

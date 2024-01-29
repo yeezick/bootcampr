@@ -150,8 +150,6 @@ export const changePortalPage = (dispatch, headerTitle) => {
  * @returns The type of portal the URL belongs to.
  */
 export const doesUrlBelongToPortal = (pathname, userId, projectId) => {
-  console.log('buildprojportal', buildProjectPortalLinks(projectId))
-
   if (buildSettingsPortalLinks(userId).find(link => link.route === pathname)) {
     return 'settings'
   } else if (
