@@ -4,6 +4,7 @@ import { RootState } from '../rootReducer'
 import { filterUserTickets } from 'utils/helpers/taskHelpers'
 import { initialTaskBoardState } from 'utils/data/taskBoardConstants'
 import {
+  ConfirmationDialogType,
   SetVisibleTicketsReducer,
   TicketDialogState,
 } from 'interfaces/TaskBoardInterface'
@@ -15,6 +16,12 @@ const taskBoardSlice = createSlice({
   reducers: {
     resetTicketFields: (state, action: PayloadAction<TicketInterface>) => {
       state.ticketFields = { ...emptyTicketFields, ...action.payload }
+    },
+    setConfirmationDialogType: (
+      state,
+      action: PayloadAction<ConfirmationDialogType>
+    ) => {
+      return { ...state, confirmationDialogType: action.payload } // BC-699
     },
     setInitialVisibleTickets: (
       state,
@@ -61,6 +68,8 @@ const taskBoardSlice = createSlice({
   },
 })
 
+export const selectConfirmationDialogType = (state: RootState) =>
+  state.taskBoard.confirmationDialogType
 export const selectDisplayAllTickets = (state: RootState) =>
   state.taskBoard.displayAllTickets
 export const selectTicketDialogState = (state: RootState) =>
@@ -74,6 +83,7 @@ export const selectVisibleTickets = (state: RootState) =>
 
 export const {
   resetTicketFields,
+  setConfirmationDialogType,
   setInitialVisibleTickets,
   setTicketFields,
   setVisibleTickets,

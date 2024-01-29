@@ -16,6 +16,7 @@ export const emptyTicketFields: TicketFieldsInterface = {
 }
 
 export const initialTaskBoardState: TaskBoardInterface = {
+  confirmationDialogType: '',
   displayAllTickets: true,
   ticketDialogState: '',
   ticketFields: emptyTicketFields,

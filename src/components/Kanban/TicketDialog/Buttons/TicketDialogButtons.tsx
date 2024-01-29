@@ -1,4 +1,3 @@
-import { Box } from '@mui/material'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectTicketDialogState } from 'utils/redux/slices/taskBoardSlice'
 import {

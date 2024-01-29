@@ -8,37 +8,79 @@ import {
   TicketTextLabel,
 } from './Fields'
 import {
+  selectConfirmationDialogType,
   selectTicketDialogState,
   selectTicketFields,
   selectVisibleTicketDialog,
 } from 'utils/redux/slices/taskBoardSlice'
-import { handleCloseVisibleTicketDialog } from 'utils/helpers/taskHelpers'
+import {
+  closeCancelDialog,
+  closeVisibleTicketDialog,
+} from 'utils/helpers/taskHelpers'
 import { TicketDialogButtons } from './Buttons'
 import { Comments } from './Comments/Comments'
 import './TicketDialog.scss'
+import '../styles/ConfirmationDialogs.scss'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 import { selectMembersById } from 'utils/redux/slices/projectSlice'
 import { useEffect, useState } from 'react'
+import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 
 export const TicketDialog = () => {
   const { _id: ticketId } = useAppSelector(selectTicketFields)
   const visibleTicketDialog = useAppSelector(selectVisibleTicketDialog)
   const ticketDialogState = useAppSelector(selectTicketDialogState)
   const dispatch = useAppDispatch()
-  const handleCloseDialog = () => handleCloseVisibleTicketDialog(dispatch)
+  const handleCloseDialog = () => closeVisibleTicketDialog(dispatch)
+
+  return (
+    <>
+      <Dialog
+        maxWidth='lg'
+        open={visibleTicketDialog}
+        onClose={handleCloseDialog}
+      >
+        <DialogContent className='ticket-dialog'>
+          <div className='ticket-fields'>
+            <TicketTextFields />
+            <TicketDropdownFields />
+          </div>
+          {!ticketDialogState && <Comments ticketId={ticketId} />}
+        </DialogContent>
+      </Dialog>
+      <CancelDialog />
+    </>
+  )
+}
+
+const CancelDialog = () => {
+  const confirmationDialogType = useAppSelector(selectConfirmationDialogType)
+  const dispatch = useAppDispatch()
+  const handleCloseVisibleTicketDialog = () =>
+    closeVisibleTicketDialog(dispatch)
+  const handleCloseCancelDialog = () => closeCancelDialog(dispatch)
 
   return (
     <Dialog
-      maxWidth='lg'
-      open={visibleTicketDialog}
-      onClose={handleCloseDialog}
+      open={confirmationDialogType === 'cancel'}
+      onClose={handleCloseCancelDialog}
+      maxWidth='xs'
     >
-      <DialogContent className='ticket-dialog'>
-        <div className='ticket-fields'>
-          <TicketTextFields />
-          <TicketDropdownFields />
+      <DialogContent className='confirmation-dialog'>
+        <h3>Close this ticket?</h3>
+        <p>Any information you input or changes you made will not be saved.</p>
+        <div className='buttons'>
+          <SecondaryButton
+            handler={handleCloseCancelDialog}
+            text='Cancel'
+            variant='text'
+          />
+          <PrimaryButton
+            disableElevation
+            handler={handleCloseVisibleTicketDialog}
+            text='Close'
+          />
         </div>
-        {!ticketDialogState && <Comments ticketId={ticketId} />}
       </DialogContent>
     </Dialog>
   )

@@ -3,6 +3,7 @@ import { TicketInterface } from 'interfaces'
 import { emptyTicketFields } from 'utils/data/taskBoardConstants'
 import {
   resetTicketFields,
+  setConfirmationDialogType,
   setTicketFields,
   setVisibleTicketDialog,
 } from 'utils/redux/slices/taskBoardSlice'
@@ -61,9 +62,18 @@ export const formatTaskStatus = (status: string) => {
   }
 }
 
-export const handleCloseVisibleTicketDialog = dispatch => {
+export const closeVisibleTicketDialog = dispatch => {
+  closeCancelDialog(dispatch)
   dispatch(setVisibleTicketDialog(''))
   dispatch(resetTicketFields({}))
+}
+
+export const closeCancelDialog = dispatch =>
+  dispatch(setConfirmationDialogType(''))
+
+export const handleCloseTicketDialog = dispatch => {
+  closeCancelDialog(dispatch)
+  closeVisibleTicketDialog(dispatch)
 }
 
 export const handleReduxDateChange = (dispatch, newDate: Dayjs) => {

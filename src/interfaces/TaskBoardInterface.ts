@@ -14,7 +14,10 @@ export interface SetVisibleTicketsReducer {
 }
 /*  */
 
+export type ConfirmationDialogType = '' | 'cancel' | 'delete'
+
 export interface TaskBoardInterface {
+  confirmationDialogType: ConfirmationDialogType
   displayAllTickets: boolean
   ticketDialogState: TicketDialogState
   ticketFields: TicketFieldsInterface

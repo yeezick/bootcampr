@@ -2,12 +2,12 @@ import { Dialog, DialogContent } from '@mui/material'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { useState } from 'react'
 import { deleteTicketApi } from 'utils/api/tickets'
-import { handleCloseVisibleTicketDialog } from 'utils/helpers/taskHelpers'
+import { closeVisibleTicketDialog } from 'utils/helpers/taskHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { deleteTicket, selectProjectId } from 'utils/redux/slices/projectSlice'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
-import '../../styles/DeleteDialog.scss'
+import '../../styles/ConfirmationDialogs.scss'
 
 export const DeleteTicketBtn = () => {
   const [deleteDialog, toggleDeleteDialog] = useState(false)
@@ -55,12 +55,12 @@ const DeleteTicketDialog = ({ deleteDialog, toggleDeleteDialog }) => {
         severity: 'success',
       })
     )
-    handleCloseVisibleTicketDialog(dispatch)
+    closeVisibleTicketDialog(dispatch)
   }
 
   return (
     <Dialog open={deleteDialog} onClose={handleCloseDeleteDialog} maxWidth='xs'>
-      <DialogContent className='delete-dialog'>
+      <DialogContent className='confirmation-dialog'>
         <h3>Delete task?</h3>
         <p>
           All the information, including comments, will be lost and gone

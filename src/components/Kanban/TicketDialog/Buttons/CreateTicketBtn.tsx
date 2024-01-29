@@ -1,9 +1,9 @@
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { createTicket } from 'utils/api/tickets'
-import { emptyTicketFields } from 'utils/data/taskBoardConstants'
 import {
   buildTicketPayload,
-  handleCloseVisibleTicketDialog,
+  closeCancelDialog,
+  closeVisibleTicketDialog,
 } from 'utils/helpers/taskHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
@@ -14,7 +14,7 @@ import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import {
   resetTicketFields,
   selectTicketFields,
-  setTicketFields,
+  setConfirmationDialogType,
 } from 'utils/redux/slices/taskBoardSlice'
 import { selectUserId } from 'utils/redux/slices/userSlice'
 
@@ -23,7 +23,6 @@ export const CreateTicketBtn = () => {
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()
-  const handleCloseDialog = () => handleCloseVisibleTicketDialog(dispatch)
 
   const handleCreateTicket = async e => {
     const ticketPayload = buildTicketPayload(projectId, userId, ticketFields)
@@ -42,7 +41,7 @@ export const CreateTicketBtn = () => {
           severity: 'success',
         })
       )
-      handleCloseDialog()
+      closeVisibleTicketDialog(dispatch)
     }
   }
 
@@ -56,36 +55,12 @@ export const CreateTicketBtn = () => {
 }
 
 export const CancelTicketBtn = () => {
-  const ticketFields = useAppSelector(selectTicketFields)
-  const projectId = useAppSelector(selectProjectId)
-  const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()
-  const handleCloseDialog = () => handleCloseVisibleTicketDialog(dispatch)
-
-  const handleCreateTicket = async e => {
-    const ticketPayload = buildTicketPayload(projectId, userId, ticketFields)
-    const ticketResponse = await createTicket(ticketPayload)
-
-    if (ticketResponse.error) {
-      // display error banner
-    } else {
-      dispatch(addTicketToStatus(ticketResponse))
-      dispatch(resetTicketFields({}))
-      dispatch(
-        createSnackBar({
-          isOpen: true,
-          message: 'Ticket created successfully',
-          duration: 3000,
-          severity: 'success',
-        })
-      )
-      handleCloseDialog()
-    }
-  }
+  const handleCancel = () => dispatch(setConfirmationDialogType('cancel'))
 
   return (
     <SecondaryButton
-      handler={handleCreateTicket}
+      handler={handleCancel}
       text={'Cancel'}
       sx={{ backgroundColor: '#fff' }}
     />

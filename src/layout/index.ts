@@ -1,5 +1,4 @@
 export * from './Footer/Footer'
-export * from './Header/Header'
 export * from './Nav/Nav'
 export * from './SideMenu/SideMenu'
 export * from './Layout'

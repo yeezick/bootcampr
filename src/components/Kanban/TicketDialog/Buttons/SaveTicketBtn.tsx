@@ -1,9 +1,8 @@
 import { PrimaryButton } from 'components/Buttons'
 import { saveUpdatedTicket } from 'utils/api/tickets'
-import { emptyTicketFields } from 'utils/data/taskBoardConstants'
 import {
   buildTicketPayload,
-  handleCloseVisibleTicketDialog,
+  closeVisibleTicketDialog,
 } from 'utils/helpers/taskHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectProjectId, updateTicket } from 'utils/redux/slices/projectSlice'
@@ -19,7 +18,7 @@ export const SaveTicketBtn = () => {
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()
-  const handleCloseDialog = () => handleCloseVisibleTicketDialog(dispatch)
+  const handleCloseDialog = () => closeVisibleTicketDialog(dispatch)
 
   const handleSaveTicket = async e => {
     const ticketPayload = buildTicketPayload(projectId, userId, ticketFields)
