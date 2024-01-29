@@ -37,6 +37,4 @@ export const deepEqual = (object1, object2) => {
   return true
 }
 
-function isObject(object) {
-  return object != null && typeof object === 'object'
-}
+const isObject = object => object != null && typeof object === 'object'

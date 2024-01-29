@@ -3,6 +3,7 @@ import AddIcon from '@mui/icons-material/Add'
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined'
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
 import ChecklistOutlinedIcon from '@mui/icons-material/ChecklistOutlined'
+import ClearIcon from '@mui/icons-material/Clear'
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined'
@@ -11,11 +12,16 @@ import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
 import TitleIcon from '@mui/icons-material/Title'
-import { IconMap } from 'interfaces/components'
+import { SvgIconTypeMap } from '@mui/material'
+import { DefaultComponentProps } from '@mui/material/OverridableComponent'
+import { IconMap, MappedIcons } from 'interfaces/components'
 
-export const fetchIcon = name => {
+export const fetchIcon = (
+  name: MappedIcons,
+  props?: DefaultComponentProps<SvgIconTypeMap>
+) => {
   const MappedIcon = iconMap[name]
-  return <MappedIcon />
+  return <MappedIcon {...props} />
 }
 
 /**
@@ -26,6 +32,7 @@ export const iconMap: IconMap = {
   account: AccountCircleOutlinedIcon,
   calendar: CalendarTodayOutlinedIcon,
   chatBubble: ChatBubbleOutlineOutlinedIcon,
+  close: ClearIcon,
   description: DescriptionOutlinedIcon,
   email: EmailOutlinedIcon,
   group: GroupsOutlinedIcon,

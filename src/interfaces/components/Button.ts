@@ -1,18 +1,12 @@
 import { ReactElement } from 'react'
-import {
-  ButtonBaseProps,
-  ButtonProps,
-  ButtonTypeMap,
-  ExtendButtonBase,
-  SvgIconTypeMap,
-} from '@mui/material'
+import { ButtonProps, SvgIconTypeMap } from '@mui/material'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
 
 export interface CommonButton extends ButtonProps {
-  endIcon?: string
+  endIcon?: MappedIcons
   handler: any
   paginatorBtn?: boolean
-  startIcon?: string
+  startIcon?: MappedIcons
   text: string
 }
 
@@ -26,3 +20,19 @@ export interface IconMap {
     muiName: string
   }
 }
+
+export type MappedIcons =
+  | 'account'
+  | 'calendar'
+  | 'chatBubble'
+  | 'close'
+  | 'description'
+  | 'email'
+  | 'group'
+  | 'localOffer'
+  | 'link'
+  | 'lock'
+  | 'person'
+  | 'plus'
+  | 'tasks'
+  | 'title'

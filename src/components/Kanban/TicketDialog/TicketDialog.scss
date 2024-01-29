@@ -6,6 +6,13 @@
     padding: 48px;
   }
 
+  .close-dialog {
+    cursor: pointer;
+    position: absolute;
+    right: 16px;
+    top: 16px; 
+  }
+
   .ticket-fields { 
     display: flex;
     gap: 146px;

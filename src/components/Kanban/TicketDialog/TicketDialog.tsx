@@ -16,22 +16,31 @@ import {
 import {
   closeConfirmationDialog,
   closeVisibleTicketDialog,
+  toggleCancelDialog,
 } from 'utils/helpers/taskHelpers'
 import { TicketDialogButtons } from './Buttons'
 import { Comments } from './Comments/Comments'
 import './TicketDialog.scss'
 import '../styles/ConfirmationDialogs.scss'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
-import { selectMembersById } from 'utils/redux/slices/projectSlice'
+import {
+  selectMembersById,
+  selectProjectId,
+} from 'utils/redux/slices/projectSlice'
 import { useEffect, useState } from 'react'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
+import { fetchIcon } from 'utils/components/Icons'
+import { selectUserId } from 'utils/redux/slices/userSlice'
 
 export const TicketDialog = () => {
-  const { _id: ticketId } = useAppSelector(selectTicketFields)
-  const visibleTicketDialog = useAppSelector(selectVisibleTicketDialog)
+  const projectId = useAppSelector(selectProjectId)
   const ticketDialogState = useAppSelector(selectTicketDialogState)
+  const ticketFields = useAppSelector(selectTicketFields)
+  const userId = useAppSelector(selectUserId)
+  const visibleTicketDialog = useAppSelector(selectVisibleTicketDialog)
   const dispatch = useAppDispatch()
-  const handleCloseDialog = () => closeVisibleTicketDialog(dispatch)
+  const handleCloseDialog = () =>
+    toggleCancelDialog(dispatch, userId, projectId, ticketFields)
 
   return (
     <>
@@ -41,11 +50,15 @@ export const TicketDialog = () => {
         onClose={handleCloseDialog}
       >
         <DialogContent className='ticket-dialog'>
+          {fetchIcon('close', {
+            className: 'close-dialog',
+            onClick: handleCloseDialog,
+          })}
           <div className='ticket-fields'>
             <TicketTextFields />
             <TicketDropdownFields />
           </div>
-          {!ticketDialogState && <Comments ticketId={ticketId} />}
+          {!ticketDialogState && <Comments ticketId={ticketFields._id} />}
         </DialogContent>
       </Dialog>
       <CancelDialog />
