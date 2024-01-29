@@ -10,6 +10,8 @@ import {
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
+export const blankDayJs = () => dayjs()
+
 export const checkIfAllMembersInvited = (
   attendees,
   projectMembers,

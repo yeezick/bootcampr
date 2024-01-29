@@ -14,7 +14,7 @@ import {
   selectVisibleTicketDialog,
 } from 'utils/redux/slices/taskBoardSlice'
 import {
-  closeCancelDialog,
+  closeConfirmationDialog,
   closeVisibleTicketDialog,
 } from 'utils/helpers/taskHelpers'
 import { TicketDialogButtons } from './Buttons'
@@ -58,20 +58,17 @@ const CancelDialog = () => {
   const dispatch = useAppDispatch()
   const handleCloseVisibleTicketDialog = () =>
     closeVisibleTicketDialog(dispatch)
-  const handleCloseCancelDialog = () => closeCancelDialog(dispatch)
+  const handleCloseDialog = () => closeConfirmationDialog(dispatch)
+  const openDialog = confirmationDialogType === 'cancel'
 
   return (
-    <Dialog
-      open={confirmationDialogType === 'cancel'}
-      onClose={handleCloseCancelDialog}
-      maxWidth='xs'
-    >
+    <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth='xs'>
       <DialogContent className='confirmation-dialog'>
         <h3>Close this ticket?</h3>
         <p>Any information you input or changes you made will not be saved.</p>
         <div className='buttons'>
           <SecondaryButton
-            handler={handleCloseCancelDialog}
+            handler={handleCloseDialog}
             text='Cancel'
             variant='text'
           />

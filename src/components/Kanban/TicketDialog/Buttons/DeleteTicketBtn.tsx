@@ -1,17 +1,24 @@
 import { Dialog, DialogContent } from '@mui/material'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
-import { useState } from 'react'
 import { deleteTicketApi } from 'utils/api/tickets'
-import { closeVisibleTicketDialog } from 'utils/helpers/taskHelpers'
+import {
+  closeConfirmationDialog,
+  closeVisibleTicketDialog,
+} from 'utils/helpers/taskHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { deleteTicket, selectProjectId } from 'utils/redux/slices/projectSlice'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
-import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
+import {
+  selectConfirmationDialogType,
+  selectTicketFields,
+  setConfirmationDialogType,
+} from 'utils/redux/slices/taskBoardSlice'
 import '../../styles/ConfirmationDialogs.scss'
 
 export const DeleteTicketBtn = () => {
-  const [deleteDialog, toggleDeleteDialog] = useState(false)
-  const handleOpenDeleteDialog = () => toggleDeleteDialog(true)
+  const dispatch = useAppDispatch()
+  const handleOpenDeleteDialog = () =>
+    dispatch(setConfirmationDialogType('delete'))
 
   return (
     <>
@@ -20,23 +27,21 @@ export const DeleteTicketBtn = () => {
         text={'Delete task'}
         sx={{ background: '#fff', borderColor: '#d32f2f', color: '#d32f2f' }}
       />
-      <DeleteTicketDialog
-        deleteDialog={deleteDialog}
-        toggleDeleteDialog={toggleDeleteDialog}
-      />
+      <DeleteTicketDialog />
     </>
   )
 }
 
-const DeleteTicketDialog = ({ deleteDialog, toggleDeleteDialog }) => {
-  const ticketFields = useAppSelector(selectTicketFields)
+const DeleteTicketDialog = () => {
+  const confirmationDialogType = useAppSelector(selectConfirmationDialogType)
   const projectId = useAppSelector(selectProjectId)
+  const ticketFields = useAppSelector(selectTicketFields)
   const dispatch = useAppDispatch()
-  const handleCloseDeleteDialog = () => toggleDeleteDialog(false)
+  const handleCloseDialog = () => closeConfirmationDialog(dispatch)
 
   const handleDeleteTicket = async () => {
     const { status, _id: ticketId } = ticketFields
-    //BC-412: add guard clause for tickets that failed to delete & display error toast
+    // BC-412: add guard clause for tickets that failed to delete & display error toast
     await deleteTicketApi({
       ticketId,
       ticketStatus: status,
@@ -59,7 +64,11 @@ const DeleteTicketDialog = ({ deleteDialog, toggleDeleteDialog }) => {
   }
 
   return (
-    <Dialog open={deleteDialog} onClose={handleCloseDeleteDialog} maxWidth='xs'>
+    <Dialog
+      open={confirmationDialogType === 'delete'}
+      onClose={handleCloseDialog}
+      maxWidth='xs'
+    >
       <DialogContent className='confirmation-dialog'>
         <h3>Delete task?</h3>
         <p>
@@ -68,7 +77,7 @@ const DeleteTicketDialog = ({ deleteDialog, toggleDeleteDialog }) => {
         </p>
         <div className='buttons'>
           <SecondaryButton
-            handler={handleCloseDeleteDialog}
+            handler={handleCloseDialog}
             text='Cancel'
             variant='text'
           />

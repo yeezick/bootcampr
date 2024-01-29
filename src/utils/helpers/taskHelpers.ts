@@ -7,6 +7,8 @@ import {
   setTicketFields,
   setVisibleTicketDialog,
 } from 'utils/redux/slices/taskBoardSlice'
+import { blankDayJs } from './calendarHelpers'
+import { deepEqual } from 'utils/functions/utilityFunctions'
 
 export const buildTicketPayload = (projectId, userId, ticketFields) => {
   let ticketPayload: TicketInterface = {
@@ -47,6 +49,18 @@ export const filterUserTickets = (allTickets, userId) => {
   return filteredTickets
 }
 
+export const hasUserEditedFields = (userId, projectId, ticketFields) => {
+  // Skipping status
+  const initialTicketFields = {
+    ...emptyTicketFields,
+    createdBy: userId,
+    dueDate: blankDayJs().format('YYYY-MM-DD'),
+    projectId,
+  }
+  const currentFields = { ...ticketFields, status: '' }
+  return deepEqual(initialTicketFields, currentFields) ? false : true
+}
+
 export const formatTaskStatus = (status: string) => {
   switch (status) {
     case 'toDo':
@@ -63,18 +77,13 @@ export const formatTaskStatus = (status: string) => {
 }
 
 export const closeVisibleTicketDialog = dispatch => {
-  closeCancelDialog(dispatch)
+  closeConfirmationDialog(dispatch)
   dispatch(setVisibleTicketDialog(''))
   dispatch(resetTicketFields({}))
 }
 
-export const closeCancelDialog = dispatch =>
+export const closeConfirmationDialog = dispatch =>
   dispatch(setConfirmationDialogType(''))
-
-export const handleCloseTicketDialog = dispatch => {
-  closeCancelDialog(dispatch)
-  closeVisibleTicketDialog(dispatch)
-}
 
 export const handleReduxDateChange = (dispatch, newDate: Dayjs) => {
   const formattedDate = newDate.format('YYYY-MM-DD')

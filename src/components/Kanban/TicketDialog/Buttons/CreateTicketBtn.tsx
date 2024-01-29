@@ -2,8 +2,8 @@ import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { createTicket } from 'utils/api/tickets'
 import {
   buildTicketPayload,
-  closeCancelDialog,
   closeVisibleTicketDialog,
+  hasUserEditedFields,
 } from 'utils/helpers/taskHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
@@ -55,8 +55,18 @@ export const CreateTicketBtn = () => {
 }
 
 export const CancelTicketBtn = () => {
+  const projectId = useAppSelector(selectProjectId)
+  const userId = useAppSelector(selectUserId)
+  const ticketFields = useAppSelector(selectTicketFields)
   const dispatch = useAppDispatch()
-  const handleCancel = () => dispatch(setConfirmationDialogType('cancel'))
+
+  const handleCancel = () => {
+    if (hasUserEditedFields(userId, projectId, ticketFields)) {
+      dispatch(setConfirmationDialogType('cancel'))
+    } else {
+      closeVisibleTicketDialog(dispatch)
+    }
+  }
 
   return (
     <SecondaryButton
