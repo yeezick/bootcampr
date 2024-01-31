@@ -6,10 +6,15 @@ import { MdArrowDropDown } from 'react-icons/md'
 import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
-import { useSocket } from 'components/Notifications/Socket'
 import Avatar from 'components/Avatar/Avatar'
 import {
+  selectChat,
   selectChatUI,
+  selectIsChatRoomActive,
+  selectThreads,
+  selectUnreadMessages,
+  setChatRoomActive,
+  setUnreadChatsCount,
   toggleChat,
   toggleChatClose,
 } from 'utils/redux/slices/chatSlice'
@@ -17,6 +22,9 @@ import { ChatIconBadge } from 'components/ChatDialog/ChatIconBadge/ChatIconBadge
 import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
 import './Nav.scss'
 import { DomainLink } from 'layout/DomainLink'
+import { getUnreadChatMessageCount } from 'utils/api/chat'
+import { CustomBadge } from 'components/Badge/Badge'
+import { useSocket, useSocketEvents } from 'components/Notifications/Socket'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
@@ -25,36 +33,16 @@ export const Nav = () => {
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId, project: projectId } = authUser
   const dispatch = useAppDispatch()
-  const socketConnection = useSocket()
   const location = useLocation()
+  const socket = useSocket(authUser._id)
   const closeDropdown = () => setAnchorEl(null)
-
-  useEffect(() => {
-    if (socketConnection) {
-      socketConnection.emit('setUserId', authUser._id)
-
-      socketConnection?.on('connect', () => {
-        socketConnection.emit('setUserId', authUser._id)
-      })
-      const timer = setInterval(() => {
-        socketConnection?.on('notificationsLength', (data: number) => {
-          setNotificationCount(data)
-        })
-      }, 10000)
-      return () => {
-        socketConnection?.off('connect')
-        socketConnection?.off('disconnect')
-        clearTimeout(timer)
-      }
-    }
-    socketConnection?.on('disconnect', () => {
-      socketConnection.emit('User has disconnected')
-    })
-  }, [setNotificationCount, authUser, socketConnection])
+  const currentConversation = useAppSelector(selectChat)
+  console.log(currentConversation)
 
   useEffect(() => {
     // Close chat dialog and sideMenu when URL path changes
     dispatch(toggleChatClose())
+    dispatch(setChatRoomActive(false))
   }, [dispatch, location])
 
   return (
@@ -93,12 +81,22 @@ export const Nav = () => {
 }
 
 const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
-  const [isChatBadgeUpdated, setIsChatBadgeUpdated] = useState(false)
-  const authUser = useAppSelector(selectAuthUser)
-  const { _id: userId } = authUser
+  const dispatch = useAppDispatch()
+  const unreadMessagesCount = useAppSelector(selectUnreadMessages)
   const { visibleChat } = useAppSelector(selectChatUI)
   const chatRef = useRef(null)
-  const dispatch = useAppDispatch()
+  useSocketEvents(false)
+  const isChatRoomActive = useAppSelector(selectIsChatRoomActive)
+  console.log(isChatRoomActive)
+  useEffect(() => {
+    const fetchUnreadCount = async () => {
+      const unreadMessages = await getUnreadChatMessageCount()
+      dispatch(setUnreadChatsCount(unreadMessages.count))
+    }
+    fetchUnreadCount()
+    dispatch(setChatRoomActive(false))
+  }, [dispatch])
+
   const toggleChatBox = () => {
     dispatch(toggleChat())
   }
@@ -115,12 +113,9 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
             className='chat-icon'
             onClick={handleToggleChatBox}
           />
-          {(visibleChat || !visibleChat) && (
-            <ChatIconBadge
-              isChatBadgeUpdated={isChatBadgeUpdated}
-              setIsChatBadgeUpdated={setIsChatBadgeUpdated}
-            />
-          )}
+
+          <CustomBadge content={unreadMessagesCount} variant='standard' />
+
           {visibleChat && <ChatDialogMain />}
         </div>
         <p className='account'>Messages</p>

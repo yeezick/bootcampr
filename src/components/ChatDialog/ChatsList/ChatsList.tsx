@@ -1,41 +1,25 @@
-import { useEffect, useState } from 'react'
-import { useSocket } from 'components/Notifications/Socket'
+import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
 import {
-  selectChat,
   setCurrentChat,
   updateCurrentChatMessages,
   selectThreads,
   fetchMessages,
   fetchThreads,
 } from 'utils/redux/slices/chatSlice'
-import { getUserChatThreads } from 'utils/api/chat'
 import { ConversationThumbnail } from './ConversationThumbnail'
 import { EmptyChatPage } from '../ChatRoom/EmptyChatPage'
 import './ChatsList.scss'
 import { ChatInterface } from 'interfaces/ChatInterface'
+import { useSocket, useSocketEvents } from 'components/Notifications/Socket'
 
 export const ChatsList = ({ handleConversationClick }) => {
-  const socket = useSocket()
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
+  useSocketEvents(false)
   const threads = useAppSelector(selectThreads)
-
-  console.log(threads)
-  useEffect(() => {
-    if (socket) {
-      //Todo - check if this necessary maybe we can solve with redux
-      socket.on('message-from-server', newMessage => {
-        console.log('new message on lists', newMessage)
-        // dispatch(updateCurrentChatMessages(newMessage))
-      })
-      socket.emit('check-any-unread-messages', {
-        authUser: authUser._id,
-      })
-    }
-  }, [socket, authUser._id])
-
+  // useSocketEvents(true)
   useEffect(() => {
     dispatch(fetchThreads())
   }, [dispatch])
@@ -71,10 +55,9 @@ export const ChatsList = ({ handleConversationClick }) => {
           chatType,
           groupName,
         } = thread
-        console.log(thread)
         return (
           <div
-            className='conversation-grid'
+            className='conversation-thumbnail'
             key={chatId}
             onClick={() => handleSelectChat(chatId, chatType)}
           >
@@ -82,6 +65,7 @@ export const ChatsList = ({ handleConversationClick }) => {
               groupName={groupName}
               participants={participants}
               lastMessage={lastMessage}
+              chatType={chatType}
               lastActive={lastActive}
             />
           </div>

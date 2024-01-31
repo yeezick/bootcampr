@@ -1,36 +1,30 @@
 import { useEffect, useState, useRef } from 'react'
 import { AiOutlineSend } from 'react-icons/ai'
 import { createGroupChatMessage, createPrivateMessage } from 'utils/api/chat'
-import { useSocket } from 'components/Notifications/Socket'
+import { useSocket, useSocketEvents } from 'components/Notifications/Socket'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
   selectChat,
+  selectIsChatRoomActive,
+  selectThreads,
   setChatText,
+  setUnreadChatsCount,
   updateCurrentChatMessages,
 } from 'utils/redux/slices/chatSlice'
 import { Messages } from '../Messages/Messages'
 
 export const ChatRoom = () => {
-  const socket = useSocket()
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const currentConversation = useAppSelector(selectChat)
+
   const textForm = useAppSelector(state => state.chatbox.chatText)
   const [selectedMessages, setSelectedMessages] = useState([])
   const containerRef = useRef(null)
-
-  useEffect(() => {
-    if (socket) {
-      socket.on('message-from-server', newMessage => {
-        dispatch(updateCurrentChatMessages(newMessage))
-      })
-      return () => {
-        socket.off('message-from-server')
-      }
-    }
-  }, [socket, dispatch])
-
+  const { sendMessage } = useSocketEvents(true)
+  const isChatRoomActive = useAppSelector(selectIsChatRoomActive)
+  console.log(isChatRoomActive)
   // Scroll messages container to bottom for last message when component mounts and when the height change because of textarea
   useEffect(() => {
     if (containerRef.current) {
@@ -67,12 +61,14 @@ export const ChatRoom = () => {
       } else {
         await createPrivateMessage(currentConversation._id, textForm)
       }
-
-      socket.emit('send-message', {
+      const newMessage = {
         senderId: authUser._id,
         chatRoomId: currentConversation._id,
         newMessage: textForm,
-      })
+        chatType: currentConversation.chatType,
+      }
+      sendMessage(newMessage)
+
       dispatch(setChatText(''))
     } catch (error) {
       console.error('Error sending message:', error)

@@ -25,75 +25,21 @@
       opacity: 1;
     }
   }
-  .conversation-grid {
+  .conversation-thumbnail {
     align-items: center;
     column-gap: 16px;
     cursor: pointer;
     display: flex;
     padding: 8px;
 
-    .unread-dot-visible {
-      color: #fa9413;
-    }
-
-    .unread-dot-hidden {
-      opacity: 0;
-    }
-
     &:hover {
-      background-color: #f29d3456;
-      border-radius: 8px;
+      background-color: #d9d9d9;
+      border-radius: 4px;
     }
-
-    .thumbnail-right {
-      column-gap: 8px;
-      display: flex;
-      flex-grow: 1;
-      justify-content: space-between;
-
-      .dot-grid {
-        align-items: center;
-        display: flex;
-        margin-right: -8px;
-
-        p {
-          align-self: flex-end;
-          font-size: 11px;
-          margin: 0;
-        }
-      }
-    }
-
-    .thread-details-grid {
-      align-items: flex-start;
-      display: flex;
-      flex-grow: 1;
-      flex-direction: column;
-      row-gap: 4px;
-
-      .unread-message {
-        font-weight: 600;
-      }
-
-      h5 {
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 24px;
-        margin: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      p {
-        font-size: 14px;
-        margin: 0;
-        max-width: 190px;
-        overflow: hidden;
-        text-align: left;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
+    .last-message-time {
+      font-size: 14px;
+      margin-block: 4px;
+      align-self: flex-end;
     }
   }
 }
