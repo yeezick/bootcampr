@@ -1,5 +1,4 @@
 import { TicketInterface, UserInterface } from 'interfaces'
-import { ProjectMemberInterface } from 'interfaces/UserInterface'
 
 export interface EmailMap {
   [key: string]: {
@@ -29,11 +28,8 @@ export interface ProjectInterface {
   problem: string
   projectTracker?: ProjectTrackerInterface
   completedInfo?: {
-    participatingMembers?: { user: ProjectMemberInterface; decision: string }[]
     presenting?: boolean
-    deployedUrl?: {
-      [key: string]: string
-    }
+    deployedUrl?: string
   }
   timeline?: {
     startDate?: string

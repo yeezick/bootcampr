@@ -7,25 +7,18 @@ import {
   selectCompletedInfo,
   updateDeployedUrl,
 } from 'utils/redux/slices/projectSlice'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
 export const ProjectUrl = ({ setIsDisabled }) => {
   const dispatch = useDispatch()
-  const authUser = useSelector(selectAuthUser)
-  const userID = authUser._id
   const completedInfo = useSelector(selectCompletedInfo)
   const deployedUrl =
     Object.keys(completedInfo?.deployedUrl || {}).length > 0
-      ? completedInfo?.deployedUrl[userID] || ''
+      ? completedInfo?.deployedUrl || ''
       : ''
 
   const handleUrlChange = e => {
     const inputValue = e.target.value.trim()
-    dispatch(
-      updateDeployedUrl({
-        [userID]: inputValue,
-      })
-    )
+    dispatch(updateDeployedUrl(inputValue))
   }
 
   useEffect(() => {
