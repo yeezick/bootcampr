@@ -22,11 +22,11 @@ export interface EventInfo {
   }
   end: {
     dateTime: string
-    //timeZone: string
+    timeZone: string
   }
   start: {
     dateTime: string
-    //timeZone: string
+    timeZone: string
   }
   summary: string
   projectId: string

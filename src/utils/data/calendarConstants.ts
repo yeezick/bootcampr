@@ -7,14 +7,14 @@ export const initialMeetingText: MeetingText = {
 }
 
 export const usTimeZones = [
-  { value: 'America/St_Johns', name: 'Newfoundland Standard Time(NST)' },
-  { value: 'America/Puerto_Rico', name: 'Atlantic Standard Time(AST)' },
-  { value: 'America/New_York', name: 'Eastern Standard Time(EST)' },
-  { value: 'America/Chicago', name: 'Central Standard Time(CST)' },
-  { value: 'America/Denver', name: 'Mountain Standard Time(MST)' },
-  { value: 'America/Los_Angeles', name: 'Pacific Standard Time(PST)' },
-  { value: 'America/Anchorage', name: 'Alaskan Standard Time(AKST)' },
-  { value: 'Pacific/Honolulu', name: 'Hawaiin Standard Time(HST)' },
+  { value: 'America/St_Johns', name: 'Newfoundland Time (NT)' },
+  { value: 'America/Puerto_Rico', name: 'Atlantic Time (AT)' },
+  { value: 'America/New_York', name: 'Eastern Time (ET)' },
+  { value: 'America/Chicago', name: 'Central Time (CT)' },
+  { value: 'America/Denver', name: 'Mountain Time (MT)' },
+  { value: 'America/Los_Angeles', name: 'Pacific Time (PT)' },
+  { value: 'America/Anchorage', name: 'Alaska Time (AKT)' },
+  { value: 'Pacific/Honolulu', name: 'Hawaii-Aleutian Time (HT)' },
 ]
 
 export const timeOptions = [

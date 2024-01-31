@@ -176,9 +176,11 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
       },
       end: {
         dateTime: end,
+        timeZone: eventTimezone,
       },
       start: {
         dateTime: start,
+        timeZone: eventTimezone,
       },
       summary,
       projectId,
