@@ -161,7 +161,12 @@ const UnauthorizedNavLinks = () => (
       </Link>
     </div>
     <div>
-      <Link className='sign-up' to='/sign-up'>
+      <Link
+        className='sign-up'
+        to='/sign-up'
+        target='_blank'
+        rel='noopener noreferrer'
+      >
         Sign up
       </Link>
     </div>
