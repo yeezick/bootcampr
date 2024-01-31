@@ -21,9 +21,9 @@
 
     h2 {
       @include font-properties((
-          size: 32px,
-          weight: 700,
           line-height: 40px,
+          weight: 700,
+          size: 32px,
           ));
           color: #313335;
           font-style: normal;

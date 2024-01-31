@@ -14,6 +14,10 @@ export const formatTimestamp = timestamp => {
   return `${month}/${day}/${year}, ${formattedTime}`
 }
 
+/**
+ * Compares 2 objects for deep equality.
+ * Object comparisons via "==" or "===" only compare references, not contents.
+ */
 export const deepEqual = (object1, object2) => {
   const keys1 = Object.keys(object1)
   const keys2 = Object.keys(object2)
