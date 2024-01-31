@@ -10,6 +10,7 @@ import {
   onScreenUpdate,
   selectChat,
   selectChatUI,
+  setChatRoomActive,
 } from 'utils/redux/slices/chatSlice'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 import { CommonModal } from 'components/CommonModal/CommonModal'
@@ -56,6 +57,7 @@ export const ChatPageHeader = () => {
   const dispatch = useAppDispatch()
 
   const handleBackArrowClick = () => {
+    dispatch(setChatRoomActive(false))
     dispatch(onBackArrowClick())
   }
   const profilePictures = extractConversationAvatars(
@@ -64,7 +66,8 @@ export const ChatPageHeader = () => {
   )
   return (
     <div className='page-title'>
-      <FiArrowLeft size={23} onClick={handleBackArrowClick} />
+      <FiArrowLeft size={24} onClick={handleBackArrowClick} />
+
       {profilePictures.length > 0 && (
         <AvatarGrid
           pictures={profilePictures}
@@ -74,16 +77,19 @@ export const ChatPageHeader = () => {
           }
         />
       )}
+
       <h5
         onClick={() => dispatch(onScreenUpdate(ChatScreen.EditChatRoom))}
         className='group-link'
       >
         {getTitleText(chatScreen, currentConversation, authUser)}
-        {currentConversation.chatType === 'group' &&
-          chatScreen === 'editChatRoom' && (
-            <BiPencil onClick={() => setOpenEditNameModal(true)} />
-          )}
       </h5>
+
+      {currentConversation.chatType === 'group' &&
+        chatScreen === 'editChatRoom' && (
+          <BiPencil onClick={() => setOpenEditNameModal(true)} />
+        )}
+
       {/* <CommonModal
         isOpen={openEditNameModal}
         heading='Edit Chat Name'

@@ -11,10 +11,11 @@ export interface ChatSliceInterface {
   threads: ChatInterface[]
   selectedChatUsers: UserInterface[]
   chatText: string
-  unreadConversations: number
+  unreadConversationsCount: number
+  isChatRoomActive: boolean
 }
 export interface ChatInterface {
-  _id: string
+  _id?: string
   lastMessage?: {
     text: string
     sender: BasicUserInfoInterface
@@ -40,7 +41,7 @@ export interface ChatMessage {
   text: string
   sender: BasicUserInfoInterface
   timestamp: string
-  status: 'sent' | 'read' | 'failed'
+  status?: 'sent' | 'read' | 'failed'
 }
 
 export interface EmptyChatPage {

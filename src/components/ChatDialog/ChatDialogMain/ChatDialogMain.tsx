@@ -2,6 +2,7 @@ import { IoMdClose } from 'react-icons/io'
 import {
   onScreenUpdate,
   selectChatUI,
+  setChatRoomActive,
   toggleChatClose,
 } from 'utils/redux/slices/chatSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
@@ -21,12 +22,13 @@ export const ChatDialogMain = () => {
   const changeScreen = (screen: ChatScreen) => {
     dispatch(onScreenUpdate(screen))
   }
-
   const handleConversationClick = () => {
+    dispatch(setChatRoomActive(true))
     changeScreen(ChatScreen.ChatRoom)
   }
 
   const closeChatBox = () => {
+    dispatch(setChatRoomActive(false))
     dispatch(toggleChatClose())
   }
   const chatComponentLookup = {
