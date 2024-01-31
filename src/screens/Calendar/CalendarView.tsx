@@ -18,6 +18,8 @@ import {
 import { DisplayMeetingModal } from 'screens/Calendar/MeetingModal'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import './CalendarView.scss'
+import dayjs from 'dayjs'
+import weekday from 'dayjs/plugin/weekday'
 
 export const CalendarView = () => {
   const calendarId = useAppSelector(selectCalendarId)
@@ -26,6 +28,10 @@ export const CalendarView = () => {
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
   const timeline = useAppSelector(selectProjectTimeline)
   //use startDate and endDate for validRange in FullCalendar
+  dayjs.extend(weekday)
+  const firstDay = dayjs(timeline.startDate).weekday(0).format('YYYY-MM-DD')
+  const lastDay = dayjs(timeline.endDate).weekday(7).format('YYYY-MM-DD')
+
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -73,8 +79,8 @@ export const CalendarView = () => {
             nowIndicator={true}
             plugins={[dayGridPlugin, timeGridPlugin]}
             validRange={{
-              start: '',
-              end: '',
+              start: firstDay,
+              end: lastDay,
             }}
             customButtons={{
               myCustomButton: {

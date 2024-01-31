@@ -64,7 +64,7 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
         <SelectTimeZone
           dateFields={dateFields}
           setDateFields={setDateFields}
-          timeZone={dateFields.timeZone}
+          eventTimezone={dateFields.eventTimezone}
         />
       </div>
     </>

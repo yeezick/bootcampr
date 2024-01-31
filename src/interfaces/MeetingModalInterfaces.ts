@@ -4,7 +4,7 @@ export interface DateFieldsInterface {
   date: string
   end: string
   start: string
-  timeZone: string
+  eventTimezone: string
 }
 
 interface GoogleAttendees {
@@ -22,9 +22,11 @@ export interface EventInfo {
   }
   end: {
     dateTime: string
+    //timeZone: string
   }
   start: {
     dateTime: string
+    //timeZone: string
   }
   summary: string
   projectId: string

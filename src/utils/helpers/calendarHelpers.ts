@@ -70,7 +70,7 @@ export const initialDateFields = (): DateFieldsInterface => {
   return {
     date: dayjs().toISOString(),
     end: generateInitialTime('end'),
-    timeZone: dayjs.tz.guess(),
+    eventTimezone: dayjs.tz.guess(),
     start: generateInitialTime('start'),
   }
 }

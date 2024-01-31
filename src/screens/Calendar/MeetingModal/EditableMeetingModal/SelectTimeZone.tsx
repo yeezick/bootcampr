@@ -4,11 +4,15 @@ import { useState } from 'react'
 import { usTimeZones } from 'utils/data/calendarConstants'
 import '../styles/SelectTimeZone.scss'
 
-export const SelectTimeZone = ({ dateFields, setDateFields, timeZone }) => {
+export const SelectTimeZone = ({
+  dateFields,
+  setDateFields,
+  eventTimezone,
+}) => {
   const [openSelect, setOpenSelect] = useState(false)
   const toggleSelect = () => setOpenSelect(!openSelect)
   const handleTimeZone = e =>
-    setDateFields({ ...dateFields, timeZone: e.target.value })
+    setDateFields({ ...dateFields, eventTimezone: e.target.value })
 
   return (
     <div className='timezone-wrapper'>
@@ -25,7 +29,7 @@ export const SelectTimeZone = ({ dateFields, setDateFields, timeZone }) => {
           open={openSelect}
           sx={timeZoneSelectStyles}
           variant='standard'
-          value={timeZone}
+          value={eventTimezone}
         >
           {usTimeZones.map(timeZone => (
             <MenuItem value={timeZone.value} key={timeZone.value}>
