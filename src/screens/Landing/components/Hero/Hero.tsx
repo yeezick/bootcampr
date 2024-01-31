@@ -18,7 +18,12 @@ export const Hero = () => {
             land the job you <span className='bold-text'>want</span>.
           </div>
         </div>
-        <Link to='/sign-up' className='hero-button'>
+        <Link
+          to='/sign-up'
+          className='hero-button'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
           Sign up
         </Link>
       </div>
