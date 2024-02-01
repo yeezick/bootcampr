@@ -4,7 +4,7 @@ import {
 } from 'interfaces/TaskBoardInterface'
 
 export const emptyTicketFields: TicketFieldsInterface = {
-  assignee: '',
+  assignee: 'Unassigned',
   comments: [],
   createdBy: '',
   description: '',
@@ -16,6 +16,7 @@ export const emptyTicketFields: TicketFieldsInterface = {
 }
 
 export const initialTaskBoardState: TaskBoardInterface = {
+  confirmationDialogType: '',
   displayAllTickets: true,
   ticketDialogState: '',
   ticketFields: emptyTicketFields,

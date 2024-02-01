@@ -37,7 +37,12 @@ export const Landing: React.FC = () => {
       <div className='get-job'>
         <span>You've done the work.</span>
         <span>Get the job.</span>
-        <Link className='button' to='/sign-up'>
+        <Link
+          className='button'
+          to='/sign-up'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
           Sign up
         </Link>
       </div>

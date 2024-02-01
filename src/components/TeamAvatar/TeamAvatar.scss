@@ -6,11 +6,19 @@
 
   .ta-imgs {
     border-radius: 50%;
-    cursor: pointer;
     height: 75px;
     object-fit: cover;
     width: 75px;
-  }
+
+    &.tiny {
+      height: 24px;
+      width: 24px;
+    }
+
+    &.small {
+      height: 40px;
+      width: 40px;
+    }  }
 
   .ta-default-pics {
     cursor: default;

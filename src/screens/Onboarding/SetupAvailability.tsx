@@ -3,7 +3,6 @@ import { Availability } from 'components/Availability/Availability'
 import { defaultAvailability } from 'utils/data/userConstants'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { getUserTimezone, selectAuthUser } from 'utils/redux/slices/userSlice'
-import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { AvailabilityInterface } from 'interfaces'
 import { saveAvailability } from 'components/Availability/utils/helpers'
 import './SetupAvailability.scss'
@@ -13,6 +12,7 @@ import {
   utcToBootcamprTimezoneMap,
   bootcamprTimezoneToUTCMap,
 } from 'utils/data/timeZoneConstants'
+import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 
 interface SetupAvailabilityProps {
   handlePageNavigation: (navType: 'previous' | 'next' | 'specific') => void
@@ -38,6 +38,8 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
     await storeAvailability()
     handlePageNavigation(direction)
   }
+  const handlePrevious = () => handleNavigationButtons('previous')
+  const handleNext = () => handleNavigationButtons('next')
 
   useEffect(() => {
     let userFriendlyTZ = Timezones.ET
@@ -86,16 +88,17 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
       />
       <div className='setup-avail-buttons-wrapper'>
         <div className='setup-avail-buttons'>
-          <SecondaryButton
-            handler={() => handleNavigationButtons('previous')}
+          <PaginatorButton
+            buttonType='secondary'
+            disabled={isDisabled}
+            handler={handlePrevious}
             text='Role'
-            paginatorBtn={true}
           />
-          <PrimaryButton
-            handler={() => handleNavigationButtons('next')}
+          <PaginatorButton
+            buttonType='primary'
+            disabled={isDisabled}
+            handler={handleNext}
             text='Set up profile'
-            paginatorBtn={true}
-            isDisabled={isDisabled}
           />
         </div>
       </div>

@@ -1,17 +1,11 @@
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined'
-import ChecklistOutlinedIcon from '@mui/icons-material/ChecklistOutlined'
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
-import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit'
-import { DomainStrings, SideMenuIconMapInterface } from 'interfaces'
+import { DomainStrings, Portal, SideMenu } from 'interfaces'
 import { Dispatch } from 'react'
 import { NavigateFunction } from 'react-router-dom'
 import {
-  resetSideMenu,
-  setSideMenu,
+  resetPortal,
+  setPortal,
+  setPortalPage,
 } from 'utils/redux/slices/userInterfaceSlice'
 import { RootState } from 'utils/redux/store'
 
@@ -20,32 +14,41 @@ import { RootState } from 'utils/redux/store'
  * @param userId
  * @returns {SideMenuInterface} Context for Project Portal sidemenu
  */
-export const buildProjectPortalLinks = (projectId: string) => [
-  {
-    domain: 'project',
-    icon: 'description',
-    label: 'Project Details',
-    route: `/project/${projectId}`,
-  },
-  {
-    domain: 'project',
-    icon: 'group',
-    label: 'Team',
-    route: `/project/${projectId}/team`,
-  },
-  {
-    domain: 'project',
-    icon: 'calendar',
-    label: 'Calendar',
-    route: `/project/${projectId}/calendar`,
-  },
-  {
-    domain: 'project',
-    icon: 'tasks',
-    label: 'Task Management',
-    route: `/project/${projectId}/tasks`,
-  },
-]
+export const buildProjectPortalLinks = (projectId: string) => {
+  let urlProjectId = 'unassigned'
+  if (projectId) urlProjectId = projectId
+
+  return [
+    {
+      domain: 'project',
+      headerTitle: 'Project Details',
+      icon: 'description',
+      label: 'Project Details',
+      route: `/project/${urlProjectId}`,
+    },
+    {
+      domain: 'project',
+      headerTitle: 'Team Members',
+      icon: 'group',
+      label: 'Team',
+      route: `/project/${urlProjectId}/team`,
+    },
+    {
+      domain: 'project',
+      headerTitle: 'Calendar',
+      icon: 'calendar',
+      label: 'Calendar',
+      route: `/project/${urlProjectId}/calendar`,
+    },
+    {
+      domain: 'project',
+      headerTitle: 'Task Management',
+      icon: 'tasks',
+      label: 'Task Management',
+      route: `/project/${urlProjectId}/tasks`,
+    },
+  ]
+}
 
 /**
  * Builds the metadata for each link that renders in the Settings sidemenu.
@@ -81,12 +84,18 @@ export const buildSettingsPortalLinks = (userId: string) => [
  * @param userId
  * @returns {SideMenuInterface} Context for settings sidemenu
  */
-export const buildSettingsSideMenu = (userId: string) => {
-  return {
+export const buildSettingsPortal = (userId: string) => {
+  const portal: Portal = {
+    active: true,
+    type: 'settings',
+  }
+
+  const sideMenu: SideMenu = {
     active: true,
     links: buildSettingsPortalLinks(userId),
     title: 'Settings',
   }
+  return { portal, sideMenu }
 }
 
 /**
@@ -94,12 +103,20 @@ export const buildSettingsSideMenu = (userId: string) => {
  * @param projectId
  * @returns {SideMenuInterface} Context for Project Portal sidemenu
  */
-export const buildProjectPortalSideMenu = (projectId: string) => {
-  return {
+export const buildProjectPortal = (projectId: string) => {
+  const portal: Portal = {
+    active: true,
+    headerTitle: 'Project Details',
+    type: 'project',
+  }
+
+  const sideMenu: SideMenu = {
     active: true,
     links: buildProjectPortalLinks(projectId),
     title: 'Project Portal',
   }
+
+  return { portal, sideMenu }
 }
 
 /**
@@ -109,19 +126,52 @@ export const buildProjectPortalSideMenu = (projectId: string) => {
  * @param projectId
  * @param userId
  */
-export const determineSideMenu = (
+export const buildPortal = (
   dispatch: ThunkDispatch<RootState, undefined, AnyAction> &
     Dispatch<AnyAction>,
   domain: DomainStrings,
-  projectId: string,
-  userId: string
+  routeId: string
 ) => {
   if (domain === 'project') {
-    dispatch(setSideMenu(buildProjectPortalSideMenu(projectId)))
+    dispatch(setPortal(buildProjectPortal(routeId)))
   } else if (domain === 'settings') {
-    dispatch(setSideMenu(buildSettingsSideMenu(userId)))
+    dispatch(setPortal(buildSettingsPortal(routeId)))
   } else {
-    dispatch(resetSideMenu())
+    dispatch(resetPortal())
+  }
+}
+
+export const changePortalPage = (dispatch, headerTitle) => {
+  dispatch(setPortalPage(headerTitle))
+}
+
+/**
+ * Checks if the current URL would belong to a menu link in the sidemenu
+ * @returns The type of portal the URL belongs to.
+ */
+export const doesUrlBelongToPortal = (pathname, userId, projectId) => {
+  if (buildSettingsPortalLinks(userId).find(link => link.route === pathname)) {
+    return 'settings'
+  } else if (
+    buildProjectPortalLinks(projectId).find(link => link.route === pathname)
+  ) {
+    return 'project'
+  } else return ''
+}
+
+/**
+ * Looks for the menulink object the URL belongs to.
+ * @returns The entire menu link object generated by the PortalLink builder.
+ */
+export const determinePortalFromUrl = (pathname, userId, projectId) => {
+  if (pathname.includes('settings')) {
+    return buildSettingsPortalLinks(userId).find(
+      link => link.route === pathname
+    )
+  } else {
+    return buildProjectPortalLinks(projectId).find(
+      link => link.route === pathname
+    )
   }
 }
 
@@ -136,13 +186,3 @@ export const navigateToDomain = (
   route: string,
   domain: DomainStrings
 ) => navigate(route, { state: { domain } })
-
-export const sideMenuIconMap: SideMenuIconMapInterface = {
-  account: AccountCircleOutlinedIcon,
-  calendar: CalendarTodayOutlinedIcon,
-  description: DescriptionOutlinedIcon,
-  email: EmailOutlinedIcon,
-  group: GroupsOutlinedIcon,
-  lock: LockOutlinedIcon,
-  tasks: ChecklistOutlinedIcon,
-}

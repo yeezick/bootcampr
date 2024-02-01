@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { logoutAuthUser, selectUserId } from 'utils/redux/slices/userSlice'
 import { logOut } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
-import { navigateToDomain } from 'utils/helpers'
+import { buildPortal, navigateToDomain } from 'utils/helpers'
 
 export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
   const [open, setOpen] = useState(false)
@@ -30,6 +30,7 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
     if (innerText === 'View Profile') {
       navigate(`/users/${userId}`)
     } else if (innerText === 'Settings') {
+      buildPortal(dispatch, 'settings', userId)
       navigateToDomain(navigate, `/users/${userId}/settings/email`, 'settings')
     } else if (innerText === 'Log out') {
       logOut()

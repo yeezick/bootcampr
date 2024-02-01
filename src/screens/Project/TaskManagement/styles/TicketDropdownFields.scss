@@ -1,0 +1,73 @@
+.ticket-dropdown-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  
+  .MuiOutlinedInput-input {
+    background: #fff;
+    box-sizing: border-box;
+    padding: 8px;
+  }
+  
+  .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
+  
+  .MuiSelect-iconOutlined {
+    display: none;
+  }
+  
+  .status {
+    .select {
+      font-size: 16px;
+      margin-left: 32px;
+      width: calc(100% - 32px); // 32px from margin
+    }
+  }
+
+  .ticket-creator {
+    align-items: center;;
+    background-color: #fff;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: flex; 
+    gap: 16px;
+    margin-left: 32px;
+    padding: 8px;
+
+    .creator-info {
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+  .assignee {
+    .select {
+      margin-left: 32px;
+      width: calc(100% - 32px); // 32px from margin
+    }
+  }
+
+  .due-date {
+    .select-date {
+      background-color: #fff;
+      border-radius: 4px;
+      margin-left: 32px;
+      padding: 8px 12px 8px 16px;
+
+      .MuiOutlinedInput-input {
+        line-height: 0px;
+        padding: 0;
+      }
+
+      .MuiSvgIcon-root {
+        color: #212121;
+      }
+
+      .MuiIconButton-root {
+        padding: 0;
+      }
+    }
+  }
+}

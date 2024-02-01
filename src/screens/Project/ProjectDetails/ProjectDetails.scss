@@ -3,8 +3,6 @@
 
 .project-details-portal {
   background: #ffffff;
-  box-shadow: 0px 1px 3px 1px rgba(26, 35, 126, 0.15),
-    0px 1px 2px 0px rgba(26, 36, 126, 0.3);
   height: 100vh;
   width: auto;
 
@@ -23,35 +21,11 @@
     width: 100%;
   }
 
-  .pd-header {
-    @include flex(revert, flex-start, center);
-    background: #ffffff;
-    box-shadow: 0px 1px 3px 1px rgba(26, 35, 126, 0.15),
-      0px 1px 2px 0px rgba(26, 36, 126, 0.3);
-    gap: 16px;
-    height: 100%;
-    padding: 16px 32px;
-    width: 95.5%;
-
-    h1 {
-      @include font-properties(
-        (
-          size: 32px,
-          weight: 700,
-          line-height: 40px,
-        )
-      );
-      color: #313335;
-      font-style: normal;
-      margin: 0;
-      padding: 0;
-    }
-  }
-
   .pd-nav-cont {
     @include flex(column);
     align-self: stretch;
     background-color: #ffffff;
+    box-sizing: border-box;
     color: #212121;
     height: 100%;
     padding: 16px 32px;

@@ -1,4 +1,4 @@
-import { TaskBoard } from 'components/Kanban'
+import { TaskBoard } from 'screens/Project/TaskManagement'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { getOneUser, verifyTokenExpiration } from 'utils/api'
@@ -19,6 +19,7 @@ export const TaskManagement = () => {
   const { id } = useParams()
   const project = useAppSelector(selectProject)
 
+  // BC-654: Token validation and routing should be handled ata higher level like Layout
   useEffect(() => {
     if (queryToken) {
       const validateToken = async () => {
@@ -55,5 +56,9 @@ export const TaskManagement = () => {
     emailLinkClicked && dispatch(toggleChatOpen())
   }, [authUser.project, emailLinkClicked, dispatch])
 
-  return <div className='Project'>{project && <TaskBoard />}</div>
+  if (project) {
+    return <TaskBoard />
+  } else {
+    // TODO WHAT HAPPENS HERE? CONSOLIDATE FILE?
+  }
 }

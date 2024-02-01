@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SideMenuInterface, UiInterface } from 'interfaces'
+import { BuildPortal, UiInterface } from 'interfaces'
 
 const initialState: UiInterface = {
+  portal: {
+    active: false,
+  },
   sideMenu: {
     active: false,
-    title: '',
     links: [],
   },
 }
@@ -13,19 +15,27 @@ const userInterface = createSlice({
   name: 'userInterface',
   initialState,
   reducers: {
-    setSideMenu: (state, action: PayloadAction<SideMenuInterface>) => {
-      state.sideMenu = action.payload
-    },
-    resetSideMenu: state => {
+    resetPortal: state => {
+      state.portal = {
+        active: false,
+      }
       state.sideMenu = {
         active: false,
-        title: '',
         links: [],
       }
+    },
+    setPortal: (state, action: PayloadAction<BuildPortal>) => {
+      const { portal, sideMenu } = action.payload
+      state.portal = portal
+      state.sideMenu = sideMenu
+    },
+    setPortalPage: (state, action: PayloadAction<string>) => {
+      state.portal.headerTitle = action.payload
     },
   },
 })
 
 export const selectSideMenu = state => state.userInterface.sideMenu
-export const { setSideMenu, resetSideMenu } = userInterface.actions
+export const selectPortal = state => state.userInterface.portal
+export const { resetPortal, setPortal, setPortalPage } = userInterface.actions
 export default userInterface.reducer

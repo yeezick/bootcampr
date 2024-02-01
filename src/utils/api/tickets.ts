@@ -3,7 +3,7 @@ import { api } from './apiConfig'
 
 export const createTicket = async ticketBody => {
   try {
-    const ticketData = await api.post(`/createTicket`, ticketBody)
+    const ticketData = await api.post(`/tickets/create`, ticketBody)
     return ticketData.data
   } catch (error) {
     return { error: { status: 500, message: 'Failed to create ticket', error } }
@@ -45,7 +45,7 @@ export const saveTicketStatusChange = async ticketData => {
 
 export const saveUpdatedTicket = async ticketData => {
   try {
-    const updatedData = await api.put(`/updateTicket`, ticketData)
+    const updatedData = await api.put(`/tickets/${ticketData._id}`, ticketData)
     return updatedData.data
   } catch (error) {
     return { error: { status: 500, message: 'ticket status failed to change' } }
@@ -53,9 +53,8 @@ export const saveUpdatedTicket = async ticketData => {
 }
 
 export const deleteTicketApi = async ticketData => {
-  await api.post(`/deleteTicket`, ticketData)
+  await api.put(`/tickets/delete/${ticketData.ticketId}`, ticketData)
 }
-export const getOneTicketById = async () => {}
 
 export const getTicketComments = async (
   ticketId: number
