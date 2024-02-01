@@ -2,10 +2,11 @@ import { useSelector } from 'react-redux'
 import { selectProject } from 'utils/redux/slices/projectSlice'
 import { useEffect, useState } from 'react'
 import { Stack } from '@mui/material'
-import { PrimaryButton, SecondaryButton } from 'components/Buttons'
+import { PrimaryButton } from 'components/Buttons'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
 import { editProject } from 'utils/api'
+import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 
 export const ConfirmationPage = ({ handlePageNavigation }) => {
   const project = useSelector(selectProject)
@@ -95,14 +96,14 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
         </section>
 
         <Stack className='btn-container'>
-          <SecondaryButton
+          <PaginatorButton
+            buttonType='secondary'
             handler={handleCancel}
             text='Presentation'
-            paginatorBtn
           />
           <PrimaryButton
             aria-disabled={isDisabled || isLoading}
-            isDisabled={isDisabled || isLoading}
+            disabled={isDisabled || isLoading}
             text='Submit'
             type='submit'
           />

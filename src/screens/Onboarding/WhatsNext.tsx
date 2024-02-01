@@ -45,7 +45,6 @@ export const WhatsNext = () => {
           <p>You can view the project details at any time.</p>
           <PrimaryButton
             handler={handleViewProjectDetails}
-            paginatorBtn={false}
             text='View project details'
           />
         </div>

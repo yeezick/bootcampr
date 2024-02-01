@@ -6,16 +6,18 @@ import {
   updatePresenting,
 } from 'utils/redux/slices/projectSlice'
 import { Stack } from '@mui/material'
-import { PrimaryButton, SecondaryButton } from 'components/Buttons'
-import { DomainLink } from 'layout/DomainLink'
+import { SecondaryButton } from 'components/Buttons'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 
 export const UrlPage = ({ handlePageNavigation }) => {
   const project = useSelector(selectProject)
   const projectID = project._id
   const [isDisabled, setIsDisabled] = useState(true)
   const dispatch: AppDispatch = useDispatch()
+  const navigate = useNavigate()
 
   //TODO: convert alerts to MUI toast to match Figma designs
 
@@ -33,6 +35,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
   }
 
   const handleCancel = () => {
+    navigate(`/project/${projectID}`)
     dispatch(updateDeployedUrl(''))
     dispatch(updatePresenting(null))
   }
@@ -45,18 +48,14 @@ export const UrlPage = ({ handlePageNavigation }) => {
           <p>First, input the URL to your website.</p>
           <ProjectUrl setIsDisabled={setIsDisabled} />
           <Stack className='btn-container'>
-            <SecondaryButton handler={handleCancel}>
-              <DomainLink
-                className='cancel-btn'
-                route={`/project/${projectID}`}
-                domain={'project'}
-              >
-                Cancel
-              </DomainLink>
-            </SecondaryButton>
-            <PrimaryButton
-              isDisabled={isDisabled}
-              paginatorBtn
+            <SecondaryButton
+              className='cancel-btn'
+              handler={handleCancel}
+              text='Cancel'
+            />
+            <PaginatorButton
+              buttonType='primary'
+              disabled={isDisabled}
               text='Presentation'
               type='submit'
               aria-disabled={isDisabled}

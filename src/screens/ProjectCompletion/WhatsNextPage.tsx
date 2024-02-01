@@ -70,7 +70,7 @@ export const WhatsNextPage = () => {
         <PrimaryButton
           aria-disabled={isDisabled}
           handler={handleSurvey}
-          isDisabled={isDisabled}
+          disabled={isDisabled}
           text='Answer survey'
         />
       </Stack>

@@ -30,33 +30,7 @@ export const TeamMembers = () => {
   return (
     <div className='team-members'>
       <div className='tm-cont'>
-        <div className='tm-header-cont'>
-          <div className='tm-header'>
-            <h1>Team Members</h1>
-          </div>
-          {/* <div className='tm-button-cont'>
-            <IconButton
-              aria-label='more'
-              id='tm-open-modal'
-              aria-controls={openMenu ? 'withdrawal-menu' : undefined}
-              aria-expanded={openMenu ? 'true' : undefined}
-              aria-haspopup='true'
-              onClick={handleModalToggle}
-            >
-              <BsThreeDotsVertical size={24} />
-            </IconButton>
-            {showWithdrawalButton && (
-              <TeamWithdrawal
-                onOpenModal={handleOpenModal}
-                openModal={openModal}
-                onCloseAll={handleCloseModals}
-                openMenu={openMenu}
-                onCloseMenu={handleCloseMenu}
-                anchorEl={anchorEl}
-              />
-            )}
-          </div> */}
-        </div>
+        {/* <WithdrawalEllipsis /> */}
         <TeamMemberInfo
           teamMembers={teamMembers}
           loggedInUserId={loggedInUserId}
@@ -104,5 +78,32 @@ const TeamMemberInfo = ({ teamMembers, loggedInUserId }) => {
         )}
       </div>
     </>
+  )
+}
+
+const WithdrawalEllipsis = () => {
+  return (
+    <div className='withdraw'>
+      {/* <IconButton
+        aria-label='more'
+        id='tm-open-modal'
+        aria-controls={openMenu ? 'withdrawal-menu' : undefined}
+        aria-expanded={openMenu ? 'true' : undefined}
+        aria-haspopup='true'
+        onClick={handleModalToggle}
+      >
+        <BsThreeDotsVertical size={24} />
+      </IconButton>
+      {showWithdrawalButton && (
+        <TeamWithdrawal
+          onOpenModal={handleOpenModal}
+          openModal={openModal}
+          onCloseAll={handleCloseModals}
+          openMenu={openMenu}
+          onCloseMenu={handleCloseMenu}
+          anchorEl={anchorEl}
+        />
+      )} */}
+    </div>
   )
 }

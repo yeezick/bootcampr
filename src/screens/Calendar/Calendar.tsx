@@ -15,7 +15,6 @@ export const CalendarScreen = () => {
 
   return (
     <div className='calendar'>
-      <CalendarHeader />
       <CalendarTabs />
       <EditableMeetingModal handleOpenAlert={handleOpenAlert} />
       <AlertNotification

@@ -1,5 +1,3 @@
-import { SvgIconTypeMap } from '@mui/material'
-import { OverridableComponent } from '@mui/material/OverridableComponent'
 import { ProjectInterface } from 'interfaces'
 import { TimezonesUTC } from 'utils/data/timeZoneConstants'
 
@@ -35,18 +33,25 @@ export interface UserInterface {
   _id?: string
 }
 export interface UiInterface {
-  sideMenu: SideMenuInterface
-}
-export interface SideMenuIconMapInterface {
-  [key: string]: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
-    muiName: string
-  }
+  portal: Portal
+  sideMenu: SideMenu
 }
 
-export interface SideMenuInterface {
+export interface BuildPortal {
+  portal: Portal
+  sideMenu: SideMenu
+}
+
+export interface Portal {
+  active: Boolean
+  headerTitle?: string
+  type?: 'project' | 'settings'
+}
+
+export interface SideMenu {
   active: boolean
   links: SideMenuLinkInterface[]
-  title: string
+  title?: 'Project Portal' | 'Settings'
 }
 
 export interface SideMenuLinkInterface {

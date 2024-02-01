@@ -18,7 +18,6 @@ import {
   ProjectDetails,
   TaskManagement,
   TeamMembers,
-  UnassignedProject,
 } from 'screens/Project'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailConfirmation'
@@ -70,7 +69,6 @@ function App() {
             <Route path=':projectId/calendar' element={<CalendarScreen />} />
             <Route path=':projectId/tasks' element={<TaskManagement />} />
             <Route path=':projectId/team' element={<TeamMembers />} />
-            <Route path='unassigned' element={<UnassignedProject />} />
           </Route>
           <Route path='/all-projects' element={<AllProjects />} />
         </Routes>

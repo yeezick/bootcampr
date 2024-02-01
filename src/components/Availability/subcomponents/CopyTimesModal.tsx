@@ -109,8 +109,8 @@ export const CopyTimesModal = ({
         <PrimaryButton
           handler={handleApply}
           text='Apply'
-          isDisabled={isDisabled}
-          customStyle={{ width: '100%' }}
+          disabled={isDisabled}
+          sx={{ width: '100%' }}
         />
       </div>
     </div>

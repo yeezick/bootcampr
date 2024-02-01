@@ -5,16 +5,14 @@ import { useDispatch } from 'react-redux'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
 import { useParams } from 'react-router-dom'
-import { PrimaryButton } from 'components/Buttons'
+import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 
 export const Role = ({ handlePageNavigation }) => {
   const dispatch = useDispatch()
   const [selectedRole, setSelectedRole] = useState('')
   const [buttonEnabled, setButtonEnabled] = useState(false)
   const params = useParams()
-
   const authUser = useAppSelector(selectAuthUser)
-
   const handleRoleSelect = event => {
     setSelectedRole(event.target.value)
     setButtonEnabled(true)
@@ -95,11 +93,11 @@ export const Role = ({ handlePageNavigation }) => {
             </label>
           </div>
           <div className='onboarding-button-section'>
-            <PrimaryButton
+            <PaginatorButton
+              buttonType='primary'
+              disabled={!buttonEnabled}
               handler={handleSubmit}
               text='Set availability'
-              paginatorBtn={true}
-              isDisabled={!buttonEnabled}
             />
           </div>
         </div>
