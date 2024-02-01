@@ -27,7 +27,8 @@ export const Message = ({
     isLastMessage,
     timestampClasses,
     isLastMessageAndSameRecipient,
-  } = getMessageClassNames(messages, message, index, authUser)
+    isMessageSelected,
+  } = getMessageClassNames(messages, message, index, authUser, selectedMessages)
 
   return (
     <div className='message-container'>
@@ -49,13 +50,13 @@ export const Message = ({
           isLastMessage={isLastMessage}
           isFirstMessage={isFirstMessage}
           isOnlyMessage={isOnlyMessage}
-          //   isMessageSelected={isMessageSelected}
+          isMessageSelected={isMessageSelected}
           handleTimestampClick={handleTimestampClick}
         />
       </div>
       <TimestampDisplay
         timestampClasses={timestampClasses}
-        message={message.text}
+        message={message}
         selectedMessages={selectedMessages}
       />
     </div>
@@ -77,13 +78,13 @@ const MessageText = ({
   isLastMessage,
   isFirstMessage,
   isOnlyMessage,
-  //   isMessageSelected,
+  isMessageSelected,
   handleTimestampClick,
 }) => {
   const defineDynamicClassNames = () => {
     return `${
       isSenderAuthUser ? 'auth-text' : 'recipient-text'
-    } ${isSameUser} ${isAvatarDisplayed} ${isLastMessage} ${isFirstMessage} ${isOnlyMessage} `
+    } ${isSameUser} ${isAvatarDisplayed} ${isLastMessage} ${isFirstMessage} ${isOnlyMessage} ${isMessageSelected}`
   }
   return (
     <div

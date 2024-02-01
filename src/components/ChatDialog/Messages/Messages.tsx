@@ -9,9 +9,8 @@ export const Messages = ({
   handleTimestampClick,
 }) => {
   const currentConversation = useAppSelector(selectChat)
-  const messages = currentConversation.messages
+  const messages = currentConversation.messages || []
   const listResults = messages.length ? 'messages' : 'noMessages'
-  //TODO - create generic classname - styling
   if (listResults === 'noMessages') {
     return (
       <EmptyChatPage

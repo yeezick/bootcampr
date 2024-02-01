@@ -1,17 +1,7 @@
+import dayjs from 'dayjs'
 export const formatTimestamp = timestamp => {
-  const date = new Date(timestamp)
-  const year = date.getFullYear().toString().slice(-2)
-  const month = date.getMonth() + 1
-  const day = ('0' + date.getDate()).slice(-2)
-  let hours = date.getHours()
-  hours = hours % 12
-  hours = hours ? hours : 12
-  const minutes = ('0' + date.getMinutes()).slice(-2)
-  const ampm = hours >= 12 ? 'PM' : 'AM'
-  const formattedTime = `${hours}:${minutes} ${ampm}`
-  return `${month}/${day}/${year}, ${formattedTime}`
+  return dayjs(timestamp).format('MM/DD/YYYY hh:mm A')
 }
-
 export const formatLastMessageTimestamp = lastMessageTimestamp => {
   const now = new Date()
   const messageTime = new Date(lastMessageTimestamp)
@@ -126,7 +116,13 @@ export const isSameSenderAsPrevious = (messages, m, i) => {
   return i > 0 && messages[i - 1].sender._id === m.sender._id
 }
 
-export const getMessageClassNames = (messages, message, index, authUser) => {
+export const getMessageClassNames = (
+  messages,
+  message,
+  index,
+  authUser,
+  selectedMessages
+) => {
   const isSenderAuthUser = message.sender._id === authUser._id
 
   const isSameUser = isSameSenderAsPrevious(messages, message, index)
@@ -154,9 +150,9 @@ export const getMessageClassNames = (messages, message, index, authUser) => {
     ? 'avatar'
     : 'no-avatar'
 
-  // const isMessageSelected = selectedMessages.includes(message)
-  //   ? 'selected-message'
-  //   : 'not-selected';
+  const isMessageSelected = selectedMessages.includes(message)
+    ? 'selected-message'
+    : 'not-selected'
 
   const timestampClasses = isSenderAuthUser ? 'details-right' : 'details-left'
 
@@ -167,7 +163,7 @@ export const getMessageClassNames = (messages, message, index, authUser) => {
     isOnlyMessage,
     isAvatarDisplayed,
     isLastMessageAndSameRecipient,
-    // isMessageSelected,
+    isMessageSelected,
     timestampClasses,
   }
 }
