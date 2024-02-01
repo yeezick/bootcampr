@@ -8,7 +8,7 @@ export interface ChatSliceInterface {
     chatScreenPath: ChatScreen[]
   }
   chat: ChatInterface
-  threads: ChatInterface[]
+  threads: Record<string, ChatInterface>
   selectedChatUsers: UserInterface[]
   chatText: string
   unreadConversationsCount: number
@@ -21,9 +21,9 @@ export interface ChatInterface {
     sender: BasicUserInfoInterface
     timestamp: string
   }
-  participants: Participant[]
+  participants: ParticipantInterface[]
   typingUsers?: string[]
-  messages: ChatMessage[]
+  messages: ChatMessageInterface[]
   chatType: 'group' | 'private'
   groupName?: string
   groupDescription?: string
@@ -31,12 +31,12 @@ export interface ChatInterface {
   lastActive?: string
 }
 
-export interface Participant {
+export interface ParticipantInterface {
   participant: BasicUserInfoInterface
   isAdmin?: boolean
   hasUnreadMessage?: boolean
 }
-export interface ChatMessage {
+export interface ChatMessageInterface {
   _id?: string
   text: string
   sender: BasicUserInfoInterface
@@ -48,4 +48,8 @@ export interface EmptyChatPage {
   screen: string
   text: string
   className: string
+}
+export interface FetchMessagesPayload {
+  chatId: string
+  messages: ChatMessageInterface[]
 }
