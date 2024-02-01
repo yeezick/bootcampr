@@ -160,12 +160,6 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
         : (attendee.comment = 'not organizer')
     })
 
-    //   const startTime = moment.tz(start, eventTimezone)
-    //   const endTime = moment.tz(end, eventTimezone)
-    //   const convertedStartTime = startTime.tz("America/Chicago").format()
-    //   const convertedEndTime = endTime.tz("America/Chicago").format()
-    //  console.log(convertedStartTime, convertedEndTime)
-
     const eventInfo: EventInfo = {
       attendees: attendeeList,
       description,
