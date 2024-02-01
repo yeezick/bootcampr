@@ -3,8 +3,8 @@ import { Button, Checkbox, FormControlLabel } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   createGroupChatRoom,
-  createPrivateChatRoom,
-  updateGroupChat,
+  createOrGetPrivateChatRoom,
+  updateGroupChatParticipants,
 } from 'utils/api/chat'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
@@ -32,7 +32,7 @@ export const NewChatRoom = ({ chatScreen }) => {
   const membersWithoutAuth = members.filter(
     member => member._id !== authUser._id
   )
-  console.log(memberChecked)
+
   const membersInviteInfo =
     'Invited members will immediately join the chat but they will still receive an email notification.'
 
@@ -42,10 +42,12 @@ export const NewChatRoom = ({ chatScreen }) => {
       const currentParticipantIds = new Set(
         currentConversation.participants.map(pp => pp.participant._id)
       )
+      //remaining users
       usersToInvite = membersWithoutAuth.filter(
         user => !currentParticipantIds.has(user._id)
       )
     } else {
+      //all the users except auth user
       usersToInvite = membersWithoutAuth
     }
     const memberState = {}
@@ -54,13 +56,13 @@ export const NewChatRoom = ({ chatScreen }) => {
     })
     setMemberChecked(memberState)
     setInviteList(usersToInvite)
+    setSelectedChatUsers([])
   }, [currentConversation])
 
   useEffect(() => {
     const allMembersSelected =
       Object.values(memberChecked).length &&
       Object.values(memberChecked).every(status => status)
-    console.log(allMembersSelected)
     setAllChecked(allMembersSelected)
   }, [memberChecked])
 
@@ -93,49 +95,24 @@ export const NewChatRoom = ({ chatScreen }) => {
         prevSelected.filter(user => user._id !== member._id)
       )
     }
-    // dispatch(updateSelectedChatUsers({ user: member, checked: newState }))
   }
-  //TODO - refactor api
   const handleCreateChatRoom = async () => {
     try {
       let newRoom
+      const selectedUserIds = selectedChatUsers.map(user => user._id)
       if (selectedChatUsers.length > 1) {
-        const selectedUserIds = selectedChatUsers.map(user => user._id)
-        const participants = [...selectedChatUsers, authUser].map(user => ({
-          participant: user,
-        }))
-        newRoom = await createGroupChatRoom(selectedUserIds)
-        dispatch(
-          setCurrentChat({
-            chatId: newRoom.id,
-            chatType: 'group',
-            participants: participants,
-          })
-        )
+        newRoom =
+          chatScreen === ChatScreen.ComposeNewChat
+            ? await createGroupChatRoom(selectedUserIds)
+            : await updateGroupChatParticipants(
+                currentConversation._id,
+                selectedUserIds
+              )
       } else {
-        // const participants = selectedMembers.map(member => member._id)
-        // // Selected member to add to PRIVATE conversation
-        // const recipientEmail = selectedMembers[0].email
-        // // POST request to create new private chat with selected participant
-        // newRoom = await createPrivateChatRoom(authUser._id, recipientEmail)
-        // // Updating Redux chat state
-        // dispatch(
-        //   setCurrentConversation({
-        //     _id: newRoom.chatRoom._id,
-        //     isGroup: false,
-        //     participants,
-        //     displayName: `${selectedMembers[0].firstName} ${selectedMembers[0].lastName}`,
-        //   })
-        // )
-        // dispatch(
-        //   setSelectedMember({
-        //     _id: selectedMembers[0]._id,
-        //     firstName: selectedMembers[0].firstName,
-        //     lastName: selectedMembers[0].lastName,
-        //     profilePicture: selectedMembers[0].profilePicture,
-        //   })
-        // )
+        const recepientId = selectedUserIds[0]
+        newRoom = await createOrGetPrivateChatRoom(recepientId)
       }
+      dispatch(setCurrentChat(newRoom))
       dispatch(
         createSnackBar({
           isOpen: true,
@@ -145,6 +122,7 @@ export const NewChatRoom = ({ chatScreen }) => {
           severity: 'success',
         })
       )
+      setSelectedChatUsers([])
       dispatch(onScreenUpdate(ChatScreen.ChatRoom))
     } catch (error) {
       console.error(error)
