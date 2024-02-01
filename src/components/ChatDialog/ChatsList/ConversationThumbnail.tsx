@@ -31,10 +31,11 @@ export const ConversationThumbnail = ({
   const ppAuth = participants.find(pp => pp.participant._id === authUser._id)
 
   const description = `${senderInfo} ${lastMessageText}`
+
   const groupTitle = groupName
     ? groupName
-    : getParticipantsNames(participants, 'group', groupName, authUser)
-  const unreadMessageClass = ppAuth.hasUnreadMessage ? 'unread-message' : ''
+    : getParticipantsNames(participants, chatType, groupName, authUser)
+  const unreadMessageClass = ppAuth.hasUnreadMessage ? 'notification' : ''
 
   return (
     <>
@@ -44,6 +45,7 @@ export const ConversationThumbnail = ({
         profilePicture={pictures}
         avatarType={chatType === 'group' ? 'grid' : 'single'}
         avatarSize='medium'
+        className={unreadMessageClass}
       />
       <p className='last-message-time'>
         {formatLastMessageTimestamp(lastMessage.timestamp)}
