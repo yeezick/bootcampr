@@ -10,31 +10,26 @@ import Avatar from 'components/Avatar/Avatar'
 import {
   selectChat,
   selectChatUI,
-  selectIsChatRoomActive,
-  selectThreads,
   selectUnreadMessages,
   setChatRoomActive,
   setUnreadChatsCount,
   toggleChat,
   toggleChatClose,
 } from 'utils/redux/slices/chatSlice'
-import { ChatIconBadge } from 'components/ChatDialog/ChatIconBadge/ChatIconBadge'
 import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
 import './Nav.scss'
 import { DomainLink } from 'layout/DomainLink'
 import { getUnreadChatMessageCount } from 'utils/api/chat'
 import { CustomBadge } from 'components/Badge/Badge'
-import { useSocket, useSocketEvents } from 'components/Notifications/Socket'
+import { useSocketEvents } from 'components/Notifications/Socket'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
-  const [isChatBadgeUpdated, setIsChatBadgeUpdated] = useState(false)
   const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId, project: projectId } = authUser
   const dispatch = useAppDispatch()
   const location = useLocation()
-  const socket = useSocket(authUser._id)
   const closeDropdown = () => setAnchorEl(null)
   const currentConversation = useAppSelector(selectChat)
   console.log(currentConversation)
@@ -86,8 +81,6 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   const { visibleChat } = useAppSelector(selectChatUI)
   const chatRef = useRef(null)
   useSocketEvents(false)
-  const isChatRoomActive = useAppSelector(selectIsChatRoomActive)
-  console.log(isChatRoomActive)
   useEffect(() => {
     const fetchUnreadCount = async () => {
       const unreadMessages = await getUnreadChatMessageCount()
