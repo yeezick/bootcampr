@@ -1,14 +1,16 @@
 import {
   PayloadAction,
   createAsyncThunk,
+  createSelector,
   createSlice,
   current,
 } from '@reduxjs/toolkit'
+import dayjs from 'dayjs'
 import {
-  ChatMessage,
+  ChatMessageInterface,
   ChatSliceInterface,
   ChatInterface,
-  Participant,
+  FetchMessagesPayload,
 } from 'interfaces/ChatInterface'
 import { getChatMessagesByType, getUserChatThreads } from 'utils/api/chat'
 import { ChatScreen } from 'utils/data/chatConstants'
@@ -43,16 +45,13 @@ const initialState: ChatSliceInterface = {
     groupDescription: '',
     groupPhoto: '',
   },
-  threads: [],
+  threads: {},
   selectedChatUsers: [],
   isChatRoomActive: false,
   unreadConversationsCount: 0,
   chatText: '',
 }
-interface FetchMessagesPayload {
-  chatId: string
-  messages: ChatMessage[]
-}
+
 export const fetchMessages = createAsyncThunk<
   FetchMessagesPayload,
   { chatId: string; chatType: 'group' | 'private' }
@@ -91,10 +90,12 @@ const chatSlice = createSlice({
     },
     toggleChatClose: state => {
       state.ui.visibleChat = false
+      state.isChatRoomActive = false
       state.ui.chatScreen = ChatScreen.Main
       state.ui.chatScreenPath = [ChatScreen.Main]
     },
     onScreenUpdate: (state, action: PayloadAction<ChatScreen>) => {
+      state.isChatRoomActive = action.payload === 'chatroom' ? true : false
       state.ui.chatScreenPath = [...state.ui.chatScreenPath, action.payload]
       state.ui.chatScreen = action.payload
     },
@@ -105,61 +106,50 @@ const chatSlice = createSlice({
           state.ui.chatScreenPath[state.ui.chatScreenPath.length - 1]
       }
     },
-    setCurrentChat: (
-      state,
-      action: PayloadAction<{
-        chatId: string
-        chatType?: 'group' | 'private'
-        participants?: Participant[]
-      }>
-    ) => {
-      const { chatId, chatType, participants } = action.payload
-      const selectedThread = state.threads.find(thread => thread._id === chatId)
-      if (selectedThread) {
-        state.chat = { ...selectedThread, messages: [] }
-      } else {
-        //when a new chat room is created
-        state.chat = {
-          _id: chatId,
-          chatType: chatType,
-          participants: participants,
-          messages: [],
-        }
+    setCurrentChat: (state, action: PayloadAction<ChatInterface>) => {
+      const chatRoom = action.payload
+      state.chat = { ...chatRoom }
+      state.threads[chatRoom._id] = {
+        ...state.threads[chatRoom._id],
+        ...chatRoom,
       }
     },
+    updateCurrentChat: (state, action: PayloadAction<ChatInterface>) => {
+      const updatedChat = action.payload
+      state.chat = { ...updatedChat }
+    },
+
     updateCurrentChatMessages: (state, action) => {
       const { receivedMessage, activeUserId } = action.payload
-      const threadIndex = state.threads.findIndex(
-        thread => thread._id === receivedMessage.chatRoomId
-      )
+      const { chatRoomId, senderId } = receivedMessage
 
-      if (threadIndex !== -1) {
-        const senderParticipant = state.threads[threadIndex].participants.find(
-          pp => pp.participant._id === receivedMessage.senderId
+      const thread = state.threads[chatRoomId]
+      if (thread) {
+        const senderParticipant = state.threads[chatRoomId].participants.find(
+          pp => pp.participant._id === senderId
         )
         if (!senderParticipant) {
           return
         }
-        const newMessage: ChatMessage = {
+        const newMessage: ChatMessageInterface = {
           sender: senderParticipant.participant,
           text: receivedMessage.newMessage,
           timestamp: new Date().toISOString(),
           status: 'sent',
         }
-
-        state.threads[threadIndex].lastMessage = newMessage
-        console.log(current(state.chat))
+        state.threads[chatRoomId].lastMessage = newMessage
         if (state.chat._id === receivedMessage.chatRoomId) {
           state.chat.messages = [...state.chat.messages, newMessage]
           state.chat.lastMessage = newMessage
         }
-        state.threads[threadIndex].participants.forEach(participant => {
-          if (participant.participant._id !== newMessage.sender._id) {
-            // Mark as unread only if the active user is not currently viewing the chat
-
-            participant.hasUnreadMessage =
-              state.chat._id !== receivedMessage.chatRoomId ||
-              participant.participant._id !== activeUserId
+        state.threads[chatRoomId].participants.forEach(participant => {
+          if (
+            participant.participant._id !== newMessage.sender._id &&
+            !state.isChatRoomActive
+          ) {
+            participant.hasUnreadMessage = true
+          } else {
+            participant.hasUnreadMessage = false
           }
         })
       }
@@ -169,7 +159,6 @@ const chatSlice = createSlice({
       state.chatText = action.payload
     },
     setUnreadChatsCount: (state, action: PayloadAction<number>) => {
-      console.log(action.payload)
       state.unreadConversationsCount = action.payload
     },
     setChatRoomActive: (state, action) => {
@@ -181,10 +170,9 @@ const chatSlice = createSlice({
     builder
       .addCase(fetchMessages.fulfilled, (state, action) => {
         const { chatId, messages } = action.payload
-        const thread = state.threads.find(thread => thread._id === chatId)
 
-        if (thread) {
-          thread.messages = messages
+        if (state.threads[chatId]) {
+          state.threads[chatId].messages = messages
         }
         //To update the messages of the currently active chat
         if (state.chat && state.chat._id === chatId) {
@@ -192,19 +180,43 @@ const chatSlice = createSlice({
         }
       })
       .addCase(fetchThreads.fulfilled, (state, action) => {
-        state.threads = action.payload
+        const threadsArray = action.payload
+        state.threads = threadsArray.reduce((threadObj, thread) => {
+          threadObj[thread._id] = thread
+          return threadObj
+        }, {})
       })
   },
 })
 
 export const selectChatUI = (state: RootState) => state.chatbox.ui
-export const selectThreads = (state: RootState) => state.chatbox.threads
 export const selectChat = (state: RootState) => state.chatbox.chat
 export const selectIsChatRoomActive = (state: RootState) =>
   state.chatbox.isChatRoomActive
 export const selectUnreadMessages = (state: RootState) =>
   state.chatbox.unreadConversationsCount
 
+const threadsObjectSelector = (state: RootState) => state.chatbox.threads
+//memoized selector to transform the threads object into an array
+const selectThreads = createSelector(threadsObjectSelector, threadsObject =>
+  Object.values(threadsObject)
+)
+export const selectSortedThreads = createSelector([selectThreads], threads => {
+  return [...threads].sort((a, b) => {
+    // Default dates for threads without a lastMessage
+    const defaultDate = new Date(0)
+
+    // Get the timestamp or use the default date
+    const dateA = a.lastMessage
+      ? dayjs(a.lastMessage.timestamp)
+      : dayjs(defaultDate)
+    const dateB = b.lastMessage
+      ? dayjs(b.lastMessage.timestamp)
+      : dayjs(defaultDate)
+
+    return dateB.valueOf() - dateA.valueOf()
+  })
+})
 export const {
   toggleChat,
   toggleChatOpen,
@@ -216,5 +228,6 @@ export const {
   setChatText,
   setUnreadChatsCount,
   setChatRoomActive,
+  updateCurrentChat,
 } = chatSlice.actions
 export default chatSlice.reducer
