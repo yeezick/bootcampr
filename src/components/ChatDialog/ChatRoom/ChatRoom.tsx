@@ -1,17 +1,10 @@
 import { useEffect, useState, useRef } from 'react'
 import { AiOutlineSend } from 'react-icons/ai'
 import { createGroupChatMessage, createPrivateMessage } from 'utils/api/chat'
-import { useSocket, useSocketEvents } from 'components/Notifications/Socket'
+import { useSocketEvents } from 'components/Notifications/Socket'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import {
-  selectChat,
-  selectIsChatRoomActive,
-  selectThreads,
-  setChatText,
-  setUnreadChatsCount,
-  updateCurrentChatMessages,
-} from 'utils/redux/slices/chatSlice'
+import { selectChat, setChatText } from 'utils/redux/slices/chatSlice'
 import { Messages } from '../Messages/Messages'
 
 export const ChatRoom = () => {
@@ -23,8 +16,7 @@ export const ChatRoom = () => {
   const [selectedMessages, setSelectedMessages] = useState([])
   const containerRef = useRef(null)
   const { sendMessage } = useSocketEvents(true)
-  const isChatRoomActive = useAppSelector(selectIsChatRoomActive)
-  console.log(isChatRoomActive)
+
   // Scroll messages container to bottom for last message when component mounts and when the height change because of textarea
   useEffect(() => {
     if (containerRef.current) {

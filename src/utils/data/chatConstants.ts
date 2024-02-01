@@ -1,5 +1,3 @@
-import { ChatMessage, ChatSliceInterface } from 'interfaces/ChatInterface'
-
 export enum ChatScreen {
   Main = 'main',
   ChatRoom = 'chatroom',
