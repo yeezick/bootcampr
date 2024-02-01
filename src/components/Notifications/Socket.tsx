@@ -54,7 +54,7 @@ export const useSocketEvents = (listenForChatEvents = false) => {
   const isChatRoomActive = useAppSelector(
     state => state.chatbox.isChatRoomActive
   )
-  console.log('socketcalled')
+
   // For initial socket setup
   useEffect(() => {
     if (!socket) return
@@ -79,7 +79,6 @@ export const useSocketEvents = (listenForChatEvents = false) => {
   }
 
   useEffect(() => {
-    console.log('socketcalledineffect')
     socket.emit('setUserId', authUser._id)
     if (currentConversation._id) {
       socket.emit('join-conversation', {
@@ -88,17 +87,22 @@ export const useSocketEvents = (listenForChatEvents = false) => {
       })
     }
     socket.on('update-unread-count', unreadCount => {
-      console.log('unread', unreadCount)
       dispatch(setUnreadChatsCount(unreadCount))
     })
-    // socket.on('notificationsLength', data => {
-    //   setNotificationCount(data)
-    // })
+    if (!isChatRoomActive) {
+      socket.on('unread-message', receivedMessage => {
+        dispatch(
+          updateCurrentChatMessages({
+            receivedMessage,
+            activeUserId: authUser._id,
+          })
+        )
+      })
+    }
     //for the chat room events
     if (listenForChatEvents) {
       socket.on('message-from-server', receivedMessage => {
         if (receivedMessage.chatRoomId === currentConversation._id) {
-          console.log('new message received room', receivedMessage)
           dispatch(
             updateCurrentChatMessages({
               receivedMessage,
@@ -126,6 +130,7 @@ export const useSocketEvents = (listenForChatEvents = false) => {
         socket.off('message-from-server')
       }
       socket.off('update-unread-count')
+      socket.off('unread-message')
     }
   }, [
     currentConversation._id,

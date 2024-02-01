@@ -1,34 +1,40 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
+
 import {
   setCurrentChat,
-  updateCurrentChatMessages,
-  selectThreads,
   fetchMessages,
   fetchThreads,
+  selectSortedThreads,
 } from 'utils/redux/slices/chatSlice'
 import { ConversationThumbnail } from './ConversationThumbnail'
 import { EmptyChatPage } from '../ChatRoom/EmptyChatPage'
 import './ChatsList.scss'
 import { ChatInterface } from 'interfaces/ChatInterface'
-import { useSocket, useSocketEvents } from 'components/Notifications/Socket'
+import { useSocketEvents } from 'components/Notifications/Socket'
 
 export const ChatsList = ({ handleConversationClick }) => {
-  const dispatch = useAppDispatch()
-  const authUser = useAppSelector(selectAuthUser)
   useSocketEvents(false)
-  const threads = useAppSelector(selectThreads)
-  // useSocketEvents(true)
+  const dispatch = useAppDispatch()
+  const [selectChatId, setSelectChatId] = useState('')
+  const threads = useAppSelector(selectSortedThreads)
+
   useEffect(() => {
     dispatch(fetchThreads())
   }, [dispatch])
 
+  useEffect(() => {
+    if (selectChatId) {
+      const selectedThread = threads.find(thread => thread._id === selectChatId)
+      dispatch(setCurrentChat(selectedThread))
+      handleConversationClick()
+    }
+  }, [threads, selectChatId])
+
   const handleSelectChat = async (chatId: string, chatType) => {
     try {
-      dispatch(fetchMessages({ chatId: chatId, chatType: chatType }))
-      dispatch(setCurrentChat({ chatId: chatId }))
-      handleConversationClick()
+      await dispatch(fetchMessages({ chatId: chatId, chatType: chatType }))
+      setSelectChatId(chatId)
     } catch (error) {
       console.log(error)
     }
