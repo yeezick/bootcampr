@@ -36,29 +36,28 @@
     .page-title {
       display: flex;
       column-gap: 16px;
+      overflow: hidden;
       flex-grow: 1;
       padding: 0 8px;
       align-items: center;
+
       .group-link {
         cursor: pointer;
-
-        &:hover {
-          color: #f29e34;
-          text-decoration: underline;
-        }
-      }
-      h5 {
-        display: flex;
-        align-items: center;
-        column-gap: 8px;
+        display: inline-block;
         font-size: 16px;
         font-weight: 400;
-        margin: 11px 0;
-        max-width: 225px;
+        margin: 0;
+        max-width: 150px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        &:hover {
+          color: #212121;
+          font-weight: 600;
+          font-size: 16px;
+        }
       }
+
       &::after {
         content: '';
         position: absolute;
@@ -72,18 +71,15 @@
         pointer-events: none;
       }
     }
-
-    .main-icons {
-      align-items: center;
-      column-gap: 24px;
-      display: flex;
-    }
   }
   .chat-page {
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+
     flex: 1;
-    padding: 0 8px 16px 8px;
+    padding: 0 8px 0 8px;
+    margin-bottom: 16px;
   }
   svg {
     cursor: pointer;

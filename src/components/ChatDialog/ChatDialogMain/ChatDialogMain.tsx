@@ -23,7 +23,6 @@ export const ChatDialogMain = () => {
     dispatch(onScreenUpdate(screen))
   }
   const handleConversationClick = () => {
-    dispatch(setChatRoomActive(true))
     changeScreen(ChatScreen.ChatRoom)
   }
 
