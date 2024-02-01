@@ -64,9 +64,7 @@ const InvitedMember = ({ member }) => {
         <p onClick={() => navigate(`/users/${member.userId}`)}>{memberName}</p>
         <p className='role'>{member.role}</p>
       </div>
-      {member.organizer === true ? (
-        <p className='organizer'>Organizer</p>
-      ) : null}
+      {member.organizer && <p className='organizer'>Organizer</p>}
     </div>
   )
 }

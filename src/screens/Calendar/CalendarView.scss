@@ -1,30 +1,30 @@
 .css-19kzrtu {
-  padding: 0px;
-  box-shadow: 0.5px 2px 5px -2px #1a237e;
   border-radius: 4px;
+  box-shadow: 0.5px 2px 5px -2px #1a237e;
+  margin-top: 20px;
+  padding: 0px;
   padding: 20px;
   width: 100%;
-  margin-top: 20px;
 }
 
 .calendar-container{
 
   //calendar buttons
   .fc .fc-today-button,  .fc  .fc-today-button:active  {
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
-    text-transform: capitalize;
     background-color: white;
     border-color: #1A237E;
-    padding: 7px 18px;
     color: #1a237e;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
     font-size: 14px;
     font-weight: 500;
+    padding: 7px 18px;
+    text-transform: capitalize;
   }
 
   .fc .fc-prev-button{
+    background-color: transparent;
     border: none;
     color: #212121;
-    background-color: transparent;
   }
 
   .fc .fc-prev-button:active:focus, .fc .fc-prev-button:focus{
@@ -32,15 +32,15 @@
   }
 
   .fc .fc-prev-button:active{
-    box-shadow: none;
     background-color: transparent;
     border: none;
+    box-shadow: none;
   }
 
   .fc .fc-next-button{
-    border: none;
-    color: #212121; 
     background-color: transparent;
+    border: none;
+    color: #212121;
   }
 
   .fc .fc-next-button:active:focus,  .fc .fc-next-button:focus{
@@ -48,11 +48,10 @@
   }
 
   .fc .fc-next-button:active{
-    box-shadow: none;
     background-color: transparent;
     border: none;
+    box-shadow: none;
   }
-  
   .fc .fc-button-primary:disabled {
     background-color: transparent;
   }
@@ -78,8 +77,8 @@
     border: none;
     color: #1A237E;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
-    font-weight: 500;
     font-size: 14px;
+    font-weight: 500;
     padding: 9px 21px;
   }
 
@@ -89,9 +88,9 @@
 
   //calendar date/day labels
   .fc .fc-col-header-cell-cushion {
-    text-transform: uppercase;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
     padding: 20px 0px;
+    text-transform: uppercase;
   }
 
   //calendar timeslots
@@ -101,25 +100,25 @@
 
   //calendar timeslot time labels
   .fc .fc-timegrid-slot-label-cushion{
-    text-transform: uppercase;
+    color: #616161;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
     font-size: 12px;
-    color: #616161;
+    text-transform: uppercase;
   }
 
   //calendar events
   .fc .fc-v-event{
+    background-color: #FFF3E0;
     border: none;
     border-left: 3px solid #FFA726;
-    background-color: #FFF3E0;
 
     .fc-event-frame{
       font-size: 12px;
     }
 
     .fc-event-title-container{
-      margin-top: 2px;
       font-weight: 600;
+      margin-top: 2px;
       text-transform: capitalize;
     }
 
@@ -137,17 +136,15 @@
     background: #FAFAFA;
   }
 
-  .fc .fc-timegrid-now-indicator-line { 
-    border-color: #FFA726;
-    border-width: 2px 0px 0px;
-  }
+  .fc .fc-timegrid-now-indicator-line {
+      border-color: #FFA726;
+      border-width: 2px 0px 0px;
+    }
 
   .fc .fc-timegrid-now-indicator-arrow {
     --fc-now-indicator-color: orange;
   }
-
 }
-
 
 
 
