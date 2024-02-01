@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { FiArrowLeft } from 'react-icons/fi'
 import { HiOutlinePencilAlt } from 'react-icons/hi'
 import { BiPencil } from 'react-icons/bi'
-import { IoMdClose } from 'react-icons/io'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
@@ -11,6 +10,7 @@ import {
   selectChat,
   selectChatUI,
   setChatRoomActive,
+  updateCurrentChat,
 } from 'utils/redux/slices/chatSlice'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 import { CommonModal } from 'components/CommonModal/CommonModal'
@@ -20,6 +20,8 @@ import {
 } from 'utils/functions/chatLogic'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import './ChatDialogMain.scss'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import { updateGroupChat } from 'utils/api/chat'
 
 const getTitleText = (chatScreen, currentConversation, authUser) => {
   const title = getParticipantsNames(
@@ -50,15 +52,56 @@ export const ChatMainPageHeader = () => {
   )
 }
 export const ChatPageHeader = () => {
+  const [displayName, setDisplayName] = useState('')
   const currentConversation = useAppSelector(selectChat)
   const [openEditNameModal, setOpenEditNameModal] = useState(false)
   const { chatScreen } = useAppSelector(selectChatUI)
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
-
   const handleBackArrowClick = () => {
     dispatch(setChatRoomActive(false))
     dispatch(onBackArrowClick())
+  }
+  const handleChangeChatName = async () => {
+    try {
+      setDisplayName(displayName)
+      await updateGroupChat(currentConversation._id, {
+        groupName: displayName,
+      })
+      const updatedTask = { ...currentConversation, groupName: displayName }
+      dispatch(updateCurrentChat(updatedTask))
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          horizontal: 'right',
+          message: 'Successfully updated the chat name.',
+          duration: 5000,
+          severity: 'success',
+        })
+      )
+      setOpenEditNameModal(false)
+    } catch (error) {
+      console.error(error)
+      setOpenEditNameModal(false)
+      setDisplayName('')
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          horizontal: 'right',
+          message: "Couldn't update the chat name. Please try again later.",
+          duration: 5000,
+          severity: 'error',
+        })
+      )
+    }
+  }
+  const handleChange = e => {
+    const { value } = e.target
+    setDisplayName(value)
+  }
+  const handleCancel = () => {
+    setOpenEditNameModal(false)
+    setDisplayName('')
   }
   const profilePictures = extractConversationAvatars(
     currentConversation.participants,
@@ -77,20 +120,20 @@ export const ChatPageHeader = () => {
           }
         />
       )}
-
-      <h5
-        onClick={() => dispatch(onScreenUpdate(ChatScreen.EditChatRoom))}
-        className='group-link'
-      >
-        {getTitleText(chatScreen, currentConversation, authUser)}
-      </h5>
-
+      <div className='title-with-icon'>
+        <h5
+          onClick={() => dispatch(onScreenUpdate(ChatScreen.EditChatRoom))}
+          className='group-link'
+        >
+          {getTitleText(chatScreen, currentConversation, authUser)}
+        </h5>
+      </div>
       {currentConversation.chatType === 'group' &&
         chatScreen === 'editChatRoom' && (
           <BiPencil onClick={() => setOpenEditNameModal(true)} />
         )}
 
-      {/* <CommonModal
+      <CommonModal
         isOpen={openEditNameModal}
         heading='Edit Chat Name'
         body='Changing the name of the group changes it for everyone.'
@@ -102,7 +145,7 @@ export const ChatPageHeader = () => {
         handleConfirm={handleChangeChatName}
         cancelButtonLabel='Cancel'
         handleCancel={handleCancel}
-      /> */}
+      />
     </div>
   )
 }
