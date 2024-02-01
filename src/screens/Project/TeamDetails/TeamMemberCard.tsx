@@ -2,8 +2,14 @@ import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
-import { handleMemberMessageClick } from 'utils/helpers/messagingHelpers'
 import './TeamMemberCard.scss'
+import { createOrGetPrivateChatRoom } from 'utils/api/chat'
+import {
+  onScreenUpdate,
+  setCurrentChat,
+  toggleChatOpen,
+} from 'utils/redux/slices/chatSlice'
+import { ChatScreen } from 'utils/data/chatConstants'
 
 export const TeamMemberCard = ({ member, loggedInUserId }) => {
   const {
@@ -18,16 +24,15 @@ export const TeamMemberCard = ({ member, loggedInUserId }) => {
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
 
-  const handleChatMemberClick = () => {
-    handleMemberMessageClick({
-      firstName,
-      lastName,
-      memberId,
-      email,
-      profilePicture,
-      authUser,
-      dispatch,
-    })
+  const handleChatMemberClick = async () => {
+    try {
+      const chatRoom = await createOrGetPrivateChatRoom(memberId)
+      dispatch(setCurrentChat(chatRoom))
+      dispatch(toggleChatOpen())
+      dispatch(onScreenUpdate(ChatScreen.ChatRoom))
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (

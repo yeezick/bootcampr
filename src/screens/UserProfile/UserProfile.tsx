@@ -5,12 +5,18 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 import { UserInterface } from 'interfaces'
 import { emptyUser } from 'utils/data/userConstants'
-import { handleMemberMessageClick } from 'utils/helpers/messagingHelpers'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 import { RiGithubLine } from 'react-icons/ri'
 import { FiLinkedin } from 'react-icons/fi'
 import { TbBriefcase } from 'react-icons/tb'
 import './UserProfile.scss'
+import { createOrGetPrivateChatRoom } from 'utils/api/chat'
+import {
+  onScreenUpdate,
+  setCurrentChat,
+  toggleChatOpen,
+} from 'utils/redux/slices/chatSlice'
+import { ChatScreen } from 'utils/data/chatConstants'
 
 export const UserProfile: React.FC = () => {
   const authUser = useAppSelector(selectAuthUser)
@@ -38,25 +44,17 @@ export const UserProfile: React.FC = () => {
     return <div>Loading user... or there isn't one.</div>
   }
 
-  const handleProfileMessageClick = () => {
-    if (userProfileInfo) {
-      const {
-        firstName,
-        lastName,
-        _id: memberId,
-        email,
-        profilePicture,
-      } = userProfileInfo
-
-      handleMemberMessageClick({
-        firstName: firstName,
-        lastName: lastName,
-        memberId: memberId,
-        email: email,
-        profilePicture: profilePicture,
-        authUser,
-        dispatch,
-      })
+  const handleProfileMessageClick = async () => {
+    const { _id: memberId } = userProfileInfo
+    try {
+      if (userProfileInfo) {
+        const chatRoom = await createOrGetPrivateChatRoom(memberId)
+        dispatch(setCurrentChat(chatRoom))
+        dispatch(toggleChatOpen())
+        dispatch(onScreenUpdate(ChatScreen.ChatRoom))
+      }
+    } catch (error) {
+      console.error('Error in chat open: ', error)
     }
   }
 
