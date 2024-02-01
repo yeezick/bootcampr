@@ -61,7 +61,7 @@ const GroupAvatar = ({
     <div className={avatarClassName}>
       <div className='photo-grid'>
         {profilePictures.map((picture, index) => (
-          <div key={picture} className={gridClassName()[index]}>
+          <div key={index} className={gridClassName()[index]}>
             <img src={picture} alt='group' />
           </div>
         ))}
