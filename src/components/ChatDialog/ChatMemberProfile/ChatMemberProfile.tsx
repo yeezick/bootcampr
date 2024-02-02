@@ -2,29 +2,29 @@ import './ChatMemberProfile.scss'
 import { useEffect, useState } from 'react'
 import { getOneUser } from 'utils/api'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectSelectedMember } from 'utils/redux/slices/chatSlice'
+// import { setChatUser } from 'utils/redux/slices/chatSlice'
 import { HiLink } from 'react-icons/hi'
 import { FiGithub, FiLinkedin } from 'react-icons/fi'
-import { MemberThumbnail } from 'components/ChatDialog/MemberThumbnail/MemberThumbnail'
-
+// import { UserThumbnail } from 'components/ChatDialog/UserThumbnail/UserThumbnail'
+//this page hasn't been done yet
 export const ChatMemberProfile = () => {
   const [memberInfo, setMemberInfo] = useState(null)
-  const selectedMember = useAppSelector(selectSelectedMember)
-  const { _id: memberId } = selectedMember
+  // const selectedUser = useAppSelector(setChatUser)
+  // const { _id: memberId } = selectedUser
 
-  useEffect(() => {
-    const getMemberInfo = async () => {
-      try {
-        const res = await getOneUser(memberId)
-        if (res) {
-          setMemberInfo(res)
-        }
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    getMemberInfo()
-  }, [memberId])
+  // useEffect(() => {
+  //   const getMemberInfo = async () => {
+  //     try {
+  //       const res = await getOneUser(memberId)
+  //       if (res) {
+  //         setMemberInfo(res)
+  //       }
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   }
+  //   getMemberInfo()
+  // }, [memberId])
 
   return (
     memberInfo && (
@@ -40,7 +40,7 @@ export const ChatMemberProfile = () => {
 const MemberHeaderInfo = ({ memberInfo }) => {
   return (
     <div className='member-grid'>
-      <MemberThumbnail user={memberInfo} />
+      {/* <MemberThumbnail user={memberInfo} /> */}
     </div>
   )
 }

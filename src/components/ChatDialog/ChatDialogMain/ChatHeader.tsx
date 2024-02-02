@@ -1,0 +1,151 @@
+import { useState } from 'react'
+import { FiArrowLeft } from 'react-icons/fi'
+import { HiOutlinePencilAlt } from 'react-icons/hi'
+import { BiPencil } from 'react-icons/bi'
+import { ChatScreen } from 'utils/data/chatConstants'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import {
+  onBackArrowClick,
+  onScreenUpdate,
+  selectChat,
+  selectChatUI,
+  setChatRoomActive,
+  updateCurrentChat,
+} from 'utils/redux/slices/chatSlice'
+import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
+import { CommonModal } from 'components/CommonModal/CommonModal'
+import {
+  extractConversationAvatars,
+  getParticipantsNames,
+} from 'utils/functions/chatLogic'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import './ChatDialogMain.scss'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import { updateGroupChat } from 'utils/api/chat'
+
+const getTitleText = (chatScreen, currentConversation, authUser) => {
+  const title = getParticipantsNames(
+    currentConversation.participants,
+    currentConversation.chatType,
+    currentConversation.groupName,
+    authUser
+  )
+  const titleTextLookup = {
+    [ChatScreen.ChatRoom]: `${title}`,
+    [ChatScreen.ComposeNewChat]: 'New Chat Room',
+    [ChatScreen.EditChatRoom]: `${title}`,
+    [ChatScreen.InviteNewMembers]: 'Invite Members',
+    // [ChatScreen.MemberProfile]: `${selectedMember.firstName}'s Profile`,
+  }
+  return titleTextLookup[chatScreen] || ''
+}
+export const ChatMainPageHeader = () => {
+  const dispatch = useAppDispatch()
+  const handleCreateChatRoom = () => {
+    dispatch(onScreenUpdate(ChatScreen.ComposeNewChat))
+  }
+  return (
+    <div className='main-page-title'>
+      <h1>Chats</h1>
+      <HiOutlinePencilAlt size={22} onClick={handleCreateChatRoom} />
+    </div>
+  )
+}
+export const ChatPageHeader = () => {
+  const [displayName, setDisplayName] = useState('')
+  const currentConversation = useAppSelector(selectChat)
+  const [openEditNameModal, setOpenEditNameModal] = useState(false)
+  const { chatScreen } = useAppSelector(selectChatUI)
+  const authUser = useAppSelector(selectAuthUser)
+  const dispatch = useAppDispatch()
+  const handleBackArrowClick = () => {
+    dispatch(setChatRoomActive(false))
+    dispatch(onBackArrowClick())
+  }
+  const handleChangeChatName = async () => {
+    try {
+      setDisplayName(displayName)
+      await updateGroupChat(currentConversation._id, {
+        groupName: displayName,
+      })
+      const updatedTask = { ...currentConversation, groupName: displayName }
+      dispatch(updateCurrentChat(updatedTask))
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          horizontal: 'right',
+          message: 'Successfully updated the chat name.',
+          duration: 5000,
+          severity: 'success',
+        })
+      )
+      setOpenEditNameModal(false)
+    } catch (error) {
+      console.error(error)
+      setOpenEditNameModal(false)
+      setDisplayName('')
+      dispatch(
+        createSnackBar({
+          isOpen: true,
+          horizontal: 'right',
+          message: "Couldn't update the chat name. Please try again later.",
+          duration: 5000,
+          severity: 'error',
+        })
+      )
+    }
+  }
+  const handleChange = e => {
+    const { value } = e.target
+    setDisplayName(value)
+  }
+  const handleCancel = () => {
+    setOpenEditNameModal(false)
+    setDisplayName('')
+  }
+  const profilePictures = extractConversationAvatars(
+    currentConversation.participants,
+    authUser._id
+  )
+  return (
+    <div className='page-title'>
+      <FiArrowLeft size={24} onClick={handleBackArrowClick} />
+
+      {profilePictures.length > 0 && (
+        <AvatarGrid
+          pictures={profilePictures}
+          avatarSize={'small'}
+          avatarType={
+            currentConversation.chatType === 'group' ? 'grid' : 'single'
+          }
+        />
+      )}
+      <div className='title-with-icon'>
+        <h5
+          onClick={() => dispatch(onScreenUpdate(ChatScreen.EditChatRoom))}
+          className='group-link'
+        >
+          {getTitleText(chatScreen, currentConversation, authUser)}
+        </h5>
+      </div>
+      {currentConversation.chatType === 'group' &&
+        chatScreen === 'editChatRoom' && (
+          <BiPencil onClick={() => setOpenEditNameModal(true)} />
+        )}
+
+      <CommonModal
+        isOpen={openEditNameModal}
+        heading='Edit Chat Name'
+        body='Changing the name of the group changes it for everyone.'
+        inputType='string'
+        inputValue={displayName}
+        inputOnChange={handleChange}
+        confirmButtonLabel='Save Name'
+        confirmButtonDisabled={!displayName}
+        handleConfirm={handleChangeChatName}
+        cancelButtonLabel='Cancel'
+        handleCancel={handleCancel}
+      />
+    </div>
+  )
+}
