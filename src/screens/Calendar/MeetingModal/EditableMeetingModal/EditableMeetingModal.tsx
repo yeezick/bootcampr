@@ -145,8 +145,8 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
     const { description, summary } = meetingText
     const attendeeList = []
 
-    const formatedST = dayjs(start).format()
-    const formatedET = dayjs(end).format()
+    const formatedST = dayjs(start).format('YYYY-MM-DDTHH:mm')
+    const formatedET = dayjs(end).format('YYYY-MM-DDTHH:mm')
     const updatedStartTime = dayjs.tz(formatedST, eventTimezone).format()
     const updatedEndTime = dayjs.tz(formatedET, eventTimezone).format()
 
