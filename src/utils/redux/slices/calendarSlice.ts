@@ -4,6 +4,7 @@ import {
   ConvertedEvent,
   MeetingModalInfo,
   ModalDisplayStatus,
+  DeleteEvent,
 } from 'interfaces'
 import { RootState } from 'utils/redux/store'
 
@@ -49,6 +50,13 @@ const calendarSlice = createSlice({
       state.displayedEvent = action.payload
       state.modalDisplayStatus = 'display'
     },
+    deleteExistingEvent: (state, action: PayloadAction<DeleteEvent>) => {
+      const { eventId } = action.payload
+      state.convertedEvents = state.convertedEvents.filter(
+        event => event.eventId !== eventId
+      )
+      delete state.eventMap[eventId]
+    },
   },
 })
 
@@ -73,6 +81,7 @@ export const {
   setDisplayedEvent,
   storeConvertedEvents,
   setModalDisplayStatus,
+  deleteExistingEvent,
 } = calendarSlice.actions
 
 export default calendarSlice.reducer

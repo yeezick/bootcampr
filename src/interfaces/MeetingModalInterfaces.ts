@@ -4,12 +4,13 @@ export interface DateFieldsInterface {
   date: string
   end: string
   start: string
-  timeZone: string
+  eventTimezone: string
 }
 
 interface GoogleAttendees {
   email: string
   responseStatus: string
+  comment: string
 }
 
 export interface EventInfo {
@@ -21,9 +22,11 @@ export interface EventInfo {
   }
   end: {
     dateTime: string
+    timeZone: string
   }
   start: {
     dateTime: string
+    timeZone: string
   }
   summary: string
   projectId: string
@@ -56,6 +59,10 @@ export interface MeetingText {
   description: string
   meetingLink?: string
   summary: string
+}
+
+export interface DeleteEvent {
+  eventId: string
 }
 
 export type ModalDisplayStatus = 'display' | 'edit' | 'create' | false

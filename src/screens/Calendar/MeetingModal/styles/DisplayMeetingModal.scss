@@ -1,6 +1,7 @@
 .display-modal-wrapper {
   display: grid;
   gap: 16px;
+
   grid-template-areas: 
   "headerSpace headerContent"
   "attendeeIcon attendees"
@@ -8,11 +9,11 @@
   "descriptionIcon description"
   "createdBySpace createdBy";
 
-  p { 
-    margin: 0px;
-    padding: 0px;
-    cursor: pointer;
-  }
+  p {
+      cursor: pointer;
+      margin: 0px;
+      padding: 0px;
+    }
 
   .description {
     grid-area: description
@@ -27,14 +28,15 @@
 
     h3 {
       font-size: 16px;
-      text-align: left;
-      margin-top: 0px;
       margin-bottom: 5px;
+      margin-top: 0px;
+      text-align: left;
+      text-transform: capitalize;
     }
 
     p {
-      font-size: 14px;
       color: #616161;
+      font-size: 14px;
     }
   }
 
@@ -64,7 +66,6 @@
   .created-by {
     grid-area: createdBy;
   }
-
 }
 
 .invited-members {
@@ -72,7 +73,7 @@
 
   .invited-member {
     align-items: center;
-    display: flex; 
+    display: flex;
     margin-bottom: 10px;
 
     .member-photo {
@@ -87,9 +88,16 @@
   }
 
   .role {
-    margin-top: 3px;
-    font-size: 14px;
     color: #616161;
+    font-size: 14px;
+    margin-top: 3px;
+  }
+
+  .organizer {
+    color: #616161;
+    font-size: 14px;
+    font-style: italic;
+    margin: 0px 60px;
   }
 }
 

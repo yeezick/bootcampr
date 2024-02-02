@@ -37,6 +37,10 @@ import {
 import '../styles/EditableMeetingModal.scss'
 import { MeetingModalHeaderIcons } from './MeetingModalHeaderIcons'
 import { GoogleMeetsToggler } from './GoogleMeetsToggler'
+import { selectUserEmail } from 'utils/redux/slices/userSlice'
+import { isBoolean } from 'util'
+import { createReadStream } from 'fs'
+import moment from 'moment-timezone'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -57,6 +61,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const projectId = useAppSelector(selectProjectId)
   const projectMembers = useAppSelector(selectMembersAsTeam)
   const calendarId = useAppSelector(selectCalendarId)
+  const userEmail = useAppSelector(selectUserEmail)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -88,7 +93,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
         date: googleDateFields.startTime,
         end: googleDateFields.endTime,
         start: googleDateFields.startTime,
-        timeZone: dateFields.timeZone,
+        eventTimezone: dateFields.eventTimezone,
       }
 
       if (displayedEvent.hangoutLink) {
@@ -139,7 +144,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    const { end, start } = dateFields
+    const { end, start, eventTimezone } = dateFields
     const { description, summary } = meetingText
     const attendeeList = []
 
@@ -148,6 +153,12 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
         attendeeList.push({ email })
       }
     }
+
+    attendeeList.forEach(attendee => {
+      attendee.email === userEmail
+        ? (attendee.comment = 'organizer')
+        : (attendee.comment = 'not organizer')
+    })
 
     const eventInfo: EventInfo = {
       attendees: attendeeList,
@@ -159,9 +170,11 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
       },
       end: {
         dateTime: end,
+        timeZone: eventTimezone,
       },
       start: {
         dateTime: start,
+        timeZone: eventTimezone,
       },
       summary,
       projectId,
@@ -261,7 +274,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
 }
 
 const submitButtonStyles = {
-  backgroundColor: '#fa9413',
+  backgroundColor: '#ffa726',
   borderRadius: '4px',
   border: 'none',
   color: '#1A237E',

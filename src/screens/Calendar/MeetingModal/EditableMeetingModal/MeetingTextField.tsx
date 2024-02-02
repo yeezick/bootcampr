@@ -20,11 +20,6 @@ export const DescriptionField = ({ label, name, setMeetingText, value }) => {
             '& .MuiInputLabel-asterisk': {
               color: 'orange',
             },
-            '& .MuiInputBase-root': {
-              '&:after': {
-                borderBottom: 'none',
-              },
-            },
           }}
           value={value}
           variant='standard'
