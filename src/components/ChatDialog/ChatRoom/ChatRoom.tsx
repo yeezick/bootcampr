@@ -11,7 +11,6 @@ export const ChatRoom = () => {
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const currentConversation = useAppSelector(selectChat)
-
   const textForm = useAppSelector(state => state.chatbox.chatText)
   const [selectedMessages, setSelectedMessages] = useState([])
   const containerRef = useRef(null)
@@ -24,21 +23,18 @@ export const ChatRoom = () => {
     }
   }, [containerRef.current?.style.height, currentConversation.messages])
 
+  // Logic to display/hide timestamp on message click:
   const handleTimestampClick = (message: any) => {
-    // Logic to display/hide timestamp on message click:
-    // Check if selected message is already present in selectedMessages array
     if (selectedMessages.some(msg => msg === message)) {
-      // If it exists, remove it from the array
       setSelectedMessages(selectedMessages.filter(msg => msg !== message))
     } else {
-      // If it doesn't exist, add it to the array
       setSelectedMessages([...selectedMessages, message])
     }
   }
 
+  //To keep the text draft when close or change the page
   const handleChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target
-    //To keep the text draft when close or change the page
     dispatch(setChatText(value))
   }
 
@@ -60,15 +56,14 @@ export const ChatRoom = () => {
         chatType: currentConversation.chatType,
       }
       sendMessage(newMessage)
-
       dispatch(setChatText(''))
     } catch (error) {
       console.error('Error sending message:', error)
     }
   }
 
+  // Send message with 'Enter' key, Does not send with 'Enter' + 'Shift'
   const handleKeyDown = e => {
-    // Send message with 'Enter' key, Does not send with 'Enter' + 'Shift'
     if (e.key === 'Enter' && !e.shiftKey) {
       handleSubmitText(e)
     }
@@ -78,11 +73,12 @@ export const ChatRoom = () => {
     heightDifference: Number,
     INITIAL_HEIGHT: Number
   ) => {
+    //Height should be the initial height(440) to calculate changes dynamically
     if (containerRef.current) {
-      //Height should be the initial height(440) to calculate changes dynamically
       containerRef.current.style.height = `calc(${INITIAL_HEIGHT}px - ${heightDifference}px)`
     }
   }
+
   return (
     <div className='messages-container'>
       <section className='messages-grid' ref={containerRef}>

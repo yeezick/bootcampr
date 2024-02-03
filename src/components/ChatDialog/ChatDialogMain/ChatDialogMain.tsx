@@ -11,7 +11,6 @@ import { ChatPageHeader, ChatMainPageHeader } from './ChatHeader'
 import { ChatsList } from '../ChatsList/ChatsList'
 import { ChatRoom } from '../ChatRoom/ChatRoom'
 import { NewChatRoom } from '../NewChatRoom/NewChatRoom'
-import { ChatMemberProfile } from '../ChatMemberProfile/ChatMemberProfile'
 import { EditChatRoom } from '../EditChatRoom/EditChatRoom'
 import './ChatDialogMain.scss'
 
@@ -30,6 +29,7 @@ export const ChatDialogMain = () => {
     dispatch(setChatRoomActive(false))
     dispatch(toggleChatClose())
   }
+
   const chatComponentLookup = {
     [ChatScreen.Main]: (
       <ChatsList handleConversationClick={handleConversationClick} />
@@ -38,8 +38,8 @@ export const ChatDialogMain = () => {
     [ChatScreen.ComposeNewChat]: <NewChatRoom chatScreen={chatScreen} />,
     [ChatScreen.InviteNewMembers]: <NewChatRoom chatScreen={chatScreen} />,
     [ChatScreen.EditChatRoom]: <EditChatRoom />,
-    [ChatScreen.MemberProfile]: <ChatMemberProfile />,
   }
+
   return (
     <div className='chat-dialog-container'>
       <header className='chat-header'>

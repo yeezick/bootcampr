@@ -50,10 +50,12 @@ export const NewChatRoom = ({ chatScreen }) => {
       //all the users except auth user
       usersToInvite = membersWithoutAuth
     }
+
     const memberState = {}
     usersToInvite.forEach(member => {
       memberState[member._id] = false
     })
+
     setMemberChecked(memberState)
     setInviteList(usersToInvite)
     setSelectedChatUsers([])
@@ -96,6 +98,7 @@ export const NewChatRoom = ({ chatScreen }) => {
       )
     }
   }
+
   const handleCreateChatRoom = async () => {
     try {
       let newRoom
@@ -141,6 +144,7 @@ export const NewChatRoom = ({ chatScreen }) => {
   const notSelectedMembers = inviteList.filter(
     member => !memberChecked[member._id]
   )
+
   const someSelectedMembers =
     inviteList.length > notSelectedMembers.length &&
     notSelectedMembers.length !== 0

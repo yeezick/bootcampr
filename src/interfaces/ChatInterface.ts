@@ -14,6 +14,7 @@ export interface ChatSliceInterface {
   unreadConversationsCount: number
   isChatRoomActive: boolean
 }
+
 export interface ChatInterface {
   _id?: string
   lastMessage?: {
@@ -31,11 +32,6 @@ export interface ChatInterface {
   lastActive?: string
 }
 
-export interface ParticipantInterface {
-  participant: BasicUserInfoInterface
-  isAdmin?: boolean
-  hasUnreadMessage?: boolean
-}
 export interface ChatMessageInterface {
   _id?: string
   text: string
@@ -49,7 +45,14 @@ export interface EmptyChatPage {
   text: string
   className: string
 }
+
 export interface FetchMessagesPayload {
   chatId: string
   messages: ChatMessageInterface[]
+}
+
+export interface ParticipantInterface {
+  participant: BasicUserInfoInterface
+  isAdmin?: boolean
+  hasUnreadMessage?: boolean
 }

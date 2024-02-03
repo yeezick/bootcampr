@@ -18,6 +18,7 @@ export const UserThumbnail = ({
   className,
 }: UserThumbnailInterface) => {
   const customClassName = className || ''
+
   return (
     <div className='thumbnail-container'>
       <AvatarGrid

@@ -8,25 +8,7 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 const ENDPOINT = `${process.env.REACT_APP_LOCAL_URL}`
-const socket = io(ENDPOINT) // Replace with your server URL
-
-//Old code, keeping it for testing if we have any issues
-// export const useSocket = () => {
-//   const [socket, setSocket] = useState<SocketIOClient | null>(null)
-
-//   useEffect(() => {
-//     // Todo: this breaks jest test, is it necessary at all?
-//     // todo: may potentially be obsolete once we move away from chrome alerts
-//     // const askUserPermission = async () => {
-//     //   return await Notification.requestPermission()
-//     // }
-//     // askUserPermission()
-
-//     setSocket(io(ENDPOINT, { transports: ['websocket'] }))
-//   }, [])
-
-//   return socket
-// }
+const socket = io(ENDPOINT)
 
 export const useSocket = userId => {
   const [socket, setSocket] = useState(null)

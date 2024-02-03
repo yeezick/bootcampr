@@ -9,16 +9,18 @@ import { Button } from '@mui/material'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 import { FiPlus } from 'react-icons/fi'
 import './EditChatRoom.scss'
+
 export const EditChatRoom = () => {
   const dispatch = useAppDispatch()
   const currentConversation = useAppSelector(selectChat)
   const authUser = useAppSelector(selectAuthUser)
   const participants = currentConversation.participants
-
   const pictures = extractConversationAvatars(participants, authUser._id)
+
   const handleInviteMember = () => {
     dispatch(onScreenUpdate(ChatScreen.InviteNewMembers))
   }
+
   return (
     <div className='edit-chat-container'>
       <AvatarGrid pictures={pictures} avatarSize='large' avatarType='grid' />

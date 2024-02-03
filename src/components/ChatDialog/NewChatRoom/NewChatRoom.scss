@@ -4,6 +4,19 @@
   flex-grow: 1;
   justify-content: space-between;
 
+  .chat-button {
+    background-color: #fa9413;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 8px 8px 0 8px;
+    text-transform: none;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
   .members-invite {
     font-size: 16px;
     line-height: 24px;
@@ -12,12 +25,11 @@
     flex-direction: column;
     row-gap: 32px;
     padding: 8px 8px 8px 8px;
-    p {
-      margin: 0;
-      padding: 0;
-      text-align: left;
-    }
 
+    .members-invite-info {
+      font-size: 14px;
+      line-height: 20px;
+    }
     .members-invite-select {
       display: flex;
       flex-direction: column;
@@ -28,29 +40,35 @@
         display: flex;
         flex-direction: column;
         row-gap: 8px;
-        .MuiFormControlLabel-root {
-          > .MuiFormControlLabel-label {
-            margin-left: 8px;
-          }
-        }
+
         .member-chat-checkbox {
           color: #022888;
           padding: 8px;
+
           &.Mui-checked {
             padding: 8px;
             color: #022888;
           }
         }
+
         .member-grid {
           display: flex;
           align-items: center;
           column-gap: 16px;
         }
+
+        .MuiFormControlLabel-root {
+          > .MuiFormControlLabel-label {
+            margin-left: 8px;
+          }
+        }
       }
     }
-    .members-invite-info {
-      font-size: 14px;
-      line-height: 20px;
+
+    p {
+      margin: 0;
+      padding: 0;
+      text-align: left;
     }
   }
   .no-remaining-members {
@@ -69,18 +87,6 @@
       font-size: 15px;
       line-height: 22.4px;
       padding: 8px 0;
-    }
-  }
-
-  .chat-button {
-    background-color: #fa9413;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 8px 8px 0 8px;
-    text-transform: none;
-    &:disabled {
-      opacity: 0.5;
     }
   }
 }

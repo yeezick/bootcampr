@@ -41,7 +41,6 @@ export const Message = ({
         {isLastMessageAndSameRecipient && (
           <RecipientsAvatar message={message} />
         )}
-
         <MessageText
           isSenderAuthUser={isSenderAuthUser}
           message={message}
@@ -70,6 +69,7 @@ const RecipientsAvatar = ({ message }) => {
     </div>
   )
 }
+
 const MessageText = ({
   isSenderAuthUser,
   message,
@@ -86,6 +86,7 @@ const MessageText = ({
       isSenderAuthUser ? 'auth-text' : 'recipient-text'
     } ${isSameUser} ${isAvatarDisplayed} ${isLastMessage} ${isFirstMessage} ${isOnlyMessage} ${isMessageSelected}`
   }
+
   return (
     <div
       className={defineDynamicClassNames()}

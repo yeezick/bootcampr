@@ -11,6 +11,7 @@ export const Messages = ({
   const currentConversation = useAppSelector(selectChat)
   const messages = currentConversation.messages || []
   const listResults = messages.length ? 'messages' : 'noMessages'
+
   if (listResults === 'noMessages') {
     return (
       <EmptyChatPage
@@ -20,6 +21,7 @@ export const Messages = ({
       />
     )
   }
+
   if (listResults === 'messages') {
     return (
       <>

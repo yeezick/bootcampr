@@ -35,10 +35,10 @@ const getTitleText = (chatScreen, currentConversation, authUser) => {
     [ChatScreen.ComposeNewChat]: 'New Chat Room',
     [ChatScreen.EditChatRoom]: `${title}`,
     [ChatScreen.InviteNewMembers]: 'Invite Members',
-    // [ChatScreen.MemberProfile]: `${selectedMember.firstName}'s Profile`,
   }
   return titleTextLookup[chatScreen] || ''
 }
+
 export const ChatMainPageHeader = () => {
   const dispatch = useAppDispatch()
   const handleCreateChatRoom = () => {
@@ -51,6 +51,7 @@ export const ChatMainPageHeader = () => {
     </div>
   )
 }
+
 export const ChatPageHeader = () => {
   const [displayName, setDisplayName] = useState('')
   const currentConversation = useAppSelector(selectChat)
@@ -58,10 +59,12 @@ export const ChatPageHeader = () => {
   const { chatScreen } = useAppSelector(selectChatUI)
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
+
   const handleBackArrowClick = () => {
     dispatch(setChatRoomActive(false))
     dispatch(onBackArrowClick())
   }
+
   const handleChangeChatName = async () => {
     try {
       setDisplayName(displayName)
@@ -95,22 +98,33 @@ export const ChatPageHeader = () => {
       )
     }
   }
+
   const handleChange = e => {
     const { value } = e.target
     setDisplayName(value)
   }
+
   const handleCancel = () => {
     setOpenEditNameModal(false)
     setDisplayName('')
   }
+
+  const handleChangeScreen = () => {
+    dispatch(onScreenUpdate(ChatScreen.EditChatRoom))
+  }
+
+  const handleEditModal = () => {
+    setOpenEditNameModal(true)
+  }
+
   const profilePictures = extractConversationAvatars(
     currentConversation.participants,
     authUser._id
   )
+
   return (
     <div className='page-title'>
       <FiArrowLeft size={24} onClick={handleBackArrowClick} />
-
       {profilePictures.length > 0 && (
         <AvatarGrid
           pictures={profilePictures}
@@ -121,18 +135,12 @@ export const ChatPageHeader = () => {
         />
       )}
       <div className='title-with-icon'>
-        <h5
-          onClick={() => dispatch(onScreenUpdate(ChatScreen.EditChatRoom))}
-          className='group-link'
-        >
+        <h5 onClick={handleChangeScreen} className='group-link'>
           {getTitleText(chatScreen, currentConversation, authUser)}
         </h5>
       </div>
       {currentConversation.chatType === 'group' &&
-        chatScreen === 'editChatRoom' && (
-          <BiPencil onClick={() => setOpenEditNameModal(true)} />
-        )}
-
+        chatScreen === 'editChatRoom' && <BiPencil onClick={handleEditModal} />}
       <CommonModal
         isOpen={openEditNameModal}
         heading='Edit Chat Name'

@@ -19,20 +19,24 @@
     justify-content: space-between;
     position: relative;
     padding: 8px;
+
     .close-btn {
       padding: 8px;
     }
+
     .main-page-title {
       display: flex;
       flex-grow: 1;
       align-items: center;
       justify-content: space-between;
       padding: 8px;
+
       h1 {
         font-size: 24px;
         margin: 0;
       }
     }
+
     .page-title {
       display: flex;
       column-gap: 16px;
@@ -51,6 +55,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+
         &:hover {
           color: #212121;
           font-weight: 600;
@@ -72,20 +77,21 @@
       }
     }
   }
+
   .chat-page {
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
-
     flex: 1;
     padding: 0 8px 0 8px;
     margin-bottom: 16px;
   }
-  svg {
-    cursor: pointer;
-  }
 
   p {
     text-align: center;
+  }
+
+  svg {
+    cursor: pointer;
   }
 }

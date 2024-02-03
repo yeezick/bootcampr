@@ -4,10 +4,10 @@ import {
 } from 'utils/functions/chatLogic'
 import { extractConversationAvatars } from 'utils/functions/chatLogic'
 import { UserThumbnail } from '../UserThumbnail/UserThumbnail'
-
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { CustomBadge } from 'components/Badge/Badge'
+
 export const ConversationThumbnail = ({
   groupName,
   participants,
@@ -21,6 +21,7 @@ export const ConversationThumbnail = ({
   const lastMessageText = lastMessage.text
     ? lastMessage.text
     : 'No messages to show'
+
   const senderInfo = !lastMessage.sender
     ? ''
     : `${
@@ -28,6 +29,7 @@ export const ConversationThumbnail = ({
           ? 'You'
           : lastMessage.sender.firstName
       }:`
+
   const ppAuth = participants.find(pp => pp.participant._id === authUser._id)
 
   const description = `${senderInfo} ${lastMessageText}`
@@ -35,6 +37,7 @@ export const ConversationThumbnail = ({
   const groupTitle = groupName
     ? groupName
     : getParticipantsNames(participants, chatType, groupName, authUser)
+
   const unreadMessageClass = ppAuth.hasUnreadMessage ? 'notification' : ''
 
   return (
