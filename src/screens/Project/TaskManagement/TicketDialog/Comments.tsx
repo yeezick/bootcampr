@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { TicketTextLabel } from './Fields'
 
 export const Comments = ({ ticketId }) => {
   const user = useSelector(selectAuthUser)
@@ -27,11 +28,7 @@ export const Comments = ({ ticketId }) => {
 
   return (
     <div className='comments-container'>
-      {/* note: may want to move this label outside of Comments component for easier style management with other TicketDetail Icons */}
-      <div className='comments-section-label'>
-        <BiComment className='ticket-icon' />
-        <h4>Comments</h4>
-      </div>
+      <TicketTextLabel icon={'chatBubble'} label='Comments' />
       <CommentInputBanner
         commentType={CommentType.Parent}
         ticketId={ticketId}

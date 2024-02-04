@@ -16,7 +16,6 @@ import '../styles/TicketDialog.scss'
 
 export const TicketDialog = () => {
   const projectId = useAppSelector(selectProjectId)
-  const ticketDialogState = useAppSelector(selectTicketDialogState)
   const ticketFields = useAppSelector(selectTicketFields)
   const userId = useAppSelector(selectUserId)
   const visibleTicketDialog = useAppSelector(selectVisibleTicketDialog)
@@ -40,7 +39,6 @@ export const TicketDialog = () => {
             <TicketTextFields />
             <TicketDropdownFields />
           </div>
-          {!ticketDialogState && <Comments ticketId={ticketFields._id} />}
         </DialogContent>
       </Dialog>
       <CancelDialog />
