@@ -1,4 +1,4 @@
-import { InputAdornment, TextField } from '@mui/material'
+import { TextField } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectTicketDialogState,
@@ -6,8 +6,8 @@ import {
   setTicketFields,
 } from 'utils/redux/slices/taskBoardSlice'
 import { handleReduxInputChange } from 'utils/helpers'
-import { fetchIcon, iconMap } from 'utils/components/Icons'
-import { Comments } from '../Comments/Comments'
+import { iconMap } from 'utils/components/Icons'
+import { TaskComments } from '../Comments/TaskComments'
 
 export const TicketTextFields = () => {
   const ticketDialogState = useAppSelector(selectTicketDialogState)
@@ -23,7 +23,9 @@ export const TicketTextFields = () => {
         multiline
       />
       <TicketTextField icon='link' label='Link' field='link' />
-      {ticketDialogState === 'edit' && <Comments ticketId={ticketFields._id} />}
+      {ticketDialogState === 'edit' && (
+        <TaskComments ticketId={ticketFields._id} />
+      )}
     </div>
   )
 }
