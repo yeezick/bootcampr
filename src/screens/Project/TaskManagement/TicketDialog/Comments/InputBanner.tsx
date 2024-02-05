@@ -3,16 +3,18 @@ import { useState } from 'react'
 import { createComment } from 'utils/api/tickets'
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined'
 import { CommentType } from 'interfaces/TaskBoardInterface'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
 export const NewComment = ({
   commentType,
   parentComment = undefined,
   ticketId = undefined,
-  user,
   fetchComments,
   toggleFetchComments,
   toggleRenderReplyInput = undefined,
 }) => {
+  const user = useAppSelector(selectAuthUser)
   let placeholderText =
     commentType === CommentType.Parent
       ? 'Give your feedback here.'

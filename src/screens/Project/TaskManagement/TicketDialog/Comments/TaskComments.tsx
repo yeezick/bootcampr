@@ -8,7 +8,6 @@ import { Comment } from './Comment'
 import { CommentType } from 'interfaces/TaskBoardInterface'
 
 export const TaskComments = ({ ticketId }) => {
-  const user = useAppSelector(selectAuthUser)
   const [comments, setComments] = useState([])
   const [fetchComments, toggleFetchComments] = useState(false)
 
@@ -26,7 +25,6 @@ export const TaskComments = ({ ticketId }) => {
       <NewComment
         commentType={CommentType.Parent}
         ticketId={ticketId}
-        user={user}
         toggleFetchComments={toggleFetchComments}
         fetchComments={fetchComments}
       />
@@ -36,7 +34,6 @@ export const TaskComments = ({ ticketId }) => {
             comment={comment}
             toggleFetchComments={toggleFetchComments}
             fetchComments={fetchComments}
-            currentUser={user}
             key={comment._id}
           />
         ))}
