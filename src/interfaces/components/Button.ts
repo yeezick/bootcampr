@@ -42,6 +42,7 @@ export type MappedIcons =
   | 'person'
   | 'plus'
   | 'rightArrow'
+  | 'send'
   | 'tasks'
   | 'title'
 

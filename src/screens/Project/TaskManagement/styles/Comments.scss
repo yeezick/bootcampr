@@ -7,31 +7,50 @@
     display: flex;
 }
 
+.comments-container {
+  width: 100%;
+
 .comment-input-banner {
     display: flex;
+    align-items: center;
 
-    input {
+    .comment-input {
+        background-color: #fff;
         border-radius: 5px;
-        border-style: none;
         box-sizing: border-box;
         font-size: 14px;
-        height: 40px;
-        padding: 3px 8px;
-        margin-top: 10px;
-        width: 90%;
+        width: 100%;
+
+        .MuiInputBase-root {
+          padding: 0;
+        }
+        
+        .MuiOutlinedInput-input {
+          padding: 8px 0 8px 16px;;
+        }
+
+        .MuiOutlinedInput-notchedOutline {
+          border-radius: 4px;
+          border-color: #212121;
+        }
     }
 
     input:focus {
         outline: none;
     }
 
-    img {
-        border-radius: 50%;
-        height: 35px;
-        margin: 12px 10px 0 0;
-        width: 35px;
-    }
 }
+}
+
+.comment-input-banner, .comment-container {
+  img {
+    border-radius: 50%;
+    height: 24px;
+    margin-right: 8px;
+    width: 24px;
+  }
+}
+
 
 .comment-author {
     p {
@@ -56,12 +75,6 @@
     }
 }
 
-.comment-thumbnail {
-    border-radius: 50%;
-    margin: 8px 10px 0 0;
-    height: 35px;
-    width: 35px;
-}
 
 .comment-container {
     display: flex;
@@ -71,6 +84,7 @@
 
 .comment-card {
     background-color: white;
+    border: 1px solid #212121;
     border-radius: 5px;
     display: flex;
     flex-direction: column;

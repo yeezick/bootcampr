@@ -13,6 +13,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined'
 import TitleIcon from '@mui/icons-material/Title'
 import { IconMap, IconProps, MappedIcons } from 'interfaces/components'
 
@@ -40,6 +41,7 @@ export const iconMap: IconMap = {
   person: PersonOutlineOutlinedIcon,
   plus: AddIcon,
   rightArrow: EastIcon,
+  send: SendOutlinedIcon,
   tasks: ChecklistOutlinedIcon,
   title: TitleIcon,
 }

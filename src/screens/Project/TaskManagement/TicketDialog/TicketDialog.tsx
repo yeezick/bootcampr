@@ -2,12 +2,10 @@ import { Dialog, DialogContent } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { TicketDropdownFields, TicketTextFields } from './Fields'
 import {
-  selectTicketDialogState,
   selectTicketFields,
   selectVisibleTicketDialog,
 } from 'utils/redux/slices/taskBoardSlice'
 import { toggleCancelDialog } from 'utils/helpers/taskHelpers'
-import { Comments } from './Comments'
 import { selectProjectId } from 'utils/redux/slices/projectSlice'
 import { fetchIcon } from 'utils/components/Icons'
 import { selectUserId } from 'utils/redux/slices/userSlice'
