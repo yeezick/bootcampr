@@ -59,15 +59,37 @@ const initialState: ChatSliceInterface = {
 
 export const fetchMessages = createAsyncThunk<
   FetchMessagesPayload,
-  { chatId: string; chatType: 'group' | 'private' }
->('chatbox/fetchMessages', async ({ chatId, chatType }, thunkAPI) => {
-  try {
-    const messages = await getChatMessagesByType(chatId, chatType)
-    return { chatId, messages }
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data)
+  { chatId: string; chatType: 'group' | 'private' },
+  { state: RootState }
+>(
+  'chatbox/fetchMessages',
+  async ({ chatId, chatType }, { getState, rejectWithValue }) => {
+    try {
+      const messages = await getChatMessagesByType(chatId, chatType)
+      const members = selectMembers(getState())
+      const mappedMessages = messages.map(message => {
+        const messageSender = members.find(
+          member => member._id === message.sender
+        )
+        return messageSender
+          ? {
+              ...message,
+              sender: {
+                _id: messageSender._id,
+                firstName: messageSender.firstName,
+                lastName: messageSender.lastName,
+                email: messageSender.email,
+                profilePicture: messageSender.profilePicture,
+              },
+            }
+          : message
+      })
+      return { chatId, messages: mappedMessages }
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
   }
-})
+)
 
 export const fetchThreads = createAsyncThunk<
   ChatInterface[],
