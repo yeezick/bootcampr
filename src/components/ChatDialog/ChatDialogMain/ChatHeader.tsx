@@ -111,7 +111,9 @@ export const ChatPageHeader = () => {
   }
 
   const handleChangeScreen = () => {
-    dispatch(onScreenUpdate(ChatScreen.EditChatRoom))
+    if (currentConversation.chatType === 'group') {
+      dispatch(onScreenUpdate(ChatScreen.EditChatRoom))
+    }
   }
 
   const handleEditModal = () => {
