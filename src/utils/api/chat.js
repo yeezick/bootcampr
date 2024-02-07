@@ -9,30 +9,11 @@ export const getUserChatThreads = async () => {
     return false
   }
 }
-export const getUnreadChatMessageCount = async () => {
-  try {
-    const res = await api.get(`/chatTreads/unreadCount`)
-    return res.data
-  } catch (error) {
-    console.error(error)
-    return false
-  }
-}
-
-export const getUserPrivateConversations = async userId => {
-  try {
-    const res = await api.get(`/${userId}/privateChats`)
-    return res.data
-  } catch (error) {
-    console.error(error)
-    return false
-  }
-}
 
 export const createOrGetPrivateChatRoom = async recipientId => {
   try {
     const res = await api.post(`/privateChats`, { recipientId })
-    return res.data.chatRoom
+    return res.data
   } catch (error) {
     console.error(error)
     return false
@@ -77,6 +58,7 @@ export const createGroupChatMessage = async (groupChatId, text) => {
     return false
   }
 }
+
 export const createPrivateMessage = async (privateChatId, text) => {
   try {
     const res = await api.post(`/privateChats/${privateChatId}/messages`, {
@@ -88,6 +70,7 @@ export const createPrivateMessage = async (privateChatId, text) => {
     return false
   }
 }
+
 export const updateGroupChat = async (groupChatId, data) => {
   try {
     const res = await api.put(`/groupChats/${groupChatId}`, data)
@@ -97,6 +80,7 @@ export const updateGroupChat = async (groupChatId, data) => {
     return false
   }
 }
+
 export const updateGroupChatParticipants = async (
   groupChatId,
   participantIds

@@ -170,38 +170,6 @@ export const forgotPasswordEmailVerification = async (
   }
 }
 
-export const setUnreadMessages = async (
-  chatId: string,
-  usersArray: string[]
-) => {
-  try {
-    const res = await api.post(`/messages/setUnreadMessages`, {
-      chatId: chatId,
-      usersArray,
-    })
-    return res.data
-  } catch (error) {
-    console.error(error)
-    return false
-  }
-}
-
-export const markConversationAsRead = async (
-  authUserId: string,
-  chatId: string
-) => {
-  try {
-    const res = await api.post(
-      `/users/${authUserId}/messages/markConversationAsRead`,
-      { chatId }
-    )
-    return res.data
-  } catch (error) {
-    console.error(error)
-    return false
-  }
-}
-
 export const updateAvailability = async (
   userId: string,
   newAvailability: any,
