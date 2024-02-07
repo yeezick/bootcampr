@@ -5,6 +5,13 @@ import { BiPencil } from 'react-icons/bi'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
+  extractConversationAvatars,
+  getParticipantsNames,
+} from 'utils/functions/chatLogic'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { updateGroupChat } from 'utils/api/chat'
+import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import {
   onBackArrowClick,
   onScreenUpdate,
   selectChat,
@@ -14,14 +21,7 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 import { CommonModal } from 'components/CommonModal/CommonModal'
-import {
-  extractConversationAvatars,
-  getParticipantsNames,
-} from 'utils/functions/chatLogic'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import './ChatDialogMain.scss'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
-import { updateGroupChat } from 'utils/api/chat'
 
 const getTitleText = (chatScreen, currentConversation, authUser) => {
   const title = getParticipantsNames(
@@ -44,6 +44,7 @@ export const ChatMainPageHeader = () => {
   const handleCreateChatRoom = () => {
     dispatch(onScreenUpdate(ChatScreen.ComposeNewChat))
   }
+
   return (
     <div className='main-page-title'>
       <h1>Chats</h1>
@@ -71,8 +72,8 @@ export const ChatPageHeader = () => {
       await updateGroupChat(currentConversation._id, {
         groupName: displayName,
       })
-      const updatedTask = { ...currentConversation, groupName: displayName }
-      dispatch(updateCurrentChat(updatedTask))
+      const updatedChat = { ...currentConversation, groupName: displayName }
+      dispatch(updateCurrentChat(updatedChat))
       dispatch(
         createSnackBar({
           isOpen: true,
