@@ -1,27 +1,21 @@
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-
 import {
   setCurrentChat,
   fetchMessages,
-  fetchThreads,
   selectSortedThreads,
 } from 'utils/redux/slices/chatSlice'
 import { ConversationThumbnail } from './ConversationThumbnail'
 import { EmptyChatPage } from '../ChatRoom/EmptyChatPage'
-import './ChatsList.scss'
 import { ChatInterface } from 'interfaces/ChatInterface'
 import { useSocketEvents } from 'components/Notifications/Socket'
+import './ChatsList.scss'
 
 export const ChatsList = ({ handleConversationClick }) => {
   useSocketEvents(false)
   const dispatch = useAppDispatch()
   const [selectChatId, setSelectChatId] = useState('')
   const threads = useAppSelector(selectSortedThreads)
-
-  useEffect(() => {
-    dispatch(fetchThreads())
-  }, [dispatch])
 
   useEffect(() => {
     if (selectChatId) {

@@ -6,33 +6,33 @@ import { MdArrowDropDown } from 'react-icons/md'
 import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
-import { useSocket, useSocketEvents } from 'components/Notifications/Socket'
+import { useSocketEvents } from 'components/Notifications/Socket'
 import Avatar from 'components/Avatar/Avatar'
 import {
+  fetchThreads,
   selectChatUI,
-  selectUnreadMessages,
+  selectSortedThreads,
+  selectUnreadMessageCount,
   setChatRoomActive,
-  setUnreadChatsCount,
   toggleChat,
   toggleChatClose,
 } from 'utils/redux/slices/chatSlice'
 
 import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
-import './styles/Nav.scss'
 import { buildPortal } from 'utils/helpers'
 import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { CustomBadge } from 'components/Badge/Badge'
-import { getUnreadChatMessageCount } from 'utils/api/chat'
+import './styles/Nav.scss'
+import { selectMembers } from 'utils/redux/slices/projectSlice'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
-
   const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId, project: projectId } = authUser
   const dispatch = useAppDispatch()
-
   const location = useLocation()
+
   const closeDropdown = () => setAnchorEl(null)
 
   useEffect(() => {
@@ -93,21 +93,22 @@ export const Nav = () => {
 
 const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   const dispatch = useAppDispatch()
-  const unreadMessagesCount = useAppSelector(selectUnreadMessages)
   const { visibleChat } = useAppSelector(selectChatUI)
+  const unreadMessagesCount = useAppSelector(selectUnreadMessageCount)
+  const projectMembers = useAppSelector(selectMembers)
   const chatRef = useRef(null)
   useSocketEvents(false)
+
   useEffect(() => {
-    const fetchUnreadCount = async () => {
-      const unreadMessages = await getUnreadChatMessageCount()
-      dispatch(setUnreadChatsCount(unreadMessages.count))
-    }
-    fetchUnreadCount()
+    //Warning: needs to be checked if members are loaded
+    dispatch(fetchThreads())
     dispatch(setChatRoomActive(false))
-  }, [dispatch])
+  }, [dispatch, projectMembers.length])
+
   const toggleChatBox = () => {
     dispatch(toggleChat())
   }
+
   const handleToggleChatBox = () => {
     toggleChatBox()
   }
