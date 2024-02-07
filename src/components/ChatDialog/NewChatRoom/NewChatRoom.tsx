@@ -9,6 +9,7 @@ import {
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
   onScreenUpdate,
+  processChatRoom,
   selectChat,
   setCurrentChat,
 } from 'utils/redux/slices/chatSlice'
@@ -18,6 +19,7 @@ import { ButtonStyle } from 'utils/data/authSettingsConstants'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { selectProject } from 'utils/redux/slices/projectSlice'
 import './NewChatRoom.scss'
+import { useSocketEvents } from 'components/Notifications/Socket'
 
 export const NewChatRoom = ({ chatScreen }) => {
   const dispatch = useAppDispatch()
@@ -28,6 +30,7 @@ export const NewChatRoom = ({ chatScreen }) => {
   const [inviteList, setInviteList] = useState([])
   const [allChecked, setAllChecked] = useState(false)
   const [memberChecked, setMemberChecked] = useState({})
+  const { createNewRoom } = useSocketEvents(false)
   const members = [...project.members.designers, ...project.members.engineers]
   const membersWithoutAuth = members.filter(
     member => member._id !== authUser._id
@@ -101,21 +104,34 @@ export const NewChatRoom = ({ chatScreen }) => {
 
   const handleCreateChatRoom = async () => {
     try {
-      let newRoom
       const selectedUserIds = selectedChatUsers.map(user => user._id)
+
       if (selectedChatUsers.length > 1) {
-        newRoom =
-          chatScreen === ChatScreen.ComposeNewChat
-            ? await createGroupChatRoom(selectedUserIds)
-            : await updateGroupChatParticipants(
-                currentConversation._id,
-                selectedUserIds
-              )
+        let newRoom
+        if (chatScreen === ChatScreen.ComposeNewChat) {
+          newRoom = await createGroupChatRoom(selectedUserIds)
+        } else {
+          newRoom = await updateGroupChatParticipants(
+            currentConversation._id,
+            selectedUserIds
+          )
+        }
+        newRoom = await dispatch(processChatRoom(newRoom)).unwrap()
+        dispatch(setCurrentChat(newRoom))
+        createNewRoom({
+          chatRoom: newRoom,
+          receiverIds: selectedUserIds,
+        })
       } else {
         const recepientId = selectedUserIds[0]
-        newRoom = await createOrGetPrivateChatRoom(recepientId)
+        const chatResponse = await createOrGetPrivateChatRoom(recepientId)
+        let room = chatResponse.chatRoom
+        if (chatResponse.isNew) {
+          room = await dispatch(processChatRoom(room)).unwrap()
+          createNewRoom({ chatRoom: room, receiverIds: selectedUserIds })
+        }
+        dispatch(setCurrentChat(room))
       }
-      dispatch(setCurrentChat(newRoom))
       dispatch(
         createSnackBar({
           isOpen: true,

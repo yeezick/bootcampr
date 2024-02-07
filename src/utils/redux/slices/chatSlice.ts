@@ -15,6 +15,12 @@ import {
 import { getChatMessagesByType, getUserChatThreads } from 'utils/api/chat'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { RootState } from 'utils/redux/store'
+import { selectUserId } from './userSlice'
+import { selectMembers } from './projectSlice'
+import {
+  mapParticipantsWithMemberDetails,
+  updateLastMessageSender,
+} from 'utils/functions/chatLogic'
 
 // todo: chats from project slice should be moved here
 const initialState: ChatSliceInterface = {
@@ -48,7 +54,6 @@ const initialState: ChatSliceInterface = {
   threads: {},
   selectedChatUsers: [],
   isChatRoomActive: false,
-  unreadConversationsCount: 0,
   chatText: '',
 }
 
@@ -63,17 +68,58 @@ export const fetchMessages = createAsyncThunk<
     return thunkAPI.rejectWithValue(error.response.data)
   }
 })
-export const fetchThreads = createAsyncThunk<ChatInterface[]>(
-  'chatbox/fetchThreads',
-  async (_, thunkAPI) => {
-    try {
-      const threads = await getUserChatThreads()
-      return threads
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data)
+
+export const fetchThreads = createAsyncThunk<
+  ChatInterface[],
+  undefined,
+  { state: RootState }
+>('chatbox/fetchThreads', async (_, thunkAPI) => {
+  try {
+    const threads = await getUserChatThreads()
+    const members = selectMembers(thunkAPI.getState())
+    const threadsMap = threads.map((thread: ChatInterface) => {
+      const lastMessageMap = updateLastMessageSender(
+        thread.lastMessage,
+        members
+      )
+      const participantsMap = mapParticipantsWithMemberDetails(thread, members)
+      return {
+        ...thread,
+        participants: participantsMap,
+        lastMessage: lastMessageMap,
+      }
+    })
+    return threadsMap
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data)
+  }
+})
+
+//map participants and get details
+export const processChatRoom = createAsyncThunk<
+  ChatInterface,
+  ChatInterface,
+  { state: RootState }
+>(
+  'chatbox/createAndSetNewChatRoom',
+  async (chatRoom, { getState, dispatch }) => {
+    const members = selectMembers(getState())
+    const mappedParticipants = mapParticipantsWithMemberDetails(
+      chatRoom,
+      members
+    )
+    const lastMessageMap = updateLastMessageSender(
+      chatRoom.lastMessage,
+      members
+    )
+    return {
+      ...chatRoom,
+      participants: mappedParticipants,
+      lastMessage: lastMessageMap,
     }
   }
 )
+
 const chatSlice = createSlice({
   name: 'chatbox',
   initialState,
@@ -109,20 +155,15 @@ const chatSlice = createSlice({
     setCurrentChat: (state, action: PayloadAction<ChatInterface>) => {
       const chatRoom = action.payload
       state.chat = { ...chatRoom }
-      state.threads[chatRoom._id] = {
-        ...state.threads[chatRoom._id],
-        ...chatRoom,
-      }
     },
     updateCurrentChat: (state, action: PayloadAction<ChatInterface>) => {
-      const updatedChat = action.payload
-      state.chat = { ...updatedChat }
+      const chatRoom = action.payload
+      state.chat = { ...chatRoom }
+      state.threads[chatRoom._id] = chatRoom
     },
-
     updateCurrentChatMessages: (state, action) => {
-      const { receivedMessage, activeUserId } = action.payload
+      const { receivedMessage } = action.payload
       const { chatRoomId, senderId } = receivedMessage
-
       const thread = state.threads[chatRoomId]
       if (thread) {
         const senderParticipant = state.threads[chatRoomId].participants.find(
@@ -138,34 +179,50 @@ const chatSlice = createSlice({
           status: 'sent',
         }
         state.threads[chatRoomId].lastMessage = newMessage
-        if (state.chat._id === receivedMessage.chatRoomId) {
+        if (
+          state.chat._id === receivedMessage.chatRoomId &&
+          state.isChatRoomActive
+        ) {
           state.chat.messages = [...state.chat.messages, newMessage]
           state.chat.lastMessage = newMessage
         }
-        state.threads[chatRoomId].participants.forEach(participant => {
+      }
+    },
+    setMessageUnread: (state, action) => {
+      const { chatRoomId, senderId } = action.payload
+      const thread = state.threads[chatRoomId]
+      if (thread) {
+        thread.participants.forEach(participant => {
           if (
-            participant.participant._id !== newMessage.sender._id &&
+            participant.participant._id !== senderId &&
             !state.isChatRoomActive
           ) {
             participant.hasUnreadMessage = true
-          } else {
+          }
+        })
+      }
+    },
+    setMessageRead: (state, action) => {
+      const { chatRoomId, activeUserId } = action.payload
+      const thread = state.threads[chatRoomId]
+      if (thread) {
+        thread.participants.forEach(participant => {
+          if (
+            participant.participant._id === activeUserId &&
+            state.isChatRoomActive
+          ) {
             participant.hasUnreadMessage = false
           }
         })
       }
     },
-
     setChatText: (state, action: PayloadAction<string>) => {
       state.chatText = action.payload
-    },
-    setUnreadChatsCount: (state, action: PayloadAction<number>) => {
-      state.unreadConversationsCount = action.payload
     },
     setChatRoomActive: (state, action) => {
       state.isChatRoomActive = action.payload
     },
   },
-
   extraReducers: builder => {
     builder
       .addCase(fetchMessages.fulfilled, (state, action) => {
@@ -180,11 +237,15 @@ const chatSlice = createSlice({
         }
       })
       .addCase(fetchThreads.fulfilled, (state, action) => {
-        const threadsArray = action.payload
-        state.threads = threadsArray.reduce((threadObj, thread) => {
+        const threads = action.payload
+        state.threads = threads.reduce((threadObj, thread) => {
           threadObj[thread._id] = thread
           return threadObj
         }, {})
+      })
+      .addCase(processChatRoom.fulfilled, (state, action) => {
+        const chatRoom = action.payload
+        state.threads[chatRoom._id] = chatRoom
       })
   },
 })
@@ -193,30 +254,42 @@ export const selectChatUI = (state: RootState) => state.chatbox.ui
 export const selectChat = (state: RootState) => state.chatbox.chat
 export const selectIsChatRoomActive = (state: RootState) =>
   state.chatbox.isChatRoomActive
-export const selectUnreadMessages = (state: RootState) =>
-  state.chatbox.unreadConversationsCount
-
 const threadsObjectSelector = (state: RootState) => state.chatbox.threads
 //memoized selector to transform the threads object into an array
 const selectThreads = createSelector(threadsObjectSelector, threadsObject =>
   Object.values(threadsObject)
 )
-export const selectSortedThreads = createSelector([selectThreads], threads => {
-  return [...threads].sort((a, b) => {
-    // Default dates for threads without a lastMessage
-    const defaultDate = new Date(0)
+export const selectSortedThreads = createSelector(
+  selectThreads,
+  (threads: ChatInterface[]) => {
+    const copyThreads = [...threads]
+    return copyThreads.sort((a, b) => {
+      // Default dates for threads without a lastMessage
+      const defaultDate = new Date(0)
+      const dateA = a.lastMessage
+        ? dayjs(a.lastMessage.timestamp)
+        : dayjs(defaultDate)
+      const dateB = b.lastMessage
+        ? dayjs(b.lastMessage.timestamp)
+        : dayjs(defaultDate)
 
-    // Get the timestamp or use the default date
-    const dateA = a.lastMessage
-      ? dayjs(a.lastMessage.timestamp)
-      : dayjs(defaultDate)
-    const dateB = b.lastMessage
-      ? dayjs(b.lastMessage.timestamp)
-      : dayjs(defaultDate)
+      return dateB.valueOf() - dateA.valueOf()
+    })
+  }
+)
+export const selectUnreadMessageCount = createSelector(
+  [selectThreads, selectUserId],
+  (threads: ChatInterface[], userId: string) => {
+    return threads.reduce((count, thread) => {
+      const hasUnread = thread.participants.some(
+        participant =>
+          participant.participant._id === userId && participant.hasUnreadMessage
+      )
+      return count + (hasUnread ? 1 : 0)
+    }, 0)
+  }
+)
 
-    return dateB.valueOf() - dateA.valueOf()
-  })
-})
 export const {
   toggleChat,
   toggleChatOpen,
@@ -226,8 +299,9 @@ export const {
   setCurrentChat,
   updateCurrentChatMessages,
   setChatText,
-  setUnreadChatsCount,
   setChatRoomActive,
+  setMessageRead,
   updateCurrentChat,
+  setMessageUnread,
 } = chatSlice.actions
 export default chatSlice.reducer

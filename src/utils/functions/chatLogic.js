@@ -1,7 +1,9 @@
-import dayjs from 'dayjs'
+import { generateDayJs } from 'utils/helpers'
+
 export const formatTimestamp = timestamp => {
-  return dayjs(timestamp).format('MM/DD/YYYY hh:mm A')
+  return generateDayJs(timestamp).format('MM/DD/YYYY hh:mm A')
 }
+
 export const formatLastMessageTimestamp = lastMessageTimestamp => {
   const now = new Date()
   const messageTime = new Date(lastMessageTimestamp)
@@ -30,6 +32,7 @@ export const formatLastMessageTimestamp = lastMessageTimestamp => {
 
   return formattedTimestamp
 }
+
 export const getParticipantsNames = (
   participants,
   chatType,
@@ -51,7 +54,44 @@ export const getParticipantsNames = (
       : participantsWithoutAuthUser.concat(', ', authUserName)
   }
 }
-//Messages
+
+export const mapParticipantsWithMemberDetails = (chatRoom, members) => {
+  return chatRoom.participants.map(pp => {
+    const member = members.find(member => member._id === pp.participant)
+    return member
+      ? {
+          ...pp,
+          participant: {
+            _id: member._id,
+            firstName: member.firstName,
+            lastName: member.lastName,
+            email: member.email,
+            profilePicture: member.profilePicture,
+          },
+        }
+      : pp
+  })
+}
+
+export const updateLastMessageSender = (lastMessage, members) => {
+  if (lastMessage && lastMessage.sender) {
+    const setLastMessageSender = members.find(
+      member => member._id === lastMessage.sender
+    )
+    return {
+      ...lastMessage,
+      sender: setLastMessageSender
+        ? {
+            _id: setLastMessageSender._id,
+            firstName: setLastMessageSender.firstName,
+            lastName: setLastMessageSender.lastName,
+          }
+        : lastMessage.sender,
+    }
+  }
+  return lastMessage
+}
+
 export const isMemberSelected = (selectedMembers, member) => {
   return selectedMembers.some(mem => mem._id === member._id)
 }
@@ -107,7 +147,6 @@ export const isOnlyMessageBySameSender = (messages, i) => {
   const currentSender = messages[i].sender._id
   const previousSender = messages[i - 1]?.sender._id
   const nextSender = messages[i + 1]?.sender._id
-
   // Check if neither the previous nor the next message has the same sender as the current message
   return previousSender !== currentSender && nextSender !== currentSender
 }
