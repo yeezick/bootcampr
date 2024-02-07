@@ -6,10 +6,12 @@ import './TeamMemberCard.scss'
 import { createOrGetPrivateChatRoom } from 'utils/api/chat'
 import {
   onScreenUpdate,
+  processChatRoom,
   setCurrentChat,
   toggleChatOpen,
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
+import { useSocketEvents } from 'components/Notifications/Socket'
 
 export const TeamMemberCard = ({ member, loggedInUserId }) => {
   const {
@@ -23,11 +25,16 @@ export const TeamMemberCard = ({ member, loggedInUserId }) => {
   const isCurrentUser = memberId === loggedInUserId
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
+  const { createNewRoom } = useSocketEvents(false)
 
   const handleChatMemberClick = async () => {
     try {
-      const chatRoom = await createOrGetPrivateChatRoom(memberId)
-      dispatch(setCurrentChat(chatRoom))
+      const chatResponse = await createOrGetPrivateChatRoom(memberId)
+      const room = chatResponse.chatRoom
+      if (chatResponse.isNew) {
+        createNewRoom({ chatRoom: room, receiverIds: [memberId] })
+      }
+      dispatch(processChatRoom(room))
       dispatch(toggleChatOpen())
       dispatch(onScreenUpdate(ChatScreen.ChatRoom))
     } catch (error) {

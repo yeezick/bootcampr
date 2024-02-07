@@ -13,10 +13,11 @@ import './UserProfile.scss'
 import { createOrGetPrivateChatRoom } from 'utils/api/chat'
 import {
   onScreenUpdate,
-  setCurrentChat,
+  processChatRoom,
   toggleChatOpen,
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
+import { useSocketEvents } from 'components/Notifications/Socket'
 
 export const UserProfile: React.FC = () => {
   const authUser = useAppSelector(selectAuthUser)
@@ -24,6 +25,7 @@ export const UserProfile: React.FC = () => {
   const teamMembers = useAppSelector(selectMembersAsTeam)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const { createNewRoom } = useSocketEvents(false)
   const [userProfileInfo, setUserProfileInfo] =
     useState<UserInterface>(emptyUser)
   const sameProfile = authUser._id === userId ? true : false
@@ -48,8 +50,12 @@ export const UserProfile: React.FC = () => {
     const { _id: memberId } = userProfileInfo
     try {
       if (userProfileInfo) {
-        const chatRoom = await createOrGetPrivateChatRoom(memberId)
-        dispatch(setCurrentChat(chatRoom))
+        const chatResponse = await createOrGetPrivateChatRoom(memberId)
+        const room = chatResponse.chatRoom
+        if (chatResponse.isNew) {
+          createNewRoom({ chatRoom: room, receiverIds: [memberId] })
+        }
+        dispatch(processChatRoom(room))
         dispatch(toggleChatOpen())
         dispatch(onScreenUpdate(ChatScreen.ChatRoom))
       }
