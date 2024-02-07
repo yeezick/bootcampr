@@ -126,8 +126,8 @@ export const NewChatRoom = ({ chatScreen }) => {
         const recepientId = selectedUserIds[0]
         const chatResponse = await createOrGetPrivateChatRoom(recepientId)
         let room = chatResponse.chatRoom
+        room = await dispatch(processChatRoom(room)).unwrap()
         if (chatResponse.isNew) {
-          room = await dispatch(processChatRoom(room)).unwrap()
           createNewRoom({ chatRoom: room, receiverIds: selectedUserIds })
         }
         dispatch(setCurrentChat(room))

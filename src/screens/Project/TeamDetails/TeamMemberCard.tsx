@@ -30,11 +30,12 @@ export const TeamMemberCard = ({ member, loggedInUserId }) => {
   const handleChatMemberClick = async () => {
     try {
       const chatResponse = await createOrGetPrivateChatRoom(memberId)
-      const room = chatResponse.chatRoom
+      let room = chatResponse.chatRoom
+      room = await dispatch(processChatRoom(room)).unwrap()
       if (chatResponse.isNew) {
         createNewRoom({ chatRoom: room, receiverIds: [memberId] })
       }
-      dispatch(processChatRoom(room))
+      dispatch(setCurrentChat(room))
       dispatch(toggleChatOpen())
       dispatch(onScreenUpdate(ChatScreen.ChatRoom))
     } catch (error) {
