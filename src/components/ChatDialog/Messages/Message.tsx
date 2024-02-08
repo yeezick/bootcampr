@@ -1,8 +1,8 @@
 import {
-  formatTimestamp,
   isFirstMessageBySameUser,
   getMessageClassNames,
 } from 'utils/functions/chatLogic'
+import { formatTimestamp } from 'utils/helpers/dateFormatHelpers'
 import './Messages.scss'
 
 export const Message = ({

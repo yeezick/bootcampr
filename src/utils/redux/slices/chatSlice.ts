@@ -5,7 +5,7 @@ import {
   createSlice,
   current,
 } from '@reduxjs/toolkit'
-import dayjs from 'dayjs'
+import { blankDayJs, generateDayJs } from 'utils/helpers'
 import {
   ChatMessageInterface,
   ChatSliceInterface,
@@ -197,7 +197,7 @@ const chatSlice = createSlice({
         const newMessage: ChatMessageInterface = {
           sender: senderParticipant.participant,
           text: receivedMessage.newMessage,
-          timestamp: new Date().toISOString(),
+          timestamp: blankDayJs().toISOString(),
           status: 'sent',
         }
         state.threads[chatRoomId].lastMessage = newMessage
@@ -286,15 +286,14 @@ export const selectSortedThreads = createSelector(
   (threads: ChatInterface[]) => {
     const copyThreads = [...threads]
     return copyThreads.sort((a, b) => {
-      // Default dates for threads without a lastMessage
-      const defaultDate = new Date(0)
+      // Default dates for threads without a lastMessage, default date is Jan 01 2000
+      const defaultDate = generateDayJs('0')
       const dateA = a.lastMessage
-        ? dayjs(a.lastMessage.timestamp)
-        : dayjs(defaultDate)
+        ? generateDayJs(a.lastMessage.timestamp).toDate()
+        : defaultDate.toDate()
       const dateB = b.lastMessage
-        ? dayjs(b.lastMessage.timestamp)
-        : dayjs(defaultDate)
-
+        ? generateDayJs(b.lastMessage.timestamp).toDate()
+        : defaultDate.toDate()
       return dateB.valueOf() - dateA.valueOf()
     })
   }

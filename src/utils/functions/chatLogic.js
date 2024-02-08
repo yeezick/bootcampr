@@ -1,38 +1,3 @@
-import { generateDayJs } from 'utils/helpers'
-
-export const formatTimestamp = timestamp => {
-  return generateDayJs(timestamp).format('MM/DD/YYYY hh:mm A')
-}
-
-export const formatLastMessageTimestamp = lastMessageTimestamp => {
-  const now = new Date()
-  const messageTime = new Date(lastMessageTimestamp)
-  const timeDiff = now - messageTime
-  const seconds = Math.floor(timeDiff / 1000)
-  const minutes = Math.floor(seconds / 60)
-  const hours = Math.floor(minutes / 60)
-  const days = Math.floor(hours / 24)
-
-  let formattedTimestamp
-
-  switch (true) {
-    case days > 0:
-      formattedTimestamp = `${days}d`
-      break
-    case hours > 0:
-      formattedTimestamp = `${hours}h`
-      break
-    case minutes > 0:
-      formattedTimestamp = `${minutes}m`
-      break
-    default:
-      formattedTimestamp = `${seconds}s`
-      break
-  }
-
-  return formattedTimestamp
-}
-
 export const getParticipantsNames = (
   participants,
   chatType,
