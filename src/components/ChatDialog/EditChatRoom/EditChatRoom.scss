@@ -8,15 +8,15 @@
   row-gap: 35px;
 
   .members-container {
+    align-items: flex-start;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
 
     .members-list {
-      flex-direction: column;
-      row-gap: 16px;
       display: flex;
+      flex-direction: column;
       padding: 8px 0 8px 8px;
+      row-gap: 16px;
 
       .you-identifier {
         font-weight: 600;
@@ -24,11 +24,11 @@
     }
 
     p {
+      font-family: 'Roboto';
+      font-size: 16px;
+      line-height: 24px;
       margin: 0;
       padding: 0 0 0 8px;
-      font-size: 16px;
-      font-family: 'Roboto';
-      line-height: 24px;
     }
   }
 }
