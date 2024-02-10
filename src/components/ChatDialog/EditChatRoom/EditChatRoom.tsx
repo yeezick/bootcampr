@@ -3,7 +3,10 @@ import { UserThumbnail } from '../UserThumbnail/UserThumbnail'
 import './EditChatRoom.scss'
 import { onScreenUpdate, selectChat } from 'utils/redux/slices/chatSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { extractConversationAvatars } from 'utils/functions/chatLogic'
+import {
+  extractConversationAvatars,
+  getSortedParticipants,
+} from 'utils/functions/chatLogic'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { Button } from '@mui/material'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
@@ -21,13 +24,15 @@ export const EditChatRoom = () => {
     dispatch(onScreenUpdate(ChatScreen.InviteNewMembers))
   }
 
+  const sortedParticipants = getSortedParticipants(participants, authUser._id)
+
   return (
     <div className='edit-chat-container'>
       <AvatarGrid pictures={pictures} avatarSize='large' avatarType='grid' />
       <div className='members-container'>
         <p>Member</p>
         <div className='members-list'>
-          {participants.map(pp => (
+          {sortedParticipants.map(pp => (
             <div className='member'>
               <UserThumbnail
                 title={`${pp.participant.firstName} ${pp.participant.lastName}`}
@@ -44,11 +49,11 @@ export const EditChatRoom = () => {
             onClick={handleInviteMember}
             variant='text'
             sx={{
-              color: '#1A237E',
-              display: 'flex',
               alignItems: 'center',
-              justifyContent: 'flex-start',
+              color: '#1A237E',
               columnGap: '8px',
+              display: 'flex',
+              justifyContent: 'flex-start',
               padding: '8px 16px 8px 12px',
               textTransform: 'none',
               '&:hover': {

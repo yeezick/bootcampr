@@ -165,6 +165,10 @@ export const NewChatRoom = ({ chatScreen }) => {
     inviteList.length > notSelectedMembers.length &&
     notSelectedMembers.length !== 0
 
+  const sortedInviteList = inviteList.sort((a, b) =>
+    a.firstName.toLocaleLowerCase() > b.firstName.toLocaleLowerCase() ? 1 : -1
+  )
+
   return (
     <div className='new-chat-container'>
       <section className='members-invite'>
@@ -182,7 +186,7 @@ export const NewChatRoom = ({ chatScreen }) => {
               }
               label='Invite all members'
             />
-            {inviteList.map(member => (
+            {sortedInviteList.map(member => (
               <FormControlLabel
                 key={member._id}
                 control={

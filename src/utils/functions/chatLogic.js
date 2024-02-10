@@ -20,6 +20,18 @@ export const getParticipantsNames = (
   }
 }
 
+export const getSortedParticipants = (participants, authUserId) => {
+  return [...participants].sort((ppA, ppB) => {
+    if (ppA.participant._id === authUserId) return 1
+    if (ppB.participant._id === authUserId) return -1
+
+    const participantNameA = ppA.participant.firstName.toLocaleLowerCase()
+    const participantNameB = ppB.participant.firstName.toLocaleLowerCase()
+    if (participantNameA === participantNameB) return 0
+    return participantNameA > participantNameB ? 1 : -1
+  })
+}
+
 export const mapParticipantsWithMemberDetails = (chatRoom, members) => {
   return chatRoom.participants.map(pp => {
     const member = members.find(member => member._id === pp.participant)
