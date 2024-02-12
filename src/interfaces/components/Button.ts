@@ -5,13 +5,13 @@ import {
   OverridableComponent,
 } from '@mui/material/OverridableComponent'
 
-export interface CommonButton extends ButtonProps {
+export interface CommonButtonProps extends ButtonProps {
+  colorScheme?: 'primary' | 'secondary' | 'create-task'
   endIcon?: MappedIcons
   handler?: any
+  paginatorBtn?: boolean
   startIcon?: MappedIcons
-  startIconProps?: IconProps
-  endIconProps?: IconProps
-  text: string
+  text?: string
 }
 
 export interface ConditionalButtonProps extends ButtonProps {
@@ -20,9 +20,10 @@ export interface ConditionalButtonProps extends ButtonProps {
 }
 
 export interface IconMap {
-  [key: string]: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
-    muiName: string
-  }
+  [key: string]:
+    | OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
+        muiName: string
+      }
 }
 
 export type IconProps = DefaultComponentProps<SvgIconTypeMap>
@@ -47,6 +48,7 @@ export type MappedIcons =
 
 export interface PaginatorButtonInterface extends ButtonProps {
   buttonType: 'secondary' | 'primary'
+  colorScheme?: 'secondary' | 'primary'
   handler?: any
   text: string
 }
