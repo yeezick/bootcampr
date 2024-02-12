@@ -6,7 +6,7 @@ import {
 import { fetchIcon } from 'utils/components/Icons'
 import './Buttons.scss'
 
-const createButton = (props: CommonButtonProps) => {
+export const createButton = (props: CommonButtonProps) => {
   const {
     children,
     colorScheme = 'primary',
@@ -43,9 +43,3 @@ const createButton = (props: CommonButtonProps) => {
     </Button>
   )
 }
-
-export const PrimaryButton = (props: CommonButtonProps) =>
-  createButton({ ...props, variant: 'contained' })
-
-export const SecondaryButton = (props: CommonButtonProps) =>
-  createButton({ ...props, variant: 'outlined' })
