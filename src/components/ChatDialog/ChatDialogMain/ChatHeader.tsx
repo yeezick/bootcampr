@@ -141,9 +141,13 @@ export const ChatPageHeader = () => {
         <h5 onClick={handleChangeScreen} className='group-link'>
           {getTitleText(chatScreen, currentConversation, authUser)}
         </h5>
+        {currentConversation.chatType === 'group' &&
+          chatScreen === 'editChatRoom' && (
+            <div className='edit-pen'>
+              <BiPencil onClick={handleEditModal} size={16} />
+            </div>
+          )}
       </div>
-      {currentConversation.chatType === 'group' &&
-        chatScreen === 'editChatRoom' && <BiPencil onClick={handleEditModal} />}
       <CommonModal
         isOpen={openEditNameModal}
         heading='Edit Chat Name'

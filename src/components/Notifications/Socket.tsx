@@ -88,7 +88,6 @@ export const useSocketEvents = (listenForChatEvents = false) => {
 
     const handleMessageFromServer = receivedMessage => {
       if (receivedMessage.chatRoomId === currentConversation._id) {
-        console.log('here in listen chat events same room')
         dispatch(
           updateCurrentChatMessages({
             receivedMessage,

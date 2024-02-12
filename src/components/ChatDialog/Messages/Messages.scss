@@ -16,7 +16,7 @@
     left: 0px;
     margin: 8px 16px 16px;
     overflow: hidden;
-    padding: 4px 12px 4px 16px;
+    padding: 4px 6px 4px 16px;
     position: absolute;
     right: 0px;
 
@@ -43,12 +43,16 @@
     }
 
     .send-button {
+      align-items: center;
       cursor: pointer;
       display: flex;
-      padding-bottom: 6px;
+      height: 32px;
+      justify-content: center;
+      width: 32px;
 
       &:hover {
-        color: #f29e34;
+        background-color: rgba(0, 0, 0, 0.08);
+        border-radius: 50%;
       }
     }
   }

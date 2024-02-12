@@ -146,11 +146,9 @@ const MessageInputBox = ({
         rows={1}
       />
       {textForm.text !== '' && (
-        <AiOutlineSend
-          size={20}
-          className='send-button'
-          onClick={handleSubmitText}
-        />
+        <div className='send-button'>
+          <AiOutlineSend size={20} onClick={handleSubmitText} />
+        </div>
       )}
     </div>
   )

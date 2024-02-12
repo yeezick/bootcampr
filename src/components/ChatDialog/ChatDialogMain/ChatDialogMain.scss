@@ -58,8 +58,26 @@
 
         &:hover {
           color: #212121;
-          font-weight: 600;
           font-size: 16px;
+          font-weight: 600;
+        }
+      }
+
+      .title-with-icon {
+        align-items: center;
+        display: flex;
+
+        .edit-pen {
+          align-items: center;
+          display: flex;
+          height: 32px;
+          justify-content: center;
+          width: 32px;
+
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.08);
+            border-radius: 50%;
+          }
         }
       }
 
