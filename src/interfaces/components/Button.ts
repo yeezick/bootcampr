@@ -6,7 +6,7 @@ import {
 } from '@mui/material/OverridableComponent'
 
 export interface CommonButtonProps extends ButtonProps {
-  colorScheme?: 'primary' | 'secondary' | 'create-task'
+  colorScheme?: 'primary' | 'secondary'
   endIcon?: MappedIcons
   handler?: any
   paginatorBtn?: boolean
