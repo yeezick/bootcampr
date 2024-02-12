@@ -11,9 +11,8 @@ import Avatar from 'components/Avatar/Avatar'
 import {
   fetchThreads,
   selectChatUI,
-  selectSortedThreads,
   selectUnreadMessageCount,
-  setChatRoomActive,
+  setActiveChatRoomId,
   toggleChat,
   toggleChatClose,
 } from 'utils/redux/slices/chatSlice'
@@ -38,7 +37,7 @@ export const Nav = () => {
   useEffect(() => {
     // Close chat dialog and sideMenu when URL path changes
     dispatch(toggleChatClose())
-    dispatch(setChatRoomActive(false))
+    dispatch(setActiveChatRoomId(null))
   }, [dispatch, location])
 
   const handlePortalLink = () => buildPortal(dispatch, 'project', projectId)
@@ -102,7 +101,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   useEffect(() => {
     //Warning: needs to be checked if members are loaded
     dispatch(fetchThreads())
-    dispatch(setChatRoomActive(false))
+    dispatch(setActiveChatRoomId(null))
   }, [dispatch, projectMembers.length])
 
   const toggleChatBox = () => {

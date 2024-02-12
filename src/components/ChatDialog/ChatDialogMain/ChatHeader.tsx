@@ -16,7 +16,7 @@ import {
   onScreenUpdate,
   selectChat,
   selectChatUI,
-  setChatRoomActive,
+  setActiveChatRoomId,
   updateCurrentChat,
 } from 'utils/redux/slices/chatSlice'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
@@ -62,7 +62,7 @@ export const ChatPageHeader = () => {
   const dispatch = useAppDispatch()
 
   const handleBackArrowClick = () => {
-    dispatch(setChatRoomActive(false))
+    dispatch(setActiveChatRoomId(null))
     dispatch(onBackArrowClick())
   }
 

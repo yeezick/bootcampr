@@ -11,7 +11,7 @@ export interface ChatSliceInterface {
   threads: Record<string, ChatInterface>
   selectedChatUsers: UserInterface[]
   chatText: string
-  isChatRoomActive: boolean
+  activeChatRoomId: string
 }
 
 export interface ChatInterface {

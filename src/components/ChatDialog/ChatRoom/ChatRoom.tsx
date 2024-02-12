@@ -4,7 +4,11 @@ import { createGroupChatMessage, createPrivateMessage } from 'utils/api/chat'
 import { useSocketEvents } from 'components/Notifications/Socket'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { selectChat, setChatText } from 'utils/redux/slices/chatSlice'
+import {
+  selectChat,
+  setActiveChatRoomId,
+  setChatText,
+} from 'utils/redux/slices/chatSlice'
 import { Messages } from '../Messages/Messages'
 
 export const ChatRoom = () => {
@@ -15,6 +19,13 @@ export const ChatRoom = () => {
   const [selectedMessages, setSelectedMessages] = useState([])
   const containerRef = useRef(null)
   const { sendMessage } = useSocketEvents(true)
+
+  useEffect(() => {
+    dispatch(setActiveChatRoomId(currentConversation._id))
+    return () => {
+      dispatch(setActiveChatRoomId(null))
+    }
+  }, [dispatch, currentConversation._id])
 
   // Scroll messages container to bottom for last message when component mounts and when the height change because of textarea
   useEffect(() => {

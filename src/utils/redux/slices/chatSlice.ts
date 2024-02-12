@@ -53,7 +53,7 @@ const initialState: ChatSliceInterface = {
   },
   threads: {},
   selectedChatUsers: [],
-  isChatRoomActive: false,
+  activeChatRoomId: null,
   chatText: '',
 }
 
@@ -158,12 +158,11 @@ const chatSlice = createSlice({
     },
     toggleChatClose: state => {
       state.ui.visibleChat = false
-      state.isChatRoomActive = false
+      state.activeChatRoomId = null
       state.ui.chatScreen = ChatScreen.Main
       state.ui.chatScreenPath = [ChatScreen.Main]
     },
     onScreenUpdate: (state, action: PayloadAction<ChatScreen>) => {
-      state.isChatRoomActive = action.payload === 'chatroom' ? true : false
       state.ui.chatScreenPath = [...state.ui.chatScreenPath, action.payload]
       state.ui.chatScreen = action.payload
     },
@@ -200,11 +199,9 @@ const chatSlice = createSlice({
           timestamp: blankDayJs().toISOString(),
           status: 'sent',
         }
+
         state.threads[chatRoomId].lastMessage = newMessage
-        if (
-          state.chat._id === receivedMessage.chatRoomId &&
-          state.isChatRoomActive
-        ) {
+        if (state.activeChatRoomId === receivedMessage.chatRoomId) {
           state.chat.messages = [...state.chat.messages, newMessage]
           state.chat.lastMessage = newMessage
         }
@@ -217,7 +214,7 @@ const chatSlice = createSlice({
         thread.participants.forEach(participant => {
           if (
             participant.participant._id !== senderId &&
-            !state.isChatRoomActive
+            state.activeChatRoomId !== chatRoomId
           ) {
             participant.hasUnreadMessage = true
           }
@@ -231,7 +228,7 @@ const chatSlice = createSlice({
         thread.participants.forEach(participant => {
           if (
             participant.participant._id === activeUserId &&
-            state.isChatRoomActive
+            state.activeChatRoomId === chatRoomId
           ) {
             participant.hasUnreadMessage = false
           }
@@ -241,8 +238,8 @@ const chatSlice = createSlice({
     setChatText: (state, action: PayloadAction<string>) => {
       state.chatText = action.payload
     },
-    setChatRoomActive: (state, action) => {
-      state.isChatRoomActive = action.payload
+    setActiveChatRoomId: (state, action: PayloadAction<string>) => {
+      state.activeChatRoomId = action.payload
     },
   },
   extraReducers: builder => {
@@ -254,7 +251,7 @@ const chatSlice = createSlice({
           state.threads[chatId].messages = messages
         }
         //To update the messages of the currently active chat
-        if (state.chat && state.chat._id === chatId) {
+        if (state.chat && state.activeChatRoomId === chatId) {
           state.chat.messages = messages
         }
       })
@@ -274,8 +271,8 @@ const chatSlice = createSlice({
 
 export const selectChatUI = (state: RootState) => state.chatbox.ui
 export const selectChat = (state: RootState) => state.chatbox.chat
-export const selectIsChatRoomActive = (state: RootState) =>
-  state.chatbox.isChatRoomActive
+export const selectActiveChatRoomId = (state: RootState) =>
+  state.chatbox.activeChatRoomId
 const threadsObjectSelector = (state: RootState) => state.chatbox.threads
 //memoized selector to transform the threads object into an array
 const selectThreads = createSelector(threadsObjectSelector, threadsObject =>
@@ -320,7 +317,7 @@ export const {
   setCurrentChat,
   updateCurrentChatMessages,
   setChatText,
-  setChatRoomActive,
+  setActiveChatRoomId,
   setMessageRead,
   updateCurrentChat,
   setMessageUnread,
