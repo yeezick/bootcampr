@@ -10,17 +10,19 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 const ENDPOINT = `${process.env.REACT_APP_LOCAL_URL}`
-const socket = io(ENDPOINT)
 
 export const useSocket = userId => {
   const [socket, setSocket] = useState(null)
 
   useEffect(() => {
-    // Initialize the Socket.IO client
     const newSocket = io(ENDPOINT, {
       query: { userId },
+      transports: ['websocket'],
+      reconnection: true,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 3000,
     })
-
+    newSocket.emit('setUserId', userId)
     setSocket(newSocket)
 
     return () => {
@@ -35,26 +37,10 @@ export const useSocketEvents = (listenForChatEvents = false) => {
   const dispatch = useAppDispatch()
   const currentConversation = useAppSelector(selectChat)
   const authUser = useAppSelector(selectAuthUser)
-  const isChatRoomActive = useAppSelector(
-    state => state.chatbox.isChatRoomActive
+  const activeChatRoomId = useAppSelector(
+    state => state.chatbox.activeChatRoomId
   )
-
-  // For initial socket setup
-  useEffect(() => {
-    if (!socket) return
-
-    socket.emit('setUserId', authUser._id)
-    socket.on('connect', () => {})
-
-    socket.on('disconnect', () => {
-      console.log('User has disconnected')
-    })
-
-    return () => {
-      socket.off('connect')
-      socket.off('disconnect')
-    }
-  }, [])
+  const socket = useSocket(authUser._id)
 
   const sendMessage = message => {
     if (currentConversation._id) {
@@ -67,25 +53,24 @@ export const useSocketEvents = (listenForChatEvents = false) => {
   }
 
   useEffect(() => {
-    socket.emit('setUserId', authUser._id)
-
-    if (currentConversation._id) {
+    if (!socket) return
+    if (activeChatRoomId && listenForChatEvents) {
       socket.emit('join-conversation', {
-        chatRoomId: currentConversation._id,
+        chatRoomId: activeChatRoomId,
         activeUserId: authUser._id,
       })
     }
 
-    socket.on('new-room-created', chatRoom => {
+    const handleNewRoomCreated = chatRoom => {
       dispatch(processChatRoom(chatRoom))
-    })
+    }
 
-    socket.on('message-read', ({ chatRoomId, activeUserId }) => {
+    const handleMessageRead = ({ chatRoomId, activeUserId }) => {
       dispatch(setMessageRead({ chatRoomId, activeUserId }))
-    })
+    }
 
-    socket.on('new-message-received', receivedMessage => {
-      if (!isChatRoomActive) {
+    const handleNewMessageReceived = receivedMessage => {
+      if (activeChatRoomId !== receivedMessage.chatRoomId) {
         dispatch(
           updateCurrentChatMessages({
             receivedMessage,
@@ -99,28 +84,33 @@ export const useSocketEvents = (listenForChatEvents = false) => {
           })
         )
       }
-    })
+    }
 
+    const handleMessageFromServer = receivedMessage => {
+      if (receivedMessage.chatRoomId === currentConversation._id) {
+        console.log('here in listen chat events same room')
+        dispatch(
+          updateCurrentChatMessages({
+            receivedMessage,
+            activeUserId: authUser._id,
+          })
+        )
+        if (activeChatRoomId) {
+          socket.emit('mark-message-as-read', {
+            chatRoomId: currentConversation._id,
+            chatType: currentConversation.chatType,
+            activeUserId: authUser._id,
+          })
+        }
+      }
+    }
+
+    socket.on('new-message-received', handleNewMessageReceived)
+    socket.on('message-read', handleMessageRead)
+    socket.on('new-room-created', handleNewRoomCreated)
     //for the chat room events
     if (listenForChatEvents) {
-      socket.on('message-from-server', receivedMessage => {
-        if (receivedMessage.chatRoomId === currentConversation._id) {
-          dispatch(
-            updateCurrentChatMessages({
-              receivedMessage,
-              activeUserId: authUser._id,
-            })
-          )
-          if (isChatRoomActive) {
-            socket.emit('mark-message-as-read', {
-              chatRoomId: currentConversation._id,
-              chatType: currentConversation.chatType,
-              activeUserId: authUser._id,
-            })
-          }
-        }
-      })
-
+      socket.on('message-from-server', handleMessageFromServer)
       //when we enter a new chat room with unread message
       if (currentConversation._id) {
         socket.emit('mark-message-as-read', {
@@ -133,18 +123,19 @@ export const useSocketEvents = (listenForChatEvents = false) => {
 
     return () => {
       if (listenForChatEvents) {
-        socket.off('message-from-server')
+        socket.off('message-from-server', handleMessageFromServer)
       }
-      socket.off('message-read')
-      socket.off('new-room-created')
-      socket.off('new-message-received')
+      socket.off('new-room-created', handleNewRoomCreated)
+      socket.off('message-read', handleMessageRead)
+      socket.off('new-message-received', handleNewMessageReceived)
     }
   }, [
     currentConversation._id,
     authUser._id,
     listenForChatEvents,
     dispatch,
-    isChatRoomActive,
+    activeChatRoomId,
+    socket,
   ])
   return { sendMessage, createNewRoom }
 }
