@@ -6,3 +6,6 @@ export const PrimaryButton = (props: CommonButtonProps) =>
 
 export const SecondaryButton = (props: CommonButtonProps) =>
   createButton({ ...props, variant: 'outlined' })
+
+export const TextButton = (props: CommonButtonProps) =>
+  createButton({ ...props, variant: 'text' })

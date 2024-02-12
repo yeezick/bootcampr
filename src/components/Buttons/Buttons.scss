@@ -36,10 +36,10 @@
     background-color: rgba(0, 0, 0, 0.12);
   }
 
-  &.Mui-disabled {
+  &.MuiButton-root.Mui-disabled {
+    color: inherit;
     opacity: 0.38;
-    cursor: not-allowed;
-    pointer-events: all;
+    pointer-events: none;
   }
 
   //Styles for the primary orange, blue, and white color scheme
