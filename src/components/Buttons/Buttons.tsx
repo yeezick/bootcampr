@@ -2,20 +2,17 @@ import { Button, IconButton } from '@mui/material'
 import {
   CommonButtonProps,
   ConditionalButtonProps,
+  IconBtnProps,
 } from 'interfaces/components'
 import { fetchIcon } from 'utils/components/Icons'
 import './Buttons.scss'
-import { ReactElement } from 'react'
 
 export const createButton = (props: CommonButtonProps) => {
   const {
     children,
     colorScheme = 'primary',
     endIcon,
-    filled,
     handler,
-    icon,
-    iconSize,
     paginatorBtn,
     startIcon,
     text,
@@ -29,7 +26,6 @@ export const createButton = (props: CommonButtonProps) => {
     disableRipple: true,
     style: MuiProps.style,
     'aria-disabled': MuiProps.disabled,
-    ...(icon && { children: fetchIcon(icon) }),
     ...(startIcon && { startIcon: fetchIcon(startIcon) }),
     ...(endIcon && { endIcon: fetchIcon(endIcon) }),
   }
@@ -40,26 +36,36 @@ export const createButton = (props: CommonButtonProps) => {
     conditionalProps.startIcon = fetchIcon('leftArrow')
 
   return (
-    <>
-      {icon ? (
-        <IconButton
-          className={`common-button icon-button ${iconSize} ${
-            filled ? 'filled' : ''
-          }`}
-          {...conditionalProps}
-        >
-          {conditionalProps.children}
-        </IconButton>
-      ) : (
-        <Button
-          className={`common-button ${colorScheme}`}
-          {...conditionalProps}
-          disableElevation
-        >
-          {text}
-          {children}
-        </Button>
-      )}
-    </>
+    <Button
+      className={`common-button ${colorScheme}`}
+      {...conditionalProps}
+      disableElevation
+    >
+      {text}
+      {children}
+    </Button>
+  )
+}
+
+export const createIconButton = (props: IconBtnProps) => {
+  const { handler, filled, icon, iconSize, ...MuiProps } = props
+  const conditionalProps = {
+    ...MuiProps,
+    onClick: handler,
+    disableRipple: true,
+    style: MuiProps.style,
+    'aria-disabled': MuiProps.disabled,
+    children: fetchIcon(icon),
+  }
+
+  return (
+    <IconButton
+      className={`common-button icon-button ${iconSize} ${
+        filled ? 'filled' : ''
+      }`}
+      {...conditionalProps}
+    >
+      {conditionalProps.children}
+    </IconButton>
   )
 }

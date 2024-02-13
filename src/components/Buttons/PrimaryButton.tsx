@@ -11,7 +11,6 @@ export const PrimaryButton = ({
   startIcon,
   endIcon,
   text,
-  icon,
   ...MuiProps
 }: CommonButtonProps) => {
   const { disabled, sx: customStyles } = MuiProps

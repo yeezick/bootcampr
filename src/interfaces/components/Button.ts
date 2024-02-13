@@ -8,13 +8,17 @@ import {
 export interface CommonButtonProps extends ButtonProps {
   colorScheme?: 'primary' | 'secondary' | 'create-task'
   endIcon?: MappedIcons
-  filled?: boolean
   handler?: any
-  icon?: MappedIcons
-  iconSize?: 'large' | 'small'
   paginatorBtn?: boolean
   startIcon?: MappedIcons
   text?: string
+}
+
+export interface IconBtnProps extends ButtonProps {
+  filled?: boolean
+  handler?: any
+  icon: MappedIcons
+  iconSize: 'large' | 'small'
 }
 
 export interface ConditionalButtonProps extends ButtonProps {
