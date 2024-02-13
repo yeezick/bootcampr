@@ -16,9 +16,10 @@
     font-size: 24px;
   }
 
-  //Shared styling for hovered, clicked, and disabled states
+  //Shared styling for hovered, active, and disabled states
   &.primary,
-  .secondary {
+  &.secondary,
+  &.icon-button {
     &:hover::before,
     &:active::before {
       border-radius: 4px;
@@ -39,8 +40,7 @@
       background-color: rgba(0, 0, 0, 0.12);
     }
 
-    &.MuiButton-root.Mui-disabled {
-      color: inherit;
+    &.Mui-disabled {
       opacity: 0.38;
       pointer-events: none;
     }
@@ -93,9 +93,51 @@
       background-color: #1a237e;
     }
 
-    &.MuiButton-root.Mui-disabled {
+    &.Mui-disabled {
       background-color: #757575;
       color: #ffffff;
+    }
+  }
+
+  //Styles for icon buttons
+  &.icon-button {
+    &.MuiButtonBase-root {
+      align-self: center;
+      box-sizing: border-box;
+      margin: 0 12px;
+      padding: 0;
+    }
+
+    &.large {
+      height: 40px;
+      width: 40px;
+
+      .MuiSvgIcon-root {
+        font-size: 24px;
+      }
+    }
+
+    &.small {
+      height: 32px;
+      width: 32px;
+
+      .MuiSvgIcon-root {
+        font-size: 16px;
+      }
+    }
+
+    &.filled.MuiIconButton-root {
+      background-color: #eeeeee;
+      border-radius: 50%;
+    }
+
+    .MuiSvgIcon-root {
+      color: black;
+    }
+
+    &:hover::before,
+    &:active::before {
+      border-radius: 50%;
     }
   }
 }

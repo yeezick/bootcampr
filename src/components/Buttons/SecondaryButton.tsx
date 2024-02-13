@@ -12,6 +12,7 @@ export const SecondaryButton = ({
   startIcon,
   endIcon,
   text,
+  icon,
   ...MuiProps
 }: CommonButtonProps) => {
   const conditionalProps: ConditionalButtonProps = { ...MuiProps }

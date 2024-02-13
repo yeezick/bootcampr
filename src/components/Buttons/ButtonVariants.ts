@@ -19,3 +19,5 @@ export const CreateTaskButton = (props: CommonButtonProps) =>
     text: 'Create task',
     variant: 'contained',
   })
+
+export const IconBtn = (props: CommonButtonProps) => createButton(props)
