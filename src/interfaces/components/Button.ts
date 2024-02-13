@@ -18,7 +18,7 @@ export interface IconBtnProps extends ButtonProps {
   filled?: boolean
   handler?: any
   icon: MappedIcons
-  iconSize: 'large' | 'small'
+  iconSize: 'large' | 'medium' | 'small'
 }
 
 export interface ConditionalButtonProps extends ButtonProps {

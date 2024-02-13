@@ -72,8 +72,9 @@ export const CreateTaskButton = (props: CommonButtonProps) =>
 
 /**
  * @param {React.ReactNode} [icon] - The icon to be rendered.
+ * @see {@link Icons} for full list of available icons
  * @param {boolean} [filled] - Whether the button background is filled.
-* @param {('small' | 'large' )} [iconSize] - The size of the icon.
+* @param {('small' | 'medium' | 'large' )} [iconSize] - The size of the icon; small, medium, or large.
 
  * @param {function} [handler] - Function to be called when the button is clicked.
  * @param {object} [style] - Custom styles to be applied to the button.

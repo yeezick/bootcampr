@@ -108,21 +108,30 @@
       padding: 0;
     }
 
+    &.small {
+      height: 24px;
+      width: 24px;
+
+      .MuiSvgIcon-root {
+        font-size: 8px;
+      }
+    }
+
+    &.medium {
+      height: 32px;
+      width: 32px;
+
+      .MuiSvgIcon-root {
+        font-size: 16px;
+      }
+    }
+
     &.large {
       height: 40px;
       width: 40px;
 
       .MuiSvgIcon-root {
         font-size: 24px;
-      }
-    }
-
-    &.small {
-      height: 32px;
-      width: 32px;
-
-      .MuiSvgIcon-root {
-        font-size: 16px;
       }
     }
 
