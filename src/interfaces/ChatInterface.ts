@@ -2,47 +2,47 @@ import { ChatScreen } from 'utils/data/chatConstants'
 import { BasicUserInfoInterface, UserInterface } from './UserInterface'
 
 export interface ChatSliceInterface {
+  activeChatRoomId: string
+  chat: ChatInterface
+  chatText: string
+  selectedChatUsers: UserInterface[]
+  threads: Record<string, ChatInterface>
   ui: {
-    visibleChat: boolean
     chatScreen: ChatScreen
     chatScreenPath: ChatScreen[]
+    visibleChat: boolean
   }
-  chat: ChatInterface
-  threads: Record<string, ChatInterface>
-  selectedChatUsers: UserInterface[]
-  chatText: string
-  activeChatRoomId: string
 }
 
 export interface ChatInterface {
   _id?: string
-  lastMessage?: {
-    text: string
-    sender: BasicUserInfoInterface
-    timestamp: string
-  }
-  participants: ParticipantInterface[]
-  typingUsers?: string[]
-  messages: ChatMessageInterface[]
   chatType: 'group' | 'private'
-  groupName?: string
   groupDescription?: string
+  groupName?: string
   groupPhoto?: string
   lastActive?: string
+  lastMessage?: {
+    sender: BasicUserInfoInterface
+    text: string
+    timestamp: string
+  }
+  messages: ChatMessageInterface[]
+  participants: ParticipantInterface[]
+  typingUsers?: string[]
 }
 
 export interface ChatMessageInterface {
   _id?: string
-  text: string
   sender: BasicUserInfoInterface
-  timestamp: string
   status?: 'sent' | 'read' | 'failed'
+  text: string
+  timestamp: string
 }
 
 export interface EmptyChatPage {
+  className: string
   screen: string
   text: string
-  className: string
 }
 
 export interface FetchMessagesPayload {
@@ -51,7 +51,7 @@ export interface FetchMessagesPayload {
 }
 
 export interface ParticipantInterface {
-  participant: BasicUserInfoInterface
-  isAdmin?: boolean
   hasUnreadMessage?: boolean
+  isAdmin?: boolean
+  participant: BasicUserInfoInterface
 }
