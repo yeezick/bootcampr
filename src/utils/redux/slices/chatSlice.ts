@@ -18,8 +18,8 @@ import { RootState } from 'utils/redux/store'
 import { selectUserId } from './userSlice'
 import { selectMembers } from './projectSlice'
 import {
+  mapMessageSender,
   mapParticipantsWithMemberDetails,
-  updateLastMessageSender,
 } from 'utils/functions/chatLogic'
 
 // todo: chats from project slice should be moved here
@@ -68,21 +68,7 @@ export const fetchMessages = createAsyncThunk<
       const messages = await getChatMessagesByType(chatId, chatType)
       const members = selectMembers(getState())
       const mappedMessages = messages.map(message => {
-        const messageSender = members.find(
-          member => member._id === message.sender
-        )
-        return messageSender
-          ? {
-              ...message,
-              sender: {
-                _id: messageSender._id,
-                firstName: messageSender.firstName,
-                lastName: messageSender.lastName,
-                email: messageSender.email,
-                profilePicture: messageSender.profilePicture,
-              },
-            }
-          : message
+        return mapMessageSender(message, members)
       })
       return { chatId, messages: mappedMessages }
     } catch (error) {
@@ -100,10 +86,7 @@ export const fetchThreads = createAsyncThunk<
     const threads = await getUserChatThreads()
     const members = selectMembers(thunkAPI.getState())
     const threadsMap = threads.map((thread: ChatInterface) => {
-      const lastMessageMap = updateLastMessageSender(
-        thread.lastMessage,
-        members
-      )
+      const lastMessageMap = mapMessageSender(thread.lastMessage, members)
       const participantsMap = mapParticipantsWithMemberDetails(thread, members)
       return {
         ...thread,
@@ -130,14 +113,15 @@ export const processChatRoom = createAsyncThunk<
       chatRoom,
       members
     )
-    const lastMessageMap = updateLastMessageSender(
-      chatRoom.lastMessage,
-      members
-    )
+    const lastMessageMap = mapMessageSender(chatRoom.lastMessage, members)
+    const mappedMessages = chatRoom.messages.map(message => {
+      return mapMessageSender(message, members)
+    })
     return {
       ...chatRoom,
       participants: mappedParticipants,
       lastMessage: lastMessageMap,
+      messages: mappedMessages,
     }
   }
 )
