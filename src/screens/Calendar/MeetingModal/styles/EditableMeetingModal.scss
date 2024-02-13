@@ -1,28 +1,24 @@
 .meeting-modal {
-
-
   .modal-dialog-content {
     overflow-x:hidden;
-    padding-right: 10px;
     padding-left: 10px;
-  
+    padding-right: 10px;
   }
   .meeting-modal-icons {
     align-items: center;;
     background-color: white;
-    display: flex; 
+    display: flex;
     height: 44px;
-    justify-content: space-between;
+    justify-content: flex-end;
     position: absolute;
     top: 0px;
-    width: 87%;
+    width: 95%;
     z-index: 2;
   }
 
   .back-arrow-icon {
     cursor: pointer;
   }
-  
   .clear-icon {
     cursor: pointer;
   }
@@ -30,6 +26,8 @@
   .content-wrapper {
     display:grid;
     gap: 16px;
+    margin-top: 20px;
+
     grid-template-areas: 
     "title title"
     "clockIcon dateFields"
@@ -37,23 +35,24 @@
     "divider divider"
     "meetIcon meetToggler"
     "descriptionIcon description";
-    margin-top: 20px;
-
-
     .title-input-label {
       font-size: 32px;
     }
 
     .title-field {
-      padding-left: 35px;
       grid-area:title;
       margin: 0;
+      padding-left: 35px;
+    }
+
+    .css-v4u5dn-MuiInputBase-root-MuiInput-root:after {
+      border-bottom: none;
     }
 
     .required-span {
-      margin: 0;
       font-size: 12px;
       font-style: italic;
+      margin: 0;
     }
 
     .time-fields{
@@ -67,7 +66,12 @@
     }
 
     .description-field {
+
       grid-area: description
+    }
+
+    .css-l4u8b9-MuiInputBase-root-MuiInput-root:after {
+      border-bottom: none;
     }
   }
 
@@ -89,7 +93,6 @@
     display: flex;
     flex-direction: row;
   }
-  
   .google-meet-icon {
     grid-area: meetIcon;
     margin-top: 5px;
@@ -97,12 +100,15 @@
 
   .google-meet-text {
     color:  #212121;
-    margin: 0;
     font-size: 12px;
+    margin: 0;
   }
 
   .google-meet-toggler {
     grid-area: meetToggler;
   }
-}
 
+  .css-1x51dt5-MuiInputBase-input-MuiInput-input {
+    margin-top: 5px;
+  }
+}

@@ -10,6 +10,9 @@ export const DisplayAttendees = ({ creator }) => {
   const { attendees } = useAppSelector(selectDisplayedEvent)
   const emailQueries = attendees.map(attendee => attendee.email)
   const teamMembers = useAppSelector(selectMembersByEmail(emailQueries))
+  const meetingOrganizer = attendees.filter(
+    attendee => attendee.comment === 'organizer'
+  )
 
   useEffect(() => {
     const prepareInvitedMembers = () => {
@@ -25,8 +28,13 @@ export const DisplayAttendees = ({ creator }) => {
             role: role,
             email: email,
             userId: _id,
+            organizer: meetingOrganizer[0].email === email ? true : false,
           })
         }
+        const organizerIndex = invitedMemberInfo.findIndex(
+          member => member.organizer === true
+        )
+        invitedMemberInfo.push(...invitedMemberInfo.splice(0, organizerIndex))
         setInvitedMembers(invitedMemberInfo)
       }
     }
@@ -56,6 +64,7 @@ const InvitedMember = ({ member }) => {
         <p onClick={() => navigate(`/users/${member.userId}`)}>{memberName}</p>
         <p className='role'>{member.role}</p>
       </div>
+      {member.organizer && <p className='organizer'>Organizer</p>}
     </div>
   )
 }

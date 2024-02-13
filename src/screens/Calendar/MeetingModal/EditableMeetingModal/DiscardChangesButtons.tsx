@@ -17,13 +17,13 @@ export const DiscardChangesButtons = ({
 }
 
 const discardButtonStyles = {
-  backgroundColor: '#fa9413',
+  backgroundColor: '#ffa726',
   color: '#1A237E',
   textTransform: 'none',
   padding: '8px 20px',
   fontWeight: '600',
   '&:hover': {
-    backgroundColor: '#fa9413',
+    backgroundColor: '#ffa726',
   },
 }
 
