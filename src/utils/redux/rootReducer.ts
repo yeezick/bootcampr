@@ -10,7 +10,7 @@ import taskBoardSlice from './slices/taskBoardSlice'
 
 export type RootState = {
   calendar: ReturnType<typeof calendarReducer>
-  chat: ReturnType<typeof chatReducer>
+  chatbox: ReturnType<typeof chatReducer>
   notification: ReturnType<typeof notificationReducer>
   project: ReturnType<typeof projectReducer>
   snackBar: ReturnType<typeof snackBarSlice>
@@ -24,7 +24,7 @@ export type RootState = {
  */
 const rootReducer: Reducer<RootState> = combineReducers({
   calendar: calendarReducer,
-  chat: chatReducer,
+  chatbox: chatReducer,
   notification: notificationReducer,
   project: projectReducer,
   snackBar: snackBarSlice,

@@ -7,90 +7,28 @@
   padding: 0 4px;
   row-gap: 35px;
 
-  &::-webkit-scrollbar {
-    background-color: #f5f5f500;
-    height: 8px;
-    width: 3px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-  }
-
-  &:hover::-webkit-scrollbar-thumb {
-    opacity: 1;
-  }
-
-  h5 {
-    font-size: 16px;
-    font-weight: 400;
-    margin: 0;
-    text-align: left;
-  }
-
-  .room-info-grid {
-    input {
-      background-color: #ecebeb;
-      border: none;
-      border-radius: 4px;
-      box-sizing: border-box;
-      height: 34px;
-      margin-top: 5px;
-      padding: 0 15px;
-      width: 100%;
-    }
-  }
-
   .members-container {
+    align-items: flex-start;
     display: flex;
     flex-direction: column;
-    margin-left: -8px;
-    margin-top: 5px;
 
     .members-list {
-      align-items: center;
-      column-gap: 8px;
       display: flex;
+      flex-direction: column;
       padding: 8px 0 8px 8px;
-
-      &:hover {
-        background-color: #faeedf;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
-      svg:hover {
-        color: black;
-      }
+      row-gap: 16px;
 
       .you-identifier {
         font-weight: 600;
       }
+    }
 
-      .avatar-grid {
-        align-items: center;
-        background-color: #f6bf79;
-        border-radius: 50%;
-        display: flex;
-        height: 32px;
-        justify-content: center;
-        overflow: hidden;
-        width: 32px;
-
-        img {
-          background-color: rgb(236, 236, 236);
-          height: 32px;
-          padding: 0;
-        }
-      }
-
-      p {
-        font-size: 14px;
-        margin: 0;
-      }
+    p {
+      font-family: 'Roboto';
+      font-size: 16px;
+      line-height: 24px;
+      margin: 0;
+      padding: 0 0 0 8px;
     }
   }
 }
