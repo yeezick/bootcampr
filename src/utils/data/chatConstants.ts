@@ -1,47 +1,14 @@
-import {
-  ChatMessageInterface,
-  ChatSliceInterface,
-} from 'interfaces/ChatInterface'
-
 export enum ChatScreen {
   Main = 'main',
-  Messages = 'messages',
+  ChatRoom = 'chatroom',
   ComposeNewChat = 'composeNewChat',
   EditChatRoom = 'editChatRoom',
   InviteNewMembers = 'inviteNewMembers',
   MemberProfile = 'memberProfile',
 }
 
-export const initialState: ChatSliceInterface = {
-  ui: {
-    visibleChat: false,
-    chatScreen: ChatScreen.Main,
-    chatScreenPath: [ChatScreen.Main],
-  },
-  conversation: {
-    _id: '',
-    isGroup: false,
-    participants: [],
-    displayName: '',
-    selectedMember: {
-      _id: '',
-      firstName: '',
-      lastName: '',
-      profilePicture: '',
-    },
-  },
-  unreadConversations: 0,
-  chatText: {
-    text: '',
-  },
-}
-
 export enum ChatIcons {
   NoMessages = 'https://i.postimg.cc/bN6vcwc9/Screen-Shot-2023-04-18-at-10-32-05-PM.png',
   NoConversations = 'https://i.postimg.cc/bN6vcwc9/Screen-Shot-2023-04-18-at-10-32-05-PM.png',
   NoMembers = 'https://i.postimg.cc/VNBQ0xHP/Screen-Shot-2023-05-26-at-8-08-16-PM.png',
-}
-
-export const emptyChatText: ChatMessageInterface = {
-  text: '',
 }
