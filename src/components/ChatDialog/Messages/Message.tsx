@@ -32,7 +32,7 @@ export const Message = ({
   } = getMessageClassNames(messages, message, index, authUser, selectedMessages)
 
   return (
-    <div className='message-container'>
+    <div className={`message-container ${isSameUser}`}>
       {showSenderName && (
         <span className='message-sender-name'>
           {message.sender.firstName} {message.sender.lastName}

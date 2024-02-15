@@ -151,8 +151,8 @@ export const getMessageClassNames = (
   const isSenderAuthUser = message.sender._id === authUser._id
 
   const isSameUser = isSameSenderAsPrevious(messages, message, index)
-    ? 'same-user-text-margin'
-    : 'other-user-text-margin'
+    ? 'same-user'
+    : 'other-user'
 
   const isLastMessageAndSameRecipient =
     isRecipientMessageSameSender(messages, message, index, authUser._id) ||
@@ -190,5 +190,6 @@ export const getMessageClassNames = (
     isLastMessageAndSameRecipient,
     isMessageSelected,
     timestampClasses,
+    isSameSenderAsPrevious,
   }
 }
