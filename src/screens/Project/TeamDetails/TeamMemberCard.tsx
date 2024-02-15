@@ -2,8 +2,16 @@ import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
-import { handleMemberMessageClick } from 'utils/helpers/messagingHelpers'
 import './TeamMemberCard.scss'
+import { createOrGetPrivateChatRoom } from 'utils/api/chat'
+import {
+  onScreenUpdate,
+  processChatRoom,
+  setCurrentChat,
+  toggleChatOpen,
+} from 'utils/redux/slices/chatSlice'
+import { ChatScreen } from 'utils/data/chatConstants'
+import { useSocketEvents } from 'components/Notifications/Socket'
 
 export const TeamMemberCard = ({ member, loggedInUserId }) => {
   const {
@@ -17,17 +25,22 @@ export const TeamMemberCard = ({ member, loggedInUserId }) => {
   const isCurrentUser = memberId === loggedInUserId
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
+  const { createNewRoom } = useSocketEvents(false)
 
-  const handleChatMemberClick = () => {
-    handleMemberMessageClick({
-      firstName,
-      lastName,
-      memberId,
-      email,
-      profilePicture,
-      authUser,
-      dispatch,
-    })
+  const handleChatMemberClick = async () => {
+    try {
+      const chatResponse = await createOrGetPrivateChatRoom(memberId)
+      let room = chatResponse.chatRoom
+      room = await dispatch(processChatRoom(room)).unwrap()
+      if (chatResponse.isNew) {
+        createNewRoom({ chatRoom: room, receiverIds: [memberId] })
+      }
+      dispatch(setCurrentChat(room))
+      dispatch(toggleChatOpen())
+      dispatch(onScreenUpdate(ChatScreen.ChatRoom))
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
