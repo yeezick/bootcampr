@@ -4,10 +4,13 @@ import { resendNewEmailLink } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import emailSentImage from '../../../../assets/Images/email-sent-confirmation-image.png'
+import { useSelector } from 'react-redux'
+import { selectUserEmail } from 'utils/redux/slices/userSlice'
 
 export const EmailSentConfirmation: React.FC = () => {
   const dispatch = useAppDispatch()
   const { id: newUserId } = useParams()
+  const email = useSelector(selectUserEmail)
 
   const handleResendEmailClick = async () => {
     try {
@@ -39,17 +42,20 @@ export const EmailSentConfirmation: React.FC = () => {
         Congrats! You've taken the first step.
       </p>
       <p className='message-content subheader'>
-        We sent you a confirmation email.
+        We sent a confirmation email to <span>{email}</span>.
       </p>
       <div className='message-content text'>
-        <p>
-          Confirm your email address to log in. If you don’t see it after a few
-          minutes, please check your junk or spam folder.
-        </p>
+        <p>It may be in your junk or spam folder.</p>
       </div>
-      <button className='resend-link' onClick={handleResendEmailClick}>
-        Re-send email
-      </button>
+      <div className='message-content confirm'>
+        <p>Confirm your email address to log in.</p>
+      </div>
+      <div className='message-content update-email'>
+        <button onClick={handleResendEmailClick}>
+          Update your email address
+        </button>
+        <span>if it's incorrect.</span>
+      </div>
       <div className='img-container'>
         <img
           src={emailSentImage}
