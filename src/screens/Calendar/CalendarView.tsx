@@ -70,7 +70,7 @@ export const CalendarView = () => {
               meridiem: true,
             }}
             headerToolbar={{
-              start: 'today prev next',
+              start: 'today prev myCustomTitle next',
               center: '',
               end: 'myCustomButton',
             }}
@@ -86,6 +86,9 @@ export const CalendarView = () => {
               myCustomButton: {
                 text: '+ Creating Meeting',
                 click: () => dispatch(setModalDisplayStatus('create')),
+              },
+              myCustomTitle: {
+                text: 'Week',
               },
             }}
           />

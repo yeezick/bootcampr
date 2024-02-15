@@ -9,7 +9,6 @@
 
 .calendar-container{
 
-  //calendar buttons
   .fc .fc-today-button,  .fc  .fc-today-button:active  {
     background-color: white;
     border-color: #1A237E;
@@ -41,6 +40,8 @@
     background-color: transparent;
     border: none;
     color: #212121;
+
+    margin: 0px
   }
 
   .fc .fc-next-button:active:focus,  .fc .fc-next-button:focus{
@@ -57,6 +58,7 @@
   }
 
   .tbody{
+
     z-index: 0
   }
 
@@ -86,6 +88,20 @@
     box-shadow: none;
   }
 
+  .fc .fc-myCustomTitle-button, .fc .fc-myCustomTitle-button:active{
+    background-color: transparent;
+    border: none;
+    color: black;
+    cursor:default;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-size: 16px;
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .fc .fc-myCustomTitle-button:focus, .fc .fc-myCustomTitle-button:active:focus {
+    box-shadow: none;
+  }
   //calendar date/day labels
   .fc .fc-col-header-cell-cushion {
     font-family: "Roboto","Helvetica","Arial",sans-serif;
@@ -95,6 +111,7 @@
 
   //calendar timeslots
   .fc .fc-timegrid-slot {
+
     height: 2.3em
   }
 
@@ -145,7 +162,3 @@
     --fc-now-indicator-color: orange;
   }
 }
-
-
-
-
