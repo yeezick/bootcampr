@@ -29,7 +29,7 @@ export const YourProjectPortal = () => {
         />
         <DetailsContent
           imagePath={laptopCalendar}
-          textHeader='Calendar'
+          textHeader='Scrum Calendar'
           textContent=' Communication with your team is important. We provide a calendar showing your full team availability to make it easy to schedule meetings. We schedule the first one for you!'
         />
         <DetailsContent

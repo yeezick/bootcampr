@@ -35,9 +35,9 @@ export const buildProjectPortalLinks = (projectId: string) => {
     },
     {
       domain: 'project',
-      headerTitle: 'Calendar',
+      headerTitle: 'Scrum Calendar',
       icon: 'calendar',
-      label: 'Calendar',
+      label: 'Scrum Calendar',
       route: `/project/${urlProjectId}/calendar`,
     },
     {
