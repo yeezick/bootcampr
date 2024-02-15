@@ -34,7 +34,7 @@ export const YourProjectPortal = () => {
         />
         <DetailsContent
           imagePath={laptopTaskManagement}
-          textHeader='Task Management'
+          textHeader='Kanban Board'
           textContent='Most companies use a work management tool. We’ve created one you can use to organize and track tasks. Hiring managers will be happy to hear you’re familiar with task management tools!'
         />
         <DetailsContent

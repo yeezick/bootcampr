@@ -42,9 +42,10 @@ export const buildProjectPortalLinks = (projectId: string) => {
     },
     {
       domain: 'project',
-      headerTitle: 'Task Management',
+      //TODO: make this value dynamic
+      headerTitle: 'Sprint 1',
       icon: 'tasks',
-      label: 'Task Management',
+      label: 'Kanban Board',
       route: `/project/${urlProjectId}/tasks`,
     },
   ]

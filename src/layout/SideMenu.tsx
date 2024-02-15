@@ -53,7 +53,7 @@ const MenuLink = ({ linkDetails }) => {
   const LinkIcon = iconMap[icon]
   const dispatch = useAppDispatch()
   const isCalendarOrTask =
-    label === 'Calendar' || label === 'Task Management' || label === 'Team'
+    label === 'Calendar' || label === 'Kanban Board' || label === 'Team'
   const linkClassName = `${
     !projectId && isCalendarOrTask ? 'link-disable' : 'link'
   }`
