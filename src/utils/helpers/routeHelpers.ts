@@ -21,9 +21,9 @@ export const buildProjectPortalLinks = (projectId: string) => {
   return [
     {
       domain: 'project',
-      headerTitle: 'Project Details',
+      headerTitle: 'Product Details',
       icon: 'description',
-      label: 'Project Details',
+      label: 'Product Details',
       route: `/project/${urlProjectId}`,
     },
     {
@@ -107,7 +107,8 @@ export const buildSettingsPortal = (userId: string) => {
 export const buildProjectPortal = (projectId: string) => {
   const portal: Portal = {
     active: true,
-    headerTitle: 'Project Details',
+    //TODO: I believe this is the root of the wrong header appearing on refresh
+    headerTitle: 'Product Details',
     type: 'project',
   }
 

@@ -19,7 +19,7 @@ export const YourProjectPortal = () => {
       <div className='details'>
         <DetailsContent
           imagePath={laptopProjectDetails}
-          textHeader='Project Details'
+          textHeader='Product Details'
           textContent=' The project prompt tells you the problem, user groups to consider, deliverables, and the scope. We provide a timeline so you know what to expect during the 4-week project. Focus on delivering a solution!'
         />
         <DetailsContent
