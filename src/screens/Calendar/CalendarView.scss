@@ -8,14 +8,20 @@
 }
 
 .calendar-container{
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+
+  .fc .fc-toolbar-title{
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
 
   .fc .fc-today-button,  .fc  .fc-today-button:active  {
     background-color: white;
-    border-color: #1A237E;
+    border-color: #1A237E; 
     color: #1a237e;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
     font-size: 14px;
     font-weight: 500;
+    margin: 0px;
     padding: 7px 18px;
     text-transform: capitalize;
   }
@@ -78,7 +84,6 @@
     background-color: #ffa726;
     border: none;
     color: #1A237E;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
     font-size: 14px;
     font-weight: 500;
     padding: 9px 21px;
@@ -93,7 +98,6 @@
     border: none;
     color: black;
     cursor:default;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
     font-size: 16px;
     margin: 0px;
     padding: 0px;
@@ -104,7 +108,6 @@
   }
   //calendar date/day labels
   .fc .fc-col-header-cell-cushion {
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
     padding: 20px 0px;
     text-transform: uppercase;
   }
@@ -118,7 +121,6 @@
   //calendar timeslot time labels
   .fc .fc-timegrid-slot-label-cushion{
     color: #616161;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
     font-size: 12px;
     text-transform: uppercase;
   }

@@ -70,18 +70,21 @@ export const CalendarView = () => {
               meridiem: true,
             }}
             headerToolbar={{
-              start: 'today prev myCustomTitle next',
+              start: 'title today prev myCustomTitle next',
               center: '',
               end: 'myCustomButton',
             }}
+            titleFormat={{ year: 'numeric', month: 'long' }}
             allDaySlot={false}
             initialView='timeGridWeek'
             nowIndicator={true}
             plugins={[dayGridPlugin, timeGridPlugin]}
-            validRange={{
-              start: firstDay,
-              end: lastDay,
-            }}
+            validRange={
+              {
+                // start: firstDay,
+                // end: lastDay,
+              }
+            }
             customButtons={{
               myCustomButton: {
                 text: '+ Creating Meeting',
