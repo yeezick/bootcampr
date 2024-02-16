@@ -34,7 +34,6 @@ const initialState: UiSliceInterface = {
       project: '',
       role: '',
       unreadMessages: {},
-      unverifiedEmail: '',
       __v: 0,
       _id: '',
     },
@@ -124,9 +123,6 @@ const userSlice = createSlice({
         state.auth.user.hasProfilePicture = false
       }
     },
-    setUserUnverifiedEmail: (state, action: PayloadAction<string>) => {
-      state.auth.user.unverifiedEmail = action.payload
-    },
   },
   extraReducers: builder => {
     builder
@@ -167,8 +163,6 @@ export const getUserProfileImage = (state: RootState) =>
   state.ui.auth.user.profilePicture
 export const selectAuthUser = (state: RootState) => state.ui.auth.user
 export const selectUserEmail = (state: RootState) => state.ui.auth.user.email
-export const selectUserUnverifiedEmail = (state: RootState) =>
-  state.ui.auth.user.unverifiedEmail
 export const selectUserProjectId = (state: RootState) =>
   state.ui.auth.user.project
 export const selectUserId = (state: RootState) => state.ui.auth.user._id
@@ -187,6 +181,5 @@ export const {
   updateUnreadMessagesObj,
   setUploadedImage,
   setDefaultProfilePicture,
-  setUserUnverifiedEmail,
 } = userSlice.actions
 export default userSlice.reducer

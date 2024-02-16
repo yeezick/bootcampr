@@ -1,16 +1,28 @@
 import './EmailSentConfirmation.scss'
 import { useParams } from 'react-router-dom'
-import { resendNewEmailLink } from 'utils/api'
+import { getOneUser, resendNewEmailLink } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import emailSentImage from '../../../../assets/Images/email-sent-confirmation-image.png'
-import { useSelector } from 'react-redux'
-import { selectUserUnverifiedEmail } from 'utils/redux/slices/userSlice'
+import { useEffect, useState } from 'react'
 
 export const EmailSentConfirmation: React.FC = () => {
   const dispatch = useAppDispatch()
   const { id: newUserId } = useParams()
-  const email = useSelector(selectUserUnverifiedEmail)
+  const [userEmail, setUserEmail] = useState(null)
+
+  useEffect(() => {
+    const fetchUserEmail = async () => {
+      try {
+        const { email } = await getOneUser(newUserId)
+        setUserEmail(email)
+      } catch (error) {
+        console.error('Error fetching user data:', error)
+      }
+    }
+
+    fetchUserEmail()
+  }, [newUserId])
 
   //TODO: replace this with a modal to complete update email flow (BC-753)
   const handleResendEmailClick = async () => {
@@ -43,7 +55,7 @@ export const EmailSentConfirmation: React.FC = () => {
         Congrats! You've taken the first step.
       </p>
       <p className='message-content subheader'>
-        We sent a confirmation email to <span>{email}</span>.
+        We sent a confirmation email to <span>{userEmail}</span>.
       </p>
       <div className='message-content text'>
         <p>It may be in your junk or spam folder.</p>
