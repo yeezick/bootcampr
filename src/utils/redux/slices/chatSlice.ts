@@ -174,9 +174,6 @@ const chatSlice = createSlice({
         const senderParticipant = state.threads[chatRoomId].participants.find(
           pp => pp.participant._id === senderId
         )
-        if (!senderParticipant) {
-          return
-        }
         const newMessage: ChatMessageInterface = {
           sender: senderParticipant.participant,
           text: receivedMessage.newMessage,
