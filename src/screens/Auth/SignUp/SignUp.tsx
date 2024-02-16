@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaInfoCircle } from 'react-icons/fa'
 import { GoAlert } from 'react-icons/go'
-import { register, reset, uiStatus } from 'utils/redux/slices/userSlice'
+import {
+  register,
+  reset,
+  setUserUnverifiedEmail,
+  uiStatus,
+} from 'utils/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { SignUpInterface } from 'interfaces/UserInterface'
 import { PasswordErrors } from 'interfaces/components/Input'
@@ -63,9 +68,11 @@ export const SignUp: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    const unverifiedEmail = formValues.email
+    dispatch(setUserUnverifiedEmail(unverifiedEmail))
+
     const validForm = await dispatch(register(formValues))
     const { payload } = validForm
-
     navigate(`/sign-up/${payload.newUser}/confirmation-email-sent`)
     window.scrollTo(0, 0) // Scroll to top to view alert banner
     if (payload.invalidCredentials && payload.existingAccount) {

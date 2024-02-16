@@ -5,13 +5,14 @@ import { useAppDispatch } from 'utils/redux/hooks'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import emailSentImage from '../../../../assets/Images/email-sent-confirmation-image.png'
 import { useSelector } from 'react-redux'
-import { selectUserEmail } from 'utils/redux/slices/userSlice'
+import { selectUserUnverifiedEmail } from 'utils/redux/slices/userSlice'
 
 export const EmailSentConfirmation: React.FC = () => {
   const dispatch = useAppDispatch()
   const { id: newUserId } = useParams()
-  const email = useSelector(selectUserEmail)
+  const email = useSelector(selectUserUnverifiedEmail)
 
+  //TODO: replace this with a modal to complete update email flow (BC-753)
   const handleResendEmailClick = async () => {
     try {
       const res: any = await resendNewEmailLink(newUserId)

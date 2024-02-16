@@ -26,6 +26,7 @@ export interface UserInterface {
   hasProfilePicture?: boolean
   role?: string
   unreadMessages?: {}
+  unverifiedEmail?: string
   savedProjects?: ProjectInterface[]
   timezone?: TimezonesUTC
   verified?: Boolean
