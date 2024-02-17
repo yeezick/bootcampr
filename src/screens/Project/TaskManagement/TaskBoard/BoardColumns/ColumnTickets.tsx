@@ -12,7 +12,11 @@ export const ColumnTickets = ({ columnStatus, provided }) => {
       ref={provided.innerRef}
     >
       {visibleTickets[columnStatus].map((ticketDetail, idx) => (
-        <TicketTab key={ticketDetail} idx={idx} ticketDetail={ticketDetail} />
+        <TicketTab
+          key={`${ticketDetail}+${idx}`}
+          idx={idx}
+          ticketDetail={ticketDetail}
+        />
       ))}
       {provided.placeholder}
     </div>
