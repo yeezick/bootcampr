@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 import { getTicketComments } from 'utils/api/tickets'
-import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { TicketTextLabel } from '../Fields'
 import { NewComment } from './InputBanner'
 import { Comment } from './Comment'

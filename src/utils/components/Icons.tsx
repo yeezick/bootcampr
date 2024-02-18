@@ -3,6 +3,7 @@ import AddIcon from '@mui/icons-material/Add'
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined'
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
 import ChecklistOutlinedIcon from '@mui/icons-material/ChecklistOutlined'
+import CircleIcon from '@mui/icons-material/Circle'
 import ClearIcon from '@mui/icons-material/Clear'
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
 import EastIcon from '@mui/icons-material/East'
@@ -14,6 +15,8 @@ import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined'
+import ThumbUpIcon from '@mui/icons-material/ThumbUp'
+import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined'
 import TitleIcon from '@mui/icons-material/Title'
 import { IconMap, IconProps, MappedIcons } from 'interfaces/components'
 
@@ -30,11 +33,14 @@ export const iconMap: IconMap = {
   account: AccountCircleOutlinedIcon,
   calendar: CalendarTodayOutlinedIcon,
   chatBubble: ChatBubbleOutlineOutlinedIcon,
+  circle: CircleIcon,
   close: ClearIcon,
   description: DescriptionOutlinedIcon,
   email: EmailOutlinedIcon,
   group: GroupsOutlinedIcon,
   leftArrow: KeyboardBackspaceIcon,
+  likeOutlined: ThumbUpAltOutlinedIcon,
+  likeFilled: ThumbUpIcon,
   link: InsertLinkOutlinedIcon,
   localOffer: LocalOfferOutlinedIcon,
   lock: LockOutlinedIcon,

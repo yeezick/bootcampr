@@ -2,7 +2,7 @@ import '../../styles/Comments.scss'
 import { useState } from 'react'
 import { Replies } from './Replies'
 import { CommentHeader } from './CommentHeader'
-import { CommentFooter } from './CommentFooter'
+import { CommentFooter } from './CommentFooter/CommentFooter'
 import { CommentContent } from './CommentContent'
 
 export const Comment = ({ comment, fetchComments, toggleFetchComments }) => {
