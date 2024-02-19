@@ -48,6 +48,12 @@
     .comment-thumbnail {
       margin-top: 5px;
     }
+
+    .replies-container {
+      .comment-input-banner {
+        margin-top: 15px;
+      }
+    }
 }
         
 .comment-input-banner, .comment-container {
@@ -155,10 +161,6 @@
     height: 20px;
     padding: 3px 5px;
     width: 95%;
-}
-
-.REPLY {
-    margin-left: 45px;
 }
 
 .replies-container {

@@ -5,14 +5,12 @@ import { CommentType } from 'interfaces/TaskBoardInterface'
 import { NewComment } from './InputBanner'
 
 export const Replies = ({
-  comment,
+  parentComment,
   toggleFetchComments,
   fetchComments,
-  renderReplyInput,
-  toggleRenderReplyInput,
 }) => {
   const [replies, setReplies] = useState([])
-  const { isReply, _id: commentId } = comment
+  const { isReply, _id: commentId } = parentComment
   const getCommentReplies = async commentId => {
     const response = await getReplies(commentId)
     setReplies(response)
@@ -28,26 +26,21 @@ export const Replies = ({
         replies?.map(reply => {
           return (
             !isReply && (
-              <>
-                <Comment
-                  comment={reply}
-                  toggleFetchComments={toggleFetchComments}
-                  fetchComments={fetchComments}
-                  key={reply._id}
-                />
-                {renderReplyInput && (
-                  <NewComment
-                    commentType={CommentType.Reply}
-                    toggleFetchComments={toggleFetchComments}
-                    fetchComments={fetchComments}
-                    parentComment={commentId}
-                    toggleRenderReplyInput={toggleRenderReplyInput}
-                  />
-                )}
-              </>
+              <Comment
+                comment={reply}
+                toggleFetchComments={toggleFetchComments}
+                fetchComments={fetchComments}
+                key={reply._id}
+              />
             )
           )
         })}
+      <NewComment
+        commentType={CommentType.Reply}
+        toggleFetchComments={toggleFetchComments}
+        fetchComments={fetchComments}
+        parentComment={commentId}
+      />
     </div>
   )
 }

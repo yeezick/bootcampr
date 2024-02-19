@@ -6,12 +6,8 @@ export const CommentFooter = ({
   toggleFetchComments,
   fetchComments,
   toggleEditMode,
-  toggleRenderReplyInput,
 }) => {
   const { author, likes, _id: commentId } = comment
-  const renderReplyInputBar = () => {
-    toggleRenderReplyInput(true)
-  }
 
   return (
     <div className='comment-actions'>

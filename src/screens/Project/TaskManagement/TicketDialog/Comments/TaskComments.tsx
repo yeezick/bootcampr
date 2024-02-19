@@ -4,6 +4,7 @@ import { TicketTextLabel } from '../Fields'
 import { NewComment } from './InputBanner'
 import { Comment } from './Comment'
 import { CommentType } from 'interfaces/TaskBoardInterface'
+import { Replies } from './Replies'
 
 export const TaskComments = ({ ticketId }) => {
   const [comments, setComments] = useState([])
@@ -26,14 +27,21 @@ export const TaskComments = ({ ticketId }) => {
         toggleFetchComments={toggleFetchComments}
         fetchComments={fetchComments}
       />
-      <div className='render-comments'>
+      <div>
         {comments?.map(comment => (
-          <Comment
-            comment={comment}
-            toggleFetchComments={toggleFetchComments}
-            fetchComments={fetchComments}
-            key={comment._id}
-          />
+          <>
+            <Comment
+              comment={comment}
+              toggleFetchComments={toggleFetchComments}
+              fetchComments={fetchComments}
+              key={comment._id}
+            />
+            <Replies
+              parentComment={comment}
+              toggleFetchComments={toggleFetchComments}
+              fetchComments={fetchComments}
+            />
+          </>
         ))}
       </div>
     </div>

@@ -12,7 +12,6 @@ export const NewComment = ({
   ticketId = undefined,
   fetchComments,
   toggleFetchComments,
-  toggleRenderReplyInput = undefined,
 }) => {
   const user = useAppSelector(selectAuthUser)
   let placeholderText =
@@ -45,9 +44,6 @@ export const NewComment = ({
     }
     await createComment(commentPayload)
     setInputText('')
-    if (isReply) {
-      toggleRenderReplyInput(false)
-    }
     toggleFetchComments(!fetchComments)
   }
 
