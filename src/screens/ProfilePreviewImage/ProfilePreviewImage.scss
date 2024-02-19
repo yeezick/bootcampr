@@ -1,0 +1,196 @@
+@import '../../scss/mixins.scss';
+
+.profile-preview {
+  &__actions {
+    @include actions;
+  }
+
+  &__add-btn,
+  &__delete-btn,
+  &__edit-btn {
+    @include button;
+  }
+
+  &__btn-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+
+    p {
+      @include font-properties(
+        (
+          size: 16px,
+          weight: 400,
+          line-height: 24px,
+        )
+      );
+      margin: 0;
+    }
+  }
+
+  &__cancel-btn {
+    align-items: center;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    color: #1a237e;
+    cursor: pointer;
+    display: flex;
+    font-size: 16px;
+    height: 40px;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    text-transform: none;
+    width: 88px;
+  }
+
+  &__cancel-btn:active {
+    background-color: #1a237e;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  &__close-btn {
+    cursor: pointer;
+    height: 24px;
+    padding: 0 10px 20px 0;
+    width: 24px;
+  }
+
+  &__content-box {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+
+    .avatar-default-picture {
+      background-color: #ffa726;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      height: 250px;
+      justify-content: center;
+      margin: 0;
+      text-align: center;
+      width: 250px;
+
+      p {
+        @include font-properties(
+          (
+            size: 90px,
+            weight: 700,
+            line-height: 20px,
+          )
+        );
+        color: #1a237e;
+        font-style: normal;
+        margin: 0;
+        text-align: center;
+      }
+    }
+  }
+
+  &__dialog {
+    padding: 32px;
+  }
+
+  &__dialog-content {
+    @include dialog-content;
+  }
+
+  &__text-content {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 380px;
+
+    p {
+      font-size: 16px;
+      line-height: 24px;
+      margin: 0 0 24px 0;
+    }
+  }
+
+  &__delete2-btn {
+    align-items: center;
+    background-color: #d32f2f;
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    font-size: 16px;
+    height: 40px;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    text-transform: none;
+    width: 88px;
+  }
+
+  &__delete2-btn:hover {
+    background-color: #b71c1c;
+    cursor: pointer;
+  }
+
+  &__edit-box {
+    align-items: flex-end;
+    display: flex;
+    gap: 100px;
+    padding: 0;
+  }
+
+  &__edit-icon,
+  &__add-icon,
+  &__delete-icon {
+    @include icon;
+  }
+
+  &__header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__profile-image {
+    border-radius: 50%;
+    height: 225px;
+    margin: auto;
+    object-fit: cover;
+    width: 225px;
+  }
+
+  &__profile-image-container {
+    align-items: center;
+    background-color: #c4c4c4;
+    border: 4px solid #8048c8;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+#dialog-text {
+  padding: 0;
+}
+
+#dialog-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+
+#title {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  text-align: center;
+  padding: 16px;
+}

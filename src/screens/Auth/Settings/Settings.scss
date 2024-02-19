@@ -1,0 +1,425 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Roboto&family=Rubik&display=swap');
+
+.settings-card {
+  border-radius: 3px;
+  color: #212121;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+  margin: 60px 90px;
+  padding: 0;
+  position: relative;
+  width: fit-content;
+
+  h3 {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 28px;
+    text-align: left;
+  }
+
+  h4 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    margin-top: 16px;
+    text-align: left;
+  }
+
+  input {
+    background-color: #FFF;
+    border: 1px solid #212121;
+    border-radius: 4px;
+    font-size: 18px;
+    height: 24px;
+    margin-top: 7px;
+    outline: none;
+    padding: 8px 16px;
+    width: 328px;
+
+    &::placeholder {
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+    }
+  }
+
+  .email-input-container {
+    position: relative;
+  }
+
+  .invalid-email {
+    border: 1px solid #B71C1C;
+  }
+
+  .invalid-msg {
+    color: #B71C1C;
+    font-size: 12px;
+    line-height: 16px;
+    padding-left: 16px;
+    position: absolute;
+    top: 100%;
+  }
+
+  label {
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 8px;
+  }
+
+  p {
+    font-size: 16px;
+    margin-top: 8px;
+  }
+
+  .buttons {
+    align-items: flex-end;
+    column-gap: 20px;
+    display: flex;
+    height: 72px;
+    justify-content: flex-end;
+    width: 100%;
+
+    button {
+      border-radius: 4px;
+      font-size: 14px;
+      height: 40px;
+      padding: 0px 24px;
+    }
+
+    // TODO: swap these for color variables
+    .cancel {
+      background-color: white;
+      border-color: #8048cb;
+      border-style: solid;
+      border-width: 1px;
+      color: #8048cb;
+    }
+
+    .update {
+      background-color: #FFA726;
+      border-style: none;
+      cursor: pointer;
+      color: #1A237E;
+      font-size: 14px;
+      font-weight: 500;
+
+      &:disabled {
+        background-color: #FFA726;
+        color: #1A237E;
+        cursor: auto;
+        opacity: 0.5;
+      }
+    }
+
+  }
+
+  .valid {
+    color: green;
+  }
+
+  .invalid {
+    color: red;
+  }
+}
+
+
+.DeleteAccount {
+  align-items: flex-start;
+  border-radius: 3px;
+  color: #212121;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+  margin: 60px 90px;
+  padding: 2rem;
+  position: relative;
+  width: fit-content;
+  text-align: left;
+
+  h2 {
+    font-size: 22px;
+    line-height: 28px;
+  }
+
+  .delete-button-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .delete-account-button {
+    background-color: #D32F2F;
+    border-radius: 4px;
+    border-style: none;
+    color: #FFF;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    height: 40px;
+    margin-left: auto;
+    margin-top: 20px;
+    padding: 0px 14px;
+    width: 142px;
+  }
+
+  h3 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+}
+
+.settings-reset-password,
+.settings-change-password {
+  &.container {
+    background: #fff;
+    display: flex;
+    font-family: 'Roboto', sans-serif;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    top: 97px;
+    width: 100%;
+    z-index: 999;
+  }
+
+  &.form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    margin-top: 64px;
+    row-gap: 16px;
+    width: 328px;
+
+    .password-inputs-wrapper {
+      display: flex;
+      flex-direction: column;
+      row-gap: 16px;
+      width: 100%;
+    }
+
+    .new-password,
+    .confirm-password,
+    .current-password {
+      &.container {
+        display: flex;
+        flex-direction: column;
+
+        label {
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+        }
+
+        .password-criteria {
+          align-items: center;
+          color: #616161;
+          display: flex;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 16px;
+          padding: 0px 16px;
+
+          p {
+            margin: 0px 0;
+          }
+        }
+
+        .criteria-not-met {
+          color: #d32f2f;
+          margin: 2px 0;
+        }
+
+        .criteria-met {
+          color: #388e3c;
+          margin: 2px 0;
+        }
+
+        .match-status {
+          align-items: center;
+          display: flex;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 16px;
+
+          p {
+            margin: 2px 0;
+          }
+        }
+
+        .criteria-check {
+          color: #388e3c;
+          margin-left: -16px;
+          margin-right: 2px;
+        }
+
+        .criteria-cross {
+          color: #d32f2f;
+          margin-left: -16px;
+          margin-right: 2px;
+        }
+      }
+
+      &.input-container {
+        display: flex;
+        flex-direction: column;
+        row-gap: 4px;
+      }
+
+      &.error-message {
+        color: #b71c1c;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        padding: 0px 16px;
+      }
+
+      &.adorned-input {
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+
+        input {
+          align-self: stretch;
+          border: 1px solid #212121;
+          border-radius: 4px;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          margin-bottom: 4px;
+          margin-top: 8px;
+          padding: 8px 52px 8px 16px;
+          width: 100%;
+        }
+
+        .input-error {
+          align-self: stretch;
+          border: none;
+          box-sizing: border-box;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 24px;
+          margin-top: 8px;
+          outline: 1px solid #b71c1c;
+          padding: 8px 52px 8px 16px;
+          width: 100%;
+
+          &:focus-visible {
+            border: none;
+            outline: 2px solid #b71c1c;
+            outline-offset: -1px;
+          }
+        }
+      }
+
+      &.eyecon,
+      &.error-icon {
+        margin-top: 4px;
+        position: absolute;
+      }
+
+      &.error-icon {
+        align-self: center;
+        color: #b71c1c;
+        cursor: default;
+        margin-top: 7px;
+      }
+    }
+
+    .confirm-password {
+      &.container {
+        .match-status {
+          margin-top: 4px;
+          padding: 0px 16px;
+        }
+
+        .criteria-met {
+          padding: 0;
+        }
+
+        .criteria-not-met {
+          padding: 0;
+        }
+      }
+
+      &.adorned-input {
+        input {
+          margin-bottom: 0px;
+        }
+      }
+
+      &.eyecon {
+        margin-top: 7px;
+        position: absolute;
+      }
+    }
+
+    .current-password {
+      &.adorned-input {
+        input {
+          margin-bottom: 0px;
+        }
+      }
+
+      &.eyecon {
+        margin-top: 7px;
+      }
+    }
+  }
+
+  &.header {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 28px;
+    width: 100%;
+  }
+
+  &.button {
+    align-self: flex-end;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    margin-top: 16px;
+    padding: 0px 24px;
+    text-transform: unset !important;
+
+    &:disabled {
+      background-color: #ffa726;
+      color: #1a237e;
+      opacity: 0.5;
+    }
+  }
+}
+
+.settings-change-password {
+  &.container {
+    background: none;
+    display: initial;
+    position: static;
+    z-index: 0;
+  }
+
+  &.button {
+    margin-top: 32px;
+  }
+
+  &.form {
+    margin: 64px 0px 0px 64px;
+
+    .confirm-password {
+      &.container {
+        .match-status {
+          margin-bottom: -16px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,77 @@
+.auth-form-label {
+  color: grey;
+  display: block;
+  font-size: 0.75rem;
+}
+
+.auth-form-input {
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  height: 30px;
+  margin-bottom: 10px;
+  padding: 5px;
+  padding-right: 30px;
+  width: 100%;
+}
+
+.form-container {
+  border-top: 1px solid rgba(128, 128, 128, 0.5);
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+}
+
+.form-input-container {
+  position: relative;
+  text-align: left;
+}
+
+.auth-form-submit-button {
+  border: none;
+  background-color: black;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  height: 25px;
+  margin: 10px 0;
+  transition: all 0.15s ease-in-out;
+  width: 100%;
+}
+
+.auth-form-submit-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.auth-form-submit-button:disabled {
+  cursor: default;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.toggle-hide-password {
+  position: absolute;
+  right: 10px;
+  top: 22px;
+}
+
+.pwd-reveal {
+  cursor: pointer;
+  font-size: 19px;
+}
+
+.pwd-reveal-gray {
+  cursor: pointer;
+  font-size: 19px;
+  opacity: 0.3;
+  transition: all 0.15s ease-in-out;
+}
+
+.pwd-reveal-gray:hover {
+  opacity: 1;
+}
+
+.match-error {
+  color: red;
+  font-size: 0.7rem;
+}

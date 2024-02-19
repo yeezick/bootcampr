@@ -1,0 +1,50 @@
+.Project-header {
+  color: #000000;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+}
+
+.Project-filter {
+  background: #fefefe;
+  border-radius: 4px;
+  display: flex;
+  gap: 2rem;
+  padding-left: 1rem;
+}
+
+.Project-filter > span {
+  display: flex;
+}
+
+.unassigned {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  img {
+    height: 400px;
+  }
+
+  a {
+    background-color: #ffa726;
+    border-radius: 4px;
+    color: #000000;
+    margin: 15px 0;
+    padding: 8px 28px;
+    text-decoration: none;
+
+    &:hover {
+      background-color: #fcb243;
+    }
+  }
+
+  p {
+    font-size: 20px;
+    line-height: 1.5;
+    max-width: 900px;
+    text-align: center;
+  }
+}

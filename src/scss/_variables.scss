@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+$alert-error-background: rgb(255, 186, 186);
+$alert-error-text-color: rgb(216, 0, 12);
+$alert-info-background: rgb(187, 238, 255);
+$alert-info-text-color: rgb(0, 85, 153);
+$alert-success-background: rgb(223, 242, 191);
+$alert-success-text-color: rgb(34, 119, 0);
+$alert-warning-background: rgba(255, 253, 231, 1);
+$alert-warning-text-color: rgba(33, 33, 33, 1);
+
+$color-btn: rgb(202, 207, 212);
+$color-btn-active: rgb(54, 91, 123);
+$color-btn-hover: rgb(79, 127, 169);
+$color-dark-btn-font: #ffffff;
+$color-light-btn-font: rgb(44, 56, 66);
+$color-input: rgb(248, 248, 248);
+
+// View and Edit Profile scss variables
+$vep-font-family: 'Inter';
+$vep-font-size: 14px;
+$vep-font-weight: 400;
+$vep-line-height: 20px;
+$vep-margin: 20px;
+$vep-default-color: #000000;
+$vep-default-font: (
+  family: $vep-font-family,
+  size: $vep-font-size,
+  weight: $vep-font-weight,
+  line-height: $vep-line-height,
+);
+
+// Container variables
+$container-background-color: #ffffff;
+$container-border: 1px solid #8048c8;
+$container-border-radius: 4px;
+$container-color: #8048c8;
+$container-height: 0;
+$container-width: 0;
+$container-default-values: (
+  background-color: $container-background-color,
+  border: $container-border,
+  border-radius: $container-border-radius,
+  color: $container-color,
+  height: $container-height,
+  width: $container-width,
+);
+
+// Navbar 
+$nav-height: 96px;
+
+// Sidemenu
+$sidemenu-width: 272px;
+
+// Portal
+$header-height: 72px;

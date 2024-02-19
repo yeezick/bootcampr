@@ -1,0 +1,92 @@
+.new-chat-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+
+  .chat-button {
+    background-color: #fa9413;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 8px 8px 0 8px;
+    text-transform: none;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  .members-invite {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto';
+    font-size: 16px;
+    line-height: 24px;
+    padding: 8px 8px 8px 8px;
+    row-gap: 32px;
+
+    .members-invite-info {
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .members-invite-select {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      row-gap: 16px;
+
+      .members-grid {
+        display: flex;
+        flex-direction: column;
+        row-gap: 8px;
+
+        .member-chat-checkbox {
+          color: #022888;
+          padding: 8px;
+
+          &.Mui-checked {
+            color: #022888;
+            padding: 8px;
+          }
+        }
+
+        .member-grid {
+          align-items: center;
+          column-gap: 16px;
+          display: flex;
+        }
+
+        .MuiFormControlLabel-root {
+          > .MuiFormControlLabel-label {
+            margin-left: 8px;
+          }
+        }
+      }
+    }
+
+    p {
+      margin: 0;
+      padding: 0;
+      text-align: left;
+    }
+  }
+  .no-remaining-members {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 35px;
+
+    img {
+      height: 200px;
+      padding: 0;
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 22.4px;
+      padding: 8px 0;
+    }
+  }
+}

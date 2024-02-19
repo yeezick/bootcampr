@@ -1,0 +1,40 @@
+.member-checkbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: -10px;
+  width: 70%;
+
+  p {
+    color: #616161;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .availability-text {
+    p {
+      color: #212121;
+      text-align: center;
+    }
+  }
+}
+
+.member-checkbox-unavailable {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: -10px;
+  width: 70%;
+
+  .MuiTypography-root{
+    color: #212121;
+    opacity: 0.55
+  }
+
+  .availability-text {
+    p {
+      color: #212121;
+      text-align: center;
+    }
+  }
+}

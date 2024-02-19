@@ -1,0 +1,260 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+
+.setupProfile {
+  height: 1025px;
+  margin: 32px auto 0;
+  width: 590px;
+
+  #imageChange {
+    color: #121212;
+    font-size: 16px;
+  }
+
+  $this: &;
+
+  &__cameraIcon {
+    height: 32px;
+    left: -32px;
+    top: 64px;
+    transform: scaleX(-1);
+    width: 32px;
+  }
+
+  &__cta-container {
+    align-items: flex-start;
+    display: flex;
+    gap: 32px;
+  }
+
+  &__profile-container,
+  &__profile-form,
+  &__profile-label {
+    @include flex(column, inherit, inherit);
+  }
+
+  &__profile-bioCharCount {
+    @include font-properties(
+      (
+        size: 12px,
+        line-height: 21px,
+      )
+    );
+
+    p {
+      margin: 0;
+      align-self: flex-end;
+    }
+
+    p.error {
+      color: #B71C1C;
+    }
+
+    background-color: #fafafa;
+    color: #313335;
+    max-height: 22px;
+    padding-right: 5px;
+    text-align: right;
+  }
+
+  &__profile-btns {
+    @include flex(column, space-between, center);
+    gap: 32px;
+    margin: auto 0 auto 50%;
+    padding-top: 32px;
+    width: 50%;
+  }
+
+
+  &__profile-cancelBtn,
+  &__profile-saveBtn {
+    @include font-properties(
+      (
+        size: 14px,
+        weight: 500,
+        line-height: 20px,
+      )
+    );
+
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+    gap: 8px;
+    height: 40px;
+    padding: 10px 16px;
+  }
+
+  &__profile-cancelBtn {
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #5c6bc0;
+    color: #1a237e;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 141px;
+  }
+
+  &__profile-container {
+    border-radius: 4px;
+    max-width: 100%;
+  }
+
+  &__profile-disabledBtn {
+    @include font-properties(
+      (
+        size: 14px,
+        weight: 500,
+        line-height: 20px,
+      )
+    );
+
+  align-items: center;
+  background-color: lightgray;
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: #1a237e;
+  cursor: not-allowed;
+  display: flex;
+  gap: 8px;
+  height: 40px;
+  justify-content: center;
+  padding: 10px 16px;
+  position: relative;
+  width: 146px;
+  }
+
+  &__profile-form {
+  width: 100%;
+  }
+
+  &__profile-header-cont {
+  margin: 0 auto 32px;
+  width: 520px;
+
+  h2 {
+    @include flex(row);
+    @include font-properties(
+      (
+        size: 24px,
+        weight: 600,
+        line-height: 33.6px,
+      )
+    );
+    margin: 0 auto 8px;
+    max-height: 45px;
+    max-width: 100%;
+    text-align: left;
+  }
+
+  i {
+      line-height: 23px;
+    }
+
+    p {
+      @include font-properties(
+        (
+          size: 16px,
+          weight: 400,
+          line-height: 24px,
+        )
+      );
+      color: #212121;
+      letter-spacing: 0;
+      margin: 0 0 10px 0;
+    }
+  }
+
+  &__inputs-container {
+    background-color: #fafafa;
+    display: flex;
+    flex-direction: column;
+    gap: 16px 16px;
+    padding: 32px;
+  }
+
+  &__profile-image {
+    img {
+      height: 90px;
+      width: 90px;
+    }
+  }
+
+
+  &__profile-imageChange {
+      color: #121212;
+    }
+
+    &__profile-label {
+
+      @include font-properties(
+        (
+          size: 16px,
+          line-height: 22px,
+        )
+      );
+
+      input,
+      textarea {
+        @include font-properties(
+          (
+            family: 'Inter',
+            size: 14px,
+            line-height: 20px,
+          )
+        );
+
+        background-color: #ffffff;
+        border: 1px solid #000;
+        border-radius: 4px;
+        margin: 8px 0 auto 0;
+      }
+
+      .error {
+        border-color: #B71C1C;
+      }
+
+  .bio-undertext {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    h6.error {
+      color: #B71C1C;
+      margin: 0 0 0 20px;
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    input {
+      padding: 10px 100px 10px 15px;
+    }
+
+    textarea {
+      padding: 10px 15px;
+      resize: none;
+    }
+  }
+
+  &__profile-link {
+    background: none;
+    border: none;
+    color: #1a237e;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  &__profile-saveBtn {
+    align-items: center;
+    background-color: #fa9413;
+    border: none;
+    color: #1a237e;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 146px;
+  }
+}

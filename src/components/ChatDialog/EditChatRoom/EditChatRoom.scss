@@ -1,0 +1,34 @@
+.edit-chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 465px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0 4px;
+  row-gap: 35px;
+
+  .members-container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+
+    .members-list {
+      display: flex;
+      flex-direction: column;
+      padding: 8px 0 8px 8px;
+      row-gap: 16px;
+
+      .you-identifier {
+        font-weight: 600;
+      }
+    }
+
+    p {
+      font-family: 'Roboto';
+      font-size: 16px;
+      line-height: 24px;
+      margin: 0;
+      padding: 0 0 0 8px;
+    }
+  }
+}

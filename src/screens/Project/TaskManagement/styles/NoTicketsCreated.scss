@@ -1,0 +1,36 @@
+.no-tickets-created {
+  box-sizing: border-box;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  padding: 64px 0;
+  width: 100%;
+
+  .content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  
+    .image {
+      display: flex;
+      justify-content: center;
+
+      img {
+        width: 50%;
+      }
+    }
+
+    h3 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-top: 32px;;
+    }
+  
+    .text {
+      font-size: 16px;
+      margin-bottom: 32px;
+      width: 35%;
+    }
+  }
+}
+

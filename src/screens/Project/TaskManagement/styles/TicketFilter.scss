@@ -1,0 +1,17 @@
+.ticket-filter {
+  display: flex;
+  flex-direction: row;
+
+  .filter-option {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin-right: 23px;
+
+    .filter-radio {
+      & .MuiSvgIcon-root {
+        font-size: 16px,
+      }
+    }
+  }
+}

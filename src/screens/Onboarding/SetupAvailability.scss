@@ -1,0 +1,33 @@
+.setup-avail-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: fit-content;
+
+  .setup-avail-header {
+    margin: 32px 0;
+
+    h2 {
+      margin: 8px 0;
+    }
+
+    p {
+      margin: 8px 0;
+    }
+  }
+
+  .setup-avail-buttons-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 32px;
+
+    .setup-avail-buttons {
+      display: flex;
+      justify-content: space-between;
+
+      .MuiButtonBase-root {
+        text-transform: none;
+      }
+    }
+  }
+}
