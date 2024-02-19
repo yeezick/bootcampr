@@ -13,7 +13,7 @@ export const ColumnTickets = ({ columnStatus, provided }) => {
     >
       {visibleTickets[columnStatus].map((ticketDetail, idx) => (
         <TicketTab
-          key={`${ticketDetail}+${idx}`}
+          key={ticketDetail._id}
           idx={idx}
           ticketDetail={ticketDetail}
         />
