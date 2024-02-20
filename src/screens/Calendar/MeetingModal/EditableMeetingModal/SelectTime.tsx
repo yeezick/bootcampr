@@ -73,12 +73,13 @@ const selectTimeStyles = {
   background: 'none',
   '& .MuiOutlinedInput-notchedOutline': {
     border: '1px solid black',
-
-    '&:hover': {
-      border: '1.5px solid black',
-    },
   },
   '& .Mui-Paper-root': {
     height: '50px',
+  },
+  '&:hover': {
+    '& .MuiOutlinedInput-notchedOutline': {
+      border: '1.5px solid black',
+    },
   },
 }

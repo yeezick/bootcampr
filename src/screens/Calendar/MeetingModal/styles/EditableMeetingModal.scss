@@ -45,8 +45,8 @@
       padding-left: 35px;
     }
 
-    .css-v4u5dn-MuiInputBase-root-MuiInput-root:after {
-      border-bottom: none;
+    .MuiInputBase-root::after {
+      border-bottom: 2px solid #0D47A1;
     }
 
     .required-span {
@@ -112,17 +112,7 @@
     margin-top: 5px;
   }
 
-  .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline{
     border-color: #0D47A1;
   }
-
-  .css-ue9n62-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-    border-color: #0D47A1;
-  }
-
-  .css-1xjksqr-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-    border-color: #0D47A1;
-  }
-
-
 }

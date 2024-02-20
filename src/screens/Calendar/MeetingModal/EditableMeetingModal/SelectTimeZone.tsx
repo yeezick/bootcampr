@@ -23,12 +23,10 @@ export const SelectTimeZone = ({
       >
         <Select
           disableUnderline={true}
-          IconComponent={CustomArrowDown(toggleSelect)}
           onChange={handleTimeZone}
           onClick={toggleSelect}
           open={openSelect}
           sx={timeZoneSelectStyles}
-          //variant='standard'
           value={eventTimezone}
         >
           {usTimeZones.map(timeZone => (
@@ -59,8 +57,11 @@ const timeZoneSelectStyles = {
   '& .MuiSelect-select.MuiInputBase-input': {
     paddingRight: '0px',
   },
-  ':hover': {
+  '&:hover': {
     cursor: 'pointer',
+    '& .MuiOutlinedInput-notchedOutline': {
+      border: '1.5px solid black',
+    },
   },
   '& .MuiOutlinedInput-notchedOutline': {
     borderColor: 'black',
