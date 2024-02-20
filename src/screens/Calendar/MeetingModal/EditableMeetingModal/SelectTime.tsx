@@ -58,6 +58,7 @@ export const SelectTime = ({ dateFields, setDateFields, type }) => {
       size='small'
       sx={selectTimeStyles}
       value={selectedTime}
+      IconComponent={() => null}
     >
       {availableOptions.map(time => (
         <MenuItem key={`${type}-option-${time}`} value={time}>
@@ -71,7 +72,11 @@ export const SelectTime = ({ dateFields, setDateFields, type }) => {
 const selectTimeStyles = {
   background: 'none',
   '& .MuiOutlinedInput-notchedOutline': {
-    border: '1.5px solid black',
+    border: '1px solid black',
+
+    '&:hover': {
+      border: '1.5px solid black',
+    },
   },
   '& .Mui-Paper-root': {
     height: '50px',

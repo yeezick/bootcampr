@@ -28,7 +28,7 @@ export const SelectTimeZone = ({
           onClick={toggleSelect}
           open={openSelect}
           sx={timeZoneSelectStyles}
-          variant='standard'
+          //variant='standard'
           value={eventTimezone}
         >
           {usTimeZones.map(timeZone => (
@@ -50,16 +50,19 @@ const CustomArrowDown = toggleSelect => {
 
 const timeZoneSelectStyles = {
   color: 'black',
-  border: '1.5px solid black',
   borderRadius: '5px',
   padding: '5px',
   fontSize: '14px',
   width: '320px',
+  height: '40px',
 
   '& .MuiSelect-select.MuiInputBase-input': {
     paddingRight: '0px',
   },
   ':hover': {
     cursor: 'pointer',
+  },
+  '& .MuiOutlinedInput-notchedOutline': {
+    borderColor: 'black',
   },
 }
