@@ -12,6 +12,7 @@ import {
   selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
 import { useEffect, useState } from 'react'
+import dayjs from 'dayjs'
 
 export const SideMenu = () => {
   const navigate = useNavigate()
@@ -19,7 +20,7 @@ export const SideMenu = () => {
   const projectId = useSelector(selectProjectId)
   const { projectSubmissionDate } = useSelector(selectProjectTimeline)
   const [isDisabled, setIsDisabled] = useState(
-    +projectSubmissionDate > Date.now()
+    +projectSubmissionDate > dayjs().valueOf()
   )
 
   const handleProjectCompletion = () =>
@@ -28,7 +29,7 @@ export const SideMenu = () => {
   //TODO: Currently set to check every minute but we can adjust as needed
   useEffect(() => {
     const dateCheckInterval = setInterval(() => {
-      setIsDisabled(+projectSubmissionDate > Date.now())
+      setIsDisabled(+projectSubmissionDate > dayjs().valueOf())
     }, 60000)
 
     return () => clearInterval(dateCheckInterval)
