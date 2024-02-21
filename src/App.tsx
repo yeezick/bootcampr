@@ -28,6 +28,8 @@ import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
 import './App.css'
 
 function App() {
+  console.log(`Running Application Version: ${process.env.REACT_APP_VERSION} `)
+
   return (
     <>
       <Layout>
