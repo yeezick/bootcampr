@@ -26,23 +26,23 @@
     text-transform: capitalize;
   }
 
-  .fc .fc-prev-button{
+  .fc .fc-customPrev-button{
     background-color: transparent;
     border: none;
     color: #212121;
   }
 
-  .fc .fc-prev-button:active:focus, .fc .fc-prev-button:focus{
+  .fc .fc-customPrev-button:active:focus, .fc .fc-customPrev-button:focus{
     box-shadow: none;
   }
 
-  .fc .fc-prev-button:active{
+  .fc .fc-customPrev-button:active{
     background-color: transparent;
     border: none;
     box-shadow: none;
   }
 
-  .fc .fc-next-button{
+  .fc .fc-customNext-button{
     background-color: transparent;
     border: none;
     color: #212121;
@@ -50,11 +50,11 @@
     margin: 0px
   }
 
-  .fc .fc-next-button:active:focus,  .fc .fc-next-button:focus{
+  .fc .fc-customNext-button:active:focus,  .fc .fc-customNext-button:focus{
     box-shadow: none;
   }
 
-  .fc .fc-next-button:active{
+  .fc .fc-customNext-button:active{
     background-color: transparent;
     border: none;
     box-shadow: none;
@@ -80,7 +80,7 @@
     border: none;
   }
 
-  .fc .fc-myCustomButton-button, .fc .fc-myCustomButton-button:active{
+  .fc .fc-createMeeting-button, .fc .fc-createMeeting-button:active{
     background-color: #ffa726;
     border: none;
     color: #1A237E;
@@ -89,11 +89,11 @@
     padding: 9px 21px;
   }
 
-  .fc .fc-myCustomButton-button:focus, .fc .fc-myCustomButton-button:active:focus {
+  .fc .fc-createMeeting-button:focus, .fc .fc-createMeeting-button:active:focus {
     box-shadow: none;
   }
 
-  .fc .fc-myCustomTitle-button, .fc .fc-myCustomTitle-button:active{
+  .fc .fc-weekTitle-button, .fc .fc-weekTitle-button:active{
     background-color: transparent;
     border: none;
     color: black;
@@ -103,7 +103,7 @@
     padding: 0px;
   }
 
-  .fc .fc-myCustomTitle-button:focus, .fc .fc-myCustomTitle-button:active:focus {
+  .fc .fc-weekTitle-button:focus, .fc .fc-weekTitle-button:active:focus {
     box-shadow: none;
   }
   //calendar date/day labels

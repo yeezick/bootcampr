@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useRef } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -27,11 +28,12 @@ export const CalendarView = () => {
   const userEmail = useAppSelector(selectUserEmail)
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
   const timeline = useAppSelector(selectProjectTimeline)
+  const [weekNumber, setWeekNumber] = useState(1)
   //use startDate and endDate for validRange in FullCalendar
   dayjs.extend(weekday)
   const firstDay = dayjs(timeline.startDate).weekday(0).format('YYYY-MM-DD')
   const lastDay = dayjs(timeline.endDate).weekday(7).format('YYYY-MM-DD')
-
+  const calendarRef = useRef(null)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -62,7 +64,9 @@ export const CalendarView = () => {
       return (
         <div className='calendar-container'>
           <FullCalendar
+            ref={calendarRef}
             events={convertedEventsAsArr}
+            //firstDay={6}
             eventClick={handleEventClick}
             eventTimeFormat={{
               hour: 'numeric',
@@ -70,9 +74,9 @@ export const CalendarView = () => {
               meridiem: true,
             }}
             headerToolbar={{
-              start: 'title today prev myCustomTitle next',
+              start: 'title today customPrev weekTitle customNext',
               center: '',
-              end: 'myCustomButton',
+              end: 'createMeeting',
             }}
             titleFormat={{ year: 'numeric', month: 'long' }}
             allDaySlot={false}
@@ -86,12 +90,28 @@ export const CalendarView = () => {
               }
             }
             customButtons={{
-              myCustomButton: {
+              createMeeting: {
                 text: '+ Creating Meeting',
                 click: () => dispatch(setModalDisplayStatus('create')),
               },
-              myCustomTitle: {
-                text: 'Week',
+              weekTitle: {
+                text: `Week ${weekNumber}`,
+              },
+              customNext: {
+                icon: 'chevron-right',
+                click: () => {
+                  const calendarApi = calendarRef.current.getApi()
+                  setWeekNumber(weekNumber + 1)
+                  calendarApi.next()
+                },
+              },
+              customPrev: {
+                icon: 'chevron-left',
+                click: () => {
+                  const calendarApi = calendarRef.current.getApi()
+                  setWeekNumber(weekNumber - 1)
+                  calendarApi.prev()
+                },
               },
             }}
           />
