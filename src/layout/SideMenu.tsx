@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectUserProjectId } from 'utils/redux/slices/userSlice'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
@@ -48,6 +48,7 @@ const SideMenuLinks = () => {
 }
 
 const MenuLink = ({ linkDetails }) => {
+  const location = useLocation()
   const projectId = useAppSelector(selectUserProjectId)
   const { domain, icon, label, route, headerTitle } = linkDetails
   const LinkIcon = iconMap[icon]
@@ -56,7 +57,7 @@ const MenuLink = ({ linkDetails }) => {
     label === 'Calendar' || label === 'Task Management' || label === 'Team'
   const linkClassName = `${
     !projectId && isCalendarOrTask ? 'link-disable' : 'link'
-  }`
+  } ${location.pathname === route ? 'current-location' : ''}`
   const handlePortalLinkClick = () => changePortalPage(dispatch, headerTitle)
 
   return (
