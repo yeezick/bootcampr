@@ -6,13 +6,35 @@ import { changePortalPage } from 'utils/helpers'
 import './styles/SideMenu.scss'
 import { iconMap } from 'utils/components/Icons'
 import { PrimaryButton } from 'components/Buttons'
+import { useSelector } from 'react-redux'
+import {
+  selectProjectId,
+  selectProjectTimeline,
+} from 'utils/redux/slices/projectSlice'
+import { useEffect, useState } from 'react'
+import dayjs from 'dayjs'
 
 export const SideMenu = () => {
-  const { title } = useAppSelector(selectSideMenu)
-  const projectId = useAppSelector(selectUserProjectId)
   const navigate = useNavigate()
+  const { title } = useAppSelector(selectSideMenu)
+  const projectId = useSelector(selectProjectId)
+  const { projectSubmissionDate } = useSelector(selectProjectTimeline)
+  const [isDisabled, setIsDisabled] = useState(
+    +projectSubmissionDate > dayjs().valueOf()
+  )
+
   const handleProjectCompletion = () =>
     navigate(`/project/${projectId}/complete`)
+
+  //TODO: Currently set to check every minute but we can adjust as needed
+  useEffect(() => {
+    const dateCheckInterval = setInterval(() => {
+      setIsDisabled(+projectSubmissionDate > dayjs().valueOf())
+    }, 60000)
+
+    return () => clearInterval(dateCheckInterval)
+  }, [projectSubmissionDate])
+
   const btnClassName = `completion-btn ${!projectId && 'disabled-btn'}`
 
   return (
@@ -25,7 +47,7 @@ export const SideMenu = () => {
         {title === 'Project Portal' && (
           <PrimaryButton
             className={btnClassName}
-            disabled={!projectId}
+            disabled={isDisabled}
             handler={handleProjectCompletion}
             text='Submit Project'
           />
