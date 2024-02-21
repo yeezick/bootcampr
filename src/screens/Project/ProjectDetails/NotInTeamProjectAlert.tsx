@@ -27,7 +27,7 @@ export const NotInTeamProjectAlert = () => {
               kickoff meeting. (Approximately 1 - 2 weeks from today)
               <br />
               <br />
-              In the meantime, explore the project details page. Other pages in
+              In the meantime, explore the product details page. Other pages in
               Project Portal will be available once you are matched to a team.
               <br />
               <br />
