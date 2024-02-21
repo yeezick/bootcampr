@@ -7,7 +7,7 @@
     "build": "react-scripts build",
     "test": "jest --config jest.config.ts",
     "eject": "react-scripts eject",
-    "format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install"
   },
   "dependencies": {
