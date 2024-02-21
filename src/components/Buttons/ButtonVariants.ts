@@ -7,7 +7,6 @@ import { createButton, createIconButton } from './Buttons'
  * Custom props to modify the function/appearance:
  * @param {string} [text] - The text to display on the button.
  * @param {function} [handler] - Function to be called when the button is clicked.
- * @param {boolean} [paginatorBtn] - Render a right arrow at the end of the button.
  * @param {('primary' | 'secondary' | 'create-task')} [colorScheme] - The color scheme of the button (primary = orange, blue, and white; secondary = red and white; create-task = shades of blue). Defaults to primary.
  * @param {React.ReactNode} [endIcon] - Add an icon to the end of the button.
  * @param {React.ReactNode} [startIcon] - Add an icon to the start of the button.
@@ -27,7 +26,6 @@ export const PrimaryButton = (props: CommonButtonProps) =>
  * Custom props to modify the function/appearance:
  * @param {string} [text] - The text to display on the button.
  * @param {function} [handler] - Function to be called when the button is clicked.
- * @param {boolean} [paginatorBtn] - Render a left arrow at the start of the button.
  * @param {('primary' | 'secondary' | 'create-task')} [colorScheme] - The color scheme of the button (primary = orange, blue, and white; secondary = red and white; create-task = shades of blue). Defaults to primary.
  * @param {React.ReactNode} [endIcon] - Add an icon to the end of the button.
  * @param {React.ReactNode} [startIcon] - Add an icon to the start of the button.
@@ -72,7 +70,7 @@ export const CreateTaskButton = (props: CommonButtonProps) =>
 
 /**
  * @param {React.ReactNode} [icon] - The icon to be rendered.
- * @see {@link Icons} for full list of available icons
+ * @see {@link 'src/utils/components/Icons.tsx'} for full list of available icons
  * @param {boolean} [filled] - Whether the button background is filled.
 * @param {('small' | 'medium' | 'large' )} [iconSize] - The size of the icon; small, medium, or large.
 

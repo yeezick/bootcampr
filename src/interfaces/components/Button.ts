@@ -9,7 +9,6 @@ export interface CommonButtonProps extends ButtonProps {
   colorScheme?: 'primary' | 'secondary' | 'create-task'
   endIcon?: MappedIcons
   handler?: any
-  paginatorBtn?: boolean
   startIcon?: MappedIcons
   text?: string
 }

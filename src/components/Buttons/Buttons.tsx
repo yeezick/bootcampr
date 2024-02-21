@@ -7,13 +7,18 @@ import {
 import { fetchIcon } from 'utils/components/Icons'
 import './Buttons.scss'
 
+/**
+ * Returns an MUI Button component with several default props in place to adhere to BC styling, as well as accepting a number of custom props to define the button's appearance.
+ *
+ * @see {@link 'src/components/Buttons/ButtonVariants.ts'} for example usage.
+ */
+
 export const createButton = (props: CommonButtonProps) => {
   const {
     children,
     colorScheme = 'primary',
     endIcon,
     handler,
-    paginatorBtn,
     startIcon,
     text,
     ...MuiProps
@@ -21,41 +26,36 @@ export const createButton = (props: CommonButtonProps) => {
 
   const conditionalProps: ConditionalButtonProps = {
     ...MuiProps,
-    onClick: handler,
-    variant: MuiProps.variant,
+    disableElevation: true,
     disableRipple: true,
+    onClick: handler,
     style: MuiProps.style,
-    'aria-disabled': MuiProps.disabled,
+    variant: MuiProps.variant,
     ...(startIcon && { startIcon: fetchIcon(startIcon) }),
     ...(endIcon && { endIcon: fetchIcon(endIcon) }),
   }
 
-  if (paginatorBtn && conditionalProps.variant === 'contained') {
-    conditionalProps.endIcon = fetchIcon('rightArrow')
-  } else if (paginatorBtn && conditionalProps.variant === 'outlined')
-    conditionalProps.startIcon = fetchIcon('leftArrow')
-
   return (
-    <Button
-      className={`common-button ${colorScheme}`}
-      {...conditionalProps}
-      disableElevation
-    >
+    <Button className={`common-button ${colorScheme}`} {...conditionalProps}>
       {text}
       {children}
     </Button>
   )
 }
 
+/**
+ * Returns an MUI IconButton component with several default props in place to adhere to BC styling, as well as accepting a number of custom props to define the button's appearance.
+ *
+ * @see {@link 'src/components/Buttons/ButtonVariants.ts'} for example usage.
+ */
 export const createIconButton = (props: IconBtnProps) => {
   const { handler, filled, icon, iconSize, ...MuiProps } = props
   const conditionalProps = {
     ...MuiProps,
-    onClick: handler,
-    disableRipple: true,
-    style: MuiProps.style,
-    'aria-disabled': MuiProps.disabled,
     children: fetchIcon(icon),
+    disableRipple: true,
+    onClick: handler,
+    style: MuiProps.style,
   }
 
   return (
