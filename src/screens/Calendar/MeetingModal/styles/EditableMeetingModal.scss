@@ -45,8 +45,8 @@
       padding-left: 35px;
     }
 
-    .css-v4u5dn-MuiInputBase-root-MuiInput-root:after {
-      border-bottom: none;
+    .MuiInputBase-root::after {
+      border-bottom: 2px solid #0D47A1;
     }
 
     .required-span {
@@ -110,5 +110,9 @@
 
   .css-1x51dt5-MuiInputBase-input-MuiInput-input {
     margin-top: 5px;
+  }
+
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline{
+    border-color: #0D47A1;
   }
 }
