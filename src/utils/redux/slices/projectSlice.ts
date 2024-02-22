@@ -21,6 +21,7 @@ const initialState: ProjectInterface = {
   overview: '',
   timeline: {
     startDate: '',
+    projectSubmissionDate: '',
     endDate: '',
   },
   projectTracker: {
