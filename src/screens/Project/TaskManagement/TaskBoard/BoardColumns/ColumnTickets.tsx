@@ -4,6 +4,7 @@ import { TicketTab } from './TicketTab'
 
 export const ColumnTickets = ({ columnStatus, provided }) => {
   const visibleTickets = useAppSelector(selectVisibleTickets)
+
   return (
     <div
       className='tickets'
@@ -11,7 +12,11 @@ export const ColumnTickets = ({ columnStatus, provided }) => {
       ref={provided.innerRef}
     >
       {visibleTickets[columnStatus].map((ticketDetail, idx) => (
-        <TicketTab idx={idx} ticketDetail={ticketDetail} />
+        <TicketTab
+          key={ticketDetail._id}
+          idx={idx}
+          ticketDetail={ticketDetail}
+        />
       ))}
       {provided.placeholder}
     </div>
