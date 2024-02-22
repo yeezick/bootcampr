@@ -75,8 +75,14 @@ const datePickerStyles = {
   fontSize: '14px',
   border: 'none',
   '& .MuiOutlinedInput-notchedOutline': {
-    border: '1.5px solid black',
+    border: '1px solid black',
   },
   marginRight: '20px',
   width: '180px',
+  '&:hover': {
+    cursor: 'pointer',
+    '& .MuiOutlinedInput-notchedOutline': {
+      border: '1.5px solid black',
+    },
+  },
 }
