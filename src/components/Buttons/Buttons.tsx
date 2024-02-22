@@ -18,6 +18,7 @@ export const createButton = (props: CommonButtonProps) => {
     children,
     colorScheme = 'primary',
     endIcon,
+    //TODO: remove handler prop and utilize onClick instead. Implement during app-wide button refactor
     handler,
     startIcon,
     text,
