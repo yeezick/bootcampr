@@ -34,13 +34,10 @@ export interface IconMap {
 
 export type IconProps = DefaultComponentProps<SvgIconTypeMap>
 
-//commented icons are still needing to be sourced
 export type MappedIcons =
-  // | 'attach'
   | 'account'
   | 'back'
   | 'camera'
-  // | 'cameraAdd'
   | 'calendar'
   | 'chat'
   | 'chatBubble' //called comment in design
@@ -52,21 +49,15 @@ export type MappedIcons =
   | 'clock'
   | 'close'
   | 'closeChip'
-  // | 'copy'
   | 'crop'
   | 'dash'
-  // | 'delete'
   | 'description'
   | 'dropdownDown'
   | 'dropdownUp'
   | 'edit'
   | 'email'
   | 'error'
-  // | 'eyeShow'
-  // | 'eyeHide'
   | 'forward'
-  // | 'github'
-  // | 'google'
   | 'group'
   | 'help'
   | 'info'
@@ -75,12 +66,10 @@ export type MappedIcons =
   | 'likeEmpty'
   | 'likeFilled'
   | 'link'
-  // | 'linkedIn'
   | 'localOffer' //called status in design
   | 'lock' //called password in design
   | 'menuDots'
   | 'message'
-  // | 'newMessage'
   | 'notifications'
   | 'page'
   | 'person'
@@ -90,12 +79,8 @@ export type MappedIcons =
   | 'radioButtonFilled'
   | 'rightArrow'
   | 'search'
-  // | 'send'
   | 'tasks' //called checkList in design
   | 'title'
-  // | 'upload'
-  // | 'userRemoval'
-  // | 'videoCamera'
   | 'warning'
 export interface PaginatorButtonInterface extends ButtonProps {
   buttonType: 'secondary' | 'primary'
