@@ -47,7 +47,10 @@ export const Nav = () => {
     <nav>
       <div className='nav-container'>
         <div className='logo'>
-          <Link to='/' onClick={handleNonPortalLink}>
+          <Link
+            to='https://landing.bootcampr.io/'
+            onClick={handleNonPortalLink}
+          >
             <img src={Logo} alt='logo' />
           </Link>
         </div>
