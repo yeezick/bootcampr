@@ -20,14 +20,7 @@ export const Onboarding = () => {
     const hasSetAvailability = checkIfSetAvailability()
     const hasSetProfileInfo = checkIfSetProfileInfo()
 
-    if (authUser.onboarded && pageId === 'whatsNext') {
-      navigate(`/onboarding/${authUser._id}?pageId=whatsNext`)
-    } else if (
-      authUser.role &&
-      hasSetAvailability &&
-      hasSetProfileInfo &&
-      authUser.onboarded
-    ) {
+    if (authUser.role && hasSetAvailability && hasSetProfileInfo) {
       navigate(`/project/${authUser.project}`)
     } else if (authUser.role && hasSetAvailability) {
       navigate(`/onboarding/${authUser._id}?pageId=setUpProfile`)
@@ -69,14 +62,6 @@ export const Onboarding = () => {
       title: 'Set up profile',
     },
   ]
-
-  if (pageId === 'whatsNext') {
-    return (
-      <div className='onboarding'>
-        <WhatsNext />
-      </div>
-    )
-  }
 
   return (
     <div className='onboarding'>
