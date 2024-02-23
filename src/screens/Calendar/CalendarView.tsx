@@ -8,7 +8,10 @@ import {
   selectCalendarId,
   selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
-import { parseCalendarEventForMeetingInfo } from 'utils/helpers/calendarHelpers'
+import {
+  parseCalendarEventForMeetingInfo,
+  updateWeekNumber,
+} from 'utils/helpers/calendarHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectConvertedEventsAsArr,
@@ -29,8 +32,6 @@ export const CalendarView = () => {
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
   const timeline = useAppSelector(selectProjectTimeline)
   const [weekNumber, setWeekNumber] = useState('')
-  const [firstSunday, setFirstSunday] = useState('')
-  const [calendarApi, setCalendarAPI] = useState('')
 
   dayjs.extend(weekday)
 
@@ -38,22 +39,6 @@ export const CalendarView = () => {
   const lastDay = dayjs(timeline.endDate).weekday(7).format('YYYY-MM-DD')
   const calendarRef = useRef(null)
   const dispatch = useAppDispatch()
-
-  const determineWeekNumber = sundayDate => {
-    const secondWeekSunday = dayjs(firstDay).add(7, 'day').format('YYYY-MM-DD')
-    const thirdWeekSunday = dayjs(secondWeekSunday)
-      .add(7, 'day')
-      .format('YYYY-MM-DD')
-    if (sundayDate === firstDay) {
-      setWeekNumber('1')
-    } else if (sundayDate === secondWeekSunday) {
-      setWeekNumber('2')
-    } else if (sundayDate === thirdWeekSunday) {
-      setWeekNumber('3')
-    } else {
-      setWeekNumber('4')
-    }
-  }
 
   useEffect(() => {
     const fetchAllEvents = async () => {
@@ -84,7 +69,7 @@ export const CalendarView = () => {
       const sundayDate = dayjs(calendarApi.getDate())
         .day(0)
         .format('YYYY-MM-DD')
-      determineWeekNumber(sundayDate)
+      updateWeekNumber(sundayDate, firstDay, setWeekNumber)
     })
   }
 
