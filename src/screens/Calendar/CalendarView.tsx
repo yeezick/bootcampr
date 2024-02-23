@@ -30,6 +30,7 @@ export const CalendarView = () => {
   const timeline = useAppSelector(selectProjectTimeline)
   const [weekNumber, setWeekNumber] = useState('')
   const [firstSunday, setFirstSunday] = useState('')
+  const [calendarApi, setCalendarAPI] = useState('')
 
   dayjs.extend(weekday)
 
@@ -77,14 +78,14 @@ export const CalendarView = () => {
   const handleEventClick = e =>
     dispatch(setDisplayedEvent(parseCalendarEventForMeetingInfo(e)))
 
-  function renderWeekNumber() {
+  const renderWeekNumber = () => {
     setTimeout(() => {
       const calendarApi = calendarRef.current.getApi()
       const sundayDate = dayjs(calendarApi.getDate())
         .day(0)
         .format('YYYY-MM-DD')
       determineWeekNumber(sundayDate)
-    }, 100)
+    })
   }
 
   switch (eventFetchingStatus) {
@@ -102,7 +103,7 @@ export const CalendarView = () => {
               meridiem: true,
             }}
             headerToolbar={{
-              start: 'title today customPrev weekTitle customNext',
+              start: 'title today prev weekTitle next',
               center: '',
               end: 'createMeeting',
             }}
@@ -122,24 +123,6 @@ export const CalendarView = () => {
               },
               weekTitle: {
                 text: `Week ${weekNumber}`,
-              },
-              customNext: {
-                icon: 'chevron-right',
-                click: () => {
-                  const calendarApi = calendarRef.current.getApi()
-                  calendarApi.next()
-                  ///const sundayDate = dayjs(calendarApi.getDate()).day(0).format('YYYY-MM-DD')
-                  //determineWeekNumber(sundayDate)
-                },
-              },
-              customPrev: {
-                icon: 'chevron-left',
-                click: () => {
-                  const calendarApi = calendarRef.current.getApi()
-                  calendarApi.prev()
-                  //const sundayDate = dayjs(calendarApi.getDate()).day(0).format('YYYY-MM-DD')
-                  //determineWeekNumber(sundayDate)
-                },
               },
             }}
           />

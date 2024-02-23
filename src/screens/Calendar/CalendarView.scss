@@ -26,35 +26,34 @@
     text-transform: capitalize;
   }
 
-  .fc .fc-customPrev-button{
+  .fc .fc-prev-button{
     background-color: transparent;
     border: none;
     color: #212121;
   }
 
-  .fc .fc-customPrev-button:active:focus, .fc .fc-customPrev-button:focus{
+  .fc .fc-prev-button:active:focus, .fc .fc-prev-button:focus{
     box-shadow: none;
   }
 
-  .fc .fc-customPrev-button:active{
+  .fc .fc-prev-button:active{
     background-color: transparent;
     border: none;
     box-shadow: none;
   }
 
-  .fc .fc-customNext-button{
+  .fc .fc-next-button{
     background-color: transparent;
     border: none;
     color: #212121;
-
     margin: 0px
   }
 
-  .fc .fc-customNext-button:active:focus,  .fc .fc-customNext-button:focus{
+  .fc .fc-next-button:active:focus,  .fc .fc-next-button:focus{
     box-shadow: none;
   }
 
-  .fc .fc-customNext-button:active{
+  .fc .fc-next-button:active{
     background-color: transparent;
     border: none;
     box-shadow: none;
