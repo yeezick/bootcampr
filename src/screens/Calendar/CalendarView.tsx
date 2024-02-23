@@ -28,13 +28,31 @@ export const CalendarView = () => {
   const userEmail = useAppSelector(selectUserEmail)
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
   const timeline = useAppSelector(selectProjectTimeline)
-  const [weekNumber, setWeekNumber] = useState(1)
-  //use startDate and endDate for validRange in FullCalendar
+  const [weekNumber, setWeekNumber] = useState('')
+  const [firstSunday, setFirstSunday] = useState('')
+
   dayjs.extend(weekday)
-  const firstDay = dayjs(timeline.startDate).weekday(0).format('YYYY-MM-DD')
+
+  const firstDay = dayjs(timeline.startDate).format('YYYY-MM-DD')
   const lastDay = dayjs(timeline.endDate).weekday(7).format('YYYY-MM-DD')
   const calendarRef = useRef(null)
   const dispatch = useAppDispatch()
+
+  const determineWeekNumber = sundayDate => {
+    const secondWeekSunday = dayjs(firstDay).add(7, 'day').format('YYYY-MM-DD')
+    const thirdWeekSunday = dayjs(secondWeekSunday)
+      .add(7, 'day')
+      .format('YYYY-MM-DD')
+    if (sundayDate === firstDay) {
+      setWeekNumber('1')
+    } else if (sundayDate === secondWeekSunday) {
+      setWeekNumber('2')
+    } else if (sundayDate === thirdWeekSunday) {
+      setWeekNumber('3')
+    } else {
+      setWeekNumber('4')
+    }
+  }
 
   useEffect(() => {
     const fetchAllEvents = async () => {
@@ -59,14 +77,24 @@ export const CalendarView = () => {
   const handleEventClick = e =>
     dispatch(setDisplayedEvent(parseCalendarEventForMeetingInfo(e)))
 
+  function renderWeekNumber() {
+    setTimeout(() => {
+      const calendarApi = calendarRef.current.getApi()
+      const sundayDate = dayjs(calendarApi.getDate())
+        .day(0)
+        .format('YYYY-MM-DD')
+      determineWeekNumber(sundayDate)
+    }, 100)
+  }
+
   switch (eventFetchingStatus) {
     case 'success':
       return (
         <div className='calendar-container'>
           <FullCalendar
             ref={calendarRef}
+            datesSet={renderWeekNumber}
             events={convertedEventsAsArr}
-            //firstDay={6}
             eventClick={handleEventClick}
             eventTimeFormat={{
               hour: 'numeric',
@@ -83,12 +111,10 @@ export const CalendarView = () => {
             initialView='timeGridWeek'
             nowIndicator={true}
             plugins={[dayGridPlugin, timeGridPlugin]}
-            validRange={
-              {
-                // start: firstDay,
-                // end: lastDay,
-              }
-            }
+            validRange={{
+              start: firstDay,
+              end: lastDay,
+            }}
             customButtons={{
               createMeeting: {
                 text: '+ Creating Meeting',
@@ -101,16 +127,18 @@ export const CalendarView = () => {
                 icon: 'chevron-right',
                 click: () => {
                   const calendarApi = calendarRef.current.getApi()
-                  setWeekNumber(weekNumber + 1)
                   calendarApi.next()
+                  ///const sundayDate = dayjs(calendarApi.getDate()).day(0).format('YYYY-MM-DD')
+                  //determineWeekNumber(sundayDate)
                 },
               },
               customPrev: {
                 icon: 'chevron-left',
                 click: () => {
                   const calendarApi = calendarRef.current.getApi()
-                  setWeekNumber(weekNumber - 1)
                   calendarApi.prev()
+                  //const sundayDate = dayjs(calendarApi.getDate()).day(0).format('YYYY-MM-DD')
+                  //determineWeekNumber(sundayDate)
                 },
               },
             }}
