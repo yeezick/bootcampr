@@ -1,0 +1,42 @@
+@import 'scss/variables';
+
+.main-wrapper {
+  display: flex;
+  margin-top: $nav-height;
+}
+
+.main-content-container {
+  background-color: #fff;
+  min-height: calc(100vh - 250px);
+  padding-bottom: 12rem;
+  width: 100%;
+}
+
+.portal-layout {
+    background-color: white;
+    height: calc(100vh - $nav-height);
+    overflow-y: scroll;
+    width: calc(100% - $sidemenu-width); 
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .portal-screen { 
+     height: calc(100% - $header-height);
+    }
+}
+
+.landing-main-content-container {
+  min-height: calc(100vh - 250px);
+}
+
+#forgot-password-link {
+  color: #0d47a1;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  margin-top: 4px;
+  text-decoration: underline;
+}

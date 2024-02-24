@@ -1,0 +1,63 @@
+.email-confirmation-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0 auto;
+  margin-top: 64px;
+  text-align: center;
+  width: 682px;
+
+  .message-content {
+    &.header {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 44px;
+      margin: 0;
+      margin-bottom: 16px;
+    }
+
+    &.subheader {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 32px;
+      margin: 0;
+      margin-bottom: 16px;
+    }
+
+    &.text {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      margin-bottom: 32px;
+      text-align: left;
+      width: 456px;
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+  .img-container {
+    margin-top: 32px;
+
+    img {
+      height: 100%;
+      object-fit: cover;
+      width: 100%;
+    }
+  }
+
+  button {
+    background: none;
+    border: none;
+    color: #0d47a1;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    width: fit-content;
+    text-decoration: underline;
+  }
+}

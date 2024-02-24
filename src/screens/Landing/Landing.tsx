@@ -1,41 +1,52 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setAuthUser } from '../../utilities/redux/slices/users/userSlice';
-import { getAllUsers } from '../../utilities/api/users';
-import { AiOutlineStop, AiOutlineCheckCircle } from 'react-icons/ai';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import './Landing.scss'
+import { ContactForm } from './components/ContactForm/ContactForm'
+import { Hero } from './components/Hero/Hero'
+import { HowItWorks } from './components/HowItWorks/HowItWorks'
+import { YourProjectPortal } from './components/YourProjectPortal/YourProjectPortal'
+import { IsThisForYou } from './components/IsThisForYou/IsThisForYou'
+import { WorkFlow } from './components/WorkFlow/WorkFlow'
 
 export const Landing: React.FC = () => {
-  const [loginStatus, setLoginStatus] = useState<boolean | null>(null);
-  const dispatch = useDispatch();
-
-  const randomUserLogin = async () => {
-    const gettingAllUser = await getAllUsers();
-    if (gettingAllUser) {
-      dispatch(setAuthUser(gettingAllUser[0]));
-      setLoginStatus(true);
-    } else {
-      setLoginStatus(false);
-    }
-  };
-
-  const LoginStatusSymbol: React.FC = () => {
-    if (loginStatus === true) {
-      return <AiOutlineCheckCircle />;
-    } else if (loginStatus === false) {
-      return <AiOutlineStop />;
-    } else {
-      return <></>;
-    }
-  };
-
   return (
-    <div className="">
-      <h1> landing screen </h1>
-      <h2>
-        Login as a random user using the button below <br /> Button is for devs who want to skip auth user flow
-      </h2>
-      <button onClick={randomUserLogin}>Login as random user</button>
-      <LoginStatusSymbol />
+    <div className='landing-container'>
+      <Hero />
+      <div className='teaser-container'>
+        <div className='teaser-header'>UX Designers & Software Engineers</div>
+        <div className='teaser-text'>
+          <div className='teaser-text-1'>
+            You just finished a boot camp-- <br />
+            but to get experience in the “real world” you need...experience.
+          </div>
+          <div className='teaser-text-2'>Now what?</div>
+          <div className='teaser-text-3'>
+            Connect with fellow boot camp grads to complete and ship a product.{' '}
+            <br />
+            Gain experience working on a cross-functional team to get hired
+            faster.
+          </div>
+        </div>
+      </div>
+      <section>
+        <HowItWorks />
+        <YourProjectPortal />
+        <IsThisForYou />
+        <WorkFlow />
+      </section>
+      <div className='get-job'>
+        <span>You've done the work.</span>
+        <span>Get the job.</span>
+        <Link
+          className='button'
+          to='/sign-up'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          Sign up
+        </Link>
+      </div>
+      <ContactForm />
     </div>
-  );
-};
+  )
+}

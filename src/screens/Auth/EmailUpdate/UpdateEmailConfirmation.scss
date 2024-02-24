@@ -1,0 +1,35 @@
+.update-email-confirmation {
+    background-color: white;
+    display: flex;
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    justify-content: center;
+    text-align: center;
+
+    .content {
+        width: fit-content;
+        margin-top: 64px;
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        h2 {
+            margin-bottom: 32px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 24px;
+        }
+
+        .resend {
+            color: purple;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 50px;
+            text-decoration: underline;
+        }
+    }
+}

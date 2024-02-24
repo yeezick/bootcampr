@@ -1,0 +1,39 @@
+.notification-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+}
+
+.delete-read-all {
+  background: none;
+  cursor: pointer;
+  margin: 10px;
+  width: 130px;
+}
+
+.notification-wrapper {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+
+  #unread {
+    background-color: #c6c6c6;
+  }
+
+  .notifications {
+    max-height: 250px;
+    overflow: auto;
+  }
+
+  .status {
+    color: rgb(129, 127, 127);
+    font-size: 12px;
+    padding-left: 500px;
+  }
+
+  .read-delete-btn {
+    flex-direction: row;
+    margin: 10px;
+  }
+}

@@ -1,0 +1,115 @@
+.chat-dialog-container {
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 8px 17px -6px rgba(0, 0, 0, 0.7);
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  height: 560px;
+  position: absolute;
+  right: 124px;
+  top: 90px;
+  width: 364px;
+  z-index: 999999;
+
+  .chat-header {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px;
+    position: relative;
+
+    .close-btn {
+      padding: 8px;
+    }
+
+    .main-page-title {
+      align-items: center;
+      display: flex;
+      flex-grow: 1;
+      justify-content: space-between;
+      padding: 8px;
+
+      h1 {
+        font-size: 24px;
+        margin: 0;
+      }
+    }
+
+    .page-title {
+      align-items: center;
+      column-gap: 16px;
+      display: flex;
+      flex-grow: 1;
+      overflow: hidden;
+      padding: 0 8px;
+
+      .group-link {
+        cursor: pointer;
+        display: inline-block;
+        font-size: 16px;
+        font-weight: 400;
+        margin: 0;
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:hover {
+          color: #212121;
+          font-size: 16px;
+          font-weight: 600;
+        }
+      }
+
+      .title-with-icon {
+        align-items: center;
+        display: flex;
+
+        .edit-pen {
+          align-items: center;
+          display: flex;
+          height: 32px;
+          justify-content: center;
+          width: 32px;
+
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.08);
+            border-radius: 50%;
+          }
+        }
+      }
+
+      &::after {
+        bottom: 0;
+        box-shadow: 0px 1px 3px 1px rgba(26, 35, 126, 0.15),
+          0px 1px 2px 0px rgba(26, 35, 126, 0.3);
+        content: '';
+        height: 100%;
+        left: 0;
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+        width: 100%;
+      }
+    }
+  }
+
+  .chat-page {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    margin-bottom: 16px;
+    overflow-y: scroll;
+    padding: 0 8px 0 8px;
+  }
+
+  p {
+    text-align: center;
+  }
+
+  svg {
+    cursor: pointer;
+  }
+}

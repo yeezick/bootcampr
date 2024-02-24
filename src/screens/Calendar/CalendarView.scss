@@ -1,0 +1,151 @@
+.css-19kzrtu {
+  border-radius: 4px;
+  box-shadow: 0.5px 2px 5px -2px #1a237e;
+  margin-top: 20px;
+  padding: 0px;
+  padding: 20px;
+  width: 100%;
+}
+
+.calendar-container{
+
+  //calendar buttons
+  .fc .fc-today-button,  .fc  .fc-today-button:active  {
+    background-color: white;
+    border-color: #1A237E;
+    color: #1a237e;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 7px 18px;
+    text-transform: capitalize;
+  }
+
+  .fc .fc-prev-button{
+    background-color: transparent;
+    border: none;
+    color: #212121;
+  }
+
+  .fc .fc-prev-button:active:focus, .fc .fc-prev-button:focus{
+    box-shadow: none;
+  }
+
+  .fc .fc-prev-button:active{
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .fc .fc-next-button{
+    background-color: transparent;
+    border: none;
+    color: #212121;
+  }
+
+  .fc .fc-next-button:active:focus,  .fc .fc-next-button:focus{
+    box-shadow: none;
+  }
+
+  .fc .fc-next-button:active{
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+  }
+  .fc .fc-button-primary:disabled {
+    background-color: transparent;
+  }
+
+  .tbody{
+    z-index: 0
+  }
+
+  .fc-col-header-cell {
+    height: 64px;
+  }
+
+  .fc-col-header-cell.fc-day-today {
+    background: #E3F2FD !important;
+  }
+
+  .fc-theme-standard .fc-scrollgrid{
+    border: none;
+  }
+
+  .fc .fc-myCustomButton-button, .fc .fc-myCustomButton-button:active{
+    background-color: #ffa726;
+    border: none;
+    color: #1A237E;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 9px 21px;
+  }
+
+  .fc .fc-myCustomButton-button:focus, .fc .fc-myCustomButton-button:active:focus {
+    box-shadow: none;
+  }
+
+  //calendar date/day labels
+  .fc .fc-col-header-cell-cushion {
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    padding: 20px 0px;
+    text-transform: uppercase;
+  }
+
+  //calendar timeslots
+  .fc .fc-timegrid-slot {
+    height: 2.3em
+  }
+
+  //calendar timeslot time labels
+  .fc .fc-timegrid-slot-label-cushion{
+    color: #616161;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+  //calendar events
+  .fc .fc-v-event{
+    background-color: #FFF3E0;
+    border: none;
+    border-left: 3px solid #FFA726;
+
+    .fc-event-frame{
+      font-size: 12px;
+    }
+
+    .fc-event-title-container{
+      font-weight: 600;
+      margin-top: 2px;
+      text-transform: capitalize;
+    }
+
+    .fc-event-main{
+      color: #212121;
+      font-size: 12px;
+    }
+  }
+
+  .fc .fc-day-today {
+    background: #FFF;
+  } 
+
+  .fc-day-sat, .fc-day-sun {
+    background: #FAFAFA;
+  }
+
+  .fc .fc-timegrid-now-indicator-line {
+      border-color: #FFA726;
+      border-width: 2px 0px 0px;
+    }
+
+  .fc .fc-timegrid-now-indicator-arrow {
+    --fc-now-indicator-color: orange;
+  }
+}
+
+
+
+

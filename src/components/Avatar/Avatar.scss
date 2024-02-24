@@ -1,0 +1,92 @@
+.avatar-icon {
+  display: flex;
+  width: min-content;
+}
+
+.avatar-img,
+.non-clickable {
+  border-radius: 50%;
+  cursor: pointer;
+  height: 75px;
+  object-fit: cover;
+  width: 75px;
+}
+
+// Main
+.avatar-default-picture {
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  justify-content: flex-start;
+  width: 100px;
+}
+
+#cameraIcon {
+  background-color: #ecebeb;
+  height: 32px;
+  left: 64px;
+  top: -31px;
+  transform: scaleX(-1);
+  width: 32px;
+}
+
+.non-clickable {
+  cursor: default;
+}
+
+// Navbar
+.notifications {
+  .avatar-img,
+  .non-clickable {
+    height: 50px;
+    padding-left: 0;
+    width: 50px;
+  }
+}
+
+// Image Modal
+.profile-preview {
+  .avatar-img,
+  .non-clickable {
+    height: 250px;
+    width: 250px;
+  }
+}
+
+// User Profile
+.userProfile .avatar-default-picture {
+  cursor: default;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  margin: 0;
+  width: 40px;
+}
+
+// Edit Profile
+.editprofile .avatar-default-picture {
+  cursor: default;
+  display: flex;
+  height: 96px;
+  width: 96px;
+}
+
+// Setup Profile
+.setupProfile {
+  .avatar-img,
+  .non-clickable {
+    height: 96px;
+    margin: 0 0 10px 0;
+    width: 96px;
+  }
+}
+.setupProfile .avatar-default-picture {
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  height: 96px;
+  justify-content: flex-start;
+  margin: 0;
+  width: 96px;
+}

@@ -1,0 +1,8 @@
+.select-attendees-section {
+  display: flex;
+  flex-direction: row;
+  grid-area: selectAttendees;
+  .select-attendees-wrapper {
+    width: 100%
+  }
+}

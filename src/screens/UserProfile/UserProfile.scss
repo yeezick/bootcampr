@@ -1,0 +1,256 @@
+@import 'scss/variables';
+@import 'scss/mixins';
+
+// TODO: Invert background color once Layout CSS is fixed
+
+.userProfile {
+  #imageChange {
+    color: #470d91;
+    font-size: 16px;
+  }
+
+  $this: &;
+
+  &__icons {
+    height: 20px;
+    width: 20px;
+  }
+
+  &__heading {
+    @include flex(row);
+  }
+
+  &__cameraIcon {
+    background-color: #ecebeb !important;
+    height: 32px;
+    left: 87px;
+    top: -37px;
+    transform: scaleX(-1);
+    width: 32px;
+  }
+
+  &__container {
+    background-color: #fafafa;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin: 64px auto 0;
+    padding: 32px;
+    width: 548px;
+    max-width: 612px;
+  }
+
+  &__editBtn {
+    align-items: center;
+    @include font-properties(
+      (
+        size: 14px,
+        weight: 500,
+        line-height: 20px,
+      )
+    );
+    background-color: #fff;
+    border: 1px solid #5c6bc0;
+    border-radius: 4px;
+    color: #1a237e;
+    cursor: pointer;
+    display: flex;
+    gap: 8px;
+    height: 40px;
+    justify-content: center;
+    margin: 1px 1px auto auto;
+    padding: 0 24px;
+    width: 118px;
+  }
+
+  &__editBtn:hover {
+    background-color: #5c6bc0;
+    color: #fff;
+  }
+
+  &__messageBtn {
+    align-items: center;
+    @include font-properties(
+      (
+        size: 14px,
+        weight: 600,
+        line-height: 20px,
+      )
+    );
+    background-color: #ffa726;
+    border: none;
+    border-radius: 4px;
+    color: #1a237e;
+    cursor: pointer;
+    display: flex;
+    gap: 8px;
+    height: 40px;
+    justify-content: center;
+    overflow: hidden;
+    margin: 1px 1px auto auto;
+    padding: 0 24px;
+    position: relative;
+    text-decoration: none;
+    width: 118px;
+    word-wrap: break-word;
+  }
+
+  h3 {
+    @include font-properties(
+      (
+        size: 16px,
+        weight: 400,
+        line-height: 24px,
+      )
+    );
+  }
+
+  &__heading {
+    @include font-properties(
+      (
+        size: 32px,
+        weight: 500,
+        line-height: 45px,
+      )
+    );
+    margin: auto;
+    max-height: 45px;
+    max-width: 799px;
+    text-align: center;
+  }
+
+  &__icons {
+    color: #212121;
+  }
+
+  &__image {
+    .non-clickable {
+      align-items: center;
+      border: none;
+      border-radius: 100%;
+      cursor: default;
+      display: flex;
+      flex-shrink: 0;
+      height: 40px;
+      justify-content: center;
+      margin: 0;
+      width: 40px;
+    }
+  }
+
+  &__infoContainer,
+  &__linksContainer,
+  &__title {
+    @include flex(column);
+  }
+
+  &__infoContainer {
+    max-width: 501px;
+
+    h3 {
+      font-weight: 700;
+    }
+
+    p {
+      @include font-properties(
+        (
+          size: 16px,
+          weight: 400,
+          line-height: 24px,
+        )
+      );
+      height: 168px;
+      margin-top: 6px;
+      margin: 0;
+      overflow: scroll;
+      overflow-wrap: break-word;
+      width: 100%;
+    }
+  }
+
+  &__link {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0;
+  }
+
+  &__linksContainer {
+    align-items: baseline;
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    width: 339px;
+  }
+
+  &__linkItem {
+    @include flex();
+    gap: 8px;
+
+    h3,
+    p,
+    a {
+      font-weight: 700;
+      text-align: left;
+      text-decoration: none;
+    }
+
+    a {
+      color: #1976d2;
+      text-decoration: underline;
+    }
+
+    p {
+      margin-top: 3px;
+    }
+  }
+
+  &__linkLast {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0;
+  }
+
+  &__title {
+    h2 {
+      @include font-properties(
+        (
+          size: 16px,
+          weight: 400,
+          line-height: 24px,
+        )
+      );
+      color: #212121;
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    h3 {
+      @include font-properties(
+        (
+          size: 14px,
+          line-height: 20px,
+        )
+      );
+      color: #616161;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &__titleContainer {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+  }
+
+  &__urlNoBlue {
+    color: black;
+    cursor: default;
+  }
+}
