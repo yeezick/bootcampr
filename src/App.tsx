@@ -54,7 +54,7 @@ function App() {
           />
           {/* User */}
           <Route path='/onboarding/:id' element={<Onboarding />} />
-          <Route path='/whatsNext' element={<WhatsNext />} />
+          <Route path='/whats-next' element={<WhatsNext />} />
           <Route path='/users/:userId' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />
           <Route
