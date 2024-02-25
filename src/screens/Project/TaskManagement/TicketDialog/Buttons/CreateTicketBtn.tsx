@@ -33,7 +33,7 @@ export const CreateTicketBtn = () => {
       dispatch(resetTicketFields({}))
       dispatch(
         createSnackBar({
-          message: 'Ticket created successfully',
+          message: 'Task created!',
           severity: 'success',
         })
       )
