@@ -13,10 +13,10 @@ export const AuthorActions = ({
   toggleEditMode,
   toggleFetchComments,
 }) => {
-  const [deleteModal, toggleDeleteModal] = useState(false)
+  const [deleteDialog, toggleDeleteDialog] = useState(false)
   const userId = useAppSelector(selectUserId)
   const allowEditComment = () => toggleEditMode(state => !state)
-  const deleteThisComment = async () => toggleDeleteModal(true)
+  const deleteThisComment = async () => toggleDeleteDialog(true)
 
   if (authorId === userId) {
     return (
@@ -26,10 +26,10 @@ export const AuthorActions = ({
         </Button>
         {fetchIcon('circle')}
         <Button onClick={deleteThisComment}>Delete</Button>
-        <DeleteCommentModal
+        <DeleteCommentDialog
           commentId={commentId}
-          open={deleteModal}
-          toggleDeleteModal={toggleDeleteModal}
+          open={deleteDialog}
+          toggleDeleteDialog={toggleDeleteDialog}
           toggleFetchComments={toggleFetchComments}
         />
       </div>
@@ -37,14 +37,14 @@ export const AuthorActions = ({
   }
 }
 
-const DeleteCommentModal = ({
+const DeleteCommentDialog = ({
   commentId,
   open,
-  toggleDeleteModal,
+  toggleDeleteDialog,
   toggleFetchComments,
 }) => {
   const dispatch = useAppDispatch()
-  const handleCloseDialog = () => toggleDeleteModal(false)
+  const handleCloseDialog = () => toggleDeleteDialog(false)
   const handleDelete = async () => {
     const deleteResponse = await deleteComment(commentId)
     if (deleteResponse.status === 500) {
@@ -52,7 +52,7 @@ const DeleteCommentModal = ({
       return
     }
     toggleFetchComments(state => !state)
-    toggleDeleteModal(false)
+    toggleDeleteDialog(false)
   }
   return (
     <Dialog open={open} onClose={handleCloseDialog} maxWidth='xs'>
