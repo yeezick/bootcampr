@@ -34,11 +34,8 @@ export const ResetPassword = () => {
     if (passwordData.status >= 400) {
       dispatch(
         createSnackBar({
-          isOpen: true,
           message: passwordData.friendlyMessage,
-          duration: 5000,
           severity: 'error',
-          horizontal: 'right',
         })
       )
     } else {

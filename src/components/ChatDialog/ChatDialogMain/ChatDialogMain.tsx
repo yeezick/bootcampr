@@ -172,10 +172,7 @@ const ChatTitle = ({
       )
       dispatch(
         createSnackBar({
-          isOpen: true,
-          horizontal: 'right',
           message: 'Successfully updated the chat name.',
-          duration: 5000,
           severity: 'success',
         })
       )
@@ -186,10 +183,7 @@ const ChatTitle = ({
       setDisplayName('')
       dispatch(
         createSnackBar({
-          isOpen: true,
-          horizontal: 'right',
           message: "Couldn't update the chat name. Please try again later.",
-          duration: 5000,
           severity: 'error',
         })
       )

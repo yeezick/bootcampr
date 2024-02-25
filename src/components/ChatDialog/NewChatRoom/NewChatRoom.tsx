@@ -213,10 +213,7 @@ export const NewChatRoom = ({ chatScreen }) => {
         dispatch(onScreenUpdate(ChatScreen.Messages))
         dispatch(
           createSnackBar({
-            isOpen: true,
-            horizontal: 'right',
             message: 'Successfully created a chat room.',
-            duration: 5000,
             severity: 'success',
           })
         )
@@ -225,10 +222,7 @@ export const NewChatRoom = ({ chatScreen }) => {
       console.error(error)
       dispatch(
         createSnackBar({
-          isOpen: true,
-          horizontal: 'right',
           message: "Couldn't create a chat room. Please try again later",
-          duration: 5000,
           severity: 'error',
         })
       )

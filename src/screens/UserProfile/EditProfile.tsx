@@ -67,11 +67,7 @@ export const EditProfile: React.FC = () => {
       dispatch(setAuthUser(updatedUser))
       dispatch(
         createSnackBar({
-          isOpen: true,
           message: 'Profile saved!',
-          duration: 3000,
-          vertical: 'bottom',
-          horizontal: 'right',
           severity: 'success',
         })
       )
@@ -80,11 +76,7 @@ export const EditProfile: React.FC = () => {
       console.log('Error occured when trying to update User Profile', error)
       dispatch(
         createSnackBar({
-          isOpen: true,
           message: 'Failed to update user profile. Please try again.',
-          duration: 3000,
-          vertical: 'bottom',
-          horizontal: 'right',
           severity: 'error',
         })
       )

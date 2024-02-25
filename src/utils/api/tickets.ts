@@ -48,12 +48,16 @@ export const saveUpdatedTicket = async ticketData => {
     const updatedData = await api.put(`/tickets/${ticketData._id}`, ticketData)
     return updatedData.data
   } catch (error) {
-    return { error: { status: 500, message: 'ticket status failed to change' } }
+    return { error: { status: 500, message: 'Ticket failed to update' } }
   }
 }
 
 export const deleteTicketApi = async ticketData => {
-  await api.put(`/tickets/delete/${ticketData.ticketId}`, ticketData)
+  try {
+    await api.put(`/tickets/delete/${ticketData.ticketId}`, ticketData)
+  } catch (error) {
+    return { error: { status: 500, message: 'Ticket failed to delete' } }
+  }
 }
 
 export const getTicketComments = async (
@@ -70,24 +74,41 @@ export const getTicketComments = async (
 
 // Comments
 export const createComment = async commentData => {
-  const ticketData = await api.post('/createComment', commentData)
-  return ticketData.data
+  try {
+    const ticketData = await api.post('/createComment', commentData)
+    return ticketData.data
+  } catch (error) {
+    return { error: { status: 500, message: 'Failed to create comment' } }
+  }
 }
 
 export const deleteComment = async commentId => {
-  const response = await api.delete(`/comments/${commentId}`)
-  return response.status
+  try {
+    const response = await api.delete(`/comments/${commentId}`)
+    return response.status
+  } catch (error) {
+    return { error: { status: 500, message: 'Failed to delete comment' } }
+  }
 }
 
+// BC: 761
 export const updateComment = async (commentId, commentUpdates) => {
-  const response = await api.patch(
-    `/updateComment/${commentId}`,
-    commentUpdates
-  )
-  return response.data
+  try {
+    const response = await api.patch(
+      `/updateComment/${commentId}`,
+      commentUpdates
+    )
+    return { status: 200, ...response.data }
+  } catch (error) {
+    return { error: { status: 500, message: 'Failed to update comment' } }
+  }
 }
 
 export const getReplies = async (commentId: number): Promise<Comment[]> => {
-  const response = await api.get(`/comment/${commentId}/replies`)
-  return response.data
+  try {
+    const response = await api.get(`/comment/${commentId}/replies`)
+    return response.data
+  } catch (error) {
+    return []
+  }
 }

@@ -199,18 +199,14 @@ export const saveAvailability = async (
   if (updated.status) {
     dispatch(
       createSnackBar({
-        isOpen: true,
         message: 'Your availability has been updated!',
-        duration: 3000,
         severity: 'success',
       })
     )
   } else {
     dispatch(
       createSnackBar({
-        isOpen: true,
         message: 'Something went wrong please try again',
-        duration: 3000,
         severity: 'error',
       })
     )

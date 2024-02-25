@@ -33,12 +33,7 @@ export const DeleteTicketDialog = () => {
     dispatch(deleteTicket({ status, ticketId }))
     dispatch(
       createSnackBar({
-        isOpen: true,
         message: 'Ticket deleted successfully',
-        duration: 3000,
-        vertical: 'bottom',
-        horizontal: 'right',
-        snackbarStyle: { background: 'green', color: 'white' },
         severity: 'success',
       })
     )

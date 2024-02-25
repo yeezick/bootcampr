@@ -24,12 +24,7 @@ export const ExpiredLink = () => {
 
     dispatch(
       createSnackBar({
-        isOpen: true,
         message: res.data.friendlyMessage,
-        duration: 5000,
-        vertical: 'top',
-        horizontal: 'center',
-        snackbarStyle: '',
         severity,
       })
     )

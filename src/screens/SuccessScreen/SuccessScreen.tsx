@@ -37,11 +37,8 @@ export const SuccessScreen = () => {
     if (resType === 'success') {
       dispatch(
         createSnackBar({
-          isOpen: true,
           message: 'Email sent!',
-          duration: 5000,
           severity: 'success',
-          horizontal: 'right',
         })
       )
     }
@@ -49,12 +46,9 @@ export const SuccessScreen = () => {
     if (resType === 'error') {
       dispatch(
         createSnackBar({
-          isOpen: true,
           message:
             'There was an error sending the email. Please try again or contact support.',
-          duration: 6000,
           severity: 'error',
-          horizontal: 'right',
         })
       )
     }

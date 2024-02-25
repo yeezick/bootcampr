@@ -183,11 +183,7 @@ const DeleteWarningModal = ({
         dispatch(setDefaultProfilePicture())
         dispatch(
           createSnackBar({
-            isOpen: true,
             message: 'Profile photo deleted',
-            duration: 3000,
-            vertical: 'bottom',
-            horizontal: 'right',
             severity: 'success',
           })
         )
@@ -200,11 +196,7 @@ const DeleteWarningModal = ({
       console.log('Error deleting image:', err)
       dispatch(
         createSnackBar({
-          isOpen: true,
           message: 'Profile photo did not delete. Please try again.',
-          duration: 3000,
-          vertical: 'bottom',
-          horizontal: 'right',
           severity: 'error',
         })
       )

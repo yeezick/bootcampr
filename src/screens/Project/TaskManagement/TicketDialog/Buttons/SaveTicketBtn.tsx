@@ -35,9 +35,7 @@ export const SaveTicketBtn = () => {
       dispatch(resetTicketFields({}))
       dispatch(
         createSnackBar({
-          isOpen: true,
           message: 'Ticket created successfully',
-          duration: 3000,
           severity: 'success',
         })
       )

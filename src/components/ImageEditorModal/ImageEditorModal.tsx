@@ -71,11 +71,7 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
               dispatch(updateAuthUser(userImageUpdate))
               dispatch(
                 createSnackBar({
-                  isOpen: true,
                   message: 'Photo saved!',
-                  duration: 3000,
-                  vertical: 'bottom',
-                  horizontal: 'right',
                   severity: 'success',
                 })
               )
@@ -84,11 +80,7 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
               console.log('Failed to generate cropped image URL:', error)
               dispatch(
                 createSnackBar({
-                  isOpen: true,
                   message: 'Photo did not upload. Please try again.',
-                  duration: 3000,
-                  vertical: 'bottom',
-                  horizontal: 'right',
                   severity: 'error',
                 })
               )

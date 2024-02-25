@@ -45,11 +45,8 @@ export const ChangePassword = () => {
 
       dispatch(
         createSnackBar({
-          isOpen: true,
           message: passwordData.friendlyMessage,
-          duration: 5000,
           severity: 'error',
-          horizontal: 'right',
         })
       )
     } else {
