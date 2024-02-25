@@ -6,9 +6,9 @@ import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
 import { emptyUser } from 'utils/data/userConstants'
 import { updateUser } from 'utils/api/users'
 import Avatar from 'components/Avatar/Avatar'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import TextareaAutosize from 'react-textarea-autosize'
 import './EditProfile.scss'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
@@ -65,20 +65,12 @@ export const EditProfile: React.FC = () => {
     try {
       const updatedUser = await updateUser(params.id, updateUserForm)
       dispatch(setAuthUser(updatedUser))
-      dispatch(
-        createSnackBar({
-          message: 'Profile saved!',
-          severity: 'success',
-        })
-      )
+      dispatch(successSnackbar('Profile saved!'))
       navigate(`/users/${params.id}`)
     } catch (error) {
       console.log('Error occured when trying to update User Profile', error)
       dispatch(
-        createSnackBar({
-          message: 'Failed to update user profile. Please try again.',
-          severity: 'error',
-        })
+        errorSnackbar('Failed to update user profile. Please try again.')
       )
     }
   }

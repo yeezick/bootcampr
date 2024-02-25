@@ -7,12 +7,12 @@ import {
 } from 'utils/helpers/taskHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { deleteTicket, selectProjectId } from 'utils/redux/slices/projectSlice'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import {
   selectConfirmationDialogType,
   selectTicketFields,
 } from 'utils/redux/slices/taskBoardSlice'
 import '../../styles/ConfirmationDialogs.scss'
+import { successSnackbar } from 'utils/helpers/commentHelpers'
 
 export const DeleteTicketDialog = () => {
   const confirmationDialogType = useAppSelector(selectConfirmationDialogType)
@@ -31,12 +31,7 @@ export const DeleteTicketDialog = () => {
     })
 
     dispatch(deleteTicket({ status, ticketId }))
-    dispatch(
-      createSnackBar({
-        message: 'Ticket deleted successfully',
-        severity: 'success',
-      })
-    )
+    dispatch(successSnackbar('Ticket deleted successfully'))
     closeVisibleTicketDialog(dispatch)
   }
 

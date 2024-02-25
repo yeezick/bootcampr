@@ -10,7 +10,6 @@ import {
 } from 'utils/functions/chatLogic'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { updateGroupChat } from 'utils/api/chat'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import {
   onBackArrowClick,
   onScreenUpdate,
@@ -22,6 +21,7 @@ import {
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 import { CommonModal } from 'components/CommonModal/CommonModal'
 import './ChatDialogMain.scss'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 
 const getTitleText = (chatScreen, currentConversation, authUser) => {
   const title = getParticipantsNames(
@@ -74,28 +74,14 @@ export const ChatPageHeader = () => {
       })
       const updatedChat = { ...currentConversation, groupName: displayName }
       dispatch(updateCurrentChat(updatedChat))
-      dispatch(
-        createSnackBar({
-          isOpen: true,
-          horizontal: 'right',
-          message: 'Successfully updated the chat name.',
-          duration: 5000,
-          severity: 'success',
-        })
-      )
+      dispatch(successSnackbar('Successfully updated the chat name.'))
       setOpenEditNameModal(false)
     } catch (error) {
       console.error(error)
       setOpenEditNameModal(false)
       setDisplayName('')
       dispatch(
-        createSnackBar({
-          isOpen: true,
-          horizontal: 'right',
-          message: "Couldn't update the chat name. Please try again later.",
-          duration: 5000,
-          severity: 'error',
-        })
+        errorSnackbar("Couldn't update the chat name. Please try again later.")
       )
     }
   }

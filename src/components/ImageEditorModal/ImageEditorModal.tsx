@@ -6,7 +6,6 @@ import {
   getUserProfileImage,
 } from 'utils/redux/slices/userSlice'
 import { updateUser } from 'utils/api'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { ImageEditorModalProps } from '../../interfaces/ProfileImageInterfaces'
 import ImageEditorHeader from './ImageEditorHeader'
 import ImageEditorControls from './ImageEditorControls'
@@ -16,6 +15,7 @@ import getCroppedImg from 'components/Crop/Utils/CropImage'
 import { Dialog, DialogActions } from '@mui/material'
 import { Area, Point } from 'react-easy-crop/types'
 import './ImageEditorModal.scss'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 
 /**
  * ImageEditorModal component allows the user to edit, crop, and save images.
@@ -69,21 +69,11 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
               })
 
               dispatch(updateAuthUser(userImageUpdate))
-              dispatch(
-                createSnackBar({
-                  message: 'Photo saved!',
-                  severity: 'success',
-                })
-              )
+              dispatch(successSnackbar('Photo saved!'))
               handleClose()
             } catch (error) {
               console.log('Failed to generate cropped image URL:', error)
-              dispatch(
-                createSnackBar({
-                  message: 'Photo did not upload. Please try again.',
-                  severity: 'error',
-                })
-              )
+              dispatch(errorSnackbar('Photo did not upload. Please try again.'))
             }
           }
         }

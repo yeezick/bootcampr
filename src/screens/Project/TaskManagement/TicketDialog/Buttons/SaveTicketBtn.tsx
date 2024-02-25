@@ -1,12 +1,12 @@
 import { PrimaryButton } from 'components/Buttons'
 import { saveUpdatedTicket } from 'utils/api/tickets'
+import { successSnackbar } from 'utils/helpers/commentHelpers'
 import {
   buildTicketPayload,
   closeVisibleTicketDialog,
 } from 'utils/helpers/taskHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectProjectId, updateTicket } from 'utils/redux/slices/projectSlice'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import {
   resetTicketFields,
   selectTicketFields,
@@ -33,12 +33,7 @@ export const SaveTicketBtn = () => {
         })
       )
       dispatch(resetTicketFields({}))
-      dispatch(
-        createSnackBar({
-          message: 'Changes saved!',
-          severity: 'success',
-        })
-      )
+      dispatch(successSnackbar('Changes saved!'))
       closeVisibleTicketDialog(dispatch)
     }
   }

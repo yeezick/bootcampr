@@ -19,12 +19,12 @@ import {
   DialogContent,
   IconButton,
 } from '@mui/material'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import CloseIcon from '@mui/icons-material/Close'
 import { RiFileEditLine } from 'react-icons/ri'
 import { GrTrash } from 'react-icons/gr'
 import { MdOutlineCameraEnhance } from 'react-icons/md'
 import './ProfilePreviewImage.scss'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 
 /**
  * ProfilePreviewImage component displays a preview of the profile image, allowing the user to add, edit, or delete the image.
@@ -181,12 +181,7 @@ const DeleteWarningModal = ({
         dispatch(updateAuthUser(userImageUpdate))
         dispatch(setUploadedImage(''))
         dispatch(setDefaultProfilePicture())
-        dispatch(
-          createSnackBar({
-            message: 'Profile photo deleted',
-            severity: 'success',
-          })
-        )
+        dispatch(successSnackbar('Profile photo deleted'))
         closeDeleteModal()
         onClose()
       } else {
@@ -194,12 +189,7 @@ const DeleteWarningModal = ({
       }
     } catch (err) {
       console.log('Error deleting image:', err)
-      dispatch(
-        createSnackBar({
-          message: 'Profile photo did not delete. Please try again.',
-          severity: 'error',
-        })
-      )
+      dispatch(errorSnackbar('Profile photo did not delete. Please try again.'))
     }
   }
 

@@ -7,13 +7,13 @@ import { logOut, updateUsersPassword } from 'utils/api'
 import { SuccessQueryParam } from 'utils/data/authSettingsConstants'
 import { emptyPasswordData } from 'utils/data/userConstants'
 import { useAppSelector } from 'utils/redux/hooks'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { logoutAuthUser, selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useFormValidation } from 'utils/helpers'
 import { PasswordInputs } from 'components/Inputs'
 import { ThemeProvider } from '@emotion/react'
 import { Button, createTheme } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { errorSnackbar } from 'utils/helpers/commentHelpers'
 
 export const ChangePassword = () => {
   const navigate = useNavigate()
@@ -43,12 +43,7 @@ export const ChangePassword = () => {
       passwordData.friendlyMessage === 'Your password is incorrect.' &&
         setInputError(true)
 
-      dispatch(
-        createSnackBar({
-          message: passwordData.friendlyMessage,
-          severity: 'error',
-        })
-      )
+      dispatch(errorSnackbar(passwordData.friendlyMessage))
     } else {
       await logOut()
       dispatch(logoutAuthUser())

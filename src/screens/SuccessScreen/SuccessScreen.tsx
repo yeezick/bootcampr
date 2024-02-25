@@ -1,5 +1,5 @@
 import './SuccessScreen.scss'
-import { Button, Snackbar, ThemeProvider, createTheme } from '@mui/material'
+import { Button, ThemeProvider, createTheme } from '@mui/material'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import {
@@ -9,8 +9,8 @@ import {
 } from 'utils/data/authSettingsConstants'
 import { forgotPasswordEmailVerification, getOneUser } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { SuccessScreenValues } from 'interfaces/AccountSettingsInterface'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 
 export const SuccessScreen = () => {
   const navigate = useNavigate()
@@ -35,21 +35,14 @@ export const SuccessScreen = () => {
 
   const handleToast = (resType: 'success' | 'error') => {
     if (resType === 'success') {
-      dispatch(
-        createSnackBar({
-          message: 'Email sent!',
-          severity: 'success',
-        })
-      )
+      dispatch(successSnackbar('Email sent!'))
     }
 
     if (resType === 'error') {
       dispatch(
-        createSnackBar({
-          message:
-            'There was an error sending the email. Please try again or contact support.',
-          severity: 'error',
-        })
+        errorSnackbar(
+          'There was an error sending the email. Please try again or contact support.'
+        )
       )
     }
   }
