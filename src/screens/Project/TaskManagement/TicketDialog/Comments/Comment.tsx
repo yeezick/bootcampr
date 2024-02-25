@@ -6,9 +6,8 @@ import { CommentContent } from './CommentContent'
 import { EditComment } from './EditComment'
 
 export const Comment = ({ comment, fetchComments, toggleFetchComments }) => {
-  const { author, content, createdAt } = comment
+  const { author, createdAt } = comment
   const [editMode, toggleEditMode] = useState(false)
-  const [editedComment, setEditedComment] = useState(content)
 
   return (
     <div className='comment-container'>

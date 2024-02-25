@@ -11,11 +11,6 @@ export const CommentFooter = ({
 
   return (
     <div className='comment-actions'>
-      {/* {author.userId !== userId && !isReply && (
-        <div onClick={renderReplyInputBar}>
-          <p>Reply</p>
-        </div>
-      )} */}
       <LikeButton
         commentId={commentId}
         fetchComments={fetchComments}

@@ -8,6 +8,7 @@ import { Replies } from './Replies'
 
 export const TaskComments = ({ ticketId }) => {
   const [comments, setComments] = useState([])
+  // BC-763: High priority! Makes an API call for each reply thread for every comment action
   const [fetchComments, toggleFetchComments] = useState(false)
 
   useEffect(() => {

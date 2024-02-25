@@ -48,18 +48,7 @@ export const LikeButton = ({
     <LikeToolTip
       title={tooltipTitle}
       placement='top-start'
-      slotProps={{
-        popper: {
-          modifiers: [
-            {
-              name: 'offset',
-              options: {
-                offset: [0, -14],
-              },
-            },
-          ],
-        },
-      }}
+      slotProps={TooltipSlotProps}
     >
       <div className='like-button'>
         <div onClick={handleCommentLike}>{determineLikeIcon(likedByUser)}</div>
@@ -79,3 +68,16 @@ const LikeToolTip = styled(({ className, ...props }: TooltipProps) => (
     padding: '8px',
   },
 }))
+
+const TooltipSlotProps = {
+  popper: {
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, -14],
+        },
+      },
+    ],
+  },
+}
