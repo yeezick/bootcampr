@@ -23,7 +23,7 @@ export const NewComment = ({
 
   const createNewCommentOnEnter = async e => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      handleCreateComment(e.target.value)
+      handleCreateComment(e.target.value.slice(0, -2))
     }
   }
 

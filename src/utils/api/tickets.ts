@@ -1,4 +1,3 @@
-import { TicketInterface } from 'interfaces'
 import { api } from './apiConfig'
 
 export const createTicket = async ticketBody => {
@@ -85,9 +84,9 @@ export const createComment = async commentData => {
 export const deleteComment = async commentId => {
   try {
     const response = await api.delete(`/comments/${commentId}`)
-    return response.status
+    return { status: response.status }
   } catch (error) {
-    return { error: { status: 500, message: 'Failed to delete comment' } }
+    return { status: 500, message: 'Failed to delete comment' }
   }
 }
 

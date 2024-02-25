@@ -7,7 +7,6 @@ import { TextField } from '@mui/material'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { updateComment } from 'utils/api/tickets'
 import { useAppDispatch } from 'utils/redux/hooks'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 
 export const Comment = ({ comment, fetchComments, toggleFetchComments }) => {
@@ -27,14 +26,7 @@ export const Comment = ({ comment, fetchComments, toggleFetchComments }) => {
       ) : (
         <div className='comment-card'>
           <CommentHeader author={author} createdAt={createdAt} />
-          <CommentContent
-            comment={comment}
-            editMode={editMode}
-            editedComment={editedComment}
-            setEditedComment={setEditedComment}
-            toggleEditMode={toggleEditMode}
-            toggleFetchComments={toggleFetchComments}
-          />
+          <CommentContent comment={comment} />
           <CommentFooter
             comment={comment}
             fetchComments={fetchComments}
