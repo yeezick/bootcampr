@@ -96,7 +96,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
         message: 'User profile successfully updated.',
       })
       if (direction === 'next') {
-        navigate(`/whatsNext`)
+        navigate(`/whats-next`)
       } else {
         handlePageNavigation(direction)
       }
