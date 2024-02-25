@@ -38,9 +38,6 @@ import '../styles/EditableMeetingModal.scss'
 import { MeetingModalHeaderIcons } from './MeetingModalHeaderIcons'
 import { GoogleMeetsToggler } from './GoogleMeetsToggler'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
-import { isBoolean } from 'util'
-import { createReadStream } from 'fs'
-import moment from 'moment-timezone'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -148,6 +145,11 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
     const { description, summary } = meetingText
     const attendeeList = []
 
+    const formatedST = dayjs(start).format('YYYY-MM-DDTHH:mm')
+    const formatedET = dayjs(end).format('YYYY-MM-DDTHH:mm')
+    const updatedStartTime = dayjs.tz(formatedST, eventTimezone).format()
+    const updatedEndTime = dayjs.tz(formatedET, eventTimezone).format()
+
     for (const email in attendees) {
       if (attendees[email] === true) {
         attendeeList.push({ email })
@@ -169,11 +171,11 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
           modalDisplayStatus === 'edit' && displayedEvent.hangoutLink,
       },
       end: {
-        dateTime: end,
+        dateTime: updatedEndTime,
         timeZone: eventTimezone,
       },
       start: {
-        dateTime: start,
+        dateTime: updatedStartTime,
         timeZone: eventTimezone,
       },
       summary,

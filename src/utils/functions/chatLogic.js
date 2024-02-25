@@ -1,44 +1,81 @@
-export const formatTimestamp = timestamp => {
-  const date = new Date(timestamp)
-  const year = date.getFullYear().toString().slice(-2)
-  const month = date.getMonth() + 1
-  const day = ('0' + date.getDate()).slice(-2)
-  let hours = date.getHours()
-  hours = hours % 12
-  hours = hours ? hours : 12
-  const minutes = ('0' + date.getMinutes()).slice(-2)
-  const ampm = hours >= 12 ? 'PM' : 'AM'
-  const formattedTime = `${hours}:${minutes} ${ampm}`
-  return `${month}/${day}/${year}, ${formattedTime}`
+export const getParticipantsNames = (
+  participants,
+  chatType,
+  groupName,
+  authUser
+) => {
+  const participantsWithoutAuthUser = participants
+    .filter(({ participant }) => participant._id !== authUser._id)
+    .map(
+      ({ participant }) => `${participant.firstName} ${participant.lastName}`
+    )
+    .join(', ')
+  if (chatType === 'private') {
+    return participantsWithoutAuthUser
+  } else {
+    const authUserName = `${authUser.firstName} ${authUser.lastName}`
+    return groupName
+      ? groupName
+      : participantsWithoutAuthUser.concat(', ', authUserName)
+  }
 }
 
-export const formatLastMessageTimestamp = lastMessageTimestamp => {
-  const now = new Date()
-  const messageTime = new Date(lastMessageTimestamp)
-  const timeDiff = now - messageTime
-  const seconds = Math.floor(timeDiff / 1000)
-  const minutes = Math.floor(seconds / 60)
-  const hours = Math.floor(minutes / 60)
-  const days = Math.floor(hours / 24)
+export const getSortedParticipants = (participants, authUserId) => {
+  return [...participants].sort((ppA, ppB) => {
+    if (ppA.participant._id === authUserId) return 1
+    if (ppB.participant._id === authUserId) return -1
 
-  let formattedTimestamp
+    const participantNameA = ppA.participant.firstName.toLocaleLowerCase()
+    const participantNameB = ppB.participant.firstName.toLocaleLowerCase()
+    if (participantNameA === participantNameB) return 0
+    return participantNameA > participantNameB ? 1 : -1
+  })
+}
 
-  switch (true) {
-    case days > 0:
-      formattedTimestamp = `${days}d`
-      break
-    case hours > 0:
-      formattedTimestamp = `${hours}h`
-      break
-    case minutes > 0:
-      formattedTimestamp = `${minutes}m`
-      break
-    default:
-      formattedTimestamp = `${seconds}s`
-      break
+export const mapParticipantsWithMemberDetails = (chatRoom, members) => {
+  return chatRoom.participants.map(pp => {
+    const member = members.find(member => member._id === pp.participant)
+    return member
+      ? {
+          ...pp,
+          participant: {
+            _id: member._id,
+            firstName: member.firstName,
+            lastName: member.lastName,
+            email: member.email,
+            profilePicture: member.profilePicture,
+          },
+        }
+      : pp
+  })
+}
+
+export const mapMessageSender = (message, members) => {
+  let messageSender
+  if (message && message.sender) {
+    if (message.isBotMessage) {
+      messageSender = {
+        _id: message.sender,
+        firstName: 'Bootcampr',
+        lastName: 'Admin',
+      }
+    } else {
+      messageSender = members.find(member => member._id === message.sender)
+    }
+    return {
+      ...message,
+      sender: messageSender
+        ? {
+            _id: messageSender._id,
+            firstName: messageSender.firstName,
+            lastName: messageSender.lastName,
+            email: messageSender.email || '',
+            profilePicture: messageSender.profilePicture || '',
+          }
+        : message.sender,
+    }
   }
-
-  return formattedTimestamp
+  return message
 }
 
 export const isMemberSelected = (selectedMembers, member) => {
@@ -96,11 +133,63 @@ export const isOnlyMessageBySameSender = (messages, i) => {
   const currentSender = messages[i].sender._id
   const previousSender = messages[i - 1]?.sender._id
   const nextSender = messages[i + 1]?.sender._id
-
   // Check if neither the previous nor the next message has the same sender as the current message
   return previousSender !== currentSender && nextSender !== currentSender
 }
 
 export const isSameSenderAsPrevious = (messages, m, i) => {
   return i > 0 && messages[i - 1].sender._id === m.sender._id
+}
+
+export const getMessageClassNames = (
+  messages,
+  message,
+  index,
+  authUser,
+  selectedMessages
+) => {
+  const isSenderAuthUser = message.sender._id === authUser._id
+
+  const isSameUser = isSameSenderAsPrevious(messages, message, index)
+    ? 'same-user'
+    : 'other-user'
+
+  const isLastMessageAndSameRecipient =
+    isRecipientMessageSameSender(messages, message, index, authUser._id) ||
+    isLastMessageBySameRecipient(messages, index, authUser._id)
+
+  const isLastMessage =
+    (isMessageSameSender(messages, message, index) ||
+      isLastMessageBySameUser(messages, index)) &&
+    'same-sender-last-message'
+
+  const isFirstMessage =
+    (isMessageSameSender(messages, message, index) ||
+      isFirstMessageBySameUser(messages, index)) &&
+    'same-sender-first-message'
+
+  const isOnlyMessage =
+    isOnlyMessageBySameSender(messages, index) && 'same-sender-one-message'
+
+  const isAvatarDisplayed = isLastMessageAndSameRecipient
+    ? 'avatar'
+    : 'no-avatar'
+
+  const isMessageSelected = selectedMessages.includes(message)
+    ? 'selected-message'
+    : 'not-selected'
+
+  const timestampClasses = isSenderAuthUser ? 'details-right' : 'details-left'
+
+  return {
+    isSameUser,
+    isLastMessage,
+    isFirstMessage,
+    isOnlyMessage,
+    isAvatarDisplayed,
+    isLastMessageAndSameRecipient,
+    isMessageSelected,
+    timestampClasses,
+    isSameSenderAsPrevious,
+  }
 }

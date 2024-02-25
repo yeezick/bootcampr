@@ -6,56 +6,44 @@ import { MdArrowDropDown } from 'react-icons/md'
 import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
-import { useSocket } from 'components/Notifications/Socket'
+import { useSocketEvents } from 'components/Notifications/Socket'
 import Avatar from 'components/Avatar/Avatar'
 import {
+  fetchThreads,
   selectChatUI,
+  selectUnreadMessageCount,
+  setActiveChatRoomId,
   toggleChat,
   toggleChatClose,
 } from 'utils/redux/slices/chatSlice'
-import { ChatIconBadge } from 'components/ChatDialog/ChatIconBadge/ChatIconBadge'
+
 import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
-import './styles/Nav.scss'
 import { buildPortal } from 'utils/helpers'
 import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
+import { CustomBadge } from 'components/Badge/Badge'
+import './styles/Nav.scss'
+import { selectMembers } from 'utils/redux/slices/projectSlice'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
-  const [isChatBadgeUpdated, setIsChatBadgeUpdated] = useState(false)
   const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId, project: projectId } = authUser
   const dispatch = useAppDispatch()
-  const socketConnection = useSocket()
   const location = useLocation()
+  const projectRouteActive = location.pathname.includes('/project/')
+  const excludedRoutes = ['/sign-up', '/sign-in', '/onboarding']
+
+  const isExcludedRoute = excludedRoutes.some(route =>
+    location.pathname.startsWith(route)
+  )
+
   const closeDropdown = () => setAnchorEl(null)
-
-  useEffect(() => {
-    if (socketConnection) {
-      socketConnection.emit('setUserId', authUser._id)
-
-      socketConnection?.on('connect', () => {
-        socketConnection.emit('setUserId', authUser._id)
-      })
-      const timer = setInterval(() => {
-        socketConnection?.on('notificationsLength', (data: number) => {
-          setNotificationCount(data)
-        })
-      }, 10000)
-      return () => {
-        socketConnection?.off('connect')
-        socketConnection?.off('disconnect')
-        clearTimeout(timer)
-      }
-    }
-    socketConnection?.on('disconnect', () => {
-      socketConnection.emit('User has disconnected')
-    })
-  }, [setNotificationCount, authUser, socketConnection])
 
   useEffect(() => {
     // Close chat dialog and sideMenu when URL path changes
     dispatch(toggleChatClose())
+    dispatch(setActiveChatRoomId(null))
   }, [dispatch, location])
 
   const handlePortalLink = () => buildPortal(dispatch, 'project', projectId)
@@ -70,54 +58,66 @@ export const Nav = () => {
           </Link>
         </div>
       </div>
-      <div className='navbar-wrapper'>
-        <div className='header-list'>
-          <Link
-            className='header-link'
-            to={`/project/${projectId || 'unassigned'}`}
-            onClick={handlePortalLink}
-          >
-            Project Portal
-          </Link>
-          <Link
-            className='header-link'
-            to='/how-to'
-            onClick={handleNonPortalLink}
-          >
-            How Bootcamper works
-          </Link>
-          <Link
-            className='header-link'
-            to='/about-us'
-            onClick={handleNonPortalLink}
-          >
-            About us
-          </Link>
+      {!isExcludedRoute && (
+        <div className='navbar-wrapper'>
+          <div className='header-list'>
+            <Link
+              className={
+                projectRouteActive ? 'header-link active' : 'header-link'
+              }
+              to={`/project/${projectId || 'unassigned'}`}
+              onClick={handlePortalLink}
+            >
+              Project Portal
+            </Link>
+            <Link
+              className='header-link'
+              to='/how-to'
+              onClick={handleNonPortalLink}
+            >
+              How Bootcamper works
+            </Link>
+            <Link
+              className='header-link'
+              to='/about-us'
+              onClick={handleNonPortalLink}
+            >
+              About us
+            </Link>
+          </div>
+          {userId ? (
+            <AuthorizedNavLinks
+              notificationCount={notificationCount}
+              setAnchorEl={setAnchorEl}
+            />
+          ) : (
+            <UnauthorizedNavLinks />
+          )}
         </div>
-        {userId ? (
-          <AuthorizedNavLinks
-            notificationCount={notificationCount}
-            setAnchorEl={setAnchorEl}
-          />
-        ) : (
-          <UnauthorizedNavLinks />
-        )}
-      </div>
+      )}
       <AccountDropdown anchorEl={anchorEl} closeDropdown={closeDropdown} />
     </nav>
   )
 }
 
 const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
-  const [isChatBadgeUpdated, setIsChatBadgeUpdated] = useState(false)
-  const authUser = useAppSelector(selectAuthUser)
-  const { _id: userId } = authUser
-  const { visibleChat } = useAppSelector(selectChatUI)
-  const chatRef = useRef(null)
   const dispatch = useAppDispatch()
+  const { visibleChat } = useAppSelector(selectChatUI)
+  const unreadMessagesCount = useAppSelector(selectUnreadMessageCount)
+  const projectMembers = useAppSelector(selectMembers)
+  const chatRef = useRef(null)
+  useSocketEvents(false)
+
+  useEffect(() => {
+    //Warning: needs to be checked if members are loaded
+    dispatch(fetchThreads())
+    dispatch(setActiveChatRoomId(null))
+  }, [dispatch, projectMembers.length])
+
   const toggleChatBox = () => {
     dispatch(toggleChat())
   }
+
   const handleToggleChatBox = () => {
     toggleChatBox()
   }
@@ -131,12 +131,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
             className='chat-icon'
             onClick={handleToggleChatBox}
           />
-          {(visibleChat || !visibleChat) && (
-            <ChatIconBadge
-              isChatBadgeUpdated={isChatBadgeUpdated}
-              setIsChatBadgeUpdated={setIsChatBadgeUpdated}
-            />
-          )}
+          <CustomBadge content={unreadMessagesCount} variant='standard' />
           {visibleChat && <ChatDialogMain />}
         </div>
         <p className='account'>Messages</p>
