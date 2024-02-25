@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { getReplies } from 'utils/api/tickets'
 import { Comment } from './Comment'
 import { CommentType } from 'interfaces/TaskBoardInterface'
 import { NewComment } from './InputBanner'
+import { getReplies } from 'utils/api/comments'
 
 export const Replies = ({
   parentComment,

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { getTicketComments } from 'utils/api/tickets'
 import { TicketTextLabel } from '../Fields'
 import { NewComment } from './InputBanner'
 import { Comment } from './Comment'
 import { CommentType } from 'interfaces/TaskBoardInterface'
 import { Replies } from './Replies'
+import { getTicketComments } from 'utils/api/comments'
 
 export const TaskComments = ({ ticketId }) => {
   const [comments, setComments] = useState([])

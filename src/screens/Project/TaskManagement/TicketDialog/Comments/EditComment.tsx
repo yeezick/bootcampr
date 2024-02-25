@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { updateComment } from 'utils/api/tickets'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { CommentHeader } from './CommentHeader'
 import { TextField } from '@mui/material'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
+import { updateComment } from 'utils/api/comments'
 
 export const EditComment = ({
   comment,

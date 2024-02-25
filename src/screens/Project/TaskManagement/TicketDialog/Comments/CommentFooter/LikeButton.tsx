@@ -1,6 +1,6 @@
 import { Tooltip, TooltipProps, styled, tooltipClasses } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { updateComment } from 'utils/api/tickets'
+import { updateComment } from 'utils/api/comments'
 import { determineLikeIcon } from 'utils/helpers/commentHelpers'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectMembersById } from 'utils/redux/slices/projectSlice'
@@ -24,7 +24,7 @@ export const LikeButton = ({
     }
   }, [likes])
 
-  //TODO: Revisit this, each execution triggers 8 api calls?
+  //BC-763
   const handleCommentLike = async () => {
     let updatedLikes
     if (likes.includes(userId)) {

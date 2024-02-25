@@ -1,7 +1,7 @@
 import { Dialog, DialogContent } from '@mui/material'
 import { SecondaryButton } from 'components/Buttons'
 import { RedPrimaryButton } from 'components/Buttons/ButtonVariants'
-import { deleteComment } from 'utils/api/tickets'
+import { deleteComment } from 'utils/api/comments'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch } from 'utils/redux/hooks'
 
