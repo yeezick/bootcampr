@@ -5,13 +5,19 @@ import {
   OverridableComponent,
 } from '@mui/material/OverridableComponent'
 
-export interface CommonButton extends ButtonProps {
+export interface CommonButtonProps extends ButtonProps {
+  colorScheme?: 'primary' | 'secondary' | 'create-task'
   endIcon?: MappedIcons
   handler?: any
   startIcon?: MappedIcons
-  startIconProps?: IconProps
-  endIconProps?: IconProps
-  text: string
+  text?: string
+}
+
+export interface IconBtnProps extends ButtonProps {
+  filled?: boolean
+  handler?: any
+  icon: MappedIcons
+  iconSize: 'large' | 'medium' | 'small'
 }
 
 export interface ConditionalButtonProps extends ButtonProps {
@@ -20,37 +26,66 @@ export interface ConditionalButtonProps extends ButtonProps {
 }
 
 export interface IconMap {
-  [key: string]: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
-    muiName: string
-  }
+  [key: string]:
+    | OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
+        muiName: string
+      }
 }
 
 export type IconProps = DefaultComponentProps<SvgIconTypeMap>
 
 export type MappedIcons =
   | 'account'
+  | 'back'
+  | 'camera'
   | 'calendar'
-  | 'chatBubble'
+  | 'chat'
+  | 'chatBubble' //called comment in design
+  | 'check'
+  | 'checkbox'
+  | 'checkboxChecked'
+  | 'checkboxIndeterminate'
+  | 'checkCircle'
   | 'circle'
+  | 'clock'
   | 'close'
+  | 'closeChip'
+  | 'crop'
+  | 'dash'
   | 'description'
+  | 'dropdownDown'
+  | 'dropdownUp'
+  | 'edit'
   | 'email'
+  | 'error'
+  | 'forward'
   | 'group'
+  | 'help'
+  | 'info'
+  | 'leave'
   | 'leftArrow'
+  | 'likeEmpty'
   | 'likeFilled'
-  | 'likeOutlined'
   | 'link'
-  | 'localOffer'
-  | 'lock'
+  | 'localOffer' //called status in design
+  | 'lock' //called password in design
+  | 'menuDots'
+  | 'message'
+  | 'notifications'
+  | 'page'
   | 'person'
   | 'plus'
+  | 'portfolio'
+  | 'radioButton'
+  | 'radioButtonFilled'
   | 'rightArrow'
-  | 'send'
-  | 'tasks'
+  | 'search'
+  | 'tasks' //called checkList in design
   | 'title'
-
+  | 'warning'
 export interface PaginatorButtonInterface extends ButtonProps {
   buttonType: 'secondary' | 'primary'
+  colorScheme?: 'secondary' | 'primary'
   handler?: any
   text: string
 }

@@ -1,22 +1,22 @@
 import { Button } from '@mui/material'
-import { CommonButton, ConditionalButtonProps } from 'interfaces/components'
+import {
+  CommonButtonProps,
+  ConditionalButtonProps,
+} from 'interfaces/components'
 import { fetchIcon } from 'utils/components/Icons'
 
 export const PrimaryButton = ({
   children,
   handler,
   startIcon,
-  startIconProps,
   endIcon,
-  endIconProps,
   text,
   ...MuiProps
-}: CommonButton) => {
+}: CommonButtonProps) => {
   const { disabled, sx: customStyles } = MuiProps
   const conditionalProps: ConditionalButtonProps = { ...MuiProps }
-  if (startIcon)
-    conditionalProps.startIcon = fetchIcon(startIcon, startIconProps)
-  if (endIcon) conditionalProps.endIcon = fetchIcon(endIcon, endIconProps)
+  if (startIcon) conditionalProps.startIcon = fetchIcon(startIcon)
+  if (endIcon) conditionalProps.endIcon = fetchIcon(endIcon)
   if (customStyles) conditionalProps.sx = customStyles
   conditionalProps.sx = {
     ...primaryButtonStyle,
