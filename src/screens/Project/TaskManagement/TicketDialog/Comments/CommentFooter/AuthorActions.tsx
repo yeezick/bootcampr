@@ -1,11 +1,9 @@
-import { Button, Dialog, DialogContent } from '@mui/material'
-import { PrimaryButton, SecondaryButton } from 'components/Buttons'
+import { Button } from '@mui/material'
 import { useState } from 'react'
-import { deleteComment } from 'utils/api/tickets'
 import { fetchIcon } from 'utils/components/Icons'
-import { errorSnackbar } from 'utils/helpers/commentHelpers'
-import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { useAppSelector } from 'utils/redux/hooks'
 import { selectUserId } from 'utils/redux/slices/userSlice'
+import { DeleteCommentDialog } from './DeleteCommentDialog'
 
 export const AuthorActions = ({
   authorId,
@@ -35,39 +33,4 @@ export const AuthorActions = ({
       </div>
     )
   }
-}
-
-const DeleteCommentDialog = ({
-  commentId,
-  open,
-  toggleDeleteDialog,
-  toggleFetchComments,
-}) => {
-  const dispatch = useAppDispatch()
-  const handleCloseDialog = () => toggleDeleteDialog(false)
-  const handleDelete = async () => {
-    const deleteResponse = await deleteComment(commentId)
-    if (deleteResponse.status === 500) {
-      dispatch(errorSnackbar(deleteResponse.message))
-      return
-    }
-    toggleFetchComments(state => !state)
-    toggleDeleteDialog(false)
-  }
-  return (
-    <Dialog open={open} onClose={handleCloseDialog} maxWidth='xs'>
-      <DialogContent className='confirmation-dialog'>
-        <h3>Delete comment?</h3>
-        <p>Deleting this comment cannot be undone.</p>
-        <div className='buttons'>
-          <SecondaryButton
-            handler={handleCloseDialog}
-            text='Cancel'
-            variant='text'
-          />
-          <PrimaryButton disableElevation handler={handleDelete} text='Close' />
-        </div>
-      </DialogContent>
-    </Dialog>
-  )
 }
