@@ -1,15 +1,16 @@
 import './EmailSentConfirmation.scss'
 import { useParams } from 'react-router-dom'
 import { getOneUser, resendNewEmailLink } from 'utils/api'
-import { useAppDispatch } from 'utils/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import emailSentImage from '../../../../assets/Images/email-sent-confirmation-image.png'
+import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import { useEffect, useState } from 'react'
 
 export const EmailSentConfirmation: React.FC = () => {
   const dispatch = useAppDispatch()
   const { id: newUserId } = useParams()
-  const [userEmail, setUserEmail] = useState(null)
+  const [userEmail, setUserEmail] = useState(useAppSelector(selectUserEmail))
 
   useEffect(() => {
     const fetchUserEmail = async () => {
@@ -21,8 +22,10 @@ export const EmailSentConfirmation: React.FC = () => {
       }
     }
 
-    fetchUserEmail()
-  }, [newUserId])
+    if (!userEmail) {
+      fetchUserEmail()
+    }
+  }, [newUserId, userEmail])
 
   //TODO: replace this with a modal to complete update email flow (BC-753)
   const handleResendEmailClick = async () => {
