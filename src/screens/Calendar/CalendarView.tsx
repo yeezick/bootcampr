@@ -35,7 +35,7 @@ export const CalendarView = () => {
 
   dayjs.extend(weekday)
 
-  const firstDay = dayjs(timeline.startDate).format('YYYY-MM-DD')
+  const firstDay = timeline.startDate
   const lastDay = dayjs(timeline.endDate).weekday(7).format('YYYY-MM-DD')
   const calendarRef = useRef(null)
   const dispatch = useAppDispatch()
