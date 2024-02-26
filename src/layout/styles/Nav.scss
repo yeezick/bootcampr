@@ -34,7 +34,17 @@ nav {
     font-size: 16px;
     font-weight: 700;
     line-height: 22.4px;
+    position: relative;
     text-decoration: none;
+
+    &.active::before {
+      background-color: #f29e34;
+      bottom: -10px;
+      content: '';
+      height: 4px;
+      position: absolute;
+      width: 100%;
+    }
   }
 
   .nav-links {

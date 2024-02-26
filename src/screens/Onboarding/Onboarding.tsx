@@ -1,17 +1,20 @@
 import { Paginator } from 'components/Paginator/Paginator'
 import { SetUpProfile } from './SetUpProfile'
 import { Role } from './Role'
-import { WhatsNext } from './WhatsNext'
 import './Onboarding.scss'
 import { SetupAvailability } from './SetupAvailability'
 import { useEffect } from 'react'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { WhatsNext } from './WhatsNext'
 
 export const Onboarding = () => {
   const authUser = useAppSelector(selectAuthUser)
   const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const pageId = queryParams.get('pageId')
 
   useEffect(() => {
     const hasSetAvailability = checkIfSetAvailability()
@@ -58,11 +61,8 @@ export const Onboarding = () => {
       component: SetUpProfile,
       title: 'Set up profile',
     },
-    {
-      component: WhatsNext,
-      title: "What's next",
-    },
   ]
+
   return (
     <div className='onboarding'>
       <div className='onboarding-page-container'>

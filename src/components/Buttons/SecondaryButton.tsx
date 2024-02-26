@@ -1,5 +1,8 @@
 import { Button } from '@mui/material'
-import { CommonButton, ConditionalButtonProps } from 'interfaces/components'
+import {
+  CommonButtonProps,
+  ConditionalButtonProps,
+} from 'interfaces/components'
 import { fetchIcon } from 'utils/components/Icons'
 
 export const SecondaryButton = ({
@@ -7,16 +10,13 @@ export const SecondaryButton = ({
   className,
   handler,
   startIcon,
-  startIconProps,
   endIcon,
-  endIconProps,
   text,
   ...MuiProps
-}: CommonButton) => {
+}: CommonButtonProps) => {
   const conditionalProps: ConditionalButtonProps = { ...MuiProps }
-  if (startIcon)
-    conditionalProps.startIcon = fetchIcon(startIcon, startIconProps)
-  if (endIcon) conditionalProps.endIcon = fetchIcon(endIcon, endIconProps)
+  if (startIcon) conditionalProps.startIcon = fetchIcon(startIcon)
+  if (endIcon) conditionalProps.endIcon = fetchIcon(endIcon)
   if (MuiProps.sx) conditionalProps.sx = MuiProps.sx
   conditionalProps.sx = {
     ...secondaryButtonSx,

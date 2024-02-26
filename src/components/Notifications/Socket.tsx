@@ -23,8 +23,14 @@ export const useSocket = userId => {
       reconnectionDelay: 3000,
     })
     newSocket.emit('setUserId', userId)
-    setSocket(newSocket)
 
+    newSocket.on('connect', () => {
+      console.log('Socket reconnected')
+      // For reconnection
+      newSocket.emit('setUserId', userId)
+    })
+
+    setSocket(newSocket)
     return () => {
       newSocket.disconnect()
     }
