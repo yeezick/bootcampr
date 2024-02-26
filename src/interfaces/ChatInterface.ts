@@ -33,6 +33,7 @@ export interface ChatInterface {
 
 export interface ChatMessageInterface {
   _id?: string
+  isBotMessage?: boolean
   sender: BasicUserInfoInterface
   status?: 'sent' | 'read' | 'failed'
   text: string

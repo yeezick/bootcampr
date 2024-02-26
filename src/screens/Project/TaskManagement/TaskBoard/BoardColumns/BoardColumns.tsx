@@ -51,7 +51,7 @@ export const BoardColumns = () => {
     <div className={classes}>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         {columnOrder.map(columnStatus => (
-          <StatusColumn columnStatus={columnStatus} />
+          <StatusColumn key={columnStatus} columnStatus={columnStatus} />
         ))}
       </DragDropContext>
     </div>

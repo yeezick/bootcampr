@@ -65,7 +65,7 @@ export const WhatsNextPage = () => {
       <Stack className='btn-container'>
         <SecondaryButton
           handler={handleCancel}
-          text='Back to Project Details'
+          text='Back to Product Details'
         />
         <PrimaryButton
           aria-disabled={isDisabled}
