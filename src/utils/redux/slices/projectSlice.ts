@@ -175,7 +175,7 @@ export const selectMembersByEmail = emails => (state: RootState) => {
 }
 
 /**
- * @param {string[]} ids Takes an array of user emails,
+ * @param {string[]} ids Takes an array of user ids,
  *     then looks that user up using the role and index stored in the emailMap.
  * @returns An array of user objects
  */
@@ -204,6 +204,10 @@ export const selectMembersById = createSelector(
     }, [])
   }
 )
+
+export const selectUsersById = userIds => state => {
+  return selectMembersById(state, userIds)
+}
 
 export const selectCalendarId = (state: RootState) => state.project.calendarId
 export const selectCompletedInfo = (state: RootState) =>

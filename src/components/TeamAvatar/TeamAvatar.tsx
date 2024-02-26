@@ -2,14 +2,12 @@ import { useMemo } from 'react'
 import { TeamAvatarProps } from 'interfaces/ProfileImageInterfaces'
 import './TeamAvatar.scss'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectMembersById } from 'utils/redux/slices/projectSlice'
+import { selectUsersById } from 'utils/redux/slices/projectSlice'
 
 export const TeamAvatar = ({ userId, size }: TeamAvatarProps) => {
   //Each time TeamAvatar recieves a new userId prop, even if the actual userId value hasn't changed, it's treated as a new instance
-  const memoizedUserId = useMemo(() => [userId], [userId])
-  const [user] = useAppSelector(state =>
-    selectMembersById(state, memoizedUserId)
-  )
+  const memoizedUserId = useMemo(() => selectUsersById([userId]), [userId])
+  const [user] = useAppSelector(memoizedUserId)
 
   if (!user) {
     return (

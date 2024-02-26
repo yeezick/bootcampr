@@ -1,16 +1,17 @@
 import { useEffect, useState, useMemo } from 'react'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectMembersById } from 'utils/redux/slices/projectSlice'
+import { selectUsersById } from 'utils/redux/slices/projectSlice'
 import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
 import { TicketTextLabel } from './TicketTextFields'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 
 export const TicketCreator = () => {
   const { createdBy } = useAppSelector(selectTicketFields)
-  const memoizedCreatedBy = useMemo(() => [createdBy], [createdBy])
-  const [user] = useAppSelector(state =>
-    selectMembersById(state, memoizedCreatedBy)
+  const memoizedCreatedBy = useMemo(
+    () => selectUsersById([createdBy]),
+    [createdBy]
   )
+  const [user] = useAppSelector(memoizedCreatedBy)
   const [creator, setCreator] = useState({
     userId: 'Unassigned',
     firstName: '',
