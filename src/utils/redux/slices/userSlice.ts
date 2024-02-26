@@ -95,7 +95,7 @@ const userSlice = createSlice({
         ...action.payload,
       }
     },
-    updateEmail: (state, action: PayloadAction<string>) => {
+    setConfirmationEmailAddress: (state, action: PayloadAction<string>) => {
       state.auth.user.email = action.payload
     },
     setUserAvailability: (
@@ -177,7 +177,7 @@ export const selectHasUploadedProfilePicture = (state: RootState) => {
 export const {
   setAuthUser,
   updateAuthUser,
-  updateEmail,
+  setConfirmationEmailAddress,
   setUserAvailability,
   setUserTimezone,
   reset,

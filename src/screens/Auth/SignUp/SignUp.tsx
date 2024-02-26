@@ -6,7 +6,7 @@ import {
   register,
   reset,
   uiStatus,
-  updateEmail,
+  setConfirmationEmailAddress,
 } from 'utils/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { SignUpInterface } from 'interfaces/UserInterface'
@@ -70,7 +70,7 @@ export const SignUp: React.FC = () => {
     e.preventDefault()
 
     try {
-      dispatch(updateEmail(formValues.email))
+      dispatch(setConfirmationEmailAddress(formValues.email))
 
       const validForm = await dispatch(register(formValues))
       const { payload } = validForm
