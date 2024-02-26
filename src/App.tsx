@@ -26,7 +26,6 @@ import { AboutUs, HowTo } from 'screens/Landing'
 import { Account, Email } from 'screens/Auth/Settings'
 import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
 import './App.css'
-import { Payment } from 'screens/Payment/Payment'
 
 function App() {
   console.log(`Running Application Version: ${process.env.REACT_APP_VERSION} `)
@@ -52,8 +51,6 @@ function App() {
             path='/users/:id/reset-password/:token'
             element={<ResetPassword />}
           />
-          {/* Payment */}
-          <Route path='/checkout' element={<Payment />} />
           {/* User */}
           <Route path='/onboarding/:id' element={<Onboarding />} />
           <Route path='/users/:userId' element={<UserProfile />} />
