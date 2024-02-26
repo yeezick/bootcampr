@@ -31,6 +31,7 @@ export const SignUp: React.FC = () => {
     text: '',
   })
   const { password } = formValues
+  const ALERT_BANNER_TIMEOUT = 16000
 
   useEffect(() => {
     if (status.isSuccess) {
@@ -68,31 +69,38 @@ export const SignUp: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    dispatch(updateEmail(formValues.email))
+    try {
+      dispatch(updateEmail(formValues.email))
 
-    const validForm = await dispatch(register(formValues))
-    const { payload } = validForm
+      const validForm = await dispatch(register(formValues))
+      const { payload } = validForm
 
-    navigate(`/sign-up/${payload.newUser}/confirmation-email-sent`)
-    window.scrollTo(0, 0) // Scroll to top to view alert banner
-    if (payload.invalidCredentials && payload.existingAccount) {
+      navigate(`/sign-up/${payload.newUser}/confirmation-email-sent`)
+      window.scrollTo(0, 0) // Scroll to top to view alert banner
+
+      const alertType =
+        payload.invalidCredentials && payload.existingAccount
+          ? 'warning'
+          : 'info'
+      const alertIcon =
+        payload.invalidCredentials && payload.existingAccount ? (
+          <GoAlert />
+        ) : (
+          <FaInfoCircle />
+        )
       setAlertBanner({
         status: true,
         text: payload.message,
-        icon: <GoAlert />,
-        type: 'warning',
+        icon: alertIcon,
+        type: alertType,
       })
-    } else {
-      setAlertBanner({
-        status: true,
-        text: payload.message,
-        icon: <FaInfoCircle />,
-        type: 'info',
-      })
+
+      setTimeout(() => {
+        setAlertBanner({ status: false })
+      }, ALERT_BANNER_TIMEOUT)
+    } catch (error) {
+      console.error('Error occurred during form submission:', error)
     }
-    setTimeout(() => {
-      setAlertBanner({ status: false })
-    }, 16000)
   }
 
   const submitButtonStyle = `${
