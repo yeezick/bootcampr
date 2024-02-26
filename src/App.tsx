@@ -23,6 +23,7 @@ import { CalendarScreen } from 'screens/Calendar/Calendar'
 import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailConfirmation'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { AboutUs, HowTo } from 'screens/Landing'
+import { WhatsNext } from 'screens/Onboarding/WhatsNext'
 import { Account, Email } from 'screens/Auth/Settings'
 import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
 import './App.css'
@@ -53,6 +54,7 @@ function App() {
           />
           {/* User */}
           <Route path='/onboarding/:id' element={<Onboarding />} />
+          <Route path='/whats-next' element={<WhatsNext />} />
           <Route path='/users/:userId' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />
           <Route
