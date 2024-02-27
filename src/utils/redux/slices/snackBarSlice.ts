@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SnackBarToastInterface } from 'interfaces/SnackBarToast'
+import {
+  CreateSnackbarPayload,
+  SnackbarInterface,
+} from 'interfaces/SnackBarToast'
 
-const initialState: SnackBarToastInterface = {
+const initialState: SnackbarInterface = {
   isOpen: false,
   message: '',
-  duration: 3000,
-  vertical: 'bottom',
-  horizontal: 'left',
-  snackbarStyle: '',
   severity: 'success',
 }
 
@@ -15,18 +14,17 @@ const snackBarSlice = createSlice({
   name: 'snackBar',
   initialState,
   reducers: {
-    createSnackBar: (state, action: PayloadAction<SnackBarToastInterface>) => {
-      state.isOpen = action.payload.isOpen
+    closeSnackBar: state => {
+      return { isOpen: false, message: '', severity: state.severity }
+    },
+    createSnackBar: (state, action: PayloadAction<CreateSnackbarPayload>) => {
+      state.isOpen = true
       state.message = action.payload.message
-      state.duration = action.payload.duration
-      state.vertical = action.payload.vertical
-      state.horizontal = action.payload.horizontal
-      state.snackbarStyle = action.payload.snackbarStyle
       state.severity = action.payload.severity
     },
   },
 })
 
-export const { createSnackBar } = snackBarSlice.actions
+export const { closeSnackBar, createSnackBar } = snackBarSlice.actions
 
 export default snackBarSlice.reducer

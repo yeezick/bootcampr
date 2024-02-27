@@ -13,6 +13,12 @@ if (process.env.REACT_APP_API_PIPELINE) {
     process.env.REACT_APP_API_ENV !== 'null'
   ) {
     baseURL += process.env.REACT_APP_API_ENV
+    if (
+      process.env.REACT_APP_API_SUBDOMAIN &&
+      process.env.REACT_APP_API_SUBDOMAIN !== 'null'
+    ) {
+      baseURL += process.env.REACT_APP_API_SUBDOMAIN
+    }
   } else {
     /* TODO:  add pr-# from window object
        TODO: won't work since pr-#'s may vary between the repo's
@@ -30,7 +36,7 @@ if (process.env.REACT_APP_API_PIPELINE) {
 }
 
 export const api = axios.create({
-  baseURL: baseURL,
+  baseURL,
 })
 const getToken = () => {
   return new Promise(resolve => {

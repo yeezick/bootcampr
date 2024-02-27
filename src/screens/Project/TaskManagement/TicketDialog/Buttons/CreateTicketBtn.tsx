@@ -1,5 +1,6 @@
 import { PrimaryButton } from 'components/Buttons'
 import { createTicket } from 'utils/api/tickets'
+import { successSnackbar } from 'utils/helpers/commentHelpers'
 import {
   buildTicketPayload,
   closeVisibleTicketDialog,
@@ -9,7 +10,6 @@ import {
   addTicketToStatus,
   selectProjectId,
 } from 'utils/redux/slices/projectSlice'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import {
   resetTicketFields,
   selectTicketFields,
@@ -31,14 +31,7 @@ export const CreateTicketBtn = () => {
     } else {
       dispatch(addTicketToStatus(ticketResponse))
       dispatch(resetTicketFields({}))
-      dispatch(
-        createSnackBar({
-          isOpen: true,
-          message: 'Ticket created successfully',
-          duration: 3000,
-          severity: 'success',
-        })
-      )
+      dispatch(successSnackbar('Task created!'))
       closeVisibleTicketDialog(dispatch)
     }
   }
