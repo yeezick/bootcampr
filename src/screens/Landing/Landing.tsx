@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import './Landing.scss'
 import { ContactForm } from './components/ContactForm/ContactForm'
@@ -9,6 +9,14 @@ import { IsThisForYou } from './components/IsThisForYou/IsThisForYou'
 import { WorkFlow } from './components/WorkFlow/WorkFlow'
 
 export const Landing: React.FC = () => {
+  const env = process.env.REACT_APP_API_ENV
+
+  useEffect(() => {
+    if (env !== 'dev') {
+      window.location.replace('https://landing.bootcampr.io/')
+    }
+  }, [env])
+
   return (
     <div className='landing-container'>
       <Hero />
