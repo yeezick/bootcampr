@@ -44,7 +44,7 @@ export const Nav = () => {
   const handleNonPortalLink = () => dispatch(resetPortal())
 
   const landingPage =
-    process.env.REACT_APP_API_ENV === 'dev'
+    process.env.REACT_APP_API_ENV === 'local'
       ? '/'
       : 'https://landing.bootcampr.io/'
 

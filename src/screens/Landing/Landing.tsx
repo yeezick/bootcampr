@@ -12,7 +12,7 @@ export const Landing: React.FC = () => {
   const env = process.env.REACT_APP_API_ENV
 
   useEffect(() => {
-    if (env !== 'dev') {
+    if (env !== 'local') {
       window.location.replace('https://landing.bootcampr.io/')
     }
   }, [env])
