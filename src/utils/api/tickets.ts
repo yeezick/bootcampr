@@ -1,4 +1,3 @@
-import { TicketInterface } from 'interfaces'
 import { api } from './apiConfig'
 
 export const createTicket = async ticketBody => {
@@ -48,46 +47,14 @@ export const saveUpdatedTicket = async ticketData => {
     const updatedData = await api.put(`/tickets/${ticketData._id}`, ticketData)
     return updatedData.data
   } catch (error) {
-    return { error: { status: 500, message: 'ticket status failed to change' } }
+    return { error: { status: 500, message: 'Ticket failed to update' } }
   }
 }
 
 export const deleteTicketApi = async ticketData => {
-  await api.put(`/tickets/delete/${ticketData.ticketId}`, ticketData)
-}
-
-export const getTicketComments = async (
-  ticketId: number
-): Promise<Comment[]> => {
   try {
-    const response = await api.get(`/ticket/${ticketId}/comments`)
-    return response.data.comments
-  } catch (err) {
-    console.error(err)
-    return []
+    await api.put(`/tickets/delete/${ticketData.ticketId}`, ticketData)
+  } catch (error) {
+    return { error: { status: 500, message: 'Ticket failed to delete' } }
   }
-}
-
-// Comments
-export const createComment = async commentData => {
-  const ticketData = await api.post('/createComment', commentData)
-  return ticketData.data
-}
-
-export const deleteComment = async commentId => {
-  const response = await api.delete(`/comments/${commentId}`)
-  return response.status
-}
-
-export const updateComment = async (commentId, commentUpdates) => {
-  const response = await api.patch(
-    `/updateComment/${commentId}`,
-    commentUpdates
-  )
-  return response.data
-}
-
-export const getReplies = async (commentId: number): Promise<Comment[]> => {
-  const response = await api.get(`/comment/${commentId}/replies`)
-  return response.data
 }

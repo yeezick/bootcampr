@@ -4,6 +4,7 @@ import { getOneUser, resendNewEmailLink } from 'utils/api'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import emailSentImage from '../../../../assets/Images/email-sent-confirmation-image.png'
+import { SnackBarSeverity } from 'interfaces/SnackBarToast'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import { useEffect, useState } from 'react'
 
@@ -32,7 +33,7 @@ export const EmailSentConfirmation: React.FC = () => {
     try {
       const res: any = await resendNewEmailLink(newUserId)
 
-      let toastSeverity: string = null
+      let toastSeverity: SnackBarSeverity = null
 
       if (res.status === 200) {
         toastSeverity = 'success'
@@ -41,9 +42,7 @@ export const EmailSentConfirmation: React.FC = () => {
       }
       dispatch(
         createSnackBar({
-          isOpen: true,
           message: res.data.friendlyMessage,
-          duration: 5000,
           severity: toastSeverity,
         })
       )

@@ -56,12 +56,7 @@ export const Email = () => {
     const backUpMessage = severity === 'error' ? 'Unexpected Error' : 'Success'
     dispatch(
       createSnackBar({
-        isOpen: true,
         message: response.data.friendlyMessage || backUpMessage,
-        duration: 5000,
-        vertical: 'top',
-        horizontal: 'center',
-        snackbarStyle: '',
         severity,
       })
     )

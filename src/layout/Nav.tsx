@@ -31,6 +31,12 @@ export const Nav = () => {
   const { _id: userId, project: projectId } = authUser
   const dispatch = useAppDispatch()
   const location = useLocation()
+  const projectRouteActive = location.pathname.includes('/project/')
+  const excludedRoutes = ['/sign-up', '/sign-in', '/onboarding']
+
+  const isExcludedRoute = excludedRoutes.some(route =>
+    location.pathname.startsWith(route)
+  )
 
   const closeDropdown = () => setAnchorEl(null)
 
@@ -52,39 +58,43 @@ export const Nav = () => {
           </Link>
         </div>
       </div>
-      <div className='navbar-wrapper'>
-        <div className='header-list'>
-          <Link
-            className='header-link'
-            to={`/project/${projectId || 'unassigned'}`}
-            onClick={handlePortalLink}
-          >
-            Project Portal
-          </Link>
-          <Link
-            className='header-link'
-            to='/how-to'
-            onClick={handleNonPortalLink}
-          >
-            How Bootcamper works
-          </Link>
-          <Link
-            className='header-link'
-            to='/about-us'
-            onClick={handleNonPortalLink}
-          >
-            About us
-          </Link>
+      {!isExcludedRoute && (
+        <div className='navbar-wrapper'>
+          <div className='header-list'>
+            <Link
+              className={
+                projectRouteActive ? 'header-link active' : 'header-link'
+              }
+              to={`/project/${projectId || 'unassigned'}`}
+              onClick={handlePortalLink}
+            >
+              Project Portal
+            </Link>
+            <Link
+              className='header-link'
+              to='/how-to'
+              onClick={handleNonPortalLink}
+            >
+              How Bootcamper works
+            </Link>
+            <Link
+              className='header-link'
+              to='/about-us'
+              onClick={handleNonPortalLink}
+            >
+              About us
+            </Link>
+          </div>
+          {userId ? (
+            <AuthorizedNavLinks
+              notificationCount={notificationCount}
+              setAnchorEl={setAnchorEl}
+            />
+          ) : (
+            <UnauthorizedNavLinks />
+          )}
         </div>
-        {userId ? (
-          <AuthorizedNavLinks
-            notificationCount={notificationCount}
-            setAnchorEl={setAnchorEl}
-          />
-        ) : (
-          <UnauthorizedNavLinks />
-        )}
-      </div>
+      )}
       <AccountDropdown anchorEl={anchorEl} closeDropdown={closeDropdown} />
     </nav>
   )

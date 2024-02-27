@@ -7,10 +7,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { updateUsersPassword } from 'utils/api'
 import { SuccessQueryParam } from 'utils/data/authSettingsConstants'
 import { emptyPasswordData } from 'utils/data/userConstants'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { useFormValidation } from 'utils/helpers'
 import { Button, ThemeProvider, createTheme } from '@mui/material'
 import { PasswordInputs } from 'components/Inputs'
+import { errorSnackbar } from 'utils/helpers/commentHelpers'
 
 export const ResetPassword = () => {
   const [formValues, setFormValues] =
@@ -32,15 +32,7 @@ export const ResetPassword = () => {
     const passwordData = await updateUsersPassword(reqBody, userId)
 
     if (passwordData.status >= 400) {
-      dispatch(
-        createSnackBar({
-          isOpen: true,
-          message: passwordData.friendlyMessage,
-          duration: 5000,
-          severity: 'error',
-          horizontal: 'right',
-        })
-      )
+      dispatch(errorSnackbar(passwordData.friendlyMessage))
     } else {
       navigate(`/success/${userId}?screen=${SuccessQueryParam.resetPassword}`)
     }
