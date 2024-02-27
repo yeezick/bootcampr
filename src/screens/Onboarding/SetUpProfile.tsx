@@ -1,7 +1,7 @@
 import './SetUpProfile.scss'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
 import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
@@ -16,6 +16,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
   const params = useParams()
   const authUser = useSelector(selectAuthUser)
   const { displayNotification } = useNotification()
+  const navigate = useNavigate()
 
   const [updateUserForm, setUpdateUserForm] = useState<UserInterface>(emptyUser)
   const [bioCharCount, setBioCharCount] = useState(0)
@@ -87,12 +88,18 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     e.preventDefault()
 
     try {
-      const updatedUser = await updateUser(params.id, updateUserForm)
+      const isOnboarded = direction === 'next'
+      const updatedUserFormData = { ...updateUserForm, onboarded: isOnboarded }
+      const updatedUser = await updateUser(params.id, updatedUserFormData)
       dispatch(setAuthUser(updatedUser))
       displayNotification({
         message: 'User profile successfully updated.',
       })
-      handlePageNavigation(direction)
+      if (direction === 'next') {
+        navigate(`/whats-next`)
+      } else {
+        handlePageNavigation(direction)
+      }
     } catch (error) {
       console.error('Error occured when trying to create User Profile', error)
     }

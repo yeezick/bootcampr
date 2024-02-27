@@ -73,12 +73,16 @@
     height: 416px;
     margin-bottom: 8px;
     overflow-y: auto;
-    padding: 8px 8px 0 8px;
+    padding: 0 8px 0 8px;
 
     .message-container {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+
+      &.other-user {
+        margin-top: 8px;
+      }
 
       .message-grid {
         align-items: flex-end;
@@ -175,7 +179,7 @@
           }
         }
 
-        .same-user-text-margin {
+        .same-user {
           margin-top: 2px;
         }
       }

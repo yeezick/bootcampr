@@ -1,0 +1,152 @@
+.common-button {
+  //General button styles
+  &.MuiButton-root {
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    min-width: fit-content;
+    padding: 0 24px;
+    position: relative;
+    text-transform: none;
+  }
+
+  .MuiSvgIcon-root {
+    font-size: 24px;
+  }
+
+  //Shared styling for hovered, active, and disabled states
+  &.primary,
+  &.secondary,
+  &.icon-button {
+    &:hover::before,
+    &:active::before {
+      border-radius: 4px;
+      content: '';
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+    }
+
+    &:hover::before {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+
+    &:active::before {
+      background-color: rgba(0, 0, 0, 0.12);
+    }
+
+    &.Mui-disabled {
+      opacity: 0.38;
+      pointer-events: none;
+    }
+  }
+
+  //Styles for the primary orange, blue, and white color scheme
+  &.primary {
+    color: #1a237e;
+
+    &.MuiButton-contained {
+      background-color: #ffa726;
+    }
+
+    &.MuiButton-outlined {
+      background-color: #ffffff;
+      border-color: #5c6bc0;
+    }
+  }
+
+  //Styles for the secondary red and white color scheme
+  &.secondary {
+    &.MuiButton-contained {
+      background-color: #d32f2f;
+      color: #ffffff;
+    }
+
+    &.MuiButton-outlined {
+      background-color: #ffffff;
+      border-color: #d32f2f;
+      color: #b71c1c;
+    }
+
+    &.MuiButton-text {
+      color: #b71c1c;
+    }
+  }
+
+  //Styles for Create Task Button
+  &.create-task {
+    background-color: #5c6bc0;
+    color: #ffffff;
+    font-size: 16px;
+    justify-content: flex-start;
+
+    &:hover {
+      background-color: #0d47a1;
+    }
+
+    &:active {
+      background-color: #1a237e;
+    }
+
+    &.Mui-disabled {
+      background-color: #757575;
+      color: #ffffff;
+    }
+  }
+
+  //Styles for icon buttons
+  &.icon-button {
+    &.MuiButtonBase-root {
+      align-self: center;
+      box-sizing: border-box;
+      margin: 0 12px;
+      padding: 0;
+    }
+
+    &.small {
+      height: 24px;
+      width: 24px;
+
+      .MuiSvgIcon-root {
+        font-size: 8px;
+      }
+    }
+
+    &.medium {
+      height: 32px;
+      width: 32px;
+
+      .MuiSvgIcon-root {
+        font-size: 16px;
+      }
+    }
+
+    &.large {
+      height: 40px;
+      width: 40px;
+
+      .MuiSvgIcon-root {
+        font-size: 24px;
+      }
+    }
+
+    &.filled.MuiIconButton-root {
+      background-color: #eeeeee;
+      border-radius: 50%;
+    }
+
+    .MuiSvgIcon-root {
+      color: black;
+    }
+
+    &:hover::before,
+    &:active::before {
+      border-radius: 50%;
+    }
+  }
+}

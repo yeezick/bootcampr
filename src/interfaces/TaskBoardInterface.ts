@@ -14,6 +14,11 @@ export interface SetVisibleTicketsReducer {
 }
 /*  */
 
+export enum CommentType {
+  Parent = 'PARENT',
+  Reply = 'REPLY',
+}
+
 export type ConfirmationDialogType = '' | 'cancel' | 'delete'
 
 export interface TaskBoardInterface {
