@@ -13,10 +13,6 @@
     border: none;
   }
   
-  .MuiSelect-iconOutlined {
-    display: none;
-  }
-  
   .status {
     .select {
       font-size: 16px;
@@ -46,6 +42,10 @@
     .select {
       margin-left: 32px;
       width: calc(100% - 32px); // 32px from margin
+
+      .MuiSelect-iconOutlined {
+        display: none;
+      }
     }
   }
 

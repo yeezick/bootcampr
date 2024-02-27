@@ -5,6 +5,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+
 //Input
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
@@ -12,9 +13,11 @@ import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked'
 import SearchIcon from '@mui/icons-material/Search'
+
 //Social
 import InsertLinkOutlinedIcon from '@mui/icons-material/InsertLinkOutlined'
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline'
+
 //Actions
 import ClearIcon from '@mui/icons-material/Clear'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
@@ -23,13 +26,15 @@ import AddIcon from '@mui/icons-material/Add'
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
 import MessageIcon from '@mui/icons-material/Message'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt'
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import LogoutIcon from '@mui/icons-material/Logout'
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined'
+import ThumbUpIcon from '@mui/icons-material/ThumbUp'
+import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined'
 //Display
 import CameraEnhanceOutlinedIcon from '@mui/icons-material/CameraEnhanceOutlined'
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined'
+import CircleIcon from '@mui/icons-material/Circle'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined'
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined'
@@ -88,13 +93,14 @@ export const iconMap: IconMap = {
   chatBubble: ChatBubbleOutlineOutlinedIcon, //called comment in design
   chat: MessageIcon,
   edit: EditOutlinedIcon,
-  likeEmpty: ThumbUpOffAltIcon,
-  likeFilled: ThumbUpAltIcon,
+  likeEmpty: ThumbUpAltOutlinedIcon,
+  likeFilled: ThumbUpIcon,
   menuDots: MoreVertIcon,
   leave: LogoutIcon,
   //Display
   camera: CameraEnhanceOutlinedIcon,
   calendar: CalendarTodayOutlinedIcon,
+  circle: CircleIcon,
   person: PersonOutlineOutlinedIcon,
   message: ChatOutlinedIcon,
   page: ArticleOutlinedIcon,

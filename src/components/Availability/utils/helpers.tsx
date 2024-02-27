@@ -1,6 +1,6 @@
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { timeOptions } from '../utils/data'
 import { updateAvailability } from 'utils/api'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 
 /**
  * CONSOLIDATE AVAILABILITY
@@ -197,23 +197,9 @@ export const saveAvailability = async (
 ) => {
   const updated = await updateAvailability(userId, days, userTimezone)
   if (updated.status) {
-    dispatch(
-      createSnackBar({
-        isOpen: true,
-        message: 'Your availability has been updated!',
-        duration: 3000,
-        severity: 'success',
-      })
-    )
+    dispatch(successSnackbar('Your availability has been updated!'))
   } else {
-    dispatch(
-      createSnackBar({
-        isOpen: true,
-        message: 'Something went wrong please try again',
-        duration: 3000,
-        severity: 'error',
-      })
-    )
+    dispatch(errorSnackbar('Something went wrong please try again'))
   }
 }
 

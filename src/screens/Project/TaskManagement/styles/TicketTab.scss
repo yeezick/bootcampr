@@ -1,0 +1,59 @@
+.ticket-tab {
+  align-items: center;
+  background: #fff;
+  border-radius: 4px;
+  box-sizing: border-box;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px 0;
+  color: #212121;
+  display: flex;
+  font-size: 15px;
+  font-weight: 400;
+  height: fit-content;
+  padding: 8px;
+  margin-top: 10px;
+  width: 100%;
+
+  .tab-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    p {
+      display: -webkit-box;
+      font-size: 16px;
+      line-height: 24px;
+      margin: 0;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;  
+    }
+
+    .tab-icons {
+      align-items: center;
+      display: flex;
+      gap: 8px;
+
+      .due-date {
+        font-size: 16px;
+        font-weight: 450;
+        line-height: 24px;
+      }
+
+      .comments {
+        align-items: center;
+        display: flex;
+        gap: 4px;
+
+        .count{
+          font-size: 14px;
+          line-height: 19.6px;
+        }
+      }
+
+      &.MuiSvgIcon-root {
+        font-size: 24px;
+      }
+
+    }
+  }
+}

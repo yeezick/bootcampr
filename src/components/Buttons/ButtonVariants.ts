@@ -68,6 +68,9 @@ export const CreateTaskButton = (props: CommonButtonProps) =>
     variant: 'contained',
   })
 
+export const RedPrimaryButton = (props: CommonButtonProps) =>
+  createButton({ ...props, colorScheme: 'secondary' })
+
 /**
  * @param {React.ReactNode} [icon] - The icon to be rendered.
  * @see {@link 'src/utils/components/Icons.tsx'} for full list of available icons
