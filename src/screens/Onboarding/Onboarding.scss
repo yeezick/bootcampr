@@ -2,7 +2,6 @@
 @import 'scss/mixins';
 
 .onboarding {
-
   .onboarding-page-container {
     align-items: center;
     border: 0 none;
@@ -14,17 +13,15 @@
   }
 
   .onboarding-container {
-    align-items: center;
     display: flex;
     justify-content: center;
     margin-top: 50px;
   }
-  
+
   .onboarding-button-section {
     align-self: flex-end;
     display: flex;
     flex-direction: row;
     gap: 8px;
-    margin-top: 25px;
   }
 }

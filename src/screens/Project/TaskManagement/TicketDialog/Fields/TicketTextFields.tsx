@@ -1,13 +1,18 @@
 import { TextField } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
+  selectTicketDialogState,
   selectTicketFields,
   setTicketFields,
 } from 'utils/redux/slices/taskBoardSlice'
 import { handleReduxInputChange } from 'utils/helpers'
 import { iconMap } from 'utils/components/Icons'
+import { TaskComments } from '../Comments/TaskComments'
 
 export const TicketTextFields = () => {
+  const ticketDialogState = useAppSelector(selectTicketDialogState)
+  const ticketFields = useAppSelector(selectTicketFields)
+
   return (
     <div className='ticket-text-fields'>
       <TicketTextField icon='title' label='Title' field='title' />
@@ -18,10 +23,12 @@ export const TicketTextFields = () => {
         multiline
       />
       <TicketTextField icon='link' label='Link' field='link' />
+      {ticketDialogState === 'edit' && (
+        <TaskComments ticketId={ticketFields._id} />
+      )}
     </div>
   )
 }
-
 export const TicketTextField = ({ field, label, icon, ...muiProps }) => {
   const ticketFields = useAppSelector(selectTicketFields)
   const dispatch = useAppDispatch()

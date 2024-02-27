@@ -34,7 +34,7 @@ export const TicketFilter = () => {
           onChange={handleTaskFilterCheckbox}
           name='view-all-tasks'
         />
-        <p>All tasks</p>
+        <p>All stories</p>
       </div>
       <div className='filter-option'>
         <Radio
@@ -43,7 +43,7 @@ export const TicketFilter = () => {
           onChange={handleTaskFilterCheckbox}
           name='view-my-tasks'
         />
-        <p>My tasks</p>
+        <p>My stories</p>
       </div>
     </div>
   )
