@@ -23,9 +23,11 @@ import { CalendarScreen } from 'screens/Calendar/Calendar'
 import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailConfirmation'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
 import { AboutUs, HowTo } from 'screens/Landing'
+import { WhatsNext } from 'screens/Onboarding/WhatsNext'
 import { Account, Email } from 'screens/Auth/Settings'
 import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
 import './App.css'
+import { Payment } from 'screens/Payment/Payment'
 
 function App() {
   console.log(`Running Application Version: ${process.env.REACT_APP_VERSION} `)
@@ -51,8 +53,11 @@ function App() {
             path='/users/:id/reset-password/:token'
             element={<ResetPassword />}
           />
+          {/* Payment */}
+          <Route path='/checkout' element={<Payment />} />
           {/* User */}
           <Route path='/onboarding/:id' element={<Onboarding />} />
+          <Route path='/whats-next' element={<WhatsNext />} />
           <Route path='/users/:userId' element={<UserProfile />} />
           <Route path='/users/:id/edit' element={<EditProfile />} />
           <Route

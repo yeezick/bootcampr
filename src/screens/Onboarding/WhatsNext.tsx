@@ -9,7 +9,7 @@ export const WhatsNext = () => {
   const navigate = useNavigate()
 
   const handleViewProjectDetails = () => {
-    // If user is not yet assigned a project, route them to the generic Project Details page
+    // If user is not yet assigned a project, route them to the generic Product Details page
     const projectSlug = authUser.project ? authUser.project : 'not-yet-assigned'
     navigate(`/project/${projectSlug}`)
   }
@@ -42,10 +42,10 @@ export const WhatsNext = () => {
           <p>Your answers will be kept confidential. Thank you!</p>
         </div>
         <div className='project-details'>
-          <p>You can view the project details at any time.</p>
+          <p>You can view the product details at any time.</p>
           <PrimaryButton
             handler={handleViewProjectDetails}
-            text='View project details'
+            text='View product details'
           />
         </div>
       </div>

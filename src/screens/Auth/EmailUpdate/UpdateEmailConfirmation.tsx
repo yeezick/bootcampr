@@ -28,12 +28,7 @@ export const UpdateEmailConfirmation = () => {
 
     dispatch(
       createSnackBar({
-        isOpen: true,
         message: response.data.friendlyMessage,
-        duration: 5000,
-        vertical: 'top',
-        horizontal: 'center',
-        snackbarStyle: '',
         severity,
       })
     )

@@ -33,6 +33,7 @@ export interface ProjectInterface {
   }
   timeline?: {
     startDate?: string
+    projectSubmissionDate?: string
     endDate?: string
   }
   title?: string
