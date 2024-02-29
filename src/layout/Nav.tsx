@@ -49,11 +49,16 @@ export const Nav = () => {
   const handlePortalLink = () => buildPortal(dispatch, 'project', projectId)
   const handleNonPortalLink = () => dispatch(resetPortal())
 
+  const landingPage =
+    process.env.REACT_APP_API_ENV === 'local'
+      ? '/'
+      : 'https://landing.bootcampr.io/'
+
   return (
     <nav>
       <div className='nav-container'>
         <div className='logo'>
-          <Link to='/' onClick={handleNonPortalLink}>
+          <Link to={landingPage} onClick={handleNonPortalLink}>
             <img src={Logo} alt='logo' />
           </Link>
         </div>
