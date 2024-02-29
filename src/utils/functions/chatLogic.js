@@ -50,23 +50,32 @@ export const mapParticipantsWithMemberDetails = (chatRoom, members) => {
   })
 }
 
-export const updateLastMessageSender = (lastMessage, members) => {
-  if (lastMessage && lastMessage.sender) {
-    const setLastMessageSender = members.find(
-      member => member._id === lastMessage.sender
-    )
+export const mapMessageSender = (message, members) => {
+  let messageSender
+  if (message && message.sender) {
+    if (message.isBotMessage) {
+      messageSender = {
+        _id: message.sender,
+        firstName: 'Bootcampr',
+        lastName: 'Admin',
+      }
+    } else {
+      messageSender = members.find(member => member._id === message.sender)
+    }
     return {
-      ...lastMessage,
-      sender: setLastMessageSender
+      ...message,
+      sender: messageSender
         ? {
-            _id: setLastMessageSender._id,
-            firstName: setLastMessageSender.firstName,
-            lastName: setLastMessageSender.lastName,
+            _id: messageSender._id,
+            firstName: messageSender.firstName,
+            lastName: messageSender.lastName,
+            email: messageSender.email || '',
+            profilePicture: messageSender.profilePicture || '',
           }
-        : lastMessage.sender,
+        : message.sender,
     }
   }
-  return lastMessage
+  return message
 }
 
 export const isMemberSelected = (selectedMembers, member) => {
@@ -142,8 +151,8 @@ export const getMessageClassNames = (
   const isSenderAuthUser = message.sender._id === authUser._id
 
   const isSameUser = isSameSenderAsPrevious(messages, message, index)
-    ? 'same-user-text-margin'
-    : 'other-user-text-margin'
+    ? 'same-user'
+    : 'other-user'
 
   const isLastMessageAndSameRecipient =
     isRecipientMessageSameSender(messages, message, index, authUser._id) ||
@@ -181,5 +190,6 @@ export const getMessageClassNames = (
     isLastMessageAndSameRecipient,
     isMessageSelected,
     timestampClasses,
+    isSameSenderAsPrevious,
   }
 }

@@ -31,8 +31,7 @@ export const ProjectCompletion = () => {
         <Paginator
           exitRoute='/'
           orderedPages={orderedPages}
-          trackCompletion={false}
-          manualNavigationAllowed={true}
+          manualNavigationAllowed={false}
         />
       </div>
     </div>

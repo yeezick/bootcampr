@@ -10,21 +10,9 @@ export const PaginatorButton = ({
   const sharedProps = { disabled, handler, text }
 
   if (buttonType === 'secondary') {
-    return (
-      <SecondaryButton
-        startIcon='leftArrow'
-        startIconProps={paginatorIconProps}
-        {...sharedProps}
-      />
-    )
+    return <SecondaryButton startIcon='leftArrow' {...sharedProps} />
   } else if (buttonType === 'primary') {
-    return (
-      <PrimaryButton
-        endIcon='rightArrow'
-        endIconProps={paginatorIconProps}
-        {...sharedProps}
-      />
-    )
+    return <PrimaryButton endIcon='rightArrow' {...sharedProps} />
   }
 }
 
