@@ -175,18 +175,38 @@ export const selectMembersByEmail = emails => (state: RootState) => {
 }
 
 /**
- * @param {string[]} ids Takes an array of user emails,
+ * @param {string[]} ids Takes an array of user ids,
  *     then looks that user up using the role and index stored in the emailMap.
  * @returns An array of user objects
  */
-export const selectMembersById = userIds => (state: RootState) => {
-  const allMembers = []
-  if (userIds[0] === 'Unassigned' || userIds[0] === '') return [null]
-  for (const userId of userIds) {
-    const { index, role } = state.project.members.idMap[userId]
-    allMembers.push(state.project.members[role][index])
+export const selectMembersById = createSelector(
+  [state => state.project.members, (_, userIds: string[]) => userIds],
+  (members, userIds) => {
+    const { idMap } = members
+
+    if (userIds[0] === 'Unassigned' || userIds[0] === '') {
+      return [null]
+    }
+
+    if (!idMap) {
+      return [null]
+    }
+
+    return userIds.reduce((allMembers, userId) => {
+      const userInfo = idMap[userId]
+      if (userInfo) {
+        const member = members[userInfo.role][userInfo.index]
+        if (member) {
+          allMembers.push(member)
+        }
+      }
+      return allMembers
+    }, [])
   }
-  return allMembers
+)
+
+export const selectUsersById = userIds => state => {
+  return selectMembersById(state, userIds)
 }
 
 export const selectCalendarId = (state: RootState) => state.project.calendarId
