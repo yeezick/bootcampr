@@ -2,27 +2,22 @@ import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
 import { DatePicker } from '@mui/x-date-pickers'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
 import { handleReduxDateChange } from 'utils/helpers/taskHelpers'
 import { TicketTextLabel } from './TicketTextFields'
 import { iconMap } from 'utils/components/Icons'
-
-dayjs.extend(utc)
-dayjs.extend(timezone)
+import { blankDayJs, generateDayJs } from 'utils/helpers'
 
 export const SelectDate = () => {
-  const [datePickerDayjs, setDayPickerDayjs] = useState(dayjs())
+  const [datePickerDayjs, setDayPickerDayjs] = useState(blankDayJs())
   const { dueDate } = useAppSelector(selectTicketFields)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (!dueDate) {
-      setDayPickerDayjs(dayjs())
+      setDayPickerDayjs(blankDayJs())
       handleReduxDateChange(dispatch, datePickerDayjs)
     } else {
-      setDayPickerDayjs(dayjs(dueDate))
+      setDayPickerDayjs(generateDayJs(dueDate))
     }
   }, [])
 

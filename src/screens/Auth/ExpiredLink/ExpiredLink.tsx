@@ -1,10 +1,7 @@
 import { useLocation, useParams } from 'react-router-dom'
 import { api } from 'utils/api/apiConfig'
-import { FaInfoCircle } from 'react-icons/fa'
 import { TbRefreshAlert } from 'react-icons/tb'
-import { useState } from 'react'
 import './ExpiredLink.scss'
-import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { useDispatch } from 'react-redux'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
@@ -24,12 +21,7 @@ export const ExpiredLink = () => {
 
     dispatch(
       createSnackBar({
-        isOpen: true,
         message: res.data.friendlyMessage,
-        duration: 5000,
-        vertical: 'top',
-        horizontal: 'center',
-        snackbarStyle: '',
         severity,
       })
     )
