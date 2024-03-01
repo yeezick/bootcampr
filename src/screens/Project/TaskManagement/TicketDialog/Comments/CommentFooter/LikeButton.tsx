@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { updateComment } from 'utils/api/comments'
 import { determineLikeIcon } from 'utils/helpers/commentHelpers'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectMembersById } from 'utils/redux/slices/projectSlice'
+import { selectUsersById } from 'utils/redux/slices/projectSlice'
 import { selectUserId } from 'utils/redux/slices/userSlice'
 
 export const LikeButton = ({
@@ -13,7 +13,7 @@ export const LikeButton = ({
   toggleFetchComments,
 }) => {
   const [likedByUser, toggleLikedByUser] = useState(false)
-  const likers = useAppSelector(selectMembersById(likes))
+  const likers = useAppSelector(selectUsersById(likes))
   const userId = useAppSelector(selectUserId)
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export const LikeButton = ({
     } else {
       toggleLikedByUser(false)
     }
-  }, [likes])
+  }, [likes, userId])
 
   //BC-763
   const handleCommentLike = async () => {
