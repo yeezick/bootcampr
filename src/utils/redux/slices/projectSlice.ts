@@ -174,37 +174,6 @@ export const selectMembersByEmail = emails => (state: RootState) => {
   return allMembers
 }
 
-/**
- * @param {string[]} ids Takes an array of user ids,
- *     then looks that user up using the role and index stored in the emailMap.
- * @returns An array of user objects
- */
-export const selectMembersById = createSelector(
-  [state => state.project.members, (_, userIds: string[]) => userIds],
-  (members, userIds) => {
-    const { idMap } = members
-
-    if (userIds[0] === 'Unassigned' || userIds[0] === '') {
-      return [null]
-    }
-
-    if (!idMap) {
-      return [null]
-    }
-
-    return userIds.reduce((allMembers, userId) => {
-      const userInfo = idMap[userId]
-      if (userInfo) {
-        const member = members[userInfo.role][userInfo.index]
-        if (member) {
-          allMembers.push(member)
-        }
-      }
-      return allMembers
-    }, [])
-  }
-)
-
 export const selectUsersById = userIds => state => {
   return selectMembersById(state, userIds)
 }
@@ -239,12 +208,37 @@ export const {
 
 export default projectSlice.reducer
 
-/** Helpers */
+/**
+ * Helpers
+ *  moving this function to calendarHelpers breaks the app, need to look into why
+ */
+
+const determineRole = roleStr => {
+  if (roleStr === 'UX Designer') {
+    return 'designers'
+  } else if (roleStr === 'Software Engineer') {
+    return 'engineers'
+  }
+}
+
+const changeTicketStatus = (
+  initialStatus,
+  projectTracker,
+  state,
+  updatedTicket
+) => {
+  const filteredInitialStatusColumn = projectTracker[initialStatus].filter(
+    ticket => ticket._id !== updatedTicket._id
+  )
+
+  projectTracker[updatedTicket.status].push(updatedTicket)
+  state.projectTracker[initialStatus] = filteredInitialStatusColumn
+}
+
 /**
  * @param {array} roles Array of roles in a project (Engineers, Designers)
  * @returns A map to identify that user by their role and index when using selectMembersByEmail()
  */
-// TODO: moving this function to calendarHelpers breaks the app, need to look into why
 export const mapMembersByEmail = roles => {
   const emailMap = {}
   for (const role of roles) {
@@ -273,24 +267,33 @@ export const mapMembersById = roles => {
   return idMap
 }
 
-const determineRole = roleStr => {
-  if (roleStr === 'UX Designer') {
-    return 'designers'
-  } else if (roleStr === 'Software Engineer') {
-    return 'engineers'
+/**
+ * @param {string[]} ids Takes an array of user ids,
+ *     then looks that user up using the role and index stored in the emailMap.
+ * @returns An array of user objects
+ */
+const selectMembersById = createSelector(
+  [state => state.project.members, (_, userIds: string[]) => userIds],
+  (members, userIds) => {
+    const { idMap } = members
+
+    if (userIds[0] === 'Unassigned' || userIds[0] === '') {
+      return [null]
+    }
+
+    if (!idMap) {
+      return [null]
+    }
+
+    return userIds.reduce((allMembers, userId) => {
+      const userInfo = idMap[userId]
+      if (userInfo) {
+        const member = members[userInfo.role][userInfo.index]
+        if (member) {
+          allMembers.push(member)
+        }
+      }
+      return allMembers
+    }, [])
   }
-}
-
-const changeTicketStatus = (
-  initialStatus,
-  projectTracker,
-  state,
-  updatedTicket
-) => {
-  const filteredInitialStatusColumn = projectTracker[initialStatus].filter(
-    ticket => ticket._id !== updatedTicket._id
-  )
-
-  projectTracker[updatedTicket.status].push(updatedTicket)
-  state.projectTracker[initialStatus] = filteredInitialStatusColumn
-}
+)
