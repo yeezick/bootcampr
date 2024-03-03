@@ -5,7 +5,8 @@
   gap: 32px;
   justify-content: space-between;
   padding: 33px 38px 15px 33px;
-  overflow-x: scroll;
+  // overflow: scroll; TODO: Revisit and figure out??
+
 
   .status-column {
     background-color: #E0E0E0;
