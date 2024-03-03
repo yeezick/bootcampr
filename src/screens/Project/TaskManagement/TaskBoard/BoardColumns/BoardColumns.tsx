@@ -1,16 +1,15 @@
-import { saveTicketStatusChange } from 'utils/api/tickets'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { useParams } from 'react-router-dom'
 import {
+  moveTicketBetweenColumns,
   reorderColumn,
   selectProjectTracker,
-  updateTicketStatus,
 } from 'utils/redux/slices/projectSlice'
 import { StatusColumn } from './StatusColumn'
 import '../../styles/BoardColumnStyles.scss'
 import { doTicketsExist } from 'utils/helpers/taskHelpers'
 import { DragDropContext } from 'react-beautiful-dnd'
-import { reorderProjectColumn } from 'utils/api'
+import { moveTicketColumn, reorderProjectColumn } from 'utils/api'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 
 export const BoardColumns = () => {
@@ -23,11 +22,14 @@ export const BoardColumns = () => {
     : 'columns-wrapper'
 
   const handleOnDragEnd = async movingTicket => {
-    console.log('moving ticket', movingTicket)
     const { source, destination } = movingTicket
 
-    // dropped outside the list
-    if (!destination) {
+    // dropped outside any columns or in its original position
+    if (
+      !destination ||
+      (source.droppableId === destination.droppableId &&
+        source.index === destination.index)
+    ) {
       return
     }
 
@@ -51,20 +53,27 @@ export const BoardColumns = () => {
           })
         )
       }
-    }
-    // } else {
-    //   const result = move(
-    //     this.getList(source.droppableId),
-    //     this.getList(destination.droppableId),
-    //     source,
-    //     destination
-    //   )
+    } else {
+      const response = await moveTicketColumn(projectId, {
+        oldColumnId: source.droppableId,
+        oldColumnIdx: source.index,
+        newColumnId: destination.droppableId,
+        newColumnIdx: destination.index,
+      })
 
-    //   this.setState({
-    //     items: result.droppable,
-    //     selected: result.droppable2,
-    //   })
-    // }
+      if (response.status !== 200) {
+        dispatch(errorSnackbar(response.message))
+      } else {
+        dispatch(
+          moveTicketBetweenColumns({
+            newColumnId: destination.droppableId,
+            newColumn: response.newColumn,
+            oldColumnId: source.droppableId,
+            oldColumn: response.oldColumn,
+          })
+        )
+      }
+    }
   }
 
   return (
@@ -77,46 +86,3 @@ export const BoardColumns = () => {
     </div>
   )
 }
-
-/**
- * Moves an item from one list to another list.
- */
-const move = (source, destination, droppableSource, droppableDestination) => {
-  const sourceClone = Array.from(source)
-  const destClone = Array.from(destination)
-  const [removed] = sourceClone.splice(droppableSource.index, 1)
-
-  destClone.splice(droppableDestination.index, 0, removed)
-
-  const result = {}
-  result[droppableSource.droppableId] = sourceClone
-  result[droppableDestination.droppableId] = destClone
-
-  return result
-}
-
-// if (movingTicket) {
-//   const targetTicketId = movingTicket.draggableId
-//   const initialStatus = movingTicket.source.droppableId
-//   const targetStatus = movingTicket.destination.droppableId
-
-//   if (initialStatus !== targetStatus) {
-//     const updatedTicket = await saveTicketStatusChange({
-//       projectId,
-//       targetStatus,
-//       targetTicketId,
-//       initialStatus,
-//     })
-
-//     if (updatedTicket) {
-//       dispatch(
-//         updateTicketStatus({
-//           initialStatus,
-//           updatedTicket,
-//         })
-//       )
-//     } else {
-//       // todo: display error toast
-//     }
-//   }
-// }
