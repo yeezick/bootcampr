@@ -112,16 +112,9 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     <div className='setupProfile'>
       <div className='setupProfile__profile-header-cont'>
         <h2>Profile</h2>
-        <p>
-          Set up your profile so your team can get to know you. Write a little
-          about yourself. Input your LinkedIn profile. Adding a link to your
-          portfolio is encouraged but not required. You can edit your profile
-          later by going to My Account.
-        </p>
-        <i>
-          We've input yor first and last name for you. You can change them, but
-          a first and last name is required to complete onboarding
-        </i>
+        <p>Set up your profile so your team can get to know you.</p>
+        <p>You can edit your profile later by going to My Account.</p>
+        <i>*Required fields</i>
       </div>
       <div className='setupProfile__profile-container'>
         <form
@@ -138,7 +131,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
               />
             </div>
             <label className='setupProfile__profile-label'>
-              First name
+              *First name
               <input
                 type='text'
                 name='firstName'
@@ -155,7 +148,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
               )}
             </label>
             <label className='setupProfile__profile-label'>
-              Last name
+              *Last name
               <input
                 type='text'
                 name='lastName'
@@ -172,7 +165,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
               )}
             </label>
             <label className='setupProfile__profile-label'>
-              About me
+              *About me
               <TextareaAutosize
                 name='bio'
                 className={`setupProfile__profile-label ${
@@ -203,7 +196,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
               </div>
             </label>
             <label className='setupProfile__profile-label'>
-              Linkedin profile (URL)
+              *Linkedin profile (URL)
               <input
                 type='text'
                 name='linkedinUrl'
