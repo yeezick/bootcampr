@@ -20,7 +20,12 @@ export const Onboarding = () => {
     const hasSetAvailability = checkIfSetAvailability()
     const hasSetProfileInfo = checkIfSetProfileInfo()
 
-    if (authUser.role && hasSetAvailability && hasSetProfileInfo) {
+    if (
+      authUser.role &&
+      authUser.project &&
+      hasSetAvailability &&
+      hasSetProfileInfo
+    ) {
       navigate(`/project/${authUser.project}`)
     } else if (authUser.role && hasSetAvailability) {
       navigate(`/onboarding/${authUser._id}?pageId=setUpProfile`)
