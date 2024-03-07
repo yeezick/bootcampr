@@ -37,6 +37,7 @@ const initialState: ProjectInterface = {
   members: {
     designers: [],
     engineers: [],
+    productManagers: [],
   },
   title: '',
   projectPortal: {
@@ -120,9 +121,17 @@ const projectSlice = createSlice({
     },
     setProject: (state, action: PayloadAction<ProjectInterface>) => {
       const updatedProject = produce(action.payload, draft => {
-        const { engineers, designers } = draft.members
-        draft.members.emailMap = mapMembersByEmail([engineers, designers])
-        draft.members.idMap = mapMembersById([engineers, designers])
+        const { engineers, designers, productManagers } = draft.members
+        draft.members.emailMap = mapMembersByEmail([
+          engineers,
+          designers,
+          productManagers,
+        ])
+        draft.members.idMap = mapMembersById([
+          engineers,
+          designers,
+          productManagers,
+        ])
         draft.projectPortal = { renderProjectPortal: false }
       })
       return updatedProject
@@ -147,17 +156,24 @@ const projectSlice = createSlice({
 export const selectMembersAsTeam = (state: RootState) => [
   ...state.project.members.designers,
   ...state.project.members.engineers,
+  ...state.project.members.productManagers,
 ]
 
 export const selectEngineerMembers = (state: RootState) =>
   state.project.members.engineers
 export const selectDesignMembers = (state: RootState) =>
   state.project.members.designers
+export const selectProductManagers = (state: RootState) =>
+  state.project.members.productManagers
 
 // TODO: Revisit this to replace the warning provoked by using selectMembersAsTeam
 export const selectMembers = createSelector(
-  [selectDesignMembers, selectEngineerMembers],
-  (engineers, designers) => [...designers, ...engineers]
+  [selectDesignMembers, selectEngineerMembers, selectProductManagers],
+  (engineers, designers, productManagers) => [
+    ...designers,
+    ...engineers,
+    ...productManagers,
+  ]
 )
 
 /**
@@ -181,7 +197,10 @@ export const selectUsersById = userIds => state => {
 export const selectCalendarId = (state: RootState) => state.project.calendarId
 export const selectCompletedInfo = (state: RootState) =>
   state.project.completedInfo
-export const selectMembersByRole = (state: RootState) => state.project.members
+export const selectMembersByRole = (state: RootState) => {
+  const { designers, engineers, productManagers } = state.project.members
+  return { engineers, designers, productManagers }
+}
 export const selectProject = (state: RootState) => state.project
 export const selectProjectId = (state: RootState) => state.project._id
 export const selectProjectTracker = (state: RootState) =>
@@ -218,6 +237,8 @@ const determineRole = roleStr => {
     return 'designers'
   } else if (roleStr === 'Software Engineer') {
     return 'engineers'
+  } else if (roleStr === 'Product Manager') {
+    return 'productManagers'
   }
 }
 
