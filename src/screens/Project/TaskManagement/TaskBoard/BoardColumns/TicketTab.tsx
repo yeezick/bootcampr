@@ -1,4 +1,4 @@
-import { Draggable } from '@hello-pangea/dnd'
+import { Draggable } from 'react-beautiful-dnd'
 import { useAppDispatch } from 'utils/redux/hooks'
 import {
   setTicketFields,

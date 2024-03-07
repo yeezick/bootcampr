@@ -37,7 +37,11 @@ export const TeamAvatar = ({ userId, size }: TeamAvatarProps) => {
           </div>
         ) : (
           <div className='ta-default-pics'>
-            <img src={defaultImageURL} alt='team avatar default' />
+            <img
+              className={`ta-imgs ${size || ''}`}
+              src={defaultImageURL}
+              alt='team avatar default'
+            />
           </div>
         )}
       </div>

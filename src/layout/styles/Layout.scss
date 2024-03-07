@@ -24,6 +24,8 @@
 
     .portal-screen { 
      height: calc(100% - $header-height);
+    margin-top: $header-height;
+
     }
 }
 
