@@ -28,6 +28,7 @@ import { Account, Email } from 'screens/Auth/Settings'
 import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
 import './App.css'
 import { AuthWrapper } from 'screens/Auth/AuthWrapper'
+import { Notification } from 'components/Notifications/Notification'
 
 function App() {
   console.log(`Running Application Version: ${process.env.REACT_APP_VERSION} `)
@@ -63,6 +64,7 @@ function App() {
               path='/users/:id/update-email-confirmation'
               element={<UpdateEmailConfirmation />}
             />
+            <Route path='/notifications/:userId' element={<Notification />} />
             <Route path='/users/:id/settings'>
               <Route path='email' element={<Email />} />
               <Route path='password' element={<ChangePassword />} />
