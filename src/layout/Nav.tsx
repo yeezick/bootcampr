@@ -42,7 +42,8 @@ export const Nav = () => {
 
   useEffect(() => {
     // Close chat dialog and sideMenu when URL path changes
-    dispatch(toggleChatClose())
+    //TODO - close chat when click outside of chat box
+    // dispatch(toggleChatClose())
     dispatch(setActiveChatRoomId(null))
   }, [dispatch, location])
 
