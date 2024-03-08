@@ -94,12 +94,16 @@ export const logOut = async () => {
 
 export const verify = async () => {
   const bootcamprAuthToken = localStorage.getItem('bootcamprAuthToken')
-  if (bootcamprAuthToken) {
-    const { data: payload } = await api.get('/verify')
-    const { data: user } = await api.get(`/users/${payload.userID}`)
-    return user
+  try {
+    if (bootcamprAuthToken) {
+      const { data: payload } = await api.get('/verify')
+      const { data: user } = await api.get(`/users/${payload.userID}`)
+      return user
+    }
+  } catch (error) {
+    console.error('Error in verify function:', error)
+    return false
   }
-  return false
 }
 
 export const verifyEmail = async email => {
