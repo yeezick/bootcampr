@@ -89,6 +89,15 @@ const projectSlice = createSlice({
         changeTicketStatus(initialStatus, projectTracker, state, updatedTicket)
       }
     },
+    reorderColumn: (state, action) => {
+      const { columnId, reorderedColumn } = action.payload
+      state.projectTracker[columnId] = reorderedColumn
+    },
+    moveTicketBetweenColumns: (state, action) => {
+      const { newColumnId, newColumn, oldColumnId, oldColumn } = action.payload
+      state.projectTracker[newColumnId] = newColumn
+      state.projectTracker[oldColumnId] = oldColumn
+    },
     updateTicketStatus: (state, action: PayloadAction<UpdateTicketReducer>) => {
       const { initialStatus, updatedTicket } = action.payload
       const projectTracker = state.projectTracker
@@ -214,6 +223,7 @@ export const {
   addTicketToStatus,
   updateTicketStatus,
   deleteTicket,
+  moveTicketBetweenColumns,
   setProject,
   updateTicket,
   updateProject,
@@ -223,6 +233,7 @@ export const {
   setProjectSuccess,
   setProjectFailure,
   renderProjectPortal,
+  reorderColumn,
 } = projectSlice.actions
 
 export default projectSlice.reducer

@@ -4,6 +4,15 @@
     width: min-content;
   }
 
+  .ta-default-pics {
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
+
+
   .ta-imgs {
     border-radius: 50%;
     object-fit: cover;
@@ -30,4 +39,4 @@
     flex-direction: column;
     justify-content: flex-start;
   }
-}
+
