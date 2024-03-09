@@ -18,6 +18,7 @@ export const AuthWrapper = ({ children }) => {
   const navigate = useNavigate()
   const authUser = useAppSelector(selectAuthUser)
   const status = useAppSelector(uiStatus)
+  const isProtectedRoute = !unprotectedRoutes.includes(location.pathname)
 
   useEffect(() => {
     const verifyAndNavigateUser = async () => {
@@ -29,16 +30,16 @@ export const AuthWrapper = ({ children }) => {
           if (verifiedAuthUser?._id) {
             await storeUserProject(dispatch, verifiedAuthUser.project)
             dispatch(updateAuthUser(verifiedAuthUser))
-          } else if (!unprotectedRoutes.includes(location.pathname)) {
+          } else if (isProtectedRoute) {
             navigate('/sign-in')
           }
-        } else if (!token && !unprotectedRoutes.includes(location.pathname)) {
+        } else if (!token && isProtectedRoute) {
           //user is not verified and the route is protected
           navigate('/sign-in')
         }
       } catch (error) {
         console.error('Error in auth verification: ', error)
-        if (!unprotectedRoutes.includes(location.pathname)) {
+        if (isProtectedRoute) {
           navigate('/sign-in')
         }
       }
