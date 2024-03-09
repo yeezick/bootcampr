@@ -3,9 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { selectSortedThreads } from 'utils/redux/slices/chatSlice'
-import { chatNotification } from './ChatNotification'
+import { chatRouterHandler } from 'utils/helpers/emailRouterHelpers'
 
-export const Notification = () => {
+export const EmailRouter = () => {
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const navigate = useNavigate()
@@ -17,7 +17,7 @@ export const Notification = () => {
   useEffect(() => {
     if (authUser?._id && notificationPage === 'chat' && threads.length > 0) {
       const chatRoomId = queryParams.get('chatRoomId')
-      chatNotification(threads, authUser, chatRoomId, dispatch, navigate)
+      chatRouterHandler(threads, authUser, chatRoomId, dispatch, navigate)
     }
   }, [authUser?._id, notificationPage, dispatch, navigate, threads])
 

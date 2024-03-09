@@ -6,7 +6,7 @@ import {
   toggleChatOpen,
 } from 'utils/redux/slices/chatSlice'
 
-export const chatNotification = async (
+export const chatRouterHandler = async (
   threads,
   user,
   chatRoomId,
@@ -15,13 +15,12 @@ export const chatNotification = async (
 ) => {
   const chatRoom = threads.find(thread => thread._id === chatRoomId)
   if (!chatRoom) return
-  console.log(chatRoom)
+
   dispatch(setCurrentChat(chatRoom))
   await dispatch(
     fetchMessages({ chatId: chatRoom._id, chatType: chatRoom.chatType })
   )
-  //check if need to replace and error message for the navigate
-  navigate(`/project/${user.project}`)
+  navigate(`/project/${user.project}`, { replace: true })
   dispatch(toggleChatOpen())
   dispatch(onScreenUpdate(ChatScreen.ChatRoom))
 }
