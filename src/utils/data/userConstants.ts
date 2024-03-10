@@ -51,15 +51,23 @@ export const emptyUser: UserInterface = {
   profilePicture: '',
   defaultProfilePicture: '',
   hasProfilePicture: false,
+  payment: {
+    experience: 'unchosen',
+    paid: false,
+  },
+  projects: {
+    projects: [],
+  },
   role: '',
   unreadMessages: {},
   _id: '',
 }
 
-export const initialState: UiSliceInterface = {
+export const initialUserSliceState: UiSliceInterface = {
   auth: {
     user: emptyUser,
   },
+  // these would ideally be its own "requestSlice" ; isAuthenticated would remain here
   status: {
     isAuthenticated: false,
     isLoading: false,

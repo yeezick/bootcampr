@@ -4,9 +4,15 @@ import { createCheckout } from 'utils/api/payment'
 import { buildProjectPortal } from 'utils/helpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
-import { selectUserId } from 'utils/redux/slices/userSlice'
+import {
+  selectUserId,
+  updateAuthUser,
+  updateUserExperience,
+} from 'utils/redux/slices/userSlice'
 import './styles/ChooseExperience.scss'
 import { fetchIcon } from 'utils/components/Icons'
+import { updatePaymentExperience } from 'utils/api'
+import { errorSnackbar } from 'utils/helpers/commentHelpers'
 
 export const ChooseExperience = () => {
   const handleCheckout = async () => {
@@ -27,13 +33,20 @@ export const ChooseExperience = () => {
 }
 
 const SandboxCard = () => {
-  const navigate = useNavigate()
+  const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
-  const handleEnterSandbox = () => {
-    //update payment.experience to be 'sandbox'
-    navigate('/project/sandbox')
-    dispatch(setPortal(buildProjectPortal('sandbox')))
+  const handleEnterSandbox = async () => {
+    //BC-778,780,781,782: update payment.experience to be 'sandbox' & have backend fetch/set freemium experience
+    // const updatedExperience = await updatePaymentExperience(userId, 'waitlist')
+    // if (updatedExperience.error) {
+    //   dispatch(errorSnackbar('Error setting project experience.'))
+    //   return
+    // }
+    // dispatch(updateUserExperience(updatedExperience))
+    // navigate('/project/sandbox')
+    // dispatch(setPortal(buildProjectPortal('sandbox')))
   }
 
   return (
@@ -62,10 +75,16 @@ const SandboxCard = () => {
 
 const JoinTeamCard = () => {
   const userId = useAppSelector(selectUserId)
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const handleJoinTeam = () => {
-    // update payment.experience to be 'waitlist'
+  const handleJoinTeam = async () => {
+    const updatedExperience = await updatePaymentExperience(userId, 'waitlist')
+    if (updatedExperience.error) {
+      dispatch(errorSnackbar('Error setting project experience.'))
+      return
+    }
+    dispatch(updateUserExperience(updatedExperience))
     navigate(`/onboarding/${userId}`)
   }
 
