@@ -26,8 +26,8 @@ import { AboutUs, HowTo } from 'screens/Landing'
 import { WhatsNext } from 'screens/Onboarding/WhatsNext'
 import { Account, Email } from 'screens/Auth/Settings'
 import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
+import { ChooseExperience, Payment } from 'screens/Payment'
 import './App.css'
-import { Payment } from 'screens/Payment/Payment'
 
 function App() {
   console.log(`Running Application Version: ${process.env.REACT_APP_VERSION} `)
@@ -54,6 +54,7 @@ function App() {
             element={<ResetPassword />}
           />
           {/* Payment */}
+          <Route path='/choose-experience' element={<ChooseExperience />} />
           <Route path='/checkout' element={<Payment />} />
           {/* User */}
           <Route path='/onboarding/:id' element={<Onboarding />} />
