@@ -70,7 +70,6 @@ const SignIn: React.FC = (): JSX.Element => {
     dispatch(setAuthUser(response))
     storeUserProject(dispatch, response.project)
 
-    // TODO: need to figure out how to assign user to a project vs previous project vs freemium
     if (response.payment.experience === 'unchosen') {
       navigate('/choose-experience')
     } else if (
