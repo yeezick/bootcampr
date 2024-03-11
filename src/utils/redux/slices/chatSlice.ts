@@ -172,10 +172,10 @@ const chatSlice = createSlice({
       const thread = state.threads[chatRoomId]
       if (thread) {
         const senderParticipant = state.threads[chatRoomId].participants.find(
-          pp => pp.participant._id === senderId
+          pp => pp.userInfo._id === senderId
         )
         const newMessage: ChatMessageInterface = {
-          sender: senderParticipant.participant,
+          sender: senderParticipant.userInfo,
           text: receivedMessage.newMessage,
           timestamp: blankDayJs().toISOString(),
           status: 'sent',
@@ -194,7 +194,7 @@ const chatSlice = createSlice({
       if (thread) {
         thread.participants.forEach(participant => {
           if (
-            participant.participant._id !== senderId &&
+            participant.userInfo._id !== senderId &&
             state.activeChatRoomId !== chatRoomId
           ) {
             participant.hasUnreadMessage = true
@@ -208,7 +208,7 @@ const chatSlice = createSlice({
       if (thread) {
         thread.participants.forEach(participant => {
           if (
-            participant.participant._id === activeUserId &&
+            participant.userInfo._id === activeUserId &&
             state.activeChatRoomId === chatRoomId
           ) {
             participant.hasUnreadMessage = false
@@ -282,7 +282,7 @@ export const selectUnreadMessageCount = createSelector(
     return threads.reduce((count, thread) => {
       const hasUnread = thread.participants.some(
         participant =>
-          participant.participant._id === userId && participant.hasUnreadMessage
+          participant.userInfo._id === userId && participant.hasUnreadMessage
       )
       return count + (hasUnread ? 1 : 0)
     }, 0)

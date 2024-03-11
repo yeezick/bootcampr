@@ -54,5 +54,5 @@ export interface FetchMessagesPayload {
 export interface ParticipantInterface {
   hasUnreadMessage?: boolean
   isAdmin?: boolean
-  participant: BasicUserInfoInterface
+  userInfo: BasicUserInfoInterface
 }

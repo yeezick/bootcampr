@@ -5,10 +5,8 @@ export const getParticipantsNames = (
   authUser
 ) => {
   const participantsWithoutAuthUser = participants
-    .filter(({ participant }) => participant._id !== authUser._id)
-    .map(
-      ({ participant }) => `${participant.firstName} ${participant.lastName}`
-    )
+    .filter(({ userInfo }) => userInfo._id !== userInfo._id)
+    .map(({ userInfo }) => `${userInfo.firstName} ${userInfo.lastName}`)
     .join(', ')
   if (chatType === 'private') {
     return participantsWithoutAuthUser
@@ -22,11 +20,11 @@ export const getParticipantsNames = (
 
 export const getSortedParticipants = (participants, authUserId) => {
   return [...participants].sort((ppA, ppB) => {
-    if (ppA.participant._id === authUserId) return 1
-    if (ppB.participant._id === authUserId) return -1
+    if (ppA.userInfo._id === authUserId) return 1
+    if (ppB.userInfo._id === authUserId) return -1
 
-    const participantNameA = ppA.participant.firstName.toLocaleLowerCase()
-    const participantNameB = ppB.participant.firstName.toLocaleLowerCase()
+    const participantNameA = ppA.userInfo.firstName.toLocaleLowerCase()
+    const participantNameB = ppB.userInfo.firstName.toLocaleLowerCase()
     if (participantNameA === participantNameB) return 0
     return participantNameA > participantNameB ? 1 : -1
   })
@@ -34,11 +32,11 @@ export const getSortedParticipants = (participants, authUserId) => {
 
 export const mapParticipantsWithMemberDetails = (chatRoom, members) => {
   return chatRoom.participants.map(pp => {
-    const member = members.find(member => member._id === pp.participant)
+    const member = members.find(member => member._id === pp.userInfo)
     return member
       ? {
           ...pp,
-          participant: {
+          userInfo: {
             _id: member._id,
             firstName: member.firstName,
             lastName: member.lastName,
@@ -84,8 +82,8 @@ export const isMemberSelected = (selectedMembers, member) => {
 
 export const extractConversationAvatars = (chatMembers, authUserId) => {
   const avatars = chatMembers
-    .filter(({ participant }) => participant && participant._id !== authUserId)
-    .map(({ participant }) => participant.profilePicture)
+    .filter(({ userInfo }) => userInfo && userInfo._id !== authUserId)
+    .map(({ userInfo }) => userInfo.profilePicture)
 
   return avatars
 }

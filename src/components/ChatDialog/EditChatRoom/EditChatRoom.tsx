@@ -35,9 +35,9 @@ export const EditChatRoom = () => {
           {sortedParticipants.map(pp => (
             <div className='member'>
               <UserThumbnail
-                title={`${pp.participant.firstName} ${pp.participant.lastName}`}
-                description={pp.participant.role}
-                profilePicture={pp.participant.profilePicture}
+                title={`${pp.userInfo.firstName} ${pp.userInfo.lastName}`}
+                description={pp.userInfo.role}
+                profilePicture={pp.userInfo.profilePicture}
                 avatarSize='medium'
                 avatarType='single'
               />

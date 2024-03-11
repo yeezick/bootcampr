@@ -43,7 +43,7 @@ export const NewChatRoom = ({ chatScreen }) => {
     let usersToInvite
     if (chatScreen === 'inviteNewMembers') {
       const currentParticipantIds = new Set(
-        currentConversation.participants.map(pp => pp.participant._id)
+        currentConversation.participants.map(pp => pp.userInfo._id)
       )
       //remaining users
       usersToInvite = membersWithoutAuth.filter(

@@ -25,7 +25,7 @@ export const ConversationThumbnail = ({
           ? 'You'
           : lastMessage.sender.firstName
       }:`
-  const ppAuth = participants.find(pp => pp.participant._id === authUser._id)
+  const ppAuth = participants.find(pp => pp.userInfo._id === authUser._id)
   const description = `${senderInfo} ${lastMessageText}`
   const groupTitle = groupName
     ? groupName
