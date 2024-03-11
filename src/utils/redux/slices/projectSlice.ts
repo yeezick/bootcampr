@@ -162,12 +162,6 @@ const projectSlice = createSlice({
   },
 })
 
-export const selectMembersAsTeam = (state: RootState) => [
-  ...state.project.members.designers,
-  ...state.project.members.engineers,
-  ...state.project.members.productManagers,
-]
-
 export const selectEngineerMembers = (state: RootState) =>
   state.project.members.engineers
 export const selectDesignMembers = (state: RootState) =>
@@ -175,8 +169,12 @@ export const selectDesignMembers = (state: RootState) =>
 export const selectProductManagers = (state: RootState) =>
   state.project.members.productManagers
 
+export const selectCalendarId = (state: RootState) => state.project.calendarId
+export const selectCompletedInfo = (state: RootState) =>
+  state.project.completedInfo
+
 // TODO: Revisit this to replace the warning provoked by using selectMembersAsTeam
-export const selectMembers = createSelector(
+export const selectMembersAsTeam = createSelector(
   [selectDesignMembers, selectEngineerMembers, selectProductManagers],
   (engineers, designers, productManagers) => [
     ...designers,
@@ -203,13 +201,17 @@ export const selectUsersById = userIds => state => {
   return selectMembersById(state, userIds)
 }
 
-export const selectCalendarId = (state: RootState) => state.project.calendarId
-export const selectCompletedInfo = (state: RootState) =>
-  state.project.completedInfo
-export const selectMembersByRole = (state: RootState) => {
-  const { designers, engineers, productManagers } = state.project.members
-  return { engineers, designers, productManagers }
-}
+export const selectMembersByRole = createSelector(
+  [selectDesignMembers, selectEngineerMembers, selectProductManagers],
+  (engineers, designers, productManagers) => {
+    return {
+      designers,
+      engineers,
+      productManagers,
+    }
+  }
+)
+
 export const selectProject = (state: RootState) => state.project
 export const selectProjectId = (state: RootState) => state.project._id
 export const selectProjectTracker = (state: RootState) =>
