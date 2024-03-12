@@ -12,21 +12,29 @@
   }
 }
 
+.ta-imgs {
+  border-radius: 50%;
+  height: 75px;
+  object-fit: cover;
+  width: 75px;
 
-  .ta-imgs {
-    border-radius: 50%;
-    height: 75px;
-    object-fit: cover;
-    width: 75px;
-
-    &.tiny {
-      height: 24px;
-      width: 24px;
-    }
-
-    &.small {
-      height: 40px;
-      width: 40px;
-    }  
+  &.large {
+    height: 96px;
+    width: 96px;
   }
 
+  &.medium {
+    height: 40px;
+    width: 40px;
+  }
+
+  &.small {
+    height: 32px;
+    width: 32px;
+  }
+
+  &.tiny {
+    height: 24px;
+    width: 24px;
+  }
+}
