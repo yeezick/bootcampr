@@ -16,7 +16,7 @@ import { getChatMessagesByType, getUserChatThreads } from 'utils/api/chat'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { RootState } from 'utils/redux/store'
 import { selectUserId } from './userSlice'
-import { selectMembers } from './projectSlice'
+import { selectMembersAsTeam } from './projectSlice'
 import {
   mapMessageSender,
   mapParticipantsWithMemberDetails,
@@ -66,7 +66,7 @@ export const fetchMessages = createAsyncThunk<
   async ({ chatId, chatType }, { getState, rejectWithValue }) => {
     try {
       const messages = await getChatMessagesByType(chatId, chatType)
-      const members = selectMembers(getState())
+      const members = selectMembersAsTeam(getState())
       const mappedMessages = messages.map(message => {
         return mapMessageSender(message, members)
       })
@@ -84,7 +84,7 @@ export const fetchThreads = createAsyncThunk<
 >('chatbox/fetchThreads', async (_, thunkAPI) => {
   try {
     const threads = await getUserChatThreads()
-    const members = selectMembers(thunkAPI.getState())
+    const members = selectMembersAsTeam(thunkAPI.getState())
     const threadsMap = threads.map((thread: ChatInterface) => {
       const lastMessageMap = mapMessageSender(thread.lastMessage, members)
       const participantsMap = mapParticipantsWithMemberDetails(thread, members)
@@ -108,7 +108,7 @@ export const processChatRoom = createAsyncThunk<
 >(
   'chatbox/createAndSetNewChatRoom',
   async (chatRoom, { getState, dispatch }) => {
-    const members = selectMembers(getState())
+    const members = selectMembersAsTeam(getState())
     const mappedParticipants = mapParticipantsWithMemberDetails(
       chatRoom,
       members
