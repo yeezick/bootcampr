@@ -12,7 +12,7 @@ export interface AvatarProps {
 }
 
 export interface TeamAvatarProps {
-  size?: 'tiny' | 'small' | 'medium' | 'large'
+  size?: 'tiny' | 'small' | 'medium'
   userId: string
 }
 

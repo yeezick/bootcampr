@@ -14,6 +14,8 @@ import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import loginBanner from '../../../assets/Images/login-image.png'
 import './SignIn.scss'
+import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
+import { buildProjectPortal } from 'utils/helpers'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -67,9 +69,16 @@ const SignIn: React.FC = (): JSX.Element => {
 
     dispatch(setAuthUser(response))
     storeUserProject(dispatch, response.project)
-    !response.onboarded
-      ? navigate(`/onboarding/${response._id}`)
-      : navigate(`/project/${response.project}`)
+
+    if (!response.onboarded) {
+      navigate(`/onboarding/${response._id}`)
+    } else if (!response.project) {
+      navigate('/project/unassigned')
+      dispatch(setPortal(buildProjectPortal('unassigned')))
+    } else {
+      navigate(`/project/${response.project}`)
+      dispatch(setPortal(buildProjectPortal(response.project)))
+    }
   }
 
   useEffect(() => {

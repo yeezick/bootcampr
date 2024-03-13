@@ -1,8 +1,7 @@
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
-import './TeamMemberCard.scss'
 import { createOrGetPrivateChatRoom } from 'utils/api/chat'
 import {
   onScreenUpdate,
@@ -12,20 +11,45 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useSocketEvents } from 'components/Notifications/Socket'
+import {
+  PrimaryButton,
+  SecondaryButton,
+} from 'components/Buttons/ButtonVariants'
 
-export const TeamMemberCard = ({ member, loggedInUserId }) => {
-  const {
-    firstName,
-    lastName,
-    role,
-    _id: memberId,
-    email,
-    profilePicture,
-  } = member
+export const TeamMemberCard = ({ member }) => {
+  const { _id: memberId } = member
+
+  return (
+    <div className='member-card'>
+      <MemberInfo member={member} />
+      <MemberButtons memberId={memberId} />
+    </div>
+  )
+}
+
+const MemberInfo = ({ member }) => {
+  const { firstName, lastName, role, _id: memberId } = member
+  return (
+    <div className='member-info'>
+      <div className='member-img'>
+        <TeamAvatar size='medium' userId={memberId} />
+      </div>
+      <div className='member-desc'>
+        <p className='name'>
+          {firstName} {lastName}
+        </p>
+        <p className='role'>{role}</p>
+      </div>
+    </div>
+  )
+}
+
+const MemberButtons = ({ memberId }) => {
+  const { _id: loggedInUserId } = useAppSelector(selectAuthUser)
   const isCurrentUser = memberId === loggedInUserId
-  const authUser = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
   const { createNewRoom } = useSocketEvents(false)
+  const navigate = useNavigate()
 
   const handleChatMemberClick = async () => {
     try {
@@ -43,46 +67,28 @@ export const TeamMemberCard = ({ member, loggedInUserId }) => {
     }
   }
 
+  const handleProfile = () => navigate(`/users/${memberId}`)
+
   return (
-    <>
-      <div className='team-member-card'>
-        <div className='tmc-profile-cont'>
-          <div className='tmc-profile-img-cont'>
-            <TeamAvatar userId={memberId} />
-          </div>
-          <div className='tmc-profile-info-cont'>
-            <div className='tmc-profile-info'>
-              <h2>
-                {firstName} {lastName}
-              </h2>
-              <p>{role}</p>
-            </div>
-            <div className='tmc-profile-btns-cont'>
-              <div className='tmc-profile-btn-cont'>
-                <button className='tmc-profile-btn'>
-                  <Link
-                    className='tmc-link-pro-btn'
-                    to={`/users/${memberId}`}
-                    target='_blank'
-                  >
-                    <p>Profile</p>
-                  </Link>
-                </button>
-              </div>
-              {!isCurrentUser && (
-                <div className='tmc-message-btn-cont'>
-                  <button
-                    className='tmc-message-btn'
-                    onClick={handleChatMemberClick}
-                  >
-                    Message
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+    <div className='member-buttons'>
+      {!isCurrentUser && (
+        <SecondaryButton
+          handler={handleChatMemberClick}
+          text='Send message'
+          sx={buttonSx}
+        />
+      )}
+      <PrimaryButton
+        handler={handleProfile}
+        text='View profile'
+        sx={buttonSx}
+      />
+    </div>
   )
+}
+
+const buttonSx = {
+  height: '32px',
+  fontSize: '12px',
+  backgroundColor: 'red',
 }
