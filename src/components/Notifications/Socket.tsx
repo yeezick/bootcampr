@@ -78,6 +78,7 @@ export const useSocketEvents = (listenForChatEvents = false) => {
 
     const handleNewMessageReceived = receivedMessage => {
       if (activeChatRoomId !== receivedMessage.chatRoomId) {
+        console.log(receivedMessage)
         dispatch(
           updateCurrentChatMessages({
             receivedMessage,

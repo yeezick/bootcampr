@@ -29,6 +29,7 @@ export interface ChatInterface {
   messages: ChatMessageInterface[]
   participants: ParticipantInterface[]
   typingUsers?: string[]
+  isTeamChat?: boolean
 }
 
 export interface ChatMessageInterface {

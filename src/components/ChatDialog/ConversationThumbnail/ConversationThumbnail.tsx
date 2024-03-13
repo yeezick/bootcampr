@@ -1,20 +1,20 @@
 import { getParticipantsNames } from 'utils/functions/chatLogic'
-import { extractConversationAvatars } from 'utils/functions/chatLogic'
-import { UserThumbnail } from '../UserThumbnail/UserThumbnail'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { CustomBadge } from 'components/Badge/Badge'
 import { getDurationFromNow } from 'utils/helpers/dateFormatHelpers'
+import { ChatAvatar } from '../ChatAvatar/ChatAvatar'
+import './ConversationThumbnail.scss'
 
 export const ConversationThumbnail = ({
   groupName,
   participants,
   lastMessage,
-  lastActive,
+  groupPhoto,
+  isTeamChat,
   chatType,
 }) => {
   const authUser = useAppSelector(selectAuthUser)
-  const pictures = extractConversationAvatars(participants, authUser._id)
   const lastMessageText = lastMessage.text
     ? lastMessage.text
     : 'No messages to show'
@@ -31,17 +31,22 @@ export const ConversationThumbnail = ({
     ? groupName
     : getParticipantsNames(participants, chatType, groupName, authUser)
   const unreadMessageClass = ppAuth.hasUnreadMessage ? 'notification' : ''
-
+  console.log(ppAuth)
   return (
     <>
-      <UserThumbnail
-        title={groupTitle}
-        description={description}
-        profilePicture={pictures}
-        avatarType={chatType === 'group' ? 'grid' : 'single'}
-        avatarSize='medium'
-        className={unreadMessageClass}
-      />
+      <div className='thumbnail-container'>
+        <ChatAvatar
+          groupPhoto={groupPhoto}
+          chatType={chatType}
+          isTeamChat={isTeamChat}
+          participants={participants}
+          avatarSize='medium'
+        />
+        <div className={`info-grid ${unreadMessageClass}`}>
+          <p className='title'>{groupTitle}</p>
+          {description && <p className='description'>{description}</p>}
+        </div>
+      </div>
       <p className='last-message-time'>
         {getDurationFromNow(lastMessage.timestamp)}
       </p>

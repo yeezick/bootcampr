@@ -1,34 +1,44 @@
-@import 'scss/mixins';
+.photo-grid {
+  align-content: center;
+  background-color: white;
+  border-radius: 50%;
+  display: grid;
+  grid-gap: 1px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  overflow: hidden;
 
-.avatar-grid.small {
-  @include private-chat-avatar-grid(32px, 32px, 32px);
-}
+  img {
+    height: 100%;
+    object-fit: cover;
+    padding: 0;
+    width: 100%;
+  }
 
-.avatar-grid.medium {
-  @include private-chat-avatar-grid(48px, 48px, 48px);
-}
+  &.large {
+    height: 96px;
+    width: 96px;
+  }
 
-.group-photo-container.small {
-  @include group-profile-picture-grid(0px, 32px, 32px);
-}
+  .left-column {
+    grid-row: span 2;
+  }
 
-.group-photo-container.medium {
-  @include group-profile-picture-grid(0px, 48px, 48px);
-}
+  &.medium {
+    height: 40px;
+    width: 40px;
+  }
 
-.group-photo-container.large {
-  @include group-profile-picture-grid(30px, 100px, 100px);
+  .merged-grid {
+    grid-row: span 2;
+  }
 
-  .camera-icon {
-    align-items: center;
-    background-color: #ecebeb;
-    border-radius: 50%;
-    display: flex;
+  .right-column {
+    grid-row: span 2;
+  }
+
+  &.small {
     height: 32px;
-    justify-content: center;
-    position: absolute;
-    right: 95px;
-    top: 97px;
     width: 32px;
   }
 }

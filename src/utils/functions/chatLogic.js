@@ -4,11 +4,13 @@ export const getParticipantsNames = (
   groupName,
   authUser
 ) => {
+  console.log(participants)
   const participantsWithoutAuthUser = participants
-    .filter(({ userInfo }) => userInfo._id !== userInfo._id)
+    .filter(({ userInfo }) => userInfo._id !== authUser._id)
     .map(({ userInfo }) => `${userInfo.firstName} ${userInfo.lastName}`)
     .join(', ')
   if (chatType === 'private') {
+    console.log(participantsWithoutAuthUser)
     return participantsWithoutAuthUser
   } else {
     const authUserName = `${authUser.firstName} ${authUser.lastName}`
@@ -83,9 +85,16 @@ export const isMemberSelected = (selectedMembers, member) => {
 export const extractConversationAvatars = (chatMembers, authUserId) => {
   const avatars = chatMembers
     .filter(({ userInfo }) => userInfo && userInfo._id !== authUserId)
-    .map(({ userInfo }) => userInfo.profilePicture)
-
+    .map(
+      ({ userInfo }) => userInfo.profilePicture || getDefaultAvatar(userInfo)
+    )
   return avatars
+}
+
+export const getDefaultAvatar = member => {
+  const { firstName, lastName } = member
+  const defaultImageURL = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=FFA726&color=1A237E&bold=true`
+  return defaultImageURL
 }
 
 export const isRecipientMessageSameSender = (messages, m, i, authUserId) => {

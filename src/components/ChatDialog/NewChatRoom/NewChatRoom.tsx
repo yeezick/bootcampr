@@ -14,7 +14,7 @@ import {
   setCurrentChat,
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
-import { UserThumbnail } from 'components/ChatDialog/UserThumbnail/UserThumbnail'
+import { AvatarUserDetail } from 'components/ChatDialog/AvatarUserDetail/AvatarUserDetail'
 import { ButtonStyle } from 'utils/data/authSettingsConstants'
 import { selectProject } from 'utils/redux/slices/projectSlice'
 import './NewChatRoom.scss'
@@ -196,12 +196,11 @@ export const NewChatRoom = ({ chatScreen }) => {
                   />
                 }
                 label={
-                  <UserThumbnail
+                  <AvatarUserDetail
                     title={`${member.firstName} ${member.lastName}`}
+                    userId={member._id}
                     description={member.role}
-                    profilePicture={member.profilePicture}
                     avatarSize='medium'
-                    avatarType='single'
                   />
                 }
               />

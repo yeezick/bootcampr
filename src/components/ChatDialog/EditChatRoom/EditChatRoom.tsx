@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { UserThumbnail } from '../UserThumbnail/UserThumbnail'
+import { AvatarUserDetail } from '../AvatarUserDetail/AvatarUserDetail'
 import './EditChatRoom.scss'
 import { onScreenUpdate, selectChat } from 'utils/redux/slices/chatSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
@@ -12,13 +12,13 @@ import { Button } from '@mui/material'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 import { FiPlus } from 'react-icons/fi'
 import './EditChatRoom.scss'
+import { ChatAvatar } from '../ChatAvatar/ChatAvatar'
 
 export const EditChatRoom = () => {
   const dispatch = useAppDispatch()
   const currentConversation = useAppSelector(selectChat)
   const authUser = useAppSelector(selectAuthUser)
-  const participants = currentConversation.participants
-  const pictures = extractConversationAvatars(participants, authUser._id)
+  const { groupPhoto, chatType, isTeamChat, participants } = currentConversation
 
   const handleInviteMember = () => {
     dispatch(onScreenUpdate(ChatScreen.InviteNewMembers))
@@ -28,18 +28,25 @@ export const EditChatRoom = () => {
 
   return (
     <div className='edit-chat-container'>
-      <AvatarGrid pictures={pictures} avatarSize='large' avatarType='grid' />
+      <ChatAvatar
+        groupPhoto={groupPhoto}
+        chatType={chatType}
+        isTeamChat={isTeamChat}
+        participants={participants}
+        avatarSize='large'
+      />
+
       <div className='members-container'>
         <p>Member</p>
         <div className='members-list'>
           {sortedParticipants.map(pp => (
             <div className='member'>
-              <UserThumbnail
+              <AvatarUserDetail
+                key={pp.userInfo._id}
                 title={`${pp.userInfo.firstName} ${pp.userInfo.lastName}`}
                 description={pp.userInfo.role}
-                profilePicture={pp.userInfo.profilePicture}
                 avatarSize='medium'
-                avatarType='single'
+                userId={pp.userInfo._id}
               />
             </div>
           ))}

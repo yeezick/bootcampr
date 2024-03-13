@@ -22,6 +22,7 @@ import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 import { CommonModal } from 'components/CommonModal/CommonModal'
 import './ChatDialogMain.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import { ChatAvatar } from '../ChatAvatar/ChatAvatar'
 
 const getTitleText = (chatScreen, currentConversation, authUser) => {
   const title = getParticipantsNames(
@@ -60,6 +61,7 @@ export const ChatPageHeader = () => {
   const { chatScreen } = useAppSelector(selectChatUI)
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
+  const { groupPhoto, chatType, isTeamChat, participants } = currentConversation
 
   const handleBackArrowClick = () => {
     dispatch(setActiveChatRoomId(null))
@@ -97,7 +99,7 @@ export const ChatPageHeader = () => {
   }
 
   const handleChangeScreen = () => {
-    if (currentConversation.chatType === 'group') {
+    if (chatType === 'group') {
       dispatch(onScreenUpdate(ChatScreen.EditChatRoom))
     }
   }
@@ -106,33 +108,25 @@ export const ChatPageHeader = () => {
     setOpenEditNameModal(true)
   }
 
-  const profilePictures = extractConversationAvatars(
-    currentConversation.participants,
-    authUser._id
-  )
-
   return (
     <div className='page-title'>
       <FiArrowLeft size={24} onClick={handleBackArrowClick} />
-      {profilePictures.length > 0 && (
-        <AvatarGrid
-          pictures={profilePictures}
-          avatarSize={'small'}
-          avatarType={
-            currentConversation.chatType === 'group' ? 'grid' : 'single'
-          }
-        />
-      )}
+      <ChatAvatar
+        groupPhoto={groupPhoto}
+        chatType={chatType}
+        isTeamChat={isTeamChat}
+        participants={participants}
+        avatarSize='small'
+      />
       <div className='title-with-icon'>
         <h5 onClick={handleChangeScreen} className='group-link'>
           {getTitleText(chatScreen, currentConversation, authUser)}
         </h5>
-        {currentConversation.chatType === 'group' &&
-          chatScreen === 'editChatRoom' && (
-            <div className='edit-pen'>
-              <BiPencil onClick={handleEditModal} size={16} />
-            </div>
-          )}
+        {chatType === 'group' && chatScreen === 'editChatRoom' && (
+          <div className='edit-pen'>
+            <BiPencil onClick={handleEditModal} size={16} />
+          </div>
+        )}
       </div>
       <CommonModal
         isOpen={openEditNameModal}

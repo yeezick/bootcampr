@@ -50,6 +50,7 @@ const initialState: ChatSliceInterface = {
     groupName: '',
     groupDescription: '',
     groupPhoto: '',
+    isTeamChat: false,
   },
   threads: {},
   selectedChatUsers: [],
@@ -174,6 +175,7 @@ const chatSlice = createSlice({
         const senderParticipant = state.threads[chatRoomId].participants.find(
           pp => pp.userInfo._id === senderId
         )
+        console.log(current(senderParticipant))
         const newMessage: ChatMessageInterface = {
           sender: senderParticipant.userInfo,
           text: receivedMessage.newMessage,
@@ -192,11 +194,13 @@ const chatSlice = createSlice({
       const { chatRoomId, senderId } = action.payload
       const thread = state.threads[chatRoomId]
       if (thread) {
+        console.log('here')
         thread.participants.forEach(participant => {
           if (
             participant.userInfo._id !== senderId &&
             state.activeChatRoomId !== chatRoomId
           ) {
+            console.log('there')
             participant.hasUnreadMessage = true
           }
         })
