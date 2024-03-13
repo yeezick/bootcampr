@@ -82,6 +82,8 @@ function App() {
               <Route path=':projectId/team' element={<TeamMembers />} />
             </Route>
             <Route path='/all-projects' element={<AllProjects />} />
+            {/* TODO create 404 page */}
+            <Route path='*' element={<h1>404 Not Found</h1>} />
           </Routes>
         </Layout>
         <SnackBarToast />
