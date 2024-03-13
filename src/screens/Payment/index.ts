@@ -1,2 +1,2 @@
 export * from './ChooseExperience'
-export * from './Payment'
+export * from './MaxUsers'

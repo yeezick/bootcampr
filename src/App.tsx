@@ -26,7 +26,7 @@ import { AboutUs, HowTo } from 'screens/Landing'
 import { WhatsNext } from 'screens/Onboarding/WhatsNext'
 import { Account, Email } from 'screens/Auth/Settings'
 import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
-import { ChooseExperience, Payment } from 'screens/Payment'
+import { ChooseExperience, MaxUsers } from 'screens/Payment'
 import './App.css'
 
 function App() {
@@ -54,8 +54,10 @@ function App() {
             element={<ResetPassword />}
           />
           {/* Payment */}
-          <Route path='/choose-experience' element={<ChooseExperience />} />
-          <Route path='/checkout' element={<Payment />} />
+          <Route path='/payment'>
+            <Route path='choose-experience' element={<ChooseExperience />} />
+            <Route path='max-users' element={<MaxUsers />} />
+          </Route>
           {/* User */}
           <Route path='/onboarding/:id' element={<Onboarding />} />
           <Route path='/whats-next' element={<WhatsNext />} />

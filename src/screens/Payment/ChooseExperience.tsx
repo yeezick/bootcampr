@@ -1,17 +1,13 @@
 import { PrimaryButton } from 'components/Buttons/ButtonVariants'
 import { useNavigate } from 'react-router-dom'
-import { createCheckout } from 'utils/api/payment'
-import { buildProjectPortal } from 'utils/helpers'
+import { createCheckout, updatePaymentExperience } from 'utils/api/payment'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
 import {
   selectUserId,
-  updateAuthUser,
   updateUserExperience,
 } from 'utils/redux/slices/userSlice'
 import './styles/ChooseExperience.scss'
 import { fetchIcon } from 'utils/components/Icons'
-import { updatePaymentExperience } from 'utils/api'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 
 export const ChooseExperience = () => {
@@ -79,7 +75,9 @@ const JoinTeamCard = () => {
   const navigate = useNavigate()
 
   const handleJoinTeam = async () => {
-    const updatedExperience = await updatePaymentExperience(userId, 'waitlist')
+    const updatedExperience = await updatePaymentExperience(userId, {
+      experience: 'waitlist',
+    })
     if (updatedExperience.error) {
       dispatch(errorSnackbar('Error setting project experience.'))
       return

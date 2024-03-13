@@ -4,7 +4,6 @@ import {
   PasswordFormData,
   EmailFormData,
 } from 'interfaces/AccountSettingsInterface'
-import { Payment } from 'interfaces'
 
 export const getAllUsers = async () => {
   try {
@@ -192,21 +191,6 @@ export const updateAvailability = async (
 export const deleteUserAccount = async (id: string) => {
   try {
     const res = await api.delete(`/users/${id}`)
-    return res.data
-  } catch (error) {
-    throw error
-  }
-}
-
-export const updatePaymentExperience = async (
-  userId: string,
-  experience: string,
-  paid?: boolean
-) => {
-  try {
-    let payload: Payment = { experience }
-    if (paid) payload.paid = paid
-    const res = await api.post(`/users/experience/${userId}`, payload)
     return res.data
   } catch (error) {
     throw error

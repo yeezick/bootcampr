@@ -71,7 +71,7 @@ const SignIn: React.FC = (): JSX.Element => {
     storeUserProject(dispatch, response.project)
 
     if (response.payment.experience === 'unchosen') {
-      navigate('/choose-experience')
+      navigate('/payment/choose-experience')
     } else if (
       response.payment.experience === 'waitlist' &&
       !response.onboarded

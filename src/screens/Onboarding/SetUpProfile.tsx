@@ -1,8 +1,11 @@
 import './SetUpProfile.scss'
 import { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
+import {
+  selectAuthUser,
+  setAuthUser,
+  updateUserExperience,
+} from 'utils/redux/slices/userSlice'
 import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
 import { updateUser, updateUserProfile } from 'utils/api/users'
@@ -10,14 +13,15 @@ import { useNotification } from 'utils/redux/slices/notificationSlice'
 import Avatar from 'components/Avatar/Avatar'
 import TextareaAutosize from 'react-textarea-autosize'
 import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
-import { createCheckout } from 'utils/api/payment'
+import { createCheckout, updatePaymentExperience } from 'utils/api/payment'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 
 // BC-787: remove BEM styling
 export const SetUpProfile = ({ handlePageNavigation }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const params = useParams()
-  const authUser = useSelector(selectAuthUser)
+  const authUser = useAppSelector(selectAuthUser)
   const { displayNotification } = useNotification()
   const navigate = useNavigate()
 
@@ -111,15 +115,40 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
   const handleSecondaryClick = e => handleNavigationButtons(e, 'previous')
   const handlePrimaryClick = async () => {
     const updatedUserFormData = { ...updateUserForm, onboarded: true }
-    const updatedUser = await updateUserProfile(params.id, updatedUserFormData)
+    const updatedUserProfile = await updateUserProfile(
+      params.id,
+      updatedUserFormData
+    )
+    const checkoutResponse = await createCheckout()
+    let experiencePayload
 
-    if (updatedUser.error) {
-      dispatch(errorSnackbar(updatedUser.error))
+    if (updatedUserProfile.error) {
+      dispatch(errorSnackbar(updatedUserProfile.error))
+      return
+    } else if (checkoutResponse.error) {
+      dispatch(errorSnackbar(checkoutResponse.error))
       return
     }
 
-    const paymentResponse = await createCheckout()
-    window.location.href = paymentResponse.checkoutUrl
+    const { checkoutUrl } = checkoutResponse
+    if (checkoutUrl.includes('max-users')) {
+      experiencePayload = { experience: 'waitlist' }
+    } else {
+      experiencePayload = { experience: 'waitlist', paid: true }
+    }
+
+    const updatedUserExperience = await updatePaymentExperience(
+      authUser._id,
+      experiencePayload
+    )
+
+    if (updatedUserExperience.error) {
+      dispatch(errorSnackbar('Error setting project experience.'))
+      return
+    } else {
+      dispatch(updateUserExperience(updatedUserExperience))
+      window.location.href = checkoutResponse.checkoutUrl
+    }
   }
 
   return (
