@@ -125,7 +125,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     if (updatedUserProfile.error) {
       dispatch(errorSnackbar(updatedUserProfile.error))
       return
-    } else if (checkoutResponse.error) {
+    } else if (checkoutResponse.error && !checkoutResponse.checkoutUrl) {
       dispatch(errorSnackbar(checkoutResponse.error))
       return
     }
