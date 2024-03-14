@@ -14,7 +14,6 @@ import {
   selectUnreadMessageCount,
   setActiveChatRoomId,
   toggleChat,
-  toggleChatClose,
 } from 'utils/redux/slices/chatSlice'
 
 import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
@@ -32,20 +31,13 @@ export const Nav = () => {
   const dispatch = useAppDispatch()
   const location = useLocation()
   const projectRouteActive = location.pathname.includes('/project/')
-  const excludedRoutes = ['/sign-up', '/sign-in', '/onboarding']
+  const excludedRoutes = ['/payment', '/sign-up', '/sign-in', '/onboarding']
 
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
   )
 
   const closeDropdown = () => setAnchorEl(null)
-
-  useEffect(() => {
-    // Close chat dialog and sideMenu when URL path changes
-    dispatch(toggleChatClose())
-    dispatch(setActiveChatRoomId(null))
-  }, [dispatch, location])
-
   const handlePortalLink = () => buildPortal(dispatch, 'project', projectId)
   const handleNonPortalLink = () => dispatch(resetPortal())
 
@@ -116,6 +108,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   useEffect(() => {
     //Warning: needs to be checked if members are loaded
     dispatch(fetchThreads())
+    //TODO - investigate why we set chatroom id to null :(
     dispatch(setActiveChatRoomId(null))
   }, [dispatch, projectMembers.length])
 

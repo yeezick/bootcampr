@@ -1,18 +1,12 @@
 import React, { useEffect } from 'react'
 import { Loader } from 'components/Loader/Loader'
-import { verify } from 'utils/api/users'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import {
-  selectUserId,
-  uiStatus,
-  updateAuthUser,
-} from 'utils/redux/slices/userSlice'
+import { selectUserId, uiStatus } from 'utils/redux/slices/userSlice'
 import { SideMenu } from './'
 import { Nav } from './'
 import { Footer } from 'layout/Footer'
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
 import { useLocation, useSearchParams } from 'react-router-dom'
-import { storeUserProject } from 'utils/helpers/stateHelpers'
 import { selectPortal } from 'utils/redux/slices/userInterfaceSlice'
 import './styles/Layout.scss'
 import {
@@ -24,22 +18,10 @@ import { PortalHeader } from './PortalHeader'
 import { selectProjectId } from 'utils/redux/slices/projectSlice'
 
 export const Layout = ({ children }) => {
-  const dispatch = useAppDispatch()
   const status = useAppSelector(uiStatus)
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
   const { pathname } = useLocation()
-
-  useEffect(() => {
-    const verifyUser = async () => {
-      const authUser = await verify()
-      if (authUser) {
-        storeUserProject(dispatch, authUser.project)
-        dispatch(updateAuthUser(authUser))
-      }
-    }
-    verifyUser()
-  }, [dispatch])
 
   if (status.isLoading) {
     return <Loader />

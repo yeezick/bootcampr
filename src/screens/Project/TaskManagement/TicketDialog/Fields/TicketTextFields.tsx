@@ -15,7 +15,7 @@ export const TicketTextFields = () => {
 
   return (
     <div className='ticket-text-fields'>
-      <TicketTextField icon='title' label='Title' field='title' />
+      <TicketTextField icon='title' label='*Title' field='title' />
       <TicketTextField
         icon='description'
         label='Description'

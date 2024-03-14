@@ -64,6 +64,7 @@ export const ConfirmNewPassword = ({
                   size={18}
                   color='white'
                   aria-label='validation error'
+                  onClick={() => toggleVisiblity(inputType, setInputType)}
                 />
               </div>
             </InputAdornment>
