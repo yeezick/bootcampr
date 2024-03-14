@@ -56,6 +56,18 @@
         width: fit-content;
         text-decoration: underline;
       }
+
+      button:focus,
+      button:active {
+        background: none;
+        border: none;
+        color: #0d47a1;
+        cursor: pointer;
+        font-size: 16px;
+        line-height: 20px;
+        width: fit-content;
+        text-decoration: underline;
+      }
     }
   }
 

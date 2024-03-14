@@ -22,7 +22,7 @@ import { buildPortal } from 'utils/helpers'
 import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { CustomBadge } from 'components/Badge/Badge'
 import './styles/Nav.scss'
-import { selectMembers } from 'utils/redux/slices/projectSlice'
+import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
@@ -109,7 +109,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   const dispatch = useAppDispatch()
   const { visibleChat } = useAppSelector(selectChatUI)
   const unreadMessagesCount = useAppSelector(selectUnreadMessageCount)
-  const projectMembers = useAppSelector(selectMembers)
+  const projectMembers = useAppSelector(selectMembersAsTeam)
   const chatRef = useRef(null)
   useSocketEvents(false)
 
