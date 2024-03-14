@@ -47,20 +47,7 @@ export const EmailVerify = () => {
           return replaceUrl(redirectURL)
         }
 
-        if (bootcamprNewToken && user._id) {
-          localStorage.setItem('bootcamprAuthToken', bootcamprNewToken)
-          dispatch(updateAuthUser(user))
-        } else {
-          throw Error('Verification request missing user object or token')
-        }
-
-        if (user.onboarded === false) {
-          replaceUrl(`/onboarding/${userId}`)
-          return
-        } else {
-          // Might be good to replace with user profile
-          replaceUrl('/')
-        }
+        replaceUrl('/sign-in')
       } catch (error) {
         console.log(error)
         // Todo: route user to sign-up with error message state

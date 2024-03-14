@@ -33,9 +33,9 @@ export const getOneUserByEmail = async (email: string) => {
   }
 }
 
-export const updateUserProfile = async (id: any, userProfile: any) => {
+export const updateUserProfile = async (userId: any, userProfile: any) => {
   try {
-    const res = await api.post(`/onboarding/${id}`, userProfile)
+    const res = await api.post(`/onboarding/${userId}`, userProfile)
     return res.data
   } catch (error) {
     throw error

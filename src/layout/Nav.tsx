@@ -32,7 +32,7 @@ export const Nav = () => {
   const dispatch = useAppDispatch()
   const location = useLocation()
   const projectRouteActive = location.pathname.includes('/project/')
-  const excludedRoutes = ['/sign-up', '/sign-in', '/onboarding']
+  const excludedRoutes = ['/payment', '/sign-up', '/sign-in', '/onboarding']
 
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
