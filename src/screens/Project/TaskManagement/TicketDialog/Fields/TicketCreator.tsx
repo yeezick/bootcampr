@@ -31,7 +31,7 @@ export const TicketCreator = () => {
     <div>
       <TicketTextLabel icon='person' label='Created by' />
       <div className='ticket-creator'>
-        <TeamAvatar userId={userId} size='medium' />
+        <TeamAvatar userId={userId} size='small' />
         <div className='creator-info'>
           <p className='name'>{`${firstName} ${lastName}`}</p>
           <p className='role'>{role}</p>

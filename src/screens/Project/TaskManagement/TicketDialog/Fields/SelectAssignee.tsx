@@ -35,7 +35,7 @@ export const SelectAssignee = () => {
       >
         <MenuItem value='Unassigned'>
           <div className='unassigned-card'>
-            <TeamAvatar userId={'Unassigned'} size='medium' />
+            <TeamAvatar userId={'Unassigned'} size='small' />
             <div className='assignee-metadata'>
               <p className='name'>Unassigned</p>
             </div>
@@ -44,7 +44,7 @@ export const SelectAssignee = () => {
         {projectMembers.map(member => (
           <MenuItem key={member._id} value={member._id}>
             <div className='user-card'>
-              <TeamAvatar userId={member._id} size='medium' />
+              <TeamAvatar userId={member._id} size='small' />
               <div className='assignee-metadata'>
                 <p className='name'>
                   {member.firstName} {member.lastName}
