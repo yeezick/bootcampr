@@ -234,7 +234,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
                 value={meetingText.summary}
                 variant='standard'
               />
-              <span className='required-span'>This field is required</span>
+              <span className='required-span'>*This field is required</span>
             </div>
             <DateFields
               dateFields={dateFields}
