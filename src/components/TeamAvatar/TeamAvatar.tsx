@@ -1,11 +1,13 @@
-import React from 'react'
+import { useMemo } from 'react'
 import { TeamAvatarProps } from 'interfaces/ProfileImageInterfaces'
 import './TeamAvatar.scss'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectMembersById } from 'utils/redux/slices/projectSlice'
+import { selectUsersById } from 'utils/redux/slices/projectSlice'
 
 export const TeamAvatar = ({ userId, size }: TeamAvatarProps) => {
-  const [user] = useAppSelector(selectMembersById([userId]))
+  //Each time TeamAvatar recieves a new userId prop, even if the actual userId value hasn't changed, it's treated as a new instance
+  const memoizedUserId = useMemo(() => selectUsersById([userId]), [userId])
+  const [user] = useAppSelector(memoizedUserId)
 
   if (!user) {
     return (
@@ -35,7 +37,11 @@ export const TeamAvatar = ({ userId, size }: TeamAvatarProps) => {
           </div>
         ) : (
           <div className='ta-default-pics'>
-            <img src={defaultImageURL} alt='team avatar default' />
+            <img
+              className={`ta-imgs ${size || ''}`}
+              src={defaultImageURL}
+              alt='team avatar default'
+            />
           </div>
         )}
       </div>

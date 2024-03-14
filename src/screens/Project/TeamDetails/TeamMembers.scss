@@ -1,238 +1,87 @@
 @import 'scss/variables';
 @import 'scss/mixins';
 
-//TODO: Fix layout background-color issue for this page (Global CSS issue)
-
-// Team Members Page Styles
 .team-members {
-  background: #ffffff;
-  box-shadow: 0px 1px 3px 1px rgba(26, 35, 126, 0.15),
-    0px 1px 2px 0px rgba(26, 36, 126, 0.3);
-  height: 100vh;
-  width: auto;
+  box-sizing: border-box;
+  padding: 16px;
 
-  .tm-container {
-    @include flex(column);
-  }
-
-  .tm-header-cont {
-    @include flex(row, space-between, center);
-    background: #fff;
-    box-shadow: 0px 1px 3px 1px rgba(26, 35, 126, 0.15),
-      0px 1px 2px 0px rgba(26, 36, 126, 0.3);
-    gap: 16px;
-    margin: 0;
-    padding: 16px 32px;
-    position: relative;
-  }
-
-  .tm-header {
-    h1 {
-      @include font-properties(
-        (
-          size: 32px,
-          weight: 700,
-          line-height: 40px,
-        )
-      );
-      color: #313335;
-      font-style: normal;
-      margin: 0;
-      padding: 0;
-    }
-  }
-
-  .tm-button-cont {
-    @include flex(row, center, center);
-    border-radius: 23px;
-    cursor: pointer;
-    flex-shrink: 0;
+  .team-members-info {
+    display: flex; 
     gap: 8px;
-    height: 24px;
-    padding: 8px;
-    width: 24px;
-  }
+  
+    .role-column {
+      background-color: #c5cae9;
+      border-radius: 4px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      height: fit-content;
+      padding: 12px;
 
-  .tm-open-modal {
-    @include flex(row, center, center);
-    background: #fff;
-    border: none;
-    border-radius: 23px;
-    cursor: pointer;
-    flex-shrink: 0;
-    gap: 8px;
-    height: 48px;
-    padding: 0;
-    width: 48px;
+      .role-header {
+        h3 {
+          background-color: $secondary-dark;
+          border-radius: 4px;;
+          color: $white;
+          margin: 0;
+          padding: 3px 0 3px 8px;
+        }
+      }
 
-    &:hover {
-      background-color: #dbdbdb;
-      border-radius: 100%;
-      opacity: 1;
-      padding: 0.5rem;
+      .member-card {
+        background-color: $white;
+        border-radius: 4px;
+        box-shadow: 0px 1px 3px 1px rgba(26, 35, 126, 0.15),
+            0px 1px 2px 0px rgba(26, 36, 126, 0.3);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px;
+        width: 280px;
+         
+        .member-info {
+          display: flex;
+          gap: 16px;
+          padding-left: 16px;
+
+          .member-img {
+            align-self: center;
+          }
+
+          .member-desc {
+            display: flex; 
+            flex-direction: column;
+            justify-content: space-evenly;
+            p {
+              margin: 0;
+            }
+
+            .name {
+              color: $black;
+              font-size: 20px;
+              font-weight: 600;
+            }
+
+            .role {
+              font-size: 16px;
+              font-weight: 600;
+              color: $dark-gray;
+            }
+          }
+        }
+
+        .member-buttons {
+          display: flex;
+          justify-content: space-evenly;
+
+          .common-button.primary.MuiButton-outlined, .common-button.primary.MuiButton-contained  {
+            font-size: 12px;
+            height: 32px;
+            padding: 0 18px;
+          }
+        }
+      }
     }
   }
-}
-
-// Team Members Info Styles
-.team-members-info {
-  @include flex(column);
-  gap: 32px;
-  height: 856px;
-  padding: 0;
-  width: 100%;
-
-  .tmi-swe-cont {
-    @include flex(column);
-    background-color: #fdfdfd;
-    border-radius: 0;
-    gap: 16px;
-    margin: 0;
-    padding: 32px 0 0 32px;
-  }
-
-  .tmi-swe-header-cont {
-    background-color: #ffffff;
-    border-radius: 16px;
-
-    h1 {
-      @include font-properties(
-        (
-          size: 32px,
-          weight: 400,
-          line-height: 40px,
-        )
-      );
-      color: #000;
-      font-family: 'Inter-Medium', Helvetica;
-      font-style: normal;
-      margin: 0;
-      white-space: nowrap;
-    }
-  }
-
-  .tmi-card-cont {
-    @include flex(row, flex-start, flex-start);
-    gap: 16px;
-    padding: 0;
-  }
-
-  .tmi-uxd-cont {
-    @include flex(column);
-    background-color: #ffffff;
-    border-radius: 0;
-    gap: 16px;
-    margin: 0;
-    padding: 0 0 0 32px;
-  }
-
-  .tmi-uxd-header-cont {
-    height: 45px;
-    width: 208px;
-
-    h1 {
-      @include font-properties(
-        (
-          size: 32px,
-          weight: 400,
-          line-height: 40px,
-        )
-      );
-      color: #000;
-      font-family: 'Inter-Medium', Helvetica;
-      font-style: normal;
-      margin: 0;
-      white-space: nowrap;
-    }
-  }
-}
-
-// Team Members Withdrawal Modal Styles
-.wtd-modal-cont {
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  padding: 32px;
-  width: 380px;
-}
-
-.wtd-text-cont {
-  align-items: flex-start;
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-#wtd-modal-title {
-  font-family: 'Inter-Regular', Helvetica;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 32px;
-  padding: 0;
-}
-
-#wtd-modal-body {
-  font-family: 'Inter-Regular', Helvetica;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  padding: 0;
-}
-
-#wtd-btns-cont {
-  align-items: flex-start;
-  align-self: stretch;
-  display: inline-flex;
-  gap: 8px;
-  justify-content: flex-end;
-  padding: 0;
-}
-
-.wtd-cancel-btn {
-  align-items: center;
-  background-color: #fdfdfd;
-  border: none;
-  border-radius: 4px;
-  color: #1a237e;
-  cursor: pointer;
-  display: inline-flex;
-  font-size: 14px;
-  font-weight: 600;
-  gap: 8px;
-  height: 40px;
-  justify-content: center;
-  line-height: 20px;
-  overflow: hidden;
-  padding: 0 12px;
-  position: relative;
-  width: 67px;
-  word-wrap: break-word;
-}
-
-.wtd-cancel-btn:hover {
-  background-color: #e8eaf6;
-  cursor: pointer;
-}
-
-.wtd-remove-btn {
-  align-items: center;
-  background-color: #d32f2f;
-  border-radius: 4px;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  display: inline-flex;
-  font-size: 14px;
-  font-weight: 600;
-  gap: 8px;
-  height: 40px;
-  justify-content: center;
-  line-height: 20px;
-  overflow: hidden;
-  padding: 0 24px;
-  position: relative;
-  width: 199px;
-  word-wrap: break-word;
 }

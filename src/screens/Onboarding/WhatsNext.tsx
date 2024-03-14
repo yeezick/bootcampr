@@ -10,7 +10,7 @@ export const WhatsNext = () => {
 
   const handleViewProjectDetails = () => {
     // If user is not yet assigned a project, route them to the generic Product Details page
-    const projectSlug = authUser.project ? authUser.project : 'not-yet-assigned'
+    const projectSlug = authUser.project ? authUser.project : 'unassigned'
     navigate(`/project/${projectSlug}`)
   }
 
@@ -33,7 +33,11 @@ export const WhatsNext = () => {
           <p className='lastscreen-feedback'>
             We love feedback. Please take&ensp;
             <span>
-              <a href='https://forms.gle/vfdAQpNMv2tZBwBB6' target='_blank'>
+              <a
+                href='https://forms.gle/vfdAQpNMv2tZBwBB6'
+                target='_blank'
+                rel='noreferrer'
+              >
                 this short survey
               </a>
             </span>

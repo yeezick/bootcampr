@@ -22,9 +22,15 @@
   }
 
   &__cta-container {
+    align-content: flex-end;
     align-items: flex-start;
     display: flex;
     gap: 32px;
+
+    .payment-disclaimer {
+      margin: 8px 0 0 0;
+      width: 181px;
+    }
   }
 
   &__profile-container,
@@ -59,10 +65,10 @@
 
   &__profile-btns {
     @include flex(column, space-between, center);
+    justify-self: flex-end;
+    align-self: flex-end;
     gap: 32px;
-    margin: auto 0 auto 50%;
-    padding-top: 32px;
-    width: 50%;
+    margin-top: 32px;
   }
 
 

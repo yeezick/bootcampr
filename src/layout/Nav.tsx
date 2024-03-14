@@ -21,7 +21,7 @@ import { buildPortal } from 'utils/helpers'
 import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { CustomBadge } from 'components/Badge/Badge'
 import './styles/Nav.scss'
-import { selectMembers } from 'utils/redux/slices/projectSlice'
+import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
@@ -31,7 +31,7 @@ export const Nav = () => {
   const dispatch = useAppDispatch()
   const location = useLocation()
   const projectRouteActive = location.pathname.includes('/project/')
-  const excludedRoutes = ['/sign-up', '/sign-in', '/onboarding']
+  const excludedRoutes = ['/payment', '/sign-up', '/sign-in', '/onboarding']
 
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
@@ -41,11 +41,16 @@ export const Nav = () => {
   const handlePortalLink = () => buildPortal(dispatch, 'project', projectId)
   const handleNonPortalLink = () => dispatch(resetPortal())
 
+  const landingPage =
+    process.env.REACT_APP_API_ENV === 'local'
+      ? '/'
+      : 'https://landing.bootcampr.io/'
+
   return (
     <nav>
       <div className='nav-container'>
         <div className='logo'>
-          <Link to='/' onClick={handleNonPortalLink}>
+          <Link to={landingPage} onClick={handleNonPortalLink}>
             <img src={Logo} alt='logo' />
           </Link>
         </div>
@@ -96,7 +101,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   const dispatch = useAppDispatch()
   const { visibleChat } = useAppSelector(selectChatUI)
   const unreadMessagesCount = useAppSelector(selectUnreadMessageCount)
-  const projectMembers = useAppSelector(selectMembers)
+  const projectMembers = useAppSelector(selectMembersAsTeam)
   const chatRef = useRef(null)
   useSocketEvents(false)
 

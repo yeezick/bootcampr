@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import {
   AvailabilityInterface,
+  Payment,
   SignUpInterface,
-  UiSliceInterface,
   UserInterface,
 } from 'interfaces/UserInterface'
 import { signUp, updateUser } from 'utils/api/users'
-import { defaultAvailability } from 'utils/data/userConstants'
+import { emptyUser, initialUserSliceState } from 'utils/data/userConstants'
 import { RootState } from 'utils/redux/store'
 import { TimezonesUTC } from 'utils/data/timeZoneConstants'
 
@@ -14,42 +14,6 @@ import { TimezonesUTC } from 'utils/data/timeZoneConstants'
 // todo: sidemenu & ui like notifications should be its own slice
 // todo: avatar should be consolidated with user slice
 // todo: lint errors can be fixed by renaming this module with .ts, this causes an issue with SVG component below.
-
-const initialState: UiSliceInterface = {
-  auth: {
-    user: {
-      availability: defaultAvailability,
-      bio: '',
-      email: '',
-      firstName: '',
-      lastName: '',
-      links: {
-        githubUrl: '',
-        linkedinUrl: '',
-        portfolioUrl: '',
-      },
-      profilePicture: '',
-      defaultProfilePicture: '',
-      hasProfilePicture: false,
-      project: '',
-      role: '',
-      unreadMessages: {},
-      __v: 0,
-      _id: '',
-    },
-  },
-
-  // these would ideally be its own "requestSlice" ; isAuthenticated would remain here
-  status: {
-    isAuthenticated: false,
-    isLoading: false,
-    isSuccess: false,
-    isError: {
-      status: false,
-      message: '',
-    },
-  },
-}
 
 export const register = createAsyncThunk(
   'users/signUp',
@@ -80,11 +44,10 @@ export const updateProfile = createAsyncThunk(
 
 const userSlice = createSlice({
   name: 'ui',
-  initialState,
+  initialState: initialUserSliceState,
   reducers: {
     logoutAuthUser: state => {
-      // resetting authuser state
-      state.auth.user = initialState.auth.user
+      state.auth.user = emptyUser
     },
     setAuthUser: (state, action: PayloadAction<UserInterface>) => {
       state.auth.user = action.payload
@@ -94,6 +57,12 @@ const userSlice = createSlice({
         ...state.auth.user,
         ...action.payload,
       }
+    },
+    updateUserExperience: (state, action: PayloadAction<Payment>) => {
+      state.auth.user.payment = action.payload
+    },
+    setConfirmationEmailAddress: (state, action: PayloadAction<string>) => {
+      state.auth.user.email = action.payload
     },
     setUserAvailability: (
       state,
@@ -174,6 +143,8 @@ export const selectHasUploadedProfilePicture = (state: RootState) => {
 export const {
   setAuthUser,
   updateAuthUser,
+  updateUserExperience,
+  setConfirmationEmailAddress,
   setUserAvailability,
   setUserTimezone,
   reset,

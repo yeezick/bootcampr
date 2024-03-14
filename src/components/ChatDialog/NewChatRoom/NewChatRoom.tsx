@@ -16,10 +16,10 @@ import {
 import { ChatScreen } from 'utils/data/chatConstants'
 import { UserThumbnail } from 'components/ChatDialog/UserThumbnail/UserThumbnail'
 import { ButtonStyle } from 'utils/data/authSettingsConstants'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { selectProject } from 'utils/redux/slices/projectSlice'
 import './NewChatRoom.scss'
 import { useSocketEvents } from 'components/Notifications/Socket'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 
 export const NewChatRoom = ({ chatScreen }) => {
   const dispatch = useAppDispatch()
@@ -145,27 +145,13 @@ export const NewChatRoom = ({ chatScreen }) => {
         }
         dispatch(setCurrentChat(room))
       }
-      dispatch(
-        createSnackBar({
-          isOpen: true,
-          horizontal: 'right',
-          message: 'Successfully created a chat room.',
-          duration: 5000,
-          severity: 'success',
-        })
-      )
+      dispatch(successSnackbar('Successfully created a chat room.'))
       setSelectedChatUsers([])
       dispatch(onScreenUpdate(ChatScreen.ChatRoom))
     } catch (error) {
       console.error(error)
       dispatch(
-        createSnackBar({
-          isOpen: true,
-          horizontal: 'right',
-          message: "Couldn't create a chat room. Please try again later",
-          duration: 5000,
-          severity: 'error',
-        })
+        errorSnackbar("Couldn't create a chat room. Please try again later")
       )
     }
   }

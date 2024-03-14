@@ -63,6 +63,37 @@ export const updateUserAndProject = async projectUpdate => {
   }
 }
 
+export const reorderProjectColumn = async (projectId, updateBody) => {
+  try {
+    const res = await api.patch(`/project/reorder/${projectId}`, updateBody)
+    if (res.status !== 200) {
+      return { status: res.status, message: res.data.message } // BC: 761 - throwing error instead crashes the application
+    }
+    return { status: res.status, reorderedColumn: res.data.reorderedColumn }
+  } catch (error) {
+    console.error(error)
+    return error
+  }
+}
+
+export const moveTicketColumn = async (projectId, updateBody) => {
+  try {
+    const res = await api.patch(`/project/moveTicket/${projectId}`, updateBody)
+    if (res.status !== 200) {
+      return { status: res.status, message: res.data.message } // BC: 761 - throwing error instead crashes the application
+    }
+
+    return {
+      status: res.status,
+      oldColumn: res.data.oldColumn,
+      newColumn: res.data.newColumn,
+    }
+  } catch (error) {
+    console.error(error)
+    return error
+  }
+}
+
 export const getProjectByUser = async userId => {
   try {
     const res = await api.get(`/users/${userId}/project`)

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Menu, MenuItem, styled } from '@mui/material'
+import { Menu, MenuItem } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { logoutAuthUser, selectUserId } from 'utils/redux/slices/userSlice'
@@ -36,6 +36,8 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
       logOut()
       dispatch(logoutAuthUser())
       navigate('/')
+    } else if (innerText === 'Payment') {
+      navigate('/payment/checkout')
     }
   }
 
@@ -60,6 +62,7 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
         <MenuItem onClick={handleClose}>View Profile</MenuItem>
         <MenuItem onClick={handleClose}>Settings</MenuItem>
         <MenuItem onClick={handleClose}>Log out</MenuItem>
+        <MenuItem onClick={handleClose}>Payment</MenuItem>
       </Menu>
     </div>
   )

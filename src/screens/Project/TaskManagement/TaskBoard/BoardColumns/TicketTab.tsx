@@ -1,4 +1,4 @@
-import { Draggable } from '@hello-pangea/dnd'
+import { Draggable } from 'react-beautiful-dnd'
 import { useAppDispatch } from 'utils/redux/hooks'
 import {
   setTicketFields,
@@ -6,6 +6,8 @@ import {
 } from 'utils/redux/slices/taskBoardSlice'
 import { fetchIcon } from 'utils/components/Icons'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
+import '../../styles/TicketTab.scss'
+import { generateDayJs } from 'utils/helpers'
 
 export const TicketTab = ({ idx, ticketDetail }) => {
   const { title, _id: ticketId } = ticketDetail
@@ -50,7 +52,11 @@ const TabIcons = ({ ticketDetail }) => {
           <span className='count'>{comments.length}</span>
         </div>
       )}
-      {dueDate && <span>{dueDate}</span>}
+      {dueDate && (
+        <span className='due-date'>
+          {generateDayJs(dueDate).format('MM/DD/YY')}
+        </span>
+      )}
     </div>
   )
 }

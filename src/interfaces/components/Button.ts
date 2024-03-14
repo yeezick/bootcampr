@@ -46,6 +46,7 @@ export type MappedIcons =
   | 'checkboxChecked'
   | 'checkboxIndeterminate'
   | 'checkCircle'
+  | 'circle'
   | 'clock'
   | 'close'
   | 'closeChip'
