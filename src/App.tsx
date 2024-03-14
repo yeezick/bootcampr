@@ -28,12 +28,15 @@ import { Account, Email } from 'screens/Auth/Settings'
 import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
 import { ChooseExperience, MaxUsers } from 'screens/Payment'
 import './App.css'
+import { AuthWrapper } from 'screens/Auth/AuthWrapper'
+import { EmailRouter } from 'components/EmailRouter/EmailRouter'
 
 function App() {
   console.log(`Running Application Version: ${process.env.REACT_APP_VERSION} `)
 
   return (
     <>
+     <AuthWrapper>
       <Layout>
         <Routes>
           <Route path='/' element={<Landing />} />
@@ -67,6 +70,7 @@ function App() {
             path='/users/:id/update-email-confirmation'
             element={<UpdateEmailConfirmation />}
           />
+          <Route path='/notifications/:userId' element={<EmailRouter />} />
           <Route path='/users/:id/settings'>
             <Route path='email' element={<Email />} />
             <Route path='password' element={<ChangePassword />} />
@@ -81,9 +85,12 @@ function App() {
             <Route path=':projectId/team' element={<TeamMembers />} />
           </Route>
           <Route path='/all-projects' element={<AllProjects />} />
+          {/* TODO create 404 page */}
+          <Route path='*' element={<h1>404 Not Found</h1>} />
         </Routes>
       </Layout>
       <SnackBarToast />
+     </AuthWrapper>
     </>
   )
 }
