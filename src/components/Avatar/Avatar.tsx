@@ -78,7 +78,6 @@ const Avatar: React.FC<AvatarProps> = ({
     const { firstName, lastName, profilePicture } = authUser
     const defaultImageURL = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=FFA726&color=1A237E&rounded=true&bold=true`
 
-    console.log('authUser: ', authUser)
     return (
       <>
         <div className='avatar-container'>
