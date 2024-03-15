@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import {
   getUserProfileImage,
   selectHasUploadedProfilePicture,
@@ -10,8 +10,8 @@ import { AvatarProps } from 'interfaces/ProfileImageInterfaces'
 import { ProfilePreviewImage } from 'screens/ProfilePreviewImage/ProfilePreviewImage'
 import { IconButton } from '@mui/material'
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined'
-import './Avatar.scss'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
+import './Avatar.scss'
 
 /**
  * Avatar component to display a user's avatar image.
@@ -25,6 +25,7 @@ const Avatar: React.FC<AvatarProps> = ({
   hasIcon = false,
   iconButtonClassName,
   addPhotoIconId,
+  size,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const dispatch = useAppDispatch()
@@ -61,53 +62,69 @@ const Avatar: React.FC<AvatarProps> = ({
     setIsModalOpen(true)
   }
 
-  const defaultImageURL = `https://ui-avatars.com/api/?name=${authUser.firstName}+${authUser.lastName}&background=FFA726&color=1A237E&rounded=true&bold=true`
-
-  return (
-    <>
+  if (!authUser) {
+    return (
       <div className='avatar-container'>
-        {hasProfilePicture ? (
-          <div className='avatar-icon'>
-            <img
-              className={imgClassName}
-              src={profilePicture}
-              alt='avatar'
-              onClick={handleClick}
-            />
-            {hasIcon && (
-              <IconButton
-                aria-label='change profile pic'
-                className={iconButtonClassName}
-                onClick={handleOpenModal}
-                sx={{ backgroundColor: '#ecebeb' }}
-              >
-                <AddAPhotoOutlinedIcon id={addPhotoIconId} />
-              </IconButton>
-            )}
-          </div>
-        ) : (
-          <div className='avatar-default-picture'>
-            <img src={defaultImageURL} alt='default' />
-            {hasIcon && (
-              <IconButton
-                aria-label='change profile pic'
-                className='avatar-default-cameraIcon'
-                id='cameraIcon'
-                onClick={handleIconClick}
-              >
-                <AddAPhotoOutlinedIcon id={addPhotoIconId} />
-              </IconButton>
-            )}
-          </div>
-        )}
+        <div className='avatar-default-picture'>
+          <img
+            className={`avatar-img ${size || ''}`}
+            src='/default_profile.png'
+            alt='unassigned-thumbnail'
+          />
+        </div>
       </div>
-      <FileInput
-        onFileChange={handleFileInputChange}
-        fileInputRef={fileInputRef}
-      />
-      <ProfilePreviewImage onOpen={isModalOpen} onClose={handleCloseModal} />
-    </>
-  )
+    )
+  } else {
+    const { firstName, lastName, profilePicture } = authUser
+    const defaultImageURL = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=FFA726&color=1A237E&rounded=true&bold=true`
+
+    console.log('authUser: ', authUser)
+    return (
+      <>
+        <div className='avatar-container'>
+          {hasProfilePicture ? (
+            <div className='avatar-icon'>
+              <img
+                className={imgClassName}
+                src={profilePicture}
+                alt='avatar'
+                onClick={handleClick}
+              />
+              {hasIcon && (
+                <IconButton
+                  aria-label='change profile pic'
+                  className={iconButtonClassName}
+                  onClick={handleOpenModal}
+                  sx={{ backgroundColor: '#ecebeb' }}
+                >
+                  <AddAPhotoOutlinedIcon id={addPhotoIconId} />
+                </IconButton>
+              )}
+            </div>
+          ) : (
+            <div className='avatar-default-picture'>
+              <img src={defaultImageURL} alt='default' />
+              {hasIcon && (
+                <IconButton
+                  aria-label='change profile pic'
+                  className='avatar-default-cameraIcon'
+                  id='cameraIcon'
+                  onClick={handleIconClick}
+                >
+                  <AddAPhotoOutlinedIcon id={addPhotoIconId} />
+                </IconButton>
+              )}
+            </div>
+          )}
+        </div>
+        <FileInput
+          onFileChange={handleFileInputChange}
+          fileInputRef={fileInputRef}
+        />
+        <ProfilePreviewImage onOpen={isModalOpen} onClose={handleCloseModal} />
+      </>
+    )
+  }
 }
 
 export default Avatar

@@ -55,6 +55,7 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
           vertical: 'top',
           horizontal: 'right',
         }}
+        id='custom-menu-paper'
         classes={{
           paper: 'custom-menu-paper',
         }}

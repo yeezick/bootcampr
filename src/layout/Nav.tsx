@@ -21,8 +21,8 @@ import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
 import { buildPortal } from 'utils/helpers'
 import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { CustomBadge } from 'components/Badge/Badge'
-import './styles/Nav.scss'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
+import './styles/Nav.scss'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
@@ -143,7 +143,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
       </div>
       <div className='nav-icons-container'>
         <div className='account avatar'>
-          <Avatar clickable={false} setAnchorEl={setAnchorEl} />
+          <Avatar clickable={false} setAnchorEl={setAnchorEl} size='medium' />
         </div>
         <div onClick={setAnchorEl}>
           <p className='account'>My Account </p>
