@@ -37,7 +37,7 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
       dispatch(logoutAuthUser())
       navigate('/')
     } else if (innerText === 'Payment') {
-      navigate('/checkout')
+      navigate('/payment/checkout')
     }
   }
 

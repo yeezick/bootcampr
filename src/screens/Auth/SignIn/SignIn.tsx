@@ -14,8 +14,8 @@ import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import loginBanner from '../../../assets/Images/login-image.png'
 import './SignIn.scss'
-import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { buildProjectPortal } from 'utils/helpers'
+import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -70,11 +70,16 @@ const SignIn: React.FC = (): JSX.Element => {
     dispatch(setAuthUser(response))
     storeUserProject(dispatch, response.project)
 
-    if (!response.onboarded) {
+    if (response.payment.experience === 'unchosen') {
+      navigate('/payment/choose-experience')
+    } else if (
+      response.payment.experience === 'waitlist' &&
+      !response.onboarded
+    ) {
       navigate(`/onboarding/${response._id}`)
     } else if (!response.project) {
-      navigate('/project/unassigned')
-      dispatch(setPortal(buildProjectPortal('unassigned')))
+      navigate('/project/sandbox')
+      dispatch(setPortal(buildProjectPortal('sandbox')))
     } else {
       navigate(`/project/${response.project}`)
       dispatch(setPortal(buildProjectPortal(response.project)))

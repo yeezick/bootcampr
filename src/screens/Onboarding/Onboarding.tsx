@@ -66,6 +66,10 @@ export const Onboarding = () => {
       component: SetUpProfile,
       title: 'Set up profile',
     },
+    {
+      component: null,
+      title: 'Payment',
+    },
   ]
 
   return (
