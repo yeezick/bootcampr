@@ -62,8 +62,14 @@ export const CalendarView = () => {
       fetchAllEvents()
     }
 
-    const teamCommonAvailability = getTeamCommonAvailability(projectId)
-    console.log(teamCommonAvailability)
+    const fetchTeamCommonAvailability = async () => {
+      const teamCommonAvailability = await getTeamCommonAvailability(projectId)
+      console.log(teamCommonAvailability)
+    }
+
+    if (projectId) {
+      fetchTeamCommonAvailability()
+    }
   }, [calendarId])
 
   const handleEventClick = e =>
