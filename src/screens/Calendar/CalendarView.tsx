@@ -6,6 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import { fetchUserCalendar } from 'utils/api/calendar'
 import {
   selectCalendarId,
+  selectProjectId,
   selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
 import {
@@ -24,11 +25,13 @@ import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import './CalendarView.scss'
 import dayjs from 'dayjs'
 import weekday from 'dayjs/plugin/weekday'
+import { getTeamCommonAvailability } from 'utils/api'
 
 export const CalendarView = () => {
   const calendarId = useAppSelector(selectCalendarId)
   const convertedEventsAsArr = useAppSelector(selectConvertedEventsAsArr)
   const userEmail = useAppSelector(selectUserEmail)
+  const projectId = useAppSelector(selectProjectId)
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
   const timeline = useAppSelector(selectProjectTimeline)
   const [weekNumber, setWeekNumber] = useState('')
@@ -58,6 +61,9 @@ export const CalendarView = () => {
     if (calendarId) {
       fetchAllEvents()
     }
+
+    const teamCommonAvailability = getTeamCommonAvailability(projectId)
+    console.log(teamCommonAvailability)
   }, [calendarId])
 
   const handleEventClick = e =>
