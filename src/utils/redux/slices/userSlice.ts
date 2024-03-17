@@ -9,6 +9,9 @@ import { signUp, updateUser } from 'utils/api/users'
 import { emptyUser, initialUserSliceState } from 'utils/data/userConstants'
 import { RootState } from 'utils/redux/store'
 import { TimezonesUTC } from 'utils/data/timeZoneConstants'
+import { ProjectInterface } from 'interfaces'
+import { UpdateUserReducer } from 'interfaces/UserReducers'
+import { produce } from 'immer'
 
 // todo: auth.status should be its own slice
 // todo: sidemenu & ui like notifications should be its own slice
@@ -50,9 +53,15 @@ const userSlice = createSlice({
       state.auth.user = emptyUser
     },
     setAuthUser: (state, action: PayloadAction<UserInterface>) => {
-      state.auth.user = action.payload
+      const authUserPayload = produce(action.payload, draft => {
+        if (action.payload.payment.experience === 'sandbox') {
+          draft.project = 'sandbox'
+          draft.projects.activeProject = 'sandbox'
+        }
+      })
+      state.auth.user = authUserPayload
     },
-    updateAuthUser: (state, action: PayloadAction<UserInterface>) => {
+    updateAuthUser: (state, action: PayloadAction<UpdateUserReducer>) => {
       state.auth.user = {
         ...state.auth.user,
         ...action.payload,
@@ -60,6 +69,10 @@ const userSlice = createSlice({
     },
     updateUserExperience: (state, action: PayloadAction<Payment>) => {
       state.auth.user.payment = action.payload
+    },
+    updateUserProject: (state, action: PayloadAction<string>) => {
+      state.auth.user.project = action.payload // to be removed on activeProject is implemented
+      state.auth.user.projects.activeProject = action.payload
     },
     setConfirmationEmailAddress: (state, action: PayloadAction<string>) => {
       state.auth.user.email = action.payload
@@ -144,6 +157,7 @@ export const {
   setAuthUser,
   updateAuthUser,
   updateUserExperience,
+  updateUserProject,
   setConfirmationEmailAddress,
   setUserAvailability,
   setUserTimezone,

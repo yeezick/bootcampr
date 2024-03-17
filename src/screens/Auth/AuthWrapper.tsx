@@ -6,8 +6,8 @@ import { storeUserProject } from 'utils/helpers/stateHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectAuthUser,
+  setAuthUser,
   uiStatus,
-  updateAuthUser,
 } from 'utils/redux/slices/userSlice'
 
 const unprotectedRoutes = ['/', '/sign-in', '/sign-up', '/how-to', '/about-us']
@@ -29,7 +29,7 @@ export const AuthWrapper = ({ children }) => {
           const verifiedAuthUser = await verify()
           if (verifiedAuthUser?._id) {
             await storeUserProject(dispatch, verifiedAuthUser.project)
-            dispatch(updateAuthUser(verifiedAuthUser))
+            dispatch(setAuthUser(verifiedAuthUser))
           } else if (isProtectedRoute) {
             navigate('/sign-in')
           }

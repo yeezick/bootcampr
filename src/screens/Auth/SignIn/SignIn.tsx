@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { signIn } from 'utils/api'
-import { setAuthUser } from 'utils/redux/slices/userSlice'
+import { setAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
 import { SignInInterface } from 'interfaces/UserInterface'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
@@ -68,7 +68,6 @@ const SignIn: React.FC = (): JSX.Element => {
     }
 
     dispatch(setAuthUser(response))
-    storeUserProject(dispatch, response.project)
 
     if (response.payment.experience === 'unchosen') {
       navigate('/payment/choose-experience')
@@ -77,11 +76,19 @@ const SignIn: React.FC = (): JSX.Element => {
       !response.onboarded
     ) {
       navigate(`/onboarding/${response._id}`)
-    } else if (!response.project) {
+    } else if (response.payment.experience === 'sandbox') {
       navigate('/project/sandbox')
+      storeUserProject(dispatch, 'sandbox')
       dispatch(setPortal(buildProjectPortal('sandbox')))
+      dispatch(
+        updateAuthUser({
+          project: 'sandbox',
+          projects: { activeProject: 'sandbox' },
+        })
+      )
     } else {
       navigate(`/project/${response.project}`)
+      storeUserProject(dispatch, response.project)
       dispatch(setPortal(buildProjectPortal(response.project)))
     }
   }

@@ -5,10 +5,15 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectUserId,
   updateUserExperience,
+  updateUserProject,
 } from 'utils/redux/slices/userSlice'
 import './styles/ChooseExperience.scss'
 import { fetchIcon } from 'utils/components/Icons'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
+import { buildProjectPortal } from 'utils/helpers'
+import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
+import { getOneProject } from 'utils/api'
+import { setProject } from 'utils/redux/slices/projectSlice'
 
 export const ChooseExperience = () => {
   const handleCheckout = async () => {
@@ -35,14 +40,23 @@ const SandboxCard = () => {
 
   const handleEnterSandbox = async () => {
     //BC-778,780,781,782: update payment.experience to be 'sandbox' & have backend fetch/set freemium experience
-    // const updatedExperience = await updatePaymentExperience(userId, 'waitlist')
-    // if (updatedExperience.error) {
-    //   dispatch(errorSnackbar('Error setting project experience.'))
-    //   return
-    // }
-    // dispatch(updateUserExperience(updatedExperience))
-    // navigate('/project/sandbox')
-    // dispatch(setPortal(buildProjectPortal('sandbox')))
+    const updatedExperience = await updatePaymentExperience(userId, {
+      experience: 'sandbox',
+    })
+    const sandboxProject = await getOneProject('sandbox')
+    if (updatedExperience.error) {
+      dispatch(errorSnackbar('Error setting project experience.'))
+      return
+    } else if (sandboxProject.error) {
+      dispatch(errorSnackbar('Error fetching sandbox project'))
+      return
+    }
+
+    dispatch(setProject(sandboxProject))
+    dispatch(updateUserProject('sandbox'))
+    dispatch(updateUserExperience(updatedExperience))
+    dispatch(setPortal(buildProjectPortal('sandbox')))
+    navigate('/project/sandbox')
   }
 
   return (

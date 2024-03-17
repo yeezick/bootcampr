@@ -44,7 +44,7 @@ export interface BuildPortal {
 }
 
 export interface Payment {
-  experience: string
+  experience: 'active' | 'sandbox' | 'unchosen' | 'waitlist'
   paid?: boolean
 }
 
@@ -55,7 +55,7 @@ export interface Portal {
 }
 
 export interface Projects {
-  activeProject?: ProjectInterface
+  activeProject?: string
   projects: string[]
 }
 

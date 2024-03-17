@@ -21,6 +21,7 @@ export const Layout = ({ children }) => {
   const status = useAppSelector(uiStatus)
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
+  const portal = useAppSelector(selectPortal)
   const { pathname } = useLocation()
 
   if (status.isLoading) {
@@ -63,7 +64,7 @@ const PortalView = ({ children }) => {
       routeId = domain === 'project' ? projectId : userId
       buildPortal(dispatch, domain, routeId)
     }
-  }, [])
+  }, [active, type])
 
   return (
     <div className='main-wrapper'>

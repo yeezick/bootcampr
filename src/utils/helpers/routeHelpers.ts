@@ -15,7 +15,7 @@ import { RootState } from 'utils/redux/store'
  * @returns {SideMenuInterface} Context for Project Portal sidemenu
  */
 export const buildProjectPortalLinks = (projectId: string) => {
-  let urlProjectId = 'unassigned'
+  let urlProjectId = 'sandbox'
   if (projectId) urlProjectId = projectId
 
   return [
