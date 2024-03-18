@@ -1,13 +1,7 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import {
-  DateFieldsInterface,
-  MeetingModalInfo,
-  TeamAvailability,
-} from 'interfaces'
-import { storeTeamAvailability } from 'utils/redux/slices/calendarSlice'
-import { useAppDispatch } from 'utils/redux/hooks'
+import { DateFieldsInterface, MeetingModalInfo } from 'interfaces'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
