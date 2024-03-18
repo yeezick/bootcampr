@@ -107,7 +107,7 @@ export const buildSettingsPortal = (userId: string) => {
 export const buildProjectPortal = (projectId: string, headerTitle?: string) => {
   const portal: Portal = {
     active: true,
-    headerTitle: headerTitle,
+    headerTitle: headerTitle || 'Product Details',
     type: 'project',
   }
 
