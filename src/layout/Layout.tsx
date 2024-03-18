@@ -59,9 +59,13 @@ const PortalView = ({ children }) => {
       routeId = portal === 'project' ? projectId : userId
       buildPortal(dispatch, portal, routeId)
     } else {
-      const { domain } = determinePortalFromUrl(pathname, userId, projectId)
+      const { domain, headerTitle } = determinePortalFromUrl(
+        pathname,
+        userId,
+        projectId
+      )
       routeId = domain === 'project' ? projectId : userId
-      buildPortal(dispatch, domain, routeId)
+      buildPortal(dispatch, domain, routeId, headerTitle)
     }
   }, [])
 
