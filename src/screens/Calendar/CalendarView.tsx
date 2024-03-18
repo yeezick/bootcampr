@@ -11,6 +11,7 @@ import {
 } from 'utils/redux/slices/projectSlice'
 import {
   parseCalendarEventForMeetingInfo,
+  updateWeekDayNumber,
   updateWeekNumber,
 } from 'utils/helpers/calendarHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
@@ -19,6 +20,9 @@ import {
   setDisplayedEvent,
   storeConvertedEvents,
   setModalDisplayStatus,
+  selectTeamAvailabilityArr,
+  storeTeamAvailability,
+  clearTeamAvailability,
 } from 'utils/redux/slices/calendarSlice'
 import { DisplayMeetingModal } from 'screens/Calendar/MeetingModal'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
@@ -27,17 +31,17 @@ import dayjs from 'dayjs'
 import weekday from 'dayjs/plugin/weekday'
 import { getTeamCommonAvailability } from 'utils/api'
 import { join } from 'path/posix'
+import { TeamAvailability } from 'interfaces'
 
 export const CalendarView = () => {
   const calendarId = useAppSelector(selectCalendarId)
   const convertedEventsAsArr = useAppSelector(selectConvertedEventsAsArr)
   const userEmail = useAppSelector(selectUserEmail)
   const projectId = useAppSelector(selectProjectId)
+  const teamAvailabilityArr = useAppSelector(selectTeamAvailabilityArr)
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
   const timeline = useAppSelector(selectProjectTimeline)
   const [weekNumber, setWeekNumber] = useState('')
-  const [teamAvailabilityEvents, setTeamAvailabilityEvents] = useState([])
-
   dayjs.extend(weekday)
 
   const firstDay = timeline.startDate
@@ -71,48 +75,17 @@ export const CalendarView = () => {
     }
 
     const fetchTeamCommonAvailability = async () => {
+      dispatch(clearTeamAvailability())
       const teamCommonAvailability = await getTeamCommonAvailability(projectId)
+      const updatedTeamCommonAvail = await updateWeekDayNumber(
+        teamCommonAvailability
+      )
 
-      await Object.keys(teamCommonAvailability).forEach(key => {
-        switch (key) {
-          case 'SUN':
-            teamCommonAvailability[0] = teamCommonAvailability[key]
-            delete teamCommonAvailability[key]
-            break
-          case 'MON':
-            teamCommonAvailability[1] = teamCommonAvailability[key]
-            delete teamCommonAvailability[key]
-            break
-          case 'TUE':
-            teamCommonAvailability[2] = teamCommonAvailability[key]
-            delete teamCommonAvailability[key]
-            break
-          case 'WED':
-            teamCommonAvailability[3] = teamCommonAvailability[key]
-            delete teamCommonAvailability[key]
-            break
-          case 'THU':
-            teamCommonAvailability[4] = teamCommonAvailability[key]
-            delete teamCommonAvailability[key]
-            break
-          case 'FRI':
-            teamCommonAvailability[5] = teamCommonAvailability[key]
-            delete teamCommonAvailability[key]
-            break
-          case 'SAT':
-            teamCommonAvailability[6] = teamCommonAvailability[key]
-            delete teamCommonAvailability[key]
-            break
-        }
-      })
-      //const events = []
       for (let j = 0; j < projectSundayDates.length; j++) {
-        console.log(projectSundayDates[j])
-        for (const [key, value] of Object.entries(teamCommonAvailability)) {
-          const arr = teamCommonAvailability[key]
+        for (const [key, value] of Object.entries(updatedTeamCommonAvail)) {
+          const arr = updatedTeamCommonAvail[key]
 
           for (let i = 0; i < arr.length; i++) {
-            //console.log(key, arr[i])
             const start = dayjs(`${projectSundayDates[j]} ${arr[i][0]}`)
               .day(Number(key))
               .format('YYYY-MM-DDTHH:mm:ss')
@@ -120,24 +93,23 @@ export const CalendarView = () => {
               .day(Number(key))
               .format('YYYY-MM-DDTHH:mm:ss')
 
-            const teamAvailability = {
+            const teamAvailability: TeamAvailability = {
               title: 'Team Availability',
               start: start,
               end: end,
               backgroundColor: '#F2F4FF',
               borderColor: '#5C6BC0',
             }
-            teamAvailabilityEvents.push(teamAvailability)
+            dispatch(storeTeamAvailability(teamAvailability))
           }
         }
       }
-      console.log(teamAvailabilityEvents)
     }
 
     if (projectId) {
       fetchTeamCommonAvailability()
     }
-  }, [calendarId])
+  }, [calendarId, projectId])
 
   const handleEventClick = e =>
     dispatch(setDisplayedEvent(parseCalendarEventForMeetingInfo(e)))
@@ -152,17 +124,6 @@ export const CalendarView = () => {
     })
   }
 
-  const allEvents = [...convertedEventsAsArr, ...teamAvailabilityEvents]
-  //  console.log(teamAvailabilityEvents)
-  //  console.log(convertedEventsAsArr)
-  //  const allEvents = [
-  //   {
-  //     end: "2024-03-25T10:00:00",
-  //     start: "2024-03-25T08:00:00",
-  //     title: "Team Availability"
-  //   }
-  //  ]
-
   switch (eventFetchingStatus) {
     case 'success':
       return (
@@ -170,7 +131,7 @@ export const CalendarView = () => {
           <FullCalendar
             ref={calendarRef}
             datesSet={renderWeekNumber}
-            events={allEvents}
+            events={[...convertedEventsAsArr, ...teamAvailabilityArr]}
             eventClick={handleEventClick}
             eventTimeFormat={{
               hour: 'numeric',

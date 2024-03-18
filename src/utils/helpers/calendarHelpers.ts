@@ -1,7 +1,13 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import { DateFieldsInterface, MeetingModalInfo } from 'interfaces'
+import {
+  DateFieldsInterface,
+  MeetingModalInfo,
+  TeamAvailability,
+} from 'interfaces'
+import { storeTeamAvailability } from 'utils/redux/slices/calendarSlice'
+import { useAppDispatch } from 'utils/redux/hooks'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -166,4 +172,41 @@ export const updateWeekNumber = (sundayDate, firstDay, setWeekNumber) => {
   } else {
     setWeekNumber('4')
   }
+}
+
+export const updateWeekDayNumber = teamCommonAvailability => {
+  Object.keys(teamCommonAvailability).forEach(key => {
+    switch (key) {
+      case 'SUN':
+        teamCommonAvailability[0] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'MON':
+        teamCommonAvailability[1] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'TUE':
+        teamCommonAvailability[2] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'WED':
+        teamCommonAvailability[3] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'THU':
+        teamCommonAvailability[4] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'FRI':
+        teamCommonAvailability[5] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'SAT':
+        teamCommonAvailability[6] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+    }
+  })
+
+  return teamCommonAvailability
 }

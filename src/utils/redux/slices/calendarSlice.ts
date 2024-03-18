@@ -5,6 +5,7 @@ import {
   MeetingModalInfo,
   ModalDisplayStatus,
   DeleteEvent,
+  TeamAvailability,
 } from 'interfaces'
 import { RootState } from 'utils/redux/store'
 
@@ -16,6 +17,7 @@ import { RootState } from 'utils/redux/store'
 const initialState: CalendarInterface = {
   eventMap: {},
   convertedEvents: [],
+  teamAvailability: [],
   modalDisplayStatus: false,
 }
 
@@ -57,6 +59,12 @@ const calendarSlice = createSlice({
       )
       delete state.eventMap[eventId]
     },
+    storeTeamAvailability: (state, action: PayloadAction<TeamAvailability>) => {
+      state.teamAvailability = [...state.teamAvailability, action.payload]
+    },
+    clearTeamAvailability: (state, action: PayloadAction<TeamAvailability>) => {
+      state.teamAvailability = []
+    },
   },
 })
 
@@ -75,6 +83,9 @@ export const selectHangoutLink = (state: RootState) =>
 export const selectModalDisplayStatus = (state: RootState) =>
   state.calendar.modalDisplayStatus
 
+export const selectTeamAvailabilityArr = (state: RootState) =>
+  state.calendar.teamAvailability
+
 export const {
   addNewEvent,
   updateExistingEvent,
@@ -82,6 +93,8 @@ export const {
   storeConvertedEvents,
   setModalDisplayStatus,
   deleteExistingEvent,
+  storeTeamAvailability,
+  clearTeamAvailability,
 } = calendarSlice.actions
 
 export default calendarSlice.reducer
