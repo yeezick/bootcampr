@@ -65,6 +65,45 @@ export const CalendarView = () => {
     const fetchTeamCommonAvailability = async () => {
       const teamCommonAvailability = await getTeamCommonAvailability(projectId)
       console.log(teamCommonAvailability)
+
+      // for(const [key, value] of Object.entries(teamCommonAvailability)){
+      //   console.log(`Key: ${key}, Value: ${value}`)
+      // }
+      Object.keys(teamCommonAvailability).forEach(key => {
+        let DOTWNumber
+        switch (key) {
+          case 'SUN':
+            teamCommonAvailability[0] = teamCommonAvailability[key]
+            delete teamCommonAvailability[key]
+            break
+          case 'MON':
+            teamCommonAvailability[1] = teamCommonAvailability[key]
+            delete teamCommonAvailability[key]
+            break
+          case 'TUE':
+            teamCommonAvailability[2] = teamCommonAvailability[key]
+            delete teamCommonAvailability[key]
+            break
+          case 'WED':
+            teamCommonAvailability[3] = teamCommonAvailability[key]
+            delete teamCommonAvailability[key]
+            break
+          case 'THU':
+            teamCommonAvailability[4] = teamCommonAvailability[key]
+            delete teamCommonAvailability[key]
+            break
+          case 'FRI':
+            teamCommonAvailability[5] = teamCommonAvailability[key]
+            delete teamCommonAvailability[key]
+            break
+          case 'SAT':
+            teamCommonAvailability[6] = teamCommonAvailability[key]
+            delete teamCommonAvailability[key]
+            break
+        }
+      })
+
+      console.log(teamCommonAvailability)
     }
 
     if (projectId) {
