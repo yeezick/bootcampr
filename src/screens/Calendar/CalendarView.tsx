@@ -26,6 +26,7 @@ import './CalendarView.scss'
 import dayjs from 'dayjs'
 import weekday from 'dayjs/plugin/weekday'
 import { getTeamCommonAvailability } from 'utils/api'
+import { join } from 'path/posix'
 
 export const CalendarView = () => {
   const calendarId = useAppSelector(selectCalendarId)
@@ -42,7 +43,13 @@ export const CalendarView = () => {
   const lastDay = dayjs(timeline.endDate).weekday(7).format('YYYY-MM-DD')
   const calendarRef = useRef(null)
   const dispatch = useAppDispatch()
-
+  const projectSundayDates = [
+    timeline.startDate,
+    dayjs(timeline.startDate).add(7, 'day').format('YYYY-MM-DD'),
+    dayjs(timeline.startDate).add(14, 'day').format('YYYY-MM-DD'),
+    dayjs(timeline.startDate).add(21, 'day').format('YYYY-MM-DD'),
+  ]
+  console.log(projectSundayDates)
   useEffect(() => {
     const fetchAllEvents = async () => {
       const googleCalendarEvents = await fetchUserCalendar(
@@ -64,13 +71,8 @@ export const CalendarView = () => {
 
     const fetchTeamCommonAvailability = async () => {
       const teamCommonAvailability = await getTeamCommonAvailability(projectId)
-      console.log(teamCommonAvailability)
 
-      // for(const [key, value] of Object.entries(teamCommonAvailability)){
-      //   console.log(`Key: ${key}, Value: ${value}`)
-      // }
-      Object.keys(teamCommonAvailability).forEach(key => {
-        let DOTWNumber
+      await Object.keys(teamCommonAvailability).forEach(key => {
         switch (key) {
           case 'SUN':
             teamCommonAvailability[0] = teamCommonAvailability[key]
@@ -103,7 +105,21 @@ export const CalendarView = () => {
         }
       })
 
-      console.log(teamCommonAvailability)
+      for (const [key, value] of Object.entries(teamCommonAvailability)) {
+        const arr = teamCommonAvailability[key]
+        for (let j = 0; j < projectSundayDates.length; j++) {
+          for (let i = 0; i < arr.length; i++) {
+            //console.log(key, arr[i])
+            const start = dayjs(`${projectSundayDates[j]} ${arr[i][0]}`)
+              .day(Number(key))
+              .format('YYYY-MM-DDTHH:mm:ss')
+            const end = dayjs(`${projectSundayDates[j]} ${arr[i][1]}`)
+              .day(Number(key))
+              .format('YYYY-MM-DDTHH:mm:ss')
+            console.log(start, end)
+          }
+        }
+      }
     }
 
     if (projectId) {
