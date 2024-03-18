@@ -82,7 +82,7 @@ export const CalendarView = () => {
       )
 
       for (let j = 0; j < projectSundayDates.length; j++) {
-        for (const [key, value] of Object.entries(updatedTeamCommonAvail)) {
+        for (const [key] of Object.entries(updatedTeamCommonAvail)) {
           const arr = updatedTeamCommonAvail[key]
 
           for (let i = 0; i < arr.length; i++) {
@@ -99,6 +99,7 @@ export const CalendarView = () => {
               end: end,
               backgroundColor: '#F2F4FF',
               borderColor: '#5C6BC0',
+              timeZone: 'America/New_York',
             }
             dispatch(storeTeamAvailability(teamAvailability))
           }

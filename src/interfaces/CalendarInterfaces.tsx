@@ -33,10 +33,10 @@ export interface ConvertedEvent {
 }
 
 export interface DateFieldsAsDayjs {
-  date?: dayjs.Dayjs
-  end?: dayjs.Dayjs
-  start?: dayjs.Dayjs
-  timeZone?: dayjs.Dayjs | string
+  date: dayjs.Dayjs
+  end: dayjs.Dayjs
+  start: dayjs.Dayjs
+  timeZone: dayjs.Dayjs | string
 }
 
 export interface TeamAvailability {
@@ -45,4 +45,5 @@ export interface TeamAvailability {
   end: string
   backgroundColor: string
   borderColor: string
+  timeZone: string
 }
