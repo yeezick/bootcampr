@@ -36,6 +36,7 @@ export const CalendarView = () => {
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
   const timeline = useAppSelector(selectProjectTimeline)
   const [weekNumber, setWeekNumber] = useState('')
+  const [teamAvailabilityEvents, setTeamAvailabilityEvents] = useState([])
 
   dayjs.extend(weekday)
 
@@ -49,7 +50,7 @@ export const CalendarView = () => {
     dayjs(timeline.startDate).add(14, 'day').format('YYYY-MM-DD'),
     dayjs(timeline.startDate).add(21, 'day').format('YYYY-MM-DD'),
   ]
-  console.log(projectSundayDates)
+
   useEffect(() => {
     const fetchAllEvents = async () => {
       const googleCalendarEvents = await fetchUserCalendar(
@@ -104,10 +105,12 @@ export const CalendarView = () => {
             break
         }
       })
+      //const events = []
+      for (let j = 0; j < projectSundayDates.length; j++) {
+        console.log(projectSundayDates[j])
+        for (const [key, value] of Object.entries(teamCommonAvailability)) {
+          const arr = teamCommonAvailability[key]
 
-      for (const [key, value] of Object.entries(teamCommonAvailability)) {
-        const arr = teamCommonAvailability[key]
-        for (let j = 0; j < projectSundayDates.length; j++) {
           for (let i = 0; i < arr.length; i++) {
             //console.log(key, arr[i])
             const start = dayjs(`${projectSundayDates[j]} ${arr[i][0]}`)
@@ -116,10 +119,19 @@ export const CalendarView = () => {
             const end = dayjs(`${projectSundayDates[j]} ${arr[i][1]}`)
               .day(Number(key))
               .format('YYYY-MM-DDTHH:mm:ss')
-            console.log(start, end)
+
+            const teamAvailability = {
+              title: 'Team Availability',
+              start: start,
+              end: end,
+              backgroundColor: '#F2F4FF',
+              borderColor: '#5C6BC0',
+            }
+            teamAvailabilityEvents.push(teamAvailability)
           }
         }
       }
+      console.log(teamAvailabilityEvents)
     }
 
     if (projectId) {
@@ -140,6 +152,17 @@ export const CalendarView = () => {
     })
   }
 
+  const allEvents = [...convertedEventsAsArr, ...teamAvailabilityEvents]
+  //  console.log(teamAvailabilityEvents)
+  //  console.log(convertedEventsAsArr)
+  //  const allEvents = [
+  //   {
+  //     end: "2024-03-25T10:00:00",
+  //     start: "2024-03-25T08:00:00",
+  //     title: "Team Availability"
+  //   }
+  //  ]
+
   switch (eventFetchingStatus) {
     case 'success':
       return (
@@ -147,7 +170,7 @@ export const CalendarView = () => {
           <FullCalendar
             ref={calendarRef}
             datesSet={renderWeekNumber}
-            events={convertedEventsAsArr}
+            events={allEvents}
             eventClick={handleEventClick}
             eventTimeFormat={{
               hour: 'numeric',
