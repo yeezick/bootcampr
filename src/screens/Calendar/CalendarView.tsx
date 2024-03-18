@@ -111,8 +111,11 @@ export const CalendarView = () => {
     }
   }, [calendarId, projectId])
 
-  const handleEventClick = e =>
-    dispatch(setDisplayedEvent(parseCalendarEventForMeetingInfo(e)))
+  const handleEventClick = e => {
+    if (e.event.title !== 'Team Availability') {
+      dispatch(setDisplayedEvent(parseCalendarEventForMeetingInfo(e)))
+    }
+  }
 
   const renderWeekNumber = () => {
     setTimeout(() => {
