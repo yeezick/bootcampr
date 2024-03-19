@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { AvatarUserDetail } from '../AvatarUserDetail/AvatarUserDetail'
+import { UserDetails } from '../UserDetails/UserDetails'
 import './EditChatRoom.scss'
 import { onScreenUpdate, selectChat } from 'utils/redux/slices/chatSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
@@ -37,7 +37,7 @@ export const EditChatRoom = () => {
         <div className='members-list'>
           {sortedParticipants.map(pp => (
             <div className='member'>
-              <AvatarUserDetail
+              <UserDetails
                 key={pp.userInfo._id}
                 title={`${pp.userInfo.firstName} ${pp.userInfo.lastName}`}
                 description={pp.userInfo.role}

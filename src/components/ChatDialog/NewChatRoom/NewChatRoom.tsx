@@ -16,7 +16,7 @@ import {
   setCurrentChat,
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
-import { AvatarUserDetail } from 'components/ChatDialog/AvatarUserDetail/AvatarUserDetail'
+import { UserDetails } from 'components/ChatDialog/UserDetails/UserDetails'
 import { useSocketEvents } from 'components/Notifications/Socket'
 import { ButtonStyle } from 'utils/data/authSettingsConstants'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
@@ -226,7 +226,7 @@ export const NewChatRoom = ({ chatScreen }) => {
                   />
                 }
                 label={
-                  <AvatarUserDetail
+                  <UserDetails
                     title={`${member.firstName} ${member.lastName}`}
                     userId={member._id}
                     description={member.role}

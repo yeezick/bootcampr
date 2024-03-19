@@ -1,5 +1,5 @@
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
-import './AvatarUserDetail.scss'
+import './UserDetails.scss'
 /**
  * @param title
  * @param description
@@ -8,7 +8,7 @@ import './AvatarUserDetail.scss'
  * @param [className]
  */
 
-export const AvatarUserDetail = ({
+export const UserDetails = ({
   title,
   description,
   avatarSize,
