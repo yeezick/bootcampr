@@ -97,21 +97,12 @@
         }
 
         .recipient-avatar {
-          // align-items: center;
-          // align-self: flex-end;
-          // border-radius: 50px;
-          // display: flex;
-          height: 32px;
-          // justify-content: center;
-          // overflow: hidden;
-          width: 32px;
-
-          img {
-            height: 32px;
-            // margin: 0;
-            // padding: 0;
-            // width: auto;
-          }
+          align-items: center;
+          align-self: flex-end;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          overflow: hidden;
         }
 
         .auth-text {

@@ -10,12 +10,11 @@ import './ChatAvatar.scss'
 export const ChatAvatar = ({
   groupPhoto,
   chatType,
-  isTeamChat = true,
+  isTeamChat,
   participants,
   avatarSize,
 }) => {
   const authUser = useAppSelector(selectAuthUser)
-
   const membersWithoutAuth = participants.filter(
     ({ userInfo }) => userInfo._id !== authUser._id
   )
@@ -51,7 +50,6 @@ export const ChatAvatar = ({
       </div>
     )
   }
-  // https://i.postimg.cc/L8jC1rSp/default-group-avatar.png
   return null
 }
 
@@ -76,12 +74,12 @@ const GroupPhotoAvatar = ({ groupPhoto, avatarSize }) => {
 
 const TeamChatAvatar = ({ avatarSize }) => {
   const avatarSizeStyles = {
-    small: {
+    'x-small': {
       fontSize: 16,
       height: 32,
       width: 32,
     },
-    medium: {
+    small: {
       fontSize: 22,
       height: 40,
       width: 40,

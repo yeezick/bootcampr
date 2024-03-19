@@ -21,6 +21,11 @@
     width: 24px;
   }
 
+  &.x-small {
+    height: 32px;
+    width: 32px;
+  }
+
   &.small {
     height: 40px;
     width: 40px;
@@ -29,6 +34,11 @@
   &.medium {
     height: 64px;
     width: 64px;
+  }
+
+  &.large {
+    height: 96px;
+    width: 96px;
   }
 }
 

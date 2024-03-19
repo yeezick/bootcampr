@@ -3,7 +3,7 @@ import {
   getMessageClassNames,
 } from 'utils/functions/chatLogic'
 import { formatTimestamp } from 'utils/helpers/dateFormatHelpers'
-import adminAvatar from '../../../assets/Images/bootcamprB.png'
+import adminAvatar from '../../../assets/bootcamprAdmin.svg'
 import './Messages.scss'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 
@@ -65,14 +65,14 @@ export const Message = ({
 }
 
 const RecipientsAvatar = ({ message }) => {
-  const isBotMessage = true
+  const isBotMessage = message.isBotMessage
 
   return (
     <div className='recipient-avatar'>
       {isBotMessage ? (
         <img src={adminAvatar} alt='avatar' />
       ) : (
-        <TeamAvatar userId={message.sender._id} size='small' />
+        <TeamAvatar userId={message.sender._id} size='x-small' />
       )}
     </div>
   )

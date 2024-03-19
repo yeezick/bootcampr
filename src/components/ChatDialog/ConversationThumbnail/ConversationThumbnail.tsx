@@ -31,7 +31,7 @@ export const ConversationThumbnail = ({
     ? groupName
     : getParticipantsNames(participants, chatType, groupName, authUser)
   const unreadMessageClass = ppAuth.hasUnreadMessage ? 'notification' : ''
-  console.log(ppAuth)
+
   return (
     <>
       <div className='thumbnail-container'>
@@ -40,7 +40,7 @@ export const ConversationThumbnail = ({
           chatType={chatType}
           isTeamChat={isTeamChat}
           participants={participants}
-          avatarSize='medium'
+          avatarSize='small'
         />
         <div className={`info-grid ${unreadMessageClass}`}>
           <p className='title'>{groupTitle}</p>
