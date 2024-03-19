@@ -146,9 +146,14 @@ const chatSlice = createSlice({
       state.activeChatRoomId = null
       state.ui.chatScreen = ChatScreen.Main
       state.ui.chatScreenPath = [ChatScreen.Main]
+      state.chat = initialState.chat
     },
     onScreenUpdate: (state, action: PayloadAction<ChatScreen>) => {
-      state.ui.chatScreenPath = [...state.ui.chatScreenPath, action.payload]
+      const latestPage =
+        state.ui.chatScreenPath[state.ui.chatScreenPath.length - 1]
+      if (latestPage !== action.payload) {
+        state.ui.chatScreenPath = [...state.ui.chatScreenPath, action.payload]
+      }
       state.ui.chatScreen = action.payload
     },
     onBackArrowClick: state => {
@@ -166,6 +171,9 @@ const chatSlice = createSlice({
       const chatRoom = action.payload
       state.chat = { ...chatRoom }
       state.threads[chatRoom._id] = chatRoom
+    },
+    resetCurrentChat: (state, action: PayloadAction<ChatInterface>) => {
+      state.chat = initialState.chat
     },
     updateCurrentChatMessages: (state, action) => {
       const { receivedMessage } = action.payload
@@ -280,6 +288,10 @@ export const selectSortedThreads = createSelector(
     })
   }
 )
+export const selectTeamChat = createSelector(selectThreads, threads => {
+  const teamChat = threads.find(thread => thread.isTeamChat)
+  return teamChat
+})
 export const selectUnreadMessageCount = createSelector(
   [selectThreads, selectUserId],
   (threads: ChatInterface[], userId: string) => {
@@ -306,5 +318,6 @@ export const {
   setMessageRead,
   updateCurrentChat,
   setMessageUnread,
+  resetCurrentChat,
 } = chatSlice.actions
 export default chatSlice.reducer
