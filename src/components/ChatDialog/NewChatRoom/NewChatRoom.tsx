@@ -8,30 +8,33 @@ import {
 } from 'utils/api/chat'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
+  fetchMessages,
   onScreenUpdate,
   processChatRoom,
   selectChat,
+  selectTeamChat,
   setCurrentChat,
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { AvatarUserDetail } from 'components/ChatDialog/AvatarUserDetail/AvatarUserDetail'
-import { ButtonStyle } from 'utils/data/authSettingsConstants'
-import { selectProject } from 'utils/redux/slices/projectSlice'
-import './NewChatRoom.scss'
 import { useSocketEvents } from 'components/Notifications/Socket'
+import { ButtonStyle } from 'utils/data/authSettingsConstants'
+import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import './NewChatRoom.scss'
+import { isTeamMembersSelected } from 'utils/functions/chatLogic'
 
 export const NewChatRoom = ({ chatScreen }) => {
   const dispatch = useAppDispatch()
+  const { createNewRoom } = useSocketEvents(false)
   const currentConversation = useAppSelector(selectChat)
   const authUser = useAppSelector(selectAuthUser)
-  const project = useAppSelector(selectProject)
+  const members = useAppSelector(selectMembersAsTeam)
+  const teamChat = useAppSelector(selectTeamChat)
   const [selectedChatUsers, setSelectedChatUsers] = useState([])
   const [inviteList, setInviteList] = useState([])
   const [allChecked, setAllChecked] = useState(false)
   const [memberChecked, setMemberChecked] = useState({})
-  const { createNewRoom } = useSocketEvents(false)
-  const members = [...project.members.designers, ...project.members.engineers]
   const membersWithoutAuth = members.filter(
     member => member._id !== authUser._id
   )
@@ -102,9 +105,30 @@ export const NewChatRoom = ({ chatScreen }) => {
     }
   }
 
+  const fetchChatMessages = async chat => {
+    if (!chat.messages || !chat.messages.length) {
+      await dispatch(
+        fetchMessages({
+          chatId: chat._id,
+          chatType: chat.chatType,
+        })
+      ).unwrap()
+    }
+  }
+
   const handleCreateOrUpdateGroupChatRoom = async selectedUserIds => {
     let newRoom
-    if (chatScreen === ChatScreen.ComposeNewChat) {
+    const currentParticipants = currentConversation.participants
+    const isAllTeamMembersSelected = isTeamMembersSelected(
+      currentParticipants,
+      selectedUserIds,
+      members
+    )
+
+    if (isAllTeamMembersSelected) {
+      const teamChatWithMessages = await fetchChatMessages(teamChat)
+      newRoom = teamChatWithMessages
+    } else if (chatScreen === ChatScreen.ComposeNewChat) {
       const allParticipantIds = [...selectedUserIds, authUser._id]
       newRoom = await createGroupChatRoom(allParticipantIds)
     } else {
@@ -200,7 +224,7 @@ export const NewChatRoom = ({ chatScreen }) => {
                     title={`${member.firstName} ${member.lastName}`}
                     userId={member._id}
                     description={member.role}
-                    avatarSize='medium'
+                    avatarSize='small'
                   />
                 }
               />
