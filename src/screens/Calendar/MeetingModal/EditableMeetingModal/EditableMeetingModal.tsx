@@ -181,6 +181,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
       summary,
       projectId,
     }
+    console.log(eventInfo)
 
     if (modalDisplayStatus === 'create') {
       try {
