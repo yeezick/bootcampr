@@ -107,13 +107,19 @@ export const NewChatRoom = ({ chatScreen }) => {
 
   const fetchChatMessages = async chat => {
     if (!chat.messages || !chat.messages.length) {
-      await dispatch(
-        fetchMessages({
-          chatId: chat._id,
-          chatType: chat.chatType,
-        })
-      ).unwrap()
+      try {
+        const resultAction = await dispatch(
+          fetchMessages({
+            chatId: chat._id,
+            chatType: chat.chatType,
+          })
+        ).unwrap()
+        return { ...chat, messages: resultAction.messages }
+      } catch (error) {
+        console.error('Error fetching messages:', error)
+      }
     }
+    return chat
   }
 
   const handleCreateOrUpdateGroupChatRoom = async selectedUserIds => {
