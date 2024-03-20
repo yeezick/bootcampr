@@ -28,7 +28,10 @@ export const DisplayAttendees = ({ creator }) => {
             role: role,
             email: email,
             userId: _id,
-            organizer: meetingOrganizer[0].email === email ? true : false,
+            organizer:
+              meetingOrganizer.length > 0 && meetingOrganizer[0].email === email
+                ? true
+                : false,
           })
         }
         const organizerIndex = invitedMemberInfo.findIndex(
