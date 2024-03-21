@@ -49,22 +49,7 @@ export const EditChatRoom = () => {
         </div>
         {!hideButton && (
           <div className='invite-button'>
-            <Button
-              onClick={handleInviteMember}
-              variant='text'
-              sx={{
-                alignItems: 'center',
-                color: '#1A237E',
-                columnGap: '8px',
-                display: 'flex',
-                justifyContent: 'flex-start',
-                padding: '8px 16px 8px 12px',
-                textTransform: 'none',
-                '&:hover': {
-                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                },
-              }}
-            >
+            <Button onClick={handleInviteMember} variant='text'>
               <FiPlus size={20} />
               Invite New Member
             </Button>
