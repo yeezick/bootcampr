@@ -36,7 +36,6 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
     } else if (innerText === 'Log out') {
       logOut()
       dispatch(logoutAuthUser())
-      //to close the chatbox, if they don't close manually before logout
       dispatch(toggleChatClose())
       navigate('/')
     } else if (innerText === 'Payment') {
