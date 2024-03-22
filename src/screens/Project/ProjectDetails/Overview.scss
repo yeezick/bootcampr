@@ -2,14 +2,9 @@
 @import 'scss/mixins';
 
 .overview {
-  align-self: stretch;
-  @include flex(column);
-  background-color: #ffffff;
   color: #212121;
-  gap: 4px;
-  height: 100%;
   padding: 16px 0 0;
-  width: 94%;
+  max-width: 650px;
 
   .ov-text-cont {
     @include flex(column);
@@ -76,5 +71,33 @@
       padding: 0;
       margin: 0;
     }
+  }
+
+  .css-1c35hjw-MuiPaper-root-MuiAccordion-root.Mui-expanded {
+    margin: 0px;
+  }
+
+  .css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded {
+    min-height: 40px;
+    .css-o4b71y-MuiAccordionSummary-content.Mui-expanded{
+      margin: 10px 0px;
+    }
+  }
+
+  .title {
+    font-weight: 600;
+    margin: 0px 0px;
+  }
+
+  .details-div p{
+    margin: 5px 0px;
+  }
+
+  .details-div ul {
+    margin: 5px 0px;
+  }
+
+  .products-req-doc {
+    color: #0D47A1;
   }
 }
