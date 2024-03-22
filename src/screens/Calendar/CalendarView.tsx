@@ -3,7 +3,7 @@ import { useRef } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import { fetchUserCalendar } from 'utils/api/calendar'
+import { fetchSandboxCalendar, fetchUserCalendar } from 'utils/api/calendar'
 import {
   selectCalendarId,
   selectProjectTimeline,
@@ -42,17 +42,20 @@ export const CalendarView = () => {
 
   useEffect(() => {
     const fetchAllEvents = async () => {
-      const googleCalendarEvents = await fetchUserCalendar(
-        calendarId,
-        userEmail
-      )
+      let googleCalendarEvents = []
+      if (calendarId === 'sandbox') {
+        googleCalendarEvents = await fetchSandboxCalendar(timeline)
+      } else {
+        googleCalendarEvents = await fetchUserCalendar(calendarId, userEmail)
+      }
 
       if (!googleCalendarEvents) {
         setEventFetchingStatus('error')
-      } else {
-        setEventFetchingStatus('success')
-        dispatch(storeConvertedEvents(googleCalendarEvents))
+        return
       }
+
+      setEventFetchingStatus('success')
+      dispatch(storeConvertedEvents(googleCalendarEvents))
     }
 
     if (calendarId) {
