@@ -4,11 +4,49 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import { AccordionItem } from './AccordionItem'
 
 export const Overview = () => {
+  const overviewContent = [
+    {
+      title: 'Client Profile',
+      content: (
+        <p>
+          {' '}
+          The client for this project is a newly established restaurant located
+          in a bustling urban area. This restaurant specializes in fusion
+          cuisine, combining flavors from various cultures to create unique and
+          innovative dishes. They aim to provide a modern dining experience with
+          a focus on quality ingredients and exceptional customer service.
+        </p>
+      ),
+    },
+    {
+      title: 'Project Overview',
+      content: (
+        <p>
+          As a team you will develop a Minimum Viable Product (MVP) for this
+          restaurant, which will serve as this restaurant’s initial online
+          presence. The MVP will consist of a website where customers can view
+          the restaurant's menu, make reservations, and learn more about the
+          establishment and more (please see Product Details Tab for detailed
+          requirements). The project will last for four weeks, with key
+          milestones including product management, design and development. 
+        </p>
+      ),
+    },
+    {},
+    {},
+  ]
   return (
-    <div className='overview'>
-      <Accordion>
+    <div>
+      {overviewContent.map(item => (
+        <AccordionItem title={item.title} details={item.content} />
+      ))}
+    </div>
+  )
+  {
+    /* <Accordion>
         <AccordionSummary
           expandIcon={<ArrowDropDownIcon />}
           aria-controls='panel1-content'
@@ -215,7 +253,6 @@ export const Overview = () => {
             </p>
           </div>
         </AccordionDetails>
-      </Accordion>
-    </div>
-  )
+      </Accordion> */
+  }
 }
