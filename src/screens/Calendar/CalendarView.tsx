@@ -9,6 +9,7 @@ import {
   selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
 import {
+  generateDayJs,
   parseCalendarEventForMeetingInfo,
   updateWeekNumber,
 } from 'utils/helpers/calendarHelpers'
@@ -22,8 +23,6 @@ import {
 import { DisplayMeetingModal } from 'screens/Calendar/MeetingModal'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import './CalendarView.scss'
-import dayjs from 'dayjs'
-import weekday from 'dayjs/plugin/weekday'
 
 export const CalendarView = () => {
   const calendarId = useAppSelector(selectCalendarId)
@@ -33,10 +32,10 @@ export const CalendarView = () => {
   const timeline = useAppSelector(selectProjectTimeline)
   const [weekNumber, setWeekNumber] = useState('')
 
-  dayjs.extend(weekday)
-
   const firstDay = timeline.startDate
-  const lastDay = dayjs(timeline.endDate).weekday(7).format('YYYY-MM-DD')
+  const lastDay = generateDayJs(timeline.endDate)
+    .weekday(7)
+    .format('YYYY-MM-DD')
   const calendarRef = useRef(null)
   const dispatch = useAppDispatch()
 
@@ -69,7 +68,7 @@ export const CalendarView = () => {
   const renderWeekNumber = () => {
     setTimeout(() => {
       const calendarApi = calendarRef.current.getApi()
-      const sundayDate = dayjs(calendarApi.getDate())
+      const sundayDate = generateDayJs(calendarApi.getDate())
         .day(0)
         .format('YYYY-MM-DD')
       updateWeekNumber(sundayDate, firstDay, setWeekNumber)
