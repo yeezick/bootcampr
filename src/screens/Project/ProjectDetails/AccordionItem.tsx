@@ -15,9 +15,7 @@ export const AccordionItem = ({ title, details }) => {
         <Typography className='title'>{title}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <div className='details-div'>
-          <p>{details}</p>
-        </div>
+        <div className='details-div'>{details}</div>
       </AccordionDetails>
     </Accordion>
   )
