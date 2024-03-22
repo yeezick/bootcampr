@@ -58,7 +58,7 @@ export const CalendarView = () => {
     if (calendarId) {
       fetchAllEvents()
     }
-  }, [calendarId])
+  }, [calendarId, userEmail])
 
   const handleEventClick = e =>
     dispatch(setDisplayedEvent(parseCalendarEventForMeetingInfo(e)))
