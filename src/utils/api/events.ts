@@ -1,13 +1,6 @@
-import { getRandomInt } from 'screens/AccountSettings/helper/data'
 import { api } from './apiConfig'
-import { changeDateTimeZone, generateDayJs } from 'utils/helpers'
+import { changeDateTimeZone, generateHexadecimal } from 'utils/helpers'
 import { EventInfo } from 'interfaces'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
-
-dayjs.extend(utc)
-dayjs.extend(timezone)
 
 export const createEvent = async (calendarId: string, eventInfo: EventInfo) => {
   try {
@@ -41,7 +34,7 @@ const buildSandboxEvent = eventInfo => {
       email: 'erick.manrique@bootcampr.io',
     },
     end: endTime,
-    eventId: getRandomInt(10).toString(),
+    eventId: generateHexadecimal(),
     googleDateFields: {
       endTime: end.dateTime,
       startTime: start.dateTime,
