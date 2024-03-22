@@ -1,11 +1,26 @@
+import { blankDayJs, generateHexadecimal } from 'utils/helpers'
 import { api } from './apiConfig'
 
 export const createTicket = async ticketBody => {
   try {
+    if (ticketBody.projectId === 'sandbox') {
+      return buildDummyTicket(ticketBody)
+    }
+
     const ticketData = await api.post(`/tickets/create`, ticketBody)
     return ticketData.data
   } catch (error) {
     return { error: { status: 500, message: 'Failed to create ticket', error } }
+  }
+}
+
+const buildDummyTicket = ticketBody => {
+  return {
+    ...ticketBody,
+    _id: ticketBody._id || generateHexadecimal(),
+    createdAt: ticketBody.createdAt || blankDayJs().format(),
+    updatedAt: blankDayJs().format(),
+    __v: 0,
   }
 }
 
@@ -44,6 +59,10 @@ export const saveTicketStatusChange = async ticketData => {
 
 export const saveUpdatedTicket = async ticketData => {
   try {
+    if (ticketData.projectId) {
+      return buildDummyTicket(ticketData)
+    }
+
     const updatedData = await api.put(`/tickets/${ticketData._id}`, ticketData)
     return updatedData.data
   } catch (error) {
