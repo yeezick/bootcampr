@@ -118,6 +118,12 @@ const generateInitialTime = type => {
   return dayjs(finalStr).toISOString()
 }
 
+export const changeDateTimeZone = (time, timeZone) => {
+  const formattedTime = dayjs(time).format('YYYY-MM-DDTHH:mm')
+  const timeZonedTime = dayjs.tz(formattedTime, timeZone).format()
+  return timeZonedTime
+}
+
 /**
  * Converts the event object from FullCalendar into meetingModal fields
  * @param e The event passed into the handler when a user clicks on an event in the calendar

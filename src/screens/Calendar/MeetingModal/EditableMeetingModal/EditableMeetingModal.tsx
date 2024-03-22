@@ -8,8 +8,6 @@ import {
 import { useEffect, useRef, useState } from 'react'
 import { BooleanObject, DateFieldsInterface, EventInfo } from 'interfaces'
 import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectCalendarId,
@@ -21,6 +19,7 @@ import { SelectAttendees } from './SelectAttendees'
 import { DateFields } from './DateFields'
 import { createEvent, updateEvent } from 'utils/api/events'
 import {
+  changeDateTimeZone,
   checkIfAllMembersInvited,
   handleFormInputChange,
   initialDateFields,
@@ -38,9 +37,6 @@ import '../styles/EditableMeetingModal.scss'
 import { MeetingModalHeaderIcons } from './MeetingModalHeaderIcons'
 import { GoogleMeetsToggler } from './GoogleMeetsToggler'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
-
-dayjs.extend(utc)
-dayjs.extend(timezone)
 
 export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
@@ -145,10 +141,8 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
     const { description, summary } = meetingText
     const attendeeList = []
 
-    const formatedST = dayjs(start).format('YYYY-MM-DDTHH:mm')
-    const formatedET = dayjs(end).format('YYYY-MM-DDTHH:mm')
-    const updatedStartTime = dayjs.tz(formatedST, eventTimezone).format()
-    const updatedEndTime = dayjs.tz(formatedET, eventTimezone).format()
+    const updatedStartTime = changeDateTimeZone(start, eventTimezone)
+    const updatedEndTime = changeDateTimeZone(end, eventTimezone)
 
     for (const email in attendees) {
       if (attendees[email] === true) {
