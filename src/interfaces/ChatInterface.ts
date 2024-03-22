@@ -29,6 +29,7 @@ export interface ChatInterface {
   messages: ChatMessageInterface[]
   participants: ParticipantInterface[]
   typingUsers?: string[]
+  isTeamChat?: boolean
 }
 
 export interface ChatMessageInterface {
@@ -54,5 +55,5 @@ export interface FetchMessagesPayload {
 export interface ParticipantInterface {
   hasUnreadMessage?: boolean
   isAdmin?: boolean
-  participant: BasicUserInfoInterface
+  userInfo: BasicUserInfoInterface
 }

@@ -130,61 +130,14 @@
   z-index: 1;
 }
 
-@mixin private-chat-avatar-grid($avatar-height, $avatar-width, $image-height) {
-  align-items: center;
-  background-color: rgb(210, 208, 208);
-  border-radius: 50%;
-  display: flex;
-  height: $avatar-height;
-  justify-content: center;
-  overflow: hidden;
-  width: $avatar-width;
-
-  img {
-    height: $image-height;
-    padding: 0;
-  }
-}
-
-@mixin group-profile-picture-grid($padding-top, $avatar-height, $avatar-width) {
+@mixin group-profile-picture-grid($padding-top) {
   align-items: center;
   display: flex;
   justify-content: center;
   padding-top: $padding-top;
   position: relative;
-
-  .photo-grid {
-    align-content: center;
-    background-color: white;
-    border-radius: 50%;
-    display: grid;
-    grid-gap: 1px;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    height: $avatar-height;
-    overflow: hidden;
-    width: $avatar-width;
-
-    .merged-grid {
-      grid-row: span 2;
-    }
-
-    .left-column {
-      grid-row: span 2;
-    }
-
-    .right-column {
-      grid-row: span 2;
-    }
-
-    img {
-      height: 100%;
-      object-fit: cover;
-      padding: 0;
-      width: 100%;
-    }
-  }
 }
+
 @mixin font-properties($font: $vep-default-font) {
   font-family: map-get($font, family);
   font-size: map-get($font, size);

@@ -27,9 +27,10 @@
       opacity: 1;
     }
   }
+
   .conversation-thumbnail {
     align-items: center;
-    column-gap: 16px;
+    column-gap: 8px;
     cursor: pointer;
     display: flex;
     padding: 8px;
@@ -37,12 +38,6 @@
     &:hover {
       background-color: #d9d9d9;
       border-radius: 4px;
-    }
-
-    .last-message-time {
-      align-self: flex-end;
-      font-size: 14px;
-      margin-block: 4px;
     }
   }
 }
