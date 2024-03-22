@@ -24,13 +24,12 @@ export const UrlPage = ({ handlePageNavigation }) => {
   const handleSubmit = e => {
     e.preventDefault()
 
-    if (isDisabled) {
-      alert('Please enter a valid URL')
-      return
-    } else {
+    try {
       setIsDisabled(true)
       handlePageNavigation('next')
       window.scrollTo(0, 0)
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -43,7 +42,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
   return (
     <div className='project-completion-url-page' aria-labelledby='formHeading'>
       <h1 id='formHeading'>Congrats! You've shipped a live product!</h1>
-      <form onSubmit={handleSubmit}>
+      <form>
         <Stack className='form-content' spacing={'32px'}>
           <p>First, input the URL to your website.</p>
           <ProjectUrl setIsDisabled={setIsDisabled} />
@@ -59,6 +58,7 @@ export const UrlPage = ({ handlePageNavigation }) => {
               text='Presentation'
               type='submit'
               aria-disabled={isDisabled}
+              handler={handleSubmit}
             />
           </Stack>
         </Stack>
