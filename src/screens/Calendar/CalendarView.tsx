@@ -73,6 +73,8 @@ export const CalendarView = () => {
     if (calendarId) {
       fetchAllEvents()
     }
+  }, [calendarId, userEmail])
+
 
     const fetchTeamCommonAvailability = async () => {
       dispatch(clearTeamAvailability())

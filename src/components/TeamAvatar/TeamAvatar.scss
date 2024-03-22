@@ -12,31 +12,39 @@
   }
 }
 
+.ta-imgs {
+  border-radius: 50%;
+  object-fit: cover;
 
-  .ta-imgs {
-    border-radius: 50%;
-    object-fit: cover;
-
-    &.tiny {
-      height: 24px;
-      width: 24px;
-    }
-
-    &.small {
-      height: 40px;
-      width: 40px;
-    } 
-
-    &.medium {
-      height: 64px;
-      width: 64px;
-    }
-   }
-
-  .ta-default-pics {
-    cursor: default;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+  &.tiny {
+    height: 24px;
+    width: 24px;
   }
 
+  &.x-small {
+    height: 32px;
+    width: 32px;
+  }
+
+  &.small {
+    height: 40px;
+    width: 40px;
+  }
+
+  &.medium {
+    height: 64px;
+    width: 64px;
+  }
+
+  &.large {
+    height: 96px;
+    width: 96px;
+  }
+}
+
+.ta-default-pics {
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}

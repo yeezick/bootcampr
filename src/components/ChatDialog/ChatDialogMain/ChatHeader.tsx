@@ -1,27 +1,26 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FiArrowLeft } from 'react-icons/fi'
 import { HiOutlinePencilAlt } from 'react-icons/hi'
 import { BiPencil } from 'react-icons/bi'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import {
-  extractConversationAvatars,
-  getParticipantsNames,
-} from 'utils/functions/chatLogic'
+import { getParticipantsNames } from 'utils/functions/chatLogic'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { updateGroupChat } from 'utils/api/chat'
 import {
   onBackArrowClick,
   onScreenUpdate,
+  resetCurrentChat,
   selectChat,
   selectChatUI,
   setActiveChatRoomId,
   updateCurrentChat,
 } from 'utils/redux/slices/chatSlice'
-import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 import { CommonModal } from 'components/CommonModal/CommonModal'
 import './ChatDialogMain.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import { ChatAvatar } from '../ChatAvatar/ChatAvatar'
 
 const getTitleText = (chatScreen, currentConversation, authUser) => {
   const title = getParticipantsNames(
@@ -43,6 +42,7 @@ export const ChatMainPageHeader = () => {
   const dispatch = useAppDispatch()
   const handleCreateChatRoom = () => {
     dispatch(onScreenUpdate(ChatScreen.ComposeNewChat))
+    dispatch(resetCurrentChat())
   }
 
   return (
@@ -60,6 +60,8 @@ export const ChatPageHeader = () => {
   const { chatScreen } = useAppSelector(selectChatUI)
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const { groupPhoto, chatType, isTeamChat, participants } = currentConversation
 
   const handleBackArrowClick = () => {
     dispatch(setActiveChatRoomId(null))
@@ -97,8 +99,14 @@ export const ChatPageHeader = () => {
   }
 
   const handleChangeScreen = () => {
-    if (currentConversation.chatType === 'group') {
+    if (chatType === 'group') {
       dispatch(onScreenUpdate(ChatScreen.EditChatRoom))
+    } else {
+      const user = participants.find(
+        partipant => partipant.userInfo._id !== authUser._id
+      )
+      const userId = user.userInfo._id
+      navigate(`/users/${userId}`)
     }
   }
 
@@ -106,33 +114,28 @@ export const ChatPageHeader = () => {
     setOpenEditNameModal(true)
   }
 
-  const profilePictures = extractConversationAvatars(
-    currentConversation.participants,
-    authUser._id
-  )
+  const onGroupChatEditScreen =
+    chatType === 'group' && chatScreen === 'editChatRoom'
 
   return (
     <div className='page-title'>
       <FiArrowLeft size={24} onClick={handleBackArrowClick} />
-      {profilePictures.length > 0 && (
-        <AvatarGrid
-          pictures={profilePictures}
-          avatarSize={'small'}
-          avatarType={
-            currentConversation.chatType === 'group' ? 'grid' : 'single'
-          }
-        />
-      )}
+      <ChatAvatar
+        groupPhoto={groupPhoto}
+        chatType={chatType}
+        isTeamChat={isTeamChat}
+        participants={participants}
+        avatarSize='x-small'
+      />
       <div className='title-with-icon'>
         <h5 onClick={handleChangeScreen} className='group-link'>
           {getTitleText(chatScreen, currentConversation, authUser)}
         </h5>
-        {currentConversation.chatType === 'group' &&
-          chatScreen === 'editChatRoom' && (
-            <div className='edit-pen'>
-              <BiPencil onClick={handleEditModal} size={16} />
-            </div>
-          )}
+        {onGroupChatEditScreen && (
+          <div className='edit-pen'>
+            <BiPencil onClick={handleEditModal} size={16} />
+          </div>
+        )}
       </div>
       <CommonModal
         isOpen={openEditNameModal}

@@ -108,7 +108,6 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   useEffect(() => {
     //Warning: needs to be checked if members are loaded
     dispatch(fetchThreads())
-    //TODO - investigate why we set chatroom id to null :(
     dispatch(setActiveChatRoomId(null))
   }, [dispatch, projectMembers.length])
 

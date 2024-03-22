@@ -6,6 +6,7 @@ import { logoutAuthUser, selectUserId } from 'utils/redux/slices/userSlice'
 import { logOut } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { buildPortal, navigateToDomain } from 'utils/helpers'
+import { toggleChatClose } from 'utils/redux/slices/chatSlice'
 
 export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
   const [open, setOpen] = useState(false)
@@ -35,6 +36,7 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
     } else if (innerText === 'Log out') {
       logOut()
       dispatch(logoutAuthUser())
+      dispatch(toggleChatClose())
       navigate('/')
     } else if (innerText === 'Payment') {
       navigate('/payment/checkout')

@@ -33,7 +33,7 @@ export const PresentationPage = ({ handlePageNavigation }) => {
 
   return (
     <div className='project-completion-presentation-page'>
-      <form onSubmit={handleSubmit}>
+      <form>
         <Stack spacing={'32px'} className='page-content'>
           <section aria-labelledby='formHeading' className='details-container'>
             <h1 id='formHeading'>Project Presentation</h1>
@@ -106,6 +106,7 @@ export const PresentationPage = ({ handlePageNavigation }) => {
               disabled={isDisabled}
               text='Confirmation'
               type='submit'
+              handler={handleSubmit}
             />
           </Stack>
         </Stack>

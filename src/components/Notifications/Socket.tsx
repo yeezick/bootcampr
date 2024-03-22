@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import io from 'socket.io-client'
+import { api } from 'utils/api'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectChat,
@@ -9,7 +10,7 @@ import {
   processChatRoom,
 } from 'utils/redux/slices/chatSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
-const ENDPOINT = `${process.env.REACT_APP_LOCAL_URL}`
+const ENDPOINT = api.getUri()
 
 export const useSocket = userId => {
   const [socket, setSocket] = useState(null)
