@@ -18,13 +18,7 @@ export const sampleComment = [
     _id: sampleCommentId,
     likes: [],
     content: 'This is a sample comment',
-    author: {
-      userId: 'sillyGoose',
-      firstName: 'Silly',
-      lastName: 'Goose',
-      profilePicture: '', // TODO look into this
-      _id: generateHexadecimal(), // Why is there an _id being returned for the author object? It's not a schema model in the DB
-    },
+    authorId: 'sillyGoose',
     replies: [sampleReplyId],
     isReply: false,
     createdAt: sampleCommentDate,
@@ -37,13 +31,7 @@ export const sampleReply = [
     _id: sampleReplyId,
     likes: ['sillyGoose'],
     content: 'This is a sample reply',
-    author: {
-      userId: 'starStruck',
-      firstName: 'Star',
-      lastName: 'Struck',
-      profilePicture: '',
-      _id: generateHexadecimal(),
-    },
+    authorId: 'starStruck',
     replies: [],
     isReply: true,
     createdAt: sampleReplyDate,

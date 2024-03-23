@@ -12,6 +12,7 @@ import { IconButton } from '@mui/material'
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined'
 import './Avatar.scss'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
+import { generateDefaultPicture } from 'utils/helpers'
 
 /**
  * Avatar component to display a user's avatar image.
@@ -61,7 +62,10 @@ const Avatar: React.FC<AvatarProps> = ({
     setIsModalOpen(true)
   }
 
-  const defaultImageURL = `https://ui-avatars.com/api/?name=${authUser.firstName}+${authUser.lastName}&background=FFA726&color=1A237E&rounded=true&bold=true`
+  const defaultImageURL = generateDefaultPicture(
+    authUser.firstName,
+    authUser.lastName
+  )
 
   return (
     <>

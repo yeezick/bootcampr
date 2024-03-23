@@ -12,6 +12,7 @@ import { TimezonesUTC } from 'utils/data/timeZoneConstants'
 import { ProjectInterface } from 'interfaces'
 import { UpdateUserReducer } from 'interfaces/UserReducers'
 import { produce } from 'immer'
+import { generateDefaultPicture } from 'utils/helpers'
 
 // todo: auth.status should be its own slice
 // todo: sidemenu & ui like notifications should be its own slice
@@ -101,7 +102,10 @@ const userSlice = createSlice({
     },
     setDefaultProfilePicture: (state, action: PayloadAction<boolean>) => {
       if (!state.auth.user.profilePicture) {
-        state.auth.user.defaultProfilePicture = `https://ui-avatars.com/api/?name=${state.auth.user.firstName}+${state.auth.user.lastName}`
+        state.auth.user.defaultProfilePicture = generateDefaultPicture(
+          state.auth.user.firstName,
+          state.auth.user.lastName
+        )
         state.auth.user.hasProfilePicture = false
       }
     },

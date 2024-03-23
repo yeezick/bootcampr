@@ -1,6 +1,9 @@
 import { generateDayJs } from 'utils/helpers'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectUsersById } from 'utils/redux/slices/projectSlice'
 
-export const CommentHeader = ({ author, createdAt }) => {
+export const CommentHeader = ({ authorId, createdAt }) => {
+  const [author] = useAppSelector(selectUsersById([authorId]))
   const userFriendlyTimeStamp =
     generateDayJs(createdAt).format('MM/DD/YYYY hh:mm A')
 

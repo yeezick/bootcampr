@@ -4,6 +4,7 @@ import { deleteTicketApi } from 'utils/api/tickets'
 import {
   closeConfirmationDialog,
   closeVisibleTicketDialog,
+  isSandboxId,
 } from 'utils/helpers/taskHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { deleteTicket, selectProjectId } from 'utils/redux/slices/projectSlice'
@@ -24,11 +25,13 @@ export const DeleteTicketDialog = () => {
   const handleDeleteTicket = async () => {
     const { status, _id: ticketId } = ticketFields
     // BC-412: add guard clause for tickets that failed to delete & display error toast
-    await deleteTicketApi({
-      ticketId,
-      ticketStatus: status,
-      projectId,
-    })
+    if (!isSandboxId(ticketId)) {
+      await deleteTicketApi({
+        ticketId,
+        ticketStatus: status,
+        projectId,
+      })
+    }
 
     dispatch(deleteTicket({ status, ticketId }))
     dispatch(successSnackbar('Ticket deleted successfully'))
