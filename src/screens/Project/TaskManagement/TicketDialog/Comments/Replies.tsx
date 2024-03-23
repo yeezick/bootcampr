@@ -39,7 +39,7 @@ export const Replies = ({
         commentType={CommentType.Reply}
         toggleFetchComments={toggleFetchComments}
         fetchComments={fetchComments}
-        parentComment={commentId}
+        parentCommentId={commentId}
       />
     </div>
   )

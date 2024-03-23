@@ -1,8 +1,9 @@
 import { Tooltip, TooltipProps, styled, tooltipClasses } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { updateComment } from 'utils/api/comments'
-import { determineLikeIcon } from 'utils/helpers/commentHelpers'
-import { useAppSelector } from 'utils/redux/hooks'
+import { determineLikeIcon, errorSnackbar } from 'utils/helpers/commentHelpers'
+import { isSandboxId } from 'utils/helpers/taskHelpers'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectUsersById } from 'utils/redux/slices/projectSlice'
 import { selectUserId } from 'utils/redux/slices/userSlice'
 
@@ -15,6 +16,7 @@ export const LikeButton = ({
   const [likedByUser, toggleLikedByUser] = useState(false)
   const likers = useAppSelector(selectUsersById(likes))
   const userId = useAppSelector(selectUserId)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (likes.includes(userId)) {
@@ -26,18 +28,22 @@ export const LikeButton = ({
 
   //BC-763
   const handleCommentLike = async () => {
-    let updatedLikes
-    if (likes.includes(userId)) {
-      updatedLikes = {
-        likes: likes.filter(likeId => likeId !== userId),
-      }
+    if (isSandboxId(commentId)) {
+      dispatch(errorSnackbar('This feature is disabled for the sandbox!'))
     } else {
-      updatedLikes = {
-        likes: [...likes, userId],
+      let updatedLikes
+      if (likes.includes(userId)) {
+        updatedLikes = {
+          likes: likes.filter(likeId => likeId !== userId),
+        }
+      } else {
+        updatedLikes = {
+          likes: [...likes, userId],
+        }
       }
+      await updateComment(commentId, updatedLikes)
+      toggleFetchComments(!fetchComments)
     }
-    await updateComment(commentId, updatedLikes)
-    toggleFetchComments(!fetchComments)
   }
 
   const tooltipTitle = likers

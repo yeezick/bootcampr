@@ -61,6 +61,21 @@ export const filterUserTickets = (allTickets, userId) => {
   return filteredTickets
 }
 
+export const formatTaskStatus = (status: string) => {
+  switch (status) {
+    case 'toDo':
+      return 'To Do'
+    case 'inProgress':
+      return 'In Progress'
+    case 'completed':
+      return 'Completed'
+    case 'underReview':
+      return 'Under Review'
+    default:
+      return status
+  }
+}
+
 export const handleColumnReordering = async (
   dispatch,
   projectId,
@@ -149,18 +164,11 @@ export const hasUserEditedFields = (userId, projectId, ticketFields) => {
   return deepEqual(initialTicketFields, currentFields) ? false : true
 }
 
-export const formatTaskStatus = (status: string) => {
-  switch (status) {
-    case 'toDo':
-      return 'To Do'
-    case 'inProgress':
-      return 'In Progress'
-    case 'completed':
-      return 'Completed'
-    case 'underReview':
-      return 'Under Review'
-    default:
-      return status
+export const isSandboxId = ticketId => {
+  if (ticketId.length === 6) {
+    return true
+  } else {
+    return false
   }
 }
 

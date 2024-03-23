@@ -2,18 +2,21 @@ import { InputAdornment, TextField } from '@mui/material'
 import { useState } from 'react'
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined'
 import { CommentType } from 'interfaces/TaskBoardInterface'
-import { useAppSelector } from 'utils/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { createComment } from 'utils/api/comments'
+import { errorSnackbar } from 'utils/helpers/commentHelpers'
+import { isSandboxId } from 'utils/helpers/taskHelpers'
 
 export const NewComment = ({
   commentType,
-  parentComment = undefined,
+  parentCommentId = undefined,
   ticketId = undefined,
   fetchComments,
   toggleFetchComments,
 }) => {
   const user = useAppSelector(selectAuthUser)
+  const dispatch = useAppDispatch()
   let placeholderText =
     commentType === CommentType.Parent
       ? 'Give your feedback here.'
@@ -38,13 +41,18 @@ export const NewComment = ({
         profilePicture,
       },
       content,
-      parentComment,
+      parentCommentId,
       ticketId,
       isReply,
     }
-    await createComment(commentPayload)
+
+    if (isSandboxId(ticketId || parentCommentId)) {
+      dispatch(errorSnackbar('This feature is disabled for the sandbox!'))
+    } else {
+      await createComment(commentPayload)
+      toggleFetchComments(!fetchComments)
+    }
     setInputText('')
-    toggleFetchComments(!fetchComments)
   }
 
   const handleInputChange = e => setInputText(e.target.value)
