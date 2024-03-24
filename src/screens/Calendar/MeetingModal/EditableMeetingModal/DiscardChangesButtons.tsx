@@ -1,7 +1,4 @@
-import {
-  PrimaryButton,
-  SecondaryButton,
-} from 'components/Buttons/ButtonVariants'
+import { PrimaryButton, TextButton } from 'components/Buttons/ButtonVariants'
 
 export const DiscardChangesButtons = ({
   handleClose,
@@ -9,11 +6,7 @@ export const DiscardChangesButtons = ({
 }) => {
   return (
     <div className='discard-buttons-container'>
-      <SecondaryButton
-        text='Cancel'
-        handler={handleClose}
-        style={cancelButtonStyles}
-      />
+      <TextButton text='Cancel' handler={handleClose} colorScheme='primary' />
       <PrimaryButton handler={handleCloseDiscardChanges} text='Discard' />
     </div>
   )
