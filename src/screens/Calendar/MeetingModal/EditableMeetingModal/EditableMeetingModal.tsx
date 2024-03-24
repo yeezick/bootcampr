@@ -285,10 +285,10 @@ const submitButtonStyles = {
   fontWeight: '500',
   textTransform: 'none',
   boxShadow: 'none',
-  '&:hover': {
-    backgroundColor: '#fa9413',
-    boxShadow: 'none',
-  },
+  // '&:hover': {
+  //   backgroundColor: '#fa9413',
+  //   boxShadow: 'none',
+  // },
 }
 
 const titleInputFieldStyles = {
