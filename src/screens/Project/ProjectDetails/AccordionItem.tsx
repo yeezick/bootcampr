@@ -6,7 +6,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
 export const AccordionItem = ({ title, details }) => {
   return (
-    <Accordion>
+    <Accordion className='accordion'>
       <AccordionSummary
         expandIcon={<ArrowDropDownIcon />}
         aria-controls='panel1-content'
