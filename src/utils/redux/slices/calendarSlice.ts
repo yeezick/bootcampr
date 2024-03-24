@@ -63,7 +63,7 @@ const calendarSlice = createSlice({
       state.teamAvailability = [...state.teamAvailability, action.payload]
     },
     clearTeamAvailability: (state, action: PayloadAction<TeamAvailability>) => {
-      state.teamAvailability = []
+      state.teamAvailability = initialState.teamAvailability
     },
   },
 })

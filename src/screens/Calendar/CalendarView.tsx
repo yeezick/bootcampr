@@ -70,12 +70,6 @@ export const CalendarView = () => {
       }
     }
 
-    if (calendarId) {
-      fetchAllEvents()
-    }
-  }, [calendarId, userEmail])
-
-
     const fetchTeamCommonAvailability = async () => {
       dispatch(clearTeamAvailability())
       const teamCommonAvailability = await getTeamCommonAvailability(projectId)
@@ -99,8 +93,8 @@ export const CalendarView = () => {
               title: 'Team Availability',
               start: start,
               end: end,
-              backgroundColor: '#F2F4FF',
-              borderColor: '#5C6BC0',
+              backgroundColor: '#E8F5E9',
+              borderColor: '#388E3C',
               timeZone: 'America/New_York',
             }
             dispatch(storeTeamAvailability(teamAvailability))
@@ -109,10 +103,13 @@ export const CalendarView = () => {
       }
     }
 
-    if (projectId) {
-      fetchTeamCommonAvailability()
+    if (calendarId && userEmail) {
+      fetchAllEvents()
+      if (projectId) {
+        fetchTeamCommonAvailability()
+      }
     }
-  }, [calendarId, projectId])
+  }, [calendarId, userEmail])
 
   const handleEventClick = e => {
     if (e.event.title !== 'Team Availability') {
