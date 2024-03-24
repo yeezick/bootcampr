@@ -78,8 +78,8 @@
     border: none;
   }
 
-  .fc .fc-createMeeting-button, .fc .fc-createMeeting-button {
-    background-color: #FFA726;
+  .fc .fc-createMeeting-button, .fc .fc-createMeeting-button:active{
+    background-color: #ffa726;
     border: none;
     color: #1A237E;
     font-size: 14px;

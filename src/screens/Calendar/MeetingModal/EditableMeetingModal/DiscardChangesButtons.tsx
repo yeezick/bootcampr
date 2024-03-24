@@ -1,4 +1,7 @@
-import Button from '@mui/material/Button'
+import {
+  PrimaryButton,
+  SecondaryButton,
+} from 'components/Buttons/ButtonVariants'
 
 export const DiscardChangesButtons = ({
   handleClose,
@@ -6,34 +9,19 @@ export const DiscardChangesButtons = ({
 }) => {
   return (
     <div className='discard-buttons-container'>
-      <Button onClick={handleClose} sx={cancelButtonStyles}>
-        Cancel
-      </Button>
-      <Button onClick={handleCloseDiscardChanges} sx={discardButtonStyles}>
-        Discard
-      </Button>
+      <SecondaryButton
+        text='Cancel'
+        handler={handleClose}
+        style={cancelButtonStyles}
+      />
+      <PrimaryButton handler={handleCloseDiscardChanges} text='Discard' />
     </div>
   )
 }
 
-const discardButtonStyles = {
-  backgroundColor: '#ffa726',
-  color: '#1A237E',
-  textTransform: 'none',
-  padding: '8px 20px',
-  fontWeight: '600',
-  '&:hover': {
-    backgroundColor: '#ffa726',
-  },
-}
-
 const cancelButtonStyles = {
-  color: '#1A237E',
-  backgroundColor: 'white',
-  textTransform: 'none',
-  padding: '8px 20px',
-  fontWeight: '600',
+  border: 'none',
   '&:hover': {
-    backgroundColor: 'white',
+    border: 'none',
   },
 }
