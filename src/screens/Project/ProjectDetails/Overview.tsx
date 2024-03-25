@@ -1,5 +1,5 @@
 import './Overview.scss'
-import { AccordionItem } from './AccordionItem'
+import { AccordionItem } from '../../../components/Accordion/AccordionItem'
 import { projectBriefContent } from 'utils/data/projectBriefConstants'
 
 export const Overview = () => {
