@@ -3,10 +3,13 @@
   width: min-content;
 }
 
+.avatar-img {
+  cursor: pointer;
+}
+
 .avatar-img,
 .non-clickable {
   border-radius: 50%;
-  cursor: pointer;
   height: 75px;
   object-fit: cover;
   width: 75px;
@@ -42,6 +45,21 @@
     height: 50px;
     padding-left: 0;
     width: 50px;
+
+    &.tiny {
+      height: 24px;
+      width: 24px;
+    }
+
+    &.small {
+      height: 40px;
+      width: 40px;
+    }
+
+    &.medium {
+      height: 64px;
+      width: 64px;
+    }
   }
 }
 
