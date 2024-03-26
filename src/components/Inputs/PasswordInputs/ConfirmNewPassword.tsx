@@ -5,9 +5,9 @@ import {
   handlePasswordMatching,
   toggleVisiblity,
 } from '../Passwords'
-import { FormControl, IconButton, InputAdornment } from '@mui/material'
+import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { FaExclamationCircle } from 'react-icons/fa'
+
 export const ConfirmNewPassword = ({
   password,
   passwordMatch,
@@ -57,18 +57,7 @@ export const ConfirmNewPassword = ({
               borderColor: !isValid ? '#d32f2f' : '',
             }}
           />
-          {!isValid ? (
-            <InputAdornment position='end'>
-              <div className='pwd-mismatch-icon'>
-                <FaExclamationCircle
-                  size={18}
-                  color='white'
-                  aria-label='validation error'
-                  onClick={() => toggleVisiblity(inputType, setInputType)}
-                />
-              </div>
-            </InputAdornment>
-          ) : (
+          {!isValid && (
             <IconButton
               className='confirm-password eyecon'
               aria-label='toggle password visibility'
