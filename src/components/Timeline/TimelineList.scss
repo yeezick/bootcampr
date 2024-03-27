@@ -4,7 +4,7 @@
 #timeline {
   margin: 0;
   padding: 0;
-  width: 40%;
+  width: 55%;
 
   #tl-content-cont {
     @include flex(column);
@@ -42,5 +42,6 @@
       )
     );
     color: #212121;
+    
   }
 }
