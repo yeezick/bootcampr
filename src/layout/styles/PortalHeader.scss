@@ -8,6 +8,7 @@
   height: $header-height;
   position: fixed;
   width: 100%;
+  z-index: 1;
 
   .body {
     @include flex(row, normal,  center);
