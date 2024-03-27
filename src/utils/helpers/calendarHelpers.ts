@@ -1,7 +1,11 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import { DateFieldsInterface, MeetingModalInfo } from 'interfaces'
+import {
+  ConvertedEvent,
+  DateFieldsInterface,
+  MeetingModalInfo,
+} from 'interfaces'
 import { staticEmails } from 'utils/data/calendarConstants'
 
 dayjs.extend(utc)
@@ -9,8 +13,8 @@ dayjs.extend(timezone)
 
 export const blankDayJs = () => dayjs()
 
-export const buildSandboxEvent = (eventInfo, eventId?) => {
-  const { description, end, start, summary } = eventInfo
+export const buildSandboxEvent = (eventInfo, eventId?): ConvertedEvent => {
+  const { description, end, googleMeetingInfo, start, summary } = eventInfo
   const updatedAttendees = eventInfo.attendees.map(member => {
     return { ...member, responseStatus: 'needsAction' }
   })
@@ -29,16 +33,14 @@ export const buildSandboxEvent = (eventInfo, eventId?) => {
   return {
     attendees: updatedAttendees,
     description,
-    creator: {
-      email: 'erick.manrique@bootcampr.io',
-    },
+    creator: 'star@struck.com',
     end: endTime,
     eventId: eventId || generateHexadecimal(),
     googleDateFields: {
       endTime: end.dateTime,
       startTime: start.dateTime,
     },
-    hangoutLink: 'https://meet.google.com',
+    hangoutLink: googleMeetingInfo && 'https://meet.google.com',
     start: startTime,
     timeZone: start.timeZone,
     title: summary,

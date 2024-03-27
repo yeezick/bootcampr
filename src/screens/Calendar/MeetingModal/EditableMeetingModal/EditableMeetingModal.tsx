@@ -60,7 +60,11 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
   useEffect(() => {
     if (modalDisplayStatus === 'create') {
       const updatedAttendees = { ...attendees }
-      updatedAttendees[authUser.email] = true
+      if (calendarId === 'sandbox') {
+        updatedAttendees['star@struck.com'] = true
+      } else {
+        updatedAttendees[authUser.email] = true
+      }
       setAttendees(updatedAttendees)
 
       toggleVisibleModal(true)
@@ -243,7 +247,6 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
               handleInviteAll={handleInviteAll}
               setAttendees={setAttendees}
               toggleInviteAll={toggleInviteAll}
-              projectMembers={projectMembers}
             />
 
             <div className='meeting-modal-divider' />

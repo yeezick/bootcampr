@@ -21,7 +21,6 @@ export const Layout = ({ children }) => {
   const status = useAppSelector(uiStatus)
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
-  const portal = useAppSelector(selectPortal)
   const { pathname } = useLocation()
 
   if (status.isLoading) {
