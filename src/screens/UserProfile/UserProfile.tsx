@@ -9,7 +9,6 @@ import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 import { RiGithubLine } from 'react-icons/ri'
 import { FiLinkedin } from 'react-icons/fi'
 import { TbBriefcase } from 'react-icons/tb'
-import './UserProfile.scss'
 import { createOrGetPrivateChatRoom } from 'utils/api/chat'
 import {
   onScreenUpdate,
@@ -19,6 +18,7 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useSocketEvents } from 'components/Notifications/Socket'
+import './UserProfile.scss'
 
 export const UserProfile: React.FC = () => {
   const authUser = useAppSelector(selectAuthUser)
@@ -85,7 +85,7 @@ export const UserProfile: React.FC = () => {
       <div className='userProfile__container'>
         <div className='userProfile__titleContainer'>
           <div className='userProfile__image'>
-            <TeamAvatar userId={userId} />
+            <TeamAvatar userId={userId} size='medium' />
           </div>
           <div className='userProfile__title'>
             {shouldShowName && (

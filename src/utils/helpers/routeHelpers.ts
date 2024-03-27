@@ -43,7 +43,7 @@ export const buildProjectPortalLinks = (projectId: string): PortalLink[] => {
     {
       domain: 'project',
       //TODO: make this value dynamic
-      headerTitle: 'Sprint 1',
+      headerTitle: 'Sprints',
       icon: 'tasks',
       label: 'Kanban Board',
       route: `/project/${urlProjectId}/tasks`,
