@@ -55,7 +55,7 @@ export const CalendarView = () => {
       }
     }
 
-    if (calendarId) {
+    if (calendarId && userEmail) {
       fetchAllEvents()
     }
   }, [calendarId, userEmail])
