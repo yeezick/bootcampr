@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { getUserTimezone, selectAuthUser } from 'utils/redux/slices/userSlice'
 import { AvailabilityInterface } from 'interfaces'
 import { saveAvailability } from 'components/Availability/utils/helpers'
-import './SetupAvailability.scss'
 import { Timezones } from 'components/Availability/utils/data'
 import { guessUserTimezone } from 'utils/helpers/availabilityHelpers'
 import {
@@ -13,6 +12,8 @@ import {
   bootcamprTimezoneToUTCMap,
 } from 'utils/data/timeZoneConstants'
 import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
+import moment from 'moment'
+import './SetupAvailability.scss'
 
 interface SetupAvailabilityProps {
   handlePageNavigation: (navType: 'previous' | 'next' | 'specific') => void
@@ -61,15 +62,33 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   }, [days])
 
   const disableForwardButton = (): boolean => {
-    let disabled = true
+    const selectedDays = new Set()
 
-    Object.keys(days).forEach(day => {
-      if (days[day].available) {
-        disabled = false
+    for (const day of Object.keys(days)) {
+      const { availability, available } = days[day]
+      let totalAvailableHours = 0
+
+      if (available && availability.length > 0) {
+        for (const slot of availability) {
+          if (slot[0] && slot[1]) {
+            const startTime = moment(slot[0], 'h:mm A')
+            const endTime = moment(slot[1], 'h:mm A')
+            const timeDifference = endTime.diff(startTime, 'hours')
+
+            if (timeDifference >= 1) {
+              totalAvailableHours += 1
+            } else {
+              totalAvailableHours += 0.5
+            }
+          }
+        }
+
+        if (totalAvailableHours >= 1) {
+          selectedDays.add(day)
+        }
       }
-    })
-
-    return disabled
+    }
+    return selectedDays.size < 3
   }
 
   return (
@@ -78,7 +97,13 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
         <h2>When are you available for meetings?</h2>
         <p>We will match project teams according to availability to meet.</p>
         <p>You can edit this later in the project portal calendar page.</p>
-        <i>Select at least one day per week with a block of time.</i>
+        <i>
+          <strong>
+            *You must have 3 days per week with at least 1 hour of availability
+            to meet. <br />
+            The 1 hour can be 2 half-hour time slots.
+          </strong>
+        </i>
       </div>
       <Availability
         days={days}
