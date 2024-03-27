@@ -50,22 +50,20 @@ export const ConfirmNewPassword = ({
             aria-required
             id={inputId}
             name={name}
-            onChange={handleConfirmPassword}
             required
+            onChange={handleConfirmPassword}
             type={inputType}
             style={{
               borderColor: !isValid ? '#d32f2f' : '',
             }}
           />
-          {!isValid && (
-            <IconButton
-              className='confirm-password eyecon'
-              aria-label='toggle password visibility'
-              onClick={() => toggleVisiblity(inputType, setInputType)}
-            >
-              {inputType === 'password' ? <VisibilityOff /> : <Visibility />}
-            </IconButton>
-          )}
+          <IconButton
+            className='confirm-password eyecon'
+            aria-label='toggle password visibility'
+            onClick={() => toggleVisiblity(inputType, setInputType)}
+          >
+            {inputType === 'password' ? <VisibilityOff /> : <Visibility />}
+          </IconButton>
         </div>
         <PasswordMatchError matchStatus={passwordMatch} />
       </FormControl>
