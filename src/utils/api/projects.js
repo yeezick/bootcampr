@@ -116,3 +116,12 @@ export const getMembersAttributesByProjectId = async (
     console.error(err)
   }
 }
+
+export const getTeamCommonAvailability = async projectId => {
+  try {
+    const res = await api.get(`/projects/${projectId}/team-common-availability`)
+    return res.data
+  } catch (err) {
+    console.error(err)
+  }
+}

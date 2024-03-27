@@ -44,7 +44,7 @@ export const DisplayMeetingModal = () => {
 
   return (
     <Dialog open={displayMeeting} onClose={handleClose}>
-      <DialogContent>
+      <DialogContent className='display-meeting-modal'>
         <DisplayModalHeaderIcons
           handleClose={handleClose}
           setDisplayMeeting={setDisplayMeeting}
