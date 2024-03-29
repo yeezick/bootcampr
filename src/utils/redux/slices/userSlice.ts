@@ -152,6 +152,8 @@ export const selectUserEmail = (state: RootState) => state.ui.auth.user.email
 export const selectUserProjectId = (state: RootState) =>
   state.ui.auth.user.project
 export const selectUserId = (state: RootState) => state.ui.auth.user._id
+export const selectUserExperience = (state: RootState) =>
+  state.ui.auth.user.payment.experience
 export const uiStatus = (state: RootState) => state.ui.status
 export const selectHasUploadedProfilePicture = (state: RootState) => {
   return state.ui.auth.user.hasProfilePicture

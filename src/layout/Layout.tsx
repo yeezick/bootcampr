@@ -1,13 +1,20 @@
 import React, { useEffect } from 'react'
 import { Loader } from 'components/Loader/Loader'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { selectUserId, uiStatus } from 'utils/redux/slices/userSlice'
+import {
+  selectUserExperience,
+  selectUserId,
+  uiStatus,
+} from 'utils/redux/slices/userSlice'
 import { SideMenu } from './'
 import { Nav } from './'
 import { Footer } from 'layout/Footer'
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
-import { useLocation, useSearchParams } from 'react-router-dom'
-import { selectPortal } from 'utils/redux/slices/userInterfaceSlice'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import {
+  selectBanner,
+  selectPortal,
+} from 'utils/redux/slices/userInterfaceSlice'
 import './styles/Layout.scss'
 import {
   buildPortal,
@@ -16,6 +23,8 @@ import {
 } from 'utils/helpers'
 import { PortalHeader } from './PortalHeader'
 import { selectProjectId } from 'utils/redux/slices/projectSlice'
+import sandboxBanner from '../assets/Images/sandbox-banner.png'
+import { PrimaryButton } from 'components/Buttons'
 
 export const Layout = ({ children }) => {
   const status = useAppSelector(uiStatus)
@@ -42,7 +51,11 @@ export const Layout = ({ children }) => {
 }
 
 const PortalView = ({ children }) => {
-  const { active, type } = useAppSelector(selectPortal)
+  const { active: activePortal, type: portalType } =
+    useAppSelector(selectPortal)
+  const { active: activeBanner, type: bannerType } =
+    useAppSelector(selectPortal)
+  const experience = useAppSelector(selectUserExperience)
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
   const [searchParams] = useSearchParams()
@@ -52,28 +65,81 @@ const PortalView = ({ children }) => {
 
   useEffect(() => {
     let routeId
-    if (active) {
-      routeId = type === 'project' ? projectId : userId
-      buildPortal(dispatch, type, routeId)
+    if (activePortal) {
+      routeId = portalType === 'project' ? projectId : userId
+      buildPortal(dispatch, portalType, routeId, experience)
     } else if (portal) {
       routeId = portal === 'project' ? projectId : userId
-      buildPortal(dispatch, portal, routeId)
+      buildPortal(dispatch, portal, routeId, experience)
     } else {
       const { domain } = determinePortalFromUrl(pathname, userId, projectId)
       routeId = domain === 'project' ? projectId : userId
-      buildPortal(dispatch, domain, routeId)
+      buildPortal(dispatch, domain, routeId, experience)
     }
-  }, [active, type])
+  }, [activePortal, portalType, activeBanner])
 
   return (
-    <div className='main-wrapper'>
-      <SideMenu />
+    <div className='portal-wrapper'>
+      <PortalBanner />
       <div className='portal-layout'>
-        <PortalHeader />
-        <div className='portal-screen'>{children}</div>
+        <SideMenu />
+        <div className='portal-view'>
+          <PortalHeader />
+          <div className='portal-content'>{children}</div>
+        </div>
       </div>
     </div>
   )
+}
+
+const PortalBanner = () => {
+  const { active, type } = useAppSelector(selectBanner)
+  const userId = useAppSelector(selectUserId)
+  const navigate = useNavigate()
+
+  const handleJoinTeam = () => navigate(`/onboarding/${userId}`)
+
+  if (!active) return null
+
+  if (type === 'sandbox') {
+    return (
+      <div className='banner'>
+        <img src={sandboxBanner} />
+        <div className='text'>
+          <h2>Bootcampr Sandbox</h2>
+          <p>
+            Feel free to explore the platform and try the features. Join an
+            agile team when you're ready!
+          </p>
+        </div>
+        <PrimaryButton
+          className='cta-button'
+          text='Join a team'
+          handler={handleJoinTeam}
+        />
+      </div>
+    )
+  }
+
+  if (type === 'waitlist') {
+    return (
+      <div className='banner'>
+        <img src={sandboxBanner} />
+        <div className='text'>
+          <h2>Bootcampr Sandbox</h2>
+          <p>
+            Feel free to explore the platform and try the features. Join an
+            agile team when you're ready!
+          </p>
+        </div>
+        <PrimaryButton
+          className='cta-button'
+          text='Join a team'
+          handler={handleJoinTeam}
+        />
+      </div>
+    )
+  }
 }
 
 const DefaultView = ({ children }) => {

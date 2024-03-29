@@ -33,7 +33,13 @@ export interface UserInterface {
   _id?: string
 }
 
+export interface Banner {
+  active: boolean
+  type: 'sandbox' | 'waitlist' | ''
+}
+
 export interface UiInterface {
+  banner: Banner
   portal: Portal
   sideMenu: SideMenu
 }

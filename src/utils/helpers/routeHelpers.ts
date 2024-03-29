@@ -4,6 +4,7 @@ import { Dispatch } from 'react'
 import { NavigateFunction } from 'react-router-dom'
 import {
   resetPortal,
+  setBanner,
   setPortal,
   setPortalPage,
 } from 'utils/redux/slices/userInterfaceSlice'
@@ -132,14 +133,24 @@ export const buildPortal = (
   dispatch: ThunkDispatch<RootState, undefined, AnyAction> &
     Dispatch<AnyAction>,
   domain: DomainStrings,
-  routeId: string
+  routeId: string,
+  experience?: string
 ) => {
   if (domain === 'project') {
     dispatch(setPortal(buildProjectPortal(routeId)))
+    determineBanner(dispatch, experience)
   } else if (domain === 'settings') {
     dispatch(setPortal(buildSettingsPortal(routeId)))
   } else {
     dispatch(resetPortal())
+  }
+}
+
+const determineBanner = (dispatch, experience) => {
+  if (experience === 'sandbox') {
+    dispatch(setBanner({ active: true, type: 'sandbox' }))
+  } else if (experience === 'waitlist') {
+    dispatch(setBanner({ active: true, type: 'waitlist' }))
   }
 }
 
