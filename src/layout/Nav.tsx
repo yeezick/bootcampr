@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import {
+  selectAuthUser,
+  selectUserExperience,
+} from 'utils/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { MdArrowDropDown } from 'react-icons/md'
 import { BsFillChatLeftTextFill } from 'react-icons/bs'
@@ -27,6 +30,7 @@ export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
   const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const authUser = useAppSelector(selectAuthUser)
+  const experience = useAppSelector(selectUserExperience)
   const { _id: userId, project: projectId } = authUser
   const dispatch = useAppDispatch()
   const location = useLocation()
@@ -38,7 +42,8 @@ export const Nav = () => {
   )
 
   const closeDropdown = () => setAnchorEl(null)
-  const handlePortalLink = () => buildPortal(dispatch, 'project', projectId)
+  const handlePortalLink = () =>
+    buildPortal(dispatch, 'project', projectId, experience)
   const handleNonPortalLink = () => dispatch(resetPortal())
 
   const landingPage =

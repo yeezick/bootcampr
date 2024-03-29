@@ -76,7 +76,7 @@ const PortalView = ({ children }) => {
       routeId = domain === 'project' ? projectId : userId
       buildPortal(dispatch, domain, routeId, experience)
     }
-  }, [activePortal, portalType, activeBanner])
+  }, [activePortal, portalType, experience])
 
   return (
     <div className='portal-wrapper'>
