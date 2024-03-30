@@ -225,21 +225,6 @@
   margin-top: 16px;
 }
 
-.pwd-mismatch-icon {
-  align-items: center;
-  border-radius: 50%;
-  background-color: #d32f2f;
-  cursor: pointer;
-  display: flex;
-  height: 18px;
-  justify-content: center;
-  padding: 2px;
-  position: absolute;
-  right: 8px;
-  top: 18px;
-  width: 18px;
-}
-
 .pwd-reveal {
   @include reveal-icon(1);
 }

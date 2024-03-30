@@ -42,7 +42,8 @@
   }
 
   .ptl-flow-cont {
-    max-height: 750px;
-    overflow-y: auto;
+    #tl-body p {
+        margin: 0px;
+    }
   }
 }

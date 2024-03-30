@@ -1,9 +1,8 @@
+import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { selectUserProjectId } from 'utils/redux/slices/userSlice'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
 import { changePortalPage } from 'utils/helpers'
-import './styles/SideMenu.scss'
 import { iconMap } from 'utils/components/Icons'
 import { PrimaryButton } from 'components/Buttons'
 import { useSelector } from 'react-redux'
@@ -11,8 +10,8 @@ import {
   selectProjectId,
   selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
-import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
+import './styles/SideMenu.scss'
 
 export const SideMenu = () => {
   const navigate = useNavigate()
@@ -71,15 +70,12 @@ const SideMenuLinks = () => {
 
 const MenuLink = ({ linkDetails }) => {
   const location = useLocation()
-  const projectId = useAppSelector(selectUserProjectId)
   const { domain, icon, label, route, headerTitle } = linkDetails
   const LinkIcon = iconMap[icon]
   const dispatch = useAppDispatch()
-  const isCalendarOrTask =
-    label === 'Scrum Calendar' || label === 'Kanban Board' || label === 'Team'
-  const linkClassName = `${
-    !projectId && isCalendarOrTask ? 'link-disable' : 'link'
-  } ${location.pathname === route ? 'current-location' : ''}`
+  const linkClassName = `${'link'} ${
+    location.pathname === route ? 'current-location' : ''
+  }`
   const handlePortalLinkClick = () => changePortalPage(dispatch, headerTitle)
 
   return (
