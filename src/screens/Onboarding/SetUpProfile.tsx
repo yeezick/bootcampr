@@ -48,7 +48,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
         return { ...currForm, ...authUser }
       })
     }
-  }, [])
+  }, [authUser])
 
   useEffect(() => {
     const charCount =
