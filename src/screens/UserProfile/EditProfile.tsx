@@ -131,7 +131,7 @@ export const EditProfile: React.FC = () => {
                 maxLength={500}
               />
               <div className='editprofile__bioCharCount'>
-                {bioCharCount}/500
+                {500 - bioCharCount}/500
               </div>
             </label>
 
