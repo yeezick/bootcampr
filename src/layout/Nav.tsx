@@ -32,7 +32,6 @@ export const Nav = () => {
   const location = useLocation()
   const projectRouteActive = location.pathname.includes('/project/')
   const excludedRoutes = ['/payment', '/sign-up', '/sign-in', '/onboarding']
-
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
   )
@@ -58,28 +57,37 @@ export const Nav = () => {
       {!isExcludedRoute && (
         <div className='navbar-wrapper'>
           <div className='header-list'>
+            {userId && (
+              <Link
+                className={
+                  projectRouteActive ? 'header-link active' : 'header-link'
+                }
+                to={`/project/${projectId || 'unassigned'}`}
+                onClick={handlePortalLink}
+              >
+                Project Portal
+              </Link>
+            )}
             <Link
-              className={
-                projectRouteActive ? 'header-link active' : 'header-link'
-              }
-              to={`/project/${projectId || 'unassigned'}`}
-              onClick={handlePortalLink}
+              className='header-link'
+              to='/contact-us'
+              onClick={handleNonPortalLink}
             >
-              Project Portal
+              Contact us
             </Link>
             <Link
               className='header-link'
-              to='/how-to'
+              to='/community'
               onClick={handleNonPortalLink}
             >
-              How Bootcamper works
+              Community
             </Link>
             <Link
               className='header-link'
-              to='/about-us'
+              to='/enterprise'
               onClick={handleNonPortalLink}
             >
-              About us
+              Enterprise
             </Link>
           </div>
           {userId ? (
