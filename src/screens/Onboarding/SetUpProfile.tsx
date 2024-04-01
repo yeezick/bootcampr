@@ -233,7 +233,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                   }`}
                 >
                   <p className={`${errorStates.bio && 'error'}`}>
-                    {bioCharCount}/500
+                    {500 - bioCharCount}/500
                   </p>
                 </div>
               </div>
