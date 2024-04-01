@@ -32,8 +32,8 @@
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      height: fit-content;
-      justify-content: space-between;
+      height: 580px;
+      justify-content: flex-start;
       padding: 16px 32px 32px 32px;
       width: 416px; 
 
@@ -95,6 +95,12 @@
           }
         }
       }
+    }
+
+    .button {
+      display: flex;
+      bottom: 30px;
+      position: absolute;
     }
   }
 }
