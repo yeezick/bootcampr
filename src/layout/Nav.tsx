@@ -30,7 +30,6 @@ export const Nav = () => {
   const { _id: userId, project: projectId } = authUser
   const dispatch = useAppDispatch()
   const location = useLocation()
-  const projectRouteActive = location.pathname.includes('/project/')
   const excludedRoutes = ['/payment', '/sign-up', '/sign-in', '/onboarding']
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
@@ -59,9 +58,9 @@ export const Nav = () => {
           <div className='header-list'>
             {userId && (
               <Link
-                className={
-                  projectRouteActive ? 'header-link active' : 'header-link'
-                }
+                className={`header-link ${
+                  location.pathname.includes('project') ? 'active' : ''
+                }`}
                 to={`/project/${projectId || 'unassigned'}`}
                 onClick={handlePortalLink}
               >
@@ -69,21 +68,27 @@ export const Nav = () => {
               </Link>
             )}
             <Link
-              className='header-link'
+              className={`header-link ${
+                location.pathname.includes('contact-us') ? 'active' : ''
+              }`}
               to='/contact-us'
               onClick={handleNonPortalLink}
             >
               Contact us
             </Link>
             <Link
-              className='header-link'
+              className={`header-link ${
+                location.pathname.includes('community') ? 'active' : ''
+              }`}
               to='/community'
               onClick={handleNonPortalLink}
             >
               Community
             </Link>
             <Link
-              className='header-link'
+              className={`header-link ${
+                location.pathname.includes('enterprise') ? 'active' : ''
+              }`}
               to='/enterprise'
               onClick={handleNonPortalLink}
             >
