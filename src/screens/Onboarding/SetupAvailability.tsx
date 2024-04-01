@@ -12,8 +12,11 @@ import {
   bootcamprTimezoneToUTCMap,
 } from 'utils/data/timeZoneConstants'
 import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
-import moment from 'moment'
+import dayjs from 'dayjs'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
 import './SetupAvailability.scss'
+
+dayjs.extend(localizedFormat)
 
 interface SetupAvailabilityProps {
   handlePageNavigation: (navType: 'previous' | 'next' | 'specific') => void
@@ -71,9 +74,9 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
       if (available && availability.length > 0) {
         for (const slot of availability) {
           if (slot[0] && slot[1]) {
-            const startTime = moment(slot[0], 'h:mm A')
-            const endTime = moment(slot[1], 'h:mm A')
-            const timeDifference = endTime.diff(startTime, 'hours')
+            const startTime = dayjs(slot[0], 'LT')
+            const endTime = dayjs(slot[1], 'LT')
+            const timeDifference = endTime.diff(startTime, 'hour')
 
             if (timeDifference >= 1) {
               totalAvailableHours += 1
