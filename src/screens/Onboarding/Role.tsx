@@ -10,6 +10,7 @@ import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import softwareEngineer from '../../assets/Images/software-engineer.png'
 import uxDesigner from '../../assets/Images/ux-designer.png'
 import productManager from '../../assets/Images/product-manager.png'
+import { successSnackbar } from 'utils/helpers/commentHelpers'
 
 export const Role = ({ handlePageNavigation }) => {
   const dispatch = useDispatch()
@@ -48,6 +49,7 @@ export const Role = ({ handlePageNavigation }) => {
         role: selectedRole,
       })
       dispatch(updateAuthUser(response.userProfile))
+      dispatch(successSnackbar('Your role has been updated!'))
       setButtonEnabled(false)
       handlePageNavigation('next')
     } catch (error) {
