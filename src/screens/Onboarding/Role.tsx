@@ -22,17 +22,17 @@ export const Role = ({ handlePageNavigation }) => {
     {
       img: uxDesigner,
       title: 'UX Designer',
-      description: "I'm comfortable with all aspects of UX Design",
+      description: "I'm comfortable with all aspects of UX Design.",
     },
     {
       img: softwareEngineer,
       title: 'Software Engineer',
-      description: "I'm comfortable with MERN/full stack",
+      description: "I'm comfortable with MERN/full stack development.",
     },
     {
       img: productManager,
       title: 'Product Manager',
-      description: 'I can create user stories and manage prioritization',
+      description: 'I can create user stories and manage prioritization.',
     },
   ]
 
