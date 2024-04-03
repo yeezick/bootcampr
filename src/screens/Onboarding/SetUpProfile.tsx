@@ -35,6 +35,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     linkedinUrl: false,
   })
   const [isDisabled, setIsDisabled] = useState(true)
+  const [validURL, setValidURL] = useState(false)
 
   const { firstName, lastName, bio, links } = updateUserForm
   const nestedLinks = ['githubUrl', 'linkedinUrl', 'portfolioUrl']
@@ -85,8 +86,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     }
 
     if (name === 'linkedinUrl') {
-      console.log(links.linkedinUrl)
-      isUrl(links.linkedinUrl) ? console.log(true) : console.log(false)
+      isUrl(links.linkedinUrl) ? setValidURL(true) : setValidURL(false)
     }
   }
 
