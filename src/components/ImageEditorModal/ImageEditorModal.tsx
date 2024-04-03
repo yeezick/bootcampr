@@ -63,6 +63,7 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
           if (croppedImageURL) {
             try {
               const croppedImageFile = await saveCroppedImage(croppedImageURL)
+              console.log(croppedImageFile)
               await createUserImage(croppedImageFile, userId)
               const userImageUpdate = await updateUser(userId, {
                 hasProfilePicture: true,

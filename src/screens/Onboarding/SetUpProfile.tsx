@@ -16,6 +16,7 @@ import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import { createCheckout, updatePaymentExperience } from 'utils/api/payment'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { isUrl } from 'utils/components/Inputs'
 
 // BC-787: remove BEM styling
 export const SetUpProfile = ({ handlePageNavigation }) => {
@@ -81,6 +82,11 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
 
     if (name === 'bio') {
       setBioCharCount(value.length)
+    }
+
+    if (name === 'linkedinUrl') {
+      console.log(links.linkedinUrl)
+      isUrl(links.linkedinUrl) ? console.log(true) : console.log(false)
     }
   }
 
