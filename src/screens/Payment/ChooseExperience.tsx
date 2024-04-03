@@ -58,7 +58,7 @@ const SandboxCard = () => {
           the Project Portal.
         </p>
       </div>
-      <div className='benefits'>
+      <div className='benefits' id='free-benefits'>
         <BenefitItem text='View the Product Details' />
         <BenefitItem text='Check out the team page' />
         <BenefitItem text='See typical meetings on the Scrum Calendar' />
