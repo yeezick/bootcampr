@@ -17,13 +17,13 @@ export enum UserFriendlyTimezones {
  */
 export enum TimezonesUTC {
   '-10:00',
-  '-9:00',
-  '-8:00',
+  '-09:00',
+  '-08:00',
   '-07:00',
-  '-6:00',
-  '-5:00',
-  '-4:00',
-  '-3:30',
+  '-06:00',
+  '-05:00',
+  '-04:00',
+  '-03:30',
 }
 
 /**
@@ -31,13 +31,13 @@ export enum TimezonesUTC {
  */
 export const utcToBootcamprTimezoneMap = {
   '-10:00': 'Hawaii-Aleutian Time (HT)',
-  '-9:00': 'Alaska Time (AKT)',
-  '-8:00': 'Pacific Time (PT)',
+  '-09:00': 'Alaska Time (AKT)',
+  '-08:00': 'Pacific Time (PT)',
   '-07:00': 'Mountain Time (MT)',
-  '-6:00': 'Central Time (CT)',
-  '-5:00': 'Eastern Time (ET)',
-  '-4:00': 'Atlantic Time (AT)',
-  '-3:30': 'Newfoundland Time (NT)',
+  '-06:00': 'Central Time (CT)',
+  '-05:00': 'Eastern Time (ET)',
+  '-04:00': 'Atlantic Time (AT)',
+  '-03:30': 'Newfoundland Time (NT)',
 }
 
 /**
@@ -45,13 +45,13 @@ export const utcToBootcamprTimezoneMap = {
  */
 export const bootcamprTimezoneToUTCMap = {
   'Hawaii-Aleutian Time (HT)': '-10:00',
-  'Alaska Time (AKT)': '-9:00',
-  'Pacific Time (PT)': '-8:00',
+  'Alaska Time (AKT)': '-09:00',
+  'Pacific Time (PT)': '-08:00',
   'Mountain Time (MT)': '-07:00',
-  'Central Time (CT)': '-6:00',
-  'Eastern Time (ET)': '-5:00',
-  'Atlantic Time (AT)': '-4:00',
-  'Newfoundland Time (NT)': '-3:30',
+  'Central Time (CT)': '-06:00',
+  'Eastern Time (ET)': '-05:00',
+  'Atlantic Time (AT)': '-04:00',
+  'Newfoundland Time (NT)': '-03:30',
 }
 
 /**
