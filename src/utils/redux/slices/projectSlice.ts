@@ -311,6 +311,10 @@ const selectMembersById = createSelector(
   (members, userIds) => {
     const { idMap } = members
 
+    if (!userIds || userIds.length === 0) {
+      return [null]
+    }
+
     if (userIds[0] === 'Unassigned' || userIds[0] === '') {
       return [null]
     }
@@ -322,9 +326,11 @@ const selectMembersById = createSelector(
     return userIds.reduce((allMembers, userId) => {
       const userInfo = idMap[userId]
       if (userInfo) {
-        const member = members[userInfo.role][userInfo.index]
-        if (member) {
-          allMembers.push(member)
+        if (userInfo.role != null && userInfo.index != null) {
+          const roleMembers = members[userInfo.role]
+          if (roleMembers && roleMembers[userInfo.index]) {
+            allMembers.push(roleMembers[userInfo.index])
+          }
         }
       }
       return allMembers
