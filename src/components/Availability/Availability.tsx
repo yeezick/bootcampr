@@ -24,6 +24,9 @@ export const Availability = ({
 
   useEffect(() => {
     setDays(userAvailability)
+  }, [userAvailability])
+
+  useEffect(() => {
     const guessedUserTimezone = guessUserTimezone()
     let userFriendlyTimezone = Timezones.ET
 
