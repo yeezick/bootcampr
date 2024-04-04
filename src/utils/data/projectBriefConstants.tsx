@@ -137,7 +137,7 @@ export const projectBriefContent = [
       <p>
         You’ll find a{' '}
         <a
-          href='https://www.canva.com/design/DAF-mnFXzbQ/RSi-4c_gM00qNGYrYltFlQ/edit?utm_content=DAF-mnFXzbQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton'
+          href='https://www.canva.com/design/DAF-mnFXzbQ/JTugn84rGvGkHqiAVaSx2g/view?utm_content=DAF-mnFXzbQ&utm_campaign=designshare&utm_medium=link&utm_source=editor'
           target='_blank'
           className='products-req-doc'
         >
