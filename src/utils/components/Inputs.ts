@@ -59,9 +59,13 @@ export const isUrl = string => {
 }
 
 export const isLinkedInUrl = string => {
-  const urlPattern = new RegExp(
-    '(http(s?)://)?(www.)?linkedin.([a-z])+/(in/)([A-Za-z0-9]+)+/?'
-  )
+  if (string.length > 0) {
+    const urlPattern = new RegExp(
+      '(http(s?)://)?(www.)?linkedin.([a-z])+/(in/)([A-Za-z0-9]+)+/?'
+    )
 
-  return urlPattern.test(string)
+    return urlPattern.test(string)
+  } else {
+    return true
+  }
 }
