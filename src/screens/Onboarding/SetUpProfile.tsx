@@ -262,17 +262,19 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                 value={links.portfolioUrl}
               />
             </label>
-            <label className='setupProfile__profile-label'>
-              GitHub (URL) Software Engineers only
-              <input
-                type='text'
-                name='githubUrl'
-                className='setupProfile__profile-input'
-                onChange={handleInputChange}
-                placeholder='myGitHubkicksass.com'
-                value={links.githubUrl}
-              />
-            </label>
+            {authUser.role === 'Software Engineer' && (
+              <label className='setupProfile__profile-label'>
+                GitHub (URL)
+                <input
+                  type='text'
+                  name='githubUrl'
+                  className='setupProfile__profile-input'
+                  onChange={handleInputChange}
+                  placeholder='myGitHubkicksass.com'
+                  value={links.githubUrl}
+                />
+              </label>
+            )}
           </div>
           <div className='setupProfile__profile-btns'>
             <div className='setupProfile__cta-container'>
