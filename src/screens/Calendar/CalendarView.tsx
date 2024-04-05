@@ -6,10 +6,12 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import { fetchUserCalendar } from 'utils/api/calendar'
 import {
   selectCalendarId,
+  selectProjectId,
   selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
 import {
   parseCalendarEventForMeetingInfo,
+  updateWeekDayNumber,
   updateWeekNumber,
 } from 'utils/helpers/calendarHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
@@ -18,27 +20,40 @@ import {
   setDisplayedEvent,
   storeConvertedEvents,
   setModalDisplayStatus,
+  selectTeamAvailabilityArr,
+  storeTeamAvailability,
+  clearTeamAvailability,
 } from 'utils/redux/slices/calendarSlice'
 import { DisplayMeetingModal } from 'screens/Calendar/MeetingModal'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import './CalendarView.scss'
 import dayjs from 'dayjs'
 import weekday from 'dayjs/plugin/weekday'
+import { getTeamCommonAvailability } from 'utils/api'
+import { join } from 'path/posix'
+import { TeamAvailability } from 'interfaces'
 
 export const CalendarView = () => {
   const calendarId = useAppSelector(selectCalendarId)
   const convertedEventsAsArr = useAppSelector(selectConvertedEventsAsArr)
   const userEmail = useAppSelector(selectUserEmail)
+  const projectId = useAppSelector(selectProjectId)
+  const teamAvailabilityArr = useAppSelector(selectTeamAvailabilityArr)
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
   const timeline = useAppSelector(selectProjectTimeline)
   const [weekNumber, setWeekNumber] = useState('')
-
   dayjs.extend(weekday)
 
   const firstDay = timeline.startDate
   const lastDay = dayjs(timeline.endDate).weekday(7).format('YYYY-MM-DD')
   const calendarRef = useRef(null)
   const dispatch = useAppDispatch()
+  const projectSundayDates = [
+    timeline.startDate,
+    dayjs(timeline.startDate).add(7, 'day').format('YYYY-MM-DD'),
+    dayjs(timeline.startDate).add(14, 'day').format('YYYY-MM-DD'),
+    dayjs(timeline.startDate).add(21, 'day').format('YYYY-MM-DD'),
+  ]
 
   useEffect(() => {
     const fetchAllEvents = async () => {
@@ -55,13 +70,52 @@ export const CalendarView = () => {
       }
     }
 
+    const fetchTeamCommonAvailability = async () => {
+      dispatch(clearTeamAvailability())
+      const teamCommonAvailability = await getTeamCommonAvailability(projectId)
+      const updatedTeamCommonAvail = await updateWeekDayNumber(
+        teamCommonAvailability
+      )
+
+      for (let j = 0; j < projectSundayDates.length; j++) {
+        for (const [key] of Object.entries(updatedTeamCommonAvail)) {
+          const arr = updatedTeamCommonAvail[key]
+
+          for (let i = 0; i < arr.length; i++) {
+            const start = dayjs(`${projectSundayDates[j]} ${arr[i][0]}`)
+              .day(Number(key))
+              .format('YYYY-MM-DDTHH:mm:ss')
+            const end = dayjs(`${projectSundayDates[j]} ${arr[i][1]}`)
+              .day(Number(key))
+              .format('YYYY-MM-DDTHH:mm:ss')
+
+            const teamAvailability: TeamAvailability = {
+              title: 'Team Availability',
+              start: start,
+              end: end,
+              backgroundColor: '#E8F5E9',
+              borderColor: '#388E3C',
+              timeZone: 'America/New_York',
+            }
+            dispatch(storeTeamAvailability(teamAvailability))
+          }
+        }
+      }
+    }
+
     if (calendarId && userEmail) {
       fetchAllEvents()
+      if (projectId) {
+        fetchTeamCommonAvailability()
+      }
     }
   }, [calendarId, userEmail])
 
-  const handleEventClick = e =>
-    dispatch(setDisplayedEvent(parseCalendarEventForMeetingInfo(e)))
+  const handleEventClick = e => {
+    if (e.event.title !== 'Team Availability') {
+      dispatch(setDisplayedEvent(parseCalendarEventForMeetingInfo(e)))
+    }
+  }
 
   const renderWeekNumber = () => {
     setTimeout(() => {
@@ -80,7 +134,7 @@ export const CalendarView = () => {
           <FullCalendar
             ref={calendarRef}
             datesSet={renderWeekNumber}
-            events={convertedEventsAsArr}
+            events={[...convertedEventsAsArr, ...teamAvailabilityArr]}
             eventClick={handleEventClick}
             eventTimeFormat={{
               hour: 'numeric',
