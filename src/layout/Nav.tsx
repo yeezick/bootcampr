@@ -30,9 +30,7 @@ export const Nav = () => {
   const { _id: userId, project: projectId } = authUser
   const dispatch = useAppDispatch()
   const location = useLocation()
-  const projectRouteActive = location.pathname.includes('/project/')
   const excludedRoutes = ['/payment', '/sign-up', '/sign-in', '/onboarding']
-
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
   )
@@ -58,28 +56,43 @@ export const Nav = () => {
       {!isExcludedRoute && (
         <div className='navbar-wrapper'>
           <div className='header-list'>
+            {userId && (
+              <Link
+                className={`header-link ${
+                  location.pathname.includes('project') ? 'active' : ''
+                }`}
+                to={`/project/${projectId || 'unassigned'}`}
+                onClick={handlePortalLink}
+              >
+                Project Portal
+              </Link>
+            )}
             <Link
-              className={
-                projectRouteActive ? 'header-link active' : 'header-link'
-              }
-              to={`/project/${projectId || 'unassigned'}`}
-              onClick={handlePortalLink}
-            >
-              Project Portal
-            </Link>
-            <Link
-              className='header-link'
-              to='/how-to'
+              className={`header-link ${
+                location.pathname.includes('contact-us') ? 'active' : ''
+              }`}
+              to='/contact-us'
               onClick={handleNonPortalLink}
             >
-              How Bootcamper works
+              Contact us
             </Link>
             <Link
-              className='header-link'
-              to='/about-us'
+              className={`header-link ${
+                location.pathname.includes('community') ? 'active' : ''
+              }`}
+              to='/community'
               onClick={handleNonPortalLink}
             >
-              About us
+              Community
+            </Link>
+            <Link
+              className={`header-link ${
+                location.pathname.includes('enterprise') ? 'active' : ''
+              }`}
+              to='/enterprise'
+              onClick={handleNonPortalLink}
+            >
+              Enterprise
             </Link>
           </div>
           {userId ? (
