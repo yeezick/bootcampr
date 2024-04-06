@@ -22,7 +22,7 @@ import {
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailConfirmation'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
-import { AboutUs, HowTo } from 'screens/Landing'
+import { AboutUs, ContactUs, HowTo } from 'screens/Landing'
 import { WhatsNext } from 'screens/Onboarding/WhatsNext'
 import { Account, Email } from 'screens/Auth/Settings'
 import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
@@ -32,8 +32,6 @@ import { AuthWrapper } from 'screens/Auth/AuthWrapper'
 import { EmailRouter } from 'components/EmailRouter/EmailRouter'
 
 function App() {
-  console.log(`Running Application Version: ${process.env.REACT_APP_VERSION} `)
-
   return (
     <>
       <AuthWrapper>
@@ -41,6 +39,8 @@ function App() {
           <Routes>
             <Route path='/' element={<Landing />} />
             <Route path='/about-us' element={<AboutUs />} />
+            <Route path='/contact-us' element={<ContactUs />} />
+
             <Route path='/how-to' element={<HowTo />} />
             {/* Auth */}
             <Route path='/sign-up' element={<SignUp />} />

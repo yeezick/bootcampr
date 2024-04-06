@@ -67,7 +67,7 @@ export const Nav = () => {
               className={
                 projectRouteActive ? 'header-link active' : 'header-link'
               }
-              to={`/project/${projectId || 'unassigned'}`}
+              to={`/project/${projectId || 'sandbox'}`}
               onClick={handlePortalLink}
             >
               Project Portal

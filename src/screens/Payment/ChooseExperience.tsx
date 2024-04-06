@@ -1,6 +1,6 @@
 import { PrimaryButton } from 'components/Buttons/ButtonVariants'
 import { useNavigate } from 'react-router-dom'
-import { createCheckout, updatePaymentExperience } from 'utils/api/payment'
+import { updatePaymentExperience } from 'utils/api/payment'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectUserId,
@@ -14,13 +14,9 @@ import { buildProjectPortal } from 'utils/helpers'
 import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { getOneProject } from 'utils/api'
 import { setProject } from 'utils/redux/slices/projectSlice'
+import { SecondaryButton } from 'components/Buttons'
 
 export const ChooseExperience = () => {
-  const handleCheckout = async () => {
-    const paymentResponse = await createCheckout()
-    window.location.href = paymentResponse.checkoutUrl
-  }
-
   return (
     <div className='choose-experience'>
       <h2>Choose your account</h2>
@@ -72,13 +68,19 @@ const SandboxCard = () => {
           the Project Portal.
         </p>
       </div>
-      <div className='benefits'>
-        <BenefitItem text='View the Product Details' />
-        <BenefitItem text='Check out the team page' />
-        <BenefitItem text='See typical meetings on the Scrum Calendar' />
-        <BenefitItem text='Get comfortable using the Kanban Board' />
+      <div>
+        <div className='benefits'>
+          <BenefitItem text='View the Product Details' />
+          <BenefitItem text='Check out the team page' />
+          <BenefitItem text='See typical meetings on the Scrum Calendar' />
+          <BenefitItem text='Get comfortable using the Kanban Board' />
+        </div>
+        <SecondaryButton
+          fullWidth
+          handler={handleEnterSandbox}
+          text='Enter sandbox'
+        />
       </div>
-      <PrimaryButton handler={handleEnterSandbox} text='Enter sandbox' />
     </div>
   )
 }
@@ -124,7 +126,7 @@ const JoinTeamCard = () => {
         <BenefitItem text='Showcase your product on your portfolio' />
         <BenefitItem text='Talk about your experience in interviews' />
       </div>
-      <PrimaryButton handler={handleJoinTeam} text='Join a team' />
+      <PrimaryButton fullWidth handler={handleJoinTeam} text='Join a team' />
     </div>
   )
 }
@@ -132,7 +134,7 @@ const JoinTeamCard = () => {
 const BenefitItem = ({ text }) => {
   return (
     <div className='benefit'>
-      {fetchIcon('checkCircle', { sx: { color: '#19227e', fontSize: '27px' } })}
+      {fetchIcon('check', { sx: { color: '#19227e', fontSize: '27px' } })}
       <p>{text}</p>
     </div>
   )

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Loader } from 'components/Loader/Loader'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
@@ -52,8 +52,6 @@ export const Layout = ({ children }) => {
 
 const PortalView = ({ children }) => {
   const { active: activePortal, type: portalType } =
-    useAppSelector(selectPortal)
-  const { active: activeBanner, type: bannerType } =
     useAppSelector(selectPortal)
   const experience = useAppSelector(selectUserExperience)
   const projectId = useAppSelector(selectProjectId)

@@ -120,7 +120,6 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
       updatedUserFormData
     )
     const checkoutResponse = await createCheckout()
-    let experiencePayload
 
     if (updatedUserProfile.error) {
       dispatch(errorSnackbar(updatedUserProfile.error))
@@ -130,17 +129,9 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
       return
     }
 
-    const { checkoutUrl } = checkoutResponse
-    if (checkoutUrl.includes('max-users')) {
-      experiencePayload = { experience: 'waitlist' }
-    } else {
-      experiencePayload = { experience: 'waitlist', paid: true }
-    }
-
-    const updatedUserExperience = await updatePaymentExperience(
-      authUser._id,
-      experiencePayload
-    )
+    const updatedUserExperience = await updatePaymentExperience(authUser._id, {
+      experience: 'waitlist',
+    })
 
     if (updatedUserExperience.error) {
       dispatch(errorSnackbar('Error setting project experience.'))
