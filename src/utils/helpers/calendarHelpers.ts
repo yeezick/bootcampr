@@ -40,7 +40,7 @@ export const buildSandboxEvent = (eventInfo, eventId?): ConvertedEvent => {
       endTime: end.dateTime,
       startTime: start.dateTime,
     },
-    hangoutLink: googleMeetingInfo && 'https://meet.google.com',
+    hangoutLink: googleMeetingInfo.enabled ? 'https://meet.google.com' : '',
     start: startTime,
     timeZone: start.timeZone,
     title: summary,
