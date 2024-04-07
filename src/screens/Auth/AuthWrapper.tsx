@@ -1,6 +1,6 @@
 import { Loader } from 'components/Loader/Loader'
 import { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { matchPath, useLocation, useNavigate } from 'react-router-dom'
 import { verify } from 'utils/api/users'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
@@ -10,7 +10,17 @@ import {
   uiStatus,
 } from 'utils/redux/slices/userSlice'
 
-const unprotectedRoutes = ['/', '/sign-in', '/sign-up', '/how-to', '/about-us']
+const unprotectedRoutes = [
+  '/',
+  '/sign-in',
+  '/sign-up',
+  '/sign-up/:id/confirmation-email-sent',
+  '/success/:userId',
+  '/users/:id/expired-link',
+  '/users/:id/reset-password/:token',
+  '/how-to',
+  '/about-us',
+]
 
 export const AuthWrapper = ({ children }) => {
   const dispatch = useAppDispatch()
@@ -18,7 +28,9 @@ export const AuthWrapper = ({ children }) => {
   const navigate = useNavigate()
   const authUser = useAppSelector(selectAuthUser)
   const status = useAppSelector(uiStatus)
-  const isProtectedRoute = !unprotectedRoutes.includes(location.pathname)
+  const isProtectedRoute = !unprotectedRoutes.some(route =>
+    matchPath({ path: route, end: true }, location.pathname)
+  )
 
   useEffect(() => {
     const verifyAndNavigateUser = async () => {

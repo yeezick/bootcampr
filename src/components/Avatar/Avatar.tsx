@@ -10,9 +10,9 @@ import { AvatarProps } from 'interfaces/ProfileImageInterfaces'
 import { ProfilePreviewImage } from 'screens/ProfilePreviewImage/ProfilePreviewImage'
 import { IconButton } from '@mui/material'
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined'
-import './Avatar.scss'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
 import { generateDefaultPicture } from 'utils/helpers'
+import './Avatar.scss'
 
 /**
  * Avatar component to display a user's avatar image.
@@ -26,6 +26,7 @@ const Avatar: React.FC<AvatarProps> = ({
   hasIcon = false,
   iconButtonClassName,
   addPhotoIconId,
+  size,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const dispatch = useAppDispatch()
@@ -61,7 +62,6 @@ const Avatar: React.FC<AvatarProps> = ({
     dispatch(setUploadedImage(dataURL))
     setIsModalOpen(true)
   }
-
   const defaultImageURL = generateDefaultPicture(
     authUser.firstName,
     authUser.lastName

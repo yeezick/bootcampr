@@ -9,12 +9,11 @@ import {
 import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
 import { updateUser, updateUserProfile } from 'utils/api/users'
-import { useNotification } from 'utils/redux/slices/notificationSlice'
 import Avatar from 'components/Avatar/Avatar'
 import TextareaAutosize from 'react-textarea-autosize'
 import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import { createCheckout, updatePaymentExperience } from 'utils/api/payment'
-import { errorSnackbar } from 'utils/helpers/commentHelpers'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 
 // BC-787: remove BEM styling
@@ -22,7 +21,6 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
   const dispatch = useAppDispatch()
   const params = useParams()
   const authUser = useAppSelector(selectAuthUser)
-  const { displayNotification } = useNotification()
   const navigate = useNavigate()
 
   const [updateUserForm, setUpdateUserForm] = useState<UserInterface>(emptyUser)
@@ -48,7 +46,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
         return { ...currForm, ...authUser }
       })
     }
-  }, [])
+  }, [authUser])
 
   useEffect(() => {
     const charCount =
@@ -97,9 +95,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     try {
       const updatedUser = await updateUser(params.id, updateUserForm)
       dispatch(setAuthUser(updatedUser))
-      displayNotification({
-        message: 'User profile successfully updated.',
-      })
+      dispatch(successSnackbar('User profile has been updated!'))
       handlePageNavigation('previous')
     } catch (error) {
       console.error('Error occured when trying to create User Profile', error)
@@ -217,7 +213,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                   }`}
                 >
                   <p className={`${errorStates.bio && 'error'}`}>
-                    {bioCharCount}/500
+                    {500 - bioCharCount}/500
                   </p>
                 </div>
               </div>

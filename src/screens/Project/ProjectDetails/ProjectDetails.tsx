@@ -7,7 +7,7 @@ import './ProjectDetails.scss'
 
 export const ProjectDetails = () => {
   const tabData = [
-    { label: 'OVERVIEW', content: <Overview /> },
+    { label: 'PROJECT BRIEF', content: <Overview /> },
     { label: 'TIMELINE', content: <ProjectTimeline /> },
     { label: 'PRESENTATION', content: <Presentation /> },
   ]

@@ -56,6 +56,7 @@
     "@types/blueimp-load-image": "^5.16.2",
     "@types/jest": "^29.4.0",
     "@types/react": "^18.0.28",
+    "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-dom": "^18.0.11",
     "@types/react-redux": "^7.1.25",
     "@typescript-eslint/eslint-plugin": "^5.51.0",

@@ -9,7 +9,7 @@ import {
   SignIn,
   SignUp,
 } from 'screens/Auth'
-import { Landing } from 'screens/Landing'
+import { Community, ContactUs, Enterprise, Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { ProjectCompletion } from './screens/ProjectCompletion/ProjectCompletion'
@@ -38,10 +38,9 @@ function App() {
         <Layout>
           <Routes>
             <Route path='/' element={<Landing />} />
-            <Route path='/about-us' element={<AboutUs />} />
             <Route path='/contact-us' element={<ContactUs />} />
-
-            <Route path='/how-to' element={<HowTo />} />
+            <Route path='/community' element={<Community />} />
+            <Route path='/enterprise' element={<Enterprise />} />
             {/* Auth */}
             <Route path='/sign-up' element={<SignUp />} />
             <Route

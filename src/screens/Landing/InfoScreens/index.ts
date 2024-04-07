@@ -1,3 +1,3 @@
-export * from './AboutUs'
 export * from './ContactUs'
-export * from './HowTo'
+export * from './Comunity'
+export * from './Enterprise'

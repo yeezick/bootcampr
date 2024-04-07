@@ -23,8 +23,8 @@ import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
 import { buildPortal } from 'utils/helpers'
 import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { CustomBadge } from 'components/Badge/Badge'
-import './styles/Nav.scss'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
+import './styles/Nav.scss'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
@@ -34,9 +34,7 @@ export const Nav = () => {
   const { _id: userId, project: projectId } = authUser
   const dispatch = useAppDispatch()
   const location = useLocation()
-  const projectRouteActive = location.pathname.includes('/project/')
   const excludedRoutes = ['/payment', '/sign-up', '/sign-in', '/onboarding']
-
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
   )
@@ -45,6 +43,8 @@ export const Nav = () => {
   const handlePortalLink = () =>
     buildPortal(dispatch, 'project', projectId, experience)
   const handleNonPortalLink = () => dispatch(resetPortal())
+  const isActiveLink = path =>
+    location.pathname.includes(path) ? 'active' : ''
 
   const landingPage =
     process.env.REACT_APP_API_ENV === 'local'
@@ -63,28 +63,35 @@ export const Nav = () => {
       {!isExcludedRoute && (
         <div className='navbar-wrapper'>
           <div className='header-list'>
+            {userId && (
+              <Link
+                className={`header-link ${isActiveLink('project')}`}
+                to={`/project/${projectId || 'sandbox'}`}
+                onClick={handlePortalLink}
+              >
+                Project Portal
+              </Link>
+            )}
             <Link
-              className={
-                projectRouteActive ? 'header-link active' : 'header-link'
-              }
-              to={`/project/${projectId || 'sandbox'}`}
-              onClick={handlePortalLink}
-            >
-              Project Portal
-            </Link>
-            <Link
-              className='header-link'
-              to='/how-to'
+              className={`header-link ${isActiveLink('contact-us')}`}
+              to='/contact-us'
               onClick={handleNonPortalLink}
             >
-              How Bootcamper works
+              Contact us
             </Link>
             <Link
-              className='header-link'
-              to='/about-us'
+              className={`header-link ${isActiveLink('community')}`}
+              to='/community'
               onClick={handleNonPortalLink}
             >
-              About us
+              Community
+            </Link>
+            <Link
+              className={`header-link ${isActiveLink('enterprise')}`}
+              to='/enterprise'
+              onClick={handleNonPortalLink}
+            >
+              Enterprise
             </Link>
           </div>
           {userId ? (
@@ -113,7 +120,6 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   useEffect(() => {
     //Warning: needs to be checked if members are loaded
     dispatch(fetchThreads())
-    //TODO - investigate why we set chatroom id to null :(
     dispatch(setActiveChatRoomId(null))
   }, [dispatch, projectMembers.length])
 
@@ -141,7 +147,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
       </div>
       <div className='nav-icons-container'>
         <div className='account avatar'>
-          <Avatar clickable={false} setAnchorEl={setAnchorEl} />
+          <Avatar clickable={false} setAnchorEl={setAnchorEl} size='medium' />
         </div>
         <div onClick={setAnchorEl}>
           <p className='account'>My Account </p>

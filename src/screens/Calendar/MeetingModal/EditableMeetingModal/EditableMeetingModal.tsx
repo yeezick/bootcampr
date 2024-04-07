@@ -1,10 +1,4 @@
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  TextField,
-} from '@mui/material'
+import { Dialog, DialogContent, DialogActions, TextField } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { BooleanObject, DateFieldsInterface, EventInfo } from 'interfaces'
 import dayjs from 'dayjs'
@@ -37,6 +31,7 @@ import '../styles/EditableMeetingModal.scss'
 import { MeetingModalHeaderIcons } from './MeetingModalHeaderIcons'
 import { GoogleMeetsToggler } from './GoogleMeetsToggler'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
+import { PrimaryButton } from 'components/Buttons/ButtonVariants'
 
 export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
@@ -262,30 +257,15 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
             />
           </div>
         </DialogContent>
-        <DialogActions sx={buttonDivStyles}>
-          <Button sx={submitButtonStyles} type='submit' variant='contained'>
-            {modalDisplayStatus === 'create' ? 'Send Invite' : 'SAVE'}
-          </Button>
+        <DialogActions>
+          <PrimaryButton
+            text={modalDisplayStatus === 'create' ? 'Send Invite' : 'SAVE'}
+            type={'submit'}
+          />
         </DialogActions>
       </form>
     </Dialog>
   )
-}
-
-const submitButtonStyles = {
-  backgroundColor: '#ffa726',
-  borderRadius: '4px',
-  border: 'none',
-  color: '#1A237E',
-  cursor: 'pointer',
-  fontSize: '16px',
-  fontWeight: '500',
-  textTransform: 'none',
-  boxShadow: 'none',
-  '&:hover': {
-    backgroundColor: '#fa9413',
-    boxShadow: 'none',
-  },
 }
 
 const titleInputFieldStyles = {

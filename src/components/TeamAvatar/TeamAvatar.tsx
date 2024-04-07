@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 import { TeamAvatarProps } from 'interfaces/ProfileImageInterfaces'
-import './TeamAvatar.scss'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectUsersById } from 'utils/redux/slices/projectSlice'
 import { generateDefaultPicture } from 'utils/helpers'
+import './TeamAvatar.scss'
 
 export const TeamAvatar = ({ userId, size }: TeamAvatarProps) => {
   //Each time TeamAvatar recieves a new userId prop, even if the actual userId value hasn't changed, it's treated as a new instance

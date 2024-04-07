@@ -90,7 +90,6 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
         <div className='setup-avail-buttons'>
           <PaginatorButton
             buttonType='secondary'
-            disabled={isDisabled}
             handler={handlePrevious}
             text='Role'
           />

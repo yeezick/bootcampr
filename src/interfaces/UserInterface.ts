@@ -60,6 +60,14 @@ export interface Portal {
   type?: 'project' | 'settings'
 }
 
+export interface PortalLink {
+  domain: string
+  headerTitle?: string
+  icon: string
+  label: string
+  route: string
+}
+
 export interface Projects {
   activeProject?: string
   projects: string[]

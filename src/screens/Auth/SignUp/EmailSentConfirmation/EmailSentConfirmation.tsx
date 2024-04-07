@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { getOneUser, resendNewEmailLink } from 'utils/api'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
-import emailSentImage from '../../../../assets/Images/email-sent-confirmation-image.png'
+import accountCreated from '../../../../assets/Images/accountCreated.png'
 import { SnackBarSeverity } from 'interfaces/SnackBarToast'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import { useEffect, useState } from 'react'
@@ -73,7 +73,7 @@ export const EmailSentConfirmation: React.FC = () => {
       </div>
       <div className='img-container'>
         <img
-          src={emailSentImage}
+          src={accountCreated}
           alt='A person jumps in the air in celebration'
         />
       </div>

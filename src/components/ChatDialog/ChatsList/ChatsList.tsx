@@ -5,7 +5,7 @@ import {
   fetchMessages,
   selectSortedThreads,
 } from 'utils/redux/slices/chatSlice'
-import { ConversationThumbnail } from './ConversationThumbnail'
+import { ConversationThumbnail } from '../ConversationThumbnail/ConversationThumbnail'
 import { EmptyChatPage } from '../ChatRoom/EmptyChatPage'
 import { ChatInterface } from 'interfaces/ChatInterface'
 import { useSocketEvents } from 'components/Notifications/Socket'
@@ -50,10 +50,11 @@ export const ChatsList = ({ handleConversationClick }) => {
         const {
           _id: chatId,
           lastMessage,
-          lastActive,
+          isTeamChat,
           participants,
           chatType,
           groupName,
+          groupPhoto,
         } = thread
         return (
           <div
@@ -62,11 +63,12 @@ export const ChatsList = ({ handleConversationClick }) => {
             onClick={() => handleSelectChat(chatId, chatType)}
           >
             <ConversationThumbnail
+              groupPhoto={groupPhoto}
               groupName={groupName}
               participants={participants}
               lastMessage={lastMessage}
               chatType={chatType}
-              lastActive={lastActive}
+              isTeamChat={isTeamChat}
             />
           </div>
         )
