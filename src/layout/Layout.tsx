@@ -118,26 +118,6 @@ const PortalBanner = () => {
       </div>
     )
   }
-
-  if (type === 'waitlist') {
-    return (
-      <div className='banner'>
-        <img src={sandboxBanner} />
-        <div className='text'>
-          <h2>Bootcampr Sandbox</h2>
-          <p>
-            Feel free to explore the platform and try the features. Join an
-            agile team when you're ready!
-          </p>
-        </div>
-        <PrimaryButton
-          className='cta-button'
-          text='Join a team'
-          handler={handleJoinTeam}
-        />
-      </div>
-    )
-  }
 }
 
 const DefaultView = ({ children }) => {

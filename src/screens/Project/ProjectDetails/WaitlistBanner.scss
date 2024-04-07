@@ -2,7 +2,10 @@
 @import 'scss/mixins';
 
 .not-in-team-alert {
-  margin: 0 0 0 16px;
+  display: flex; 
+  box-sizing: border-box;
+  justify-content: flex-start;
+  margin: 16px 16px 0 16px;
 
   .nita-warning {
     @include alert-banners(
@@ -10,7 +13,9 @@
       $alert-warning-text-color,
       100%
     );
+    justify-content: flex-start;
     flex-direction: row;
+    width: 100%;
 
     p,
     a {

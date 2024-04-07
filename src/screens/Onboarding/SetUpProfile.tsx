@@ -91,28 +91,21 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     })
   }
 
-  const handleNavigationButtons = async (e, direction: 'previous' | 'next') => {
+  const handleSecondaryClick = async e => {
     e.preventDefault()
 
     try {
-      const isOnboarded = direction === 'next'
-      const updatedUserFormData = { ...updateUserForm, onboarded: isOnboarded }
-      const updatedUser = await updateUser(params.id, updatedUserFormData)
+      const updatedUser = await updateUser(params.id, updateUserForm)
       dispatch(setAuthUser(updatedUser))
       displayNotification({
         message: 'User profile successfully updated.',
       })
-      if (direction === 'next') {
-        navigate(`/whats-next`)
-      } else {
-        handlePageNavigation(direction)
-      }
+      handlePageNavigation('previous')
     } catch (error) {
       console.error('Error occured when trying to create User Profile', error)
     }
   }
 
-  const handleSecondaryClick = e => handleNavigationButtons(e, 'previous')
   const handlePrimaryClick = async () => {
     const updatedUserFormData = { ...updateUserForm, onboarded: true }
     const updatedUserProfile = await updateUserProfile(

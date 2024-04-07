@@ -65,9 +65,9 @@ export const WhatsNext = () => {
           <h2> What's next?</h2>
           <p>
             Bootcampr is now working to match you to a team. After your team of
-            3 SWEs and 2 UXDs is complete, we'll send an email with the date and
-            time of your project kickoff meeting. (Approximately 1 - weeks from
-            today)
+            3 SWEs and 2 UXDs, and 1 PM is complete, we'll send an email with
+            the date and time of your project kickoff meeting. (Approximately 1
+            - 2 weeks from today)
           </p>
         </div>
         <div className='lastscreen-survey'>
