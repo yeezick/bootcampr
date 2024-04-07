@@ -115,9 +115,8 @@ const JoinTeamCard = () => {
           for meetings.
         </p>
         <p className='disclaimer'>
-          *You must have 3 days per week with at least 1 hour of availability to
-          meet. <br />
-          The 1 hour can be 2 half-hour time slots.
+          *You must have 3 days per week with at least 1 hour per day of
+          availability to meet.
         </p>
       </div>
       <div className='benefits'>

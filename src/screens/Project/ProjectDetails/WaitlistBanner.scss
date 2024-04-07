@@ -1,13 +1,13 @@
 @import 'scss/variables';
 @import 'scss/mixins';
 
-.not-in-team-alert {
+.waitlist-banner {
   display: flex; 
   box-sizing: border-box;
   justify-content: flex-start;
   margin: 16px 16px 0 16px;
 
-  .nita-warning {
+  .banner-content {
     @include alert-banners(
       $alert-warning-background,
       $alert-warning-text-color,

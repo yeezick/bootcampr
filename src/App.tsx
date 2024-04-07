@@ -13,12 +13,7 @@ import { Community, ContactUs, Enterprise, Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { ProjectCompletion } from './screens/ProjectCompletion/ProjectCompletion'
-import {
-  AllProjects,
-  ProjectDetails,
-  TaskManagement,
-  TeamMembers,
-} from 'screens/Project'
+import { AllProjects, ProjectDetails, TeamMembers } from 'screens/Project'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailConfirmation'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
@@ -29,6 +24,7 @@ import { ChooseExperience, MaxUsers } from 'screens/Payment'
 import './App.css'
 import { AuthWrapper } from 'screens/Auth/AuthWrapper'
 import { EmailRouter } from 'components/EmailRouter/EmailRouter'
+import { TaskBoard } from 'screens/Project/TaskManagement'
 
 function App() {
   return (
@@ -82,7 +78,7 @@ function App() {
                 element={<ProjectCompletion />}
               />
               <Route path=':projectId/calendar' element={<CalendarScreen />} />
-              <Route path=':projectId/tasks' element={<TaskManagement />} />
+              <Route path=':projectId/tasks' element={<TaskBoard />} />
               <Route path=':projectId/team' element={<TeamMembers />} />
             </Route>
             <Route path='/all-projects' element={<AllProjects />} />

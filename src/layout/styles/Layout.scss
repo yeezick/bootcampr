@@ -68,9 +68,7 @@
       }
       
       .portal-content { 
-        height: calc(100% - $header-height);
-        margin-top: $header-height;
-        
+        height: calc(100% - $header-height);        
       }
     }
   }

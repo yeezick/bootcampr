@@ -6,9 +6,11 @@
   background: #fff;
   gap: 8px;
   height: $header-height;
-  position: fixed;
+  position: sticky;
+  top: 0;
+  left: 0;
   width: 100%;
-  z-index: 3;
+  z-index: 2;
 
   .body {
     @include flex(row, normal,  center);

@@ -164,8 +164,8 @@ export const hasUserEditedFields = (userId, projectId, ticketFields) => {
   return deepEqual(initialTicketFields, currentFields) ? false : true
 }
 
-export const isSandboxId = ticketId => {
-  if (ticketId.length === 6) {
+export const isSandboxId = id => {
+  if (id.length === 6 || id === 'sandbox') {
     return true
   } else {
     return false

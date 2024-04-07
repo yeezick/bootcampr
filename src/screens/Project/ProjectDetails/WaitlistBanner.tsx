@@ -10,8 +10,8 @@ export const WaitlistBanner = () => {
   return (
     <>
       {shouldDisplayBanner && (
-        <div className='not-in-team-alert'>
-          <div className='nita-warning'>
+        <div className='waitlist-banner'>
+          <div className='banner-content'>
             <GoAlert />
             <p>
               Bootcampr is now working to match you to a team. After your team

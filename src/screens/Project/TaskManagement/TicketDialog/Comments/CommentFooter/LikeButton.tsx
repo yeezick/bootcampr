@@ -46,9 +46,9 @@ export const LikeButton = ({
     }
   }
 
-  const tooltipTitle = likers
-    .map(liker => `${liker.firstName} ${liker.lastName}`)
-    .join(', ')
+  const tooltipTitle =
+    likers.length > 0 &&
+    likers.map(liker => `${liker.firstName} ${liker.lastName}`).join(', ')
 
   return (
     <LikeToolTip

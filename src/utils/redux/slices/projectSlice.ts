@@ -310,17 +310,15 @@ const selectMembersById = createSelector(
   [state => state.project.members, (_, userIds: string[]) => userIds],
   (members, userIds) => {
     const { idMap } = members
+    const noMembersPassed =
+      !userIds ||
+      userIds.length === 0 ||
+      userIds[0] === 'Unassigned' ||
+      userIds[0] === '' ||
+      !idMap
 
-    if (!userIds || userIds.length === 0) {
-      return [null]
-    }
-
-    if (userIds[0] === 'Unassigned' || userIds[0] === '') {
-      return [null]
-    }
-
-    if (!idMap) {
-      return [null]
+    if (noMembersPassed) {
+      return []
     }
 
     return userIds.reduce((allMembers, userId) => {

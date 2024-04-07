@@ -8,6 +8,7 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { WhatsNext } from './WhatsNext'
+import { isSandboxId } from 'utils/helpers/taskHelpers'
 
 export const Onboarding = () => {
   const authUser = useAppSelector(selectAuthUser)
@@ -17,20 +18,20 @@ export const Onboarding = () => {
   const pageId = queryParams.get('pageId')
 
   useEffect(() => {
-    const hasSetAvailability = checkIfSetAvailability()
-    const hasSetProfileInfo = checkIfSetProfileInfo()
+    const {
+      onboarded,
+      projects: { activeProject },
+      payment: { experience },
+    } = authUser
 
     if (
-      authUser.role &&
-      authUser.project &&
-      hasSetAvailability &&
-      hasSetProfileInfo
+      isSandboxId(activeProject) !== true &&
+      experience === 'active' &&
+      onboarded
     ) {
-      navigate(`/project/${authUser.project}`)
-    } else if (authUser.role && hasSetAvailability) {
-      navigate(`/onboarding/${authUser._id}?pageId=setUpProfile`)
-    } else if (authUser.role) {
-      navigate(`/onboarding/${authUser._id}?pageId=availability`)
+      navigate(`/project/${activeProject}`)
+    } else if (pageId) {
+      navigate(`/onboarding/${authUser._id}?pageId=${pageId}`)
     }
   }, [])
 

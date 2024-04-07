@@ -1,5 +1,4 @@
-import React from 'react'
-import './styles/PortalHeader.scss'
+import '../styles/PortalHeader.scss'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { TicketFilter } from 'screens/Project/TaskManagement/TaskBoard/TicketFilter'
