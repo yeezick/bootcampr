@@ -142,11 +142,11 @@ const UserInfoLinks = ({ userProfileInfo, shouldShowRole }) => {
 
   return (
     <div className='userProfile__linksContainer'>
-      <div className='userProfile__linkItem'>
-        <FiLinkedin className='userProfile__icons' />
-        <div className='userProfile__linkLast'>
-          <h3>LinkedIn</h3>
-          {shouldShowLinkedInUrl && (
+      {shouldShowLinkedInUrl && (
+        <div className='userProfile__linkItem'>
+          <FiLinkedin className='userProfile__icons' />
+          <div className='userProfile__linkLast'>
+            <h3>LinkedIn</h3>
             <a
               className='userProfile__url'
               href={userProfileInfo.links.linkedinUrl}
@@ -155,15 +155,15 @@ const UserInfoLinks = ({ userProfileInfo, shouldShowRole }) => {
             >
               {userProfileInfo.links.linkedinUrl}
             </a>
-          )}
+          </div>
         </div>
-      </div>
+      )}
 
-      <div className='userProfile__linkItem'>
-        <TbBriefcase className='userProfile__icons' />
-        <div className='userProfile__link'>
-          <h3>Portfolio</h3>
-          {shouldShowPortfolioUrl && (
+      {shouldShowPortfolioUrl && (
+        <div className='userProfile__linkItem'>
+          <TbBriefcase className='userProfile__icons' />
+          <div className='userProfile__link'>
+            <h3>Portfolio</h3>
             <a
               className='userProfile__url'
               href={userProfileInfo.links.portfolioUrl}
@@ -172,15 +172,15 @@ const UserInfoLinks = ({ userProfileInfo, shouldShowRole }) => {
             >
               {userProfileInfo.links.portfolioUrl}
             </a>
-          )}
+          </div>
         </div>
-      </div>
+      )}
 
-      <div className='userProfile__linkItem'>
-        <RiGithubLine className='userProfile__icons' />
-        <div className='userProfile__link'>
-          <h3>Github</h3>
-          {shouldShowGithubUrl && (
+      {shouldShowGithubUrl && (
+        <div className='userProfile__linkItem'>
+          <RiGithubLine className='userProfile__icons' />
+          <div className='userProfile__link'>
+            <h3>Github</h3>
             <a
               className='userProfile__url'
               href={userProfileInfo.links.githubUrl}
@@ -189,9 +189,9 @@ const UserInfoLinks = ({ userProfileInfo, shouldShowRole }) => {
             >
               {userProfileInfo.links.githubUrl}
             </a>
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
