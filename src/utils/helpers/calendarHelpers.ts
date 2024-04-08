@@ -167,3 +167,40 @@ export const updateWeekNumber = (sundayDate, firstDay, setWeekNumber) => {
     setWeekNumber('4')
   }
 }
+
+export const updateWeekDayNumber = teamCommonAvailability => {
+  Object.keys(teamCommonAvailability).forEach(key => {
+    switch (key) {
+      case 'SUN':
+        teamCommonAvailability[0] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'MON':
+        teamCommonAvailability[1] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'TUE':
+        teamCommonAvailability[2] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'WED':
+        teamCommonAvailability[3] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'THU':
+        teamCommonAvailability[4] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'FRI':
+        teamCommonAvailability[5] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'SAT':
+        teamCommonAvailability[6] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+    }
+  })
+
+  return teamCommonAvailability
+}
