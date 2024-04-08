@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { getUserTimezone, selectAuthUser } from 'utils/redux/slices/userSlice'
 import { AvailabilityInterface } from 'interfaces'
 import { saveAvailability } from 'components/Availability/utils/helpers'
-import './SetupAvailability.scss'
+import { disableForwardButton } from 'components/Availability/utils/helpers'
 import { Timezones } from 'components/Availability/utils/data'
 import { guessUserTimezone } from 'utils/helpers/availabilityHelpers'
 import {
@@ -13,6 +13,7 @@ import {
   bootcamprTimezoneToUTCMap,
 } from 'utils/data/timeZoneConstants'
 import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
+import './SetupAvailability.scss'
 
 interface SetupAvailabilityProps {
   handlePageNavigation: (navType: 'previous' | 'next' | 'specific') => void
@@ -56,21 +57,9 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   }, [])
 
   useEffect(() => {
-    const disabled = disableForwardButton()
+    const disabled = disableForwardButton(days)
     setIsDisabled(disabled)
   }, [days])
-
-  const disableForwardButton = (): boolean => {
-    let disabled = true
-
-    Object.keys(days).forEach(day => {
-      if (days[day].available) {
-        disabled = false
-      }
-    })
-
-    return disabled
-  }
 
   return (
     <div className='setup-avail-page'>
@@ -78,7 +67,13 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
         <h2>When are you available for meetings?</h2>
         <p>We will match project teams according to availability to meet.</p>
         <p>You can edit this later in the project portal calendar page.</p>
-        <i>Select at least one day per week with a block of time.</i>
+        <i>
+          <strong>
+            *You must have 3 days per week with at least 1 hour of availability
+            to meet. <br />
+            The 1 hour can be 2 half-hour time slots.
+          </strong>
+        </i>
       </div>
       <Availability
         days={days}
