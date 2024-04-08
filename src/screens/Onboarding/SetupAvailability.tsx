@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { getUserTimezone, selectAuthUser } from 'utils/redux/slices/userSlice'
 import { AvailabilityInterface } from 'interfaces'
 import { saveAvailability } from 'components/Availability/utils/helpers'
+import { disableForwardButton } from 'components/Availability/utils/helpers'
 import { Timezones } from 'components/Availability/utils/data'
 import { guessUserTimezone } from 'utils/helpers/availabilityHelpers'
 import {
@@ -12,11 +13,7 @@ import {
   bootcamprTimezoneToUTCMap,
 } from 'utils/data/timeZoneConstants'
 import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
-import dayjs from 'dayjs'
-import localizedFormat from 'dayjs/plugin/localizedFormat'
 import './SetupAvailability.scss'
-
-dayjs.extend(localizedFormat)
 
 interface SetupAvailabilityProps {
   handlePageNavigation: (navType: 'previous' | 'next' | 'specific') => void
@@ -60,39 +57,9 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   }, [])
 
   useEffect(() => {
-    const disabled = disableForwardButton()
+    const disabled = disableForwardButton(days)
     setIsDisabled(disabled)
   }, [days])
-
-  const disableForwardButton = (): boolean => {
-    const selectedDays = new Set()
-
-    for (const day of Object.keys(days)) {
-      const { availability, available } = days[day]
-      let totalAvailableHours = 0
-
-      if (available && availability.length > 0) {
-        for (const slot of availability) {
-          if (slot[0] && slot[1]) {
-            const startTime = dayjs(slot[0], 'LT')
-            const endTime = dayjs(slot[1], 'LT')
-            const timeDifference = endTime.diff(startTime, 'hour')
-
-            if (timeDifference >= 1) {
-              totalAvailableHours += 1
-            } else {
-              totalAvailableHours += 0.5
-            }
-          }
-        }
-
-        if (totalAvailableHours >= 1) {
-          selectedDays.add(day)
-        }
-      }
-    }
-    return selectedDays.size < 3
-  }
 
   return (
     <div className='setup-avail-page'>
