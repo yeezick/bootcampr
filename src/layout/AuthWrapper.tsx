@@ -42,7 +42,7 @@ export const AuthWrapper = ({ children }) => {
           if (verifiedAuthUser?._id) {
             await storeUserProject(
               dispatch,
-              verifiedAuthUser.projects.activeProject
+              verifiedAuthUser.projects.activeProject || 'sandbox'
             )
             dispatch(setAuthUser(verifiedAuthUser))
           } else if (isProtectedRoute) {

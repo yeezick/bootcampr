@@ -15,7 +15,7 @@ export const PortalBanner = () => {
 
   if (!active) return null
 
-  if (true) {
+  if (type === 'sandbox') {
     return (
       <div className='banner'>
         <img src={sandboxBanner} />
