@@ -24,25 +24,27 @@
         flex-direction: column;
         padding: 16px;
         row-gap: 8px;
-        width: 200px;
+        width: 290px;
 
         .role-avatar {
-          height: 100px;
+          img {
+            width: 100%;
+          }
         }
 
         .role-content {
           text-align: center;
 
           h5 {
-            font-size: 16px;
+            font-size: 28px;
             line-height: 24px;
-            margin: 0;
+            margin: 10px;
           }
 
           p {
-            font-size: 14px;
+            font-size: 18px;
             line-height: 20px;
-            margin: 4px 16px 0;
+            margin: 20px 16px 0;
             text-align: left;
           }
         }
@@ -83,4 +85,8 @@
       text-align: left;
     }
   }
+}
+
+.paginator {
+  margin: 0;
 }
