@@ -15,6 +15,7 @@ import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { getOneProject } from 'utils/api'
 import { setProject } from 'utils/redux/slices/projectSlice'
 import { SecondaryButton } from 'components/Buttons'
+import { handleJoinTeam } from 'utils/helpers/paymentHelpers'
 
 export const ChooseExperience = () => {
   return (
@@ -89,18 +90,7 @@ const JoinTeamCard = () => {
   const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-
-  const handleJoinTeam = async () => {
-    const updatedExperience = await updatePaymentExperience(userId, {
-      experience: 'waitlist',
-    })
-    if (updatedExperience.error) {
-      dispatch(errorSnackbar('Error setting project experience.'))
-      return
-    }
-    dispatch(updateUserExperience(updatedExperience))
-    navigate(`/onboarding/${userId}`)
-  }
+  const handleJoinTeamBtn = () => handleJoinTeam(dispatch, navigate, userId)
 
   return (
     <div className='experience-card'>
@@ -125,7 +115,7 @@ const JoinTeamCard = () => {
         <BenefitItem text='Showcase your product on your portfolio' />
         <BenefitItem text='Talk about your experience in interviews' />
       </div>
-      <PrimaryButton fullWidth handler={handleJoinTeam} text='Join a team' />
+      <PrimaryButton fullWidth handler={handleJoinTeamBtn} text='Join a team' />
     </div>
   )
 }

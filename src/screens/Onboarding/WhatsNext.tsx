@@ -51,7 +51,9 @@ export const WhatsNext = () => {
 
   const handleViewProjectDetails = () => {
     // If user is not yet assigned a project, route them to the generic Product Details page
-    const projectSlug = authUser.project ? authUser.project : 'sandbox'
+    const projectSlug = authUser.projects.activeProject
+      ? authUser.projects.activeProject
+      : 'sandbox'
     navigate(`/project/${projectSlug}`)
   }
 

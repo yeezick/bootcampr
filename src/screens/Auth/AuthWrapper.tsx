@@ -40,7 +40,10 @@ export const AuthWrapper = ({ children }) => {
         if (token && !authUser?._id) {
           const verifiedAuthUser = await verify()
           if (verifiedAuthUser?._id) {
-            await storeUserProject(dispatch, verifiedAuthUser.project)
+            await storeUserProject(
+              dispatch,
+              verifiedAuthUser.projects.activeProject
+            )
             dispatch(setAuthUser(verifiedAuthUser))
           } else if (isProtectedRoute) {
             navigate('/sign-in')

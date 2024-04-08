@@ -31,17 +31,19 @@ export const Nav = () => {
   const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const authUser = useAppSelector(selectAuthUser)
   const experience = useAppSelector(selectUserExperience)
-  const { _id: userId, project: projectId } = authUser
+  const {
+    _id: userId,
+    projects: { activeProject },
+  } = authUser
   const dispatch = useAppDispatch()
   const location = useLocation()
   const excludedRoutes = ['/payment', '/sign-up', '/sign-in', '/onboarding']
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
   )
-
   const closeDropdown = () => setAnchorEl(null)
   const handlePortalLink = () =>
-    buildPortal(dispatch, 'project', projectId, experience)
+    buildPortal(dispatch, 'project', activeProject, experience)
   const handleNonPortalLink = () => dispatch(resetPortal())
   const isActiveLink = path =>
     location.pathname.includes(path) ? 'active' : ''
@@ -66,7 +68,7 @@ export const Nav = () => {
             {userId && (
               <Link
                 className={`header-link ${isActiveLink('project')}`}
-                to={`/project/${projectId || 'sandbox'}`}
+                to={`/project/${activeProject || 'sandbox'}`}
                 onClick={handlePortalLink}
               >
                 Project Portal

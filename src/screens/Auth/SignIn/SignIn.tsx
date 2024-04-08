@@ -68,15 +68,13 @@ const SignIn: React.FC = (): JSX.Element => {
     }
 
     dispatch(setAuthUser(response))
+    const { payment, onboarded, projects, _id: userId } = response
 
-    if (response.payment.experience === 'unchosen') {
+    if (payment.experience === 'unchosen') {
       navigate('/payment/choose-experience')
-    } else if (
-      response.payment.experience === 'waitlist' &&
-      !response.onboarded
-    ) {
-      navigate(`/onboarding/${response._id}`)
-    } else if (response.payment.experience === 'sandbox') {
+    } else if (payment.experience === 'waitlist' && !onboarded) {
+      navigate(`/onboarding/${userId}`)
+    } else if (payment.experience === 'sandbox') {
       navigate('/project/sandbox')
       storeUserProject(dispatch, 'sandbox')
       dispatch(setPortal(buildProjectPortal('sandbox')))
@@ -87,9 +85,9 @@ const SignIn: React.FC = (): JSX.Element => {
         })
       )
     } else {
-      navigate(`/project/${response.project}`)
-      storeUserProject(dispatch, response.project)
-      dispatch(setPortal(buildProjectPortal(response.project)))
+      navigate(`/project/${projects.activeProject}`)
+      storeUserProject(dispatch, projects.activeProject)
+      dispatch(setPortal(buildProjectPortal(projects.activeProject)))
     }
   }
 

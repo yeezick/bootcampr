@@ -1,18 +1,21 @@
 import { Loader } from 'components/Loader/Loader'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectUserId, uiStatus } from 'utils/redux/slices/userSlice'
+import {
+  selectUserId,
+  selectUserProjectId,
+  uiStatus,
+} from 'utils/redux/slices/userSlice'
 import { Nav } from './'
 import { Footer } from 'layout/Footer'
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
 import { useLocation } from 'react-router-dom'
 import './styles/Layout.scss'
 import { doesUrlBelongToPortal } from 'utils/helpers'
-import { selectProjectId } from 'utils/redux/slices/projectSlice'
 import { PortalView } from './Portal'
 
 export const Layout = ({ children }) => {
   const status = useAppSelector(uiStatus)
-  const projectId = useAppSelector(selectProjectId)
+  const projectId = useAppSelector(selectUserProjectId)
   const userId = useAppSelector(selectUserId)
   const { pathname } = useLocation()
 

@@ -9,7 +9,6 @@ import { signUp, updateUser } from 'utils/api/users'
 import { emptyUser, initialUserSliceState } from 'utils/data/userConstants'
 import { RootState } from 'utils/redux/store'
 import { TimezonesUTC } from 'utils/data/timeZoneConstants'
-import { ProjectInterface } from 'interfaces'
 import { UpdateUserReducer } from 'interfaces/UserReducers'
 import { produce } from 'immer'
 import { generateDefaultPicture } from 'utils/helpers'
@@ -56,7 +55,6 @@ const userSlice = createSlice({
     setAuthUser: (state, action: PayloadAction<UserInterface>) => {
       const authUserPayload = produce(action.payload, draft => {
         if (action.payload.payment.experience === 'sandbox') {
-          draft.project = 'sandbox'
           draft.projects.activeProject = 'sandbox'
         }
       })
@@ -72,7 +70,6 @@ const userSlice = createSlice({
       state.auth.user.payment = action.payload
     },
     updateUserProject: (state, action: PayloadAction<string>) => {
-      state.auth.user.project = action.payload // to be removed on activeProject is implemented
       state.auth.user.projects.activeProject = action.payload
     },
     setConfirmationEmailAddress: (state, action: PayloadAction<string>) => {
