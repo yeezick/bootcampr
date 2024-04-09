@@ -19,7 +19,6 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 // BC-787: remove BEM styling
 export const SetUpProfile = ({ handlePageNavigation }) => {
   const dispatch = useAppDispatch()
-  const params = useParams()
   const authUser = useAppSelector(selectAuthUser)
   const navigate = useNavigate()
 
@@ -95,7 +94,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     try {
       const isOnboarded = direction === 'next'
       const updatedUserFormData = { ...updateUserForm, onboarded: isOnboarded }
-      const updatedUser = await updateUser(params.id, updatedUserFormData)
+      const updatedUser = await updateUser(authUser._id, updatedUserFormData)
       dispatch(setAuthUser(updatedUser))
       dispatch(successSnackbar('User profile has been updated!'))
       if (direction === 'next') {
@@ -111,10 +110,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
   const handleSecondaryClick = e => handleNavigationButtons(e, 'previous')
   const handlePrimaryClick = async () => {
     const updatedUserFormData = { ...updateUserForm, onboarded: true }
-    const updatedUserProfile = await updateUserProfile(
-      params.id,
-      updatedUserFormData
-    )
+    const updatedUserProfile = await updateUserProfile(updatedUserFormData)
     const checkoutResponse = await createCheckout()
     let experiencePayload
 

@@ -14,7 +14,6 @@ export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
   const [updateUserForm, setUpdateUserForm] = useState(emptyUser)
   const [bioCharCount, setBioCharCount] = useState(0)
-  const params = useParams()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const {
@@ -63,10 +62,10 @@ export const EditProfile: React.FC = () => {
     e.preventDefault()
 
     try {
-      const updatedUser = await updateUser(params.id, updateUserForm)
+      const updatedUser = await updateUser(authUser._id, updateUserForm)
       dispatch(setAuthUser(updatedUser))
       dispatch(successSnackbar('Profile saved!'))
-      navigate(`/users/${params.id}`)
+      navigate(`/users/${authUser._id}`)
     } catch (error) {
       console.log('Error occured when trying to update User Profile', error)
       dispatch(
