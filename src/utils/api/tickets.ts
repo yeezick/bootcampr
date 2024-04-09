@@ -1,9 +1,10 @@
 import { blankDayJs, generateHexadecimal } from 'utils/helpers'
 import { api } from './apiConfig'
+import { isSandboxId } from 'utils/helpers/taskHelpers'
 
 export const createTicket = async ticketBody => {
   try {
-    if (ticketBody.projectId === 'sandbox') {
+    if (isSandboxId(ticketBody.projectId)) {
       return buildDummyTicket(ticketBody)
     }
 

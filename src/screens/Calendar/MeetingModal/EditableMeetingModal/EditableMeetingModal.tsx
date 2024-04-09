@@ -32,6 +32,7 @@ import { MeetingModalHeaderIcons } from './MeetingModalHeaderIcons'
 import { GoogleMeetsToggler } from './GoogleMeetsToggler'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import { PrimaryButton } from 'components/Buttons/ButtonVariants'
+import { isSandboxId } from 'utils/helpers/taskHelpers'
 
 export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
@@ -55,7 +56,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
   useEffect(() => {
     if (modalDisplayStatus === 'create') {
       const updatedAttendees = { ...attendees }
-      if (calendarId === 'sandbox') {
+      if (isSandboxId(calendarId)) {
         updatedAttendees['star@struck.com'] = true
       } else {
         updatedAttendees[authUser.email] = true

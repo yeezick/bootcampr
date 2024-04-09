@@ -128,10 +128,9 @@ export const handleTicketMovingBetweenColumns = async (
     newColumnIdx,
   }
 
-  const response =
-    projectId === 'sandbox'
-      ? moveSandboxTicketBetweenColumns(projectTracker, moveData)
-      : await moveTicketColumn(projectId, moveData)
+  const response = isSandboxId(projectId)
+    ? moveSandboxTicketBetweenColumns(projectTracker, moveData)
+    : await moveTicketColumn(projectId, moveData)
 
   if (response.status !== 200) {
     dispatch(errorSnackbar(response.message))
