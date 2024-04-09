@@ -28,9 +28,9 @@ export const Onboarding = () => {
     ) {
       navigate(`/project/${authUser.project}`)
     } else if (authUser.role && hasSetAvailability) {
-      navigate(`/onboarding/${authUser._id}?pageId=setUpProfile`)
+      navigate('/onboarding?pageId=setUpProfile')
     } else if (authUser.role) {
-      navigate(`/onboarding/${authUser._id}?pageId=availability`)
+      navigate('/onboarding?pageId=availability')
     }
   }, [])
 

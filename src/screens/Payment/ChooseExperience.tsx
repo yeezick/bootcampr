@@ -83,7 +83,7 @@ const JoinTeamCard = () => {
       return
     }
     dispatch(updateUserExperience(updatedExperience))
-    navigate(`/onboarding/${userId}`)
+    navigate('/onboarding')
   }
 
   return (
