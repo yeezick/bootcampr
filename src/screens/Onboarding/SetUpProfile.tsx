@@ -9,12 +9,11 @@ import {
 import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
 import { updateUser, updateUserProfile } from 'utils/api/users'
-import { useNotification } from 'utils/redux/slices/notificationSlice'
 import Avatar from 'components/Avatar/Avatar'
 import TextareaAutosize from 'react-textarea-autosize'
 import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import { createCheckout, updatePaymentExperience } from 'utils/api/payment'
-import { errorSnackbar } from 'utils/helpers/commentHelpers'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { isLinkedInUrl } from 'utils/components/Inputs'
 
@@ -23,7 +22,6 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
   const dispatch = useAppDispatch()
   const params = useParams()
   const authUser = useAppSelector(selectAuthUser)
-  const { displayNotification } = useNotification()
   const navigate = useNavigate()
 
   const [updateUserForm, setUpdateUserForm] = useState<UserInterface>(emptyUser)
@@ -50,11 +48,12 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
         return { ...currForm, ...authUser }
       })
     }
-
+    
     isLinkedInUrl(links.linkedinUrl)
       ? setIsInvalidURL(false)
       : setIsInvalidURL(true)
-  }, [])
+  }, [authUser])
+
 
   useEffect(() => {
     const charCount =
@@ -112,9 +111,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
       const updatedUserFormData = { ...updateUserForm, onboarded: isOnboarded }
       const updatedUser = await updateUser(params.id, updatedUserFormData)
       dispatch(setAuthUser(updatedUser))
-      displayNotification({
-        message: 'User profile successfully updated.',
-      })
+      dispatch(successSnackbar('User profile has been updated!'))
       if (direction === 'next') {
         navigate(`/whats-next`)
       } else {
@@ -246,7 +243,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                   }`}
                 >
                   <p className={`${errorStates.bio && 'error'}`}>
-                    {bioCharCount}/500
+                    {500 - bioCharCount}/500
                   </p>
                 </div>
               </div>
@@ -287,17 +284,19 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                 value={links.portfolioUrl}
               />
             </label>
-            <label className='setupProfile__profile-label'>
-              GitHub (URL) Software Engineers only
-              <input
-                type='text'
-                name='githubUrl'
-                className='setupProfile__profile-input'
-                onChange={handleInputChange}
-                placeholder='myGitHubkicksass.com'
-                value={links.githubUrl}
-              />
-            </label>
+            {authUser.role === 'Software Engineer' && (
+              <label className='setupProfile__profile-label'>
+                GitHub (URL)
+                <input
+                  type='text'
+                  name='githubUrl'
+                  className='setupProfile__profile-input'
+                  onChange={handleInputChange}
+                  placeholder='myGitHubkicksass.com'
+                  value={links.githubUrl}
+                />
+              </label>
+            )}
           </div>
           <div className='setupProfile__profile-btns'>
             <div className='setupProfile__cta-container'>

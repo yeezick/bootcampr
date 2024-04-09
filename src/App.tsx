@@ -9,7 +9,7 @@ import {
   SignIn,
   SignUp,
 } from 'screens/Auth'
-import { Landing } from 'screens/Landing'
+import { Community, ContactUs, Enterprise, Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { ProjectCompletion } from './screens/ProjectCompletion/ProjectCompletion'
@@ -22,7 +22,6 @@ import {
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailConfirmation'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
-import { AboutUs, HowTo } from 'screens/Landing'
 import { WhatsNext } from 'screens/Onboarding/WhatsNext'
 import { Account, Email } from 'screens/Auth/Settings'
 import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
@@ -40,8 +39,9 @@ function App() {
         <Layout>
           <Routes>
             <Route path='/' element={<Landing />} />
-            <Route path='/about-us' element={<AboutUs />} />
-            <Route path='/how-to' element={<HowTo />} />
+            <Route path='/contact-us' element={<ContactUs />} />
+            <Route path='/community' element={<Community />} />
+            <Route path='/enterprise' element={<Enterprise />} />
             {/* Auth */}
             <Route path='/sign-up' element={<SignUp />} />
             <Route
