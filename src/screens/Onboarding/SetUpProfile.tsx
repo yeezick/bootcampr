@@ -15,6 +15,7 @@ import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import { createCheckout, updatePaymentExperience } from 'utils/api/payment'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { isLinkedInUrl } from 'utils/components/Inputs'
 
 // BC-787: remove BEM styling
 export const SetUpProfile = ({ handlePageNavigation }) => {
@@ -32,6 +33,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     linkedinUrl: false,
   })
   const [isDisabled, setIsDisabled] = useState(true)
+  const [isInvalidURL, setIsInvalidURL] = useState(false)
 
   const { firstName, lastName, bio, links } = updateUserForm
   const nestedLinks = ['githubUrl', 'linkedinUrl', 'portfolioUrl']
@@ -46,7 +48,12 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
         return { ...currForm, ...authUser }
       })
     }
+    
+    isLinkedInUrl(links.linkedinUrl)
+      ? setIsInvalidURL(false)
+      : setIsInvalidURL(true)
   }, [authUser])
+
 
   useEffect(() => {
     const charCount =
@@ -55,8 +62,9 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
 
     const { firstName, lastName, bio, links } = updateUserForm
     const validForm = firstName && lastName && bio && links.linkedinUrl
+    const validLinkedIn = isLinkedInUrl(links.linkedinUrl)
 
-    setIsDisabled(!validForm)
+    validForm && validLinkedIn ? setIsDisabled(false) : setIsDisabled(true)
   }, [updateUserForm])
 
   const handleInputChange = (
@@ -79,6 +87,12 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
 
     if (name === 'bio') {
       setBioCharCount(value.length)
+    }
+
+    if (isInvalidURL) {
+      isLinkedInUrl(links.linkedinUrl)
+        ? setIsInvalidURL(false)
+        : setIsInvalidURL(true)
     }
   }
 
@@ -243,12 +257,20 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                   errorStates.linkedinUrl && 'error'
                 }`}
                 onChange={handleInputChange}
-                onBlur={e => checkErrorState(e.target.name, e.target.value)}
+                onBlur={e => {
+                  checkErrorState(e.target.name, e.target.value)
+                  isLinkedInUrl(links.linkedinUrl)
+                    ? setIsInvalidURL(false)
+                    : setIsInvalidURL(true)
+                }}
                 placeholder='https://www.linkedin.com/in/name'
                 value={links.linkedinUrl}
               />
               {errorStates.linkedinUrl && (
                 <h6 className='error'>LinkedIn profile is required.</h6>
+              )}
+              {isInvalidURL && (
+                <h6 className='error'>Not a valid LinkedIn URL.</h6>
               )}
             </label>
             <label className='setupProfile__profile-label'>
