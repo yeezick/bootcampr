@@ -3,11 +3,16 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectAuthUser,
+  updateAuthUser,
   updateUserExperience,
 } from 'utils/redux/slices/userSlice'
 import { PrimaryButton } from 'components/Buttons'
 import './WhatsNext.scss'
-import { updatePaymentExperience, verifyPayment } from 'utils/api'
+import {
+  updatePaymentExperience,
+  updateUserProfile,
+  verifyPayment,
+} from 'utils/api'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 
 export const WhatsNext = () => {
@@ -35,12 +40,19 @@ export const WhatsNext = () => {
           authUser._id,
           { experience: 'waitlist', paid: true }
         )
+        const updatedUserProfile = await updateUserProfile(authUser._id, {
+          onboarded: true,
+        })
 
         if (updatedUserExperience.error) {
           dispatch(errorSnackbar('Error updating project experience.'))
           return
+        } else if (updatedUserProfile.error) {
+          dispatch(errorSnackbar('Error updating user as onboarded.'))
+          return
         } else {
           dispatch(updateUserExperience(updatedUserExperience))
+          dispatch(updateAuthUser({ onboarded: true }))
         }
       }
     }

@@ -103,10 +103,9 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
   }
 
   const handlePrimaryClick = async () => {
-    const updatedUserFormData = { ...updateUserForm, onboarded: true }
     const updatedUserProfile = await updateUserProfile(
       params.id,
-      updatedUserFormData
+      updateUserForm
     )
     const checkoutResponse = await createCheckout()
 
