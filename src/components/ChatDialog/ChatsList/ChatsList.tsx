@@ -10,12 +10,23 @@ import { EmptyChatPage } from '../ChatRoom/EmptyChatPage'
 import { ChatInterface } from 'interfaces/ChatInterface'
 import { useSocketEvents } from 'components/Notifications/Socket'
 import './ChatsList.scss'
+import {
+  selectUserExperience,
+  selectUserId,
+} from 'utils/redux/slices/userSlice'
+import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
+import { handleJoinTeam } from 'utils/helpers/paymentHelpers'
+import { useNavigate } from 'react-router-dom'
+import { closeChatBox } from 'utils/helpers/chatHelpers'
 
 export const ChatsList = ({ handleConversationClick }) => {
   useSocketEvents(false)
+  const userExperience = useAppSelector(selectUserExperience)
+  const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()
   const [selectChatId, setSelectChatId] = useState('')
   const threads = useAppSelector(selectSortedThreads)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (selectChatId) {
@@ -34,7 +45,35 @@ export const ChatsList = ({ handleConversationClick }) => {
     }
   }
 
-  if (threads.length === 0) {
+  if (isSandboxId(userExperience)) {
+    const handleJoinTeamBtn = () => {
+      closeChatBox(dispatch)
+      handleJoinTeam(dispatch, navigate, userId)
+    }
+    return (
+      <EmptyChatPage
+        screen='NoConversations'
+        className='no-result'
+        text='Join a team to chat with!'
+        handler={{ text: 'Join a team', function: handleJoinTeamBtn }}
+      />
+    )
+  } else if (isWaitlistExperience(userExperience)) {
+    const handleJoinDiscord = () => {
+      window.open('https://discord.gg/JJGBf9SX6y', '_blank')
+    }
+    return (
+      <EmptyChatPage
+        screen='NoConversations'
+        className='no-result'
+        text='Join the Bootcampr community while you wait to get matched to a team.'
+        handler={{
+          text: 'Join the Bootcampr community',
+          function: handleJoinDiscord,
+        }}
+      />
+    )
+  } else if (threads.length === 0) {
     return (
       <EmptyChatPage
         screen='NoConversations'

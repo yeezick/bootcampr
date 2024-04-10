@@ -171,6 +171,14 @@ export const isSandboxId = id => {
   }
 }
 
+export const isWaitlistExperience = experience => {
+  if (experience === 'waitlist') {
+    return true
+  } else {
+    return false
+  }
+}
+
 export const moveSandboxTicketBetweenColumns = (projectTracker, moveData) => {
   const { newColumnId, newColumnIdx, oldColumnId, oldColumnIdx } = moveData
   const updatedProjectTracker = produce(projectTracker, draft => {
