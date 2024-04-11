@@ -22,7 +22,6 @@ export const SelectTimeZone = ({
         sx={{ alignSelf: 'center', fontSize: '14px' }}
       >
         <Select
-          disableUnderline={true}
           onChange={handleTimeZone}
           onClick={toggleSelect}
           open={openSelect}
