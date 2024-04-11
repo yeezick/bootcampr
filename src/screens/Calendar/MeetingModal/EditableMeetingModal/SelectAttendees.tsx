@@ -43,6 +43,7 @@ export const SelectAttendees = ({
                 currMember={currMember}
                 dateFields={dateFields}
                 setAttendees={setAttendees}
+                key={currMember._id}
               />
             ))}
           </List>
