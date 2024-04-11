@@ -41,8 +41,8 @@ export const SelectDate = () => {
       <TicketTextLabel icon='calendar' label='Due date' />
       <DatePicker
         disablePast
-        minDate={dayjs(startDate)}
-        maxDate={dayjs(endDate)}
+        minDate={generateDayJs(startDate)}
+        maxDate={generateDayJs(endDate)}
         className='select-date'
         format='MM/DD/YY'
         onChange={handleDateChange}
