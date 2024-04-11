@@ -76,7 +76,7 @@ const SignIn: React.FC = (): JSX.Element => {
       response.payment.experience === 'waitlist' &&
       !response.onboarded
     ) {
-      navigate(`/onboarding/${response._id}`)
+      navigate('/onboarding')
     } else if (!response.project) {
       navigate('/project/sandbox')
       dispatch(setPortal(buildProjectPortal('sandbox')))
