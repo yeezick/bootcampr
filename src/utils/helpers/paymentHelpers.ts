@@ -13,3 +13,7 @@ export const handleJoinTeam = async (dispatch, navigate, userId) => {
   dispatch(updateUserExperience(updatedExperience))
   navigate(`/onboarding/${userId}`)
 }
+
+export const handleJoinDiscord = () => {
+  window.open('https://discord.gg/JJGBf9SX6y', '_blank')
+}

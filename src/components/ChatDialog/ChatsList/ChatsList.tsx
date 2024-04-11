@@ -15,7 +15,7 @@ import {
   selectUserId,
 } from 'utils/redux/slices/userSlice'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
-import { handleJoinTeam } from 'utils/helpers/paymentHelpers'
+import { handleJoinDiscord, handleJoinTeam } from 'utils/helpers/paymentHelpers'
 import { useNavigate } from 'react-router-dom'
 import { closeChatBox } from 'utils/helpers/chatHelpers'
 
@@ -59,9 +59,6 @@ export const ChatsList = ({ handleConversationClick }) => {
       />
     )
   } else if (isWaitlistExperience(userExperience)) {
-    const handleJoinDiscord = () => {
-      window.open('https://discord.gg/JJGBf9SX6y', '_blank')
-    }
     return (
       <EmptyChatPage
         screen='NoConversations'

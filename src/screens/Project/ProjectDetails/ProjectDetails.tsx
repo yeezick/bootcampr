@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { WaitlistBanner } from './WaitlistBanner'
 import { Overview } from './Overview'
 import { ProjectTimeline } from './ProjectTimeline'
 import { Presentation } from './Presentation'
@@ -16,7 +15,6 @@ export const ProjectDetails = () => {
     <div className='project-details-portal'>
       <div className='pd-cont'>
         <div className='pd-header-cont'>
-          <WaitlistBanner />
           <RenderTab tabs={tabData} />
         </div>
       </div>

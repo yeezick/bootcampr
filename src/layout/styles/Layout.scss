@@ -20,7 +20,8 @@
     background-color: #fff3e0;
     display: flex;
     justify-content: space-between;
-    height: 91px;
+    min-height: 91px;
+    height: fit-content;
     width: 100vw;
 
     img {
@@ -29,9 +30,19 @@
       width: 75px;
     }
 
-    .text {
+    .waitlist-img {
+      height: 128px;
+      width: 128px;
+    }
+
+    .content {
       color: #1944a3;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 16px 0;
+      font-weight: bold;
 
       h2, p {
         margin: 0
@@ -46,6 +57,14 @@
       p {
         font-size: 14px;
         line-height: 20px;
+      }
+
+      .infotext {
+        display: flex;
+        font-weight: bolder;
+        gap: 4px;
+        text-align: left;
+        align-items: center;
       }
     }
 
