@@ -73,17 +73,24 @@
     height: 416px;
     margin-bottom: 8px;
     overflow-y: auto;
+<<<<<<< HEAD
     padding: 0 8px 0 8px;
+=======
+    padding: 8px 8px 0 8px;
+>>>>>>> 163f18a0bf24e237336502a1cd49ff2ec4ae3800
 
     .message-container {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
 
+<<<<<<< HEAD
       &.other-user {
         margin-top: 8px;
       }
 
+=======
+>>>>>>> 163f18a0bf24e237336502a1cd49ff2ec4ae3800
       .message-grid {
         align-items: flex-end;
         display: flex;
@@ -99,10 +106,27 @@
         .recipient-avatar {
           align-items: center;
           align-self: flex-end;
+<<<<<<< HEAD
           border-radius: 50%;
           display: flex;
           justify-content: center;
           overflow: hidden;
+=======
+          background-color: #e0dfdf;
+          border-radius: 50px;
+          display: flex;
+          height: 32px;
+          justify-content: center;
+          overflow: hidden;
+          width: 32px;
+
+          img {
+            height: 32px;
+            margin: 0;
+            padding: 0;
+            width: auto;
+          }
+>>>>>>> 163f18a0bf24e237336502a1cd49ff2ec4ae3800
         }
 
         .auth-text {
@@ -169,7 +193,11 @@
           }
         }
 
+<<<<<<< HEAD
         .same-user {
+=======
+        .same-user-text-margin {
+>>>>>>> 163f18a0bf24e237336502a1cd49ff2ec4ae3800
           margin-top: 2px;
         }
       }

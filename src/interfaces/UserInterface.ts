@@ -32,7 +32,6 @@ export interface UserInterface {
   __v?: number
   _id?: string
 }
-
 export interface UiInterface {
   portal: Portal
   sideMenu: SideMenu
