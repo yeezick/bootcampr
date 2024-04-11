@@ -58,13 +58,15 @@ const SandboxCard = () => {
           the Project Portal.
         </p>
       </div>
-      <div className='benefits'>
+      <div className='benefits' id='free-benefits'>
         <BenefitItem text='View the Product Details' />
         <BenefitItem text='Check out the team page' />
         <BenefitItem text='See typical meetings on the Scrum Calendar' />
         <BenefitItem text='Get comfortable using the Kanban Board' />
       </div>
-      <PrimaryButton handler={handleEnterSandbox} text='Enter sandbox' />
+      <div className='button'>
+        <PrimaryButton handler={handleEnterSandbox} text='Enter sandbox' />
+      </div>
     </div>
   )
 }
@@ -110,7 +112,9 @@ const JoinTeamCard = () => {
         <BenefitItem text='Showcase your product on your portfolio' />
         <BenefitItem text='Talk about your experience in interviews' />
       </div>
-      <PrimaryButton handler={handleJoinTeam} text='Join a team' />
+      <div className='button'>
+        <PrimaryButton handler={handleJoinTeam} text='Join a team' />
+      </div>
     </div>
   )
 }
