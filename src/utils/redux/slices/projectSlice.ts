@@ -202,11 +202,11 @@ export const selectUsersById = userIds => state => {
 }
 
 export const selectMembersByRole = createSelector(
-  [selectDesignMembers, selectEngineerMembers, selectProductManagers],
+  [selectEngineerMembers, selectDesignMembers, selectProductManagers],
   (engineers, designers, productManagers) => {
     return {
-      designers,
       engineers,
+      designers,
       productManagers,
     }
   }
