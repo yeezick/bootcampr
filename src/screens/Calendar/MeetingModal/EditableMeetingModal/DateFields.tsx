@@ -6,13 +6,15 @@ import { selectProjectTimeline } from 'utils/redux/slices/projectSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 import { SelectTime } from './SelectTime'
 import { useEffect, useState } from 'react'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import '../styles/DisplayMeetingModal.scss'
 import '../styles/Datefields.scss'
 dayjs.extend(utc)
 dayjs.extend(timezone)
+dayjs.extend(isSameOrAfter)
 
 export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
   const [datePickerDayjs, setDayPickerDayjs] = useState(dayjs())
@@ -29,7 +31,7 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
   }
 
   useEffect(() => {
-    if (dayjs(startDate).isAfter(dayjs(dateFields.date))) {
+    if (dayjs(startDate).isSameOrAfter(dayjs(dateFields.date))) {
       setDayPickerDayjs(dayjs(startDate))
     } else {
       setDayPickerDayjs(dayjs(dateFields.date))
