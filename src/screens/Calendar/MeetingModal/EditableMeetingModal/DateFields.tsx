@@ -1,6 +1,10 @@
 import { AccessTime, ArrowDropDown } from '@mui/icons-material'
 import { DatePicker } from '@mui/x-date-pickers'
-import { updateDateInTimeSelections } from 'utils/helpers'
+import {
+  updateDateInTimeSelections,
+  blankDayJs,
+  generateDayJs,
+} from 'utils/helpers'
 import { SelectTimeZone } from './SelectTimeZone'
 import { selectProjectTimeline } from 'utils/redux/slices/projectSlice'
 import { useAppSelector } from 'utils/redux/hooks'
@@ -17,7 +21,7 @@ dayjs.extend(timezone)
 dayjs.extend(isSameOrAfter)
 
 export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
-  const [datePickerDayjs, setDayPickerDayjs] = useState(dayjs())
+  const [datePickerDayjs, setDayPickerDayjs] = useState(blankDayJs())
   const { startDate, endDate } = useAppSelector(selectProjectTimeline)
 
   const handleDate = newDate => {
@@ -31,10 +35,10 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
   }
 
   useEffect(() => {
-    if (dayjs(startDate).isSameOrAfter(dayjs(dateFields.date))) {
-      setDayPickerDayjs(dayjs(startDate))
+    if (dayjs(startDate).isSameOrAfter(blankDayJs())) {
+      setDayPickerDayjs(generateDayJs(startDate))
     } else {
-      setDayPickerDayjs(dayjs(dateFields.date))
+      setDayPickerDayjs(blankDayJs())
     }
   }, [dateFields])
 
