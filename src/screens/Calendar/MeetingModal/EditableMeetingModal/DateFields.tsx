@@ -48,8 +48,8 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
       <div className='fields-wrapper'>
         <div className='time-fields'>
           <DatePicker
-            minDate={dayjs(startDate)}
-            maxDate={dayjs(endDate)}
+            minDate={generateDayJs(startDate)}
+            maxDate={generateDayJs(endDate)}
             format='MM/DD/YY'
             onChange={handleDate}
             slotProps={{
