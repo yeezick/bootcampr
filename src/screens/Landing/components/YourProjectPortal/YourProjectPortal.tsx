@@ -19,7 +19,7 @@ export const YourProjectPortal = () => {
       <div className='details'>
         <DetailsContent
           imagePath={laptopProjectDetails}
-          textHeader='Project Details'
+          textHeader='Product Details'
           textContent=' The project prompt tells you the problem, user groups to consider, deliverables, and the scope. We provide a timeline so you know what to expect during the 4-week project. Focus on delivering a solution!'
         />
         <DetailsContent
@@ -29,12 +29,12 @@ export const YourProjectPortal = () => {
         />
         <DetailsContent
           imagePath={laptopCalendar}
-          textHeader='Calendar'
+          textHeader='Scrum Calendar'
           textContent=' Communication with your team is important. We provide a calendar showing your full team availability to make it easy to schedule meetings. We schedule the first one for you!'
         />
         <DetailsContent
           imagePath={laptopTaskManagement}
-          textHeader='Task Management'
+          textHeader='Kanban Board'
           textContent='Most companies use a work management tool. We’ve created one you can use to organize and track tasks. Hiring managers will be happy to hear you’re familiar with task management tools!'
         />
         <DetailsContent

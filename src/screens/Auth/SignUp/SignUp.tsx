@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaInfoCircle } from 'react-icons/fa'
 import { GoAlert } from 'react-icons/go'
-import { register, reset, uiStatus } from 'utils/redux/slices/userSlice'
+import {
+  register,
+  reset,
+  uiStatus,
+  setConfirmationEmailAddress,
+} from 'utils/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { SignUpInterface } from 'interfaces/UserInterface'
 import { PasswordErrors } from 'interfaces/components/Input'
@@ -11,8 +16,7 @@ import { emptySignUp } from 'utils/data/userConstants'
 import { Email, Text, PasswordInputs } from 'components/Inputs'
 import './SignUp.scss'
 import { Checkbox, FormControlLabel } from '@mui/material'
-import signupImage from '../../../assets/Images/sign-up-flow-image.png'
-
+import signup from '../../../assets/Images/signup.png'
 export const SignUp: React.FC = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -26,6 +30,7 @@ export const SignUp: React.FC = () => {
     text: '',
   })
   const { password } = formValues
+  const ALERT_BANNER_TIMEOUT = 16000
 
   useEffect(() => {
     if (status.isSuccess) {
@@ -63,29 +68,38 @@ export const SignUp: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const validForm = await dispatch(register(formValues))
-    const { payload } = validForm
+    try {
+      dispatch(setConfirmationEmailAddress(formValues.email))
 
-    navigate(`/sign-up/${payload.newUser}/confirmation-email-sent`)
-    window.scrollTo(0, 0) // Scroll to top to view alert banner
-    if (payload.invalidCredentials && payload.existingAccount) {
+      const validForm = await dispatch(register(formValues))
+      const { payload } = validForm
+
+      navigate(`/sign-up/${payload.newUser}/confirmation-email-sent`)
+      window.scrollTo(0, 0) // Scroll to top to view alert banner
+
+      const alertType =
+        payload.invalidCredentials && payload.existingAccount
+          ? 'warning'
+          : 'info'
+      const alertIcon =
+        payload.invalidCredentials && payload.existingAccount ? (
+          <GoAlert />
+        ) : (
+          <FaInfoCircle />
+        )
       setAlertBanner({
         status: true,
         text: payload.message,
-        icon: <GoAlert />,
-        type: 'warning',
+        icon: alertIcon,
+        type: alertType,
       })
-    } else {
-      setAlertBanner({
-        status: true,
-        text: payload.message,
-        icon: <FaInfoCircle />,
-        type: 'info',
-      })
+
+      setTimeout(() => {
+        setAlertBanner({ status: false })
+      }, ALERT_BANNER_TIMEOUT)
+    } catch (error) {
+      console.error('Error occurred during form submission:', error)
     }
-    setTimeout(() => {
-      setAlertBanner({ status: false })
-    }, 16000)
   }
 
   const submitButtonStyle = `${
@@ -108,7 +122,7 @@ export const SignUp: React.FC = () => {
       <div className='signup-banner'>
         <div>
           <img
-            src={signupImage}
+            src={signup}
             alt='A person smiles while working on a laptop at a coffee shop'
           />
         </div>

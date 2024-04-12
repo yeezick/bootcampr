@@ -16,10 +16,10 @@ import { getChatMessagesByType, getUserChatThreads } from 'utils/api/chat'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { RootState } from 'utils/redux/store'
 import { selectUserId } from './userSlice'
-import { selectMembers } from './projectSlice'
+import { selectMembersAsTeam } from './projectSlice'
 import {
+  mapMessageSender,
   mapParticipantsWithMemberDetails,
-  updateLastMessageSender,
 } from 'utils/functions/chatLogic'
 
 // todo: chats from project slice should be moved here
@@ -50,6 +50,7 @@ const initialState: ChatSliceInterface = {
     groupName: '',
     groupDescription: '',
     groupPhoto: '',
+    isTeamChat: false,
   },
   threads: {},
   selectedChatUsers: [],
@@ -66,23 +67,9 @@ export const fetchMessages = createAsyncThunk<
   async ({ chatId, chatType }, { getState, rejectWithValue }) => {
     try {
       const messages = await getChatMessagesByType(chatId, chatType)
-      const members = selectMembers(getState())
+      const members = selectMembersAsTeam(getState())
       const mappedMessages = messages.map(message => {
-        const messageSender = members.find(
-          member => member._id === message.sender
-        )
-        return messageSender
-          ? {
-              ...message,
-              sender: {
-                _id: messageSender._id,
-                firstName: messageSender.firstName,
-                lastName: messageSender.lastName,
-                email: messageSender.email,
-                profilePicture: messageSender.profilePicture,
-              },
-            }
-          : message
+        return mapMessageSender(message, members)
       })
       return { chatId, messages: mappedMessages }
     } catch (error) {
@@ -98,12 +85,9 @@ export const fetchThreads = createAsyncThunk<
 >('chatbox/fetchThreads', async (_, thunkAPI) => {
   try {
     const threads = await getUserChatThreads()
-    const members = selectMembers(thunkAPI.getState())
+    const members = selectMembersAsTeam(thunkAPI.getState())
     const threadsMap = threads.map((thread: ChatInterface) => {
-      const lastMessageMap = updateLastMessageSender(
-        thread.lastMessage,
-        members
-      )
+      const lastMessageMap = mapMessageSender(thread.lastMessage, members)
       const participantsMap = mapParticipantsWithMemberDetails(thread, members)
       return {
         ...thread,
@@ -125,19 +109,20 @@ export const processChatRoom = createAsyncThunk<
 >(
   'chatbox/createAndSetNewChatRoom',
   async (chatRoom, { getState, dispatch }) => {
-    const members = selectMembers(getState())
+    const members = selectMembersAsTeam(getState())
     const mappedParticipants = mapParticipantsWithMemberDetails(
       chatRoom,
       members
     )
-    const lastMessageMap = updateLastMessageSender(
-      chatRoom.lastMessage,
-      members
-    )
+    const lastMessageMap = mapMessageSender(chatRoom.lastMessage, members)
+    const mappedMessages = chatRoom.messages.map(message => {
+      return mapMessageSender(message, members)
+    })
     return {
       ...chatRoom,
       participants: mappedParticipants,
       lastMessage: lastMessageMap,
+      messages: mappedMessages,
     }
   }
 )
@@ -161,9 +146,14 @@ const chatSlice = createSlice({
       state.activeChatRoomId = null
       state.ui.chatScreen = ChatScreen.Main
       state.ui.chatScreenPath = [ChatScreen.Main]
+      state.chat = initialState.chat
     },
     onScreenUpdate: (state, action: PayloadAction<ChatScreen>) => {
-      state.ui.chatScreenPath = [...state.ui.chatScreenPath, action.payload]
+      const latestPage =
+        state.ui.chatScreenPath[state.ui.chatScreenPath.length - 1]
+      if (latestPage !== action.payload) {
+        state.ui.chatScreenPath = [...state.ui.chatScreenPath, action.payload]
+      }
       state.ui.chatScreen = action.payload
     },
     onBackArrowClick: state => {
@@ -182,19 +172,19 @@ const chatSlice = createSlice({
       state.chat = { ...chatRoom }
       state.threads[chatRoom._id] = chatRoom
     },
+    resetCurrentChat: (state, action: PayloadAction<ChatInterface>) => {
+      state.chat = initialState.chat
+    },
     updateCurrentChatMessages: (state, action) => {
       const { receivedMessage } = action.payload
       const { chatRoomId, senderId } = receivedMessage
       const thread = state.threads[chatRoomId]
       if (thread) {
         const senderParticipant = state.threads[chatRoomId].participants.find(
-          pp => pp.participant._id === senderId
+          pp => pp.userInfo._id === senderId
         )
-        if (!senderParticipant) {
-          return
-        }
         const newMessage: ChatMessageInterface = {
-          sender: senderParticipant.participant,
+          sender: senderParticipant.userInfo,
           text: receivedMessage.newMessage,
           timestamp: blankDayJs().toISOString(),
           status: 'sent',
@@ -213,7 +203,7 @@ const chatSlice = createSlice({
       if (thread) {
         thread.participants.forEach(participant => {
           if (
-            participant.participant._id !== senderId &&
+            participant.userInfo._id !== senderId &&
             state.activeChatRoomId !== chatRoomId
           ) {
             participant.hasUnreadMessage = true
@@ -227,7 +217,7 @@ const chatSlice = createSlice({
       if (thread) {
         thread.participants.forEach(participant => {
           if (
-            participant.participant._id === activeUserId &&
+            participant.userInfo._id === activeUserId &&
             state.activeChatRoomId === chatRoomId
           ) {
             participant.hasUnreadMessage = false
@@ -295,13 +285,17 @@ export const selectSortedThreads = createSelector(
     })
   }
 )
+export const selectTeamChat = createSelector(selectThreads, threads => {
+  const teamChat = threads.find(thread => thread.isTeamChat)
+  return teamChat
+})
 export const selectUnreadMessageCount = createSelector(
   [selectThreads, selectUserId],
   (threads: ChatInterface[], userId: string) => {
     return threads.reduce((count, thread) => {
       const hasUnread = thread.participants.some(
         participant =>
-          participant.participant._id === userId && participant.hasUnreadMessage
+          participant.userInfo._id === userId && participant.hasUnreadMessage
       )
       return count + (hasUnread ? 1 : 0)
     }, 0)
@@ -321,5 +315,6 @@ export const {
   setMessageRead,
   updateCurrentChat,
   setMessageUnread,
+  resetCurrentChat,
 } = chatSlice.actions
 export default chatSlice.reducer

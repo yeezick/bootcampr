@@ -1,9 +1,12 @@
-export interface SnackBarToastInterface {
-  isOpen?: boolean
+export interface SnackbarInterface {
+  isOpen: boolean
   message?: string
-  duration?: number
-  vertical?: 'top' | 'bottom'
-  horizontal?: 'left' | 'center' | 'right'
-  snackbarStyle?: string
-  severity?: 'success' | 'error' | 'warning' | 'info'
+  severity?: SnackBarSeverity
 }
+
+export interface CreateSnackbarPayload {
+  message?: string
+  severity?: SnackBarSeverity
+}
+
+export type SnackBarSeverity = 'success' | 'error' | 'warning' | 'info'

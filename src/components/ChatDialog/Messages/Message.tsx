@@ -3,7 +3,9 @@ import {
   getMessageClassNames,
 } from 'utils/functions/chatLogic'
 import { formatTimestamp } from 'utils/helpers/dateFormatHelpers'
+import adminAvatar from '../../../assets/bootcamprAdmin.svg'
 import './Messages.scss'
+import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 
 export const Message = ({
   message,
@@ -31,7 +33,7 @@ export const Message = ({
   } = getMessageClassNames(messages, message, index, authUser, selectedMessages)
 
   return (
-    <div className='message-container'>
+    <div className={`message-container ${isSameUser}`}>
       {showSenderName && (
         <span className='message-sender-name'>
           {message.sender.firstName} {message.sender.lastName}
@@ -63,9 +65,15 @@ export const Message = ({
 }
 
 const RecipientsAvatar = ({ message }) => {
+  const isBotMessage = message.isBotMessage
+
   return (
     <div className='recipient-avatar'>
-      <img src={message.sender.profilePicture} alt='avatar' />
+      {isBotMessage ? (
+        <img src={adminAvatar} alt='avatar' />
+      ) : (
+        <TeamAvatar userId={message.sender._id} size='x-small' />
+      )}
     </div>
   )
 }

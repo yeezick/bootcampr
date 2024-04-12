@@ -1,5 +1,5 @@
 .custom-menu-paper {
-  margin: 70px 10px !important;
+  margin: 0 10px !important;
 }
 
 .navbar-wrapper {
@@ -11,7 +11,7 @@
 
 nav {
   align-items: center;
-  background-color: #5C6BC0;
+  background-color: #5c6bc0;
   display: flex;
   height: 96px;
   justify-content: space-between;
@@ -34,7 +34,17 @@ nav {
     font-size: 16px;
     font-weight: 700;
     line-height: 22.4px;
+    position: relative;
     text-decoration: none;
+
+    &.active::before {
+      background-color: #f29e34;
+      bottom: -10px;
+      content: '';
+      height: 4px;
+      position: absolute;
+      width: 100%;
+    }
   }
 
   .nav-links {
@@ -86,14 +96,16 @@ nav {
 
     .drop-down {
       color: #f5f5f5;
+      cursor: pointer;
       position: absolute;
       right: 5px;
       top: 59px;
     }
 
     .avatar-default-picture {
-      background-color: #FFA726;
+      background-color: #ffa726;
       border-radius: 50%;
+      cursor: default;
       display: flex;
       flex-direction: column;
       height: 50px;
@@ -101,10 +113,9 @@ nav {
       margin: 0;
       text-align: center;
       width: 50px;
-      cursor: pointer;
-    
+
       p {
-        color: #1A237E;
+        color: #1a237e;
         font-size: 20px;
         font-style: normal;
         font-weight: 700;
@@ -139,10 +150,10 @@ nav {
     gap: 16px;
   }
 
-  :is(.sign-up,.log-in){
+  :is(.sign-up, .log-in) {
     align-items: center;
     border-radius: 4px;
-    color:#1A237E;
+    color: #1a237e;
     display: flex;
     font-size: 14px;
     font-style: normal;
@@ -155,12 +166,11 @@ nav {
     text-decoration: none;
   }
   .sign-up {
-    background:#FFA726;
-   
+    background: #ffa726;
   }
 
   .log-in {
-    background: #FFF;
-    border: 1px solid  #5C6BC0;
+    background: #fff;
+    border: 1px solid #5c6bc0;
   }
 }

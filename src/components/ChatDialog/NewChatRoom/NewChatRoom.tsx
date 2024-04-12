@@ -8,30 +8,33 @@ import {
 } from 'utils/api/chat'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
+  fetchMessages,
   onScreenUpdate,
   processChatRoom,
   selectChat,
+  selectTeamChat,
   setCurrentChat,
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
-import { UserThumbnail } from 'components/ChatDialog/UserThumbnail/UserThumbnail'
-import { ButtonStyle } from 'utils/data/authSettingsConstants'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
-import { selectProject } from 'utils/redux/slices/projectSlice'
-import './NewChatRoom.scss'
+import { UserDetails } from 'components/ChatDialog/UserDetails/UserDetails'
 import { useSocketEvents } from 'components/Notifications/Socket'
+import { ButtonStyle } from 'utils/data/authSettingsConstants'
+import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import './NewChatRoom.scss'
+import { isTeamMembersSelected } from 'utils/functions/chatLogic'
 
 export const NewChatRoom = ({ chatScreen }) => {
   const dispatch = useAppDispatch()
+  const { createNewRoom } = useSocketEvents(false)
   const currentConversation = useAppSelector(selectChat)
   const authUser = useAppSelector(selectAuthUser)
-  const project = useAppSelector(selectProject)
+  const members = useAppSelector(selectMembersAsTeam)
+  const teamChat = useAppSelector(selectTeamChat)
   const [selectedChatUsers, setSelectedChatUsers] = useState([])
   const [inviteList, setInviteList] = useState([])
   const [allChecked, setAllChecked] = useState(false)
   const [memberChecked, setMemberChecked] = useState({})
-  const { createNewRoom } = useSocketEvents(false)
-  const members = [...project.members.designers, ...project.members.engineers]
   const membersWithoutAuth = members.filter(
     member => member._id !== authUser._id
   )
@@ -43,7 +46,7 @@ export const NewChatRoom = ({ chatScreen }) => {
     let usersToInvite
     if (chatScreen === 'inviteNewMembers') {
       const currentParticipantIds = new Set(
-        currentConversation.participants.map(pp => pp.participant._id)
+        currentConversation.participants.map(pp => pp.userInfo._id)
       )
       //remaining users
       usersToInvite = membersWithoutAuth.filter(
@@ -102,20 +105,61 @@ export const NewChatRoom = ({ chatScreen }) => {
     }
   }
 
+  const fetchChatMessages = async chat => {
+    if (!chat.messages || !chat.messages.length) {
+      try {
+        const resultAction = await dispatch(
+          fetchMessages({
+            chatId: chat._id,
+            chatType: chat.chatType,
+          })
+        ).unwrap()
+        return { ...chat, messages: resultAction.messages }
+      } catch (error) {
+        console.error('Error fetching messages:', error)
+      }
+    }
+    return chat
+  }
+
+  const handleCreateOrUpdateGroupChatRoom = async selectedUserIds => {
+    let newRoom
+    const currentParticipants = currentConversation.participants
+    const isAllTeamMembersSelected = isTeamMembersSelected(
+      currentParticipants,
+      selectedUserIds,
+      members
+    )
+
+    if (isAllTeamMembersSelected) {
+      const teamChatWithMessages = await fetchChatMessages(teamChat)
+      newRoom = teamChatWithMessages
+    } else if (chatScreen === ChatScreen.ComposeNewChat) {
+      const allParticipantIds = [...selectedUserIds, authUser._id]
+      newRoom = await createGroupChatRoom(allParticipantIds)
+    } else {
+      newRoom = await updateGroupChatParticipants(
+        currentConversation._id,
+        selectedUserIds
+      )
+    }
+    return newRoom
+  }
+
+  const handleCreatePrivateChatRoom = async selectedUserIds => {
+    const recepientId = selectedUserIds[0]
+    const chatResponse = await createOrGetPrivateChatRoom(recepientId)
+    return chatResponse
+  }
+
   const handleCreateChatRoom = async () => {
     try {
       const selectedUserIds = selectedChatUsers.map(user => user._id)
-
-      if (selectedChatUsers.length > 1) {
-        let newRoom
-        if (chatScreen === ChatScreen.ComposeNewChat) {
-          newRoom = await createGroupChatRoom(selectedUserIds)
-        } else {
-          newRoom = await updateGroupChatParticipants(
-            currentConversation._id,
-            selectedUserIds
-          )
-        }
+      if (
+        currentConversation.chatType === 'group' ||
+        selectedUserIds.length > 1
+      ) {
+        let newRoom = await handleCreateOrUpdateGroupChatRoom(selectedUserIds)
         newRoom = await dispatch(processChatRoom(newRoom)).unwrap()
         dispatch(setCurrentChat(newRoom))
         createNewRoom({
@@ -123,36 +167,21 @@ export const NewChatRoom = ({ chatScreen }) => {
           receiverIds: selectedUserIds,
         })
       } else {
-        const recepientId = selectedUserIds[0]
-        const chatResponse = await createOrGetPrivateChatRoom(recepientId)
-        let room = chatResponse.chatRoom
+        const chatInfo = await handleCreatePrivateChatRoom(selectedUserIds)
+        let room = chatInfo.chatRoom
         room = await dispatch(processChatRoom(room)).unwrap()
-        if (chatResponse.isNew) {
+        if (chatInfo.isNew) {
           createNewRoom({ chatRoom: room, receiverIds: selectedUserIds })
         }
         dispatch(setCurrentChat(room))
       }
-      dispatch(
-        createSnackBar({
-          isOpen: true,
-          horizontal: 'right',
-          message: 'Successfully created a chat room.',
-          duration: 5000,
-          severity: 'success',
-        })
-      )
+      dispatch(successSnackbar('Successfully created a chat room.'))
       setSelectedChatUsers([])
       dispatch(onScreenUpdate(ChatScreen.ChatRoom))
     } catch (error) {
       console.error(error)
       dispatch(
-        createSnackBar({
-          isOpen: true,
-          horizontal: 'right',
-          message: "Couldn't create a chat room. Please try again later",
-          duration: 5000,
-          severity: 'error',
-        })
+        errorSnackbar("Couldn't create a chat room. Please try again later")
       )
     }
   }
@@ -197,12 +226,11 @@ export const NewChatRoom = ({ chatScreen }) => {
                   />
                 }
                 label={
-                  <UserThumbnail
+                  <UserDetails
                     title={`${member.firstName} ${member.lastName}`}
+                    userId={member._id}
                     description={member.role}
-                    profilePicture={member.profilePicture}
-                    avatarSize='medium'
-                    avatarType='single'
+                    avatarSize='small'
                   />
                 }
               />

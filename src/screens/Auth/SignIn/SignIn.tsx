@@ -12,8 +12,10 @@ import { toggleVisiblity } from 'components/Inputs'
 import { GoAlert } from 'react-icons/go'
 import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import loginBanner from '../../../assets/Images/login-image.png'
+import login from '../../../assets/Images/login.png'
 import './SignIn.scss'
+import { buildProjectPortal } from 'utils/helpers'
+import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -67,9 +69,21 @@ const SignIn: React.FC = (): JSX.Element => {
 
     dispatch(setAuthUser(response))
     storeUserProject(dispatch, response.project)
-    !response.onboarded
-      ? navigate(`/onboarding/${response._id}`)
-      : navigate(`/project/${response.project}`)
+
+    if (response.payment.experience === 'unchosen') {
+      navigate('/payment/choose-experience')
+    } else if (
+      response.payment.experience === 'waitlist' &&
+      !response.onboarded
+    ) {
+      navigate(`/onboarding/${response._id}`)
+    } else if (!response.project) {
+      navigate('/project/sandbox')
+      dispatch(setPortal(buildProjectPortal('sandbox')))
+    } else {
+      navigate(`/project/${response.project}`)
+      dispatch(setPortal(buildProjectPortal(response.project)))
+    }
   }
 
   useEffect(() => {
@@ -84,7 +98,7 @@ const SignIn: React.FC = (): JSX.Element => {
     <div>
       <div className='sign_in'>
         <div className='sign_in_container'>
-          <img src={loginBanner} alt='login-banner' />
+          <img src={login} alt='a person seated at a desk types on a laptop' />
           <form className='sign_in_form' onSubmit={handleSubmitForm}>
             <div className='sign_in_content'>
               <h1>Log in</h1>

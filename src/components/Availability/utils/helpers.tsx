@@ -1,6 +1,10 @@
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { timeOptions } from '../utils/data'
 import { updateAvailability } from 'utils/api'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import dayjs from 'dayjs'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
+
+dayjs.extend(localizedFormat)
 
 /**
  * CONSOLIDATE AVAILABILITY
@@ -197,23 +201,9 @@ export const saveAvailability = async (
 ) => {
   const updated = await updateAvailability(userId, days, userTimezone)
   if (updated.status) {
-    dispatch(
-      createSnackBar({
-        isOpen: true,
-        message: 'Your availability has been updated!',
-        duration: 3000,
-        severity: 'success',
-      })
-    )
+    dispatch(successSnackbar('Your availability has been updated!'))
   } else {
-    dispatch(
-      createSnackBar({
-        isOpen: true,
-        message: 'Something went wrong please try again',
-        duration: 3000,
-        severity: 'error',
-      })
-    )
+    dispatch(errorSnackbar('Something went wrong please try again'))
   }
 }
 
@@ -277,6 +267,46 @@ export const addTimeSlot = (day, days, setDays, idx) => {
       availability: newAvailability,
     },
   })
+}
+
+/**
+ * DISABLE FORWARD BUTTON
+ *
+ * Checks the availability for each day to determine if the forward button should be disabled.
+ * It calculates the total available hours for each day and checks if it meets the requirement.
+ *
+ * @param days The availability data for each day.
+ * @returns A boolean indicating whether the forward button should be disabled.
+ */
+export const disableForwardButton = (days): boolean => {
+  const selectedDays = new Set()
+
+  for (const day of Object.keys(days)) {
+    const { availability, available } = days[day]
+    let totalAvailableHours = 0
+
+    if (available && availability.length > 0) {
+      for (const slot of availability) {
+        const [startSlot, endSlot] = slot
+        if (startSlot && endSlot) {
+          const startTime = dayjs(startSlot, 'LT')
+          const endTime = dayjs(endSlot, 'LT')
+          const timeDifference = endTime.diff(startTime, 'hour')
+
+          if (timeDifference >= 1) {
+            totalAvailableHours += 1
+          } else {
+            totalAvailableHours += 0.5
+          }
+        }
+      }
+
+      if (totalAvailableHours >= 1) {
+        selectedDays.add(day)
+      }
+    }
+  }
+  return selectedDays.size < 3
 }
 
 /**

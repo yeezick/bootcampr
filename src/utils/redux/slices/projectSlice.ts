@@ -21,6 +21,7 @@ const initialState: ProjectInterface = {
   overview: '',
   timeline: {
     startDate: '',
+    projectSubmissionDate: '',
     endDate: '',
   },
   projectTracker: {
@@ -36,6 +37,7 @@ const initialState: ProjectInterface = {
   members: {
     designers: [],
     engineers: [],
+    productManagers: [],
   },
   title: '',
   projectPortal: {
@@ -87,6 +89,15 @@ const projectSlice = createSlice({
         changeTicketStatus(initialStatus, projectTracker, state, updatedTicket)
       }
     },
+    reorderColumn: (state, action) => {
+      const { columnId, reorderedColumn } = action.payload
+      state.projectTracker[columnId] = reorderedColumn
+    },
+    moveTicketBetweenColumns: (state, action) => {
+      const { newColumnId, newColumn, oldColumnId, oldColumn } = action.payload
+      state.projectTracker[newColumnId] = newColumn
+      state.projectTracker[oldColumnId] = oldColumn
+    },
     updateTicketStatus: (state, action: PayloadAction<UpdateTicketReducer>) => {
       const { initialStatus, updatedTicket } = action.payload
       const projectTracker = state.projectTracker
@@ -119,9 +130,17 @@ const projectSlice = createSlice({
     },
     setProject: (state, action: PayloadAction<ProjectInterface>) => {
       const updatedProject = produce(action.payload, draft => {
-        const { engineers, designers } = draft.members
-        draft.members.emailMap = mapMembersByEmail([engineers, designers])
-        draft.members.idMap = mapMembersById([engineers, designers])
+        const { engineers, designers, productManagers } = draft.members
+        draft.members.emailMap = mapMembersByEmail([
+          engineers,
+          designers,
+          productManagers,
+        ])
+        draft.members.idMap = mapMembersById([
+          engineers,
+          designers,
+          productManagers,
+        ])
         draft.projectPortal = { renderProjectPortal: false }
       })
       return updatedProject
@@ -143,20 +162,25 @@ const projectSlice = createSlice({
   },
 })
 
-export const selectMembersAsTeam = (state: RootState) => [
-  ...state.project.members.designers,
-  ...state.project.members.engineers,
-]
-
 export const selectEngineerMembers = (state: RootState) =>
   state.project.members.engineers
 export const selectDesignMembers = (state: RootState) =>
   state.project.members.designers
+export const selectProductManagers = (state: RootState) =>
+  state.project.members.productManagers
+
+export const selectCalendarId = (state: RootState) => state.project.calendarId
+export const selectCompletedInfo = (state: RootState) =>
+  state.project.completedInfo
 
 // TODO: Revisit this to replace the warning provoked by using selectMembersAsTeam
-export const selectMembers = createSelector(
-  [selectDesignMembers, selectEngineerMembers],
-  (engineers, designers) => [...designers, ...engineers]
+export const selectMembersAsTeam = createSelector(
+  [selectDesignMembers, selectEngineerMembers, selectProductManagers],
+  (engineers, designers, productManagers) => [
+    ...designers,
+    ...engineers,
+    ...productManagers,
+  ]
 )
 
 /**
@@ -173,25 +197,21 @@ export const selectMembersByEmail = emails => (state: RootState) => {
   return allMembers
 }
 
-/**
- * @param {string[]} ids Takes an array of user emails,
- *     then looks that user up using the role and index stored in the emailMap.
- * @returns An array of user objects
- */
-export const selectMembersById = userIds => (state: RootState) => {
-  const allMembers = []
-  if (userIds[0] === 'Unassigned' || userIds[0] === '') return [null]
-  for (const userId of userIds) {
-    const { index, role } = state.project.members.idMap[userId]
-    allMembers.push(state.project.members[role][index])
-  }
-  return allMembers
+export const selectUsersById = userIds => state => {
+  return selectMembersById(state, userIds)
 }
 
-export const selectCalendarId = (state: RootState) => state.project.calendarId
-export const selectCompletedInfo = (state: RootState) =>
-  state.project.completedInfo
-export const selectMembersByRole = (state: RootState) => state.project.members
+export const selectMembersByRole = createSelector(
+  [selectEngineerMembers, selectDesignMembers, selectProductManagers],
+  (engineers, designers, productManagers) => {
+    return {
+      engineers,
+      designers,
+      productManagers,
+    }
+  }
+)
+
 export const selectProject = (state: RootState) => state.project
 export const selectProjectId = (state: RootState) => state.project._id
 export const selectProjectTracker = (state: RootState) =>
@@ -205,6 +225,7 @@ export const {
   addTicketToStatus,
   updateTicketStatus,
   deleteTicket,
+  moveTicketBetweenColumns,
   setProject,
   updateTicket,
   updateProject,
@@ -214,16 +235,44 @@ export const {
   setProjectSuccess,
   setProjectFailure,
   renderProjectPortal,
+  reorderColumn,
 } = projectSlice.actions
 
 export default projectSlice.reducer
 
-/** Helpers */
+/**
+ * Helpers
+ *  moving this function to calendarHelpers breaks the app, need to look into why
+ */
+
+const determineRole = roleStr => {
+  if (roleStr === 'UX Designer') {
+    return 'designers'
+  } else if (roleStr === 'Software Engineer') {
+    return 'engineers'
+  } else if (roleStr === 'Product Manager') {
+    return 'productManagers'
+  }
+}
+
+const changeTicketStatus = (
+  initialStatus,
+  projectTracker,
+  state,
+  updatedTicket
+) => {
+  const filteredInitialStatusColumn = projectTracker[initialStatus].filter(
+    ticket => ticket._id !== updatedTicket._id
+  )
+
+  projectTracker[updatedTicket.status].push(updatedTicket)
+  state.projectTracker[initialStatus] = filteredInitialStatusColumn
+}
+
 /**
  * @param {array} roles Array of roles in a project (Engineers, Designers)
  * @returns A map to identify that user by their role and index when using selectMembersByEmail()
  */
-// TODO: moving this function to calendarHelpers breaks the app, need to look into why
 export const mapMembersByEmail = roles => {
   const emailMap = {}
   for (const role of roles) {
@@ -252,24 +301,39 @@ export const mapMembersById = roles => {
   return idMap
 }
 
-const determineRole = roleStr => {
-  if (roleStr === 'UX Designer') {
-    return 'designers'
-  } else if (roleStr === 'Software Engineer') {
-    return 'engineers'
+/**
+ * @param {string[]} ids Takes an array of user ids,
+ *     then looks that user up using the role and index stored in the emailMap.
+ * @returns An array of user objects
+ */
+const selectMembersById = createSelector(
+  [state => state.project.members, (_, userIds: string[]) => userIds],
+  (members, userIds) => {
+    const { idMap } = members
+
+    if (!userIds || userIds.length === 0) {
+      return [null]
+    }
+
+    if (userIds[0] === 'Unassigned' || userIds[0] === '') {
+      return [null]
+    }
+
+    if (!idMap) {
+      return [null]
+    }
+
+    return userIds.reduce((allMembers, userId) => {
+      const userInfo = idMap[userId]
+      if (userInfo) {
+        if (userInfo.role != null && userInfo.index != null) {
+          const roleMembers = members[userInfo.role]
+          if (roleMembers && roleMembers[userInfo.index]) {
+            allMembers.push(roleMembers[userInfo.index])
+          }
+        }
+      }
+      return allMembers
+    }, [])
   }
-}
-
-const changeTicketStatus = (
-  initialStatus,
-  projectTracker,
-  state,
-  updatedTicket
-) => {
-  const filteredInitialStatusColumn = projectTracker[initialStatus].filter(
-    ticket => ticket._id !== updatedTicket._id
-  )
-
-  projectTracker[updatedTicket.status].push(updatedTicket)
-  state.projectTracker[initialStatus] = filteredInitialStatusColumn
-}
+)

@@ -1,18 +1,39 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { selectUserProjectId } from 'utils/redux/slices/userSlice'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
 import { changePortalPage } from 'utils/helpers'
-import './styles/SideMenu.scss'
 import { iconMap } from 'utils/components/Icons'
 import { PrimaryButton } from 'components/Buttons'
+import { useSelector } from 'react-redux'
+import {
+  selectProjectId,
+  selectProjectTimeline,
+} from 'utils/redux/slices/projectSlice'
+import dayjs from 'dayjs'
+import './styles/SideMenu.scss'
 
 export const SideMenu = () => {
-  const { title } = useAppSelector(selectSideMenu)
-  const projectId = useAppSelector(selectUserProjectId)
   const navigate = useNavigate()
+  const { title } = useAppSelector(selectSideMenu)
+  const projectId = useSelector(selectProjectId)
+  const { projectSubmissionDate } = useSelector(selectProjectTimeline)
+  const [isDisabled, setIsDisabled] = useState(
+    +projectSubmissionDate > dayjs().valueOf()
+  )
+
   const handleProjectCompletion = () =>
     navigate(`/project/${projectId}/complete`)
+
+  //TODO: Currently set to check every minute but we can adjust as needed
+  useEffect(() => {
+    const dateCheckInterval = setInterval(() => {
+      setIsDisabled(+projectSubmissionDate > dayjs().valueOf())
+    }, 60000)
+
+    return () => clearInterval(dateCheckInterval)
+  }, [projectSubmissionDate])
+
   const btnClassName = `completion-btn ${!projectId && 'disabled-btn'}`
 
   return (
@@ -25,7 +46,7 @@ export const SideMenu = () => {
         {title === 'Project Portal' && (
           <PrimaryButton
             className={btnClassName}
-            disabled={!projectId}
+            disabled={isDisabled}
             handler={handleProjectCompletion}
             text='Submit Project'
           />
@@ -48,14 +69,12 @@ const SideMenuLinks = () => {
 }
 
 const MenuLink = ({ linkDetails }) => {
-  const projectId = useAppSelector(selectUserProjectId)
+  const location = useLocation()
   const { domain, icon, label, route, headerTitle } = linkDetails
   const LinkIcon = iconMap[icon]
   const dispatch = useAppDispatch()
-  const isCalendarOrTask =
-    label === 'Calendar' || label === 'Task Management' || label === 'Team'
-  const linkClassName = `${
-    !projectId && isCalendarOrTask ? 'link-disable' : 'link'
+  const linkClassName = `${'link'} ${
+    location.pathname === route ? 'current-location' : ''
   }`
   const handlePortalLinkClick = () => changePortalPage(dispatch, headerTitle)
 

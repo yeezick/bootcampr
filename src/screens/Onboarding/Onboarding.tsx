@@ -1,23 +1,31 @@
 import { Paginator } from 'components/Paginator/Paginator'
 import { SetUpProfile } from './SetUpProfile'
 import { Role } from './Role'
-import { WhatsNext } from './WhatsNext'
 import './Onboarding.scss'
 import { SetupAvailability } from './SetupAvailability'
 import { useEffect } from 'react'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { WhatsNext } from './WhatsNext'
 
 export const Onboarding = () => {
   const authUser = useAppSelector(selectAuthUser)
   const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const pageId = queryParams.get('pageId')
 
   useEffect(() => {
     const hasSetAvailability = checkIfSetAvailability()
     const hasSetProfileInfo = checkIfSetProfileInfo()
 
-    if (authUser.role && hasSetAvailability && hasSetProfileInfo) {
+    if (
+      authUser.role &&
+      authUser.project &&
+      hasSetAvailability &&
+      hasSetProfileInfo
+    ) {
       navigate(`/project/${authUser.project}`)
     } else if (authUser.role && hasSetAvailability) {
       navigate(`/onboarding/${authUser._id}?pageId=setUpProfile`)
@@ -59,10 +67,11 @@ export const Onboarding = () => {
       title: 'Set up profile',
     },
     {
-      component: WhatsNext,
-      title: "What's next",
+      component: null,
+      title: 'Payment',
     },
   ]
+
   return (
     <div className='onboarding'>
       <div className='onboarding-page-container'>

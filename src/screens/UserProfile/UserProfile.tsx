@@ -9,7 +9,6 @@ import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 import { RiGithubLine } from 'react-icons/ri'
 import { FiLinkedin } from 'react-icons/fi'
 import { TbBriefcase } from 'react-icons/tb'
-import './UserProfile.scss'
 import { createOrGetPrivateChatRoom } from 'utils/api/chat'
 import {
   onScreenUpdate,
@@ -19,6 +18,7 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useSocketEvents } from 'components/Notifications/Socket'
+import './UserProfile.scss'
 
 export const UserProfile: React.FC = () => {
   const authUser = useAppSelector(selectAuthUser)
@@ -85,7 +85,7 @@ export const UserProfile: React.FC = () => {
       <div className='userProfile__container'>
         <div className='userProfile__titleContainer'>
           <div className='userProfile__image'>
-            <TeamAvatar userId={userId} />
+            <TeamAvatar userId={userId} size='medium' />
           </div>
           <div className='userProfile__title'>
             {shouldShowName && (
@@ -142,11 +142,11 @@ const UserInfoLinks = ({ userProfileInfo, shouldShowRole }) => {
 
   return (
     <div className='userProfile__linksContainer'>
-      <div className='userProfile__linkItem'>
-        <FiLinkedin className='userProfile__icons' />
-        <div className='userProfile__linkLast'>
-          <h3>LinkedIn</h3>
-          {shouldShowLinkedInUrl && (
+      {shouldShowLinkedInUrl && (
+        <div className='userProfile__linkItem'>
+          <FiLinkedin className='userProfile__icons' />
+          <div className='userProfile__linkLast'>
+            <h3>LinkedIn</h3>
             <a
               className='userProfile__url'
               href={userProfileInfo.links.linkedinUrl}
@@ -155,15 +155,15 @@ const UserInfoLinks = ({ userProfileInfo, shouldShowRole }) => {
             >
               {userProfileInfo.links.linkedinUrl}
             </a>
-          )}
+          </div>
         </div>
-      </div>
+      )}
 
-      <div className='userProfile__linkItem'>
-        <TbBriefcase className='userProfile__icons' />
-        <div className='userProfile__link'>
-          <h3>Portfolio</h3>
-          {shouldShowPortfolioUrl && (
+      {shouldShowPortfolioUrl && (
+        <div className='userProfile__linkItem'>
+          <TbBriefcase className='userProfile__icons' />
+          <div className='userProfile__link'>
+            <h3>Portfolio</h3>
             <a
               className='userProfile__url'
               href={userProfileInfo.links.portfolioUrl}
@@ -172,15 +172,15 @@ const UserInfoLinks = ({ userProfileInfo, shouldShowRole }) => {
             >
               {userProfileInfo.links.portfolioUrl}
             </a>
-          )}
+          </div>
         </div>
-      </div>
+      )}
 
-      <div className='userProfile__linkItem'>
-        <RiGithubLine className='userProfile__icons' />
-        <div className='userProfile__link'>
-          <h3>Github</h3>
-          {shouldShowGithubUrl && (
+      {shouldShowGithubUrl && (
+        <div className='userProfile__linkItem'>
+          <RiGithubLine className='userProfile__icons' />
+          <div className='userProfile__link'>
+            <h3>Github</h3>
             <a
               className='userProfile__url'
               href={userProfileInfo.links.githubUrl}
@@ -189,9 +189,9 @@ const UserInfoLinks = ({ userProfileInfo, shouldShowRole }) => {
             >
               {userProfileInfo.links.githubUrl}
             </a>
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

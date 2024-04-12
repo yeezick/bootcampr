@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Menu, MenuItem, styled } from '@mui/material'
+import { Menu, MenuItem } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { logoutAuthUser, selectUserId } from 'utils/redux/slices/userSlice'
 import { logOut } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { buildPortal, navigateToDomain } from 'utils/helpers'
+import { toggleChatClose } from 'utils/redux/slices/chatSlice'
 
 export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
   const [open, setOpen] = useState(false)
@@ -35,7 +36,10 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
     } else if (innerText === 'Log out') {
       logOut()
       dispatch(logoutAuthUser())
+      dispatch(toggleChatClose())
       navigate('/')
+    } else if (innerText === 'Payment') {
+      navigate('/payment/checkout')
     }
   }
 
@@ -53,6 +57,7 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
           vertical: 'top',
           horizontal: 'right',
         }}
+        id='custom-menu-paper'
         classes={{
           paper: 'custom-menu-paper',
         }}
@@ -60,6 +65,7 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
         <MenuItem onClick={handleClose}>View Profile</MenuItem>
         <MenuItem onClick={handleClose}>Settings</MenuItem>
         <MenuItem onClick={handleClose}>Log out</MenuItem>
+        <MenuItem onClick={handleClose}>Payment</MenuItem>
       </Menu>
     </div>
   )

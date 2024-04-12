@@ -14,15 +14,14 @@ import {
   selectUnreadMessageCount,
   setActiveChatRoomId,
   toggleChat,
-  toggleChatClose,
 } from 'utils/redux/slices/chatSlice'
 
 import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
 import { buildPortal } from 'utils/helpers'
 import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { CustomBadge } from 'components/Badge/Badge'
+import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 import './styles/Nav.scss'
-import { selectMembers } from 'utils/redux/slices/projectSlice'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
@@ -31,60 +30,81 @@ export const Nav = () => {
   const { _id: userId, project: projectId } = authUser
   const dispatch = useAppDispatch()
   const location = useLocation()
+  const excludedRoutes = ['/payment', '/sign-up', '/sign-in', '/onboarding']
+  const isExcludedRoute = excludedRoutes.some(route =>
+    location.pathname.startsWith(route)
+  )
 
   const closeDropdown = () => setAnchorEl(null)
-
-  useEffect(() => {
-    // Close chat dialog and sideMenu when URL path changes
-    dispatch(toggleChatClose())
-    dispatch(setActiveChatRoomId(null))
-  }, [dispatch, location])
-
   const handlePortalLink = () => buildPortal(dispatch, 'project', projectId)
   const handleNonPortalLink = () => dispatch(resetPortal())
+
+  const landingPage =
+    process.env.REACT_APP_API_ENV === 'local'
+      ? '/'
+      : 'https://landing.bootcampr.io/'
 
   return (
     <nav>
       <div className='nav-container'>
         <div className='logo'>
-          <Link to='/' onClick={handleNonPortalLink}>
+          <Link to={landingPage} onClick={handleNonPortalLink}>
             <img src={Logo} alt='logo' />
           </Link>
         </div>
       </div>
-      <div className='navbar-wrapper'>
-        <div className='header-list'>
-          <Link
-            className='header-link'
-            to={`/project/${projectId || 'unassigned'}`}
-            onClick={handlePortalLink}
-          >
-            Project Portal
-          </Link>
-          <Link
-            className='header-link'
-            to='/how-to'
-            onClick={handleNonPortalLink}
-          >
-            How Bootcamper works
-          </Link>
-          <Link
-            className='header-link'
-            to='/about-us'
-            onClick={handleNonPortalLink}
-          >
-            About us
-          </Link>
+      {!isExcludedRoute && (
+        <div className='navbar-wrapper'>
+          <div className='header-list'>
+            {userId && (
+              <Link
+                className={`header-link ${
+                  location.pathname.includes('project') ? 'active' : ''
+                }`}
+                to={`/project/${projectId || 'unassigned'}`}
+                onClick={handlePortalLink}
+              >
+                Project Portal
+              </Link>
+            )}
+            <Link
+              className={`header-link ${
+                location.pathname.includes('contact-us') ? 'active' : ''
+              }`}
+              to='/contact-us'
+              onClick={handleNonPortalLink}
+            >
+              Contact us
+            </Link>
+            <Link
+              className={`header-link ${
+                location.pathname.includes('community') ? 'active' : ''
+              }`}
+              to='/community'
+              onClick={handleNonPortalLink}
+            >
+              Community
+            </Link>
+            <Link
+              className={`header-link ${
+                location.pathname.includes('enterprise') ? 'active' : ''
+              }`}
+              to='/enterprise'
+              onClick={handleNonPortalLink}
+            >
+              Enterprise
+            </Link>
+          </div>
+          {userId ? (
+            <AuthorizedNavLinks
+              notificationCount={notificationCount}
+              setAnchorEl={setAnchorEl}
+            />
+          ) : (
+            <UnauthorizedNavLinks />
+          )}
         </div>
-        {userId ? (
-          <AuthorizedNavLinks
-            notificationCount={notificationCount}
-            setAnchorEl={setAnchorEl}
-          />
-        ) : (
-          <UnauthorizedNavLinks />
-        )}
-      </div>
+      )}
       <AccountDropdown anchorEl={anchorEl} closeDropdown={closeDropdown} />
     </nav>
   )
@@ -94,7 +114,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   const dispatch = useAppDispatch()
   const { visibleChat } = useAppSelector(selectChatUI)
   const unreadMessagesCount = useAppSelector(selectUnreadMessageCount)
-  const projectMembers = useAppSelector(selectMembers)
+  const projectMembers = useAppSelector(selectMembersAsTeam)
   const chatRef = useRef(null)
   useSocketEvents(false)
 
@@ -128,7 +148,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
       </div>
       <div className='nav-icons-container'>
         <div className='account avatar'>
-          <Avatar clickable={false} setAnchorEl={setAnchorEl} />
+          <Avatar clickable={false} setAnchorEl={setAnchorEl} size='medium' />
         </div>
         <div onClick={setAnchorEl}>
           <p className='account'>My Account </p>

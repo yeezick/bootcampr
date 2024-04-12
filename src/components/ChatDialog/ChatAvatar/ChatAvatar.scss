@@ -1,0 +1,26 @@
+@import 'scss/mixins';
+
+.group-photo-container {
+  @include group-profile-picture-grid(0px);
+
+  &.large {
+    padding-top: 32px;
+  }
+
+  .group-photo {
+    &.large {
+      height: 96px;
+      width: 96px;
+    }
+
+    &.small {
+      height: 40px;
+      width: 40px;
+    }
+
+    &.x-small {
+      height: 32px;
+      width: 32px;
+    }
+  }
+}

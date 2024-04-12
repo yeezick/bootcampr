@@ -26,7 +26,7 @@ export const TimelineList = () => {
         <TimelineItem key={index}>
           <TimelineSeparator>
             <TimelineDot sx={{ background: '#1976D2' }} />
-            {index !== timelineData.length - 1 && (
+            {index !== timelineData.length && (
               <TimelineConnector sx={{ background: '#1976D2', width: '4px' }} />
             )}
           </TimelineSeparator>

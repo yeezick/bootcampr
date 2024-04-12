@@ -1,3 +1,4 @@
+import { createSerializableStateInvariantMiddleware } from '@reduxjs/toolkit'
 import { ProjectInterface } from 'interfaces'
 import { TimezonesUTC } from 'utils/data/timeZoneConstants'
 
@@ -16,10 +17,9 @@ export interface UserInterface {
     linkedinUrl: string
     portfolioUrl: string
   }
+  payment: Payment
+  projects: Projects
   project?: string
-  memberOfProjects?: ProjectInterface[]
-  ownerOfProjects?: ProjectInterface[]
-  portfolioProjects?: ProjectInterface[]
   onboarded?: boolean
   profilePicture?: string
   defaultProfilePicture: string
@@ -42,10 +42,28 @@ export interface BuildPortal {
   sideMenu: SideMenu
 }
 
+export interface Payment {
+  experience: string
+  paid?: boolean
+}
+
 export interface Portal {
   active: Boolean
   headerTitle?: string
   type?: 'project' | 'settings'
+}
+
+export interface PortalLink {
+  domain: string
+  headerTitle?: string
+  icon: string
+  label: string
+  route: string
+}
+
+export interface Projects {
+  activeProject?: ProjectInterface
+  projects: string[]
 }
 
 export interface SideMenu {

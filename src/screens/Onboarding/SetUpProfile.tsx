@@ -1,21 +1,27 @@
 import './SetUpProfile.scss'
 import { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
+import { useNavigate, useParams } from 'react-router-dom'
+import {
+  selectAuthUser,
+  setAuthUser,
+  updateUserExperience,
+} from 'utils/redux/slices/userSlice'
 import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
-import { updateUser } from 'utils/api/users'
-import { useNotification } from 'utils/redux/slices/notificationSlice'
+import { updateUser, updateUserProfile } from 'utils/api/users'
 import Avatar from 'components/Avatar/Avatar'
 import TextareaAutosize from 'react-textarea-autosize'
 import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
+import { createCheckout, updatePaymentExperience } from 'utils/api/payment'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 
+// BC-787: remove BEM styling
 export const SetUpProfile = ({ handlePageNavigation }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const params = useParams()
-  const authUser = useSelector(selectAuthUser)
-  const { displayNotification } = useNotification()
+  const authUser = useAppSelector(selectAuthUser)
+  const navigate = useNavigate()
 
   const [updateUserForm, setUpdateUserForm] = useState<UserInterface>(emptyUser)
   const [bioCharCount, setBioCharCount] = useState(0)
@@ -40,7 +46,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
         return { ...currForm, ...authUser }
       })
     }
-  }, [])
+  }, [authUser])
 
   useEffect(() => {
     const charCount =
@@ -87,34 +93,67 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     e.preventDefault()
 
     try {
-      const updatedUser = await updateUser(params.id, updateUserForm)
+      const isOnboarded = direction === 'next'
+      const updatedUserFormData = { ...updateUserForm, onboarded: isOnboarded }
+      const updatedUser = await updateUser(params.id, updatedUserFormData)
       dispatch(setAuthUser(updatedUser))
-      displayNotification({
-        message: 'User profile successfully updated.',
-      })
-      handlePageNavigation(direction)
+      dispatch(successSnackbar('User profile has been updated!'))
+      if (direction === 'next') {
+        navigate(`/whats-next`)
+      } else {
+        handlePageNavigation(direction)
+      }
     } catch (error) {
       console.error('Error occured when trying to create User Profile', error)
     }
   }
 
   const handleSecondaryClick = e => handleNavigationButtons(e, 'previous')
-  const handlePrimaryClick = e => handleNavigationButtons(e, 'next')
+  const handlePrimaryClick = async () => {
+    const updatedUserFormData = { ...updateUserForm, onboarded: true }
+    const updatedUserProfile = await updateUserProfile(
+      params.id,
+      updatedUserFormData
+    )
+    const checkoutResponse = await createCheckout()
+    let experiencePayload
+
+    if (updatedUserProfile.error) {
+      dispatch(errorSnackbar(updatedUserProfile.error))
+      return
+    } else if (checkoutResponse.error && !checkoutResponse.checkoutUrl) {
+      dispatch(errorSnackbar(checkoutResponse.error))
+      return
+    }
+
+    const { checkoutUrl } = checkoutResponse
+    if (checkoutUrl.includes('max-users')) {
+      experiencePayload = { experience: 'waitlist' }
+    } else {
+      experiencePayload = { experience: 'waitlist', paid: true }
+    }
+
+    const updatedUserExperience = await updatePaymentExperience(
+      authUser._id,
+      experiencePayload
+    )
+
+    if (updatedUserExperience.error) {
+      dispatch(errorSnackbar('Error setting project experience.'))
+      return
+    } else {
+      dispatch(updateUserExperience(updatedUserExperience))
+      window.location.href = checkoutResponse.checkoutUrl
+    }
+  }
 
   return (
     <div className='setupProfile'>
       <div className='setupProfile__profile-header-cont'>
         <h2>Profile</h2>
-        <p>
-          Set up your profile so your team can get to know you. Write a little
-          about yourself. Input your LinkedIn profile. Adding a link to your
-          portfolio is encouraged but not required. You can edit your profile
-          later by going to My Account.
-        </p>
-        <i>
-          We've input yor first and last name for you. You can change them, but
-          a first and last name is required to complete onboarding
-        </i>
+        <p>Set up your profile so your team can get to know you.</p>
+        <p>You can edit your profile later by going to My Account.</p>
+        <i>*Required fields</i>
       </div>
       <div className='setupProfile__profile-container'>
         <form
@@ -131,7 +170,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
               />
             </div>
             <label className='setupProfile__profile-label'>
-              First name
+              *First name
               <input
                 type='text'
                 name='firstName'
@@ -148,7 +187,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
               )}
             </label>
             <label className='setupProfile__profile-label'>
-              Last name
+              *Last name
               <input
                 type='text'
                 name='lastName'
@@ -165,7 +204,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
               )}
             </label>
             <label className='setupProfile__profile-label'>
-              About me
+              *About me
               <TextareaAutosize
                 name='bio'
                 className={`setupProfile__profile-label ${
@@ -190,13 +229,13 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                   }`}
                 >
                   <p className={`${errorStates.bio && 'error'}`}>
-                    {bioCharCount}/500
+                    {500 - bioCharCount}/500
                   </p>
                 </div>
               </div>
             </label>
             <label className='setupProfile__profile-label'>
-              Linkedin profile (URL)
+              *Linkedin profile (URL)
               <input
                 type='text'
                 name='linkedinUrl'
@@ -223,17 +262,19 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                 value={links.portfolioUrl}
               />
             </label>
-            <label className='setupProfile__profile-label'>
-              GitHub (URL) Software Engineers only
-              <input
-                type='text'
-                name='githubUrl'
-                className='setupProfile__profile-input'
-                onChange={handleInputChange}
-                placeholder='myGitHubkicksass.com'
-                value={links.githubUrl}
-              />
-            </label>
+            {authUser.role === 'Software Engineer' && (
+              <label className='setupProfile__profile-label'>
+                GitHub (URL)
+                <input
+                  type='text'
+                  name='githubUrl'
+                  className='setupProfile__profile-input'
+                  onChange={handleInputChange}
+                  placeholder='myGitHubkicksass.com'
+                  value={links.githubUrl}
+                />
+              </label>
+            )}
           </div>
           <div className='setupProfile__profile-btns'>
             <div className='setupProfile__cta-container'>
@@ -242,12 +283,18 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                 text='Availability'
                 handler={handleSecondaryClick}
               />
-              <PaginatorButton
-                buttonType='primary'
-                text='Save profile'
-                handler={handlePrimaryClick}
-                disabled={isDisabled}
-              />
+              <div className='complete-payment'>
+                <PaginatorButton
+                  buttonType='primary'
+                  text='Complete payment'
+                  handler={handlePrimaryClick}
+                  disabled={isDisabled}
+                />
+                <p className='payment-disclaimer'>
+                  *You will be directed to a third-party payment processor. It
+                  is secure.
+                </p>
+              </div>
             </div>
           </div>
         </form>

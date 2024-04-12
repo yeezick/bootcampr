@@ -151,3 +151,56 @@ export const updateDateInTimeSelections = (newDate, timeIso) => {
 
   return finalDayjs.toISOString()
 }
+
+export const updateWeekNumber = (sundayDate, firstDay, setWeekNumber) => {
+  const secondWeekSunday = dayjs(firstDay).add(7, 'day').format('YYYY-MM-DD')
+  const thirdWeekSunday = dayjs(secondWeekSunday)
+    .add(7, 'day')
+    .format('YYYY-MM-DD')
+  if (sundayDate === firstDay) {
+    setWeekNumber('1')
+  } else if (sundayDate === secondWeekSunday) {
+    setWeekNumber('2')
+  } else if (sundayDate === thirdWeekSunday) {
+    setWeekNumber('3')
+  } else {
+    setWeekNumber('4')
+  }
+}
+
+export const updateWeekDayNumber = teamCommonAvailability => {
+  Object.keys(teamCommonAvailability).forEach(key => {
+    switch (key) {
+      case 'SUN':
+        teamCommonAvailability[0] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'MON':
+        teamCommonAvailability[1] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'TUE':
+        teamCommonAvailability[2] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'WED':
+        teamCommonAvailability[3] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'THU':
+        teamCommonAvailability[4] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'FRI':
+        teamCommonAvailability[5] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'SAT':
+        teamCommonAvailability[6] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+    }
+  })
+
+  return teamCommonAvailability
+}

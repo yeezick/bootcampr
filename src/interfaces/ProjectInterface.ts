@@ -23,6 +23,7 @@ export interface ProjectInterface {
     designers?: UserInterface[]
     emailMap?: UserMap
     engineers?: UserInterface[]
+    productManagers?: UserInterface[]
     idMap?: UserMap
   }
   problem: string
@@ -33,6 +34,7 @@ export interface ProjectInterface {
   }
   timeline?: {
     startDate?: string
+    projectSubmissionDate?: string
     endDate?: string
   }
   title?: string

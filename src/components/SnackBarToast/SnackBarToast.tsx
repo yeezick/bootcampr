@@ -4,13 +4,12 @@ import { Alert } from '@mui/material'
 import { CheckCircleOutline } from '@mui/icons-material'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
-import { useDispatch } from 'react-redux'
-import { useAppSelector } from 'utils/redux/hooks'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { closeSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 export const SnackBarToast = () => {
   const snackBarState = useAppSelector(state => state.snackBar)
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const handleClose = (
     event: React.SyntheticEvent | Event,
@@ -19,18 +18,18 @@ export const SnackBarToast = () => {
     if (reason === 'clickaway') {
       return
     }
-    dispatch(createSnackBar({ isOpen: false }))
+    dispatch(closeSnackBar())
   }
 
   return (
     <div>
       <Snackbar
         open={snackBarState.isOpen}
-        autoHideDuration={snackBarState.duration ?? 6000}
+        autoHideDuration={5000}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: snackBarState.vertical ?? 'bottom',
-          horizontal: snackBarState.horizontal ?? 'left',
+          vertical: 'bottom',
+          horizontal: 'right',
         }}
       >
         <Alert
