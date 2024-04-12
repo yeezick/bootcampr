@@ -1,3 +1,5 @@
+@import 'scss/mixins';
+
 .email-confirmation-container {
   align-items: center;
   display: flex;
@@ -75,9 +77,42 @@
     margin-top: 32px;
 
     img {
+      content: url('../../../../assets/Images/accountCreated.png');
       height: 100%;
       object-fit: cover;
       width: 100%;
     }
   }
+}
+
+@include whenMobile {
+  .email-confirmation-container {
+    margin-top: 32px;
+    width: auto; 
+
+    .img-container > img {
+      content: url('../../../../assets/Images/Launch.png');
+      height: 189px;
+      margin-bottom: 32px;
+      width: 189px;
+    }
+
+    .message-content {
+      &.subheader {
+        margin-bottom: 32px;
+      }
+      &.text, &.content { 
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 24px;
+        margin-bottom: 8px;
+        width: 100%;
+      }
+
+      &.content {
+        text-align: left;
+        width: 272px;
+      }
+    }
+    }
 }

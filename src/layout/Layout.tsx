@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Loader } from 'components/Loader/Loader'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectUserId, uiStatus } from 'utils/redux/slices/userSlice'

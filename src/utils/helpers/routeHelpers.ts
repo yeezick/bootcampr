@@ -69,15 +69,6 @@ export const buildSettingsPortalLinks = (userId: string): PortalLink[] => [
     label: 'Password',
     route: `/users/${userId}/settings/password`,
   },
-
-  // commented out to be used for a later ticket for post soft launch
-
-  // {
-  //   domain: 'settings',
-  //   icon: 'account',
-  //   label: 'Account',
-  //   route: `/users/${userId}/settings/account`,
-  // },
 ]
 
 /**
@@ -180,6 +171,12 @@ export const determinePortalFromUrl = (
     )
   }
 }
+
+/**
+ * Checks if window width is small enough to be considered mobile
+ * @returns Boolean
+ */
+export const isMobileWidth = () => window.innerWidth <= 853
 
 /**
  * Simply adds domain to Location state when routing user. Required for SideMenu usage.
