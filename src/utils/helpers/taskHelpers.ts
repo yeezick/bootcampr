@@ -164,7 +164,7 @@ export const hasUserEditedFields = (userId, projectId, ticketFields) => {
 }
 
 export const isSandboxId = id => {
-  if (id && (id.length === 6 || id === 'sandbox')) {
+  if (id && id !== 'active' && (id.length === 6 || id === 'sandbox')) {
     return true
   } else {
     return false

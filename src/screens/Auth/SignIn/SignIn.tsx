@@ -16,6 +16,7 @@ import login from '../../../assets/Images/login.png'
 import './SignIn.scss'
 import { buildProjectPortal } from 'utils/helpers'
 import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
+import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -74,7 +75,11 @@ const SignIn: React.FC = (): JSX.Element => {
       navigate('/payment/choose-experience')
     } else if (payment.experience === 'waitlist' && !onboarded) {
       navigate(`/onboarding/${userId}`)
-    } else if (payment.experience === 'sandbox') {
+    } else if (
+      isSandboxId(payment.experience) ||
+      (isWaitlistExperience(payment.experience) &&
+        projects.activeProject === null)
+    ) {
       navigate('/project/sandbox')
       storeUserProject(dispatch, 'sandbox')
       dispatch(setPortal(buildProjectPortal('sandbox')))
