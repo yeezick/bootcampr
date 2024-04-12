@@ -69,7 +69,7 @@ const SandboxCard = () => {
           the Project Portal.
         </p>
       </div>
-      <div>
+      <div className='card-footer'>
         <div className='benefits'>
           <BenefitItem text='View the Product Details' />
           <BenefitItem text='Check out the team page' />
@@ -116,6 +116,10 @@ const JoinTeamCard = () => {
         <BenefitItem text='Talk about your experience in interviews' />
       </div>
       <PrimaryButton fullWidth handler={handleJoinTeamBtn} text='Join a team' />
+      <p className='refund-text'>
+        *There is a 3.5% processing fee for refund requests during the matching
+        process.
+      </p>
     </div>
   )
 }

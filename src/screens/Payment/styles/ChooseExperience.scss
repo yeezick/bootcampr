@@ -80,21 +80,30 @@
         font-weight: 600;
       }
     }
-    
-    .benefits {
+
+    .card-footer {
+      margin-bottom: 41px;
+    }
+      
+      .benefits {
         display: flex;
         flex-direction: column;
         gap: 16px;
         margin-bottom: 32px;
-
+        
         .benefit {
           align-items: center;
           display: flex;
-
+          
           p {
             margin-left: 10px;
           }
         }
+      }
+
+      .refund-text {
+        font-size: 14px;
+        margin-top: 8px;
       }
     }
   }
