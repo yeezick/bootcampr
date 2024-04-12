@@ -1,51 +1,78 @@
-import { getParticipantsNames } from 'utils/functions/chatLogic'
-import { extractConversationAvatars } from 'utils/functions/chatLogic'
-import { UserThumbnail } from '../UserThumbnail/UserThumbnail'
-import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { CustomBadge } from 'components/Badge/Badge'
-import { getDurationFromNow } from 'utils/helpers/dateFormatHelpers'
+import { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import {
+  setCurrentChat,
+  fetchMessages,
+  selectSortedThreads,
+} from 'utils/redux/slices/chatSlice'
+import { ConversationThumbnail } from '../ConversationThumbnail/ConversationThumbnail'
+import { EmptyChatPage } from '../ChatRoom/EmptyChatPage'
+import { ChatInterface } from 'interfaces/ChatInterface'
+import { useSocketEvents } from 'components/Notifications/Socket'
+import './ChatsList.scss'
 
-export const ConversationThumbnail = ({
-  groupName,
-  participants,
-  lastMessage,
-  lastActive,
-  chatType,
-}) => {
-  const authUser = useAppSelector(selectAuthUser)
-  const pictures = extractConversationAvatars(participants, authUser._id)
-  const lastMessageText = lastMessage.text
-    ? lastMessage.text
-    : 'No messages to show'
-  const senderInfo = !lastMessage.sender
-    ? ''
-    : `${
-        lastMessage.sender._id === authUser._id
-          ? 'You'
-          : lastMessage.sender.firstName
-      }:`
-  const ppAuth = participants.find(pp => pp.participant._id === authUser._id)
-  const description = `${senderInfo} ${lastMessageText}`
-  const groupTitle = groupName
-    ? groupName
-    : getParticipantsNames(participants, chatType, groupName, authUser)
-  const unreadMessageClass = ppAuth.hasUnreadMessage ? 'notification' : ''
+export const ChatsList = ({ handleConversationClick }) => {
+  useSocketEvents(false)
+  const dispatch = useAppDispatch()
+  const [selectChatId, setSelectChatId] = useState('')
+  const threads = useAppSelector(selectSortedThreads)
+
+  useEffect(() => {
+    if (selectChatId) {
+      const selectedThread = threads.find(thread => thread._id === selectChatId)
+      dispatch(setCurrentChat(selectedThread))
+      handleConversationClick()
+    }
+  }, [threads, selectChatId])
+
+  const handleSelectChat = async (chatId: string, chatType) => {
+    try {
+      await dispatch(fetchMessages({ chatId: chatId, chatType: chatType }))
+      setSelectChatId(chatId)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  if (threads.length === 0) {
+    return (
+      <EmptyChatPage
+        screen='NoConversations'
+        className='no-result'
+        text="Don't be shy! Start a conversation"
+      />
+    )
+  }
 
   return (
-    <>
-      <UserThumbnail
-        title={groupTitle}
-        description={description}
-        profilePicture={pictures}
-        avatarType={chatType === 'group' ? 'grid' : 'single'}
-        avatarSize='medium'
-        className={unreadMessageClass}
-      />
-      <p className='last-message-time'>
-        {getDurationFromNow(lastMessage.timestamp)}
-      </p>
-      <CustomBadge variant='dot' invisible={!ppAuth.hasUnreadMessage} />
-    </>
+    <div className='conversations-container'>
+      {threads.map((thread: ChatInterface) => {
+        const {
+          _id: chatId,
+          lastMessage,
+          isTeamChat,
+          participants,
+          chatType,
+          groupName,
+          groupPhoto,
+        } = thread
+        return (
+          <div
+            className='conversation-thumbnail'
+            key={chatId}
+            onClick={() => handleSelectChat(chatId, chatType)}
+          >
+            <ConversationThumbnail
+              groupPhoto={groupPhoto}
+              groupName={groupName}
+              participants={participants}
+              lastMessage={lastMessage}
+              chatType={chatType}
+              isTeamChat={isTeamChat}
+            />
+          </div>
+        )
+      })}
+    </div>
   )
 }
