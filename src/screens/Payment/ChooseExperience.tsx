@@ -36,7 +36,6 @@ const SandboxCard = () => {
   const navigate = useNavigate()
 
   const handleEnterSandbox = async () => {
-    //BC-778,780,781,782: update payment.experience to be 'sandbox' & have backend fetch/set freemium experience
     const updatedExperience = await updatePaymentExperience(userId, {
       experience: 'sandbox',
     })

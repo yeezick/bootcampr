@@ -120,12 +120,15 @@ export const handleTicketMovingBetweenColumns = async (
   const {
     source: { droppableId: oldColumnId, index: oldColumnIdx },
     destination: { droppableId: newColumnId, index: newColumnIdx },
+    draggableId: ticketId,
   } = movingTicket
+
   const moveData = {
     oldColumnId,
     oldColumnIdx,
     newColumnId,
     newColumnIdx,
+    ticketId,
   }
 
   const response = isSandboxId(projectId)
