@@ -40,9 +40,7 @@ export const WhatsNext = () => {
           authUser._id,
           { experience: 'waitlist', paid: true }
         )
-        const updatedUserProfile = await updateUserProfile(authUser._id, {
-          onboarded: true,
-        })
+        const updatedUserProfile = await updateUserProfile({ onboarded: true })
 
         if (updatedUserExperience.error) {
           dispatch(errorSnackbar('Error updating project experience.'))

@@ -55,7 +55,7 @@ function App() {
               <Route path='max-users' element={<MaxUsers />} />
             </Route>
             {/* User */}
-            <Route path='/onboarding/:id' element={<Onboarding />} />
+            <Route path='/onboarding' element={<Onboarding />} />
             <Route path='/whats-next' element={<WhatsNext />} />
             <Route path='/users/:userId' element={<UserProfile />} />
             <Route path='/users/:id/edit' element={<EditProfile />} />

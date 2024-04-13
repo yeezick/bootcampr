@@ -20,7 +20,6 @@ import { isLinkedInUrl } from 'utils/components/Inputs'
 // BC-787: remove BEM styling
 export const SetUpProfile = ({ handlePageNavigation }) => {
   const dispatch = useAppDispatch()
-  const params = useParams()
   const authUser = useAppSelector(selectAuthUser)
   const navigate = useNavigate()
 
@@ -106,7 +105,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     e.preventDefault()
 
     try {
-      const updatedUser = await updateUser(params.id, updateUserForm)
+      const updatedUser = await updateUser(authUser._id, updateUserForm)
       dispatch(setAuthUser(updatedUser))
       dispatch(successSnackbar('User profile has been updated!'))
       handlePageNavigation('previous')
@@ -116,10 +115,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
   }
 
   const handlePrimaryClick = async () => {
-    const updatedUserProfile = await updateUserProfile(
-      params.id,
-      updateUserForm
-    )
+    const updatedUserProfile = await updateUserProfile(updateUserForm)
     const checkoutResponse = await createCheckout()
 
     if (updatedUserProfile.error) {

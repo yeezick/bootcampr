@@ -11,7 +11,7 @@ export const handleJoinTeam = async (dispatch, navigate, userId) => {
     return
   }
   dispatch(updateUserExperience(updatedExperience))
-  navigate(`/onboarding/${userId}`)
+  navigate('/onboarding')
 }
 
 export const handleJoinDiscord = () => {

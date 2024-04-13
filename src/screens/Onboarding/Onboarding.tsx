@@ -35,25 +35,6 @@ export const Onboarding = () => {
     }
   }, [])
 
-  const checkIfSetAvailability = () => {
-    let hasSet = false
-    const { availability } = authUser
-
-    Object.keys(availability).forEach(day => {
-      if (availability[day].available) {
-        hasSet = true
-      }
-    })
-
-    return hasSet
-  }
-
-  const checkIfSetProfileInfo = () => {
-    const { firstName, lastName, bio, links } = authUser
-
-    return firstName && lastName && bio && links && links.linkedinUrl
-  }
-
   const orderedPages = [
     {
       component: Role,
