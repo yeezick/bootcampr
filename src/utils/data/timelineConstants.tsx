@@ -18,7 +18,7 @@ export const timelineData = [
         <p>Ordering flow</p>
         <p>User account log in</p>
         <p>Reservation flow</p>
-        <p>Contact Us</p>
+        <p>Contact us</p>
       </div>
     ),
   },
