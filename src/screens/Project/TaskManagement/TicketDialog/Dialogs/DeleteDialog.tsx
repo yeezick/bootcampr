@@ -34,7 +34,7 @@ export const DeleteTicketDialog = () => {
     }
 
     dispatch(deleteTicket({ status, ticketId }))
-    dispatch(successSnackbar('Ticket deleted successfully'))
+    dispatch(successSnackbar('Story deleted successfully'))
     closeVisibleTicketDialog(dispatch)
   }
 
@@ -45,7 +45,7 @@ export const DeleteTicketDialog = () => {
       maxWidth='xs'
     >
       <DialogContent className='confirmation-dialog'>
-        <h3>Delete task?</h3>
+        <h3>Delete story?</h3>
         <p>
           All the information, including comments, will be lost and gone
           forever.
