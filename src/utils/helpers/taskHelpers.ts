@@ -187,6 +187,7 @@ export const moveSandboxTicketBetweenColumns = (projectTracker, moveData) => {
   const updatedProjectTracker = produce(projectTracker, draft => {
     const [movingTicket] = draft[oldColumnId].splice(oldColumnIdx, 1)
     draft[newColumnId].splice(newColumnIdx, 0, movingTicket)
+    movingTicket.status = newColumnId
   })
 
   const updatedColumns = {
