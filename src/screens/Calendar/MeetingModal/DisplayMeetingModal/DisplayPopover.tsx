@@ -4,12 +4,12 @@ import { CancelMeetingModal } from './CancelMeetingModal'
 import { useState } from 'react'
 
 export const DisplayPopover = ({
+  anchorEl,
   handleClosePopover,
   handleEdit,
-  id,
-  open,
-  anchorEl,
   handleDelete,
+  popoverId,
+  open,
 }) => {
   const [openModal, setOpenModal] = useState(false)
   const handleOpenModal = () => setOpenModal(true)
@@ -17,7 +17,7 @@ export const DisplayPopover = ({
   return (
     <>
       <Popover
-        id={id}
+        id={popoverId}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClosePopover}

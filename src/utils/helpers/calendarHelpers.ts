@@ -73,6 +73,15 @@ export const checkIfAllMembersInvited = (
   }
 }
 
+export const checkSandboxEvent = eventId => {
+  const sandboxEvents = ['uxdStandup', 'sweStandup', 'allTeamStandup']
+  if (sandboxEvents.includes(eventId)) {
+    return true
+  } else {
+    return false
+  }
+}
+
 export const convertDateFieldsForDisplay = googleDateFields => {
   const { startTime, endTime } = googleDateFields
   return {
