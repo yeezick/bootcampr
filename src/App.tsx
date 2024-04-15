@@ -23,6 +23,7 @@ import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
 import { ChooseExperience, MaxUsers } from 'screens/Payment'
 import './App.css'
 import { EmailRouter } from 'components/EmailRouter/EmailRouter'
+import { MobileGate } from 'screens/Auth/Mobile/MobileGate'
 import { TaskBoard } from 'screens/Project/TaskManagement'
 
 function App() {
@@ -82,6 +83,7 @@ function App() {
             </Route>
             <Route path='/all-projects' element={<AllProjects />} />
             {/* TODO create 404 page */}
+            <Route path='/mobile' element={<MobileGate />} />
             <Route path='*' element={<h1>404 Not Found</h1>} />
           </Routes>
         </Layout>

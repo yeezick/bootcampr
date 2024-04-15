@@ -1,17 +1,19 @@
+import { useEffect, useState } from 'react'
 import './EmailSentConfirmation.scss'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { getOneUser, resendNewEmailLink } from 'utils/api'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
-import accountCreated from '../../../../assets/Images/accountCreated.png'
 import { SnackBarSeverity } from 'interfaces/SnackBarToast'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
-import { useEffect, useState } from 'react'
+import { PrimaryButton } from 'components/Buttons'
+import { isMobileWidth } from 'utils/helpers'
 
 export const EmailSentConfirmation: React.FC = () => {
   const dispatch = useAppDispatch()
   const { id: newUserId } = useParams()
   const [userEmail, setUserEmail] = useState(useAppSelector(selectUserEmail))
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     const fetchUserEmail = async () => {
@@ -27,6 +29,16 @@ export const EmailSentConfirmation: React.FC = () => {
       fetchUserEmail()
     }
   }, [newUserId, userEmail])
+
+  useEffect(() => {
+    const handleResize = () => {
+      isMobileWidth() ? setIsMobile(true) : setIsMobile(false)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   //TODO: replace this with a modal to complete update email flow (BC-753)
   const handleResendEmailClick = async () => {
@@ -51,6 +63,27 @@ export const EmailSentConfirmation: React.FC = () => {
     }
   }
 
+  if (isMobileWidth()) {
+    return (
+      <MobileEmailSentConfirmation
+        handleResendEmailClick={handleResendEmailClick}
+        userEmail={userEmail}
+      />
+    )
+  } else {
+    return (
+      <DesktopEmailSentConfirmation
+        handleResendEmailClick={handleResendEmailClick}
+        userEmail={userEmail}
+      />
+    )
+  }
+}
+
+const DesktopEmailSentConfirmation = ({
+  handleResendEmailClick,
+  userEmail,
+}) => {
   return (
     <div className='email-confirmation-container'>
       <p className='message-content header'>
@@ -72,11 +105,40 @@ export const EmailSentConfirmation: React.FC = () => {
         <span>if it's incorrect.</span>
       </div>
       <div className='img-container'>
-        <img
-          src={accountCreated}
-          alt='A person jumps in the air in celebration'
-        />
+        <img alt='A person jumps in the air in celebration' />
       </div>
+    </div>
+  )
+}
+
+const MobileEmailSentConfirmation = ({ handleResendEmailClick, userEmail }) => {
+  const navigate = useNavigate()
+  const handleRouteToHomepage = () => navigate('/')
+
+  return (
+    <div className='email-confirmation-container'>
+      <p className='message-content subheader'>
+        We sent a confirmation email to <span>{userEmail}</span>.
+      </p>
+      <div className='message-content text'>
+        Important! We are not optimized for mobile yet.
+      </div>
+      <div className='message-content content'>
+        Please confirm your email address on a desktop or laptop to log in.{' '}
+      </div>
+      <div className='message-content update-email'>
+        <button onClick={handleResendEmailClick}>
+          Update your email address
+        </button>
+        <span>if it's incorrect.</span>
+      </div>
+      <div className='img-container'>
+        <img alt='A person jumps in the air in celebration' />
+      </div>
+      <PrimaryButton
+        text="Visit Bootcampr's homepage'"
+        handler={handleRouteToHomepage}
+      />
     </div>
   )
 }
