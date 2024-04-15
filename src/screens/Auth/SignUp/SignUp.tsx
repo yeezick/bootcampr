@@ -7,7 +7,6 @@ import {
   reset,
   uiStatus,
   setConfirmationEmailAddress, //TODO track down and delete all traces
-  setAuthUser,
 } from 'utils/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { SignUpInterface } from 'interfaces/UserInterface'
@@ -18,7 +17,6 @@ import { Email, Text, PasswordInputs } from 'components/Inputs'
 import './SignUp.scss'
 import { Checkbox, FormControlLabel } from '@mui/material'
 import signup from '../../../assets/Images/signup.png'
-import { getOneUser } from 'utils/api'
 export const SignUp: React.FC = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -73,8 +71,11 @@ export const SignUp: React.FC = () => {
     try {
       const validForm = await dispatch(register(formValues))
       const { payload } = validForm
-      const newUser = await getOneUser(payload.newUser)
-      dispatch(setAuthUser(newUser))
+      const localUser = {
+        userId: payload.newUser,
+        email: formValues.email,
+      }
+      localStorage.setItem('bootcamprLocalUser', JSON.stringify(localUser))
 
       navigate(`/sign-up/${payload.newUser}/confirmation-email-sent`)
       window.scrollTo(0, 0) // Scroll to top to view alert banner

@@ -1,12 +1,10 @@
 import './EmailSentConfirmation.scss'
-import { useAppSelector } from 'utils/redux/hooks'
 import accountCreated from '../../../../assets/Images/accountCreated.png'
-import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import { UpdateEmailAddressLink } from './UpdateEmailAddressLink'
 
 export const EmailSentConfirmation: React.FC = () => {
-  const email = useAppSelector(selectUserEmail)
-
+  const email = JSON.parse(localStorage.getItem('bootcamprLocalUser')).email
+  console.log('local email', email)
   return (
     <div className='email-confirmation-container'>
       <p className='message-content header'>

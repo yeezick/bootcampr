@@ -19,9 +19,8 @@ import {
 } from 'utils/redux/slices/userSlice'
 
 export const UpdateEmailAddressLink = () => {
-  // const dispatch = useDispatch()
-  const authUser = useAppSelector(selectAuthUser)
-  console.log('user: ', authUser)
+  const dispatch = useDispatch()
+  const localUser = JSON.parse(localStorage.getItem('bootcamprLocalUser'))
   const [formData, setFormData] = useState({
     email: '',
     isError: false,
@@ -40,8 +39,8 @@ export const UpdateEmailAddressLink = () => {
   }
 
   const handleSubmit = async () => {
-    console.log('Old Email: ', authUser.email) //old email
-    console.log('AuthId: ', authUser._id) //old email
+    console.log('Old Email: ', localUser.email) //old email
+    console.log('AuthId: ', localUser.userId)
     try {
       const { email } = formData
       console.log('New Email: ', email) // new email
@@ -57,46 +56,46 @@ export const UpdateEmailAddressLink = () => {
       }
 
       const response = await updateUnverifiedEmail(
-        authUser.email,
+        localUser.email,
         email,
-        authUser._id
+        localUser.userId
       )
 
       console.log(response.status)
-      // const response = updateEmailAddress(authUser.email, email, authUser, j)
-      // const response = await resendNewEmailLink(userId) //this sends the link to og email but I don't know where it's stored
+      console.log(response.statusText)
+      let toastSeverity: SnackBarSeverity = null
 
-      // if (response !== false) {
-      //   dispatch(setConfirmationEmailAddress(email))
-      //   setEmail(email)
-      //   setFormData(prevState => ({
-      //     ...prevState,
-      //     email: '',
-      //     isError: false,
-      //     errorMessage: '',
-      //     showModal: false,
-      //   }))
+      if (response.status === 201) {
+        const updatedLocalUser = {
+          ...localUser,
+          email: email,
+        }
+        localStorage.setItem(
+          'bootcamprLocalUser',
+          JSON.stringify(updatedLocalUser)
+        )
+        toastSeverity = 'success'
+        setFormData(prevState => ({
+          ...prevState,
+          email: '',
+          isError: false,
+          errorMessage: '',
+          showModal: false,
+        }))
 
-      //   let toastSeverity: SnackBarSeverity = null
-
-      //   if (response.status === 200) {
-      //     toastSeverity = 'success'
-      //   } else {
-      //     toastSeverity = 'error'
-      //   }
-
-      //   const friendlyMessage = response.data
-      //     ? response.data.friendlyMessage
-      //     : 'An error occurred'
-      //   dispatch(
-      //     createSnackBar({
-      //       message: friendlyMessage,
-      //       severity: toastSeverity,
-      //     })
-      //   )
-      // } else {
-      //   console.error('resendNewEmailLink returned false')
-      // }
+        const friendlyMessage = response.data
+          ? response.data.friendlyMessage
+          : 'An error occurred'
+        dispatch(
+          createSnackBar({
+            message: friendlyMessage,
+            severity: toastSeverity,
+          })
+        )
+      } else {
+        toastSeverity = 'error'
+        console.error('resendNewEmailLink returned false')
+      }
     } catch (error) {
       console.error('Error updating email:', error)
     }
