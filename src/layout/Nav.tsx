@@ -15,7 +15,6 @@ import {
   setActiveChatRoomId,
   toggleChat,
 } from 'utils/redux/slices/chatSlice'
-
 import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
 import { buildPortal } from 'utils/helpers'
 import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
@@ -30,7 +29,13 @@ export const Nav = () => {
   const { _id: userId, project: projectId } = authUser
   const dispatch = useAppDispatch()
   const location = useLocation()
-  const excludedRoutes = ['/payment', '/sign-up', '/sign-in', '/onboarding']
+  const excludedRoutes = [
+    '/payment',
+    '/sign-up',
+    '/sign-in',
+    '/onboarding',
+    '/mobile',
+  ]
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
   )
