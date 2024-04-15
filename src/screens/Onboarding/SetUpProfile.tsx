@@ -48,12 +48,11 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
         return { ...currForm, ...authUser }
       })
     }
-    
+
     isLinkedInUrl(links.linkedinUrl)
       ? setIsInvalidURL(false)
       : setIsInvalidURL(true)
   }, [authUser])
-
 
   useEffect(() => {
     const charCount =
