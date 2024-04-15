@@ -1,10 +1,14 @@
 import './EmailSentConfirmation.scss'
 import accountCreated from '../../../../assets/Images/accountCreated.png'
 import { UpdateEmailAddressLink } from './UpdateEmailAddressLink'
+import { useState } from 'react'
 
 export const EmailSentConfirmation: React.FC = () => {
-  const email = JSON.parse(localStorage.getItem('bootcamprLocalUser')).email
-  console.log('local email', email)
+  const [email, setEmail] = useState(() => {
+    const storedUser = JSON.parse(localStorage.getItem('bootcamprLocalUser'))
+    return storedUser ? storedUser.email : ''
+  })
+
   return (
     <div className='email-confirmation-container'>
       <p className='message-content header'>
@@ -20,7 +24,7 @@ export const EmailSentConfirmation: React.FC = () => {
         <p>Confirm your email address to log in.</p>
       </div>
       <div className='message-content update-email'>
-        <UpdateEmailAddressLink />
+        <UpdateEmailAddressLink setEmail={setEmail} />
         <span>if it's incorrect.</span>
       </div>
       <div className='img-container'>

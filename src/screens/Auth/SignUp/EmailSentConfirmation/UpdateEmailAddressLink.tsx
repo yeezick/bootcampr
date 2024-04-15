@@ -1,24 +1,11 @@
 import { CommonModal } from 'components/CommonModal/CommonModal'
-import { UserInterface } from 'interfaces'
 import { SnackBarSeverity } from 'interfaces/SnackBarToast'
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { updateEmailAddress } from 'screens/Auth/Settings'
-import {
-  resendNewEmailLink,
-  updateUnverifiedEmail,
-  updateUsersEmail,
-  verifyEmail,
-} from 'utils/api'
-import { useAppSelector } from 'utils/redux/hooks'
+import { updateUnverifiedEmail, verifyEmail } from 'utils/api'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
-import {
-  selectAuthUser,
-  selectUserEmail,
-  setConfirmationEmailAddress,
-} from 'utils/redux/slices/userSlice'
 
-export const UpdateEmailAddressLink = () => {
+export const UpdateEmailAddressLink = ({ setEmail }) => {
   const dispatch = useDispatch()
   const localUser = JSON.parse(localStorage.getItem('bootcamprLocalUser'))
   const [formData, setFormData] = useState({
@@ -39,11 +26,8 @@ export const UpdateEmailAddressLink = () => {
   }
 
   const handleSubmit = async () => {
-    console.log('Old Email: ', localUser.email) //old email
-    console.log('AuthId: ', localUser.userId)
     try {
       const { email } = formData
-      console.log('New Email: ', email) // new email
       const { status, message } = await verifyEmail(email)
 
       if (status !== 200) {
@@ -61,8 +45,6 @@ export const UpdateEmailAddressLink = () => {
         localUser.userId
       )
 
-      console.log(response.status)
-      console.log(response.statusText)
       let toastSeverity: SnackBarSeverity = null
 
       if (response.status === 201) {
@@ -70,6 +52,7 @@ export const UpdateEmailAddressLink = () => {
           ...localUser,
           email: email,
         }
+        setEmail(email)
         localStorage.setItem(
           'bootcamprLocalUser',
           JSON.stringify(updatedLocalUser)
@@ -94,7 +77,7 @@ export const UpdateEmailAddressLink = () => {
         )
       } else {
         toastSeverity = 'error'
-        console.error('resendNewEmailLink returned false')
+        console.error('Bad request')
       }
     } catch (error) {
       console.error('Error updating email:', error)
