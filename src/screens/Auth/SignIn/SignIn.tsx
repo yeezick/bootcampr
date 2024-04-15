@@ -69,12 +69,12 @@ const SignIn: React.FC = (): JSX.Element => {
     }
 
     dispatch(setAuthUser(response))
-    const { payment, onboarded, projects, _id: userId } = response
+    const { payment, onboarded, projects } = response
 
     if (payment.experience === 'unchosen') {
       navigate('/payment/choose-experience')
     } else if (payment.experience === 'waitlist' && !onboarded) {
-      navigate(`/onboarding/${userId}`)
+      navigate(`/onboarding`)
     } else if (
       isSandboxId(payment.experience) ||
       (isWaitlistExperience(payment.experience) &&
