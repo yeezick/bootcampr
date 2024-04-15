@@ -1,30 +1,11 @@
 import './EmailSentConfirmation.scss'
-import { useParams } from 'react-router-dom'
-import { getOneUser } from 'utils/api'
 import { useAppSelector } from 'utils/redux/hooks'
 import accountCreated from '../../../../assets/Images/accountCreated.png'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
-import { useEffect, useState } from 'react'
 import { UpdateEmailAddressLink } from './UpdateEmailAddressLink'
 
 export const EmailSentConfirmation: React.FC = () => {
-  const { id: newUserId } = useParams()
-  const [userEmail, setUserEmail] = useState(useAppSelector(selectUserEmail))
-
-  useEffect(() => {
-    const fetchUserEmail = async () => {
-      try {
-        const { email } = await getOneUser(newUserId)
-        setUserEmail(email)
-      } catch (error) {
-        console.error('Error fetching user data:', error)
-      }
-    }
-
-    if (!userEmail) {
-      fetchUserEmail()
-    }
-  }, [newUserId, userEmail])
+  const email = useAppSelector(selectUserEmail)
 
   return (
     <div className='email-confirmation-container'>
@@ -32,7 +13,7 @@ export const EmailSentConfirmation: React.FC = () => {
         Congrats! You've taken the first step.
       </p>
       <p className='message-content subheader'>
-        We sent a confirmation email to <span>{userEmail}</span>.
+        We sent a confirmation email to <span>{email}</span>.
       </p>
       <div className='message-content text'>
         <p>It may be in your junk or spam folder.</p>

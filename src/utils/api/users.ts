@@ -133,6 +133,23 @@ export const resendNewEmailLink = async (userId: string) => {
   }
 }
 
+export const updateUnverifiedEmail = async (
+  currentUserEmail,
+  newEmail,
+  userId
+) => {
+  const reqBody = {
+    userId: userId,
+    oldEmail: currentUserEmail,
+    newEmail: newEmail,
+  }
+  const response = await api.post(
+    `/users/${userId}/update-email-verification`,
+    reqBody
+  )
+  return response
+}
+
 export const updateUsersEmail = async (
   formData: PasswordFormData | EmailFormData,
   userId: string | undefined
