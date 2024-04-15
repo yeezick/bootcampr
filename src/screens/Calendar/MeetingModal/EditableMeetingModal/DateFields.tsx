@@ -40,7 +40,7 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
     } else {
       setDayPickerDayjs(blankDayJs())
     }
-  }, [dateFields])
+  }, [])
 
   return (
     <>
