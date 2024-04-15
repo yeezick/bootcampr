@@ -13,6 +13,7 @@ import { ChatRoom } from '../ChatRoom/ChatRoom'
 import { NewChatRoom } from '../NewChatRoom/NewChatRoom'
 import { EditChatRoom } from '../EditChatRoom/EditChatRoom'
 import './ChatDialogMain.scss'
+import { closeChatBox } from 'utils/helpers/chatHelpers'
 
 export const ChatDialogMain = () => {
   const dispatch = useAppDispatch()
@@ -26,10 +27,7 @@ export const ChatDialogMain = () => {
     changeScreen(ChatScreen.ChatRoom)
   }
 
-  const closeChatBox = () => {
-    dispatch(setActiveChatRoomId(null))
-    dispatch(toggleChatClose())
-  }
+  const handleCloseChat = () => closeChatBox(dispatch)
 
   const chatComponentLookup = {
     [ChatScreen.Main]: (
@@ -49,7 +47,7 @@ export const ChatDialogMain = () => {
         ) : (
           <ChatPageHeader />
         )}
-        <IoMdClose size={22} onClick={closeChatBox} className='close-btn' />
+        <IoMdClose size={22} onClick={handleCloseChat} className='close-btn' />
       </header>
       <section className='chat-page'>
         {chatComponentLookup[chatScreen] || null}

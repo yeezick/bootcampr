@@ -4,6 +4,7 @@ import { Dispatch } from 'react'
 import { NavigateFunction } from 'react-router-dom'
 import {
   resetPortal,
+  setBanner,
   setPortal,
   setPortalPage,
 } from 'utils/redux/slices/userInterfaceSlice'
@@ -15,7 +16,7 @@ import { RootState } from 'utils/redux/store'
  * @returns {SideMenuInterface} Context for Project Portal sidemenu
  */
 export const buildProjectPortalLinks = (projectId: string): PortalLink[] => {
-  let urlProjectId = 'unassigned'
+  let urlProjectId = 'sandbox'
   if (projectId) urlProjectId = projectId
 
   return [
@@ -132,14 +133,23 @@ export const buildPortal = (
     Dispatch<AnyAction>,
   domain: DomainStrings,
   routeId: string,
-  headerTitle?: string
+  experience?: string
 ) => {
   if (domain === 'project') {
-    dispatch(setPortal(buildProjectPortal(routeId, headerTitle)))
+    dispatch(setPortal(buildProjectPortal(routeId)))
+    determineBanner(dispatch, experience)
   } else if (domain === 'settings') {
     dispatch(setPortal(buildSettingsPortal(routeId)))
   } else {
     dispatch(resetPortal())
+  }
+}
+
+const determineBanner = (dispatch, experience) => {
+  if (experience === 'sandbox') {
+    dispatch(setBanner({ active: true, type: 'sandbox' }))
+  } else if (experience === 'waitlist') {
+    dispatch(setBanner({ active: true, type: 'waitlist' }))
   }
 }
 

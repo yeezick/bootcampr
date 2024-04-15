@@ -41,10 +41,14 @@ export interface ChatMessageInterface {
   timestamp: string
 }
 
-export interface EmptyChatPage {
-  className: string
+export interface EmptyChatPageProps {
   screen: string
   text: string
+  className: string
+  handler?: {
+    text: string
+    function: () => void
+  }
 }
 
 export interface FetchMessagesPayload {

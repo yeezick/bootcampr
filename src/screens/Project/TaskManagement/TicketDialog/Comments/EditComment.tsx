@@ -11,7 +11,7 @@ export const EditComment = ({
   toggleEditMode,
   toggleFetchComments,
 }) => {
-  const { author, _id: commentId, content, createdAt } = comment
+  const { authorId, _id: commentId, content, createdAt } = comment
   const [updatedComment, setUpdatedComment] = useState(content)
   const dispatch = useAppDispatch()
   const handleCancel = () => toggleEditMode(false)
@@ -35,7 +35,7 @@ export const EditComment = ({
   return (
     <div className='edit-comment'>
       <div className='comment-card'>
-        <CommentHeader author={author} createdAt={createdAt} />
+        <CommentHeader authorId={authorId} createdAt={createdAt} />
         <TextField
           value={updatedComment}
           onChange={handleInputChange}

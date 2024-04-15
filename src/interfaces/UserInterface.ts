@@ -33,7 +33,13 @@ export interface UserInterface {
   _id?: string
 }
 
+export interface Banner {
+  active: boolean
+  type: 'sandbox' | 'waitlist' | ''
+}
+
 export interface UiInterface {
+  banner: Banner
   portal: Portal
   sideMenu: SideMenu
 }
@@ -44,7 +50,7 @@ export interface BuildPortal {
 }
 
 export interface Payment {
-  experience: string
+  experience: 'active' | 'sandbox' | 'unchosen' | 'waitlist'
   paid?: boolean
 }
 
@@ -63,7 +69,7 @@ export interface PortalLink {
 }
 
 export interface Projects {
-  activeProject?: ProjectInterface
+  activeProject?: string
   projects: string[]
 }
 

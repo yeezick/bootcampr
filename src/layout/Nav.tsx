@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import {
+  selectAuthUser,
+  selectUserExperience,
+} from 'utils/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { MdArrowDropDown } from 'react-icons/md'
 import { BsFillChatLeftTextFill } from 'react-icons/bs'
@@ -27,17 +30,23 @@ export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
   const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const authUser = useAppSelector(selectAuthUser)
-  const { _id: userId, project: projectId } = authUser
+  const experience = useAppSelector(selectUserExperience)
+  const {
+    _id: userId,
+    projects: { activeProject },
+  } = authUser
   const dispatch = useAppDispatch()
   const location = useLocation()
   const excludedRoutes = ['/payment', '/sign-up', '/sign-in', '/onboarding']
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
   )
-
   const closeDropdown = () => setAnchorEl(null)
-  const handlePortalLink = () => buildPortal(dispatch, 'project', projectId)
+  const handlePortalLink = () =>
+    buildPortal(dispatch, 'project', activeProject, experience)
   const handleNonPortalLink = () => dispatch(resetPortal())
+  const isActiveLink = path =>
+    location.pathname.includes(path) ? 'active' : ''
 
   const landingPage =
     process.env.REACT_APP_API_ENV === 'local'
@@ -58,37 +67,29 @@ export const Nav = () => {
           <div className='header-list'>
             {userId && (
               <Link
-                className={`header-link ${
-                  location.pathname.includes('project') ? 'active' : ''
-                }`}
-                to={`/project/${projectId || 'unassigned'}`}
+                className={`header-link ${isActiveLink('project')}`}
+                to={`/project/${activeProject || 'sandbox'}`}
                 onClick={handlePortalLink}
               >
                 Project Portal
               </Link>
             )}
             <Link
-              className={`header-link ${
-                location.pathname.includes('contact-us') ? 'active' : ''
-              }`}
+              className={`header-link ${isActiveLink('contact-us')}`}
               to='/contact-us'
               onClick={handleNonPortalLink}
             >
               Contact us
             </Link>
             <Link
-              className={`header-link ${
-                location.pathname.includes('community') ? 'active' : ''
-              }`}
+              className={`header-link ${isActiveLink('community')}`}
               to='/community'
               onClick={handleNonPortalLink}
             >
               Community
             </Link>
             <Link
-              className={`header-link ${
-                location.pathname.includes('enterprise') ? 'active' : ''
-              }`}
+              className={`header-link ${isActiveLink('enterprise')}`}
               to='/enterprise'
               onClick={handleNonPortalLink}
             >

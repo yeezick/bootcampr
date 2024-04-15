@@ -56,6 +56,7 @@ export const emptyUser: UserInterface = {
     paid: false,
   },
   projects: {
+    activeProject: null,
     projects: [],
   },
   role: '',

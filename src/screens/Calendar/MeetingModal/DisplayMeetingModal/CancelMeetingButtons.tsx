@@ -14,9 +14,10 @@ export const CancelMeetingButtons = ({ handleCloseModal, handleDelete }) => {
         colorScheme='primary'
       />
       <PrimaryButton
-        text='Cancel Meeting'
         colorScheme='secondary'
+        handler={handleDelete}
         style={discardButtonStyles}
+        text='Cancel Meeting'
       />
     </div>
   )

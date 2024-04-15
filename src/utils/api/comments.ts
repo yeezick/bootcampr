@@ -1,9 +1,15 @@
+import { CommentInterface } from 'interfaces'
 import { api } from './apiConfig'
+import { sampleComment, sampleReply } from 'utils/data/ticketConstants'
+import { isSandboxId } from 'utils/helpers/taskHelpers'
 
 export const getTicketComments = async (
-  ticketId: number
-): Promise<Comment[]> => {
+  ticketId: string
+): Promise<CommentInterface[]> => {
   try {
+    if (isSandboxId(ticketId)) {
+      return sampleComment
+    }
     const response = await api.get(`/comments/${ticketId}`)
     return response.data.comments
   } catch (err) {
@@ -42,8 +48,13 @@ export const updateComment = async (commentId, commentUpdates) => {
   }
 }
 
-export const getReplies = async (commentId: number): Promise<Comment[]> => {
+export const getReplies = async (
+  commentId: string
+): Promise<CommentInterface[]> => {
   try {
+    if (isSandboxId(commentId)) {
+      return sampleReply
+    }
     const response = await api.get(`/comments/${commentId}/replies`)
     return response.data
   } catch (error) {

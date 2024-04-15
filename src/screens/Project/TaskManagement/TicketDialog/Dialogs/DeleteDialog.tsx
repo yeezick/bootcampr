@@ -4,6 +4,7 @@ import { deleteTicketApi } from 'utils/api/tickets'
 import {
   closeConfirmationDialog,
   closeVisibleTicketDialog,
+  isSandboxId,
 } from 'utils/helpers/taskHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { deleteTicket, selectProjectId } from 'utils/redux/slices/projectSlice'
@@ -24,14 +25,16 @@ export const DeleteTicketDialog = () => {
   const handleDeleteTicket = async () => {
     const { status, _id: ticketId } = ticketFields
     // BC-412: add guard clause for tickets that failed to delete & display error toast
-    await deleteTicketApi({
-      ticketId,
-      ticketStatus: status,
-      projectId,
-    })
+    if (!isSandboxId(ticketId)) {
+      await deleteTicketApi({
+        ticketId,
+        ticketStatus: status,
+        projectId,
+      })
+    }
 
     dispatch(deleteTicket({ status, ticketId }))
-    dispatch(successSnackbar('Ticket deleted successfully'))
+    dispatch(successSnackbar('Story deleted successfully'))
     closeVisibleTicketDialog(dispatch)
   }
 
@@ -42,7 +45,7 @@ export const DeleteTicketDialog = () => {
       maxWidth='xs'
     >
       <DialogContent className='confirmation-dialog'>
-        <h3>Delete task?</h3>
+        <h3>Delete story?</h3>
         <p>
           All the information, including comments, will be lost and gone
           forever.

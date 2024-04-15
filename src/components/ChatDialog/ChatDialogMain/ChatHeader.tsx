@@ -6,7 +6,10 @@ import { BiPencil } from 'react-icons/bi'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { getParticipantsNames } from 'utils/functions/chatLogic'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import {
+  selectAuthUser,
+  selectUserExperience,
+} from 'utils/redux/slices/userSlice'
 import { updateGroupChat } from 'utils/api/chat'
 import {
   onBackArrowClick,
@@ -21,6 +24,7 @@ import { CommonModal } from 'components/CommonModal/CommonModal'
 import './ChatDialogMain.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { ChatAvatar } from '../ChatAvatar/ChatAvatar'
+import { isSandboxId } from 'utils/helpers/taskHelpers'
 
 const getTitleText = (chatScreen, currentConversation, authUser) => {
   const title = getParticipantsNames(
@@ -39,6 +43,7 @@ const getTitleText = (chatScreen, currentConversation, authUser) => {
 }
 
 export const ChatMainPageHeader = () => {
+  const userExperience = useAppSelector(selectUserExperience)
   const dispatch = useAppDispatch()
   const handleCreateChatRoom = () => {
     dispatch(onScreenUpdate(ChatScreen.ComposeNewChat))
@@ -48,7 +53,14 @@ export const ChatMainPageHeader = () => {
   return (
     <div className='main-page-title'>
       <h1>Chats</h1>
-      <HiOutlinePencilAlt size={22} onClick={handleCreateChatRoom} />
+      {isSandboxId(userExperience) || userExperience === 'waitlist' ? (
+        <HiOutlinePencilAlt
+          size={22}
+          style={{ color: '#ababab', cursor: 'default' }}
+        />
+      ) : (
+        <HiOutlinePencilAlt size={22} onClick={handleCreateChatRoom} />
+      )}
     </div>
   )
 }
