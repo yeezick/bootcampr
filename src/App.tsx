@@ -29,6 +29,7 @@ import { ChooseExperience, MaxUsers } from 'screens/Payment'
 import './App.css'
 import { AuthWrapper } from 'screens/Auth/AuthWrapper'
 import { EmailRouter } from 'components/EmailRouter/EmailRouter'
+import { MobileGate } from 'screens/Auth/Mobile/MobileGate'
 
 function App() {
   console.log(`Running Application Version: ${process.env.REACT_APP_VERSION} `)
@@ -89,6 +90,7 @@ function App() {
             </Route>
             <Route path='/all-projects' element={<AllProjects />} />
             {/* TODO create 404 page */}
+            <Route path='/mobile' element={<MobileGate />} />
             <Route path='*' element={<h1>404 Not Found</h1>} />
           </Routes>
         </Layout>
