@@ -48,6 +48,7 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
       <div className='fields-wrapper'>
         <div className='time-fields'>
           <DatePicker
+            disablePast
             minDate={generateDayJs(startDate)}
             maxDate={generateDayJs(endDate)}
             format='MM/DD/YY'
