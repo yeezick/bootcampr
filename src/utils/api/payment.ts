@@ -21,3 +21,12 @@ export const updatePaymentExperience = async (
     throw error
   }
 }
+
+export const verifyPayment = async sessionId => {
+  try {
+    const res = await api.post(`/payment/verify/${sessionId}`)
+    return res.data
+  } catch (error) {
+    throw error
+  }
+}

@@ -47,12 +47,11 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
         return { ...currForm, ...authUser }
       })
     }
-    
+
     isLinkedInUrl(links.linkedinUrl)
       ? setIsInvalidURL(false)
       : setIsInvalidURL(true)
   }, [authUser])
-
 
   useEffect(() => {
     const charCount =
@@ -102,31 +101,22 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     })
   }
 
-  const handleNavigationButtons = async (e, direction: 'previous' | 'next') => {
+  const handleSecondaryClick = async e => {
     e.preventDefault()
 
     try {
-      const isOnboarded = direction === 'next'
-      const updatedUserFormData = { ...updateUserForm, onboarded: isOnboarded }
-      const updatedUser = await updateUser(authUser._id, updatedUserFormData)
+      const updatedUser = await updateUser(authUser._id, updateUserForm)
       dispatch(setAuthUser(updatedUser))
       dispatch(successSnackbar('User profile has been updated!'))
-      if (direction === 'next') {
-        navigate(`/whats-next`)
-      } else {
-        handlePageNavigation(direction)
-      }
+      handlePageNavigation('previous')
     } catch (error) {
       console.error('Error occured when trying to create User Profile', error)
     }
   }
 
-  const handleSecondaryClick = e => handleNavigationButtons(e, 'previous')
   const handlePrimaryClick = async () => {
-    const updatedUserFormData = { ...updateUserForm, onboarded: true }
-    const updatedUserProfile = await updateUserProfile(updatedUserFormData)
+    const updatedUserProfile = await updateUserProfile(updateUserForm)
     const checkoutResponse = await createCheckout()
-    let experiencePayload
 
     if (updatedUserProfile.error) {
       dispatch(errorSnackbar(updatedUserProfile.error))
@@ -136,17 +126,9 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
       return
     }
 
-    const { checkoutUrl } = checkoutResponse
-    if (checkoutUrl.includes('max-users')) {
-      experiencePayload = { experience: 'waitlist' }
-    } else {
-      experiencePayload = { experience: 'waitlist', paid: true }
-    }
-
-    const updatedUserExperience = await updatePaymentExperience(
-      authUser._id,
-      experiencePayload
-    )
+    const updatedUserExperience = await updatePaymentExperience(authUser._id, {
+      experience: 'waitlist',
+    })
 
     if (updatedUserExperience.error) {
       dispatch(errorSnackbar('Error setting project experience.'))

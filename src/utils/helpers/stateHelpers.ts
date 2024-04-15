@@ -17,10 +17,8 @@ export const handleReduxInputChange = (e, dispatch, reducer) => {
   dispatch(reducer({ [name]: value }))
 }
 
-export const storeUserProject = async (dispatch, projectId) => {
-  if (projectId) {
-    const userProject = await getOneProject(projectId)
-    dispatch(setProject(userProject))
-    dispatch(setInitialVisibleTickets(userProject.projectTracker))
-  }
+export const storeUserProject = async (dispatch, projectId = 'sandbox') => {
+  const userProject = await getOneProject(projectId)
+  dispatch(setProject(userProject))
+  dispatch(setInitialVisibleTickets(userProject.projectTracker))
 }

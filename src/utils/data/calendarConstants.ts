@@ -6,15 +6,13 @@ export const initialMeetingText: MeetingText = {
   summary: '',
 }
 
-export const usTimeZones = [
-  { value: 'America/St_Johns', name: 'Newfoundland Time (NT)' },
-  { value: 'America/Puerto_Rico', name: 'Atlantic Time (AT)' },
-  { value: 'America/New_York', name: 'Eastern Time (ET)' },
-  { value: 'America/Chicago', name: 'Central Time (CT)' },
-  { value: 'America/Denver', name: 'Mountain Time (MT)' },
-  { value: 'America/Los_Angeles', name: 'Pacific Time (PT)' },
-  { value: 'America/Anchorage', name: 'Alaska Time (AKT)' },
-  { value: 'Pacific/Honolulu', name: 'Hawaii-Aleutian Time (HT)' },
+export const staticEmails = [
+  'star@struck.com',
+  'silly@goose.com',
+  'polly@product.com',
+  'apple@pie.com',
+  'later@gator.com',
+  'svc.jira.swe@gmail.com',
 ]
 
 export const timeOptions = [
@@ -66,4 +64,15 @@ export const timeOptions = [
   '10:30 PM',
   '11:00 PM',
   '11:30 PM',
+]
+
+export const usTimeZones = [
+  { value: 'America/St_Johns', name: 'Newfoundland Time (NT)' },
+  { value: 'America/Puerto_Rico', name: 'Atlantic Time (AT)' },
+  { value: 'America/New_York', name: 'Eastern Time (ET)' },
+  { value: 'America/Chicago', name: 'Central Time (CT)' },
+  { value: 'America/Denver', name: 'Mountain Time (MT)' },
+  { value: 'America/Los_Angeles', name: 'Pacific Time (PT)' },
+  { value: 'America/Anchorage', name: 'Alaska Time (AKT)' },
+  { value: 'Pacific/Honolulu', name: 'Hawaii-Aleutian Time (HT)' },
 ]

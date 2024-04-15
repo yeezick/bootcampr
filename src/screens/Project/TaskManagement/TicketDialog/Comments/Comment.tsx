@@ -4,14 +4,21 @@ import { CommentHeader } from './CommentHeader'
 import { CommentFooter } from './CommentFooter/CommentFooter'
 import { CommentContent } from './CommentContent'
 import { EditComment } from './EditComment'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectUsersById } from 'utils/redux/slices/projectSlice'
+import { generateDefaultPicture } from 'utils/helpers'
 
 export const Comment = ({ comment, fetchComments, toggleFetchComments }) => {
-  const { author, createdAt } = comment
+  const { authorId, createdAt } = comment
+  const [authorData] = useAppSelector(selectUsersById([authorId]))
   const [editMode, toggleEditMode] = useState(false)
+  const { firstName, lastName, profilePicture } = authorData
+  const authorProfilePicture =
+    profilePicture || generateDefaultPicture(firstName, lastName)
 
   return (
     <div className='comment-container'>
-      <img className='comment-thumbnail' src={author.profilePicture} />
+      <img className='comment-thumbnail' src={authorProfilePicture} />
       {editMode ? (
         <EditComment
           comment={comment}
@@ -20,7 +27,7 @@ export const Comment = ({ comment, fetchComments, toggleFetchComments }) => {
         />
       ) : (
         <div className='comment-card'>
-          <CommentHeader author={author} createdAt={createdAt} />
+          <CommentHeader authorId={authorId} createdAt={createdAt} />
           <CommentContent comment={comment} />
           <CommentFooter
             comment={comment}

@@ -3,13 +3,14 @@ import { useRef } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import { fetchUserCalendar } from 'utils/api/calendar'
+import { fetchSandboxCalendar, fetchUserCalendar } from 'utils/api/calendar'
 import {
   selectCalendarId,
   selectProjectId,
   selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
 import {
+  generateDayJs,
   parseCalendarEventForMeetingInfo,
   updateWeekDayNumber,
   updateWeekNumber,
@@ -30,8 +31,8 @@ import './CalendarView.scss'
 import dayjs from 'dayjs'
 import weekday from 'dayjs/plugin/weekday'
 import { getTeamCommonAvailability } from 'utils/api'
-import { join } from 'path/posix'
 import { TeamAvailability } from 'interfaces'
+dayjs.extend(weekday)
 
 export const CalendarView = () => {
   const calendarId = useAppSelector(selectCalendarId)
@@ -42,10 +43,11 @@ export const CalendarView = () => {
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
   const timeline = useAppSelector(selectProjectTimeline)
   const [weekNumber, setWeekNumber] = useState('')
-  dayjs.extend(weekday)
 
   const firstDay = timeline.startDate
-  const lastDay = dayjs(timeline.endDate).weekday(7).format('YYYY-MM-DD')
+  const lastDay = generateDayJs(timeline.endDate)
+    .weekday(7)
+    .format('YYYY-MM-DD')
   const calendarRef = useRef(null)
   const dispatch = useAppDispatch()
   const projectSundayDates = [
@@ -57,17 +59,20 @@ export const CalendarView = () => {
 
   useEffect(() => {
     const fetchAllEvents = async () => {
-      const googleCalendarEvents = await fetchUserCalendar(
-        calendarId,
-        userEmail
-      )
+      let googleCalendarEvents = []
+      if (calendarId === 'sandbox') {
+        googleCalendarEvents = await fetchSandboxCalendar(timeline)
+      } else {
+        googleCalendarEvents = await fetchUserCalendar(calendarId, userEmail)
+      }
 
       if (!googleCalendarEvents) {
         setEventFetchingStatus('error')
-      } else {
-        setEventFetchingStatus('success')
-        dispatch(storeConvertedEvents(googleCalendarEvents))
+        return
       }
+
+      setEventFetchingStatus('success')
+      dispatch(storeConvertedEvents(googleCalendarEvents))
     }
 
     const fetchTeamCommonAvailability = async () => {
@@ -120,7 +125,7 @@ export const CalendarView = () => {
   const renderWeekNumber = () => {
     setTimeout(() => {
       const calendarApi = calendarRef.current.getApi()
-      const sundayDate = dayjs(calendarApi.getDate())
+      const sundayDate = generateDayJs(calendarApi.getDate())
         .day(0)
         .format('YYYY-MM-DD')
       updateWeekNumber(sundayDate, firstDay, setWeekNumber)

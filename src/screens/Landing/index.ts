@@ -1,5 +1,3 @@
 export * from './Landing'
+export * from './InfoScreens'
 export * from './ProjectPortal/ProjectPortal'
-export * from './InfoScreens/Comunity'
-export * from './InfoScreens/ContactUs'
-export * from './InfoScreens/Enterprise'
