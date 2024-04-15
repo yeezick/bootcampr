@@ -17,8 +17,6 @@ export const SelectStatus = () => {
   useEffect(() => {
     if (ticketDialogState === 'edit') {
       dispatch(setTicketFields({ oldStatus: status }))
-    } else {
-      dispatch(setTicketFields({ status: 'toDo' }))
     }
   }, [])
 

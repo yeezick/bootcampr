@@ -38,8 +38,6 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
       dispatch(logoutAuthUser())
       dispatch(toggleChatClose())
       navigate('/')
-    } else if (innerText === 'Payment') {
-      navigate('/payment/checkout')
     }
   }
 
@@ -65,7 +63,6 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
         <MenuItem onClick={handleClose}>View Profile</MenuItem>
         <MenuItem onClick={handleClose}>Settings</MenuItem>
         <MenuItem onClick={handleClose}>Log out</MenuItem>
-        <MenuItem onClick={handleClose}>Payment</MenuItem>
       </Menu>
     </div>
   )

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import {
   getUserProfileImage,
   selectHasUploadedProfilePicture,
@@ -11,6 +11,7 @@ import { ProfilePreviewImage } from 'screens/ProfilePreviewImage/ProfilePreviewI
 import { IconButton } from '@mui/material'
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
+import { generateDefaultPicture } from 'utils/helpers'
 import './Avatar.scss'
 
 /**
@@ -61,69 +62,56 @@ const Avatar: React.FC<AvatarProps> = ({
     dispatch(setUploadedImage(dataURL))
     setIsModalOpen(true)
   }
+  const defaultImageURL = generateDefaultPicture(
+    authUser.firstName,
+    authUser.lastName
+  )
 
-  if (!authUser) {
-    return (
+  return (
+    <>
       <div className='avatar-container'>
-        <div className='avatar-default-picture'>
-          <img
-            className={`avatar-img ${size || ''}`}
-            src='/default_profile.png'
-            alt='unassigned-thumbnail'
-          />
-        </div>
+        {hasProfilePicture ? (
+          <div className='avatar-icon'>
+            <img
+              className={imgClassName}
+              src={profilePicture}
+              alt='avatar'
+              onClick={handleClick}
+            />
+            {hasIcon && (
+              <IconButton
+                aria-label='change profile pic'
+                className={iconButtonClassName}
+                onClick={handleOpenModal}
+                sx={{ backgroundColor: '#ecebeb' }}
+              >
+                <AddAPhotoOutlinedIcon id={addPhotoIconId} />
+              </IconButton>
+            )}
+          </div>
+        ) : (
+          <div className='avatar-default-picture'>
+            <img src={defaultImageURL} alt='default' />
+            {hasIcon && (
+              <IconButton
+                aria-label='change profile pic'
+                className='avatar-default-cameraIcon'
+                id='cameraIcon'
+                onClick={handleIconClick}
+              >
+                <AddAPhotoOutlinedIcon id={addPhotoIconId} />
+              </IconButton>
+            )}
+          </div>
+        )}
       </div>
-    )
-  } else {
-    const { firstName, lastName, profilePicture } = authUser
-    const defaultImageURL = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=FFA726&color=1A237E&rounded=true&bold=true`
-
-    return (
-      <>
-        <div className='avatar-container'>
-          {hasProfilePicture ? (
-            <div className='avatar-icon'>
-              <img
-                className={imgClassName}
-                src={profilePicture}
-                alt='avatar'
-                onClick={handleClick}
-              />
-              {hasIcon && (
-                <IconButton
-                  aria-label='change profile pic'
-                  className={iconButtonClassName}
-                  onClick={handleOpenModal}
-                  sx={{ backgroundColor: '#ecebeb' }}
-                >
-                  <AddAPhotoOutlinedIcon id={addPhotoIconId} />
-                </IconButton>
-              )}
-            </div>
-          ) : (
-            <div className='avatar-default-picture'>
-              <img src={defaultImageURL} alt='default' />
-              {hasIcon && (
-                <IconButton
-                  aria-label='change profile pic'
-                  className='avatar-default-cameraIcon'
-                  id='cameraIcon'
-                  onClick={handleIconClick}
-                >
-                  <AddAPhotoOutlinedIcon id={addPhotoIconId} />
-                </IconButton>
-              )}
-            </div>
-          )}
-        </div>
-        <FileInput
-          onFileChange={handleFileInputChange}
-          fileInputRef={fileInputRef}
-        />
-        <ProfilePreviewImage onOpen={isModalOpen} onClose={handleCloseModal} />
-      </>
-    )
-  }
+      <FileInput
+        onFileChange={handleFileInputChange}
+        fileInputRef={fileInputRef}
+      />
+      <ProfilePreviewImage onOpen={isModalOpen} onClose={handleCloseModal} />
+    </>
+  )
 }
 
 export default Avatar

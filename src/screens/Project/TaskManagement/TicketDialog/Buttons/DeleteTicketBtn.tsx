@@ -10,7 +10,7 @@ export const DeleteTicketBtn = () => {
   return (
     <SecondaryButton
       handler={handleOpenDeleteDialog}
-      text={'Delete task'}
+      text={'Delete story'}
       sx={{ background: '#fff', borderColor: '#d32f2f', color: '#d32f2f' }}
     />
   )

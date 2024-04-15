@@ -19,7 +19,7 @@ export const CancelDialog = () => {
   return (
     <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth='xs'>
       <DialogContent className='confirmation-dialog'>
-        <h3>Close this ticket?</h3>
+        <h3>Close this story?</h3>
         <p>Any information you input or changes you made will not be saved.</p>
         <div className='buttons'>
           <SecondaryButton

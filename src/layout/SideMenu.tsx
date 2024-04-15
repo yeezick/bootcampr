@@ -5,7 +5,6 @@ import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
 import { changePortalPage } from 'utils/helpers'
 import { iconMap } from 'utils/components/Icons'
 import { PrimaryButton } from 'components/Buttons'
-import { useSelector } from 'react-redux'
 import {
   selectProjectId,
   selectProjectTimeline,
@@ -16,8 +15,9 @@ import './styles/SideMenu.scss'
 export const SideMenu = () => {
   const navigate = useNavigate()
   const { title } = useAppSelector(selectSideMenu)
-  const projectId = useSelector(selectProjectId)
-  const { projectSubmissionDate } = useSelector(selectProjectTimeline)
+  const projectId = useAppSelector(selectProjectId)
+  const { projectSubmissionDate } = useAppSelector(selectProjectTimeline)
+  const { active } = useAppSelector(selectSideMenu)
   const [isDisabled, setIsDisabled] = useState(
     +projectSubmissionDate > dayjs().valueOf()
   )
@@ -32,7 +32,7 @@ export const SideMenu = () => {
     }, 60000)
 
     return () => clearInterval(dateCheckInterval)
-  }, [projectSubmissionDate])
+  }, [active, projectSubmissionDate])
 
   const btnClassName = `completion-btn ${!projectId && 'disabled-btn'}`
 

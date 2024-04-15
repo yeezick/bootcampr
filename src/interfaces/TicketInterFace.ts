@@ -1,10 +1,5 @@
 export interface CommentInterface {
-  author: {
-    firstName: string
-    lastName: string
-    profilePicture: string
-    userId: string
-  }
+  authorId: string
   content: string
   likes: string[]
   isReply: boolean

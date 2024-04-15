@@ -2,8 +2,6 @@ import { Dialog, DialogContent, DialogActions, TextField } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { BooleanObject, DateFieldsInterface, EventInfo } from 'interfaces'
 import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectCalendarId,
@@ -15,6 +13,7 @@ import { SelectAttendees } from './SelectAttendees'
 import { DateFields } from './DateFields'
 import { createEvent, updateEvent } from 'utils/api/events'
 import {
+  changeDateTimeZone,
   checkIfAllMembersInvited,
   handleFormInputChange,
   initialDateFields,
@@ -33,9 +32,7 @@ import { MeetingModalHeaderIcons } from './MeetingModalHeaderIcons'
 import { GoogleMeetsToggler } from './GoogleMeetsToggler'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import { PrimaryButton } from 'components/Buttons/ButtonVariants'
-
-dayjs.extend(utc)
-dayjs.extend(timezone)
+import { isSandboxId } from 'utils/helpers/taskHelpers'
 
 export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
@@ -59,7 +56,11 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
   useEffect(() => {
     if (modalDisplayStatus === 'create') {
       const updatedAttendees = { ...attendees }
-      updatedAttendees[authUser.email] = true
+      if (isSandboxId(calendarId)) {
+        updatedAttendees['star@struck.com'] = true
+      } else {
+        updatedAttendees[authUser.email] = true
+      }
       setAttendees(updatedAttendees)
 
       toggleVisibleModal(true)
@@ -140,10 +141,8 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
     const { description, summary } = meetingText
     const attendeeList = []
 
-    const formatedST = dayjs(start).format('YYYY-MM-DDTHH:mm')
-    const formatedET = dayjs(end).format('YYYY-MM-DDTHH:mm')
-    const updatedStartTime = dayjs.tz(formatedST, eventTimezone).format()
-    const updatedEndTime = dayjs.tz(formatedET, eventTimezone).format()
+    const updatedStartTime = changeDateTimeZone(start, eventTimezone)
+    const updatedEndTime = changeDateTimeZone(end, eventTimezone)
 
     for (const email in attendees) {
       if (attendees[email] === true) {
@@ -244,7 +243,6 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
               handleInviteAll={handleInviteAll}
               setAttendees={setAttendees}
               toggleInviteAll={toggleInviteAll}
-              projectMembers={projectMembers}
             />
 
             <div className='meeting-modal-divider' />
