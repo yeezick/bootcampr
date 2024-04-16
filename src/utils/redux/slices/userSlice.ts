@@ -61,9 +61,6 @@ const userSlice = createSlice({
     updateUserExperience: (state, action: PayloadAction<Payment>) => {
       state.auth.user.payment = action.payload
     },
-    setConfirmationEmailAddress: (state, action: PayloadAction<string>) => {
-      state.auth.user.email = action.payload
-    },
     setUserAvailability: (
       state,
       action: PayloadAction<AvailabilityInterface>
@@ -144,7 +141,6 @@ export const {
   setAuthUser,
   updateAuthUser,
   updateUserExperience,
-  setConfirmationEmailAddress,
   setUserAvailability,
   setUserTimezone,
   reset,

@@ -52,11 +52,12 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
           ...localUser,
           email: email,
         }
-        setEmail(email)
         localStorage.setItem(
           'bootcamprLocalUser',
           JSON.stringify(updatedLocalUser)
         )
+        setEmail(email)
+
         toastSeverity = 'success'
         setFormData(prevState => ({
           ...prevState,
