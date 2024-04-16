@@ -1,7 +1,13 @@
 import { AccessTime, ArrowDropDown } from '@mui/icons-material'
 import { DatePicker } from '@mui/x-date-pickers'
-import { updateDateInTimeSelections } from 'utils/helpers'
+import {
+  updateDateInTimeSelections,
+  blankDayJs,
+  generateDayJs,
+} from 'utils/helpers'
 import { SelectTimeZone } from './SelectTimeZone'
+import { selectProjectTimeline } from 'utils/redux/slices/projectSlice'
+import { useAppSelector } from 'utils/redux/hooks'
 import { SelectTime } from './SelectTime'
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
@@ -9,12 +15,15 @@ import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import '../styles/DisplayMeetingModal.scss'
 import '../styles/Datefields.scss'
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule'
 dayjs.extend(utc)
 dayjs.extend(timezone)
+dayjs.extend(isSameOrAfter)
 
 export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
-  const [datePickerDayjs, setDayPickerDayjs] = useState(dayjs())
+  const [datePickerDayjs, setDayPickerDayjs] = useState(blankDayJs())
+  const { startDate, endDate } = useAppSelector(selectProjectTimeline)
 
   const handleDate = newDate => {
     const updatedDateFields = {
@@ -27,8 +36,12 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
   }
 
   useEffect(() => {
-    setDayPickerDayjs(dayjs(dateFields.date))
-  }, [dateFields])
+    if (dayjs(startDate).isSameOrAfter(blankDayJs())) {
+      setDayPickerDayjs(generateDayJs(startDate))
+    } else {
+      setDayPickerDayjs(blankDayJs())
+    }
+  }, [])
 
   return (
     <>
@@ -37,6 +50,8 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
         <div className='time-fields'>
           <DatePicker
             disablePast
+            minDate={generateDayJs(startDate)}
+            maxDate={generateDayJs(endDate)}
             format='MM/DD/YY'
             onChange={handleDate}
             slotProps={{
