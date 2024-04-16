@@ -25,7 +25,7 @@ export const EmailSentConfirmation: React.FC = () => {
       </div>
       <div className='message-content update-email'>
         <UpdateEmailAddressLink setEmail={setEmail} />
-        <span>if it's incorrect.</span>
+        <span> if it's incorrect.</span>
       </div>
       <div className='img-container'>
         <img

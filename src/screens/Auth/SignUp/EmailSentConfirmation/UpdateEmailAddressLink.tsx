@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateUnverifiedEmail, verifyEmail } from 'utils/api'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import './EmailSentConfirmation.scss'
 
 export const UpdateEmailAddressLink = ({ setEmail }) => {
   const dispatch = useDispatch()
@@ -78,7 +79,12 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
 
   return (
     <>
-      <div onClick={() => setShowModal(true)}>Update your email address</div>
+      <div
+        className='message-content update-email'
+        onClick={() => setShowModal(true)}
+      >
+        Update your email address
+      </div>
       {showModal && (
         <CommonModal
           isOpen={true}
