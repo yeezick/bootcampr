@@ -70,7 +70,7 @@ export const SignUp: React.FC = () => {
         userId: payload.newUser,
         email: formValues.email,
       }
-      localStorage.setItem('bootcamprLocalUser', JSON.stringify(localUser))
+      sessionStorage.setItem('bootcamprLocalUser', JSON.stringify(localUser))
 
       navigate(`/sign-up/${payload.newUser}/confirmation-email-sent`)
       window.scrollTo(0, 0) // Scroll to top to view alert banner

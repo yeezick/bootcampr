@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 export const EmailSentConfirmation: React.FC = () => {
   const [email, setEmail] = useState(() => {
-    const storedUser = JSON.parse(localStorage.getItem('bootcamprLocalUser'))
+    const storedUser = JSON.parse(sessionStorage.getItem('bootcamprLocalUser'))
     return storedUser ? storedUser.email : ''
   })
 

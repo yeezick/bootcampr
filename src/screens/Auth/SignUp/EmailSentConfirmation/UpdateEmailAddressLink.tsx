@@ -7,7 +7,7 @@ import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 
 export const UpdateEmailAddressLink = ({ setEmail }) => {
   const dispatch = useDispatch()
-  const localUser = JSON.parse(localStorage.getItem('bootcamprLocalUser'))
+  const localUser = JSON.parse(sessionStorage.getItem('bootcamprLocalUser'))
   const [newEmail, setNewEmail] = useState<string>('')
   const [isError, setIsError] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
@@ -39,7 +39,7 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
           ...localUser,
           email: newEmail,
         }
-        localStorage.setItem(
+        sessionStorage.setItem(
           'bootcamprLocalUser',
           JSON.stringify(updatedLocalUser)
         )
