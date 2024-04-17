@@ -5,10 +5,15 @@ import { useDispatch } from 'react-redux'
 import { updateUnverifiedEmail, verifyEmail } from 'utils/api'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import './EmailSentConfirmation.scss'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
 export const UpdateEmailAddressLink = ({ setEmail }) => {
   const dispatch = useDispatch()
+  const authUser = useAppSelector(selectAuthUser)
   const localUser = JSON.parse(sessionStorage.getItem('bootcamprLocalUser'))
+  const userId = localUser ? localUser.userId : authUser._id
+
   const [newEmail, setNewEmail] = useState<string>('')
   const [isError, setIsError] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
@@ -31,7 +36,7 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
         return
       }
 
-      const response = await updateUnverifiedEmail(newEmail, localUser.userId)
+      const response = await updateUnverifiedEmail(newEmail, userId)
 
       let toastSeverity: SnackBarSeverity = null
 
