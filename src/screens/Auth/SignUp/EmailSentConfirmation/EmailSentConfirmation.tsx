@@ -75,7 +75,7 @@ const MobileEmailSentConfirmation = ({ email, setEmail }) => {
         <span> if it's incorrect.</span>
       </div>
       <div className='img-container'>
-        <img alt='A person jumps in the air in celebration' />
+        <img alt='A person smiles from behind a laptop while a rocket launches in the background' />
       </div>
       <PrimaryButton
         text="Visit Bootcampr's homepage'"
