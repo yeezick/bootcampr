@@ -1,15 +1,11 @@
 import { CommonModal } from 'components/CommonModal/CommonModal'
-import { SnackBarSeverity } from 'interfaces/SnackBarToast'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { updateUnverifiedEmail, verifyEmail } from 'utils/api'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import './EmailSentConfirmation.scss'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
 export const UpdateEmailAddressLink = ({ setEmail }) => {
-  const dispatch = useDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const localUser = JSON.parse(sessionStorage.getItem('bootcamprLocalUser'))
   const userId = localUser ? localUser.userId : authUser._id
@@ -35,12 +31,15 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
         setIsError(true)
         return
       }
-
       const response = await updateUnverifiedEmail(newEmail, userId)
 
-      let toastSeverity: SnackBarSeverity = null
+      if (response.status !== 201) {
+        setErrorMessage(response.data.friendlyMessage)
+        setIsError(true)
+        return
+      }
 
-      if (response.status === 201) {
+      if (localUser && response.status === 201) {
         const updatedLocalUser = {
           ...localUser,
           email: newEmail,
@@ -50,25 +49,16 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
           JSON.stringify(updatedLocalUser)
         )
         setEmail(newEmail)
-
-        toastSeverity = 'success'
         setShowModal(false)
         setErrorMessage('')
         setIsError(false)
         setNewEmail('')
-
-        const friendlyMessage = response.data
-          ? response.data.friendlyMessage
-          : 'An error occurred'
-        dispatch(
-          createSnackBar({
-            message: friendlyMessage,
-            severity: toastSeverity,
-          })
-        )
-      } else {
-        toastSeverity = 'error'
-        console.error('Bad request')
+      } else if (response.status === 201) {
+        setEmail(newEmail)
+        setShowModal(false)
+        setErrorMessage('')
+        setIsError(false)
+        setNewEmail('')
       }
     } catch (error) {
       console.error('Error updating email:', error)
