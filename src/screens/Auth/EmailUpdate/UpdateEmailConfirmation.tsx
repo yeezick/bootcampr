@@ -21,7 +21,7 @@ export const UpdateEmailConfirmation = () => {
         <p>It may be in your junk or spam folder.</p>
       </div>
       <div className='message-content confirm'>
-        <p>Confirm your email address to log in.</p>
+        <p>Confirm your updated email address to log in.</p>
       </div>
       <div className='message-content update-email'>
         <UpdateEmailAddressLink setEmail={setEmail} />

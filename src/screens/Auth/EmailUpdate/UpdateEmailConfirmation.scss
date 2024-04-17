@@ -14,7 +14,7 @@
       font-weight: 700;
       line-height: 44px;
       margin: 0;
-      margin-bottom: 16px;
+      margin-bottom: 8px;
     }
 
     &.subheader {
@@ -22,7 +22,7 @@
       font-weight: 700;
       line-height: 32px;
       margin: 0;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
 
       span {
         color: #5c6bc0;
@@ -33,6 +33,7 @@
       font-size: 16px;
       font-weight: 400;
       line-height: 24px;
+      margin-bottom: 16px;
       width: 456px;
 
       p {
@@ -42,7 +43,7 @@
 
     &.confirm {
       font-weight: 700;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
     }
 
     &.update-email {
