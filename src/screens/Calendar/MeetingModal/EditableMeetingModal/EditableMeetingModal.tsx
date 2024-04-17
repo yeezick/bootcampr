@@ -212,6 +212,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
       maxWidth='lg'
       TransitionProps={{ onEntering: handleEntering }}
       open={visibleModal}
+      sx={modalStyles}
     >
       <form onSubmit={handleSubmit}>
         <DialogContent className='modal-dialog-content'>
@@ -258,7 +259,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
             />
           </div>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={buttonDivStyle}>
           <PrimaryButton text={'Send Invite'} type={'submit'} />
         </DialogActions>
       </form>
@@ -297,6 +298,12 @@ const titleInputFieldStyles = {
   },
 }
 
-const buttonDivStyles = {
-  padding: '20px',
+const buttonDivStyle = {
+  padding: '32px',
+}
+
+const modalStyles = {
+  '& .MuiPaper-root': {
+    borderRadius: '0px',
+  },
 }
