@@ -1,16 +1,23 @@
 import './Settings.scss'
 import { PasswordFormData } from 'interfaces/AccountSettingsInterface'
 import { PasswordErrors } from 'interfaces/components'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { updateUsersPassword } from 'utils/api'
+import { logOut, updateUsersPassword, verify } from 'utils/api'
 import { SuccessQueryParam } from 'utils/data/authSettingsConstants'
-import { emptyPasswordData } from 'utils/data/userConstants'
-import { useFormValidation } from 'utils/helpers'
+import { emptyPasswordData, emptyUser } from 'utils/data/userConstants'
+import { storeUserProject, useFormValidation } from 'utils/helpers'
 import { Button, ThemeProvider, createTheme } from '@mui/material'
 import { PasswordInputs } from 'components/Inputs'
-import { errorSnackbar } from 'utils/helpers/commentHelpers'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import {
+  logoutAuthUser,
+  selectUserId,
+  setAuthUser,
+  updateAuthUser,
+} from 'utils/redux/slices/userSlice'
+import { useAppSelector } from 'utils/redux/hooks'
 
 export const ResetPassword = () => {
   const [formValues, setFormValues] =
@@ -19,8 +26,40 @@ export const ResetPassword = () => {
   const [isDisabled, toggleIsDisabled] = useState(true)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { id: userId } = useParams()
+  const { token } = useParams()
   const { password } = formValues
+  const [userId, setUserId] = useState('')
+  const authUserId = useAppSelector(selectUserId)
+
+  useEffect(() => {
+    const verifyValidToken = async () => {
+      if (!localStorage.getItem('bootcamprAuthToken') && token) {
+        localStorage.setItem('bootcamprAuthToken', token)
+      }
+
+      const user = await verify()
+      if (user?._id) {
+        navigate('/users/reset-password', { replace: true })
+        setUserId(user._id)
+      } else {
+        dispatch(errorSnackbar('There was an issue verifying your token.'))
+        navigate('/sign-in', { replace: true })
+        await logOut()
+      }
+    }
+    verifyValidToken()
+  }, [])
+
+  useEffect(() => {
+    const beforeUnload = async () => {
+      await logOut()
+      dispatch(logoutAuthUser())
+    }
+    window.addEventListener('beforeunload', beforeUnload)
+    return () => {
+      window.removeEventListener('beforeunload', beforeUnload)
+    }
+  }, [])
 
   const handleReset = async e => {
     e.preventDefault()

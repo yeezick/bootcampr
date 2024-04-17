@@ -8,6 +8,7 @@ import {
   logOut,
 } from 'utils/api'
 import { SuccessQueryParam } from 'utils/data/authSettingsConstants'
+import { successSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { logoutAuthUser, selectAuthUser } from 'utils/redux/slices/userSlice'
 
@@ -44,31 +45,22 @@ export const ForgotPasswordLink = ({
   const handleSubmitForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const emailSent = await forgotPasswordEmailVerification(
-        email,
-        authUser._id
-      )
+      const emailSent = await forgotPasswordEmailVerification(email)
 
       if (emailSent) {
         if (!emailSent.data.status) {
           setIsError(true)
         } else {
-          let userId: string
-
           if (authUser._id) {
-            // in Settings when user is already logged in
-            userId = authUser._id
             await logOut()
             dispatch(logoutAuthUser())
-          } else {
-            // in Login page when user is already logged out
-            const userIdByEmail = await getOneUserByEmail(email)
-            userId = userIdByEmail.id
           }
+
           setIsError(false)
           navigate(
-            `/success/${userId}?screen=${SuccessQueryParam.resetPasswordEmail}`
+            `/success?screen=${SuccessQueryParam.resetPasswordEmail}&email=${email}`
           )
+          dispatch(successSnackbar('Email sent!'))
         }
       }
     } catch (error) {
