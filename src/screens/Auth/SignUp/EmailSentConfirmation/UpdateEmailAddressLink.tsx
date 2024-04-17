@@ -39,7 +39,7 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
         return
       }
 
-      if (localUser && response.status === 201) {
+      if (localUser) {
         const updatedLocalUser = {
           ...localUser,
           email: newEmail,
@@ -48,18 +48,13 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
           'bootcamprLocalUser',
           JSON.stringify(updatedLocalUser)
         )
-        setEmail(newEmail)
-        setShowModal(false)
-        setErrorMessage('')
-        setIsError(false)
-        setNewEmail('')
-      } else if (response.status === 201) {
-        setEmail(newEmail)
-        setShowModal(false)
-        setErrorMessage('')
-        setIsError(false)
-        setNewEmail('')
       }
+
+      setEmail(newEmail)
+      setShowModal(false)
+      setErrorMessage('')
+      setIsError(false)
+      setNewEmail('')
     } catch (error) {
       console.error('Error updating email:', error)
     }
