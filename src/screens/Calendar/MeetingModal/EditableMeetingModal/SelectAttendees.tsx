@@ -78,4 +78,5 @@ const checkboxStyle = {
     fill: '#1A237E',
   },
   paddingTop: '0px',
+  paddingBottom: '8px',
 }
