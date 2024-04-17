@@ -259,10 +259,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
           </div>
         </DialogContent>
         <DialogActions>
-          <PrimaryButton
-            text={modalDisplayStatus === 'create' ? 'Send Invite' : 'SAVE'}
-            type={'submit'}
-          />
+          <PrimaryButton text={'Send Invite'} type={'submit'} />
         </DialogActions>
       </form>
     </Dialog>
