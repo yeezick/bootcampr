@@ -102,7 +102,7 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
           cancelButtonLabel='Cancel'
           confirmButtonLabel='Update email address'
           confirmButtonDisabled={!newEmail}
-          // customWidth={350} //address custom styles later
+          customWidth={330}
         />
       )}
     </>
