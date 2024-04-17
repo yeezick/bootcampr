@@ -1,4 +1,8 @@
-export type AttendeeList = { email: string }
+export type AttendeeList = {
+  email: string
+  responseStatus?: string
+  comment?: string
+}
 
 export interface DateFieldsInterface {
   date: string

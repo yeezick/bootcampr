@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { TeamAvatarProps } from 'interfaces/ProfileImageInterfaces'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectUsersById } from 'utils/redux/slices/projectSlice'
+import { generateDefaultPicture } from 'utils/helpers'
 import './TeamAvatar.scss'
 
 export const TeamAvatar = ({ userId, size }: TeamAvatarProps) => {
@@ -23,7 +24,7 @@ export const TeamAvatar = ({ userId, size }: TeamAvatarProps) => {
     )
   } else {
     const { firstName, lastName, profilePicture } = user
-    const defaultImageURL = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=FFA726&color=1A237E&rounded=true&bold=true`
+    const defaultImageURL = generateDefaultPicture(firstName, lastName)
 
     return (
       <div className='team-avatar'>

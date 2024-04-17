@@ -9,9 +9,9 @@ export const getAllProjects = async () => {
   }
 }
 
-export const getOneProject = async id => {
+export const getOneProject = async projectId => {
   try {
-    const res = await api.get(`/projects/${id}`)
+    const res = await api.get(`/projects/${projectId}`)
     return res.data
   } catch (error) {
     throw error

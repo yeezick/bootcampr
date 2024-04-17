@@ -288,3 +288,18 @@
     margin: 0;
   }
 }
+
+@media (max-width: 853px) {
+  .signup-screen {
+    margin-top: 32px;
+  }
+
+  .signup-banner {
+    align-self: center;
+    flex-direction: column;
+
+    img {
+      display: none;
+    }
+  }
+}

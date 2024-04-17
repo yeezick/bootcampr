@@ -20,7 +20,7 @@ export const chatRouterHandler = async (
   await dispatch(
     fetchMessages({ chatId: chatRoom._id, chatType: chatRoom.chatType })
   )
-  navigate(`/project/${user.project}`, { replace: true })
+  navigate(`/project/${user.projects.activeProject}`, { replace: true })
   dispatch(toggleChatOpen())
   dispatch(onScreenUpdate(ChatScreen.ChatRoom))
 }

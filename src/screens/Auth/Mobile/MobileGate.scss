@@ -1,0 +1,37 @@
+.mobile {
+  align-items: center;
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-between;
+  gap: 32px;
+
+  .text {
+    align-items: center;
+    display: flex;
+    flex-direction: column; 
+    gap: 8px;
+    margin-top: 32px;
+
+    h2, p {
+      margin: 0;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: bold;
+      line-height: 28px;
+      text-align: center;
+    }
+  
+    p {
+      font-weight: bold;
+      line-height: 24px;
+      max-width: 80%;
+      text-align: center;
+    }
+  }
+ 
+  img {
+    content: url('../../../assets/Images/Launch.png');
+  }
+}

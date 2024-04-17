@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { BuildPortal, UiInterface } from 'interfaces'
+import { produce } from 'immer'
+import { Banner, BuildPortal, UiInterface } from 'interfaces'
 
 const initialState: UiInterface = {
+  banner: {
+    active: false,
+    type: '',
+  },
   portal: {
     active: false,
   },
@@ -11,18 +16,16 @@ const initialState: UiInterface = {
   },
 }
 
+// maybe "LayoutSlice" is a better name
 const userInterface = createSlice({
   name: 'userInterface',
   initialState,
   reducers: {
     resetPortal: state => {
-      state.portal = {
-        active: false,
-      }
-      state.sideMenu = {
-        active: false,
-        links: [],
-      }
+      return initialState
+    },
+    setBanner: (state, action: PayloadAction<Banner>) => {
+      return { ...state, banner: action.payload }
     },
     setPortal: (state, action: PayloadAction<BuildPortal>) => {
       const { portal, sideMenu } = action.payload
@@ -35,7 +38,9 @@ const userInterface = createSlice({
   },
 })
 
+export const selectBanner = state => state.userInterface.banner
 export const selectSideMenu = state => state.userInterface.sideMenu
 export const selectPortal = state => state.userInterface.portal
-export const { resetPortal, setPortal, setPortalPage } = userInterface.actions
+export const { resetPortal, setBanner, setPortal, setPortalPage } =
+  userInterface.actions
 export default userInterface.reducer

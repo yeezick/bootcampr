@@ -7,7 +7,7 @@ export const CommentFooter = ({
   fetchComments,
   toggleEditMode,
 }) => {
-  const { author, likes, _id: commentId } = comment
+  const { authorId, likes, _id: commentId } = comment
 
   return (
     <div className='comment-actions'>
@@ -18,7 +18,7 @@ export const CommentFooter = ({
         toggleFetchComments={toggleFetchComments}
       />
       <AuthorActions
-        authorId={author.userId}
+        authorId={authorId}
         commentId={commentId}
         toggleEditMode={toggleEditMode}
         toggleFetchComments={toggleFetchComments}
