@@ -1,7 +1,6 @@
 import { CommonModal } from 'components/CommonModal/CommonModal'
 import { useState } from 'react'
 import { updateUnverifiedEmail, verifyEmail } from 'utils/api'
-import './EmailSentConfirmation.scss'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 

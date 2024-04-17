@@ -3,7 +3,7 @@ import './EmailSentConfirmation.scss'
 import { useNavigate } from 'react-router-dom'
 import { PrimaryButton } from 'components/Buttons'
 import { isMobileWidth } from 'utils/helpers'
-import { UpdateEmailAddressLink } from './UpdateEmailAddressLink'
+import { UpdateEmailAddressLink } from '../../../../components/UpdateEmailAddressLink/UpdateEmailAddressLink'
 
 export const EmailSentConfirmation: React.FC = () => {
   const [email, setEmail] = useState(() => {

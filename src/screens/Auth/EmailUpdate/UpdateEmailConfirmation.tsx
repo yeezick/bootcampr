@@ -1,7 +1,7 @@
 import './UpdateEmailConfirmation.scss'
 import { useLocation } from 'react-router-dom'
 import { getEncodedEmail } from '../SignIn/SignIn'
-import { UpdateEmailAddressLink } from '../SignUp/EmailSentConfirmation/UpdateEmailAddressLink'
+import { UpdateEmailAddressLink } from '../../../components/UpdateEmailAddressLink/UpdateEmailAddressLink'
 import { useState } from 'react'
 
 export const UpdateEmailConfirmation = () => {
