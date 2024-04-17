@@ -54,15 +54,19 @@
     row-gap: 4px;
   }
 
-  &.input {
+  &.input,
+  &.input-error {
     border: none;
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 16px;
     line-height: 24px;
     margin-top: 16px;
-    outline: 1px solid #212121;
     padding: 8px 16px;
+  }
+
+  &.input {
+    outline: 1px solid #212121;
   }
 
   &.input:focus-visible {
@@ -72,13 +76,7 @@
   }
 
   &.input-error {
-    border: none;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 16px;
-    line-height: 24px;
     outline: 1px solid #b71c1c;
-    padding: 8px 16px;
   }
 
   &.input-error:focus-visible {
@@ -93,6 +91,7 @@
     font-weight: 400;
     line-height: 16px;
     padding: 0px 16px;
+    margin-bottom: -20px;
   }
 
   &.buttons {
