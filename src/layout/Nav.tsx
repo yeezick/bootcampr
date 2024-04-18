@@ -94,7 +94,7 @@ export const Nav = () => {
               to='/contact-us'
               onClick={handleNonPortalLink}
             >
-              Contact us
+              Contact Us
             </Link>
             <Link
               className={`header-link ${isActiveLink('community')}`}
