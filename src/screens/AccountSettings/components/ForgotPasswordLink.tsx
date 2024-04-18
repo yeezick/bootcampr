@@ -51,11 +51,6 @@ export const ForgotPasswordLink = ({
         if (!emailSent.data.status) {
           setIsError(true)
         } else {
-          if (authUser._id) {
-            await logOut()
-            dispatch(logoutAuthUser())
-          }
-
           setIsError(false)
           navigate(
             `/success?screen=${SuccessQueryParam.resetPasswordEmail}&email=${email}`

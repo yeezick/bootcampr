@@ -45,6 +45,7 @@ export const Nav = () => {
     '/onboarding',
     '/mobile',
     '/users/reset-password',
+    '/success',
   ]
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
