@@ -1,5 +1,4 @@
-import { CalendarTabs } from 'screens/Calendar'
-import { EditableMeetingModal } from 'screens/Calendar'
+import { CalendarTabs, EditableMeetingModal } from 'screens/Calendar'
 import './Calendar.scss'
 import { useState } from 'react'
 import AlertNotification from './MeetingModal/EditableMeetingModal/AlertNotification'
