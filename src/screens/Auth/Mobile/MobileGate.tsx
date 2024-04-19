@@ -1,16 +1,13 @@
 import './MobileGate.scss'
 import { PrimaryButton } from 'components/Buttons'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { isMobileWidth } from 'utils/helpers'
 
 export const MobileGate = () => {
-  const navigate = useNavigate()
-
   useEffect(() => {
     const rerouteToLanding = () => {
       if (!isMobileWidth()) {
-        handleRouteToLanding()
+        window.history.back()
       }
     }
 
