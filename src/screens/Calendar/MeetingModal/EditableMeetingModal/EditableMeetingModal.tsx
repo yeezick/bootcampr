@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { BooleanObject, DateFieldsInterface, EventInfo } from 'interfaces'
 import dayjs from 'dayjs'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { successSnackbar, errorSnackbar } from 'utils/helpers/commentHelpers'
 import {
   selectCalendarId,
   selectMembersAsTeam,
@@ -34,7 +35,7 @@ import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import { PrimaryButton } from 'components/Buttons/ButtonVariants'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
 
-export const EditableMeetingModal = ({ handleOpenAlert }) => {
+export const EditableMeetingModal = () => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
   const [dateFields, setDateFields] = useState<DateFieldsInterface>(
     initialDateFields()
@@ -181,12 +182,13 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
         const newEvent = await createEvent(calendarId, eventInfo)
         dispatch(addNewEvent(newEvent))
         handleClose()
-        handleOpenAlert()
+        dispatch(successSnackbar('Invite sent successfully!'))
       } catch (error) {
         console.error(
           `Error creating event for calendar (${calendarId}): `,
           error
         )
+        dispatch(errorSnackbar('Error creating event'))
       }
     } else if (modalDisplayStatus === 'edit') {
       try {
@@ -213,7 +215,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
       TransitionProps={{ onEntering: handleEntering }}
       open={visibleModal}
     >
-      <form onSubmit={handleSubmit}>
+      <form>
         <DialogContent className='modal-dialog-content'>
           <MeetingModalHeaderIcons handleCloseMeetingModal={handleClose} />
           <div className='content-wrapper'>
@@ -262,6 +264,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
           <PrimaryButton
             text={modalDisplayStatus === 'create' ? 'Send Invite' : 'SAVE'}
             type={'submit'}
+            handler={handleSubmit}
           />
         </DialogActions>
       </form>
