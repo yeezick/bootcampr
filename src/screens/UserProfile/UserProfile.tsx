@@ -5,7 +5,7 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 import { UserInterface } from 'interfaces'
 import { emptyUser } from 'utils/data/userConstants'
-import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
+import Avatar from 'components/Avatar/Avatar'
 import { RiGithubLine } from 'react-icons/ri'
 import { FiLinkedin } from 'react-icons/fi'
 import { TbBriefcase } from 'react-icons/tb'
@@ -85,7 +85,7 @@ export const UserProfile: React.FC = () => {
       <div className='userProfile__container'>
         <div className='userProfile__titleContainer'>
           <div className='userProfile__image'>
-            <TeamAvatar userId={userId} size='medium' />
+            <Avatar clickable={false} />
           </div>
           <div className='userProfile__title'>
             {shouldShowName && (
