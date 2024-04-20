@@ -26,7 +26,7 @@ export interface ConvertedEvent {
   hangoutLink?: string
   end?: string
   eventId?: string
-  location: string
+  location?: string
   start?: string
   timeZone?: string
   title?: string

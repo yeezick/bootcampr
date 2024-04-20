@@ -5,6 +5,12 @@ import '../styles/SelectAttendees.scss'
 import { MemberCheckbox } from './MemberCheckbox'
 import { People } from '@mui/icons-material'
 import List from '@mui/material/List'
+import {
+  selectCalendarId,
+  selectMembersAsTeam,
+} from 'utils/redux/slices/projectSlice'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectUserEmail } from 'utils/redux/slices/userSlice'
 
 export const SelectAttendees = ({
   attendees,
@@ -13,8 +19,19 @@ export const SelectAttendees = ({
   handleInviteAll,
   setAttendees,
   toggleInviteAll,
-  projectMembers,
 }) => {
+  const authUserEmail = useAppSelector(selectUserEmail)
+  const projectMembers = useAppSelector(selectMembersAsTeam)
+  const calendarId = useAppSelector(selectCalendarId)
+  const isSandboxEvent = calendarId === 'sandbox'
+  const filteredMembers = projectMembers.filter(members => {
+    if (isSandboxEvent) {
+      return members.email !== 'star@struck.com'
+    } else {
+      return members.email !== authUserEmail
+    }
+  })
+
   /* Unselect inviteAll checkbox if user has unselected members */
   useEffect(() => {
     checkIfAllMembersInvited(
@@ -37,12 +54,13 @@ export const SelectAttendees = ({
             label='Invite all'
           />
           <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-            {projectMembers.map(currMember => (
+            {filteredMembers.map(currMember => (
               <MemberCheckbox
                 attendees={attendees}
                 currMember={currMember}
                 dateFields={dateFields}
                 setAttendees={setAttendees}
+                key={currMember._id}
               />
             ))}
           </List>

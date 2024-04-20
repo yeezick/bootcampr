@@ -17,6 +17,7 @@ import { Email, Text, PasswordInputs } from 'components/Inputs'
 import './SignUp.scss'
 import { Checkbox, FormControlLabel } from '@mui/material'
 import signup from '../../../assets/Images/signup.png'
+
 export const SignUp: React.FC = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()

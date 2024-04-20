@@ -1,25 +1,21 @@
-import React, { useEffect } from 'react'
 import { Loader } from 'components/Loader/Loader'
-import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { selectUserId, uiStatus } from 'utils/redux/slices/userSlice'
-import { SideMenu } from './'
+import { useAppSelector } from 'utils/redux/hooks'
+import {
+  selectUserId,
+  selectUserProjectId,
+  uiStatus,
+} from 'utils/redux/slices/userSlice'
 import { Nav } from './'
 import { Footer } from 'layout/Footer'
 import ScrollToTop from 'components/ScrollToTop/ScrollToTop'
-import { useLocation, useSearchParams } from 'react-router-dom'
-import { selectPortal } from 'utils/redux/slices/userInterfaceSlice'
+import { useLocation } from 'react-router-dom'
 import './styles/Layout.scss'
-import {
-  buildPortal,
-  determinePortalFromUrl,
-  doesUrlBelongToPortal,
-} from 'utils/helpers'
-import { PortalHeader } from './PortalHeader'
-import { selectProjectId } from 'utils/redux/slices/projectSlice'
+import { doesUrlBelongToPortal } from 'utils/helpers'
+import { PortalView } from './Portal'
 
 export const Layout = ({ children }) => {
   const status = useAppSelector(uiStatus)
-  const projectId = useAppSelector(selectProjectId)
+  const projectId = useAppSelector(selectUserProjectId)
   const userId = useAppSelector(selectUserId)
   const { pathname } = useLocation()
 
@@ -38,45 +34,6 @@ export const Layout = ({ children }) => {
       )}
       <Footer />
     </>
-  )
-}
-
-const PortalView = ({ children }) => {
-  const { active, type } = useAppSelector(selectPortal)
-  const projectId = useAppSelector(selectProjectId)
-  const userId = useAppSelector(selectUserId)
-  const [searchParams] = useSearchParams()
-  const dispatch = useAppDispatch()
-  const { pathname } = useLocation()
-  const portal = searchParams.get('portal')
-
-  useEffect(() => {
-    let routeId
-    if (active) {
-      routeId = type === 'project' ? projectId : userId
-      buildPortal(dispatch, type, routeId)
-    } else if (portal) {
-      routeId = portal === 'project' ? projectId : userId
-      buildPortal(dispatch, portal, routeId)
-    } else {
-      const { domain, headerTitle } = determinePortalFromUrl(
-        pathname,
-        userId,
-        projectId
-      )
-      routeId = domain === 'project' ? projectId : userId
-      buildPortal(dispatch, domain, routeId, headerTitle)
-    }
-  }, [])
-
-  return (
-    <div className='main-wrapper'>
-      <SideMenu />
-      <div className='portal-layout'>
-        <PortalHeader />
-        <div className='portal-screen'>{children}</div>
-      </div>
-    </div>
   )
 }
 

@@ -1,7 +1,7 @@
 import { Button } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { selectUserId } from 'utils/redux/slices/userSlice'
+import { selectAuthUser, selectUserId } from 'utils/redux/slices/userSlice'
 import { selectProjectId } from 'utils/redux/slices/projectSlice'
 import {
   resetTicketFields,
@@ -10,14 +10,17 @@ import {
 
 export const CreateTicketTab = ({ columnStatus }) => {
   const projectId = useAppSelector(selectProjectId)
-  const userId = useAppSelector(selectUserId)
+  const {
+    _id: userId,
+    payment: { experience },
+  } = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
 
   const openCreateTicketDialog = () => {
     dispatch(setVisibleTicketDialog('create'))
     dispatch(
       resetTicketFields({
-        createdBy: userId,
+        createdBy: experience === 'sandbox' ? 'starStruck' : userId,
         status: columnStatus,
         projectId,
       })

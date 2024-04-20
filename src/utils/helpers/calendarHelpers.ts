@@ -1,12 +1,57 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import { DateFieldsInterface, MeetingModalInfo } from 'interfaces'
+import {
+  ConvertedEvent,
+  DateFieldsInterface,
+  MeetingModalInfo,
+} from 'interfaces'
+import { staticEmails } from 'utils/data/calendarConstants'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
 export const blankDayJs = () => dayjs()
+
+export const buildSandboxEvent = (eventInfo, eventId?): ConvertedEvent => {
+  const { description, end, googleMeetingInfo, start, summary } = eventInfo
+  const updatedAttendees = eventInfo.attendees.map(member => {
+    return { ...member, responseStatus: 'needsAction' }
+  })
+
+  if (!staticEmails.includes(updatedAttendees[0].email)) {
+    updatedAttendees.shift()
+  }
+
+  if (!updatedAttendees.find(attendee => attendee.comment === 'organizer')) {
+    updatedAttendees[0] = { ...updatedAttendees[0], comment: 'organizer' }
+  }
+
+  const startTime = changeDateTimeZone(start.dateTime, start.timezone)
+  const endTime = changeDateTimeZone(end.dateTime, end.timezone)
+
+  return {
+    attendees: updatedAttendees,
+    description,
+    creator: 'star@struck.com',
+    end: endTime,
+    eventId: eventId || generateHexadecimal(),
+    googleDateFields: {
+      endTime: end.dateTime,
+      startTime: start.dateTime,
+    },
+    hangoutLink: googleMeetingInfo.enabled ? 'https://meet.google.com' : '',
+    start: startTime,
+    timeZone: start.timeZone,
+    title: summary,
+  }
+}
+
+export const changeDateTimeZone = (time, timeZone) => {
+  const formattedTime = dayjs(time).format('YYYY-MM-DDTHH:mm')
+  const timeZonedTime = dayjs.tz(formattedTime, timeZone).format()
+  return timeZonedTime
+}
 
 export const checkIfAllMembersInvited = (
   attendees,
@@ -25,6 +70,15 @@ export const checkIfAllMembersInvited = (
     toggleInviteAll(false)
   } else if (!inviteAll && allMembersInvited) {
     toggleInviteAll(true)
+  }
+}
+
+export const checkSandboxEvent = eventId => {
+  const sandboxEvents = ['uxdStandup', 'sweStandup', 'allTeamStandup']
+  if (sandboxEvents.includes(eventId)) {
+    return true
+  } else {
+    return false
   }
 }
 
@@ -116,6 +170,15 @@ const generateInitialTime = type => {
   }
 
   return dayjs(finalStr).toISOString()
+}
+
+export const generateHexadecimal = () => {
+  const hex = '0123456789ABCDEF'
+  let output = ''
+  for (let i = 0; i < 6; ++i) {
+    output += hex.charAt(Math.floor(Math.random() * hex.length))
+  }
+  return output
 }
 
 /**

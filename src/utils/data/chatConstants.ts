@@ -1,9 +1,9 @@
 export enum ChatScreen {
-  Main = 'main',
   ChatRoom = 'chatroom',
   ComposeNewChat = 'composeNewChat',
   EditChatRoom = 'editChatRoom',
   InviteNewMembers = 'inviteNewMembers',
+  Main = 'main',
   MemberProfile = 'memberProfile',
 }
 
