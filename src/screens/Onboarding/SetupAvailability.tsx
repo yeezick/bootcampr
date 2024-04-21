@@ -27,11 +27,10 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   const storedUserTZinUTC = useAppSelector(getUserTimezone)
 
   const [days, setDays] = useState<AvailabilityInterface>(defaultAvailability)
-  const [uxUserTimezone, setUxUserTimezone] = useState(Timezones.ET)
   const [isDisabled, setIsDisabled] = useState(true)
 
   const storeAvailability = async () => {
-    const userTZinUTC = bootcamprTimezoneToUTCMap[uxUserTimezone]
+    const userTZinUTC = storedUserTZinUTC
     await saveAvailability(dispatch, authUser._id, days, userTZinUTC)
   }
 
@@ -53,7 +52,6 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
         ? userTZguess.userFriendlyTZ
         : Timezones.ET
     }
-    setUxUserTimezone(userFriendlyTZ)
   }, [])
 
   useEffect(() => {
@@ -75,12 +73,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
           </strong>
         </i>
       </div>
-      <Availability
-        days={days}
-        setDays={setDays}
-        uxUserTimezone={uxUserTimezone}
-        setUxUserTimezone={setUxUserTimezone}
-      />
+      <Availability days={days} setDays={setDays} />
       <div className='setup-avail-buttons-wrapper'>
         <div className='setup-avail-buttons'>
           <PaginatorButton

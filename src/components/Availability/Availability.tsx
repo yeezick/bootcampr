@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Timezones, weekdaysMap } from './utils/data'
 import {
   DayAvailabilityInputBanner,
@@ -12,15 +12,12 @@ import { useAppSelector } from 'utils/redux/hooks'
 import './Availability.scss'
 import { utcToBootcamprTimezoneMap } from 'utils/data/timeZoneConstants'
 import { guessUserTimezone } from 'utils/helpers/availabilityHelpers'
+import { setUserTimezone } from 'utils/redux/slices/userSlice'
 
-export const Availability = ({
-  days,
-  setDays,
-  uxUserTimezone,
-  setUxUserTimezone,
-}): JSX.Element => {
+export const Availability = ({ days, setDays }): JSX.Element => {
   const userAvailability = useAppSelector(selectUserAvailability)
   const storedUserTimezone = useAppSelector(getUserTimezone)
+  const [userFriendlyTimezone, setUserFriendlyTimezone] = useState(Timezones.ET)
 
   useEffect(() => {
     setDays(userAvailability)
@@ -28,21 +25,23 @@ export const Availability = ({
 
   useEffect(() => {
     const guessedUserTimezone = guessUserTimezone()
-    let userFriendlyTimezone = Timezones.ET
+    let timezone
 
     if (storedUserTimezone) {
-      userFriendlyTimezone = utcToBootcamprTimezoneMap[storedUserTimezone]
+      timezone = utcToBootcamprTimezoneMap[storedUserTimezone]
+      setUserFriendlyTimezone(timezone)
     } else if (guessedUserTimezone) {
-      userFriendlyTimezone = guessedUserTimezone.userFriendlyTZ
+      timezone = guessedUserTimezone.userFriendlyTZ
+      setUserFriendlyTimezone(guessedUserTimezone.userFriendlyTZ)
     }
-    setUxUserTimezone(userFriendlyTimezone)
+    setUserTimezone(timezone)
   }, [])
 
   return (
     <div className='availability-container'>
       <TimeZoneInputBanner
-        timezone={uxUserTimezone}
-        setTimezone={setUxUserTimezone}
+        timezone={userFriendlyTimezone}
+        setTimezone={setUserFriendlyTimezone}
       />
       <p>Set weekly availability</p>
       <hr />
