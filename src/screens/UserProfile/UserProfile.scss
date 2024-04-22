@@ -104,6 +104,7 @@
         line-height: 24px,
       )
     );
+    margin: 0px;
   }
 
   &__heading {
@@ -132,10 +133,10 @@
       cursor: default;
       display: flex;
       flex-shrink: 0;
-      height: 40px;
+      height: 96px;
       justify-content: center;
       margin: 0;
-      width: 40px;
+      width: 96px;
     }
   }
 
@@ -160,11 +161,9 @@
           line-height: 24px,
         )
       );
-      height: 168px;
+      height: auto;
       margin-top: 6px;
       margin: 0;
-      overflow: scroll;
-      overflow-wrap: break-word;
       width: 100%;
     }
   }
@@ -175,6 +174,7 @@
     flex-direction: column;
     gap: 4px;
     padding: 0;
+    max-width: 501px;
   }
 
   &__linksContainer {
@@ -182,7 +182,6 @@
     display: flex;
     gap: 32px;
     justify-content: center;
-    width: 339px;
   }
 
   &__linkItem {
@@ -195,6 +194,10 @@
       font-weight: 700;
       text-align: left;
       text-decoration: none;
+      white-space: nowrap;
+      max-width: 473px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     a {
