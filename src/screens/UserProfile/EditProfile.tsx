@@ -104,6 +104,7 @@ export const EditProfile: React.FC = () => {
                 className='editprofile__input'
                 value={firstName}
                 onChange={handleInputChange}
+                required
               />
             </label>
 
@@ -115,6 +116,7 @@ export const EditProfile: React.FC = () => {
                 className='editprofile__input'
                 value={lastName}
                 onChange={handleInputChange}
+                required
               />
             </label>
 
@@ -128,10 +130,23 @@ export const EditProfile: React.FC = () => {
                 value={bio}
                 onChange={handleInputChange}
                 maxLength={500}
+                required
               />
               <div className='editprofile__bioCharCount'>
                 {500 - bioCharCount}/500
               </div>
+            </label>
+
+            <label className='editprofile__label'>
+              Linkedin profile (URL)
+              <input
+                type='text'
+                name='linkedinUrl'
+                className='editprofile__input'
+                value={linkedinUrl}
+                onChange={handleInputChange}
+                required
+              />
             </label>
 
             <label className='editprofile__label'>
@@ -157,17 +172,6 @@ export const EditProfile: React.FC = () => {
                 />
               </label>
             )}
-
-            <label className='editprofile__label'>
-              Linkedin profile (URL)
-              <input
-                type='text'
-                name='linkedinUrl'
-                className='editprofile__input'
-                value={linkedinUrl}
-                onChange={handleInputChange}
-              />
-            </label>
           </div>
         </form>
       </div>
