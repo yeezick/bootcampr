@@ -6,12 +6,6 @@ import { getUserTimezone, selectAuthUser } from 'utils/redux/slices/userSlice'
 import { AvailabilityInterface } from 'interfaces'
 import { saveAvailability } from 'components/Availability/utils/helpers'
 import { disableForwardButton } from 'components/Availability/utils/helpers'
-import { Timezones } from 'components/Availability/utils/data'
-import { guessUserTimezone } from 'utils/helpers/availabilityHelpers'
-import {
-  utcToBootcamprTimezoneMap,
-  bootcamprTimezoneToUTCMap,
-} from 'utils/data/timeZoneConstants'
 import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import './SetupAvailability.scss'
 
@@ -30,8 +24,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   const [isDisabled, setIsDisabled] = useState(true)
 
   const storeAvailability = async () => {
-    const userTZinUTC = storedUserTZinUTC
-    await saveAvailability(dispatch, authUser._id, days, userTZinUTC)
+    await saveAvailability(dispatch, authUser._id, days, storedUserTZinUTC)
   }
 
   const handleNavigationButtons = async (direction: 'previous' | 'next') => {
@@ -40,19 +33,6 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   }
   const handlePrevious = () => handleNavigationButtons('previous')
   const handleNext = () => handleNavigationButtons('next')
-
-  useEffect(() => {
-    let userFriendlyTZ = Timezones.ET
-    if (storedUserTZinUTC) {
-      userFriendlyTZ = utcToBootcamprTimezoneMap[storedUserTZinUTC]
-    } else {
-      const userTZguess = guessUserTimezone()
-
-      userFriendlyTZ = userFriendlyTZ
-        ? userTZguess.userFriendlyTZ
-        : Timezones.ET
-    }
-  }, [])
 
   useEffect(() => {
     const disabled = disableForwardButton(days)

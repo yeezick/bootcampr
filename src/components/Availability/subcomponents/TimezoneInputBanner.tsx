@@ -23,10 +23,9 @@ export const TimeZoneInputBanner = () => {
       timezone = utcToBootcamprTimezoneMap[storedUserTimezone]
       setUserFriendlyTimezone(timezone)
     } else if (guessedUserTimezone) {
-      timezone = guessedUserTimezone.userFriendlyTZ
-      setUserFriendlyTimezone(guessedUserTimezone.userFriendlyTZ)
+      timezone = guessedUserTimezone.userFriendly
+      setUserFriendlyTimezone(guessedUserTimezone.userFriendly)
     }
-    setUserTimezone(timezone)
   }, [])
 
   const handleChange = e => {
