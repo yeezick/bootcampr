@@ -17,6 +17,8 @@ import '../styles/DisplayMeetingModal.scss'
 import '../styles/Datefields.scss'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule'
+import { RecurringCheckbox } from './RecurringCheckbox'
+import { RecurringDays } from './RecurringDays'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 dayjs.extend(isSameOrAfter)
@@ -81,6 +83,8 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
           setDateFields={setDateFields}
           eventTimezone={dateFields.eventTimezone}
         />
+        <RecurringCheckbox />
+        <RecurringDays />
       </div>
     </>
   )

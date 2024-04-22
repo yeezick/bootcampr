@@ -1,4 +1,11 @@
-import { Dialog, DialogContent, DialogActions, TextField } from '@mui/material'
+import {
+  Dialog,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Checkbox,
+  FormControlLabel,
+} from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { BooleanObject, DateFieldsInterface, EventInfo } from 'interfaces'
 import dayjs from 'dayjs'
@@ -235,7 +242,6 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
               setDateFields={setDateFields}
               dayjs={dayjs}
             />
-
             <SelectAttendees
               attendees={attendees}
               dateFields={dateFields}
@@ -244,7 +250,6 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
               setAttendees={setAttendees}
               toggleInviteAll={toggleInviteAll}
             />
-
             <div className='meeting-modal-divider' />
             <GoogleMeetsToggler
               googleMeeting={googleMeeting}
