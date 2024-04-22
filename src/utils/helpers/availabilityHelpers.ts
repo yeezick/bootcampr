@@ -23,11 +23,11 @@ export const guessUserTimezone = () => {
     dayJSformattedTZdata[userTZ].utc
   ) {
     const utc = dayJSformattedTZdata[userTZ].utc
-    const userFriendlyTZ = utcToBootcamprTimezoneMap[utc]
+    const userFriendly = utcToBootcamprTimezoneMap[utc]
 
     return {
       utc,
-      userFriendlyTZ,
+      userFriendly,
     }
   } else {
     return undefined
