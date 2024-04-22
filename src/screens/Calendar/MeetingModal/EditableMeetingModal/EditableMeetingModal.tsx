@@ -46,6 +46,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const [dateFields, setDateFields] = useState<DateFieldsInterface>(
     initialDateFields()
   )
+  const [recurrenceInfo, setRecurrenceInfo] = useState('')
   const [attendees, setAttendees] = useState<BooleanObject>({})
   const [inviteAll, toggleInviteAll] = useState(false)
   const [visibleModal, toggleVisibleModal] = useState(false)
@@ -181,36 +182,41 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
       },
       summary,
       projectId,
+      recurrence: {
+        RRULE: recurrenceInfo,
+      },
     }
 
-    if (modalDisplayStatus === 'create') {
-      try {
-        const newEvent = await createEvent(calendarId, eventInfo)
-        dispatch(addNewEvent(newEvent))
-        handleClose()
-        handleOpenAlert()
-      } catch (error) {
-        console.error(
-          `Error creating event for calendar (${calendarId}): `,
-          error
-        )
-      }
-    } else if (modalDisplayStatus === 'edit') {
-      try {
-        const updatedEvent = await updateEvent(
-          calendarId,
-          displayedEvent.eventId,
-          eventInfo
-        )
-        dispatch(updateExistingEvent(updatedEvent))
-        handleClose()
-      } catch (error) {
-        console.error(
-          `Error creating event for calendar (${calendarId}): `,
-          error
-        )
-      }
-    }
+    console.log(eventInfo)
+
+    // if (modalDisplayStatus === 'create') {
+    //   try {
+    //     const newEvent = await createEvent(calendarId, eventInfo)
+    //     dispatch(addNewEvent(newEvent))
+    //     handleClose()
+    //     handleOpenAlert()
+    //   } catch (error) {
+    //     console.error(
+    //       `Error creating event for calendar (${calendarId}): `,
+    //       error
+    //     )
+    //   }
+    // } else if (modalDisplayStatus === 'edit') {
+    //   try {
+    //     const updatedEvent = await updateEvent(
+    //       calendarId,
+    //       displayedEvent.eventId,
+    //       eventInfo
+    //     )
+    //     dispatch(updateExistingEvent(updatedEvent))
+    //     handleClose()
+    //   } catch (error) {
+    //     console.error(
+    //       `Error creating event for calendar (${calendarId}): `,
+    //       error
+    //     )
+    //   }
+    // }
   }
 
   return (

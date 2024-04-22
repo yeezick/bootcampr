@@ -2,48 +2,53 @@ import { useState } from 'react'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 
-export const RecurringDays = () => {
+export const RecurringDays = ({ recurrence }) => {
   const DAYS = [
     {
-      key: 'sunday',
+      key: 'SU',
       label: 'S',
     },
     {
-      key: 'monday',
+      key: 'MO',
       label: 'M',
     },
     {
-      key: 'tuesday',
+      key: 'TU',
       label: 'T',
     },
     {
-      key: 'wednesday',
+      key: 'WE',
       label: 'W',
     },
     {
-      key: 'thursday',
+      key: 'TH',
       label: 'T',
     },
     {
-      key: 'friday',
+      key: 'FR',
       label: 'F',
     },
     {
-      key: 'saturday',
+      key: 'SA',
       label: 'S',
     },
   ]
-  const [days, setDays] = useState([0])
+  const [days, setDays] = useState([])
+  const handleSelect = (event, value) => {
+    setDays(value)
+  }
+
   return (
     <>
       <ToggleButtonGroup
         size='small'
         arial-label='Days of the week'
         value={days}
-        onChange={(event, value) => setDays(value)}
+        onChange={handleSelect}
+        disabled={!recurrence}
       >
         {DAYS.map((day, index) => (
-          <ToggleButton key={day.key} value={index} aria-label={day.key}>
+          <ToggleButton key={day.key} value={day.key} aria-label={day.key}>
             {day.label}
           </ToggleButton>
         ))}

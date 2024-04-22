@@ -34,6 +34,9 @@ export interface EventInfo {
   }
   summary: string
   projectId: string
+  recurrence?: {
+    RRULE: string
+  }
 }
 
 export interface MeetingModalInfo {
