@@ -1,43 +1,8 @@
-import { useState } from 'react'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
+import { DAYS } from 'utils/data/calendarConstants'
 
-export const RecurringDays = ({ recurrence }) => {
-  const DAYS = [
-    {
-      key: 'SU',
-      label: 'S',
-    },
-    {
-      key: 'MO',
-      label: 'M',
-    },
-    {
-      key: 'TU',
-      label: 'T',
-    },
-    {
-      key: 'WE',
-      label: 'W',
-    },
-    {
-      key: 'TH',
-      label: 'T',
-    },
-    {
-      key: 'FR',
-      label: 'F',
-    },
-    {
-      key: 'SA',
-      label: 'S',
-    },
-  ]
-  const [days, setDays] = useState([])
-  const handleSelect = (event, value) => {
-    setDays(value)
-  }
-
+export const RecurringDays = ({ recurrence, handleSelect, days }) => {
   return (
     <>
       <ToggleButtonGroup

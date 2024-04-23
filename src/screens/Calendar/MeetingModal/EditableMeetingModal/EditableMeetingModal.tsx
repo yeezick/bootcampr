@@ -14,6 +14,7 @@ import {
   selectCalendarId,
   selectMembersAsTeam,
   selectProjectId,
+  selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { SelectAttendees } from './SelectAttendees'
@@ -46,11 +47,13 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const [dateFields, setDateFields] = useState<DateFieldsInterface>(
     initialDateFields()
   )
-  const [recurrenceInfo, setRecurrenceInfo] = useState('')
+  const { endDate } = useAppSelector(selectProjectTimeline)
+  const [recurrenceInfo, setRecurrenceInfo] = useState([])
   const [attendees, setAttendees] = useState<BooleanObject>({})
   const [inviteAll, toggleInviteAll] = useState(false)
   const [visibleModal, toggleVisibleModal] = useState(false)
   const [googleMeeting, toggleGoogleMeeting] = useState(false)
+  const [days, setDays] = useState([])
   const modalDisplayStatus = useAppSelector(selectModalDisplayStatus)
   const displayedEvent = useAppSelector(selectDisplayedEvent)
   const radioGroupRef = useRef(null)
@@ -130,6 +133,12 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
     dispatch(setModalDisplayStatus(false))
   }
 
+  const handleSelect = (event, value) => {
+    console.log(value, days)
+    setDays(value)
+    setRecurrenceInfo([`RRULE:FREQ=WEEKLY;COUNT=3;BYDAY=${value.toString()}`])
+  }
+
   const handleInviteAll = () => {
     if (projectMembers) {
       const updatedAttendance = { ...attendees }
@@ -182,41 +191,39 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
       },
       summary,
       projectId,
-      recurrence: {
-        RRULE: recurrenceInfo,
-      },
+      recurrence: recurrenceInfo,
     }
 
     console.log(eventInfo)
 
-    // if (modalDisplayStatus === 'create') {
-    //   try {
-    //     const newEvent = await createEvent(calendarId, eventInfo)
-    //     dispatch(addNewEvent(newEvent))
-    //     handleClose()
-    //     handleOpenAlert()
-    //   } catch (error) {
-    //     console.error(
-    //       `Error creating event for calendar (${calendarId}): `,
-    //       error
-    //     )
-    //   }
-    // } else if (modalDisplayStatus === 'edit') {
-    //   try {
-    //     const updatedEvent = await updateEvent(
-    //       calendarId,
-    //       displayedEvent.eventId,
-    //       eventInfo
-    //     )
-    //     dispatch(updateExistingEvent(updatedEvent))
-    //     handleClose()
-    //   } catch (error) {
-    //     console.error(
-    //       `Error creating event for calendar (${calendarId}): `,
-    //       error
-    //     )
-    //   }
-    // }
+    if (modalDisplayStatus === 'create') {
+      try {
+        const newEvent = await createEvent(calendarId, eventInfo)
+        dispatch(addNewEvent(newEvent))
+        handleClose()
+        handleOpenAlert()
+      } catch (error) {
+        console.error(
+          `Error creating event for calendar (${calendarId}): `,
+          error
+        )
+      }
+    } else if (modalDisplayStatus === 'edit') {
+      try {
+        const updatedEvent = await updateEvent(
+          calendarId,
+          displayedEvent.eventId,
+          eventInfo
+        )
+        dispatch(updateExistingEvent(updatedEvent))
+        handleClose()
+      } catch (error) {
+        console.error(
+          `Error creating event for calendar (${calendarId}): `,
+          error
+        )
+      }
+    }
   }
 
   return (
@@ -247,6 +254,8 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
               dateFields={dateFields}
               setDateFields={setDateFields}
               dayjs={dayjs}
+              days={days}
+              handleSelect={handleSelect}
             />
             <SelectAttendees
               attendees={attendees}

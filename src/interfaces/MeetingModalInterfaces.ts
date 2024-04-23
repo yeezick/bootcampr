@@ -1,3 +1,5 @@
+import { AnyError } from 'mongodb'
+
 export type AttendeeList = {
   email: string
   responseStatus?: string
@@ -34,9 +36,7 @@ export interface EventInfo {
   }
   summary: string
   projectId: string
-  recurrence?: {
-    RRULE: string
-  }
+  recurrence?: any[]
 }
 
 export interface MeetingModalInfo {

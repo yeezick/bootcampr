@@ -23,10 +23,16 @@ dayjs.extend(utc)
 dayjs.extend(timezone)
 dayjs.extend(isSameOrAfter)
 
-export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
+export const DateFields = ({
+  dateFields,
+  dayjs,
+  setDateFields,
+  days,
+  handleSelect,
+}) => {
   const [datePickerDayjs, setDayPickerDayjs] = useState(blankDayJs())
   const { startDate, endDate } = useAppSelector(selectProjectTimeline)
-  const [recurrence, setReccurence] = useState(true)
+  const [recurrence, setReccurence] = useState(false)
 
   const handleDate = newDate => {
     const updatedDateFields = {
@@ -92,7 +98,11 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
           handleChange={handleChange}
           recurrence={recurrence}
         />
-        <RecurringDays recurrence={recurrence} />
+        <RecurringDays
+          recurrence={recurrence}
+          days={days}
+          handleSelect={handleSelect}
+        />
       </div>
     </>
   )
