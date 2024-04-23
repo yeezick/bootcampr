@@ -51,6 +51,12 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const dayjsED = dayjs(endDate).format('YYYYMMDD')
 
   const [recurrenceInfo, setRecurrenceInfo] = useState([])
+  const [recurrence, setRecurrence] = useState(false)
+  const [rruleData, setRruleData] = useState({
+    freq: 'WEEKLY',
+    byweekday: [],
+    until: dayjsED,
+  })
   const [attendees, setAttendees] = useState<BooleanObject>({})
   const [inviteAll, toggleInviteAll] = useState(false)
   const [visibleModal, toggleVisibleModal] = useState(false)
@@ -138,9 +144,10 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const handleSelect = (event, value) => {
     console.log(value, days)
     setDays(value)
-    setRecurrenceInfo([
-      `RRULE:FREQ=WEEKLY;UNTIL=${dayjsED};BYDAY=${value.toString()}`,
-    ])
+    // setRecurrenceInfo([
+    //   `RRULE:FREQ=WEEKLY;UNTIL=${dayjsED};BYDAY=${value.toString()}`,
+    // ])
+    setRruleData({ ...rruleData, byweekday: value })
   }
 
   const handleInviteAll = () => {
@@ -195,7 +202,10 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
       },
       summary,
       projectId,
-      recurrence: recurrenceInfo,
+      recurrence: {
+        enabled: recurrence,
+        rrule: rruleData,
+      },
     }
 
     console.log(eventInfo)
@@ -260,6 +270,8 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
               dayjs={dayjs}
               days={days}
               handleSelect={handleSelect}
+              recurrence={recurrence}
+              setRecurrence={setRecurrence}
             />
             <SelectAttendees
               attendees={attendees}

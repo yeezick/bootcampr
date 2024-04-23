@@ -36,7 +36,10 @@ export interface EventInfo {
   }
   summary: string
   projectId: string
-  recurrence?: any[]
+  recurrence?: {
+    enabled: boolean
+    rrule: {}
+  }
 }
 
 export interface MeetingModalInfo {
