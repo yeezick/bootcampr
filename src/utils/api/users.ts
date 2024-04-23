@@ -84,6 +84,24 @@ export const signIn = async (credentials: any) => {
   }
 }
 
+export const fetchGoogleAuthUrl = async () => {
+  try {
+    const res = await api.get('/sign-in/google')
+    return res.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export const signInWithGoogle = async googleCode => {
+  try {
+    const res = await api.post(`/sign-in/google/success`, { googleCode })
+    return res
+  } catch (error) {
+    throw error
+  }
+}
+
 export const logOut = async () => {
   try {
     localStorage.removeItem('bootcamprAuthToken')

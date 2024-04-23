@@ -2,7 +2,7 @@ import './SignIn.scss'
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAppDispatch } from 'utils/redux/hooks'
-import { signIn } from 'utils/api'
+import { fetchGoogleAuthUrl, signIn } from 'utils/api'
 import { setAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
 import { SignInInterface } from 'interfaces/UserInterface'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
@@ -17,6 +17,7 @@ import './SignIn.scss'
 import { buildProjectPortal } from 'utils/helpers'
 import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
+import { PrimaryButton } from 'components/Buttons'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -103,6 +104,10 @@ const SignIn: React.FC = (): JSX.Element => {
   const nextButtonStyle = `${
     buttonDisabled ? 'sign_in_btn' : 'sign_in_btn_active'
   }`
+  const handleGoogleSignIn = async () => {
+    const fetchAuthUrl = await fetchGoogleAuthUrl()
+    window.location.href = fetchAuthUrl
+  }
 
   return (
     <div>
@@ -112,6 +117,11 @@ const SignIn: React.FC = (): JSX.Element => {
           <form className='sign_in_form' onSubmit={handleSubmitForm}>
             <div className='sign_in_content'>
               <h1>Log in</h1>
+
+              <PrimaryButton
+                text='sign in with google'
+                handler={handleGoogleSignIn}
+              />
               {alertBanner.status ? (
                 <div className='sign_in_alert'>
                   <div className={alertBanner.type}>

@@ -25,6 +25,7 @@ import './App.css'
 import { EmailRouter } from 'components/EmailRouter/EmailRouter'
 import { MobileGate } from 'screens/Auth/Mobile/MobileGate'
 import { TaskBoard } from 'screens/Project/TaskManagement'
+import { OAuthSuccess } from 'screens/Auth/SignIn/OAuthSuccess'
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
             />
             <Route path='/success/:userId' element={<SuccessScreen />} />
             <Route path='/sign-in' element={<SignIn />} />
+            <Route path='/sign-in/oauth-success' element={<OAuthSuccess />} />
             <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
             <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
             <Route

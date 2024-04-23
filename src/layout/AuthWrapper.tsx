@@ -14,6 +14,7 @@ import {
 const unprotectedRoutes = [
   '/',
   '/sign-in',
+  '/sign-in/oauth-success',
   '/sign-up',
   '/sign-up/:id/confirmation-email-sent',
   '/success/:userId',
