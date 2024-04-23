@@ -48,6 +48,8 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
     initialDateFields()
   )
   const { endDate } = useAppSelector(selectProjectTimeline)
+  const dayjsED = dayjs(endDate).format('YYYYMMDD')
+
   const [recurrenceInfo, setRecurrenceInfo] = useState([])
   const [attendees, setAttendees] = useState<BooleanObject>({})
   const [inviteAll, toggleInviteAll] = useState(false)
@@ -136,7 +138,9 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const handleSelect = (event, value) => {
     console.log(value, days)
     setDays(value)
-    setRecurrenceInfo([`RRULE:FREQ=WEEKLY;COUNT=3;BYDAY=${value.toString()}`])
+    setRecurrenceInfo([
+      `RRULE:FREQ=WEEKLY;UNTIL=${dayjsED};BYDAY=${value.toString()}`,
+    ])
   }
 
   const handleInviteAll = () => {
