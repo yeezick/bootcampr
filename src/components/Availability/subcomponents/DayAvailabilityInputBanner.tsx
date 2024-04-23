@@ -1,8 +1,20 @@
 import { Checkbox } from '@mui/material'
 import { TimeSlotInput } from './TimeslotInput'
 import { handleCheck } from '../utils/helpers'
+import { useEffect, useState } from 'react'
+import { defaultAvailability } from 'utils/data/userConstants'
+import { AvailabilityInterface } from 'interfaces'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectUserAvailability } from 'utils/redux/slices/userSlice'
 
-export const DayAvailabilityInputBanner = ({ day, days, idx, setDays }) => {
+export const DayAvailabilityInputBanner = ({ day, idx }) => {
+  const [days, setDays] = useState<AvailabilityInterface>(defaultAvailability)
+  const userAvailability = useAppSelector(selectUserAvailability)
+
+  useEffect(() => {
+    setDays(userAvailability)
+  }, [userAvailability])
+
   return (
     <div>
       <div className='day-availability-input-banner'>

@@ -21,13 +21,14 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
   const [displayModal, toggleDisplayModal] = useState({
     0: false,
   })
+  const [consolidatedDay, setConsolidatedDay] = useState(days[day].availability)
 
   const getDisplay = idx => {
     return displayModal[idx]
   }
 
   useEffect(() => {
-    dispatch(setUserAvailability(days))
+    setConsolidatedDay(days[day].availability)
   }, [days])
 
   const handleRenderModal = (e, idx) => {
@@ -36,7 +37,7 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
 
   return (
     <div className='timeslots-container'>
-      {consolidateAvailability(days[day].availability).map((slot, idx) => (
+      {consolidatedDay.map((slot, idx) => (
         <div key={`${slot}-${idx}`} className='timeslot-input'>
           <div className='left-banner'>
             <SelectTimeInput
@@ -46,6 +47,7 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
               day={day}
               days={days}
               setDays={setDays}
+              consolidatedDay={consolidatedDay}
             />
             <h4>--</h4>
             <SelectTimeInput
@@ -55,22 +57,27 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
               slot={slot}
               days={days}
               setDays={setDays}
+              consolidatedDay={consolidatedDay}
             />
             <div className='clickable-icon'>
               <FaRegTrashAlt
                 className='react-icon'
-                onClick={() => deleteTimeSlot(day, days, setDays, idx)}
+                onClick={() =>
+                  deleteTimeSlot(day, days, setDays, idx, consolidatedDay)
+                }
               />
             </div>
           </div>
           <div className='right-banner'>
-            {days[day].availability.length - 1 === idx && (
+            {consolidatedDay.length - 1 === idx && (
               <BCToolTip
                 text={`New time block for ${weekdaysMap[day]}`}
                 child={
                   <div className='clickable-icon'>
                     <AddRounded
-                      onClick={() => addTimeSlot(day, days, setDays, idx)}
+                      onClick={() =>
+                        addTimeSlot(day, days, setDays, idx, consolidatedDay)
+                      }
                       className='icon'
                     />
                   </div>

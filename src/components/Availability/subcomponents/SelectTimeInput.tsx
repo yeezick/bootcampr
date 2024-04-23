@@ -2,10 +2,21 @@ import { MenuItem, Select } from '@mui/material'
 import { timeOptions } from '../utils/data'
 import { handleTimeChange } from '../utils/helpers'
 import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { setUserAvailability } from 'utils/redux/slices/userSlice'
 
-export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
+export const SelectTimeInput = ({
+  isStart,
+  day,
+  idx,
+  slot,
+  days,
+  setDays,
+  consolidatedDay,
+}) => {
   const index = isStart ? 0 : 1
   const [inputTimeOptions, setInputTimeOptions] = useState(timeOptions)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (!isStart) {
@@ -15,11 +26,10 @@ export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
 
       const logicalEndOptions = [
         ...timeOptions.slice(earliestLogicalOptionIndex + 1),
-        timeOptions[0],
       ]
-
       setInputTimeOptions(logicalEndOptions)
     }
+    dispatch(setUserAvailability(days))
   }, [days])
 
   return (
@@ -28,7 +38,9 @@ export const SelectTimeInput = ({ isStart, day, idx, slot, days, setDays }) => {
       inputProps={{ sx: { padding: '8px 13px !important' } }}
       MenuProps={menuPropsSX}
       name={`${day}-${idx}-${index}`}
-      onChange={e => handleTimeChange(e, days, setDays)}
+      onChange={e =>
+        handleTimeChange(e, days, setDays, consolidatedDay, isStart)
+      }
       size='small'
       sx={selectSX}
       value={days[day].availability[idx][index]}
