@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import {
   ConvertedEvent,
   DateFieldsInterface,
@@ -10,6 +11,7 @@ import { staticEmails } from 'utils/data/calendarConstants'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
+dayjs.extend(isSameOrAfter)
 
 export const blankDayJs = () => dayjs()
 
