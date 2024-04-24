@@ -232,10 +232,12 @@ export const deleteTimeSlot = (day, days, setDays, idx) => {
   const newAvailability = [...days[day].availability]
   newAvailability.splice(idx, 1)
 
+  const available = newAvailability.length > 0
+
   setDays({
     ...days,
     [day]: {
-      available: days[day].available,
+      available,
       availability: newAvailability,
     },
   })
