@@ -188,7 +188,7 @@ export const EditableMeetingModal = () => {
           `Error creating event for calendar (${calendarId}): `,
           error
         )
-        dispatch(errorSnackbar('Error creating event'))
+        dispatch(errorSnackbar('Unable to create meeting. Please try again.'))
       }
     } else if (modalDisplayStatus === 'edit') {
       try {
@@ -199,11 +199,13 @@ export const EditableMeetingModal = () => {
         )
         dispatch(updateExistingEvent(updatedEvent))
         handleClose()
+        dispatch(successSnackbar('Meeting updated successfully!'))
       } catch (error) {
         console.error(
           `Error creating event for calendar (${calendarId}): `,
           error
         )
+        dispatch(errorSnackbar('Meeting failed to update. Please try again.'))
       }
     }
   }

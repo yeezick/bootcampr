@@ -12,6 +12,7 @@ import {
   utcToBootcamprTimezoneMap,
   bootcamprTimezoneToUTCMap,
 } from 'utils/data/timeZoneConstants'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 
 export const EditAvailability = () => {
   const dispatch = useAppDispatch()
@@ -23,7 +24,12 @@ export const EditAvailability = () => {
 
   const handleSaveAvailability = async () => {
     const userTimezoneInUTC = bootcamprTimezoneToUTCMap[uxUserTimezone]
-    await saveAvailability(dispatch, authUser._id, days, userTimezoneInUTC)
+    try {
+      await saveAvailability(authUser._id, days, userTimezoneInUTC)
+      dispatch(successSnackbar('Your availability has been updated!'))
+    } catch (error) {
+      dispatch(errorSnackbar('Something went wrong please try again'))
+    }
   }
 
   useEffect(() => {

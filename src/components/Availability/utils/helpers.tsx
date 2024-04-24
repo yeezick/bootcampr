@@ -193,17 +193,12 @@ export const getNextTimeslot = currentTime => {
  * @param userId Auth user ID
  * @param {AvailabilityInterface} days State object representing the user's availability object
  */
-export const saveAvailability = async (
-  dispatch,
-  userId,
-  days,
-  userTimezone
-) => {
-  const updated = await updateAvailability(userId, days, userTimezone)
-  if (updated.status) {
-    dispatch(successSnackbar('Your availability has been updated!'))
-  } else {
-    dispatch(errorSnackbar('Something went wrong please try again'))
+export const saveAvailability = async (userId, days, userTimezone) => {
+  try {
+    const res = await updateAvailability(userId, days, userTimezone)
+    return res.data
+  } catch (error) {
+    throw error
   }
 }
 

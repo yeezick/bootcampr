@@ -107,10 +107,9 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     try {
       const updatedUser = await updateUser(authUser._id, updateUserForm)
       dispatch(setAuthUser(updatedUser))
-      dispatch(successSnackbar('User profile has been updated!'))
       handlePageNavigation('previous')
     } catch (error) {
-      console.error('Error occured when trying to create User Profile', error)
+      console.error('Profile failed to save. Please try again.', error)
     }
   }
 
@@ -119,7 +118,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     const checkoutResponse = await createCheckout()
 
     if (updatedUserProfile.error) {
-      dispatch(errorSnackbar(updatedUserProfile.error))
+      dispatch(errorSnackbar('Profile failed to save. Please try again.'))
       return
     } else if (checkoutResponse.error && !checkoutResponse.checkoutUrl) {
       dispatch(errorSnackbar(checkoutResponse.error))

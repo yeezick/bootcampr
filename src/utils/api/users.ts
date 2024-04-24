@@ -188,7 +188,7 @@ export const updateAvailability = async (
     return res.data
   } catch (error) {
     console.error(error)
-    return false
+    throw error
   }
 }
 

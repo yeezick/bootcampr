@@ -14,6 +14,7 @@ import {
 } from 'utils/data/timeZoneConstants'
 import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import './SetupAvailability.scss'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 
 interface SetupAvailabilityProps {
   handlePageNavigation: (navType: 'previous' | 'next' | 'specific') => void
@@ -31,8 +32,12 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   const [isDisabled, setIsDisabled] = useState(true)
 
   const storeAvailability = async () => {
-    const userTZinUTC = bootcamprTimezoneToUTCMap[uxUserTimezone]
-    await saveAvailability(dispatch, authUser._id, days, userTZinUTC)
+    try {
+      const userTZinUTC = bootcamprTimezoneToUTCMap[uxUserTimezone]
+      const avail = await saveAvailability(authUser._id, days, userTZinUTC)
+    } catch (error) {
+      dispatch(errorSnackbar('Availability failed to save. Please try again.'))
+    }
   }
 
   const handleNavigationButtons = async (direction: 'previous' | 'next') => {
