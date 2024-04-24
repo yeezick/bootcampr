@@ -1,3 +1,6 @@
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   FormControl,
   FormControlLabel,
@@ -5,8 +8,6 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
 import {
   selectCompletedInfo,
   updatePresenting,
@@ -22,6 +23,10 @@ export const ParticipationRadio = ({ labelText, setIsDisabled }) => {
     dispatch(updatePresenting(participating))
     setIsDisabled(false)
   }
+
+  useEffect(() => {
+    presenting ? setIsDisabled(false) : setIsDisabled(true)
+  }, [presenting, setIsDisabled])
 
   return (
     <FormControl>
