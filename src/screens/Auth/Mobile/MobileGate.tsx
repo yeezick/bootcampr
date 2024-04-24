@@ -1,9 +1,11 @@
 import './MobileGate.scss'
 import { PrimaryButton } from 'components/Buttons'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { isMobileWidth } from 'utils/helpers'
 
 export const MobileGate = () => {
+  const navigate = useNavigate()
   useEffect(() => {
     const rerouteToLanding = () => {
       if (!isMobileWidth()) {
@@ -17,9 +19,7 @@ export const MobileGate = () => {
     }
   }, [])
 
-  const handleRouteToLanding = () => {
-    window.location.replace('https://landing.bootcampr.io/')
-  }
+  const handleRouteToLanding = () => navigate('/')
 
   return (
     <div className='mobile'>
