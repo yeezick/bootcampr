@@ -6,8 +6,9 @@ import { getUserTimezone, selectAuthUser } from 'utils/redux/slices/userSlice'
 import { AvailabilityInterface } from 'interfaces'
 import { saveAvailability } from 'components/Availability/utils/helpers'
 import { disableForwardButton } from 'components/Availability/utils/helpers'
-import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import './SetupAvailability.scss'
+import { BackButton, ForwardButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 interface SetupAvailabilityProps {
   handlePageNavigation: (navType: 'previous' | 'next' | 'specific') => void
@@ -53,21 +54,14 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
         </i>
       </div>
       <Availability days={days} setDays={setDays} />
-      <div className='setup-avail-buttons-wrapper'>
-        <div className='setup-avail-buttons'>
-          <PaginatorButton
-            buttonType='secondary'
-            handler={handlePrevious}
-            text='Role'
-          />
-          <PaginatorButton
-            buttonType='primary'
-            disabled={isDisabled}
-            handler={handleNext}
-            text='Set up profile'
-          />
-        </div>
-      </div>
+      <ButtonContainer style={{ marginTop: '32px' }}>
+        <BackButton onClick={handlePrevious} label='Role' />
+        <ForwardButton
+          disabled={isDisabled}
+          onClick={handleNext}
+          label='Set up profile'
+        />
+      </ButtonContainer>
     </div>
   )
 }
