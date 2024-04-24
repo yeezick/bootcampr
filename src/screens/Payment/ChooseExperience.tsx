@@ -1,4 +1,3 @@
-import { PrimaryButton } from 'components/Buttons/ButtonVariants'
 import { useNavigate } from 'react-router-dom'
 import { updatePaymentExperience } from 'utils/api/payment'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
@@ -14,8 +13,8 @@ import { buildProjectPortal } from 'utils/helpers'
 import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { getOneProject } from 'utils/api'
 import { setProject } from 'utils/redux/slices/projectSlice'
-import { SecondaryButton } from 'components/Buttons'
 import { handleJoinTeam } from 'utils/helpers/paymentHelpers'
+import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 
 export const ChooseExperience = () => {
   return (
@@ -77,8 +76,8 @@ const SandboxCard = () => {
         </div>
         <SecondaryButton
           fullWidth
-          handler={handleEnterSandbox}
-          text='Enter sandbox'
+          label='Enter sandbox'
+          onClick={handleEnterSandbox}
         />
       </div>
     </div>
@@ -114,7 +113,11 @@ const JoinTeamCard = () => {
         <BenefitItem text='Showcase your product on your portfolio' />
         <BenefitItem text='Talk about your experience in interviews' />
       </div>
-      <PrimaryButton fullWidth handler={handleJoinTeamBtn} text='Join a team' />
+      <PrimaryButton
+        fullWidth
+        onClick={handleJoinTeamBtn}
+        label='Join a team'
+      />
       <p className='refund-text'>
         *There is a 3.5% processing fee for refund requests during the matching
         process.

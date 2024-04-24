@@ -7,9 +7,14 @@ import { Box } from '@mui/material'
  * @param {string} [justify] - The value for justify-content. Defaults to 'end'.
  *
  */
-export const ButtonContainer = ({ children, justify = 'end', gap = 8 }) => {
+export const ButtonContainer = ({
+  children,
+  justify = 'end',
+  gap = 8,
+  style = {},
+}) => {
   return (
-    <Box display='flex' justifyContent={justify}>
+    <Box display='flex' justifyContent={justify} style={style}>
       <Box display='flex' gap={`${gap}px`}>
         {children}
       </Box>
