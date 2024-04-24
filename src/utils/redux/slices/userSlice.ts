@@ -161,7 +161,6 @@ export const {
   updateAuthUser,
   updateUserExperience,
   updateUserProject,
-  setConfirmationEmailAddress,
   setUserAvailability,
   setUserTimezone,
   reset,

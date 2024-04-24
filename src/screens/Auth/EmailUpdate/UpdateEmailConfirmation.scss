@@ -1,35 +1,58 @@
-.update-email-confirmation {
-    background-color: white;
-    display: flex;
-    font-family: 'Roboto', sans-serif;
-    height: 100vh;
-    justify-content: center;
-    text-align: center;
+.email-confirmation-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0 auto;
+  margin-top: 64px;
+  text-align: center;
+  width: 682px;
 
-    .content {
-        width: fit-content;
-        margin-top: 64px;
-
-        h1 {
-            font-size: 36px;
-            margin-bottom: 8px;
-        }
-
-        h2 {
-            margin-bottom: 32px;
-        }
-
-        p {
-            font-size: 16px;
-            line-height: 24px;
-        }
-
-        .resend {
-            color: purple;
-            cursor: pointer;
-            font-size: 14px;
-            margin-top: 50px;
-            text-decoration: underline;
-        }
+  .message-content {
+    &.header {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 44px;
+      margin: 0;
+      margin-bottom: 8px;
     }
+
+    &.subheader {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 32px;
+      margin: 0;
+      margin-bottom: 8px;
+
+      span {
+        color: #5c6bc0;
+      }
+    }
+
+    &.text {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      margin-bottom: 16px;
+      width: 456px;
+
+      p {
+        margin: 0;
+      }
+    }
+
+    &.confirm {
+      font-weight: 700;
+      margin-bottom: 32px;
+    }
+
+    &.update-email {
+      display: inline;
+      div {
+        color: #0d47a1;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
 }

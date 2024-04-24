@@ -14,15 +14,31 @@
       0px 1px 3px 0px rgba(26, 35, 126, 0.3);
     display: flex;
     flex-direction: column;
+    max-width: 100%;
     padding: 32px;
+  }
+
+  &.contents {
+    align-items: end;
+    display: flex;
+    flex-direction: column;
     row-gap: 16px;
+  }
+
+  &.heading,
+  &.body,
+  .input-container,
+  &.input,
+  &.input-error,
+  &.error-message {
+    width: 100%;
+    max-width: 360px;
   }
 
   &.heading {
     font-size: 24px;
     font-weight: 700;
     line-height: 32px;
-    width: 360px;
   }
 
   &.body {
@@ -31,24 +47,26 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
-    width: 360px;
   }
 
   .input-container {
     display: flex;
     flex-direction: column;
     row-gap: 4px;
-    width: 360px;
   }
 
-  &.input {
+  &.input,
+  &.input-error {
     border: none;
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 16px;
     line-height: 24px;
-    outline: 1px solid #212121;
     padding: 8px 16px;
+  }
+
+  &.input {
+    outline: 1px solid #212121;
   }
 
   &.input:focus-visible {
@@ -58,13 +76,7 @@
   }
 
   &.input-error {
-    border: none;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 16px;
-    line-height: 24px;
     outline: 1px solid #b71c1c;
-    padding: 8px 16px;
   }
 
   &.input-error:focus-visible {
@@ -79,7 +91,7 @@
     font-weight: 400;
     line-height: 16px;
     padding: 0px 16px;
-    width: 320px;
+    margin-bottom: -20px;
   }
 
   &.buttons {
@@ -87,7 +99,6 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 16px;
-    width: 360px;
 
     .cancel,
     .confirm {
@@ -111,7 +122,6 @@
     .confirm {
       font-weight: 500;
       padding: 0px 24px;
-
 
       &:disabled {
         opacity: 0.5;
