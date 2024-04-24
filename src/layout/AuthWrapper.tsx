@@ -16,9 +16,10 @@ const unprotectedRoutes = [
   '/sign-in',
   '/sign-up',
   '/sign-up/:id/confirmation-email-sent',
-  '/success/:userId',
+  '/success',
   '/users/:id/expired-link',
-  '/users/:id/reset-password/:token',
+  '/users/reset-password/:token',
+  '/users/reset-password',
   '/how-to',
   '/about-us',
 ]

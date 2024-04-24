@@ -42,12 +42,12 @@ function App() {
               path='/sign-up/:id/confirmation-email-sent'
               element={<EmailSentConfirmation />}
             />
-            <Route path='/success/:userId' element={<SuccessScreen />} />
+            <Route path='/success' element={<SuccessScreen />} />
             <Route path='/sign-in' element={<SignIn />} />
             <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
             <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
             <Route
-              path='/users/:id/reset-password/:token'
+              path='/users/reset-password/:token?'
               element={<ResetPassword />}
             />
             {/* Payment */}
