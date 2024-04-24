@@ -6,8 +6,8 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { SnackBarSeverity } from 'interfaces/SnackBarToast'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
-import { PrimaryButton } from 'components/Buttons'
 import { isMobileWidth } from 'utils/helpers'
+import { PrimaryButton } from 'components/Buttons'
 
 export const EmailSentConfirmation: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -136,8 +136,8 @@ const MobileEmailSentConfirmation = ({ handleResendEmailClick, userEmail }) => {
         <img alt='A person jumps in the air in celebration' />
       </div>
       <PrimaryButton
-        text="Visit Bootcampr's homepage'"
-        handler={handleRouteToHomepage}
+        label="Visit Bootcampr's homepage'"
+        onClick={handleRouteToHomepage}
       />
     </div>
   )

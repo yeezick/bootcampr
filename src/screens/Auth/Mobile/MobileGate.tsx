@@ -1,5 +1,5 @@
-import './MobileGate.scss'
 import { PrimaryButton } from 'components/Buttons'
+import './MobileGate.scss'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { isMobileWidth } from 'utils/helpers'
@@ -37,8 +37,8 @@ export const MobileGate = () => {
 
       <img />
       <PrimaryButton
-        text="Visit Bootcampr's homepage"
-        handler={handleRouteToLanding}
+        label="Visit Bootcampr's homepage"
+        onClick={handleRouteToLanding}
       />
     </div>
   )

@@ -2,13 +2,13 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectBanner } from 'utils/redux/slices/userInterfaceSlice'
 import { selectUserId } from 'utils/redux/slices/userSlice'
-import { PrimaryButton } from 'components/Buttons'
 import { handleJoinDiscord, handleJoinTeam } from 'utils/helpers/paymentHelpers'
 import { fetchIcon } from 'utils/components/Icons'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
 import { useEffect, useState } from 'react'
 import bannerImg from '../../assets/Images/banner-img.png'
 import bannerImgLg from '../../assets/Images/banner-img-lg.png'
+import { PrimaryButton } from 'components/Buttons'
 
 export const PortalBanner = () => {
   const { active, type } = useAppSelector(selectBanner)
@@ -37,9 +37,10 @@ const SandboxBanner = () => {
         </p>
       </div>
       <PrimaryButton
-        className='cta-button'
-        text='Join a team'
-        handler={handleJoinTeamBtn}
+        // className='cta-button'
+        label='Join a team'
+        onClick={handleJoinTeamBtn}
+        style={{ marginRight: '32px' }}
       />
     </div>
   )
@@ -71,9 +72,10 @@ const WaitlistBanner = () => {
         <WaitlistPageInfo />
       </div>
       <PrimaryButton
-        className='cta-button'
-        text='Join the Bootcampr community'
-        handler={handleJoinDiscord}
+        // className='cta-button'
+        label='Join the Bootcampr community'
+        onClick={handleJoinDiscord}
+        style={{ marginRight: '32px' }}
       />
     </div>
   )
