@@ -5,10 +5,12 @@ import {
 } from './subcomponents'
 import './Availability.scss'
 import { useState } from 'react'
-import { defaultAvailability } from 'utils/data/userConstants'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectUserAvailability } from 'utils/redux/slices/userSlice'
 
 export const Availability = (): JSX.Element => {
-  const [days, setDays] = useState(defaultAvailability)
+  const storedUserAvailability = useAppSelector(selectUserAvailability)
+  const [days, setDays] = useState(storedUserAvailability)
 
   return (
     <div className='availability-container'>
