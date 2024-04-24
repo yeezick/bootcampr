@@ -25,7 +25,9 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
     return displayModal[idx]
   }
 
-  useEffect(() => {}, [days])
+  useEffect(() => {
+    console.log(days)
+  }, [days])
 
   const handleRenderModal = (e, idx) => {
     renderCopyTimesModal(idx, displayModal, toggleDisplayModal)
