@@ -120,17 +120,11 @@ const removeDuplicates = array => {
  * @param days availability state
  * @param setDays availability state setter
  */
-export const handleTimeChange = (
-  e,
-  days,
-  setDays,
-  consolidatedDay,
-  isStart
-) => {
+export const handleTimeChange = (e, days, setDays, isStart) => {
   const context = e.target.name.split('-')
   const day = context[0]
   const frame = Number(context[1])
-  const index = context[2]
+  const index = Number(context[2])
 
   const newTime = [...days[day].availability[frame]]
   newTime[index] = e.target.value
@@ -146,7 +140,8 @@ export const handleTimeChange = (
   }
   newTime[index] = e.target.value
 
-  const newAvailability = [newTime]
+  const newAvailability = [...days[day].availability]
+  newAvailability[frame] = newTime
 
   setDays({
     ...days,
@@ -233,8 +228,17 @@ export const saveAvailability = async (
  * @param setDays
  * @param idx
  */
-export const deleteTimeSlot = (day, days, setDays, idx, consolidatedDay) => {
-  console.log('delete time slot')
+export const deleteTimeSlot = (day, days, setDays, idx) => {
+  const newAvailability = [...days[day].availability]
+  newAvailability.splice(idx, 1)
+
+  setDays({
+    ...days,
+    [day]: {
+      available: days[day].available,
+      availability: newAvailability,
+    },
+  })
 }
 
 /**
@@ -248,8 +252,36 @@ export const deleteTimeSlot = (day, days, setDays, idx, consolidatedDay) => {
  * @param setDays
  * @param idx
  */
-export const addTimeSlot = (day, days, setDays, idx, consolidatedDay) => {
-  console.log('add time slot')
+export const addTimeSlot = (
+  day,
+  days,
+  setDays,
+  idx,
+  disableAdd,
+  toggleDisableAdd
+) => {
+  if (!disableAdd) {
+    const preveiousEndTimeIndex = timeOptions.indexOf(
+      days[day].availability[idx][1]
+    )
+    const nextStartTime = timeOptions[preveiousEndTimeIndex + 1]
+    const nextTimeSlot = [nextStartTime, timeOptions[preveiousEndTimeIndex + 2]]
+    const newAvailability = [...days[day].availability, nextTimeSlot]
+
+    if (['11:00 PM', '11:30 PM'].includes(nextTimeSlot[1])) {
+      toggleDisableAdd(true)
+    } else {
+      toggleDisableAdd(false)
+    }
+
+    setDays({
+      ...days,
+      [day]: {
+        available: days[day].available,
+        availability: newAvailability,
+      },
+    })
+  }
 }
 
 /**

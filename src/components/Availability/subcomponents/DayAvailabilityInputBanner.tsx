@@ -9,11 +9,12 @@ import { selectUserAvailability } from 'utils/redux/slices/userSlice'
 
 export const DayAvailabilityInputBanner = ({ day, idx }) => {
   const [days, setDays] = useState<AvailabilityInterface>(defaultAvailability)
-  const userAvailability = useAppSelector(selectUserAvailability)
 
   useEffect(() => {
-    setDays(userAvailability)
-  }, [userAvailability])
+    console.log(days)
+    // Set in redux here?
+    // Also ensure that if a user already has availability stored, that should be used instead
+  }, [days])
 
   return (
     <div>

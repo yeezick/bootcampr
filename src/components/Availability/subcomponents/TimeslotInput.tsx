@@ -3,8 +3,6 @@ import { FaRegTrashAlt } from 'react-icons/fa'
 import { SelectTimeInput } from './SelectTimeInput'
 import { useState, useEffect } from 'react'
 import './CopyTimesModal.scss'
-import { useDispatch } from 'react-redux'
-import { setUserAvailability } from 'utils/redux/slices/userSlice'
 import {
   consolidateAvailability,
   deleteTimeSlot,
@@ -15,21 +13,19 @@ import {
 import { weekdaysMap } from '../utils/data'
 import { BCToolTip } from 'components/ToolTip/ToolTip'
 import { CopyTimesModal } from './CopyTimesModal'
+import { useAppSelector } from 'utils/redux/hooks'
 
 export const TimeSlotInput = ({ day, days, setDays }) => {
-  const dispatch = useDispatch()
+  const [disableAdd, toggleDisableAdd] = useState(false)
   const [displayModal, toggleDisplayModal] = useState({
     0: false,
   })
-  const [consolidatedDay, setConsolidatedDay] = useState(days[day].availability)
 
   const getDisplay = idx => {
     return displayModal[idx]
   }
 
-  useEffect(() => {
-    setConsolidatedDay(days[day].availability)
-  }, [days])
+  useEffect(() => {}, [days])
 
   const handleRenderModal = (e, idx) => {
     renderCopyTimesModal(idx, displayModal, toggleDisplayModal)
@@ -37,7 +33,7 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
 
   return (
     <div className='timeslots-container'>
-      {consolidatedDay.map((slot, idx) => (
+      {days[day].availability.map((slot, idx) => (
         <div key={`${slot}-${idx}`} className='timeslot-input'>
           <div className='left-banner'>
             <SelectTimeInput
@@ -47,7 +43,7 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
               day={day}
               days={days}
               setDays={setDays}
-              consolidatedDay={consolidatedDay}
+              toggleDisableAdd={toggleDisableAdd}
             />
             <h4>--</h4>
             <SelectTimeInput
@@ -57,28 +53,37 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
               slot={slot}
               days={days}
               setDays={setDays}
-              consolidatedDay={consolidatedDay}
+              toggleDisableAdd={toggleDisableAdd}
             />
             <div className='clickable-icon'>
               <FaRegTrashAlt
                 className='react-icon'
-                onClick={() =>
-                  deleteTimeSlot(day, days, setDays, idx, consolidatedDay)
-                }
+                onClick={() => deleteTimeSlot(day, days, setDays, idx)}
               />
             </div>
           </div>
           <div className='right-banner'>
-            {consolidatedDay.length - 1 === idx && (
+            {days[day].availability.length - 1 === idx && (
               <BCToolTip
-                text={`New time block for ${weekdaysMap[day]}`}
+                text={
+                  disableAdd
+                    ? `Cannot add new time block past 11:00 PM`
+                    : `New time block for ${weekdaysMap[day]}`
+                }
                 child={
                   <div className='clickable-icon'>
                     <AddRounded
                       onClick={() =>
-                        addTimeSlot(day, days, setDays, idx, consolidatedDay)
+                        addTimeSlot(
+                          day,
+                          days,
+                          setDays,
+                          idx,
+                          disableAdd,
+                          toggleDisableAdd
+                        )
                       }
-                      className='icon'
+                      className={`icon ${disableAdd ? 'disabled' : ''}`}
                     />
                   </div>
                 }

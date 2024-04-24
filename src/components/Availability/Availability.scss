@@ -123,6 +123,11 @@
                 margin: 0 10px;
             }
 
+            .disabled {
+                color: gray;
+                cursor:not-allowed;
+            }
+
             .react-icon {
                 cursor: pointer;
                 height: 20px;

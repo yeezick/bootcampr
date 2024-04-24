@@ -12,13 +12,18 @@ export const SelectTimeInput = ({
   slot,
   days,
   setDays,
-  consolidatedDay,
+  toggleDisableAdd,
 }) => {
   const index = isStart ? 0 : 1
   const [inputTimeOptions, setInputTimeOptions] = useState(timeOptions)
   const dispatch = useDispatch()
 
   useEffect(() => {
+    if (['11:00 PM', '11:30 PM'].includes(days[day].availability[idx][index])) {
+      toggleDisableAdd(true)
+    } else {
+      toggleDisableAdd(false)
+    }
     if (!isStart) {
       const earliestLogicalOptionIndex = timeOptions.findIndex(
         timeOption => timeOption === slot[0]
@@ -28,6 +33,10 @@ export const SelectTimeInput = ({
         ...timeOptions.slice(earliestLogicalOptionIndex + 1),
       ]
       setInputTimeOptions(logicalEndOptions)
+    } else {
+      const startTimeOptions = [...timeOptions]
+      startTimeOptions.pop()
+      setInputTimeOptions(startTimeOptions)
     }
     dispatch(setUserAvailability(days))
   }, [days])
@@ -38,9 +47,7 @@ export const SelectTimeInput = ({
       inputProps={{ sx: { padding: '8px 13px !important' } }}
       MenuProps={menuPropsSX}
       name={`${day}-${idx}-${index}`}
-      onChange={e =>
-        handleTimeChange(e, days, setDays, consolidatedDay, isStart)
-      }
+      onChange={e => handleTimeChange(e, days, setDays, isStart)}
       size='small'
       sx={selectSX}
       value={days[day].availability[idx][index]}
