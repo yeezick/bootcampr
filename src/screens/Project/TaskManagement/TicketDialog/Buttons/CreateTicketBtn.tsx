@@ -36,11 +36,5 @@ export const CreateTicketBtn = () => {
     }
   }
 
-  return (
-    <PrimaryButton
-      handler={handleCreateTicket}
-      text={'Create story'}
-      disableElevation
-    />
-  )
+  return <PrimaryButton label={'Create story'} onClick={handleCreateTicket} />
 }

@@ -4,8 +4,8 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { setVisibleTicketDialog } from 'utils/redux/slices/taskBoardSlice'
 import { selectProjectTracker } from 'utils/redux/slices/projectSlice'
 import '../styles/NoTicketsCreated.scss'
-import { PrimaryButton } from 'components/Buttons'
 import { doTicketsExist } from 'utils/helpers/taskHelpers'
+import { PrimaryButton } from 'components/Buttons'
 
 export const NoTicketsCreated = () => {
   const [ticketsExist, setTicketsExist] = useState(false)
@@ -35,8 +35,8 @@ export const NoTicketsCreated = () => {
             </p>
           </div>
           <PrimaryButton
-            handler={openCreateTicketDialog}
-            text='Create a story'
+            label='Create a story'
+            onClick={openCreateTicketDialog}
             startIcon='plus'
           />
         </div>
