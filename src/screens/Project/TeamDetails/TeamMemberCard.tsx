@@ -12,6 +12,7 @@ import {
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useSocketEvents } from 'components/Notifications/Socket'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const TeamMemberCard = ({ member }) => {
   const { _id: memberId } = member
@@ -67,25 +68,11 @@ const MemberButtons = ({ memberId }) => {
   const handleProfile = () => navigate(`/users/${memberId}`)
 
   return (
-    <div className='member-buttons'>
+    <ButtonContainer justify='space-evenly'>
       {!isCurrentUser && (
-        <SecondaryButton
-          onClick={handleChatMemberClick}
-          label='Send message'
-          style={buttonSx}
-        />
+        <SecondaryButton onClick={handleChatMemberClick} label='Send message' />
       )}
-      <PrimaryButton
-        onClick={handleProfile}
-        label='View profile'
-        style={buttonSx}
-      />
-    </div>
+      <PrimaryButton onClick={handleProfile} label='View profile' />
+    </ButtonContainer>
   )
-}
-
-const buttonSx = {
-  height: '32px',
-  fontSize: '12px',
-  backgroundColor: 'red',
 }
