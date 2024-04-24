@@ -1,5 +1,5 @@
 import { CommonButtonProps, IconBtnProps } from 'interfaces/components'
-import { createButton, createIconButton } from './Buttons'
+import { createButton, createIconButton } from './ButtonHelpers'
 
 /**
  * This button accepts all Mui Button props as well as some custom props.
@@ -64,12 +64,13 @@ export const CreateTaskButton = (props: CommonButtonProps) =>
     ...props,
     colorScheme: 'create-task',
     startIcon: 'plus',
-    text: 'Create task',
+    label: 'Create task',
     variant: 'contained',
   })
 
-export const RedPrimaryButton = (props: CommonButtonProps) =>
-  createButton({ ...props, colorScheme: 'secondary' })
+export const RedPrimaryButton = (
+  props: CommonButtonProps //TODO track this down and just use a PrimaryButton with colorScheme='secondary'
+) => createButton({ ...props, colorScheme: 'secondary' })
 
 /**
  * @param {React.ReactNode} [icon] - The icon to be rendered.
