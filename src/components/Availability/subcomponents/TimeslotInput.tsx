@@ -79,7 +79,7 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
                           toggleDisableAdd
                         )
                       }
-                      className={`icon ${disableAdd ? 'disabled' : ''}`}
+                      className={`icon ${disableAdd && 'disabled'}`}
                     />
                   </div>
                 }

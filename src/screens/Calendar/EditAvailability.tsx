@@ -8,12 +8,15 @@ import {
   selectUserAvailability,
 } from 'utils/redux/slices/userSlice'
 import './EditAvailability.scss'
+import { AvailabilityInterface } from 'interfaces'
 
 export const EditAvailability = () => {
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const userTimezoneInUTC = useAppSelector(getUserTimezone)
-  const userAvailability = useAppSelector(selectUserAvailability)
+  const userAvailability = useAppSelector<AvailabilityInterface>(
+    selectUserAvailability
+  )
 
   const handleSaveAvailability = async () => {
     await saveAvailability(

@@ -16,7 +16,7 @@ dayjs.extend(localizedFormat)
  * @param availability (Array)
  * @returns new consolidate availability (array)
  */
-export const consolidateAvailability = availability => {
+export const consolidateAvailability = (availability): string[][] => {
   let consolidatedAvail = [...availability]
 
   let reducedFullLogical = createFullAvailability(consolidatedAvail)
