@@ -11,10 +11,7 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useSocketEvents } from 'components/Notifications/Socket'
-import {
-  PrimaryButton,
-  SecondaryButton,
-} from 'components/Buttons/ButtonVariants'
+import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 
 export const TeamMemberCard = ({ member }) => {
   const { _id: memberId } = member
@@ -73,15 +70,15 @@ const MemberButtons = ({ memberId }) => {
     <div className='member-buttons'>
       {!isCurrentUser && (
         <SecondaryButton
-          handler={handleChatMemberClick}
-          text='Send message'
-          sx={buttonSx}
+          onClick={handleChatMemberClick}
+          label='Send message'
+          style={buttonSx}
         />
       )}
       <PrimaryButton
-        handler={handleProfile}
-        text='View profile'
-        sx={buttonSx}
+        onClick={handleProfile}
+        label='View profile'
+        style={buttonSx}
       />
     </div>
   )

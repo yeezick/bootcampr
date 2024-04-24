@@ -5,8 +5,9 @@ import {
   selectProject,
 } from 'utils/redux/slices/projectSlice'
 import { Stack } from '@mui/material'
-import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { useState } from 'react'
+import { PrimaryButton, SecondaryButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const WhatsNextPage = () => {
   const completedInfo = useSelector(selectCompletedInfo)
@@ -62,18 +63,17 @@ export const WhatsNextPage = () => {
           </p>
         </section>
       </div>
-      <Stack className='btn-container'>
+      <ButtonContainer justify='center' style={{ marginTop: '64px' }}>
         <SecondaryButton
-          handler={handleCancel}
-          text='Back to Product Details'
+          onClick={handleCancel}
+          label='Back to Product Details'
         />
         <PrimaryButton
-          aria-disabled={isDisabled}
-          handler={handleSurvey}
+          onClick={handleSurvey}
           disabled={isDisabled}
-          text='Answer survey'
+          label='Answer survey'
         />
-      </Stack>
+      </ButtonContainer>
     </div>
   )
 }

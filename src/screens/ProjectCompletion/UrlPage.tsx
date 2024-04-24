@@ -6,18 +6,11 @@ import {
   updatePresenting,
 } from 'utils/redux/slices/projectSlice'
 import { Stack } from '@mui/material'
-// import { SecondaryButton } from 'components/Buttons'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-// import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
-import {
-  PrimaryButton,
-  SecondaryButton,
-} from 'components/Buttons/ButtonVariants'
-import { ForwardButton } from 'components/Buttons/Variants/ForwardButton'
-import { BackButton } from 'components/Buttons/Variants/BackButton'
+import { ForwardButton, SecondaryButton } from 'components/Buttons'
 
 export const UrlPage = ({ handlePageNavigation }) => {
   const project = useSelector(selectProject)
@@ -53,28 +46,16 @@ export const UrlPage = ({ handlePageNavigation }) => {
         <Stack className='form-content' spacing={'32px'}>
           <p>First, input the URL to your website.</p>
           <ProjectUrl setIsDisabled={setIsDisabled} />
-          {/* <Stack className='btn-container'> */}
-          <ButtonContainer gap={8}>
-            <SecondaryButton label='Cancel' />
-            <PrimaryButton label='Presentation' colorScheme='secondary' />
-            <ForwardButton label='Next' />
-            <BackButton label='Back???' />
-            {/*   <SecondaryButton
-                // className='cancel-btn'
-                handler={handleCancel}
-                text='Cancel'
-              />
-              <PaginatorButton
-                buttonType='primary'
-                disabled={isDisabled}
-                text='Presentation'
-                type='submit'
-                aria-disabled={isDisabled}
-                handler={handleSubmit}
-              /> */}
+          <ButtonContainer>
+            <SecondaryButton onClick={handleCancel} label='Cancel' />
+            <ForwardButton
+              disabled={isDisabled}
+              label='Presentation'
+              onClick={handleSubmit}
+              type='submit'
+            />
           </ButtonContainer>
         </Stack>
-        {/* </Stack> */}
       </form>
     </div>
   )
