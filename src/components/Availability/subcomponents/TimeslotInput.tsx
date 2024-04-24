@@ -4,7 +4,6 @@ import { SelectTimeInput } from './SelectTimeInput'
 import { useState, useEffect } from 'react'
 import './CopyTimesModal.scss'
 import {
-  consolidateAvailability,
   deleteTimeSlot,
   addTimeSlot,
   renderCopyTimesModal,
@@ -13,7 +12,6 @@ import {
 import { weekdaysMap } from '../utils/data'
 import { BCToolTip } from 'components/ToolTip/ToolTip'
 import { CopyTimesModal } from './CopyTimesModal'
-import { useAppSelector } from 'utils/redux/hooks'
 
 export const TimeSlotInput = ({ day, days, setDays }) => {
   const [disableAdd, toggleDisableAdd] = useState(false)
@@ -24,10 +22,6 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
   const getDisplay = idx => {
     return displayModal[idx]
   }
-
-  useEffect(() => {
-    console.log(days)
-  }, [days])
 
   const handleRenderModal = (e, idx) => {
     renderCopyTimesModal(idx, displayModal, toggleDisplayModal)

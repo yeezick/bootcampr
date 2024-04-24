@@ -15,8 +15,6 @@ export const EditAvailability = () => {
   const userTimezoneInUTC = useAppSelector(getUserTimezone)
   const userAvailability = useAppSelector(selectUserAvailability)
 
-  // const [days, setDays] = useState<AvailabilityInterface>(defaultAvailability)
-
   const handleSaveAvailability = async () => {
     await saveAvailability(
       dispatch,

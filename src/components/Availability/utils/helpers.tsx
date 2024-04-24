@@ -19,11 +19,11 @@ dayjs.extend(localizedFormat)
 export const consolidateAvailability = availability => {
   let consolidatedAvail = [...availability]
 
-  // let reducedFullLogical = createFullAvailability(consolidatedAvail)
-  //   convertLogicalToUserFriendly(reducedFullLogical)
+  let reducedFullLogical = createFullAvailability(consolidatedAvail)
+  let userFriendlyConsolidated =
+    convertLogicalToUserFriendly(reducedFullLogical)
 
-  // return userFriendlyConsolidated
-  return consolidatedAvail
+  return userFriendlyConsolidated
 }
 
 /**
@@ -142,12 +142,14 @@ export const handleTimeChange = (e, days, setDays, isStart) => {
 
   const newAvailability = [...days[day].availability]
   newAvailability[frame] = newTime
+  const consolidatedAndSortedAvailability =
+    consolidateAvailability(newAvailability)
 
   setDays({
     ...days,
     [day]: {
       available: days[day].available,
-      availability: newAvailability,
+      availability: consolidatedAndSortedAvailability,
     },
   })
 }
@@ -170,11 +172,14 @@ export const handleCheck = (day, days, setDays) => {
       ? days[day].availability
       : [['9:00 AM', '5:00 PM']]
 
+  const consolidatedAndSortedAvailability =
+    consolidateAvailability(newAvailability)
+
   setDays({
     ...days,
     [day]: {
       available,
-      availability: newAvailability,
+      availability: consolidatedAndSortedAvailability,
     },
   })
 }
@@ -275,12 +280,14 @@ export const addTimeSlot = (
     } else {
       toggleDisableAdd(false)
     }
+    const consolidatedAndSortedAvailability =
+      consolidateAvailability(newAvailability)
 
     setDays({
       ...days,
       [day]: {
         available: days[day].available,
-        availability: newAvailability,
+        availability: consolidatedAndSortedAvailability,
       },
     })
   }
@@ -359,7 +366,9 @@ export const copyTimes = (checked, day, days, idx, setDays) => {
     const storageDay = daysMap[day]
     newAvail[storageDay] = {
       available: true,
-      availability: days[storageDay].availability.concat(copiedTimeslot),
+      availability: consolidateAvailability(
+        days[storageDay].availability.concat(copiedTimeslot)
+      ),
     }
   })
 
