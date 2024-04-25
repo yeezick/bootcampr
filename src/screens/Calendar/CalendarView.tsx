@@ -3,6 +3,7 @@ import { useRef } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
+import rrulePlugin from '@fullcalendar/rrule'
 import { fetchSandboxCalendar, fetchUserCalendar } from 'utils/api/calendar'
 import {
   selectCalendarId,
@@ -132,6 +133,22 @@ export const CalendarView = () => {
     })
   }
 
+  const recEvents = [
+    {
+      title: 'my recurring event',
+      start: '2024-04-24T10:30:00',
+      end: '2024-04-24T11:30:00',
+      rrule:
+        'DSTART:20240424T103000\nRRULE:FREQ=WEEKLY;UNTIL=20240601;BYDAY=MO,FR',
+      // rrule : {
+      //   freq: 'weekly',
+      //   dtstart: '2024-04-24T10:30:00',
+      //   byweekday: [ 'mo', 'fr' ],
+
+      // }
+    },
+  ]
+
   switch (eventFetchingStatus) {
     case 'success':
       return (
@@ -140,6 +157,7 @@ export const CalendarView = () => {
             ref={calendarRef}
             datesSet={renderWeekNumber}
             events={[...convertedEventsAsArr, ...teamAvailabilityArr]}
+            //events={recEvents}
             eventClick={handleEventClick}
             eventTimeFormat={{
               hour: 'numeric',
@@ -155,7 +173,7 @@ export const CalendarView = () => {
             allDaySlot={false}
             initialView='timeGridWeek'
             nowIndicator={true}
-            plugins={[dayGridPlugin, timeGridPlugin]}
+            plugins={[dayGridPlugin, timeGridPlugin, rrulePlugin]}
             validRange={{
               start: firstDay,
               end: lastDay,

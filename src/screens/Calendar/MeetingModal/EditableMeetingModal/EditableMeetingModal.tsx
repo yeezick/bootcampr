@@ -213,6 +213,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
     if (modalDisplayStatus === 'create') {
       try {
         const newEvent = await createEvent(calendarId, eventInfo)
+        console.log(newEvent)
         dispatch(addNewEvent(newEvent))
         handleClose()
         handleOpenAlert()
