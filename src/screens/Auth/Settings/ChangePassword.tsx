@@ -10,10 +10,10 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { logoutAuthUser, selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useFormValidation } from 'utils/helpers'
 import { PasswordInputs } from 'components/Inputs'
-import { ThemeProvider } from '@emotion/react'
-import { Button, createTheme } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
+import { PrimaryButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const ChangePassword = () => {
   const navigate = useNavigate()
@@ -60,14 +60,6 @@ export const ChangePassword = () => {
 
   const { password, currentPassword } = formValues
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#FFA726',
-      },
-    },
-  })
-
   useFormValidation(formValues, currentPassword, toggleIsDisabled)
   return (
     <div className='settings-change-password container'>
@@ -83,16 +75,11 @@ export const ChangePassword = () => {
           setFormValues={setFormValues}
           passwordInputName='settings-pwd-reset'
         />
-        <ThemeProvider theme={theme}>
-          <Button
-            className='settings-change-password button'
-            variant='contained'
-            type='submit'
-            disabled={isDisabled}
-          >
-            Change password
-          </Button>
-        </ThemeProvider>
+        <PrimaryButton
+          type='submit'
+          disabled={isDisabled}
+          label='Change password'
+        />
       </form>
     </div>
   )

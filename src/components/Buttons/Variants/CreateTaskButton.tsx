@@ -7,6 +7,6 @@ export const CreateTaskButton = (props: CommonButtonProps) =>
     ...props,
     colorScheme: 'create-task',
     startIcon: 'plus',
-    label: 'Create task',
     variant: 'contained',
+    style: { justifyContent: 'start' },
   })
