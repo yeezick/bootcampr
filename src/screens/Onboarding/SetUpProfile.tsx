@@ -109,7 +109,6 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
       dispatch(setAuthUser(updatedUser))
       handlePageNavigation('previous')
     } catch (error) {
-      console.error('Profile failed to save. Please try again.', error)
       dispatch(errorSnackbar('Profile failed to save. Please try again.'))
     }
   }
