@@ -110,17 +110,19 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
       handlePageNavigation('previous')
     } catch (error) {
       console.error('Profile failed to save. Please try again.', error)
+      dispatch(errorSnackbar('Profile failed to save. Please try again.'))
     }
   }
 
   const handlePrimaryClick = async () => {
-    const updatedUserProfile = await updateUserProfile(updateUserForm)
-    const checkoutResponse = await createCheckout()
-
-    if (updatedUserProfile.error) {
+    try {
+      const updatedUserProfile = await updateUserProfile(updateUserForm)
+    } catch (err) {
       dispatch(errorSnackbar('Profile failed to save. Please try again.'))
-      return
-    } else if (checkoutResponse.error && !checkoutResponse.checkoutUrl) {
+    }
+
+    const checkoutResponse = await createCheckout()
+    if (checkoutResponse.error && !checkoutResponse.checkoutUrl) {
       dispatch(errorSnackbar(checkoutResponse.error))
       return
     }
