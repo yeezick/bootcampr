@@ -38,7 +38,7 @@ export interface EventInfo {
   projectId: string
   recurrence?: {
     enabled: boolean
-    rrule: {}
+    rrule: string
   }
 }
 
