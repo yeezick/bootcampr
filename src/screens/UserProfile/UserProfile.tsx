@@ -96,19 +96,11 @@ export const UserProfile: React.FC = () => {
             )}
             {shouldShowRole && <h3>{userProfileInfo.role}</h3>}
           </div>
-          {sameProfile ? (
-            <PrimaryButton
-              label='Edit Profile'
-              onClick={routeToEdit}
-              style={{ position: 'absolute', top: '0', right: '0' }}
-            />
-          ) : (
-            <PrimaryButton
-              label='Message'
-              onClick={handleProfileMessageClick}
-              style={{ position: 'absolute', top: '0', right: '0' }}
-            />
-          )}
+          <PrimaryButton
+            label={sameProfile ? 'Edit Profile' : 'Message'}
+            onClick={sameProfile ? routeToEdit : handleProfileMessageClick}
+            style={{ position: 'absolute', top: '0', right: '0' }}
+          />
         </div>
         <div className='userProfile__infoContainer'>
           <h3>About me</h3>
