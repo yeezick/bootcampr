@@ -14,7 +14,7 @@ export const ButtonContainer = ({
   style = {},
 }) => {
   return (
-    <Box display='flex' justifyContent={justify} style={style}>
+    <Box display='flex' justifyContent={justify} style={style} width={'100%'}>
       <Box display='flex' gap={`${gap}px`}>
         {children}
       </Box>

@@ -4,6 +4,7 @@ import { ButtonStyle } from 'utils/data/authSettingsConstants'
 import { CommonModalProps } from 'interfaces/AccountSettingsInterface'
 import { useEffect, useState } from 'react'
 import { PrimaryButton, TextButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const CommonModal = ({
   isOpen,
@@ -61,7 +62,7 @@ export const CommonModal = ({
                 )}
               </div>
             )}
-            <div className='common-modal buttons'>
+            <ButtonContainer style={{ marginTop: '16px' }}>
               {cancelButtonLabel && (
                 <TextButton
                   type='submit'
@@ -77,7 +78,7 @@ export const CommonModal = ({
                   label={confirmButtonLabel}
                 />
               )}
-            </div>
+            </ButtonContainer>
           </div>
         </div>
       </Modal>

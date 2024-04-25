@@ -10,6 +10,7 @@ import uxDesigner from '../../assets/Images/ux-designer.png'
 import productManager from '../../assets/Images/product-manager.png'
 import { successSnackbar } from 'utils/helpers/commentHelpers'
 import { ForwardButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const Role = ({ handlePageNavigation }) => {
   const dispatch = useDispatch()
@@ -86,13 +87,13 @@ export const Role = ({ handlePageNavigation }) => {
           ))}
         </div>
       </div>
-      <div className='onboarding-button-section'>
+      <ButtonContainer>
         <ForwardButton
           disabled={!buttonEnabled}
           onClick={handleSubmit}
           label='Set availability'
         />
-      </div>
+      </ButtonContainer>
     </div>
   )
 }

@@ -41,61 +41,6 @@
     max-width: 612px;
   }
 
-  &__editBtn {
-    align-items: center;
-    @include font-properties(
-      (
-        size: 14px,
-        weight: 500,
-        line-height: 20px,
-      )
-    );
-    background-color: #fff;
-    border: 1px solid #5c6bc0;
-    border-radius: 4px;
-    color: #1a237e;
-    cursor: pointer;
-    display: flex;
-    gap: 8px;
-    height: 40px;
-    justify-content: center;
-    margin: 1px 1px auto auto;
-    padding: 0 24px;
-    width: 118px;
-  }
-
-  &__editBtn:hover {
-    background-color: #5c6bc0;
-    color: #fff;
-  }
-
-  &__messageBtn {
-    align-items: center;
-    @include font-properties(
-      (
-        size: 14px,
-        weight: 600,
-        line-height: 20px,
-      )
-    );
-    background-color: #ffa726;
-    border: none;
-    border-radius: 4px;
-    color: #1a237e;
-    cursor: pointer;
-    display: flex;
-    gap: 8px;
-    height: 40px;
-    justify-content: center;
-    overflow: hidden;
-    margin: 1px 1px auto auto;
-    padding: 0 24px;
-    position: relative;
-    text-decoration: none;
-    width: 118px;
-    word-wrap: break-word;
-  }
-
   h3 {
     @include font-properties(
       (
@@ -250,6 +195,7 @@
     align-items: center;
     display: flex;
     gap: 16px;
+    position: relative;
   }
 
   &__urlNoBlue {

@@ -37,7 +37,6 @@ const SandboxBanner = () => {
         </p>
       </div>
       <PrimaryButton
-        // className='cta-button'
         label='Join a team'
         onClick={handleJoinTeamBtn}
         style={{ marginRight: '32px' }}
@@ -72,7 +71,6 @@ const WaitlistBanner = () => {
         <WaitlistPageInfo />
       </div>
       <PrimaryButton
-        // className='cta-button'
         label='Join the Bootcampr community'
         onClick={handleJoinDiscord}
         style={{ marginRight: '32px' }}

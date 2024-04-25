@@ -19,6 +19,7 @@ import {
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useSocketEvents } from 'components/Notifications/Socket'
 import './UserProfile.scss'
+import { PrimaryButton } from 'components/Buttons'
 
 export const UserProfile: React.FC = () => {
   const authUser = useAppSelector(selectAuthUser)
@@ -96,16 +97,17 @@ export const UserProfile: React.FC = () => {
             {shouldShowRole && <h3>{userProfileInfo.role}</h3>}
           </div>
           {sameProfile ? (
-            <button className='userProfile__editBtn' onClick={routeToEdit}>
-              Edit Profile
-            </button>
+            <PrimaryButton
+              label='Edit Profile'
+              onClick={routeToEdit}
+              style={{ position: 'absolute', top: '0', right: '0' }}
+            />
           ) : (
-            <button
-              className='userProfile__messageBtn'
+            <PrimaryButton
+              label='Message'
               onClick={handleProfileMessageClick}
-            >
-              Message
-            </button>
+              style={{ position: 'absolute', top: '0', right: '0' }}
+            />
           )}
         </div>
         <div className='userProfile__infoContainer'>

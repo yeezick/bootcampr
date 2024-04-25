@@ -1,5 +1,6 @@
-import { Box } from '@mui/material'
 import './ImageEditorModal.scss'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { PrimaryButton, TextButton } from 'components/Buttons'
 
 /**
  * ImageEditorControls component displays the controls for the image editor modal.
@@ -12,16 +13,10 @@ import './ImageEditorModal.scss'
  */
 const ImageEditorControls = ({ handleSave, handleClose }) => {
   return (
-    <Box className='image-modal__action-box'>
-      <Box className='image-modal__button-box'>
-        <button className='image-modal__cancel-btn' onClick={handleClose}>
-          Cancel
-        </button>
-        <button className='image-modal__save-btn' onClick={handleSave}>
-          Save photo
-        </button>
-      </Box>
-    </Box>
+    <ButtonContainer justify='center'>
+      <TextButton label='Cancel' onClick={handleClose} />
+      <PrimaryButton label='Save photo' onClick={handleSave} />
+    </ButtonContainer>
   )
 }
 
