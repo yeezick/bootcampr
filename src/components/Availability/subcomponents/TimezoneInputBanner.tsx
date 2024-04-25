@@ -4,15 +4,35 @@ import { Timezones } from '../utils/data'
 import { setUserTimezone } from 'utils/redux/slices/userSlice'
 import { useDispatch } from 'react-redux'
 import { bootcamprTimezoneToUTCMap } from 'utils/data/timeZoneConstants'
+import { utcToBootcamprTimezoneMap } from 'utils/data/timeZoneConstants'
+import { guessUserTimezone } from 'utils/helpers/availabilityHelpers'
+import { useEffect, useState } from 'react'
+import { useAppSelector } from 'utils/redux/hooks'
+import { getUserTimezone } from 'utils/redux/slices/userSlice'
 
-export const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
+export const TimeZoneInputBanner = () => {
   const dispatch = useDispatch()
+  const storedUserTimezone = useAppSelector(getUserTimezone)
+  const [userFriendlyTimezone, setUserFriendlyTimezone] = useState(Timezones.ET)
+
+  useEffect(() => {
+    const guessedUserTimezone = guessUserTimezone()
+    let timezone
+
+    if (storedUserTimezone) {
+      timezone = utcToBootcamprTimezoneMap[storedUserTimezone]
+      setUserFriendlyTimezone(timezone)
+    } else if (guessedUserTimezone) {
+      timezone = guessedUserTimezone.userFriendly
+      setUserFriendlyTimezone(guessedUserTimezone.userFriendly)
+    }
+  }, [])
 
   const handleChange = e => {
     const timezoneValue = e.target.value
     const userTZinUTC = bootcamprTimezoneToUTCMap[timezoneValue]
 
-    setTimezone(timezoneValue)
+    setUserFriendlyTimezone(timezoneValue)
     dispatch(setUserTimezone(userTZinUTC))
   }
 
@@ -20,10 +40,10 @@ export const TimeZoneInputBanner = ({ setTimezone, timezone }) => {
     <div className='timezone-input-container'>
       <h2>Availability</h2>
       <Select
-        defaultValue={timezone}
+        defaultValue={userFriendlyTimezone}
         IconComponent={ExpandMoreRounded}
         sx={tzSelectSx}
-        value={timezone}
+        value={userFriendlyTimezone}
         onChange={handleChange}
       >
         {Object.keys(Timezones).map(zone => (

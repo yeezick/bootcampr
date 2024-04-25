@@ -6,12 +6,6 @@ import { getUserTimezone, selectAuthUser } from 'utils/redux/slices/userSlice'
 import { AvailabilityInterface } from 'interfaces'
 import { saveAvailability } from 'components/Availability/utils/helpers'
 import { disableForwardButton } from 'components/Availability/utils/helpers'
-import { Timezones } from 'components/Availability/utils/data'
-import { guessUserTimezone } from 'utils/helpers/availabilityHelpers'
-import {
-  utcToBootcamprTimezoneMap,
-  bootcamprTimezoneToUTCMap,
-} from 'utils/data/timeZoneConstants'
 import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import './SetupAvailability.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
@@ -28,13 +22,12 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   const storedUserTZinUTC = useAppSelector(getUserTimezone)
 
   const [days, setDays] = useState<AvailabilityInterface>(defaultAvailability)
-  const [uxUserTimezone, setUxUserTimezone] = useState(Timezones.ET)
   const [isDisabled, setIsDisabled] = useState(true)
 
   const storeAvailability = async () => {
     try {
       const userTZinUTC = bootcamprTimezoneToUTCMap[uxUserTimezone]
-      const avail = await saveAvailability(authUser._id, days, userTZinUTC)
+      const avail = await saveAvailability(authUser._id, days, storedUserTZinUTC)
     } catch (error) {
       dispatch(errorSnackbar('Availability failed to save. Please try again.'))
     }
@@ -46,20 +39,6 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   }
   const handlePrevious = () => handleNavigationButtons('previous')
   const handleNext = () => handleNavigationButtons('next')
-
-  useEffect(() => {
-    let userFriendlyTZ = Timezones.ET
-    if (storedUserTZinUTC) {
-      userFriendlyTZ = utcToBootcamprTimezoneMap[storedUserTZinUTC]
-    } else {
-      const userTZguess = guessUserTimezone()
-
-      userFriendlyTZ = userFriendlyTZ
-        ? userTZguess.userFriendlyTZ
-        : Timezones.ET
-    }
-    setUxUserTimezone(userFriendlyTZ)
-  }, [])
 
   useEffect(() => {
     const disabled = disableForwardButton(days)
@@ -74,18 +53,12 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
         <p>You can edit this later in the project portal calendar page.</p>
         <i>
           <strong>
-            *You must have 3 days per week with at least 1 hour of availability
-            to meet. <br />
-            The 1 hour can be 2 half-hour time slots.
+            *You must have 3 days per week with at least 1 hour per day of
+            availability to meet.
           </strong>
         </i>
       </div>
-      <Availability
-        days={days}
-        setDays={setDays}
-        uxUserTimezone={uxUserTimezone}
-        setUxUserTimezone={setUxUserTimezone}
-      />
+      <Availability days={days} setDays={setDays} />
       <div className='setup-avail-buttons-wrapper'>
         <div className='setup-avail-buttons'>
           <PaginatorButton

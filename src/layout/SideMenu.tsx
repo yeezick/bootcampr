@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
-import { changePortalPage } from 'utils/helpers'
+import { blankDayJs, changePortalPage, generateDayJs } from 'utils/helpers'
 import { iconMap } from 'utils/components/Icons'
 import { PrimaryButton } from 'components/Buttons'
 import {
+  selectCompletedInfo,
   selectProjectId,
   selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
-import dayjs from 'dayjs'
 import './styles/SideMenu.scss'
 
 export const SideMenu = () => {
@@ -18,21 +18,31 @@ export const SideMenu = () => {
   const projectId = useAppSelector(selectProjectId)
   const { projectSubmissionDate } = useAppSelector(selectProjectTimeline)
   const { active } = useAppSelector(selectSideMenu)
-  const [isDisabled, setIsDisabled] = useState(
-    +projectSubmissionDate > dayjs().valueOf()
-  )
+  const projectSubmissionInfo = useAppSelector(selectCompletedInfo)
+  const [isDisabled, setIsDisabled] = useState(true)
+  const isProjectSubmitted =
+    projectSubmissionInfo.deployedUrl && projectSubmissionInfo.presenting
 
   const handleProjectCompletion = () =>
     navigate(`/project/${projectId}/complete`)
 
-  //TODO: Currently set to check every minute but we can adjust as needed
+  //TODO: Currently set to check every minute but we can adjust as needed, there might be a delay in seconds.
   useEffect(() => {
-    const dateCheckInterval = setInterval(() => {
-      setIsDisabled(+projectSubmissionDate > dayjs().valueOf())
-    }, 60000)
+    const checkSubmissionTime = () => {
+      const submissionDate = generateDayJs(projectSubmissionDate)
+      const now = blankDayJs()
+
+      setIsDisabled(
+        !now.isSameOrAfter(submissionDate, 'minute') || isProjectSubmitted
+      )
+    }
+
+    checkSubmissionTime()
+
+    const dateCheckInterval = setInterval(checkSubmissionTime, 60000)
 
     return () => clearInterval(dateCheckInterval)
-  }, [active, projectSubmissionDate])
+  }, [active, projectSubmissionDate, isProjectSubmitted])
 
   const btnClassName = `completion-btn ${!projectId && 'disabled-btn'}`
 

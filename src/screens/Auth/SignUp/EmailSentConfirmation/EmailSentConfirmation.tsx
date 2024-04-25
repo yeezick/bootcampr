@@ -1,34 +1,16 @@
 import { useEffect, useState } from 'react'
 import './EmailSentConfirmation.scss'
-import { useNavigate, useParams } from 'react-router-dom'
-import { getOneUser, resendNewEmailLink } from 'utils/api'
-import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
-import { SnackBarSeverity } from 'interfaces/SnackBarToast'
-import { selectUserEmail } from 'utils/redux/slices/userSlice'
+import { useNavigate } from 'react-router-dom'
 import { PrimaryButton } from 'components/Buttons'
 import { isMobileWidth } from 'utils/helpers'
+import { UpdateEmailAddressLink } from '../../../../components/UpdateEmailAddressLink/UpdateEmailAddressLink'
 
 export const EmailSentConfirmation: React.FC = () => {
-  const dispatch = useAppDispatch()
-  const { id: newUserId } = useParams()
-  const [userEmail, setUserEmail] = useState(useAppSelector(selectUserEmail))
+  const [email, setEmail] = useState(() => {
+    const storedUser = JSON.parse(sessionStorage.getItem('bootcamprLocalUser'))
+    return storedUser ? storedUser.email : ''
+  })
   const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const fetchUserEmail = async () => {
-      try {
-        const { email } = await getOneUser(newUserId)
-        setUserEmail(email)
-      } catch (error) {
-        console.error('Error fetching user data:', error)
-      }
-    }
-
-    if (!userEmail) {
-      fetchUserEmail()
-    }
-  }, [newUserId, userEmail])
 
   useEffect(() => {
     const handleResize = () => {
@@ -40,57 +22,21 @@ export const EmailSentConfirmation: React.FC = () => {
     }
   }, [])
 
-  //TODO: replace this with a modal to complete update email flow (BC-753)
-  const handleResendEmailClick = async () => {
-    try {
-      const res: any = await resendNewEmailLink(newUserId)
-
-      let toastSeverity: SnackBarSeverity = null
-
-      if (res.status === 200) {
-        toastSeverity = 'success'
-      } else {
-        toastSeverity = 'error'
-      }
-      dispatch(
-        createSnackBar({
-          message: res.data.friendlyMessage,
-          severity: toastSeverity,
-        })
-      )
-    } catch (error) {
-      console.error('Error resending new email verification link.', error)
-    }
-  }
-
-  if (isMobileWidth()) {
-    return (
-      <MobileEmailSentConfirmation
-        handleResendEmailClick={handleResendEmailClick}
-        userEmail={userEmail}
-      />
-    )
+  if (isMobile) {
+    return <MobileEmailSentConfirmation email={email} setEmail={setEmail} />
   } else {
-    return (
-      <DesktopEmailSentConfirmation
-        handleResendEmailClick={handleResendEmailClick}
-        userEmail={userEmail}
-      />
-    )
+    return <DesktopEmailSentConfirmation email={email} setEmail={setEmail} />
   }
 }
 
-const DesktopEmailSentConfirmation = ({
-  handleResendEmailClick,
-  userEmail,
-}) => {
+const DesktopEmailSentConfirmation = ({ email, setEmail }) => {
   return (
     <div className='email-confirmation-container'>
       <p className='message-content header'>
         Congrats! You've taken the first step.
       </p>
       <p className='message-content subheader'>
-        We sent a confirmation email to <span>{userEmail}</span>.
+        We sent a confirmation email to <span>{email}</span>.
       </p>
       <div className='message-content text'>
         <p>It may be in your junk or spam folder.</p>
@@ -99,10 +45,8 @@ const DesktopEmailSentConfirmation = ({
         <p>Confirm your email address to log in.</p>
       </div>
       <div className='message-content update-email'>
-        <button onClick={handleResendEmailClick}>
-          Update your email address
-        </button>
-        <span>if it's incorrect.</span>
+        <UpdateEmailAddressLink setEmail={setEmail} />
+        <span> if it's incorrect.</span>
       </div>
       <div className='img-container'>
         <img alt='A person jumps in the air in celebration' />
@@ -111,14 +55,14 @@ const DesktopEmailSentConfirmation = ({
   )
 }
 
-const MobileEmailSentConfirmation = ({ handleResendEmailClick, userEmail }) => {
+const MobileEmailSentConfirmation = ({ email, setEmail }) => {
   const navigate = useNavigate()
   const handleRouteToHomepage = () => navigate('/')
 
   return (
     <div className='email-confirmation-container'>
       <p className='message-content subheader'>
-        We sent a confirmation email to <span>{userEmail}</span>.
+        We sent a confirmation email to <span>{email}</span>.
       </p>
       <div className='message-content text'>
         Important! We are not optimized for mobile yet.
@@ -127,13 +71,11 @@ const MobileEmailSentConfirmation = ({ handleResendEmailClick, userEmail }) => {
         Please confirm your email address on a desktop or laptop to log in.{' '}
       </div>
       <div className='message-content update-email'>
-        <button onClick={handleResendEmailClick}>
-          Update your email address
-        </button>
-        <span>if it's incorrect.</span>
+        <UpdateEmailAddressLink setEmail={setEmail} />
+        <span> if it's incorrect.</span>
       </div>
       <div className='img-container'>
-        <img alt='A person jumps in the air in celebration' />
+        <img alt='A person smiles from behind a laptop while a rocket launches in the background' />
       </div>
       <PrimaryButton
         text="Visit Bootcampr's homepage'"
