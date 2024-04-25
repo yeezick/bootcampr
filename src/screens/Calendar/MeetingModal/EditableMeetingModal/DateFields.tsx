@@ -29,8 +29,8 @@ export const DateFields = ({
   setDateFields,
   days,
   handleSelect,
-  recurrence,
-  setRecurrence,
+  recurrenceEnabled,
+  setRecurrenceEnabled,
 }) => {
   const [datePickerDayjs, setDayPickerDayjs] = useState(blankDayJs())
   const { startDate, endDate } = useAppSelector(selectProjectTimeline)
@@ -92,11 +92,11 @@ export const DateFields = ({
           eventTimezone={dateFields.eventTimezone}
         />
         <RecurringCheckbox
-          setRecurrence={setRecurrence}
-          recurrence={recurrence}
+          setRecurrenceEnabled={setRecurrenceEnabled}
+          recurrenceEnabled={recurrenceEnabled}
         />
         <RecurringDays
-          recurrence={recurrence}
+          recurrenceEnabled={recurrenceEnabled}
           days={days}
           handleSelect={handleSelect}
         />

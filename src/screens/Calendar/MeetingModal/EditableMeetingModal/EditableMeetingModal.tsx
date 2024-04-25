@@ -49,14 +49,13 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
   )
   const { endDate } = useAppSelector(selectProjectTimeline)
   const dayjsED = dayjs(endDate).format('YYYYMMDD')
-
-  const [recurrenceInfo, setRecurrenceInfo] = useState([])
-  const [recurrence, setRecurrence] = useState(false)
-  const [rruleData, setRruleData] = useState({
-    freq: 'WEEKLY',
-    byweekday: [],
-    until: dayjsED,
-  })
+  const [recurrenceEnabled, setRecurrenceEnabled] = useState(false)
+  // const [rruleData, setRruleData] = useState({
+  //   freq: 'WEEKLY',
+  //   byweekday: [],
+  //   until: dayjsED,
+  // })
+  const [rruleData, setRruleData] = useState('')
   const [attendees, setAttendees] = useState<BooleanObject>({})
   const [inviteAll, toggleInviteAll] = useState(false)
   const [visibleModal, toggleVisibleModal] = useState(false)
@@ -141,13 +140,9 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
     dispatch(setModalDisplayStatus(false))
   }
 
-  const handleSelect = (event, value) => {
-    console.log(value, days)
+  const handleSelectToggleDays = (event, value) => {
     setDays(value)
-    // setRecurrenceInfo([
-    //   `RRULE:FREQ=WEEKLY;UNTIL=${dayjsED};BYDAY=${value.toString()}`,
-    // ])
-    setRruleData({ ...rruleData, byweekday: value })
+    setRruleData(`RRULE:FREQ=WEEKLY;UNTIL=${dayjsED};BYDAY=${value.toString()}`)
   }
 
   const handleInviteAll = () => {
@@ -203,7 +198,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
       summary,
       projectId,
       recurrence: {
-        enabled: recurrence,
+        enabled: recurrenceEnabled,
         rrule: rruleData,
       },
     }
@@ -271,9 +266,9 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
               setDateFields={setDateFields}
               dayjs={dayjs}
               days={days}
-              handleSelect={handleSelect}
-              recurrence={recurrence}
-              setRecurrence={setRecurrence}
+              handleSelect={handleSelectToggleDays}
+              recurrenceEnabled={recurrenceEnabled}
+              setRecurrenceEnabled={setRecurrenceEnabled}
             />
             <SelectAttendees
               attendees={attendees}

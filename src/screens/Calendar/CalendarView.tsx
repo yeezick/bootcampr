@@ -133,22 +133,6 @@ export const CalendarView = () => {
     })
   }
 
-  const recEvents = [
-    {
-      title: 'my recurring event',
-      start: '2024-04-24T10:30:00',
-      end: '2024-04-24T11:30:00',
-      rrule:
-        'DSTART:20240424T103000\nRRULE:FREQ=WEEKLY;UNTIL=20240601;BYDAY=MO,FR',
-      // rrule : {
-      //   freq: 'weekly',
-      //   dtstart: '2024-04-24T10:30:00',
-      //   byweekday: [ 'mo', 'fr' ],
-
-      // }
-    },
-  ]
-
   switch (eventFetchingStatus) {
     case 'success':
       return (

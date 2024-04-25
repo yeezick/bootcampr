@@ -2,7 +2,7 @@ import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import { DAYS } from 'utils/data/calendarConstants'
 
-export const RecurringDays = ({ recurrence, handleSelect, days }) => {
+export const RecurringDays = ({ recurrenceEnabled, handleSelect, days }) => {
   return (
     <>
       <ToggleButtonGroup
@@ -10,7 +10,7 @@ export const RecurringDays = ({ recurrence, handleSelect, days }) => {
         arial-label='Days of the week'
         value={days}
         onChange={handleSelect}
-        disabled={!recurrence}
+        disabled={!recurrenceEnabled}
       >
         {DAYS.map((day, index) => (
           <ToggleButton key={day.key} value={day.key} aria-label={day.key}>
