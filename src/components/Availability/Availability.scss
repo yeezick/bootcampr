@@ -36,6 +36,10 @@
             font-size: 21px;
             font-weight: 400;
         }
+
+        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+            border-color: #0D47A1;
+        }
     }
 
     .day-availability-input-banner {

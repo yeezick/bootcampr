@@ -48,7 +48,7 @@ export const MemberCheckbox = ({
           checked={attendees[currMember.email] || false}
           onChange={handleMemberSelection}
           name={currMember.email}
-          sx={{ checkboxStyle }}
+          sx={checkboxStyle}
         />
         <ListItemAvatar>
           <Avatar src={currMember.profilePicture} />
@@ -64,7 +64,7 @@ export const MemberCheckbox = ({
 }
 
 const checkboxStyle = {
-  '&$checked': {
-    fill: 'red',
+  '& .MuiSvgIcon-root': {
+    fill: '#1A237E',
   },
 }
