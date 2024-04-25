@@ -26,8 +26,11 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
 
   const storeAvailability = async () => {
     try {
-      const userTZinUTC = bootcamprTimezoneToUTCMap[uxUserTimezone]
-      const avail = await saveAvailability(authUser._id, days, storedUserTZinUTC)
+      const avail = await saveAvailability(
+        authUser._id,
+        days,
+        storedUserTZinUTC
+      )
     } catch (error) {
       dispatch(errorSnackbar('Availability failed to save. Please try again.'))
     }
