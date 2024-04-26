@@ -131,6 +131,8 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   const { visibleChat } = useAppSelector(selectChatUI)
   const unreadMessagesCount = useAppSelector(selectUnreadMessageCount)
   const projectMembers = useAppSelector(selectMembersAsTeam)
+  const authUser = useAppSelector(selectAuthUser)
+  const { _id: userId } = authUser
   const chatRef = useRef(null)
   useSocketEvents(false)
 
@@ -147,21 +149,23 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   const handleToggleChatBox = () => {
     toggleChatBox()
   }
-
+  //TODO - chat icon position needs to be tested when we remove the unicorn landing page
   return (
     <div className='notifications'>
-      <div className='nav-icons-container'>
-        <div className='messages-icon' ref={chatRef}>
-          <BsFillChatLeftTextFill
-            size={23}
-            className='chat-icon'
-            onClick={handleToggleChatBox}
-          />
-          <CustomBadge content={unreadMessagesCount} variant='standard' />
-          {visibleChat && <ChatDialogMain />}
+      {userId && (
+        <div className='nav-icons-container'>
+          <div className='messages-icon' ref={chatRef}>
+            <BsFillChatLeftTextFill
+              size={23}
+              className='chat-icon'
+              onClick={handleToggleChatBox}
+            />
+            <CustomBadge content={unreadMessagesCount} variant='standard' />
+            {visibleChat && <ChatDialogMain />}
+          </div>
+          <p className='account'>Messages</p>
         </div>
-        <p className='account'>Messages</p>
-      </div>
+      )}
       <div className='nav-icons-container'>
         <div className='account avatar'>
           <Avatar clickable={false} setAnchorEl={setAnchorEl} size='medium' />
