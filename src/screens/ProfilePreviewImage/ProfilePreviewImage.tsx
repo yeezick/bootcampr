@@ -1,6 +1,6 @@
 import { useCallback, useState, useRef } from 'react'
 import { useAppSelector, useAppDispatch } from 'utils/redux/hooks'
-import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
+import { selectUserId, updateAuthUser } from 'utils/redux/slices/userSlice'
 import {
   setUploadedImage,
   setDefaultProfilePicture,
@@ -39,8 +39,9 @@ export const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
   onClose,
 }) => {
   const dispatch = useAppDispatch()
-  const authUser = useAppSelector(selectAuthUser)
-  const { _id: userId } = authUser
+  const userId = useAppSelector(selectUserId)
+  console.log('userId global', userId)
+
   const [isImageEditorOpen, setIsImageEditorOpen] = useState<boolean>(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -62,6 +63,7 @@ export const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
    */
   const handleImageUpload = async (image: string) => {
     try {
+      console.log('userId Function', userId)
       await updateUserImage(userId, image)
       console.log('Image updated successfully')
       dispatch(setUploadedImage(image))
@@ -72,6 +74,8 @@ export const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
 
   const handleFileInputChange = useCallback(
     (dataUrl: string) => {
+      console.log('dataUrl', dataUrl)
+
       dispatch(setUploadedImage(dataUrl))
       setIsImageEditorOpen(true)
       handleImageUpload(dataUrl)

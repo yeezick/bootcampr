@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react'
 import { useAppSelector, useAppDispatch } from 'utils/redux/hooks'
 import {
-  selectAuthUser,
   updateAuthUser,
   getUserProfileImage,
+  selectUserId,
 } from 'utils/redux/slices/userSlice'
 import { updateUser } from 'utils/api'
 import { ImageEditorModalProps } from '../../interfaces/ProfileImageInterfaces'
@@ -40,8 +40,7 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
   const [zoom, setZoom] = useState<number>(1)
   const dispatch = useAppDispatch()
   const profilePicture = useAppSelector(getUserProfileImage)
-  const authUser = useAppSelector(selectAuthUser)
-  const { _id: userId } = authUser
+  const userId = useAppSelector(selectUserId)
 
   /**
    * Resets the component state and calls the onClose callback to close the modal.

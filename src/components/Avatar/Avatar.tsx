@@ -54,7 +54,7 @@ const Avatar: React.FC<AvatarProps> = ({
 
   const handleIconClick = () => {
     if (!hasProfilePicture && hasIcon) {
-      fileInputRef.current?.click()
+      setIsModalOpen(true)
     }
   }
 
@@ -66,6 +66,7 @@ const Avatar: React.FC<AvatarProps> = ({
     authUser.firstName,
     authUser.lastName
   )
+  console.log('profilePicture', profilePicture)
 
   return (
     <>
