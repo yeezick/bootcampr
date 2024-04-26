@@ -173,12 +173,9 @@ export const updateUsersPassword = async (
   }
 }
 
-export const forgotPasswordEmailVerification = async (
-  email: string,
-  userId?: string
-) => {
+export const forgotPasswordEmailVerification = async (email: string) => {
   try {
-    const data = await api.post(`/reset-password`, { email: email, userId })
+    const data = await api.post(`/reset-password`, { email })
     return data
   } catch (error) {
     console.error(error)

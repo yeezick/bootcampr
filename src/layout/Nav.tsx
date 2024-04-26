@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
+  logoutAuthUser,
   selectAuthUser,
   selectUserExperience,
 } from 'utils/redux/slices/userSlice'
@@ -24,6 +25,7 @@ import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { CustomBadge } from 'components/Badge/Badge'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 import './styles/Nav.scss'
+import { logOut } from 'utils/api'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
@@ -42,6 +44,8 @@ export const Nav = () => {
     '/sign-in',
     '/onboarding',
     '/mobile',
+    '/users/reset-password',
+    '/success',
   ]
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
@@ -49,7 +53,13 @@ export const Nav = () => {
   const closeDropdown = () => setAnchorEl(null)
   const handlePortalLink = () =>
     buildPortal(dispatch, 'project', activeProject, experience)
-  const handleNonPortalLink = () => dispatch(resetPortal())
+  const handleNonPortalLink = async () => {
+    if (window.location.pathname === '/users/reset-password') {
+      await logOut()
+      dispatch(logoutAuthUser())
+    }
+    dispatch(resetPortal())
+  }
   const isActiveLink = path =>
     location.pathname.includes(path) ? 'active' : ''
 
