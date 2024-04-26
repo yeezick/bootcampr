@@ -1,3 +1,5 @@
+@import 'scss/mixins';
+
 .email-confirmation-container {
   align-items: center;
   display: flex;
@@ -14,7 +16,7 @@
       font-weight: 700;
       line-height: 44px;
       margin: 0;
-      margin-bottom: 16px;
+      margin-bottom: 8px;
     }
 
     &.subheader {
@@ -22,7 +24,7 @@
       font-weight: 700;
       line-height: 32px;
       margin: 0;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
 
       span {
         color: #5c6bc0;
@@ -42,30 +44,14 @@
 
     &.confirm {
       font-weight: 700;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
     }
 
     &.update-email {
-      button {
-        background: none;
-        border: none;
+      display: inline;
+      div {
         color: #0d47a1;
         cursor: pointer;
-        font-size: 16px;
-        line-height: 20px;
-        width: fit-content;
-        text-decoration: underline;
-      }
-
-      button:focus,
-      button:active {
-        background: none;
-        border: none;
-        color: #0d47a1;
-        cursor: pointer;
-        font-size: 16px;
-        line-height: 20px;
-        width: fit-content;
         text-decoration: underline;
       }
     }
@@ -75,9 +61,43 @@
     margin-top: 32px;
 
     img {
+      content: url('../../../../assets/Images/accountCreated.png');
       height: 100%;
       object-fit: cover;
       width: 100%;
+    }
+  }
+}
+
+@include whenMobile {
+  .email-confirmation-container {
+    margin-top: 32px;
+    width: auto;
+
+    .img-container > img {
+      content: url('../../../../assets/Images/Launch.png');
+      height: 189px;
+      margin-bottom: 32px;
+      width: 189px;
+    }
+
+    .message-content {
+      &.subheader {
+        margin-bottom: 32px;
+      }
+      &.text,
+      &.content {
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 24px;
+        margin-bottom: 8px;
+        width: 100%;
+      }
+
+      &.content {
+        text-align: left;
+        width: 272px;
+      }
     }
   }
 }

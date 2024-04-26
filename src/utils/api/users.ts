@@ -33,9 +33,9 @@ export const getOneUserByEmail = async (email: string) => {
   }
 }
 
-export const updateUserProfile = async (userId: any, userProfile: any) => {
+export const updateUserProfile = async (userProfile: any) => {
   try {
-    const res = await api.post(`/onboarding/${userId}`, userProfile)
+    const res = await api.post('/onboarding', userProfile)
     return res.data
   } catch (error) {
     throw error
@@ -133,6 +133,18 @@ export const resendNewEmailLink = async (userId: string) => {
   }
 }
 
+export const updateUnverifiedEmail = async (newEmail, userId) => {
+  const reqBody = {
+    userId: userId,
+    newEmail: newEmail,
+  }
+  const response = await api.post(
+    `/users/${userId}/update-email-verification`,
+    reqBody
+  )
+  return response
+}
+
 export const updateUsersEmail = async (
   formData: PasswordFormData | EmailFormData,
   userId: string | undefined
@@ -161,12 +173,9 @@ export const updateUsersPassword = async (
   }
 }
 
-export const forgotPasswordEmailVerification = async (
-  email: string,
-  userId?: string
-) => {
+export const forgotPasswordEmailVerification = async (email: string) => {
   try {
-    const data = await api.post(`/reset-password`, { email: email, userId })
+    const data = await api.post(`/reset-password`, { email })
     return data
   } catch (error) {
     console.error(error)

@@ -9,20 +9,18 @@ import {
 import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
 import { updateUser, updateUserProfile } from 'utils/api/users'
-import { useNotification } from 'utils/redux/slices/notificationSlice'
 import Avatar from 'components/Avatar/Avatar'
 import TextareaAutosize from 'react-textarea-autosize'
 import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import { createCheckout, updatePaymentExperience } from 'utils/api/payment'
-import { errorSnackbar } from 'utils/helpers/commentHelpers'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { isLinkedInUrl } from 'utils/components/Inputs'
 
 // BC-787: remove BEM styling
 export const SetUpProfile = ({ handlePageNavigation }) => {
   const dispatch = useAppDispatch()
-  const params = useParams()
   const authUser = useAppSelector(selectAuthUser)
-  const { displayNotification } = useNotification()
   const navigate = useNavigate()
 
   const [updateUserForm, setUpdateUserForm] = useState<UserInterface>(emptyUser)
@@ -34,6 +32,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     linkedinUrl: false,
   })
   const [isDisabled, setIsDisabled] = useState(true)
+  const [isInvalidURL, setIsInvalidURL] = useState(false)
 
   const { firstName, lastName, bio, links } = updateUserForm
   const nestedLinks = ['githubUrl', 'linkedinUrl', 'portfolioUrl']
@@ -48,7 +47,11 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
         return { ...currForm, ...authUser }
       })
     }
-  }, [])
+
+    isLinkedInUrl(links.linkedinUrl)
+      ? setIsInvalidURL(false)
+      : setIsInvalidURL(true)
+  }, [authUser])
 
   useEffect(() => {
     const charCount =
@@ -57,8 +60,9 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
 
     const { firstName, lastName, bio, links } = updateUserForm
     const validForm = firstName && lastName && bio && links.linkedinUrl
+    const validLinkedIn = isLinkedInUrl(links.linkedinUrl)
 
-    setIsDisabled(!validForm)
+    validForm && validLinkedIn ? setIsDisabled(false) : setIsDisabled(true)
   }, [updateUserForm])
 
   const handleInputChange = (
@@ -82,6 +86,12 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     if (name === 'bio') {
       setBioCharCount(value.length)
     }
+
+    if (isInvalidURL) {
+      isLinkedInUrl(links.linkedinUrl)
+        ? setIsInvalidURL(false)
+        : setIsInvalidURL(true)
+    }
   }
 
   const checkErrorState = (name, value) => {
@@ -91,36 +101,22 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
     })
   }
 
-  const handleNavigationButtons = async (e, direction: 'previous' | 'next') => {
+  const handleSecondaryClick = async e => {
     e.preventDefault()
 
     try {
-      const isOnboarded = direction === 'next'
-      const updatedUserFormData = { ...updateUserForm, onboarded: isOnboarded }
-      const updatedUser = await updateUser(params.id, updatedUserFormData)
+      const updatedUser = await updateUser(authUser._id, updateUserForm)
       dispatch(setAuthUser(updatedUser))
-      displayNotification({
-        message: 'User profile successfully updated.',
-      })
-      if (direction === 'next') {
-        navigate(`/whats-next`)
-      } else {
-        handlePageNavigation(direction)
-      }
+      dispatch(successSnackbar('User profile has been updated!'))
+      handlePageNavigation('previous')
     } catch (error) {
       console.error('Error occured when trying to create User Profile', error)
     }
   }
 
-  const handleSecondaryClick = e => handleNavigationButtons(e, 'previous')
   const handlePrimaryClick = async () => {
-    const updatedUserFormData = { ...updateUserForm, onboarded: true }
-    const updatedUserProfile = await updateUserProfile(
-      params.id,
-      updatedUserFormData
-    )
+    const updatedUserProfile = await updateUserProfile(updateUserForm)
     const checkoutResponse = await createCheckout()
-    let experiencePayload
 
     if (updatedUserProfile.error) {
       dispatch(errorSnackbar(updatedUserProfile.error))
@@ -130,17 +126,9 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
       return
     }
 
-    const { checkoutUrl } = checkoutResponse
-    if (checkoutUrl.includes('max-users')) {
-      experiencePayload = { experience: 'waitlist' }
-    } else {
-      experiencePayload = { experience: 'waitlist', paid: true }
-    }
-
-    const updatedUserExperience = await updatePaymentExperience(
-      authUser._id,
-      experiencePayload
-    )
+    const updatedUserExperience = await updatePaymentExperience(authUser._id, {
+      experience: 'waitlist',
+    })
 
     if (updatedUserExperience.error) {
       dispatch(errorSnackbar('Error setting project experience.'))
@@ -233,7 +221,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                   }`}
                 >
                   <p className={`${errorStates.bio && 'error'}`}>
-                    {bioCharCount}/500
+                    {500 - bioCharCount}/500
                   </p>
                 </div>
               </div>
@@ -247,12 +235,20 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                   errorStates.linkedinUrl && 'error'
                 }`}
                 onChange={handleInputChange}
-                onBlur={e => checkErrorState(e.target.name, e.target.value)}
+                onBlur={e => {
+                  checkErrorState(e.target.name, e.target.value)
+                  isLinkedInUrl(links.linkedinUrl)
+                    ? setIsInvalidURL(false)
+                    : setIsInvalidURL(true)
+                }}
                 placeholder='https://www.linkedin.com/in/name'
                 value={links.linkedinUrl}
               />
               {errorStates.linkedinUrl && (
                 <h6 className='error'>LinkedIn profile is required.</h6>
+              )}
+              {isInvalidURL && (
+                <h6 className='error'>Not a valid LinkedIn URL.</h6>
               )}
             </label>
             <label className='setupProfile__profile-label'>
@@ -266,17 +262,19 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
                 value={links.portfolioUrl}
               />
             </label>
-            <label className='setupProfile__profile-label'>
-              GitHub (URL) Software Engineers only
-              <input
-                type='text'
-                name='githubUrl'
-                className='setupProfile__profile-input'
-                onChange={handleInputChange}
-                placeholder='myGitHubkicksass.com'
-                value={links.githubUrl}
-              />
-            </label>
+            {authUser.role === 'Software Engineer' && (
+              <label className='setupProfile__profile-label'>
+                GitHub (URL)
+                <input
+                  type='text'
+                  name='githubUrl'
+                  className='setupProfile__profile-input'
+                  onChange={handleInputChange}
+                  placeholder='myGitHubkicksass.com'
+                  value={links.githubUrl}
+                />
+              </label>
+            )}
           </div>
           <div className='setupProfile__profile-btns'>
             <div className='setupProfile__cta-container'>

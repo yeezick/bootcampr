@@ -4,6 +4,7 @@ import { Dispatch } from 'react'
 import { NavigateFunction } from 'react-router-dom'
 import {
   resetPortal,
+  setBanner,
   setPortal,
   setPortalPage,
 } from 'utils/redux/slices/userInterfaceSlice'
@@ -15,7 +16,7 @@ import { RootState } from 'utils/redux/store'
  * @returns {SideMenuInterface} Context for Project Portal sidemenu
  */
 export const buildProjectPortalLinks = (projectId: string): PortalLink[] => {
-  let urlProjectId = 'unassigned'
+  let urlProjectId = 'sandbox'
   if (projectId) urlProjectId = projectId
 
   return [
@@ -69,15 +70,6 @@ export const buildSettingsPortalLinks = (userId: string): PortalLink[] => [
     label: 'Password',
     route: `/users/${userId}/settings/password`,
   },
-
-  // commented out to be used for a later ticket for post soft launch
-
-  // {
-  //   domain: 'settings',
-  //   icon: 'account',
-  //   label: 'Account',
-  //   route: `/users/${userId}/settings/account`,
-  // },
 ]
 
 /**
@@ -132,14 +124,23 @@ export const buildPortal = (
     Dispatch<AnyAction>,
   domain: DomainStrings,
   routeId: string,
-  headerTitle?: string
+  experience?: string
 ) => {
   if (domain === 'project') {
-    dispatch(setPortal(buildProjectPortal(routeId, headerTitle)))
+    dispatch(setPortal(buildProjectPortal(routeId)))
+    determineBanner(dispatch, experience)
   } else if (domain === 'settings') {
     dispatch(setPortal(buildSettingsPortal(routeId)))
   } else {
     dispatch(resetPortal())
+  }
+}
+
+const determineBanner = (dispatch, experience) => {
+  if (experience === 'sandbox') {
+    dispatch(setBanner({ active: true, type: 'sandbox' }))
+  } else if (experience === 'waitlist') {
+    dispatch(setBanner({ active: true, type: 'waitlist' }))
   }
 }
 
@@ -180,6 +181,12 @@ export const determinePortalFromUrl = (
     )
   }
 }
+
+/**
+ * Checks if window width is small enough to be considered mobile
+ * @returns Boolean
+ */
+export const isMobileWidth = () => window.innerWidth <= 853
 
 /**
  * Simply adds domain to Location state when routing user. Required for SideMenu usage.

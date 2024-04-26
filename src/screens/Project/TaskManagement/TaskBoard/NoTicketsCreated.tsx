@@ -26,17 +26,17 @@ export const NoTicketsCreated = () => {
             <img src={openBox} alt='kanbanImage' />
           </div>
           <div className='text'>
-            <h3>Your team hasn’t created any tasks.</h3>
+            <h3>Your team hasn't created any stories.</h3>
             <p>
-              Maximize efficiency and visualize work by tracking tasks here.
-              Move the task through the board from To Do to Complete. You’ll be
+              Maximize efficiency and visualize work by tracking stories here.
+              Move the story through the board from To Do to Complete. You'll be
               one step closer to shipping a live product with each completed
-              task!
+              story!
             </p>
           </div>
           <PrimaryButton
             handler={openCreateTicketDialog}
-            text='Create a task'
+            text='Create a story'
             startIcon='plus'
           />
         </div>

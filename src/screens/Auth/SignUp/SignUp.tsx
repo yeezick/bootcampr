@@ -2,12 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaInfoCircle } from 'react-icons/fa'
 import { GoAlert } from 'react-icons/go'
-import {
-  register,
-  reset,
-  uiStatus,
-  setConfirmationEmailAddress,
-} from 'utils/redux/slices/userSlice'
+import { register, reset, uiStatus } from 'utils/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { SignUpInterface } from 'interfaces/UserInterface'
 import { PasswordErrors } from 'interfaces/components/Input'
@@ -16,7 +11,7 @@ import { emptySignUp } from 'utils/data/userConstants'
 import { Email, Text, PasswordInputs } from 'components/Inputs'
 import './SignUp.scss'
 import { Checkbox, FormControlLabel } from '@mui/material'
-import signupImage from '../../../assets/Images/sign-up-flow-image.png'
+import signup from '../../../assets/Images/signup.png'
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate()
@@ -70,12 +65,17 @@ export const SignUp: React.FC = () => {
     e.preventDefault()
 
     try {
-      dispatch(setConfirmationEmailAddress(formValues.email))
-
       const validForm = await dispatch(register(formValues))
       const { payload } = validForm
+      const localUser = {
+        userId: payload.newUser,
+        email: formValues.email,
+      }
+      sessionStorage.setItem('bootcamprLocalUser', JSON.stringify(localUser))
 
-      navigate(`/sign-up/${payload.newUser}/confirmation-email-sent`)
+      navigate(`/sign-up/${payload.newUser}/confirmation-email-sent`, {
+        replace: true,
+      })
       window.scrollTo(0, 0) // Scroll to top to view alert banner
 
       const alertType =
@@ -123,7 +123,7 @@ export const SignUp: React.FC = () => {
       <div className='signup-banner'>
         <div>
           <img
-            src={signupImage}
+            src={signup}
             alt='A person smiles while working on a laptop at a coffee shop'
           />
         </div>

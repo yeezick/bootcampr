@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { Layout } from 'layout'
+import { AuthWrapper, Layout } from 'layout'
 import {
   ChangePassword,
   EmailSentConfirmation,
@@ -9,51 +9,45 @@ import {
   SignIn,
   SignUp,
 } from 'screens/Auth'
-import { Landing } from 'screens/Landing'
+import { Community, ContactUs, Enterprise, Landing } from 'screens/Landing'
 import { EditProfile, UserProfile } from 'screens/UserProfile'
 import { Onboarding } from 'screens/Onboarding/Onboarding'
 import { ProjectCompletion } from './screens/ProjectCompletion/ProjectCompletion'
-import {
-  AllProjects,
-  ProjectDetails,
-  TaskManagement,
-  TeamMembers,
-} from 'screens/Project'
+import { AllProjects, ProjectDetails, TeamMembers } from 'screens/Project'
 import { CalendarScreen } from 'screens/Calendar/Calendar'
 import { UpdateEmailConfirmation } from 'screens/Auth/EmailUpdate/UpdateEmailConfirmation'
 import { SnackBarToast } from 'components/SnackBarToast/SnackBarToast'
-import { AboutUs, HowTo } from 'screens/Landing'
 import { WhatsNext } from 'screens/Onboarding/WhatsNext'
 import { Account, Email } from 'screens/Auth/Settings'
 import { SuccessScreen } from 'screens/SuccessScreen/SuccessScreen'
 import { ChooseExperience, MaxUsers } from 'screens/Payment'
 import './App.css'
-import { AuthWrapper } from 'screens/Auth/AuthWrapper'
 import { EmailRouter } from 'components/EmailRouter/EmailRouter'
+import { MobileGate } from 'screens/Auth/Mobile/MobileGate'
+import { TaskBoard } from 'screens/Project/TaskManagement'
 
 function App() {
-  console.log(`Running Application Version: ${process.env.REACT_APP_VERSION} `)
-
   return (
     <>
       <AuthWrapper>
         <Layout>
           <Routes>
             <Route path='/' element={<Landing />} />
-            <Route path='/about-us' element={<AboutUs />} />
-            <Route path='/how-to' element={<HowTo />} />
+            <Route path='/contact-us' element={<ContactUs />} />
+            <Route path='/community' element={<Community />} />
+            <Route path='/enterprise' element={<Enterprise />} />
             {/* Auth */}
             <Route path='/sign-up' element={<SignUp />} />
             <Route
               path='/sign-up/:id/confirmation-email-sent'
               element={<EmailSentConfirmation />}
             />
-            <Route path='/success/:userId' element={<SuccessScreen />} />
+            <Route path='/success' element={<SuccessScreen />} />
             <Route path='/sign-in' element={<SignIn />} />
             <Route path='/users/:id/expired-link' element={<ExpiredLink />} />
             <Route path='/users/:id/verify/:token' element={<EmailVerify />} />
             <Route
-              path='/users/:id/reset-password/:token'
+              path='/users/reset-password/:token?'
               element={<ResetPassword />}
             />
             {/* Payment */}
@@ -62,7 +56,7 @@ function App() {
               <Route path='max-users' element={<MaxUsers />} />
             </Route>
             {/* User */}
-            <Route path='/onboarding/:id' element={<Onboarding />} />
+            <Route path='/onboarding' element={<Onboarding />} />
             <Route path='/whats-next' element={<WhatsNext />} />
             <Route path='/users/:userId' element={<UserProfile />} />
             <Route path='/users/:id/edit' element={<EditProfile />} />
@@ -84,11 +78,12 @@ function App() {
                 element={<ProjectCompletion />}
               />
               <Route path=':projectId/calendar' element={<CalendarScreen />} />
-              <Route path=':projectId/tasks' element={<TaskManagement />} />
+              <Route path=':projectId/tasks' element={<TaskBoard />} />
               <Route path=':projectId/team' element={<TeamMembers />} />
             </Route>
             <Route path='/all-projects' element={<AllProjects />} />
             {/* TODO create 404 page */}
+            <Route path='/mobile' element={<MobileGate />} />
             <Route path='*' element={<h1>404 Not Found</h1>} />
           </Routes>
         </Layout>

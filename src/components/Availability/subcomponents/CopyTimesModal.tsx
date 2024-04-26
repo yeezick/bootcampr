@@ -158,7 +158,7 @@ const CopyTimesOption = ({ day, selectedDay, checked, setChecked }) => {
         className='copy-times-option-days'
         style={{ color: 'black', width: 100, fontSize: '17px' }}
       >
-        {day}
+        {day === 'Everyday' ? 'Every Day' : day}
       </h2>
     </div>
   )

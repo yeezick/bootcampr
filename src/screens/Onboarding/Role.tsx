@@ -5,34 +5,33 @@ import { updateUserProfile } from 'utils/api'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
-import { useParams } from 'react-router-dom'
 import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import softwareEngineer from '../../assets/Images/software-engineer.png'
 import uxDesigner from '../../assets/Images/ux-designer.png'
 import productManager from '../../assets/Images/product-manager.png'
+import { successSnackbar } from 'utils/helpers/commentHelpers'
 
 export const Role = ({ handlePageNavigation }) => {
   const dispatch = useDispatch()
   const [selectedRole, setSelectedRole] = useState('')
   const [buttonEnabled, setButtonEnabled] = useState(false)
-  const params = useParams()
   const authUser = useAppSelector(selectAuthUser)
 
   const roles = [
     {
       img: uxDesigner,
       title: 'UX Designer',
-      description: "I'm comfortable with all aspects of UX Design",
+      description: "I'm comfortable with all aspects of UX Design.",
     },
     {
       img: softwareEngineer,
       title: 'Software Engineer',
-      description: "I'm comfortable with MERN/full stack",
+      description: "I'm comfortable with MERN/full stack development.",
     },
     {
       img: productManager,
       title: 'Product Manager',
-      description: 'I can create user stories and manage prioritization',
+      description: 'I can create user stories and manage prioritization.',
     },
   ]
 
@@ -44,10 +43,11 @@ export const Role = ({ handlePageNavigation }) => {
   const handleSubmit = async event => {
     event.preventDefault()
     try {
-      const response = await updateUserProfile(params.id, {
+      const response = await updateUserProfile({
         role: selectedRole,
       })
       dispatch(updateAuthUser(response.userProfile))
+      dispatch(successSnackbar('Your role has been updated!'))
       setButtonEnabled(false)
       handlePageNavigation('next')
     } catch (error) {

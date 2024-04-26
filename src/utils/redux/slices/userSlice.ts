@@ -9,6 +9,9 @@ import { signUp, updateUser } from 'utils/api/users'
 import { emptyUser, initialUserSliceState } from 'utils/data/userConstants'
 import { RootState } from 'utils/redux/store'
 import { TimezonesUTC } from 'utils/data/timeZoneConstants'
+import { UpdateUserReducer } from 'interfaces/UserReducers'
+import { produce } from 'immer'
+import { generateDefaultPicture } from 'utils/helpers'
 
 // todo: auth.status should be its own slice
 // todo: sidemenu & ui like notifications should be its own slice
@@ -50,9 +53,14 @@ const userSlice = createSlice({
       state.auth.user = emptyUser
     },
     setAuthUser: (state, action: PayloadAction<UserInterface>) => {
-      state.auth.user = action.payload
+      const authUserPayload = produce(action.payload, draft => {
+        if (action.payload.payment.experience === 'sandbox') {
+          draft.projects.activeProject = 'sandbox'
+        }
+      })
+      state.auth.user = authUserPayload
     },
-    updateAuthUser: (state, action: PayloadAction<UserInterface>) => {
+    updateAuthUser: (state, action: PayloadAction<UpdateUserReducer>) => {
       state.auth.user = {
         ...state.auth.user,
         ...action.payload,
@@ -60,6 +68,9 @@ const userSlice = createSlice({
     },
     updateUserExperience: (state, action: PayloadAction<Payment>) => {
       state.auth.user.payment = action.payload
+    },
+    updateUserProject: (state, action: PayloadAction<string>) => {
+      state.auth.user.projects.activeProject = action.payload
     },
     setConfirmationEmailAddress: (state, action: PayloadAction<string>) => {
       state.auth.user.email = action.payload
@@ -88,7 +99,10 @@ const userSlice = createSlice({
     },
     setDefaultProfilePicture: (state, action: PayloadAction<boolean>) => {
       if (!state.auth.user.profilePicture) {
-        state.auth.user.defaultProfilePicture = `https://ui-avatars.com/api/?name=${state.auth.user.firstName}+${state.auth.user.lastName}`
+        state.auth.user.defaultProfilePicture = generateDefaultPicture(
+          state.auth.user.firstName,
+          state.auth.user.lastName
+        )
         state.auth.user.hasProfilePicture = false
       }
     },
@@ -133,8 +147,10 @@ export const getUserProfileImage = (state: RootState) =>
 export const selectAuthUser = (state: RootState) => state.ui.auth.user
 export const selectUserEmail = (state: RootState) => state.ui.auth.user.email
 export const selectUserProjectId = (state: RootState) =>
-  state.ui.auth.user.project
+  state.ui.auth.user.projects.activeProject
 export const selectUserId = (state: RootState) => state.ui.auth.user._id
+export const selectUserExperience = (state: RootState) =>
+  state.ui.auth.user.payment.experience
 export const uiStatus = (state: RootState) => state.ui.status
 export const selectHasUploadedProfilePicture = (state: RootState) => {
   return state.ui.auth.user.hasProfilePicture
@@ -144,7 +160,7 @@ export const {
   setAuthUser,
   updateAuthUser,
   updateUserExperience,
-  setConfirmationEmailAddress,
+  updateUserProject,
   setUserAvailability,
   setUserTimezone,
   reset,

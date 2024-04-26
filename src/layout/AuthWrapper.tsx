@@ -2,12 +2,13 @@ import { Loader } from 'components/Loader/Loader'
 import { useEffect } from 'react'
 import { matchPath, useLocation, useNavigate } from 'react-router-dom'
 import { verify } from 'utils/api/users'
+import { isMobileWidth } from 'utils/helpers'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectAuthUser,
+  setAuthUser,
   uiStatus,
-  updateAuthUser,
 } from 'utils/redux/slices/userSlice'
 
 const unprotectedRoutes = [
@@ -15,9 +16,10 @@ const unprotectedRoutes = [
   '/sign-in',
   '/sign-up',
   '/sign-up/:id/confirmation-email-sent',
-  '/success/:userId',
+  '/success',
   '/users/:id/expired-link',
-  '/users/:id/reset-password/:token',
+  '/users/reset-password/:token',
+  '/users/reset-password',
   '/how-to',
   '/about-us',
 ]
@@ -40,8 +42,11 @@ export const AuthWrapper = ({ children }) => {
         if (token && !authUser?._id) {
           const verifiedAuthUser = await verify()
           if (verifiedAuthUser?._id) {
-            await storeUserProject(dispatch, verifiedAuthUser.project)
-            dispatch(updateAuthUser(verifiedAuthUser))
+            await storeUserProject(
+              dispatch,
+              verifiedAuthUser.projects.activeProject || 'sandbox'
+            )
+            dispatch(setAuthUser(verifiedAuthUser))
           } else if (isProtectedRoute) {
             navigate('/sign-in')
           }
@@ -59,6 +64,24 @@ export const AuthWrapper = ({ children }) => {
 
     verifyAndNavigateUser()
   }, [authUser._id, dispatch, location.pathname, navigate])
+
+  useEffect(() => {
+    const routeToMobileGate = () => {
+      const { pathname } = location
+      const currentPath = pathname.split('/').pop()
+      const isMobileScreen =
+        currentPath === 'confirmation-email-sent' || currentPath === 'sign-up'
+
+      if (isMobileWidth() && !isMobileScreen) {
+        navigate('/mobile')
+      }
+    }
+    routeToMobileGate()
+    window.addEventListener('resize', routeToMobileGate)
+    return () => {
+      window.removeEventListener('resize', routeToMobileGate)
+    }
+  }, [location.pathname])
 
   if (status.isLoading) {
     return <Loader />

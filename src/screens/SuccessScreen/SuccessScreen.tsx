@@ -15,13 +15,14 @@ import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 export const SuccessScreen = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { userId } = useParams()
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   const screen = queryParams.get('screen')
+  const email = queryParams.get('email')
   const [values, setValues] = useState<SuccessScreenValues>(
     emptySuccessScreenValues
   )
+
   const {
     heading,
     subHeading,
@@ -48,7 +49,6 @@ export const SuccessScreen = () => {
   }
 
   const resendForgotPasswordEmail = async () => {
-    const { email } = await getOneUser(userId)
     const res = await forgotPasswordEmailVerification(email)
 
     if (res && !res.data.status) {

@@ -12,6 +12,7 @@ export interface CalendarInterface {
   displayedEvent?: MeetingModalInfo
   eventMap: NumberObject
   modalDisplayStatus: ModalDisplayStatus
+  teamAvailability: TeamAvailability[]
 }
 
 export interface ConvertedEvent {
@@ -25,7 +26,7 @@ export interface ConvertedEvent {
   hangoutLink?: string
   end?: string
   eventId?: string
-  location: string
+  location?: string
   start?: string
   timeZone?: string
   title?: string
@@ -36,4 +37,13 @@ export interface DateFieldsAsDayjs {
   end: dayjs.Dayjs
   start: dayjs.Dayjs
   timeZone: dayjs.Dayjs | string
+}
+
+export interface TeamAvailability {
+  title: string
+  start: string
+  end: string
+  backgroundColor: string
+  borderColor: string
+  timeZone: string
 }

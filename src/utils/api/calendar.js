@@ -29,3 +29,18 @@ export const fetchUserCalendar = async (calendarId, userEmail) => {
     return false
   }
 }
+
+export const fetchSandboxCalendar = async timeline => {
+  try {
+    const res = await api.post('/calendar/sandbox', timeline)
+
+    if (res.status === 400) {
+      throw Error('Error returning the sandbox calendar.', res.data)
+    }
+
+    return res.data
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}

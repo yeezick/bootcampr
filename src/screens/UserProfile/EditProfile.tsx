@@ -14,7 +14,6 @@ export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
   const [updateUserForm, setUpdateUserForm] = useState(emptyUser)
   const [bioCharCount, setBioCharCount] = useState(0)
-  const params = useParams()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const {
@@ -63,12 +62,12 @@ export const EditProfile: React.FC = () => {
     e.preventDefault()
 
     try {
-      const updatedUser = await updateUser(params.id, updateUserForm)
+      const updatedUser = await updateUser(authUser._id, updateUserForm)
       dispatch(setAuthUser(updatedUser))
       dispatch(successSnackbar('Profile saved!'))
-      navigate(`/users/${params.id}`)
+      navigate(`/users/${authUser._id}`)
     } catch (error) {
-      console.log('Error occured when trying to update User Profile', error)
+      console.log('Error occurred when trying to update User Profile', error)
       dispatch(
         errorSnackbar('Failed to update user profile. Please try again.')
       )
@@ -105,6 +104,7 @@ export const EditProfile: React.FC = () => {
                 className='editprofile__input'
                 value={firstName}
                 onChange={handleInputChange}
+                required
               />
             </label>
 
@@ -116,6 +116,7 @@ export const EditProfile: React.FC = () => {
                 className='editprofile__input'
                 value={lastName}
                 onChange={handleInputChange}
+                required
               />
             </label>
 
@@ -129,10 +130,23 @@ export const EditProfile: React.FC = () => {
                 value={bio}
                 onChange={handleInputChange}
                 maxLength={500}
+                required
               />
               <div className='editprofile__bioCharCount'>
-                {bioCharCount}/500
+                {500 - bioCharCount}/500
               </div>
+            </label>
+
+            <label className='editprofile__label'>
+              Linkedin profile (URL)
+              <input
+                type='text'
+                name='linkedinUrl'
+                className='editprofile__input'
+                value={linkedinUrl}
+                onChange={handleInputChange}
+                required
+              />
             </label>
 
             <label className='editprofile__label'>
@@ -158,17 +172,6 @@ export const EditProfile: React.FC = () => {
                 />
               </label>
             )}
-
-            <label className='editprofile__label'>
-              Linkedin profile (URL)
-              <input
-                type='text'
-                name='linkedinUrl'
-                className='editprofile__input'
-                value={linkedinUrl}
-                onChange={handleInputChange}
-              />
-            </label>
           </div>
         </form>
       </div>

@@ -1,19 +1,23 @@
 .meeting-modal {
+  .MuiPaper-root-MuiDialog-paper{
+    border-radius: 0px;
+  }
+
   .modal-dialog-content {
     overflow-x:hidden;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 0px 16px 0px 16px;
+    border-radius: 0px;
   }
   .meeting-modal-icons {
     align-items: center;;
     background-color: white;
     display: flex;
-    height: 44px;
+    height: 24px;
     justify-content: flex-end;
-    position: absolute;
     top: 0px;
-    width: 95%;
+    width: 100%;
     z-index: 2;
+    padding: 8px 0px 8px 0px;
   }
 
   .back-arrow-icon {
@@ -26,7 +30,7 @@
   .content-wrapper {
     display:grid;
     gap: 16px;
-    margin-top: 20px;
+    padding: 0px;
 
     grid-template-areas: 
     "title title"
@@ -42,7 +46,11 @@
     .title-field {
       grid-area:title;
       margin: 0;
-      padding-left: 35px;
+      padding-left: 38px;
+
+      .MuiTextField-root {
+        margin-bottom: 0px;
+      }
     }
 
     .MuiInputBase-root::after {
@@ -62,11 +70,10 @@
 
     .description-icon {
       grid-area: descriptionIcon;
-      margin-top: 15px;
+  
     }
 
     .description-field {
-
       grid-area: description
     }
 
@@ -77,7 +84,6 @@
 
   .people-icon {
     grid-area: peopleIcon;
-    margin-top: 10px;
   }
 
   .meeting-modal-divider {
@@ -108,11 +114,22 @@
     grid-area: meetToggler;
   }
 
-  .css-1x51dt5-MuiInputBase-input-MuiInput-input {
-    margin-top: 5px;
-  }
-
   .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline{
     border-color: #0D47A1;
+  }
+
+  .MuiTextField-root .MuiInput-underline{
+    padding-top: 0px;
+  }
+
+  ul {
+    padding-top: 0px;
+    padding-bottom: 0px;
+
+    li {
+      .MuiListItemText-root {
+        margin: 0px;
+      }
+    }
   }
 }

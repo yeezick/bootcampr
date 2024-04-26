@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { signIn } from 'utils/api'
-import { setAuthUser } from 'utils/redux/slices/userSlice'
+import { setAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
 import { SignInInterface } from 'interfaces/UserInterface'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { storeUserProject } from 'utils/helpers/stateHelpers'
@@ -12,10 +12,11 @@ import { toggleVisiblity } from 'components/Inputs'
 import { GoAlert } from 'react-icons/go'
 import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import loginBanner from '../../../assets/Images/login-image.png'
+import login from '../../../assets/Images/login.png'
 import './SignIn.scss'
 import { buildProjectPortal } from 'utils/helpers'
 import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
+import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -68,21 +69,30 @@ const SignIn: React.FC = (): JSX.Element => {
     }
 
     dispatch(setAuthUser(response))
-    storeUserProject(dispatch, response.project)
+    const { payment, onboarded, projects } = response
 
-    if (response.payment.experience === 'unchosen') {
+    if (payment.experience === 'unchosen') {
       navigate('/payment/choose-experience')
+    } else if (payment.experience === 'waitlist' && !onboarded) {
+      navigate(`/onboarding`)
     } else if (
-      response.payment.experience === 'waitlist' &&
-      !response.onboarded
+      isSandboxId(payment.experience) ||
+      (isWaitlistExperience(payment.experience) &&
+        projects.activeProject === null)
     ) {
-      navigate(`/onboarding/${response._id}`)
-    } else if (!response.project) {
       navigate('/project/sandbox')
+      storeUserProject(dispatch, 'sandbox')
       dispatch(setPortal(buildProjectPortal('sandbox')))
+      dispatch(
+        updateAuthUser({
+          project: 'sandbox',
+          projects: { activeProject: 'sandbox' },
+        })
+      )
     } else {
-      navigate(`/project/${response.project}`)
-      dispatch(setPortal(buildProjectPortal(response.project)))
+      navigate(`/project/${projects.activeProject}`)
+      storeUserProject(dispatch, projects.activeProject)
+      dispatch(setPortal(buildProjectPortal(projects.activeProject)))
     }
   }
 
@@ -98,7 +108,7 @@ const SignIn: React.FC = (): JSX.Element => {
     <div>
       <div className='sign_in'>
         <div className='sign_in_container'>
-          <img src={loginBanner} alt='login-banner' />
+          <img src={login} alt='a person seated at a desk types on a laptop' />
           <form className='sign_in_form' onSubmit={handleSubmitForm}>
             <div className='sign_in_content'>
               <h1>Log in</h1>

@@ -1,12 +1,59 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import { DateFieldsInterface, MeetingModalInfo } from 'interfaces'
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+import {
+  ConvertedEvent,
+  DateFieldsInterface,
+  MeetingModalInfo,
+} from 'interfaces'
+import { staticEmails } from 'utils/data/calendarConstants'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
+dayjs.extend(isSameOrAfter)
 
 export const blankDayJs = () => dayjs()
+
+export const buildSandboxEvent = (eventInfo, eventId?): ConvertedEvent => {
+  const { description, end, googleMeetingInfo, start, summary } = eventInfo
+  const updatedAttendees = eventInfo.attendees.map(member => {
+    return { ...member, responseStatus: 'needsAction' }
+  })
+
+  if (!staticEmails.includes(updatedAttendees[0].email)) {
+    updatedAttendees.shift()
+  }
+
+  if (!updatedAttendees.find(attendee => attendee.comment === 'organizer')) {
+    updatedAttendees[0] = { ...updatedAttendees[0], comment: 'organizer' }
+  }
+
+  const startTime = changeDateTimeZone(start.dateTime, start.timezone)
+  const endTime = changeDateTimeZone(end.dateTime, end.timezone)
+
+  return {
+    attendees: updatedAttendees,
+    description,
+    creator: 'star@struck.com',
+    end: endTime,
+    eventId: eventId || generateHexadecimal(),
+    googleDateFields: {
+      endTime: end.dateTime,
+      startTime: start.dateTime,
+    },
+    hangoutLink: googleMeetingInfo.enabled ? 'https://meet.google.com' : '',
+    start: startTime,
+    timeZone: start.timeZone,
+    title: summary,
+  }
+}
+
+export const changeDateTimeZone = (time, timeZone) => {
+  const formattedTime = dayjs(time).format('YYYY-MM-DDTHH:mm')
+  const timeZonedTime = dayjs.tz(formattedTime, timeZone).format()
+  return timeZonedTime
+}
 
 export const checkIfAllMembersInvited = (
   attendees,
@@ -25,6 +72,15 @@ export const checkIfAllMembersInvited = (
     toggleInviteAll(false)
   } else if (!inviteAll && allMembersInvited) {
     toggleInviteAll(true)
+  }
+}
+
+export const checkSandboxEvent = eventId => {
+  const sandboxEvents = ['uxdStandup', 'sweStandup', 'allTeamStandup']
+  if (sandboxEvents.includes(eventId)) {
+    return true
+  } else {
+    return false
   }
 }
 
@@ -118,6 +174,15 @@ const generateInitialTime = type => {
   return dayjs(finalStr).toISOString()
 }
 
+export const generateHexadecimal = () => {
+  const hex = '0123456789ABCDEF'
+  let output = ''
+  for (let i = 0; i < 6; ++i) {
+    output += hex.charAt(Math.floor(Math.random() * hex.length))
+  }
+  return output
+}
+
 /**
  * Converts the event object from FullCalendar into meetingModal fields
  * @param e The event passed into the handler when a user clicks on an event in the calendar
@@ -166,4 +231,41 @@ export const updateWeekNumber = (sundayDate, firstDay, setWeekNumber) => {
   } else {
     setWeekNumber('4')
   }
+}
+
+export const updateWeekDayNumber = teamCommonAvailability => {
+  Object.keys(teamCommonAvailability).forEach(key => {
+    switch (key) {
+      case 'SUN':
+        teamCommonAvailability[0] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'MON':
+        teamCommonAvailability[1] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'TUE':
+        teamCommonAvailability[2] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'WED':
+        teamCommonAvailability[3] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'THU':
+        teamCommonAvailability[4] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'FRI':
+        teamCommonAvailability[5] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+      case 'SAT':
+        teamCommonAvailability[6] = teamCommonAvailability[key]
+        delete teamCommonAvailability[key]
+        break
+    }
+  })
+
+  return teamCommonAvailability
 }

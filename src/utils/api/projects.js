@@ -9,9 +9,9 @@ export const getAllProjects = async () => {
   }
 }
 
-export const getOneProject = async id => {
+export const getOneProject = async projectId => {
   try {
-    const res = await api.get(`/projects/${id}`)
+    const res = await api.get(`/projects/${projectId}`)
     return res.data
   } catch (error) {
     throw error
@@ -111,6 +111,15 @@ export const getMembersAttributesByProjectId = async (
     const res = await api.get(
       `/project/${projectId}/members/?attributes=${attributes}`
     )
+    return res.data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const getTeamCommonAvailability = async projectId => {
+  try {
+    const res = await api.get(`/projects/${projectId}/team-common-availability`)
     return res.data
   } catch (err) {
     console.error(err)

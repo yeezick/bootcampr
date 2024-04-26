@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import {
+  logoutAuthUser,
+  selectAuthUser,
+  selectUserExperience,
+} from 'utils/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { MdArrowDropDown } from 'react-icons/md'
 import { BsFillChatLeftTextFill } from 'react-icons/bs'
@@ -15,31 +19,49 @@ import {
   setActiveChatRoomId,
   toggleChat,
 } from 'utils/redux/slices/chatSlice'
-
 import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
 import { buildPortal } from 'utils/helpers'
 import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { CustomBadge } from 'components/Badge/Badge'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 import './styles/Nav.scss'
+import { logOut } from 'utils/api'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
   const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
   const authUser = useAppSelector(selectAuthUser)
-  const { _id: userId, project: projectId } = authUser
+  const experience = useAppSelector(selectUserExperience)
+  const {
+    _id: userId,
+    projects: { activeProject },
+  } = authUser
   const dispatch = useAppDispatch()
   const location = useLocation()
-  const projectRouteActive = location.pathname.includes('/project/')
-  const excludedRoutes = ['/payment', '/sign-up', '/sign-in', '/onboarding']
-
+  const excludedRoutes = [
+    '/payment',
+    '/sign-up',
+    '/sign-in',
+    '/onboarding',
+    '/mobile',
+    '/users/reset-password',
+    '/success',
+  ]
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
   )
-
   const closeDropdown = () => setAnchorEl(null)
-  const handlePortalLink = () => buildPortal(dispatch, 'project', projectId)
-  const handleNonPortalLink = () => dispatch(resetPortal())
+  const handlePortalLink = () =>
+    buildPortal(dispatch, 'project', activeProject, experience)
+  const handleNonPortalLink = async () => {
+    if (window.location.pathname === '/users/reset-password') {
+      await logOut()
+      dispatch(logoutAuthUser())
+    }
+    dispatch(resetPortal())
+  }
+  const isActiveLink = path =>
+    location.pathname.includes(path) ? 'active' : ''
 
   const landingPage =
     process.env.REACT_APP_API_ENV === 'local'
@@ -58,28 +80,35 @@ export const Nav = () => {
       {!isExcludedRoute && (
         <div className='navbar-wrapper'>
           <div className='header-list'>
+            {userId && (
+              <Link
+                className={`header-link ${isActiveLink('project')}`}
+                to={`/project/${activeProject || 'sandbox'}`}
+                onClick={handlePortalLink}
+              >
+                Project Portal
+              </Link>
+            )}
             <Link
-              className={
-                projectRouteActive ? 'header-link active' : 'header-link'
-              }
-              to={`/project/${projectId || 'unassigned'}`}
-              onClick={handlePortalLink}
-            >
-              Project Portal
-            </Link>
-            <Link
-              className='header-link'
-              to='/how-to'
+              className={`header-link ${isActiveLink('contact-us')}`}
+              to='/contact-us'
               onClick={handleNonPortalLink}
             >
-              How Bootcamper works
+              Contact Us
             </Link>
             <Link
-              className='header-link'
-              to='/about-us'
+              className={`header-link ${isActiveLink('community')}`}
+              to='/community'
               onClick={handleNonPortalLink}
             >
-              About us
+              Community
+            </Link>
+            <Link
+              className={`header-link ${isActiveLink('enterprise')}`}
+              to='/enterprise'
+              onClick={handleNonPortalLink}
+            >
+              Enterprise
             </Link>
           </div>
           {userId ? (
