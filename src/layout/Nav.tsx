@@ -60,10 +60,6 @@ export const Nav = () => {
     }
     dispatch(resetPortal())
   }
-  const handleNavToUnicornPage = e => {
-    console.log('e', e)
-    // window.location.replace('https://landing.bootcampr.io/')
-  }
   const isActiveLink = path =>
     location.pathname.includes(path) ? 'active' : ''
 
