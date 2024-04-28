@@ -98,7 +98,7 @@ const WaitlistPageInfo = () => {
         break
       case 'tasks':
         setInfoText(
-          'You can practice creating your own. User stories will not save beyond this session.'
+          'You can practice creating user stories. They will not save beyond this session.'
         )
         break
       default:

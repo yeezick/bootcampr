@@ -19,6 +19,7 @@ import {
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useSocketEvents } from 'components/Notifications/Socket'
 import './UserProfile.scss'
+import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
 
 export const UserProfile: React.FC = () => {
   const authUser = useAppSelector(selectAuthUser)
@@ -40,7 +41,7 @@ export const UserProfile: React.FC = () => {
     }
 
     setUserProfileInfo(userProfile)
-  }, [teamMembers, userProfileInfo])
+  }, [authUser, teamMembers, userProfileInfo])
 
   // BC-334: should handle this case
   if (!userProfileInfo || !userProfileInfo._id) {
@@ -50,16 +51,24 @@ export const UserProfile: React.FC = () => {
   const handleProfileMessageClick = async () => {
     const { _id: memberId } = userProfileInfo
     try {
-      if (userProfileInfo) {
-        const chatResponse = await createOrGetPrivateChatRoom(memberId)
-        let room = chatResponse.chatRoom
-        room = await dispatch(processChatRoom(room)).unwrap()
-        if (chatResponse.isNew) {
-          createNewRoom({ chatRoom: room, receiverIds: [memberId] })
-        }
-        dispatch(setCurrentChat(room))
+      const {
+        payment: { experience: userExperience },
+      } = authUser
+      if (isSandboxId(userExperience) || isWaitlistExperience(userExperience)) {
         dispatch(toggleChatOpen())
-        dispatch(onScreenUpdate(ChatScreen.ChatRoom))
+        dispatch(onScreenUpdate(ChatScreen.Main))
+      } else {
+        if (userProfileInfo) {
+          const chatResponse = await createOrGetPrivateChatRoom(memberId)
+          let room = chatResponse.chatRoom
+          room = await dispatch(processChatRoom(room)).unwrap()
+          if (chatResponse.isNew) {
+            createNewRoom({ chatRoom: room, receiverIds: [memberId] })
+          }
+          dispatch(setCurrentChat(room))
+          dispatch(toggleChatOpen())
+          dispatch(onScreenUpdate(ChatScreen.ChatRoom))
+        }
       }
     } catch (error) {
       console.error('Error in chat open: ', error)
