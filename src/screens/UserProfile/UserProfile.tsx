@@ -41,7 +41,7 @@ export const UserProfile: React.FC = () => {
     }
 
     setUserProfileInfo(userProfile)
-  }, [teamMembers, userProfileInfo])
+  }, [authUser, teamMembers, userProfileInfo])
 
   // BC-334: should handle this case
   if (!userProfileInfo || !userProfileInfo._id) {
