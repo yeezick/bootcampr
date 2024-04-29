@@ -9,6 +9,7 @@ export const updateUserImage = async (userId, imageFile) => {
     const res = await api.post(`/users/${userId}/addImage`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
+    console.log('data', res.data)
     return res.data
   } catch (err) {
     console.error('Error updating user image:', err)
@@ -25,3 +26,5 @@ export const deleteUserImage = async userId => {
     throw err
   }
 }
+
+// create a get fetch request to cehck the url to see if there is an image for status error

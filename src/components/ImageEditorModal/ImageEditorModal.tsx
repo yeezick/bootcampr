@@ -4,18 +4,20 @@ import {
   updateAuthUser,
   getUserProfileImage,
   selectUserId,
+  setUploadedImage,
 } from 'utils/redux/slices/userSlice'
 import { updateUser } from 'utils/api'
 import { ImageEditorModalProps } from '../../interfaces/ProfileImageInterfaces'
 import ImageEditorHeader from './ImageEditorHeader'
 import ImageEditorControls from './ImageEditorControls'
 import ImageEditorContent from './ImageEditorContent'
-import { createUserImage, saveCroppedImage } from './ImageEditorModalUtils'
+import { saveCroppedImage } from './ImageEditorModalUtils'
 import getCroppedImg from 'components/Crop/Utils/CropImage'
 import { Dialog, DialogActions } from '@mui/material'
 import { Area, Point } from 'react-easy-crop/types'
 import './ImageEditorModal.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import { updateUserImage } from 'utils/api/services'
 
 /**
  * ImageEditorModal component allows the user to edit, crop, and save images.
@@ -62,11 +64,17 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
           if (croppedImageURL) {
             try {
               const croppedImageFile = await saveCroppedImage(croppedImageURL)
-              await createUserImage(croppedImageFile, userId)
+              const imageUploaded = await updateUserImage(
+                userId,
+                croppedImageFile
+              )
               const userImageUpdate = await updateUser(userId, {
                 hasProfilePicture: true,
               })
 
+              console.log('saved updatedUser', userImageUpdate)
+              console.log('saved imagedUploaded', imageUploaded.image)
+              dispatch(setUploadedImage(imageUploaded.image))
               dispatch(updateAuthUser(userImageUpdate))
               dispatch(successSnackbar('Photo saved!'))
               handleClose()

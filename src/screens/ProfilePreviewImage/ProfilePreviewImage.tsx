@@ -6,7 +6,7 @@ import {
   setDefaultProfilePicture,
 } from 'utils/redux/slices/userSlice'
 import { ProfilePreviewImageProps } from 'interfaces/ProfileImageInterfaces'
-import { updateUserImage, deleteUserImage } from '../../utils/api/services'
+import { deleteUserImage } from '../../utils/api/services'
 import { updateUser } from 'utils/api'
 import ImageEditorModal from 'components/ImageEditorModal/ImageEditorModal'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
@@ -40,7 +40,6 @@ export const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
 }) => {
   const dispatch = useAppDispatch()
   const userId = useAppSelector(selectUserId)
-  console.log('userId global', userId)
 
   const [isImageEditorOpen, setIsImageEditorOpen] = useState<boolean>(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
@@ -57,28 +56,10 @@ export const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
     setIsImageEditorOpen(false)
   }, [onClose])
 
-  /**
-   * Handles image upload, dispatches action to set the image URL and closes the editor modal.
-   * @param {string} image - The uploaded image in base64 format.
-   */
-  const handleImageUpload = async (image: string) => {
-    try {
-      console.log('userId Function', userId)
-      await updateUserImage(userId, image)
-      console.log('Image updated successfully')
-      dispatch(setUploadedImage(image))
-    } catch (error) {
-      console.log('Failed to update image:', error)
-    }
-  }
-
   const handleFileInputChange = useCallback(
     (dataUrl: string) => {
-      console.log('dataUrl', dataUrl)
-
       dispatch(setUploadedImage(dataUrl))
       setIsImageEditorOpen(true)
-      handleImageUpload(dataUrl)
     },
     [dispatch]
   )

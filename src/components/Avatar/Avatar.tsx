@@ -54,7 +54,7 @@ const Avatar: React.FC<AvatarProps> = ({
 
   const handleIconClick = () => {
     if (!hasProfilePicture && hasIcon) {
-      setIsModalOpen(true)
+      fileInputRef.current?.click()
     }
   }
 
@@ -66,7 +66,7 @@ const Avatar: React.FC<AvatarProps> = ({
     authUser.firstName,
     authUser.lastName
   )
-  console.log('profilePicture', profilePicture)
+  // create a func to check if the image does exist via fetch
 
   return (
     <>
