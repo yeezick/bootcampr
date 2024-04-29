@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Availability } from 'components/Availability/Availability'
-import { defaultAvailability } from 'utils/data/userConstants'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { getUserTimezone, selectAuthUser } from 'utils/redux/slices/userSlice'
-import { AvailabilityInterface } from 'interfaces'
+import {
+  getUserTimezone,
+  selectAuthUser,
+  selectUserAvailability,
+} from 'utils/redux/slices/userSlice'
 import { saveAvailability } from 'components/Availability/utils/helpers'
 import { disableForwardButton } from 'components/Availability/utils/helpers'
 import './SetupAvailability.scss'
@@ -20,8 +22,8 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const storedUserTZinUTC = useAppSelector(getUserTimezone)
+  const days = useAppSelector(selectUserAvailability)
 
-  const [days, setDays] = useState<AvailabilityInterface>(defaultAvailability)
   const [isDisabled, setIsDisabled] = useState(true)
 
   const storeAvailability = async () => {

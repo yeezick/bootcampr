@@ -1,32 +1,28 @@
-import { useEffect } from 'react'
 import { weekdaysMap } from './utils/data'
 import {
   DayAvailabilityInputBanner,
   TimeZoneInputBanner,
 } from './subcomponents'
-import { selectUserAvailability } from 'utils/redux/slices/userSlice'
-import { useAppSelector } from 'utils/redux/hooks'
 import './Availability.scss'
+import { useState } from 'react'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectUserAvailability } from 'utils/redux/slices/userSlice'
 
-export const Availability = ({ days, setDays }): JSX.Element => {
-  const userAvailability = useAppSelector(selectUserAvailability)
-
-  useEffect(() => {
-    setDays(userAvailability)
-  }, [userAvailability])
+export const Availability = (): JSX.Element => {
+  const storedUserAvailability = useAppSelector(selectUserAvailability)
+  const [days, setDays] = useState(storedUserAvailability)
 
   return (
     <div className='availability-container'>
       <TimeZoneInputBanner />
       <p>Set weekly availability</p>
       <hr />
-      {Object.keys(weekdaysMap).map((day, idx) => (
+      {Object.keys(weekdaysMap).map(day => (
         <DayAvailabilityInputBanner
           day={day}
           days={days}
-          idx={idx}
-          key={`${day}-banner`}
           setDays={setDays}
+          key={`${day}-banner`}
         />
       ))}
     </div>

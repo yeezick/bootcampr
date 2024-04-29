@@ -20,20 +20,17 @@ export const SideMenu = () => {
   const { active } = useAppSelector(selectSideMenu)
   const projectSubmissionInfo = useAppSelector(selectCompletedInfo)
   const [isDisabled, setIsDisabled] = useState(true)
-  const isProjectSubmitted =
-    projectSubmissionInfo.deployedUrl && projectSubmissionInfo.presenting
+  const isProjectSubmitted = Boolean(projectSubmissionInfo.deployedUrl)
 
   const handleProjectCompletion = () =>
     navigate(`/project/${projectId}/complete`)
-
   //TODO: Currently set to check every minute but we can adjust as needed, there might be a delay in seconds.
   useEffect(() => {
     const checkSubmissionTime = () => {
       const submissionDate = generateDayJs(projectSubmissionDate)
       const now = blankDayJs()
-
       setIsDisabled(
-        !now.isSameOrAfter(submissionDate, 'minute') || isProjectSubmitted
+        now.isBefore(submissionDate, 'minute') || isProjectSubmitted
       )
     }
 

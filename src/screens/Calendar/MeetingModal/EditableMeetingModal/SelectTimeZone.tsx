@@ -3,7 +3,6 @@ import { FormControl, MenuItem, Select } from '@mui/material'
 import { useState } from 'react'
 import { usTimeZones } from 'utils/data/calendarConstants'
 import '../styles/SelectTimeZone.scss'
-
 export const SelectTimeZone = ({
   dateFields,
   setDateFields,

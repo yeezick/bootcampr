@@ -23,7 +23,7 @@ export const GoogleMeetsToggler = ({ googleMeeting, toggleGoogleMeeting }) => {
           sx={{ margin: 0 }}
         />
         <p className='google-meet-text'>
-          A Google Meet link will be added to the calendar event.
+          Google Meet invite will be sent to invitees.
         </p>
       </div>
     </>

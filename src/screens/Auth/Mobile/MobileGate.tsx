@@ -6,11 +6,10 @@ import { isMobileWidth } from 'utils/helpers'
 
 export const MobileGate = () => {
   const navigate = useNavigate()
-
   useEffect(() => {
     const rerouteToLanding = () => {
       if (!isMobileWidth()) {
-        handleRouteToLanding()
+        window.history.back()
       }
     }
 
@@ -20,9 +19,7 @@ export const MobileGate = () => {
     }
   }, [])
 
-  const handleRouteToLanding = () => {
-    window.location.replace('https://landing.bootcampr.io/')
-  }
+  const handleRouteToLanding = () => navigate('/')
 
   return (
     <div className='mobile'>

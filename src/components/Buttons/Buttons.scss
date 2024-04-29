@@ -39,10 +39,12 @@
     &:active::before {
       background-color: rgba(0, 0, 0, 0.12);
     }
+  }
 
+  &.secondary,
+  &.icon-button {
     &.Mui-disabled {
       opacity: 0.38;
-      pointer-events: none;
     }
   }
 
@@ -52,11 +54,20 @@
 
     &.MuiButton-contained {
       background-color: #ffa726;
+
+      &.Mui-disabled {
+        background-color: #e0e0e0;
+        color: #616161;
+      }
     }
 
     &.MuiButton-outlined {
       background-color: #ffffff;
       border-color: #5c6bc0;
+
+      &.Mui-disabled {
+        opacity: 0.38;
+      }
     }
   }
 
