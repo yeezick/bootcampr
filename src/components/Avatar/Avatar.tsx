@@ -16,6 +16,7 @@ import './Avatar.scss'
 import { infoSnackbar } from 'utils/helpers/commentHelpers'
 import { selectUsersById } from 'utils/redux/slices/projectSlice'
 
+
 // TODO: avatar should take a user ID instead of relying on authUser
 /**
  * Avatar component to display a user's avatar image.
