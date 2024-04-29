@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react'
 import './CopyTimesModal.scss'
 import { weekdaysMap } from '../utils/data'
 import { PrimaryButton } from 'components/Buttons'
-import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const CopyTimesModal = ({
   days,
@@ -106,14 +105,13 @@ export const CopyTimesModal = ({
             />
           )
       )}
-      <ButtonContainer justify='center' style={{ marginTop: '10px' }}>
-        <PrimaryButton
-          onClick={handleApply}
-          label='Apply'
-          disabled={isDisabled}
-          fullWidth
-        />
-      </ButtonContainer>
+      <PrimaryButton
+        onClick={handleApply}
+        label='Apply'
+        disabled={isDisabled}
+        fullWidth
+        style={{ marginTop: '10px' }}
+      />
     </div>
   )
 }

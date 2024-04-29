@@ -15,6 +15,7 @@ import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { isLinkedInUrl } from 'utils/components/Inputs'
 import { BackButton, ForwardButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 // BC-787: remove BEM styling
 export const SetUpProfile = ({ handlePageNavigation }) => {
@@ -274,23 +275,23 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
               </label>
             )}
           </div>
-          <div className='setupProfile__profile-btns'>
-            //TODO circle back to this styling when things aren't broken
-            <div className='setupProfile__cta-container'>
-              <BackButton label='Availability' onClick={handleSecondaryClick} />
-              <div className='complete-payment'>
-                <ForwardButton
-                  label='Complete payment'
-                  onClick={handlePrimaryClick}
-                  disabled={isDisabled}
-                />
-                <p className='payment-disclaimer'>
-                  *You will be directed to a third-party payment processor. It
-                  is secure.
-                </p>
-              </div>
+          <ButtonContainer
+            style={{ marginTop: '32px', position: 'relative' }}
+            gap={32}
+          >
+            <BackButton label='Availability' onClick={handleSecondaryClick} />
+            <div className='setupProfile__cta-and-disclaimer'>
+              <ForwardButton
+                label='Complete payment'
+                onClick={handlePrimaryClick}
+                disabled={isDisabled}
+              />
+              <p>
+                *You will be directed to a third-party payment processor. It is
+                secure.
+              </p>
             </div>
-          </div>
+          </ButtonContainer>
         </form>
       </div>
     </div>

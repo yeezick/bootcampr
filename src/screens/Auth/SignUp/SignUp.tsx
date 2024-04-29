@@ -13,7 +13,6 @@ import './SignUp.scss'
 import { Checkbox, FormControlLabel } from '@mui/material'
 import signup from '../../../assets/Images/signup.png'
 import { PrimaryButton } from 'components/Buttons'
-import { DisabledByDefault } from '@mui/icons-material'
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate()
@@ -157,7 +156,6 @@ export const SignUp: React.FC = () => {
               isAccepted={isAccepted}
               setIsAccepted={setIsAccepted}
             />
-            //TODO circle back on making this do handleSubmit on click
             <PrimaryButton
               disabled={disabledForm}
               fullWidth

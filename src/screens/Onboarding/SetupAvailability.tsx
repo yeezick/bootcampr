@@ -54,7 +54,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
         </i>
       </div>
       <Availability days={days} setDays={setDays} />
-      <ButtonContainer style={{ marginTop: '32px' }}>
+      <ButtonContainer style={{ marginTop: '32px' }} gap={32}>
         <BackButton onClick={handlePrevious} label='Role' />
         <ForwardButton
           disabled={isDisabled}
