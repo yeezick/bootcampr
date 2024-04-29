@@ -9,6 +9,7 @@ import {
 import './EditAvailability.scss'
 import { AvailabilityInterface } from 'interfaces'
 import { PrimaryButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const EditAvailability = () => {
   const dispatch = useAppDispatch()
@@ -30,10 +31,9 @@ export const EditAvailability = () => {
   return (
     <div className='edit-availability-container'>
       <Availability />
-      <div className='edit-availability-btn-group'>
-        //TODO match this styling
+      <ButtonContainer style={{ marginTop: '32px' }}>
         <PrimaryButton onClick={handleSaveAvailability} label='Save' />
-      </div>
+      </ButtonContainer>
     </div>
   )
 }

@@ -263,7 +263,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
           <PrimaryButton
             label='Send Invite'
             type='submit'
-            style={{ margin: '10px 32px 32px 32px' }}
+            style={{ margin: '32px' }}
           />
         </DialogActions>
       </form>
