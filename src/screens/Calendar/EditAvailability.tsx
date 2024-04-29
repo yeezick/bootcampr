@@ -1,7 +1,5 @@
 import { Availability } from 'components/Availability/Availability'
 import { saveAvailability } from 'components/Availability/utils/helpers'
-import { AvailabilityInterface } from 'interfaces'
-import { defaultAvailability } from 'utils/data/userConstants'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   getUserTimezone,
@@ -33,7 +31,6 @@ export const EditAvailability = () => {
     <div className='edit-availability-container'>
       <Availability />
       <div className='edit-availability-btn-group'>
-        {' '}
         //TODO match this styling
         <PrimaryButton onClick={handleSaveAvailability} label='Save' />
       </div>

@@ -9,7 +9,6 @@ import { isSandboxId } from 'utils/helpers/taskHelpers'
 import { useEffect, useState } from 'react'
 import bannerImg from '../../assets/Images/banner-img.png'
 import bannerImgLg from '../../assets/Images/banner-img-lg.png'
-import { PrimaryButton } from 'components/Buttons'
 
 export const PortalBanner = () => {
   const { active, type } = useAppSelector(selectBanner)
@@ -74,19 +73,11 @@ const WaitlistBanner = () => {
         </p>
         <WaitlistPageInfo />
       </div>
-      {paid ? (
-        <PrimaryButton
-          className='cta-button'
-          text='Join the Bootcampr community'
-          handler={handleJoinDiscord}
-        />
-      ) : (
-        <PrimaryButton
-          className='cta-button'
-          text='Complete onboarding'
-          handler={handleCompleteOnboarding}
-        />
-      )}
+      <PrimaryButton
+        label={paid ? 'Join the Bootcampr community' : 'Complete onboarding'}
+        onClick={paid ? handleJoinDiscord : handleCompleteOnboarding}
+        style={{ marginRight: '32px' }}
+      />
     </div>
   )
 }
