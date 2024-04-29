@@ -262,6 +262,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
           <PrimaryButton
             label={modalDisplayStatus === 'create' ? 'Send Invite' : 'SAVE'}
             type='submit'
+            style={{ margin: '10px 32px 32px 32px' }}
           />
         </DialogActions>
       </form>

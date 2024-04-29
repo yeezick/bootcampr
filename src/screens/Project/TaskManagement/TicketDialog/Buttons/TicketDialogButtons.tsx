@@ -12,7 +12,7 @@ export const TicketDialogButtons = () => {
   const ticketDialogState = useAppSelector(selectTicketDialogState)
 
   return (
-    <ButtonContainer>
+    <ButtonContainer gap={32}>
       {ticketDialogState === 'edit' ? (
         <>
           <DeleteTicketBtn />

@@ -12,7 +12,6 @@ export const CancelMeetingButtons = ({ handleCloseModal, handleDelete }) => {
       <PrimaryButton
         colorScheme='secondary'
         onClick={handleDelete}
-        style={{ padding: '8px 20px' }}
         label='Cancel Meeting'
       />
     </ButtonContainer>
