@@ -114,11 +114,7 @@ export const SuccessScreen = () => {
       </div>
       <div className='success-screen actions'>
         {buttonLabel && (
-          <PrimaryButton
-            className='actions button'
-            onClick={buttonAction}
-            label={buttonLabel}
-          />
+          <PrimaryButton onClick={buttonAction} label={buttonLabel} />
         )}
         {hyperlinkLabel && (
           <div className='actions hyperlink' onClick={hyperlinkAction}>

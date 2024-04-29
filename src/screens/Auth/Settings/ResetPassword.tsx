@@ -11,6 +11,7 @@ import { useFormValidation } from 'utils/helpers'
 import { PasswordInputs } from 'components/Inputs'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { PrimaryButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const ResetPassword = () => {
   const [formValues, setFormValues] =
@@ -52,11 +53,13 @@ export const ResetPassword = () => {
           setFormValues={setFormValues}
           passwordInputName='email-pwd-reset'
         />
-        <PrimaryButton
-          type='submit'
-          disabled={isDisabled}
-          label='Reset password'
-        />
+        <ButtonContainer style={{ marginTop: '32px' }}>
+          <PrimaryButton
+            type='submit'
+            disabled={isDisabled}
+            label='Reset password'
+          />
+        </ButtonContainer>
       </form>
     </div>
   )
