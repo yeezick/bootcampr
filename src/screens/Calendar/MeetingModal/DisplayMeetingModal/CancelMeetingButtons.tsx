@@ -18,8 +18,3 @@ export const CancelMeetingButtons = ({ handleCloseModal, handleDelete }) => {
     </ButtonContainer>
   )
 }
-
-const discardButtonStyles = {
-  //TODO double check that my method did the same thing
-  padding: '8px 20px',
-}

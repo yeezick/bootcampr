@@ -94,7 +94,7 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
           />
         </section>
 
-        <ButtonContainer>
+        <ButtonContainer gap={16}>
           <BackButton onClick={handleCancel} label='Presentation' />
           <PrimaryButton
             disabled={isDisabled || isLoading}

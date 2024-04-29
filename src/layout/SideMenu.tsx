@@ -56,6 +56,7 @@ export const SideMenu = () => {
             disabled={isDisabled}
             onClick={handleProjectCompletion}
             label='Submit Project'
+            style={{ bottom: 32, position: 'absolute', width: '235px' }}
           />
         )}
       </div>

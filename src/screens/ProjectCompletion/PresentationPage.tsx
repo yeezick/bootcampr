@@ -95,7 +95,7 @@ export const PresentationPage = ({ handlePageNavigation }) => {
             setIsDisabled={setIsDisabled}
           />
 
-          <ButtonContainer>
+          <ButtonContainer gap={16}>
             <BackButton onClick={handleCancel} label='URL' />
             <ForwardButton
               disabled={isDisabled}

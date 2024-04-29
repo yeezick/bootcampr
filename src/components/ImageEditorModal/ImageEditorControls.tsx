@@ -13,7 +13,7 @@ import { PrimaryButton, TextButton } from 'components/Buttons'
  */
 const ImageEditorControls = ({ handleSave, handleClose }) => {
   return (
-    <ButtonContainer justify='center'>
+    <ButtonContainer justify='center' gap={16}>
       <TextButton label='Cancel' onClick={handleClose} />
       <PrimaryButton label='Save photo' onClick={handleSave} />
     </ButtonContainer>

@@ -13,7 +13,6 @@ import { PasswordInputs } from 'components/Inputs'
 import { useNavigate } from 'react-router-dom'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { PrimaryButton } from 'components/Buttons'
-import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const ChangePassword = () => {
   const navigate = useNavigate()
