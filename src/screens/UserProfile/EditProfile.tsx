@@ -41,7 +41,6 @@ export const EditProfile: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
-    console.log('nestedlinks', e)
     if (nestedLinks.includes(name)) {
       setUpdateUserForm(prevForm => ({
         ...prevForm,

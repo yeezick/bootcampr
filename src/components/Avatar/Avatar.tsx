@@ -13,6 +13,7 @@ import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
 import { generateDefaultPicture } from 'utils/helpers'
 import './Avatar.scss'
+import { infoSnackbar } from 'utils/helpers/commentHelpers'
 
 /**
  * Avatar component to display a user's avatar image.
@@ -28,7 +29,7 @@ const Avatar: React.FC<AvatarProps> = ({
   addPhotoIconId,
   size,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false) // should be more semantic.
   const dispatch = useAppDispatch()
   const profilePicture = useAppSelector(getUserProfileImage)
   const authUser = useAppSelector(selectAuthUser)
@@ -36,7 +37,10 @@ const Avatar: React.FC<AvatarProps> = ({
   const imgClassName = clickable || setAnchorEl ? 'avatar-img' : 'non-clickable'
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const handleOpenModal = () => setIsModalOpen(true)
+  const handleOpenModal = () => {
+    dispatch(infoSnackbar('This feature is coming soon!'))
+    // setIsModalOpen(true) // revert when image uploading feature is fixed
+  }
   const handleCloseModal = () => setIsModalOpen(false)
 
   useEffect(() => {
@@ -74,7 +78,7 @@ const Avatar: React.FC<AvatarProps> = ({
           <div className='avatar-icon'>
             <img
               className={imgClassName}
-              src={profilePicture}
+              src={defaultImageURL}
               alt='avatar'
               onClick={handleClick}
             />

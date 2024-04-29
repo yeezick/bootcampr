@@ -75,9 +75,6 @@ export const UserProfile: React.FC = () => {
     }
   }
 
-  const shouldShowName =
-    userProfileInfo.firstName && userProfileInfo.lastName ? true : false
-
   const routeToEdit = () => {
     navigate(`/users/${authUser._id}/edit`)
   }
@@ -90,11 +87,9 @@ export const UserProfile: React.FC = () => {
             <Avatar clickable={false} />
           </div>
           <div className='userProfile__title'>
-            {shouldShowName && (
-              <h2>
-                {userProfileInfo.firstName} {userProfileInfo.lastName}
-              </h2>
-            )}
+            <h2>
+              {userProfileInfo.firstName} {userProfileInfo.lastName}
+            </h2>
             {userProfileInfo.role && <h3>{userProfileInfo.role}</h3>}
           </div>
           {sameProfile ? (
