@@ -5,6 +5,7 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 import { UserInterface } from 'interfaces'
 import { emptyUser } from 'utils/data/userConstants'
+import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 import Avatar from 'components/Avatar/Avatar'
 import { RiGithubLine } from 'react-icons/ri'
 import { FiLinkedin } from 'react-icons/fi'
@@ -40,7 +41,7 @@ export const UserProfile: React.FC = () => {
     }
 
     setUserProfileInfo(userProfile)
-  }, [teamMembers, userProfileInfo])
+  }, [teamMembers, userProfileInfo, authUser, userId])
 
   // BC-334: should handle this case
   if (!userProfileInfo || !userProfileInfo._id) {
@@ -85,7 +86,11 @@ export const UserProfile: React.FC = () => {
       <div className='userProfile__container'>
         <div className='userProfile__titleContainer'>
           <div className='userProfile__image'>
-            <Avatar clickable={false} />
+            {sameProfile ? (
+              <Avatar clickable={false} />
+            ) : (
+              <TeamAvatar userId={userId} size='medium' />
+            )}
           </div>
           <div className='userProfile__title'>
             {shouldShowName && (
