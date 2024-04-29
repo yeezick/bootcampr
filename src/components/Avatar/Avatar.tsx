@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import {
   getUserProfileImage,
   selectHasUploadedProfilePicture,
@@ -14,7 +14,10 @@ import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
 import { generateDefaultPicture } from 'utils/helpers'
 import './Avatar.scss'
 import { infoSnackbar } from 'utils/helpers/commentHelpers'
+import { selectUsersById } from 'utils/redux/slices/projectSlice'
 
+
+// TODO: avatar should take a user ID instead of relying on authUser
 /**
  * Avatar component to display a user's avatar image.
  * @param {boolean} [clickable=true] - Indicates if the avatar is clickable.
@@ -28,10 +31,17 @@ const Avatar: React.FC<AvatarProps> = ({
   iconButtonClassName,
   addPhotoIconId,
   size,
+  userId,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false) // should be more semantic.
+  const [userNames, setUserNames] = useState({
+    firstName: '',
+    lastName: '',
+  })
   const dispatch = useAppDispatch()
   const profilePicture = useAppSelector(getUserProfileImage)
+  const memoizedUserId = useMemo(() => selectUsersById([userId]), [userId])
+  const [user] = useAppSelector(memoizedUserId)
   const authUser = useAppSelector(selectAuthUser)
   const hasProfilePicture = useAppSelector(selectHasUploadedProfilePicture)
   const imgClassName = clickable || setAnchorEl ? 'avatar-img' : 'non-clickable'
@@ -46,6 +56,17 @@ const Avatar: React.FC<AvatarProps> = ({
   useEffect(() => {
     dispatch(setUploadedImage(profilePicture))
   }, [dispatch, profilePicture])
+
+  useEffect(() => {
+    if (user) {
+      setUserNames({ firstName: user.firstName, lastName: user.lastName })
+    } else {
+      setUserNames({
+        firstName: authUser.firstName,
+        lastName: authUser.lastName,
+      })
+    }
+  }, [])
 
   const handleClick = e => {
     if (clickable && openModal) {
@@ -66,9 +87,10 @@ const Avatar: React.FC<AvatarProps> = ({
     dispatch(setUploadedImage(dataURL))
     setIsModalOpen(true)
   }
+
   const defaultImageURL = generateDefaultPicture(
-    authUser.firstName,
-    authUser.lastName
+    userNames.firstName,
+    userNames.lastName
   )
 
   return (
