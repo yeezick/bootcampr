@@ -240,7 +240,6 @@ export const NewChatRoom = ({ chatScreen }) => {
         <p className='members-invite-info'>{membersInviteInfo}</p>
       </section>
       <PrimaryButton
-        className='chat-button'
         type='submit'
         onClick={handleCreateChatRoom}
         disabled={!selectedChatUsers.length}
