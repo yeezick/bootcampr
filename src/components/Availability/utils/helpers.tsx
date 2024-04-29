@@ -32,6 +32,13 @@ export const consolidateAvailability = (availability): string[][] => {
 const convertLogicalToUserFriendly = (logical: number[]): string[][] => {
   let userFriendly = [timeOptions[logical[0]]]
 
+  if (logical.length === 1) {
+    const nextTime = timeOptions[logical[0] + 1]
+    userFriendly.push(nextTime)
+
+    return [userFriendly]
+  }
+
   for (let i = 1; i < logical.length; i++) {
     if (logical[i] - logical[i - 1] === 1) {
       if (i === logical.length - 1) {
