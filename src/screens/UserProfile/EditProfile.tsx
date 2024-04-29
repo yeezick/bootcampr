@@ -23,7 +23,7 @@ export const EditProfile: React.FC = () => {
     links: { githubUrl, linkedinUrl, portfolioUrl },
     role,
   } = updateUserForm
-  const nestedLinks = Object.keys(updateUserForm.links)
+  const nestedLinks = ['githubUrl', 'linkedinUrl', 'portfolioUrl']
 
   useEffect(() => {
     if (authUser) {
@@ -41,6 +41,7 @@ export const EditProfile: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
+    console.log('nestedlinks', e)
     if (nestedLinks.includes(name)) {
       setUpdateUserForm(prevForm => ({
         ...prevForm,
