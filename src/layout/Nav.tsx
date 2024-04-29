@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
+  logoutAuthUser,
   selectAuthUser,
   selectUserExperience,
 } from 'utils/redux/slices/userSlice'
@@ -24,6 +25,7 @@ import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { CustomBadge } from 'components/Badge/Badge'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 import './styles/Nav.scss'
+import { logOut } from 'utils/api'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
@@ -42,6 +44,8 @@ export const Nav = () => {
     '/sign-in',
     '/onboarding',
     '/mobile',
+    '/users/reset-password',
+    '/success',
   ]
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
@@ -49,7 +53,13 @@ export const Nav = () => {
   const closeDropdown = () => setAnchorEl(null)
   const handlePortalLink = () =>
     buildPortal(dispatch, 'project', activeProject, experience)
-  const handleNonPortalLink = () => dispatch(resetPortal())
+  const handleNonPortalLink = async () => {
+    if (window.location.pathname === '/users/reset-password') {
+      await logOut()
+      dispatch(logoutAuthUser())
+    }
+    dispatch(resetPortal())
+  }
   const isActiveLink = path =>
     location.pathname.includes(path) ? 'active' : ''
 
@@ -79,27 +89,24 @@ export const Nav = () => {
                 Project Portal
               </Link>
             )}
-            <Link
+            <a
               className={`header-link ${isActiveLink('contact-us')}`}
-              to='/contact-us'
-              onClick={handleNonPortalLink}
+              href='https://landing.bootcampr.io/contactus'
             >
               Contact Us
-            </Link>
-            <Link
+            </a>
+            <a
               className={`header-link ${isActiveLink('community')}`}
-              to='/community'
-              onClick={handleNonPortalLink}
+              href='https://landing.bootcampr.io/community'
             >
               Community
-            </Link>
-            <Link
+            </a>
+            <a
               className={`header-link ${isActiveLink('enterprise')}`}
-              to='/enterprise'
-              onClick={handleNonPortalLink}
+              href='https://landing.bootcampr.io/enterprise'
             >
               Enterprise
-            </Link>
+            </a>
           </div>
           {userId ? (
             <AuthorizedNavLinks
@@ -121,6 +128,8 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   const { visibleChat } = useAppSelector(selectChatUI)
   const unreadMessagesCount = useAppSelector(selectUnreadMessageCount)
   const projectMembers = useAppSelector(selectMembersAsTeam)
+  const authUser = useAppSelector(selectAuthUser)
+  const { _id: userId } = authUser
   const chatRef = useRef(null)
   useSocketEvents(false)
 
@@ -137,21 +146,23 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   const handleToggleChatBox = () => {
     toggleChatBox()
   }
-
+  //TODO - chat icon position needs to be tested when we remove the unicorn landing page
   return (
     <div className='notifications'>
-      <div className='nav-icons-container'>
-        <div className='messages-icon' ref={chatRef}>
-          <BsFillChatLeftTextFill
-            size={23}
-            className='chat-icon'
-            onClick={handleToggleChatBox}
-          />
-          <CustomBadge content={unreadMessagesCount} variant='standard' />
-          {visibleChat && <ChatDialogMain />}
+      {userId && (
+        <div className='nav-icons-container'>
+          <div className='messages-icon' ref={chatRef}>
+            <BsFillChatLeftTextFill
+              size={23}
+              className='chat-icon'
+              onClick={handleToggleChatBox}
+            />
+            <CustomBadge content={unreadMessagesCount} variant='standard' />
+            {visibleChat && <ChatDialogMain />}
+          </div>
+          <p className='account'>Messages</p>
         </div>
-        <p className='account'>Messages</p>
-      </div>
+      )}
       <div className='nav-icons-container'>
         <div className='account avatar'>
           <Avatar clickable={false} setAnchorEl={setAnchorEl} size='medium' />
