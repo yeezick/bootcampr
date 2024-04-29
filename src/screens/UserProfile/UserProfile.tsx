@@ -84,7 +84,7 @@ export const UserProfile: React.FC = () => {
       <div className='userProfile__container'>
         <div className='userProfile__titleContainer'>
           <div className='userProfile__image'>
-            <Avatar clickable={false} />
+            <Avatar clickable={false} userId={userProfileInfo._id} />
           </div>
           <div className='userProfile__title'>
             <h2>
