@@ -91,7 +91,7 @@ export const Email = () => {
         />
         {!isValidEmail && <p className='invalid-msg'>Invalid email address</p>}
       </div>
-      <ButtonContainer>
+      <ButtonContainer style={{ marginTop: '32px' }}>
         <PrimaryButton
           disabled={isDisabled}
           onClick={handleUpdateNewEmail}
