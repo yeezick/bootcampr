@@ -1,6 +1,5 @@
 import React, { RefObject } from 'react'
 import { Area, Point } from 'react-easy-crop/types'
-import { UserInterface } from './UserInterface'
 
 export interface AvatarProps {
   clickable?: boolean | undefined

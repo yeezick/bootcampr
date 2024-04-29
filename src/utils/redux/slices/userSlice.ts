@@ -95,15 +95,13 @@ const userSlice = createSlice({
     setUploadedImage: (state, action: PayloadAction<string | null>) => {
       const uploadedImage = action.payload
       state.auth.user.profilePicture = uploadedImage
-      state.auth.user.hasProfilePicture = !!uploadedImage
     },
     setDefaultProfilePicture: (state, action: PayloadAction<boolean>) => {
       if (!state.auth.user.profilePicture) {
-        state.auth.user.defaultProfilePicture = generateDefaultPicture(
+        state.auth.user.profilePicture = generateDefaultPicture(
           state.auth.user.firstName,
           state.auth.user.lastName
         )
-        state.auth.user.hasProfilePicture = false
       }
     },
   },
@@ -152,9 +150,6 @@ export const selectUserId = (state: RootState) => state.ui.auth.user._id
 export const selectUserExperience = (state: RootState) =>
   state.ui.auth.user.payment.experience
 export const uiStatus = (state: RootState) => state.ui.status
-export const selectHasUploadedProfilePicture = (state: RootState) => {
-  return state.ui.auth.user.hasProfilePicture
-}
 
 export const {
   setAuthUser,

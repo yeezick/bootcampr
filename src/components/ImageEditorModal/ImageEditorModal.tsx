@@ -15,9 +15,9 @@ import { saveCroppedImage } from './ImageEditorModalUtils'
 import getCroppedImg from 'components/Crop/Utils/CropImage'
 import { Dialog, DialogActions } from '@mui/material'
 import { Area, Point } from 'react-easy-crop/types'
-import './ImageEditorModal.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { updateUserImage } from 'utils/api/services'
+import './ImageEditorModal.scss'
 
 /**
  * ImageEditorModal component allows the user to edit, crop, and save images.
@@ -68,11 +68,9 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
                 userId,
                 croppedImageFile
               )
-              const userImageUpdate = await updateUser(userId, {
-                hasProfilePicture: true,
-              })
+              const userImageUpdate = await updateUser(userId, {})
 
-              console.log('saved updatedUser', userImageUpdate)
+              console.log('saved updatedUser', userImageUpdate.profilePicture)
               console.log('saved imagedUploaded', imageUploaded.image)
               dispatch(setUploadedImage(imageUploaded.image))
               dispatch(updateAuthUser(userImageUpdate))

@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import {
   getUserProfileImage,
-  selectHasUploadedProfilePicture,
   selectAuthUser,
   setUploadedImage,
 } from 'utils/redux/slices/userSlice'
@@ -32,7 +31,6 @@ const Avatar: React.FC<AvatarProps> = ({
   const dispatch = useAppDispatch()
   const profilePicture = useAppSelector(getUserProfileImage)
   const authUser = useAppSelector(selectAuthUser)
-  const hasProfilePicture = useAppSelector(selectHasUploadedProfilePicture)
   const imgClassName = clickable || setAnchorEl ? 'avatar-img' : 'non-clickable'
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -53,7 +51,7 @@ const Avatar: React.FC<AvatarProps> = ({
   }
 
   const handleIconClick = () => {
-    if (!hasProfilePicture && hasIcon) {
+    if (!profilePicture && hasIcon) {
       fileInputRef.current?.click()
     }
   }
@@ -71,7 +69,7 @@ const Avatar: React.FC<AvatarProps> = ({
   return (
     <>
       <div className='avatar-container'>
-        {hasProfilePicture ? (
+        {profilePicture ? (
           <div className='avatar-icon'>
             <img
               className={imgClassName}
