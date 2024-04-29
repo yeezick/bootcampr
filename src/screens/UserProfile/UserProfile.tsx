@@ -75,16 +75,6 @@ export const UserProfile: React.FC = () => {
     }
   }
 
-  const shouldShowName =
-    authUser && userProfileInfo.firstName && userProfileInfo.lastName
-
-  const shouldShowRole =
-    userProfileInfo &&
-    (userProfileInfo.role === 'Software Engineer' ||
-      userProfileInfo.role === 'UX Designer')
-
-  const shouldShowBio = shouldShowRole && userProfileInfo && userProfileInfo.bio
-
   const routeToEdit = () => {
     navigate(`/users/${authUser._id}/edit`)
   }
@@ -97,12 +87,10 @@ export const UserProfile: React.FC = () => {
             <Avatar clickable={false} />
           </div>
           <div className='userProfile__title'>
-            {shouldShowName && (
-              <h2>
-                {userProfileInfo.firstName} {userProfileInfo.lastName}
-              </h2>
-            )}
-            {shouldShowRole && <h3>{userProfileInfo.role}</h3>}
+            <h2>
+              {userProfileInfo.firstName} {userProfileInfo.lastName}
+            </h2>
+            {userProfileInfo.role && <h3>{userProfileInfo.role}</h3>}
           </div>
           {sameProfile ? (
             <button className='userProfile__editBtn' onClick={routeToEdit}>
@@ -117,86 +105,68 @@ export const UserProfile: React.FC = () => {
             </button>
           )}
         </div>
-        <div className='userProfile__infoContainer'>
-          <h3>About me</h3>
-          {shouldShowBio && <p>{userProfileInfo.bio}</p>}
-        </div>
-        <UserInfoLinks
-          userProfileInfo={userProfileInfo}
-          shouldShowRole={shouldShowRole}
-        />
+        {userProfileInfo.bio && (
+          <div className='userProfile__infoContainer'>
+            <h3>About me</h3>
+            {<p>{userProfileInfo.bio}</p>}
+          </div>
+        )}
+        <UserInfoLinks links={userProfileInfo.links} />
       </div>
     </div>
   )
 }
 
-const UserInfoLinks = ({ userProfileInfo, shouldShowRole }) => {
-  const shouldShowPortfolioUrl =
-    shouldShowRole &&
-    userProfileInfo &&
-    userProfileInfo.links &&
-    userProfileInfo.links.portfolioUrl
-
-  const shouldShowGithubUrl =
-    userProfileInfo &&
-    userProfileInfo.role === 'Software Engineer' &&
-    userProfileInfo.links &&
-    userProfileInfo.links.githubUrl
-
-  const shouldShowLinkedInUrl =
-    shouldShowRole &&
-    userProfileInfo &&
-    userProfileInfo.links &&
-    userProfileInfo.links.linkedinUrl
-
+const UserInfoLinks = ({ links }) => {
+  const { githubUrl, linkedinUrl, portfolioUrl } = links
   return (
     <div className='userProfile__linksContainer'>
-      {shouldShowLinkedInUrl && (
+      {linkedinUrl && (
         <div className='userProfile__linkItem'>
           <FiLinkedin className='userProfile__icons' />
           <div className='userProfile__linkLast'>
             <h3>LinkedIn</h3>
             <a
               className='userProfile__url'
-              href={userProfileInfo.links.linkedinUrl}
+              href={linkedinUrl}
               target='_blank'
               rel='noopener noreferrer'
             >
-              {userProfileInfo.links.linkedinUrl}
+              {linkedinUrl}
             </a>
           </div>
         </div>
       )}
 
-      {shouldShowPortfolioUrl && (
+      {portfolioUrl && (
         <div className='userProfile__linkItem'>
           <TbBriefcase className='userProfile__icons' />
           <div className='userProfile__link'>
             <h3>Portfolio</h3>
             <a
               className='userProfile__url'
-              href={userProfileInfo.links.portfolioUrl}
+              href={portfolioUrl}
               target='_blank'
               rel='noopener noreferrer'
             >
-              {userProfileInfo.links.portfolioUrl}
+              {portfolioUrl}
             </a>
           </div>
         </div>
       )}
 
-      {shouldShowGithubUrl && (
+      {githubUrl && (
         <div className='userProfile__linkItem'>
           <RiGithubLine className='userProfile__icons' />
           <div className='userProfile__link'>
             <h3>Github</h3>
             <a
               className='userProfile__url'
-              href={userProfileInfo.links.githubUrl}
+              href={githubUrl}
               target='_blank'
               rel='noopener noreferrer'
             >
-              {userProfileInfo.links.githubUrl}
+              {githubUrl}
             </a>
           </div>
         </div>
