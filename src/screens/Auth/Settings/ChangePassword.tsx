@@ -21,7 +21,7 @@ export const ChangePassword = () => {
     useState<PasswordFormData>(emptyPasswordData)
   const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>({})
   const [inputError, setInputError] = useState<boolean>(false)
-  const [isDisabled, toggleIsDisabled] = useState(false)
+  const [isDisabled, toggleIsDisabled] = useState<boolean>(true)
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useDispatch()
 
