@@ -73,7 +73,7 @@ const MemberButtons = ({ memberId }) => {
     }
   }
 
-  const handleProfile = () => navigate(`/users/${memberId}`)
+  const handleProfile = () => window.open(`/users/${memberId}`)
 
   return (
     <ButtonContainer justify='space-evenly'>

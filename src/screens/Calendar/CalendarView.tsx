@@ -162,7 +162,7 @@ export const CalendarView = () => {
             }}
             customButtons={{
               createMeeting: {
-                text: '+ Creating Meeting',
+                text: '+ Create Meeting',
                 click: () => dispatch(setModalDisplayStatus('create')),
               },
               weekTitle: {
