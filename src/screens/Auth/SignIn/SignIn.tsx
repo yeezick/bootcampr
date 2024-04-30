@@ -101,10 +101,6 @@ const SignIn: React.FC = (): JSX.Element => {
     formValidation()
   }, [formData])
 
-  const nextButtonStyle = `${
-    buttonDisabled ? 'sign_in_btn' : 'sign_in_btn_active'
-  }`
-
   return (
     <div>
       <div className='sign_in'>
