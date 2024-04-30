@@ -46,6 +46,7 @@
     height: 28px;
     padding: 0;
     position: relative;
+    cursor: pointer;
 
     h1 {
       @include font-properties(
@@ -71,6 +72,7 @@
     height: 28px;
     padding: 0;
     position: relative;
+    cursor: pointer;
 
     h1 {
       @include font-properties(
