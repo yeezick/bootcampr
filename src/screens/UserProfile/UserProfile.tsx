@@ -118,55 +118,54 @@ export const UserProfile: React.FC = () => {
 }
 
 const UserInfoLinks = ({ links }) => {
-  const { githubUrl, linkedinUrl, portfolioUrl } = links
   return (
     <div className='userProfile__linksContainer'>
-      {linkedinUrl && (
+      {links?.linkedinUrl && (
         <div className='userProfile__linkItem'>
           <FiLinkedin className='userProfile__icons' />
           <div className='userProfile__linkLast'>
             <h3>LinkedIn</h3>
             <a
               className='userProfile__url'
-              href={linkedinUrl}
+              href={links.linkedinUrl}
               target='_blank'
               rel='noopener noreferrer'
             >
-              {linkedinUrl}
+              {links.linkedinUrl}
             </a>
           </div>
         </div>
       )}
 
-      {portfolioUrl && (
+      {links?.portfolioUrl && (
         <div className='userProfile__linkItem'>
           <TbBriefcase className='userProfile__icons' />
           <div className='userProfile__link'>
             <h3>Portfolio</h3>
             <a
               className='userProfile__url'
-              href={portfolioUrl}
+              href={links.portfolioUrl}
               target='_blank'
               rel='noopener noreferrer'
             >
-              {portfolioUrl}
+              {links.portfolioUrl}
             </a>
           </div>
         </div>
       )}
 
-      {githubUrl && (
+      {links?.githubUrl && (
         <div className='userProfile__linkItem'>
           <RiGithubLine className='userProfile__icons' />
           <div className='userProfile__link'>
             <h3>Github</h3>
             <a
               className='userProfile__url'
-              href={githubUrl}
+              href={links.githubUrl}
               target='_blank'
               rel='noopener noreferrer'
             >
-              {githubUrl}
+              {links.githubUrl}
             </a>
           </div>
         </div>
