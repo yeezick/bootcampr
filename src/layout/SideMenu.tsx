@@ -11,6 +11,7 @@ import {
   selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
 import './styles/SideMenu.scss'
+import { selectUserExperience } from 'utils/redux/slices/userSlice'
 
 export const SideMenu = () => {
   const navigate = useNavigate()
@@ -19,13 +20,19 @@ export const SideMenu = () => {
   const { projectSubmissionDate } = useAppSelector(selectProjectTimeline)
   const { active } = useAppSelector(selectSideMenu)
   const projectSubmissionInfo = useAppSelector(selectCompletedInfo)
+  const userExperience = useAppSelector(selectUserExperience)
   const [isDisabled, setIsDisabled] = useState(true)
   const isProjectSubmitted = Boolean(projectSubmissionInfo.deployedUrl)
+  const isActiveUser = userExperience === 'active'
 
   const handleProjectCompletion = () =>
     navigate(`/project/${projectId}/complete`)
+
   //TODO: Currently set to check every minute but we can adjust as needed, there might be a delay in seconds.
   useEffect(() => {
+    if (!projectSubmissionDate) {
+      return
+    }
     const checkSubmissionTime = () => {
       const submissionDate = generateDayJs(projectSubmissionDate)
       const now = blankDayJs()
@@ -50,7 +57,7 @@ export const SideMenu = () => {
           <h2>{title}</h2>
         </div>
         <SideMenuLinks />
-        {title === 'Project Portal' && (
+        {title === 'Project Portal' && isActiveUser && (
           <PrimaryButton
             className={btnClassName}
             disabled={isDisabled}
