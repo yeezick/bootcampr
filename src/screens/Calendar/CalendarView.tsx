@@ -96,6 +96,8 @@ export const CalendarView = () => {
         teamCommonAvailability
       )
 
+      const teamAvailabilities = []
+
       projectSundayDates.forEach(sundayDate => {
         Object.entries(updatedTeamCommonAvail).forEach(
           ([dayOfWeek, availability]) => {
@@ -107,11 +109,12 @@ export const CalendarView = () => {
                 endTime
               )
               const teamAvailability = generateTeamAvailabilityEvent(start, end)
-              dispatch(storeTeamAvailability(teamAvailability))
+              teamAvailabilities.push(teamAvailability)
             })
           }
         )
       })
+      dispatch(storeTeamAvailability(teamAvailabilities))
     } catch (error) {
       console.error('Error fetching team availability:', error)
       // Handle error
