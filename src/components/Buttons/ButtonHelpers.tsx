@@ -1,4 +1,4 @@
-import { Button, IconButton } from '@mui/material'
+import { Button, CircularProgress, IconButton } from '@mui/material'
 import {
   CommonButtonProps,
   ConditionalButtonProps,
@@ -19,6 +19,7 @@ export const createButton = (props: CommonButtonProps) => {
     endIcon,
     startIcon,
     label,
+    loading,
     ...MuiProps
   } = props
 
@@ -35,8 +36,33 @@ export const createButton = (props: CommonButtonProps) => {
 
   return (
     <Button className={`common-button ${colorScheme}`} {...conditionalProps}>
-      {label}
+      <span style={{ visibility: loading ? 'hidden' : 'visible' }}>
+        {label}
+      </span>
+      {loading && <CustomLoadingSpinner />}
     </Button>
+  )
+}
+
+const CustomLoadingSpinner = () => {
+  return (
+    <>
+      <CircularProgress
+        size={'25px'}
+        variant='determinate'
+        value={100}
+        sx={{
+          color: 'white',
+        }}
+      />
+      <CircularProgress
+        size={'25px'}
+        variant='indeterminate'
+        sx={{
+          color: '#1a237e',
+        }}
+      />
+    </>
   )
 }
 

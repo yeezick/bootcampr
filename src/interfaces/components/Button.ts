@@ -9,6 +9,7 @@ export interface CommonButtonProps extends ButtonProps {
   colorScheme?: 'primary' | 'secondary' | 'create-task'
   endIcon?: MappedIcons
   label: string
+  loading?: boolean
   startIcon?: MappedIcons
 }
 
