@@ -124,10 +124,11 @@ export const buildPortal = (
     Dispatch<AnyAction>,
   domain: DomainStrings,
   routeId: string,
-  experience?: string
+  experience?: string,
+  headerTitle?: string
 ) => {
   if (domain === 'project') {
-    dispatch(setPortal(buildProjectPortal(routeId)))
+    dispatch(setPortal(buildProjectPortal(routeId, headerTitle)))
     determineBanner(dispatch, experience)
   } else if (domain === 'settings') {
     dispatch(setPortal(buildSettingsPortal(routeId)))

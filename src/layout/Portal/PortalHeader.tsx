@@ -6,13 +6,14 @@ import { useLocation } from 'react-router-dom'
 
 export const PortalHeader = () => {
   const { active, type, headerTitle } = useAppSelector(selectPortal)
-  const location = useLocation()
+  const { pathname } = useLocation()
+
   if (active && type === 'project') {
     return (
       <div className='portal-header'>
         <div className='body'>
           <h2>{headerTitle}</h2>
-          {location.pathname.includes('tasks') && <TicketFilter />}
+          {pathname.includes('tasks') && <TicketFilter />}
         </div>
       </div>
     )

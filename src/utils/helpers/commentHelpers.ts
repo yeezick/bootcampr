@@ -18,3 +18,9 @@ export const errorSnackbar = message =>
     message,
     severity: 'error',
   })
+
+export const infoSnackbar = message =>
+  createSnackBar({
+    message,
+    severity: 'info',
+  })
