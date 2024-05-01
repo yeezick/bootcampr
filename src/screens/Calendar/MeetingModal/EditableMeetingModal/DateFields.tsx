@@ -37,8 +37,18 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
 
   useEffect(() => {
     if (dayjs(startDate).isSameOrAfter(blankDayJs())) {
-      setDayPickerDayjs(generateDayJs(startDate))
+      const newDate = generateDayJs(startDate)
+      setDayPickerDayjs(newDate)
+      const updatedDateFields = {
+        ...dateFields,
+        date: newDate.toISOString(),
+        end: updateDateInTimeSelections(newDate, dateFields.end),
+        start: updateDateInTimeSelections(newDate, dateFields.start),
+      }
+      setDateFields(updatedDateFields)
     } else {
+      console.log('else')
+
       setDayPickerDayjs(blankDayJs())
     }
   }, [])
