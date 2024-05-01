@@ -10,7 +10,9 @@ import {
   selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
 import {
+  formatAvailabilityDate,
   generateDayJs,
+  generateTeamAvailabilityEvent,
   parseCalendarEventForMeetingInfo,
   updateWeekDayNumber,
   updateWeekNumber,
@@ -61,70 +63,69 @@ export const CalendarView = () => {
     dayjs(timeline.startDate).add(21, 'day').format('YYYY-MM-DD'),
   ]
 
-  useEffect(() => {
-    const fetchAllEvents = async () => {
-      let googleCalendarEvents = []
-      if (calendarId === 'sandbox') {
-        googleCalendarEvents = await fetchSandboxCalendar(timeline)
-      } else {
-        googleCalendarEvents = await fetchUserCalendar(calendarId, userEmail)
-      }
+  const fetchAllEvents = async () => {
+    let googleCalendarEvents = []
+    if (calendarId === 'sandbox') {
+      googleCalendarEvents = await fetchSandboxCalendar(timeline)
+    } else {
+      googleCalendarEvents = await fetchUserCalendar(calendarId, userEmail)
+    }
 
-      if (!googleCalendarEvents) {
-        setEventFetchingStatus('error')
+    if (!googleCalendarEvents) {
+      setEventFetchingStatus('error')
+      return
+    }
+
+    setEventFetchingStatus('success')
+    dispatch(storeConvertedEvents(googleCalendarEvents))
+  }
+
+  const fetchTeamCommonAvailability = async () => {
+    try {
+      dispatch(clearTeamAvailability())
+      const teamCommonAvailability = await getTeamCommonAvailability(projectId)
+      console.log(teamCommonAvailability)
+
+      if (!teamCommonAvailability) {
+        console.error('Team common availability not found.')
+        // Handle error - display error message to the user or fallback to default availability
         return
       }
 
-      setEventFetchingStatus('success')
-      dispatch(storeConvertedEvents(googleCalendarEvents))
-    }
-
-    const fetchTeamCommonAvailability = async () => {
-      dispatch(clearTeamAvailability())
-      const teamCommonAvailability = await getTeamCommonAvailability(projectId)
       const updatedTeamCommonAvail = await updateWeekDayNumber(
         teamCommonAvailability
       )
 
-      for (let j = 0; j < projectSundayDates.length; j++) {
-        for (const [key] of Object.entries(updatedTeamCommonAvail)) {
-          const arr = updatedTeamCommonAvail[key]
-
-          for (let i = 0; i < arr.length; i++) {
-            const start = dayjs(`${projectSundayDates[j]} ${arr[i][0]}`)
-              .day(Number(key))
-              .format('YYYY-MM-DDTHH:mm:ss')
-            const end = dayjs(`${projectSundayDates[j]} ${arr[i][1]}`)
-              .day(Number(key))
-              .format('YYYY-MM-DDTHH:mm:ss')
-            const formatedStart = dayjs
-              .tz(start, 'America/New_York')
-              .format('YYYY-MM-DDTHH:mm:ssZ')
-            const formatedEnd = dayjs
-              .tz(end, 'America/New_York')
-              .format('YYYY-MM-DDTHH:mm:ssZ')
-
-            const teamAvailability: TeamAvailability = {
-              title: 'Team Availability',
-              start: formatedStart,
-              end: formatedEnd,
-              backgroundColor: '#E8F5E9',
-              borderColor: '#388E3C',
-              timeZone: 'America/New_York',
-            }
-            dispatch(storeTeamAvailability(teamAvailability))
+      projectSundayDates.forEach(sundayDate => {
+        Object.entries(updatedTeamCommonAvail).forEach(
+          ([dayOfWeek, availability]) => {
+            ;(availability as any[]).forEach(([startTime, endTime]) => {
+              const { start, end } = formatAvailabilityDate(
+                sundayDate,
+                dayOfWeek,
+                startTime,
+                endTime
+              )
+              const teamAvailability = generateTeamAvailabilityEvent(start, end)
+              dispatch(storeTeamAvailability(teamAvailability))
+            })
           }
-        }
-      }
+        )
+      })
+    } catch (error) {
+      console.error('Error fetching team availability:', error)
+      // Handle error
     }
+  }
 
+  useEffect(() => {
     if (calendarId && userEmail) {
       fetchAllEvents()
       if (projectId) {
         fetchTeamCommonAvailability()
       }
     }
-  }, [calendarId, userEmail])
+  }, [calendarId, userEmail, projectId])
 
   const handleEventClick = e => {
     if (e.event.title !== 'Team Availability') {
