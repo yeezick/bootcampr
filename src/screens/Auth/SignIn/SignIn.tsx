@@ -17,6 +17,7 @@ import './SignIn.scss'
 import { buildProjectPortal } from 'utils/helpers'
 import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
+import { PrimaryButton } from 'components/Buttons'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -100,10 +101,6 @@ const SignIn: React.FC = (): JSX.Element => {
     formValidation()
   }, [formData])
 
-  const nextButtonStyle = `${
-    buttonDisabled ? 'sign_in_btn' : 'sign_in_btn_active'
-  }`
-
   return (
     <div>
       <div className='sign_in'>
@@ -167,15 +164,13 @@ const SignIn: React.FC = (): JSX.Element => {
               </FormControl>
             </div>
             <ForgotPasswordLink hyperlinkText='Forgot your password?' />
-            <div className='sign_in_btn_container'>
-              <button
-                className={nextButtonStyle}
-                disabled={buttonDisabled}
-                type='submit'
-              >
-                Log in
-              </button>
-            </div>
+            <PrimaryButton
+              label='Log in'
+              disabled={buttonDisabled}
+              fullWidth
+              style={{ marginTop: '32px' }}
+              type='submit'
+            />
             <div className='sign_in_redirect_link'>
               <p>
                 Don't have an account? <Link to='/sign-up'>Sign up</Link>

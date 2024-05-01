@@ -1,8 +1,10 @@
 import './CommonModal.scss'
-import { Button, CircularProgress, Modal } from '@mui/material'
+import { Modal } from '@mui/material'
 import { ButtonStyle } from 'utils/data/authSettingsConstants'
 import { CommonModalProps } from 'interfaces/AccountSettingsInterface'
 import { useEffect, useState } from 'react'
+import { PrimaryButton, TextButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const CommonModal = ({
   isOpen,
@@ -22,8 +24,6 @@ export const CommonModal = ({
   confirmButtonLabel,
   confirmButtonDisabled,
   customWidth = 403,
-  confirmButtonStyle = ButtonStyle.Orange,
-  handlingRequest = false,
 }: CommonModalProps) => {
   const [inputClassname, setInputClassname] = useState('input')
 
@@ -62,34 +62,23 @@ export const CommonModal = ({
                 )}
               </div>
             )}
-            <div className='common-modal buttons'>
+            <ButtonContainer style={{ marginTop: '16px' }}>
               {cancelButtonLabel && (
-                <Button
-                  className='cancel'
-                  variant='text'
+                <TextButton
                   type='submit'
                   onClick={handleCancel}
-                >
-                  {cancelButtonLabel}
-                </Button>
+                  label={cancelButtonLabel}
+                />
               )}
               {confirmButtonLabel && (
-                <Button
-                  className='confirm'
-                  variant='contained'
+                <PrimaryButton
                   type='submit'
-                  style={{
-                    background: confirmButtonStyle.background,
-                    color: confirmButtonStyle.color,
-                  }}
                   onClick={handleConfirm}
                   disabled={confirmButtonDisabled}
-                >
-                  {confirmButtonLabel}
-                  {handlingRequest && <CircularProgress />}
-                </Button>
+                  label={confirmButtonLabel}
+                />
               )}
-            </div>
+            </ButtonContainer>
           </div>
         </div>
       </Modal>

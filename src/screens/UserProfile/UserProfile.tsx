@@ -19,6 +19,7 @@ import {
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useSocketEvents } from 'components/Notifications/Socket'
 import './UserProfile.scss'
+import { PrimaryButton } from 'components/Buttons'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
 
 export const UserProfile: React.FC = () => {
@@ -92,18 +93,11 @@ export const UserProfile: React.FC = () => {
             </h2>
             {userProfileInfo.role && <h3>{userProfileInfo.role}</h3>}
           </div>
-          {sameProfile ? (
-            <button className='userProfile__editBtn' onClick={routeToEdit}>
-              Edit Profile
-            </button>
-          ) : (
-            <button
-              className='userProfile__messageBtn'
-              onClick={handleProfileMessageClick}
-            >
-              Message
-            </button>
-          )}
+          <PrimaryButton
+            label={sameProfile ? 'Edit Profile' : 'Message'}
+            onClick={sameProfile ? routeToEdit : handleProfileMessageClick}
+            style={{ position: 'absolute', top: '0', right: '0' }}
+          />
         </div>
         {userProfileInfo.bio && (
           <div className='userProfile__infoContainer'>

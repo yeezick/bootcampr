@@ -1,6 +1,5 @@
 import './SetUpProfile.scss'
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
 import {
   selectAuthUser,
   setAuthUser,
@@ -11,17 +10,17 @@ import { UserInterface } from 'interfaces/UserInterface'
 import { updateUser, updateUserProfile } from 'utils/api/users'
 import Avatar from 'components/Avatar/Avatar'
 import TextareaAutosize from 'react-textarea-autosize'
-import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import { createCheckout, updatePaymentExperience } from 'utils/api/payment'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { isLinkedInUrl } from 'utils/components/Inputs'
+import { BackButton, ForwardButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 // BC-787: remove BEM styling
 export const SetUpProfile = ({ handlePageNavigation }) => {
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
-  const navigate = useNavigate()
 
   const [updateUserForm, setUpdateUserForm] = useState<UserInterface>(emptyUser)
   const [bioCharCount, setBioCharCount] = useState(0)
@@ -110,7 +109,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
       dispatch(successSnackbar('User profile has been updated!'))
       handlePageNavigation('previous')
     } catch (error) {
-      console.error('Error occured when trying to create User Profile', error)
+      console.error('Error occurred when trying to create User Profile', error)
     }
   }
 
@@ -276,27 +275,23 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
               </label>
             )}
           </div>
-          <div className='setupProfile__profile-btns'>
-            <div className='setupProfile__cta-container'>
-              <PaginatorButton
-                buttonType='secondary'
-                text='Availability'
-                handler={handleSecondaryClick}
+          <ButtonContainer
+            style={{ marginTop: '32px', position: 'relative' }}
+            gap={32}
+          >
+            <BackButton label='Availability' onClick={handleSecondaryClick} />
+            <div className='setupProfile__cta-and-disclaimer'>
+              <ForwardButton
+                label='Complete payment'
+                onClick={handlePrimaryClick}
+                disabled={isDisabled}
               />
-              <div className='complete-payment'>
-                <PaginatorButton
-                  buttonType='primary'
-                  text='Complete payment'
-                  handler={handlePrimaryClick}
-                  disabled={isDisabled}
-                />
-                <p className='payment-disclaimer'>
-                  *You will be directed to a third-party payment processor. It
-                  is secure.
-                </p>
-              </div>
+              <p>
+                *You will be directed to a third-party payment processor. It is
+                secure.
+              </p>
             </div>
-          </div>
+          </ButtonContainer>
         </form>
       </div>
     </div>
