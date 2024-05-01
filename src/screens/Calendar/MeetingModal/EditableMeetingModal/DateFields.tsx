@@ -47,8 +47,6 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
       }
       setDateFields(updatedDateFields)
     } else {
-      console.log('else')
-
       setDayPickerDayjs(blankDayJs())
     }
   }, [])
