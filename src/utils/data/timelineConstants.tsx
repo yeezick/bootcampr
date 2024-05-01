@@ -28,7 +28,7 @@ export const timelineData = [
     description: (
       <div>
         <p>After testing and refinement, deploy your live site!</p>
-        <p>Then Submit your completed project.</p>
+        <p>Then submit your completed project.</p>
       </div>
     ),
   },
@@ -38,8 +38,8 @@ export const timelineData = [
     description: (
       <div>
         <p>
-          Present your team’s work to professional Product Managers, UX
-          Designers, and Software Engineers
+          Present your team's work to professional Product Managers, UX
+          Designers, and Software Engineers.
         </p>
         <br></br>
         <p>

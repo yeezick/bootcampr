@@ -10,6 +10,7 @@ export interface AvatarProps {
   iconButtonClassName?: string
   addPhotoIconId?: string
   size?: 'tiny' | 'small' | 'medium'
+  userId?: string
 }
 
 export interface TeamAvatarProps {

@@ -32,6 +32,13 @@ export const consolidateAvailability = (availability): string[][] => {
 const convertLogicalToUserFriendly = (logical: number[]): string[][] => {
   let userFriendly = [timeOptions[logical[0]]]
 
+  if (logical.length === 1) {
+    const nextTime = timeOptions[logical[0] + 1]
+    userFriendly.push(nextTime)
+
+    return [userFriendly]
+  }
+
   for (let i = 1; i < logical.length; i++) {
     if (logical[i] - logical[i - 1] === 1) {
       if (i === logical.length - 1) {
@@ -120,24 +127,36 @@ const removeDuplicates = array => {
  * @param days availability state
  * @param setDays availability state setter
  */
-export const handleTimeChange = (e, days, setDays) => {
+export const handleTimeChange = (e, days, setDays, isStart) => {
   const context = e.target.name.split('-')
   const day = context[0]
   const frame = Number(context[1])
-  const index = context[2]
+  const index = Number(context[2])
 
   const newTime = [...days[day].availability[frame]]
   newTime[index] = e.target.value
 
-  let newAvailability = [...days[day].availability]
+  const logicalStartTime = timeOptions.indexOf(newTime[0])
+  const logicalEndTime = timeOptions.indexOf(newTime[1])
+
+  if (
+    (isStart && logicalStartTime > logicalEndTime) ||
+    logicalStartTime === logicalEndTime
+  ) {
+    newTime[1] = timeOptions[logicalStartTime + 1]
+  }
+  newTime[index] = e.target.value
+
+  const newAvailability = [...days[day].availability]
   newAvailability[frame] = newTime
-  newAvailability = consolidateAvailability(newAvailability)
+  const consolidatedAndSortedAvailability =
+    consolidateAvailability(newAvailability)
 
   setDays({
     ...days,
     [day]: {
       available: days[day].available,
-      availability: newAvailability,
+      availability: consolidatedAndSortedAvailability,
     },
   })
 }
@@ -160,11 +179,14 @@ export const handleCheck = (day, days, setDays) => {
       ? days[day].availability
       : [['9:00 AM', '5:00 PM']]
 
+  const consolidatedAndSortedAvailability =
+    consolidateAvailability(newAvailability)
+
   setDays({
     ...days,
     [day]: {
       available,
-      availability: newAvailability,
+      availability: consolidatedAndSortedAvailability,
     },
   })
 }
@@ -214,18 +236,16 @@ export const saveAvailability = async (userId, days, userTimezone) => {
  * @param idx
  */
 export const deleteTimeSlot = (day, days, setDays, idx) => {
-  let newAvailability
+  const newAvailability = [...days[day].availability]
+  newAvailability.splice(idx, 1)
 
-  newAvailability = {
-    available: days[day].availability.length > 1 ? true : false,
-    availability: [...days[day].availability],
-  }
-  newAvailability.availability.splice(idx, 1)
+  const available = newAvailability.length > 0
 
   setDays({
     ...days,
     [day]: {
-      ...newAvailability,
+      available,
+      availability: newAvailability,
     },
   })
 }
@@ -241,27 +261,38 @@ export const deleteTimeSlot = (day, days, setDays, idx) => {
  * @param setDays
  * @param idx
  */
-export const addTimeSlot = (day, days, setDays, idx) => {
-  let nextTimeslot
-  const currentTimeslot = days[day].availability[idx][1]
-  if (currentTimeslot === '11:30 PM') {
-    nextTimeslot = ['12:00 AM', '12:30 AM']
-  } else if (currentTimeslot === '12:00 AM') {
-    nextTimeslot = ['12:30 AM', '1:00 AM']
-  } else {
-    nextTimeslot = getNextTimeslot(currentTimeslot)
+export const addTimeSlot = (
+  day,
+  days,
+  setDays,
+  idx,
+  disableAdd,
+  toggleDisableAdd
+) => {
+  if (!disableAdd) {
+    const preveiousEndTimeIndex = timeOptions.indexOf(
+      days[day].availability[idx][1]
+    )
+    const nextStartTime = timeOptions[preveiousEndTimeIndex + 1]
+    const nextTimeSlot = [nextStartTime, timeOptions[preveiousEndTimeIndex + 2]]
+    const newAvailability = [...days[day].availability, nextTimeSlot]
+
+    if (['11:00 PM', '11:30 PM'].includes(nextTimeSlot[1])) {
+      toggleDisableAdd(true)
+    } else {
+      toggleDisableAdd(false)
+    }
+    const consolidatedAndSortedAvailability =
+      consolidateAvailability(newAvailability)
+
+    setDays({
+      ...days,
+      [day]: {
+        available: days[day].available,
+        availability: consolidatedAndSortedAvailability,
+      },
+    })
   }
-  const newAvailability = [...days[day].availability]
-
-  newAvailability.push(nextTimeslot)
-
-  setDays({
-    ...days,
-    [day]: {
-      available: days[day].available,
-      availability: newAvailability,
-    },
-  })
 }
 
 /**
@@ -337,7 +368,9 @@ export const copyTimes = (checked, day, days, idx, setDays) => {
     const storageDay = daysMap[day]
     newAvail[storageDay] = {
       available: true,
-      availability: days[storageDay].availability.concat(copiedTimeslot),
+      availability: consolidateAvailability(
+        days[storageDay].availability.concat(copiedTimeslot)
+      ),
     }
   })
 

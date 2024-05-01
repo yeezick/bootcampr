@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectBanner } from 'utils/redux/slices/userInterfaceSlice'
-import { selectUserId } from 'utils/redux/slices/userSlice'
+import { selectUserId, selectUserPayment } from 'utils/redux/slices/userSlice'
 import { PrimaryButton } from 'components/Buttons'
 import { handleJoinDiscord, handleJoinTeam } from 'utils/helpers/paymentHelpers'
 import { fetchIcon } from 'utils/components/Icons'
@@ -46,6 +46,9 @@ const SandboxBanner = () => {
 }
 
 const WaitlistBanner = () => {
+  const { paid } = useAppSelector(selectUserPayment)
+  const navigate = useNavigate()
+  const handleCompleteOnboarding = () => navigate('/onboarding')
   return (
     <div className='banner'>
       <img className='waitlist-img' src={bannerImgLg} />
@@ -70,11 +73,19 @@ const WaitlistBanner = () => {
         </p>
         <WaitlistPageInfo />
       </div>
-      <PrimaryButton
-        className='cta-button'
-        text='Join the Bootcampr community'
-        handler={handleJoinDiscord}
-      />
+      {paid ? (
+        <PrimaryButton
+          className='cta-button'
+          text='Join the Bootcampr community'
+          handler={handleJoinDiscord}
+        />
+      ) : (
+        <PrimaryButton
+          className='cta-button'
+          text='Complete onboarding'
+          handler={handleCompleteOnboarding}
+        />
+      )}
     </div>
   )
 }
@@ -98,7 +109,7 @@ const WaitlistPageInfo = () => {
         break
       case 'tasks':
         setInfoText(
-          'You can practice creating your own. User stories will not save beyond this session.'
+          'You can practice creating user stories. They will not save beyond this session.'
         )
         break
       default:

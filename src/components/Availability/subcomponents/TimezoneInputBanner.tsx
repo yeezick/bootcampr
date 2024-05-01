@@ -25,6 +25,7 @@ export const TimeZoneInputBanner = () => {
     } else if (guessedUserTimezone) {
       timezone = guessedUserTimezone.userFriendly
       setUserFriendlyTimezone(guessedUserTimezone.userFriendly)
+      dispatch(setUserTimezone(guessedUserTimezone.utc))
     }
   }, [])
 

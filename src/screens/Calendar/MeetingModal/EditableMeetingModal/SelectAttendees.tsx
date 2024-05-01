@@ -49,7 +49,11 @@ export const SelectAttendees = ({
         <div className='select-attendees-wrapper'>
           <FormControlLabel
             control={
-              <Checkbox checked={inviteAll} onChange={handleInviteAll} />
+              <Checkbox
+                checked={inviteAll}
+                onChange={handleInviteAll}
+                sx={checkboxStyle}
+              />
             }
             label='Invite all'
           />
@@ -68,4 +72,12 @@ export const SelectAttendees = ({
       </div>
     </>
   )
+}
+
+const checkboxStyle = {
+  '& .MuiSvgIcon-root': {
+    fill: '#1A237E',
+  },
+  paddingTop: '0px',
+  paddingBottom: '8px',
 }
