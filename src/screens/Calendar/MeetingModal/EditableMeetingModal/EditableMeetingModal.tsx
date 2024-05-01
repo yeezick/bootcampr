@@ -31,8 +31,8 @@ import '../styles/EditableMeetingModal.scss'
 import { MeetingModalHeaderIcons } from './MeetingModalHeaderIcons'
 import { GoogleMeetsToggler } from './GoogleMeetsToggler'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
-import { PrimaryButton } from 'components/Buttons/ButtonVariants'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
+import { PrimaryButton } from 'components/Buttons'
 
 export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
@@ -259,8 +259,12 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
             />
           </div>
         </DialogContent>
-        <DialogActions sx={buttonDivStyle}>
-          <PrimaryButton text={'Send Invite'} type={'submit'} />
+        <DialogActions>
+          <PrimaryButton
+            label='Send Invite'
+            type='submit'
+            style={{ margin: '32px' }}
+          />
         </DialogActions>
       </form>
     </Dialog>
@@ -296,10 +300,6 @@ const titleInputFieldStyles = {
   '&:after': {
     borderBottom: 'none',
   },
-}
-
-const buttonDivStyle = {
-  padding: '32px',
 }
 
 const modalStyles = {

@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { api } from 'utils/api/apiConfig'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import { PrimaryButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const Email = () => {
   const navigate = useNavigate()
@@ -89,15 +91,13 @@ export const Email = () => {
         />
         {!isValidEmail && <p className='invalid-msg'>Invalid email address</p>}
       </div>
-      <div className='buttons'>
-        <button
-          className='update'
+      <ButtonContainer style={{ marginTop: '32px' }}>
+        <PrimaryButton
           disabled={isDisabled}
           onClick={handleUpdateNewEmail}
-        >
-          Update email address
-        </button>
-      </div>
+          label='Update email address'
+        />
+      </ButtonContainer>
     </div>
   )
 }

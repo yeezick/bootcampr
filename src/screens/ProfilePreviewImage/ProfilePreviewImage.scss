@@ -30,29 +30,6 @@
     }
   }
 
-  &__cancel-btn {
-    align-items: center;
-    background-color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    color: #1a237e;
-    cursor: pointer;
-    display: flex;
-    font-size: 16px;
-    height: 40px;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-    text-transform: none;
-    width: 88px;
-  }
-
-  &__cancel-btn:active {
-    background-color: #1a237e;
-    color: #ffffff;
-    cursor: pointer;
-  }
-
   &__close-btn {
     cursor: pointer;
     height: 24px;
@@ -115,28 +92,6 @@
       line-height: 24px;
       margin: 0 0 24px 0;
     }
-  }
-
-  &__delete2-btn {
-    align-items: center;
-    background-color: #d32f2f;
-    border: none;
-    border-radius: 4px;
-    color: #ffffff;
-    cursor: pointer;
-    display: flex;
-    font-size: 16px;
-    height: 40px;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-    text-transform: none;
-    width: 88px;
-  }
-
-  &__delete2-btn:hover {
-    background-color: #b71c1c;
-    cursor: pointer;
   }
 
   &__edit-box {

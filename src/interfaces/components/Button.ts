@@ -8,14 +8,12 @@ import {
 export interface CommonButtonProps extends ButtonProps {
   colorScheme?: 'primary' | 'secondary' | 'create-task'
   endIcon?: MappedIcons
-  handler?: any
+  label: string
   startIcon?: MappedIcons
-  text?: string
 }
 
 export interface IconBtnProps extends ButtonProps {
   filled?: boolean
-  handler?: any
   icon: MappedIcons
   iconSize: 'large' | 'medium' | 'small'
 }
@@ -83,9 +81,3 @@ export type MappedIcons =
   | 'tasks' //called checkList in design
   | 'title'
   | 'warning'
-export interface PaginatorButtonInterface extends ButtonProps {
-  buttonType: 'secondary' | 'primary'
-  colorScheme?: 'secondary' | 'primary'
-  handler?: any
-  text: string
-}

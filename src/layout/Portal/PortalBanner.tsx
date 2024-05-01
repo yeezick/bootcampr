@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectBanner } from 'utils/redux/slices/userInterfaceSlice'
-import { selectUserId } from 'utils/redux/slices/userSlice'
+import { selectUserId, selectUserPayment } from 'utils/redux/slices/userSlice'
 import { PrimaryButton } from 'components/Buttons'
 import { handleJoinDiscord, handleJoinTeam } from 'utils/helpers/paymentHelpers'
 import { fetchIcon } from 'utils/components/Icons'
@@ -37,15 +37,18 @@ const SandboxBanner = () => {
         </p>
       </div>
       <PrimaryButton
-        className='cta-button'
-        text='Join a team'
-        handler={handleJoinTeamBtn}
+        label='Join a team'
+        onClick={handleJoinTeamBtn}
+        style={{ marginRight: '32px' }}
       />
     </div>
   )
 }
 
 const WaitlistBanner = () => {
+  const { paid } = useAppSelector(selectUserPayment)
+  const navigate = useNavigate()
+  const handleCompleteOnboarding = () => navigate('/onboarding')
   return (
     <div className='banner'>
       <img className='waitlist-img' src={bannerImgLg} />
@@ -71,9 +74,9 @@ const WaitlistBanner = () => {
         <WaitlistPageInfo />
       </div>
       <PrimaryButton
-        className='cta-button'
-        text='Join the Bootcampr community'
-        handler={handleJoinDiscord}
+        label={paid ? 'Join the Bootcampr community' : 'Complete onboarding'}
+        onClick={paid ? handleJoinDiscord : handleCompleteOnboarding}
+        style={{ marginRight: '32px' }}
       />
     </div>
   )
@@ -98,7 +101,7 @@ const WaitlistPageInfo = () => {
         break
       case 'tasks':
         setInfoText(
-          'You can practice creating your own. User stories will not save beyond this session.'
+          'You can practice creating user stories. They will not save beyond this session.'
         )
         break
       default:

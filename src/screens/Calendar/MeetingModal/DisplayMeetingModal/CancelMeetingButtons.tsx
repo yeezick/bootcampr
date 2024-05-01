@@ -1,28 +1,19 @@
-import Button from '@mui/material/Button'
-import {
-  SecondaryButton,
-  TextButton,
-  PrimaryButton,
-} from 'components/Buttons/ButtonVariants'
+import { PrimaryButton, TextButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const CancelMeetingButtons = ({ handleCloseModal, handleDelete }) => {
   return (
-    <div className='discard-buttons-container'>
+    <ButtonContainer style={{ marginTop: '30px' }}>
       <TextButton
-        text='Cancel'
-        handler={handleCloseModal}
+        label='Cancel'
+        onClick={handleCloseModal}
         colorScheme='primary'
       />
       <PrimaryButton
         colorScheme='secondary'
-        handler={handleDelete}
-        style={discardButtonStyles}
-        text='Cancel Meeting'
+        onClick={handleDelete}
+        label='Cancel Meeting'
       />
-    </div>
+    </ButtonContainer>
   )
-}
-
-const discardButtonStyles = {
-  padding: '8px 20px',
 }

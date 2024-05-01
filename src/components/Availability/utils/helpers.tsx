@@ -27,10 +27,17 @@ export const consolidateAvailability = (availability): string[][] => {
 }
 
 /**
- * Convert Logical Availabilty to User Friendly
+ * Convert Logical Availability to User Friendly
  */
 const convertLogicalToUserFriendly = (logical: number[]): string[][] => {
   let userFriendly = [timeOptions[logical[0]]]
+
+  if (logical.length === 1) {
+    const nextTime = timeOptions[logical[0] + 1]
+    userFriendly.push(nextTime)
+
+    return [userFriendly]
+  }
 
   for (let i = 1; i < logical.length; i++) {
     if (logical[i] - logical[i - 1] === 1) {
@@ -75,7 +82,7 @@ const convertTimeSlotToLogical = (
 }
 
 /**
- * Create a holisitc logical availabilty array for full day
+ * Create a holistic logical availability array for full day
  */
 const createFullAvailability = (
   userFriendlyFullDay: Array<string>
@@ -155,7 +162,7 @@ export const handleTimeChange = (e, days, setDays, isStart) => {
 }
 
 /**
- * HANDLE AVAILBILITY CHECK BOX (SINGLE DAY)
+ * HANDLE AVAILABILITY CHECK BOX (SINGLE DAY)
  *
  * Handles when a single day check box is checked or unchecked
  * unchecked => checked - add and display default availability, or user availability if it exists

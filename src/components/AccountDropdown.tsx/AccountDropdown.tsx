@@ -29,7 +29,7 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
 
     const { innerText } = e.target
     if (innerText === 'View Profile') {
-      navigate(`/users/${userId}`)
+      window.open(`/users/${userId}`)
     } else if (innerText === 'Settings') {
       buildPortal(dispatch, 'settings', userId)
       navigateToDomain(navigate, `/users/${userId}/settings/email`, 'settings')

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import './EmailSentConfirmation.scss'
 import { useNavigate } from 'react-router-dom'
-import { PrimaryButton } from 'components/Buttons'
 import { isMobileWidth } from 'utils/helpers'
+import { PrimaryButton } from 'components/Buttons'
 import { UpdateEmailAddressLink } from '../../../../components/UpdateEmailAddressLink/UpdateEmailAddressLink'
 
 export const EmailSentConfirmation: React.FC = () => {
@@ -78,8 +78,8 @@ const MobileEmailSentConfirmation = ({ email, setEmail }) => {
         <img alt='A person smiles from behind a laptop while a rocket launches in the background' />
       </div>
       <PrimaryButton
-        text="Visit Bootcampr's homepage'"
-        handler={handleRouteToHomepage}
+        label="Visit Bootcampr's homepage'"
+        onClick={handleRouteToHomepage}
       />
     </div>
   )

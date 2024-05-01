@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Button, Checkbox, FormControlLabel } from '@mui/material'
+import { Checkbox, FormControlLabel } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   createGroupChatRoom,
@@ -18,11 +18,11 @@ import {
 import { ChatScreen } from 'utils/data/chatConstants'
 import { UserDetails } from 'components/ChatDialog/UserDetails/UserDetails'
 import { useSocketEvents } from 'components/Notifications/Socket'
-import { ButtonStyle } from 'utils/data/authSettingsConstants'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import './NewChatRoom.scss'
 import { isTeamMembersSelected } from 'utils/functions/chatLogic'
+import { PrimaryButton } from 'components/Buttons'
 
 export const NewChatRoom = ({ chatScreen }) => {
   const dispatch = useAppDispatch()
@@ -239,21 +239,16 @@ export const NewChatRoom = ({ chatScreen }) => {
         </div>
         <p className='members-invite-info'>{membersInviteInfo}</p>
       </section>
-      <Button
-        className='chat-button'
-        variant='contained'
+      <PrimaryButton
         type='submit'
-        style={{
-          background: ButtonStyle.Orange.background,
-          color: ButtonStyle.Orange.color,
-        }}
         onClick={handleCreateChatRoom}
         disabled={!selectedChatUsers.length}
-      >
-        {chatScreen === ChatScreen.ComposeNewChat
-          ? 'Create Chat Room'
-          : 'Invite to Chat'}
-      </Button>
+        label={
+          chatScreen === ChatScreen.ComposeNewChat
+            ? 'Create Chat Room'
+            : 'Invite to Chat'
+        }
+      />
     </div>
   )
 }

@@ -11,10 +11,9 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useSocketEvents } from 'components/Notifications/Socket'
-import {
-  PrimaryButton,
-  SecondaryButton,
-} from 'components/Buttons/ButtonVariants'
+import { PrimaryButton, SecondaryButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
 
 export const TeamMemberCard = ({ member }) => {
   const { _id: memberId } = member
@@ -45,7 +44,10 @@ const MemberInfo = ({ member }) => {
 }
 
 const MemberButtons = ({ memberId }) => {
-  const { _id: loggedInUserId } = useAppSelector(selectAuthUser)
+  const {
+    _id: loggedInUserId,
+    payment: { experience: userExperience },
+  } = useAppSelector(selectAuthUser)
   const isCurrentUser = memberId === loggedInUserId
   const dispatch = useAppDispatch()
   const { createNewRoom } = useSocketEvents(false)
@@ -53,6 +55,10 @@ const MemberButtons = ({ memberId }) => {
 
   const handleChatMemberClick = async () => {
     try {
+      if (isSandboxId(userExperience) || isWaitlistExperience(userExperience)) {
+        dispatch(toggleChatOpen())
+        dispatch(onScreenUpdate(ChatScreen.Main))
+      }
       const chatResponse = await createOrGetPrivateChatRoom(memberId)
       let room = chatResponse.chatRoom
       room = await dispatch(processChatRoom(room)).unwrap()
@@ -67,28 +73,14 @@ const MemberButtons = ({ memberId }) => {
     }
   }
 
-  const handleProfile = () => navigate(`/users/${memberId}`)
+  const handleProfile = () => window.open(`/users/${memberId}`)
 
   return (
-    <div className='member-buttons'>
+    <ButtonContainer justify='space-evenly'>
       {!isCurrentUser && (
-        <SecondaryButton
-          handler={handleChatMemberClick}
-          text='Send message'
-          sx={buttonSx}
-        />
+        <SecondaryButton onClick={handleChatMemberClick} label='Send message' />
       )}
-      <PrimaryButton
-        handler={handleProfile}
-        text='View profile'
-        sx={buttonSx}
-      />
-    </div>
+      <PrimaryButton onClick={handleProfile} label='View profile' />
+    </ButtonContainer>
   )
-}
-
-const buttonSx = {
-  height: '32px',
-  fontSize: '12px',
-  backgroundColor: 'red',
 }

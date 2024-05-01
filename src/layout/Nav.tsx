@@ -89,27 +89,24 @@ export const Nav = () => {
                 Project Portal
               </Link>
             )}
-            <Link
+            <a
               className={`header-link ${isActiveLink('contact-us')}`}
-              to='/contact-us'
-              onClick={handleNonPortalLink}
+              href='https://landing.bootcampr.io/contactus'
             >
               Contact Us
-            </Link>
-            <Link
+            </a>
+            <a
               className={`header-link ${isActiveLink('community')}`}
-              to='/community'
-              onClick={handleNonPortalLink}
+              href='https://landing.bootcampr.io/community'
             >
               Community
-            </Link>
-            <Link
+            </a>
+            <a
               className={`header-link ${isActiveLink('enterprise')}`}
-              to='/enterprise'
-              onClick={handleNonPortalLink}
+              href='https://landing.bootcampr.io/enterprise'
             >
               Enterprise
-            </Link>
+            </a>
           </div>
           {userId ? (
             <AuthorizedNavLinks

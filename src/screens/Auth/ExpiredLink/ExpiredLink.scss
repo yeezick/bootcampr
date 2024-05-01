@@ -24,39 +24,20 @@
     margin: 0 auto;
     padding: 30px 30px 50px 30px;
     width: 420px;
-  
-    button {
-      background-color: #353131;
-      border: none;
-      border-radius: 20px;
-      color: white;
-      cursor: pointer;
-      font-size: 15px;
-      padding: 10px 18px;
-  
-      &:hover {
-        background-color: #f29e34;
-      }
-  
-      &:active {
-        background-color: #c27619;
-      }
-    }
-  
+
     h1 {
       font-size: 28px;
       margin: 0;
       padding: 0;
     }
-  
+
     p {
       padding: 15px 0;
     }
-  
+
     .expired-logo {
       color: #e1a44d;
       font-size: 150px;
     }
   }
 }
-

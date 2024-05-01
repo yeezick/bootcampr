@@ -5,11 +5,12 @@ import { updateUserProfile } from 'utils/api'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
-import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import softwareEngineer from '../../assets/Images/software-engineer.png'
 import uxDesigner from '../../assets/Images/ux-designer.png'
 import productManager from '../../assets/Images/product-manager.png'
 import { successSnackbar } from 'utils/helpers/commentHelpers'
+import { ForwardButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const Role = ({ handlePageNavigation }) => {
   const dispatch = useDispatch()
@@ -86,14 +87,13 @@ export const Role = ({ handlePageNavigation }) => {
           ))}
         </div>
       </div>
-      <div className='onboarding-button-section'>
-        <PaginatorButton
-          buttonType='primary'
+      <ButtonContainer>
+        <ForwardButton
           disabled={!buttonEnabled}
-          handler={handleSubmit}
-          text='Set availability'
+          onClick={handleSubmit}
+          label='Set availability'
         />
-      </div>
+      </ButtonContainer>
     </div>
   )
 }

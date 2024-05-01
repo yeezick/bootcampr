@@ -1,7 +1,7 @@
 import { ChatIcons } from 'utils/data/chatConstants'
 import './ChatRoom.scss'
-import { PrimaryButton } from 'components/Buttons'
 import { EmptyChatPageProps } from 'interfaces/ChatInterface'
+import { PrimaryButton } from 'components/Buttons'
 
 export const EmptyChatPage = ({
   screen,
@@ -15,7 +15,7 @@ export const EmptyChatPage = ({
       <img src={ChatIcons[screen]} alt='no data' />
       <p>{text}</p>
       {handler && (
-        <PrimaryButton text={handler.text} handler={handler.function} />
+        <PrimaryButton label={handler.text} onClick={handler.function} />
       )}
     </div>
   )
