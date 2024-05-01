@@ -84,11 +84,9 @@ export const CalendarView = () => {
     try {
       dispatch(clearTeamAvailability())
       const teamCommonAvailability = await getTeamCommonAvailability(projectId)
-      console.log(teamCommonAvailability)
 
       if (!teamCommonAvailability) {
         console.error('Team common availability not found.')
-        // Handle error - display error message to the user or fallback to default availability
         return
       }
 
@@ -117,7 +115,6 @@ export const CalendarView = () => {
       dispatch(storeTeamAvailability(teamAvailabilities))
     } catch (error) {
       console.error('Error fetching team availability:', error)
-      // Handle error
     }
   }
 
