@@ -184,11 +184,13 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
         dispatch(addNewEvent(newEvent))
         handleClose()
         handleOpenAlert()
+        setIsLoading(false)
       } catch (error) {
         console.error(
           `Error creating event for calendar (${calendarId}): `,
           error
         )
+        setIsLoading(false)
       }
     } else if (modalDisplayStatus === 'edit') {
       try {
@@ -205,6 +207,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
           `Error creating event for calendar (${calendarId}): `,
           error
         )
+        setIsLoading(false)
       }
     }
   }

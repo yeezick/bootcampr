@@ -30,14 +30,15 @@ export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
   }
 
   const handleDelete = async e => {
+    setIsloading(true)
     try {
-      setIsloading(true)
       await deleteEvent(calendarId, eventId)
       dispatch(deleteExistingEvent({ eventId }))
       handleClose()
       setIsloading(false)
     } catch (error) {
       console.log(error)
+      setIsloading(false)
     }
   }
 

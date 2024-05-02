@@ -62,8 +62,8 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
       getCroppedImg(profilePicture, cropArea, zoom).then(
         async croppedImageURL => {
           if (croppedImageURL) {
+            setIsLoading(true)
             try {
-              setIsLoading(true)
               const croppedImageFile = await saveCroppedImage(croppedImageURL)
               await createUserImage(croppedImageFile, userId)
               const userImageUpdate = await updateUser(userId, {
@@ -77,6 +77,7 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
             } catch (error) {
               console.log('Failed to generate cropped image URL:', error)
               dispatch(errorSnackbar('Photo did not upload. Please try again.'))
+              setIsLoading(false)
             }
           }
         }

@@ -73,10 +73,11 @@ export const UserProfile: React.FC = () => {
           dispatch(onScreenUpdate(ChatScreen.ChatRoom))
         }
       }
+      setIsLoading(false)
     } catch (error) {
       console.error('Error in chat open: ', error)
+      setIsLoading(false)
     }
-    setIsLoading(false)
   }
 
   const routeToEdit = () => {

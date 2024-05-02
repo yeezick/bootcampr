@@ -154,8 +154,8 @@ export const NewChatRoom = ({ chatScreen }) => {
   }
 
   const handleCreateChatRoom = async () => {
+    setIsLoading(true)
     try {
-      setIsLoading(true)
       const selectedUserIds = selectedChatUsers.map(user => user._id)
       if (
         currentConversation.chatType === 'group' ||
@@ -186,6 +186,7 @@ export const NewChatRoom = ({ chatScreen }) => {
       dispatch(
         errorSnackbar("Couldn't create a chat room. Please try again later")
       )
+      setIsLoading(false)
     }
   }
 

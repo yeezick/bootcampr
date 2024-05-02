@@ -23,15 +23,12 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
   //TODO: convert alerts to MUI toast to match Figma designs
 
   useEffect(() => {
-    setIsLoading(false)
-  }, [setIsLoading])
-
-  useEffect(() => {
     setIsDisabled(isInvalidUrl || isInvalidRadio ? true : false)
   }, [setIsDisabled, isInvalidUrl, isInvalidRadio])
 
   const handleSubmit = async e => {
     e.preventDefault()
+    setIsLoading(true)
 
     const updatedProject = {
       completedInfo: {
@@ -40,28 +37,20 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
       },
     }
 
-    if (isDisabled) {
-      alert(
-        `Please enter a valid URL and indicate whether or not your team is presenting`
-      )
-      return
-    } else {
-      try {
-        setIsLoading(true)
-        const response = await editProject(projectID, updatedProject)
+    try {
+      const response = await editProject(projectID, updatedProject)
 
-        if (response) {
-          handlePageNavigation('next')
-          window.scrollTo(0, 0)
-          setIsLoading(false)
-        }
-      } catch (error) {
-        console.error(
-          `An error occurred while saving presentation details.`,
-          error
-        )
+      if (response) {
+        handlePageNavigation('next')
+        window.scrollTo(0, 0)
         setIsLoading(false)
       }
+    } catch (error) {
+      console.error(
+        `An error occurred while saving presentation details.`,
+        error
+      )
+      setIsLoading(false)
     }
   }
 

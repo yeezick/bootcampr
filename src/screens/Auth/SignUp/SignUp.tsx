@@ -104,6 +104,7 @@ export const SignUp: React.FC = () => {
       setIsLoading(false)
     } catch (error) {
       console.error('Error occurred during form submission:', error)
+      setIsLoading(false)
     }
   }
 

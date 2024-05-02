@@ -54,8 +54,8 @@ const MemberButtons = ({ memberId }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleChatMemberClick = async () => {
+    setIsLoading(true)
     try {
-      setIsLoading(true)
       if (isSandboxId(userExperience) || isWaitlistExperience(userExperience)) {
         dispatch(toggleChatOpen())
         dispatch(onScreenUpdate(ChatScreen.Main))
@@ -72,6 +72,7 @@ const MemberButtons = ({ memberId }) => {
       setIsLoading(false)
     } catch (error) {
       console.error(error)
+      setIsLoading(false)
     }
   }
 

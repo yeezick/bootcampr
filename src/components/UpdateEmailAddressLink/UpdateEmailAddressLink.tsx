@@ -23,13 +23,14 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
   }
 
   const handleSubmit = async () => {
+    setIsLoading(true)
     try {
-      setIsLoading(true)
       const { status, message } = await verifyEmail(newEmail)
 
       if (status !== 200) {
         setErrorMessage(message)
         setIsError(true)
+        setIsLoading(false)
         return
       }
       const response = await updateUnverifiedEmail(newEmail, userId)
@@ -37,6 +38,7 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
       if (response.status !== 201) {
         setErrorMessage(response.data.friendlyMessage)
         setIsError(true)
+        setIsLoading(false)
         return
       }
 
@@ -59,6 +61,7 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
       setIsLoading(false)
     } catch (error) {
       console.error('Error updating email:', error)
+      setIsLoading(false)
     }
   }
 

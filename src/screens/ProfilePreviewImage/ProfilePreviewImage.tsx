@@ -174,8 +174,8 @@ const DeleteWarningModal = ({
    * Handles discarding changes made to the image.
    */
   const handleDeleteImage = async () => {
+    setIsLoading(true)
     try {
-      setIsLoading(true)
       const res = await deleteUserImage(userId)
       if (res.success) {
         const userImageUpdate = await updateUser(userId, {
@@ -194,6 +194,7 @@ const DeleteWarningModal = ({
     } catch (err) {
       console.log('Error deleting image:', err)
       dispatch(errorSnackbar('Profile photo did not delete. Please try again.'))
+      setIsLoading(false)
     }
   }
 

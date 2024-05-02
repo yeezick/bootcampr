@@ -69,13 +69,14 @@ export const EditProfile: React.FC = () => {
       dispatch(setAuthUser(updatedUser))
       dispatch(successSnackbar('Profile saved!'))
       navigate(`/users/${authUser._id}`)
+      setIsLoading(false)
     } catch (error) {
       console.log('Error occurred when trying to update User Profile', error)
       dispatch(
         errorSnackbar('Failed to update user profile. Please try again.')
       )
+      setIsLoading(false)
     }
-    setIsLoading(false)
   }
 
   if (!authUser) {
