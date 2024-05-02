@@ -34,10 +34,14 @@ export const createButton = (props: CommonButtonProps) => {
     ...(endIcon && { endIcon: fetchIcon(endIcon) }),
   }
 
+  const sentenceCaseLabel = label
+    ? label.trim().charAt(0).toUpperCase() + label.trim().slice(1).toLowerCase()
+    : ''
+
   return (
     <Button className={`common-button ${colorScheme}`} {...conditionalProps}>
       <span style={{ visibility: loading ? 'hidden' : 'visible' }}>
-        {label}
+        {sentenceCaseLabel}
       </span>
       {loading && <CustomLoadingSpinner />}
     </Button>
