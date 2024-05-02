@@ -32,6 +32,8 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
   })
   const [isDisabled, setIsDisabled] = useState(true)
   const [isInvalidURL, setIsInvalidURL] = useState(false)
+  const [primaryIsLoading, setPrimaryIsLoading] = useState<boolean>(false)
+  const [secondaryIsLoading, setSecondaryIsLoading] = useState<boolean>(false)
 
   const { firstName, lastName, bio, links } = updateUserForm
   const nestedLinks = ['githubUrl', 'linkedinUrl', 'portfolioUrl']
@@ -101,6 +103,7 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
   }
 
   const handleSecondaryClick = async e => {
+    setSecondaryIsLoading(true)
     e.preventDefault()
 
     try {
@@ -108,20 +111,25 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
       dispatch(setAuthUser(updatedUser))
       dispatch(successSnackbar('User profile has been updated!'))
       handlePageNavigation('previous')
+      setSecondaryIsLoading(false)
     } catch (error) {
       console.error('Error occurred when trying to create User Profile', error)
+      setSecondaryIsLoading(false)
     }
   }
 
   const handlePrimaryClick = async () => {
+    setPrimaryIsLoading(true)
     const updatedUserProfile = await updateUserProfile(updateUserForm)
     const checkoutResponse = await createCheckout()
 
     if (updatedUserProfile.error) {
       dispatch(errorSnackbar(updatedUserProfile.error))
+      setPrimaryIsLoading(false)
       return
     } else if (checkoutResponse.error && !checkoutResponse.checkoutUrl) {
       dispatch(errorSnackbar(checkoutResponse.error))
+      setPrimaryIsLoading(false)
       return
     }
 
@@ -131,10 +139,12 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
 
     if (updatedUserExperience.error) {
       dispatch(errorSnackbar('Error setting project experience.'))
+      setPrimaryIsLoading(false)
       return
     } else {
       dispatch(updateUserExperience(updatedUserExperience))
       window.location.href = checkoutResponse.checkoutUrl
+      setPrimaryIsLoading(false)
     }
   }
 
@@ -279,9 +289,14 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
             style={{ marginTop: '32px', position: 'relative' }}
             gap={32}
           >
-            <BackButton label='Availability' onClick={handleSecondaryClick} />
+            <BackButton
+              loading={secondaryIsLoading}
+              label='Availability'
+              onClick={handleSecondaryClick}
+            />
             <div className='setupProfile__cta-and-disclaimer'>
               <ForwardButton
+                loading={primaryIsLoading}
                 label='Complete payment'
                 onClick={handlePrimaryClick}
                 disabled={isDisabled}

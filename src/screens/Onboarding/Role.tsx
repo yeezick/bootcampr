@@ -16,6 +16,7 @@ export const Role = ({ handlePageNavigation }) => {
   const dispatch = useDispatch()
   const [selectedRole, setSelectedRole] = useState('')
   const [buttonEnabled, setButtonEnabled] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const authUser = useAppSelector(selectAuthUser)
 
   const roles = [
@@ -43,6 +44,7 @@ export const Role = ({ handlePageNavigation }) => {
 
   const handleSubmit = async event => {
     event.preventDefault()
+    setIsLoading(true)
     try {
       const response = await updateUserProfile({
         role: selectedRole,
@@ -51,8 +53,10 @@ export const Role = ({ handlePageNavigation }) => {
       dispatch(successSnackbar('Your role has been updated!'))
       setButtonEnabled(false)
       handlePageNavigation('next')
+      setIsLoading(false)
     } catch (error) {
       console.error(error)
+      setIsLoading(false)
     }
   }
 
@@ -89,6 +93,7 @@ export const Role = ({ handlePageNavigation }) => {
       </div>
       <ButtonContainer>
         <ForwardButton
+          loading={isLoading}
           disabled={!buttonEnabled}
           onClick={handleSubmit}
           label='Set availability'
