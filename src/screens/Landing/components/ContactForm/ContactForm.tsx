@@ -17,6 +17,7 @@ export const ContactForm = () => {
 
   const [hasErrors, setHasErrors] = useState<boolean>(false)
   const [wordCount, setWordCount] = useState(0)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const maxWordCount = 500
 
   const handleChange = (
@@ -41,6 +42,7 @@ export const ContactForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
     const errors: { name: string; email: string; message: string } = {
       name: '',
       email: '',
@@ -65,6 +67,7 @@ export const ContactForm = () => {
     if (Object.values(errors).every(value => value === '')) {
       alert('Message sent successfully!')
     }
+    setIsLoading(false)
   }
   return (
     <div>
@@ -144,7 +147,7 @@ export const ContactForm = () => {
               </div>
             </div>
           </div>
-          <PrimaryButton type='submit' label='Submit' />
+          <PrimaryButton loading={isLoading} type='submit' label='Submit' />
         </form>
       </div>
     </div>

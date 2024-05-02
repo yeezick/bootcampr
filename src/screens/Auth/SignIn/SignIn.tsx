@@ -31,6 +31,7 @@ const SignIn: React.FC = (): JSX.Element => {
     type: '',
   })
   const [inputType, setInputType] = useState('password')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const VALID_EMAIL_REGEX =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -54,6 +55,7 @@ const SignIn: React.FC = (): JSX.Element => {
 
   const handleSubmitForm = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault()
+    setIsLoading(true)
 
     const response = await signIn(formData)
     if (response?.message) {
@@ -66,6 +68,7 @@ const SignIn: React.FC = (): JSX.Element => {
       setTimeout(() => {
         setAlertBanner({ status: false })
       }, 12000)
+      setIsLoading(false)
       return
     }
 
@@ -165,6 +168,7 @@ const SignIn: React.FC = (): JSX.Element => {
             </div>
             <ForgotPasswordLink hyperlinkText='Forgot your password?' />
             <PrimaryButton
+              loading={isLoading}
               label='Log in'
               disabled={buttonDisabled}
               fullWidth

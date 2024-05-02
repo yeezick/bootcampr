@@ -6,6 +6,7 @@ export const CancelMeetingModal = ({
   openModal,
   handleCloseModal,
   handleDelete,
+  isLoading,
 }) => {
   return (
     <div>
@@ -23,6 +24,7 @@ export const CancelMeetingModal = ({
           <CancelMeetingButtons
             handleCloseModal={handleCloseModal}
             handleDelete={handleDelete}
+            isLoading={isLoading}
           />
         </Box>
       </Modal>

@@ -32,6 +32,7 @@ export const UserProfile: React.FC = () => {
   const [userProfileInfo, setUserProfileInfo] =
     useState<UserInterface>(emptyUser)
   const sameProfile = authUser._id === userId ? true : false
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
     let userProfile
@@ -51,6 +52,7 @@ export const UserProfile: React.FC = () => {
 
   const handleProfileMessageClick = async () => {
     const { _id: memberId } = userProfileInfo
+    setIsLoading(true)
     try {
       const {
         payment: { experience: userExperience },
@@ -74,6 +76,7 @@ export const UserProfile: React.FC = () => {
     } catch (error) {
       console.error('Error in chat open: ', error)
     }
+    setIsLoading(false)
   }
 
   const routeToEdit = () => {
@@ -94,6 +97,7 @@ export const UserProfile: React.FC = () => {
             {userProfileInfo.role && <h3>{userProfileInfo.role}</h3>}
           </div>
           <PrimaryButton
+            loading={isLoading}
             label={sameProfile ? 'Edit Profile' : 'Message'}
             onClick={sameProfile ? routeToEdit : handleProfileMessageClick}
             style={{ position: 'absolute', top: '0', right: '0' }}

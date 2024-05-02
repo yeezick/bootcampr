@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
@@ -14,6 +13,7 @@ import { useSocketEvents } from 'components/Notifications/Socket'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
+import { useState } from 'react'
 
 export const TeamMemberCard = ({ member }) => {
   const { _id: memberId } = member
@@ -51,10 +51,11 @@ const MemberButtons = ({ memberId }) => {
   const isCurrentUser = memberId === loggedInUserId
   const dispatch = useAppDispatch()
   const { createNewRoom } = useSocketEvents(false)
-  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleChatMemberClick = async () => {
     try {
+      setIsLoading(true)
       if (isSandboxId(userExperience) || isWaitlistExperience(userExperience)) {
         dispatch(toggleChatOpen())
         dispatch(onScreenUpdate(ChatScreen.Main))
@@ -68,6 +69,7 @@ const MemberButtons = ({ memberId }) => {
       dispatch(setCurrentChat(room))
       dispatch(toggleChatOpen())
       dispatch(onScreenUpdate(ChatScreen.ChatRoom))
+      setIsLoading(false)
     } catch (error) {
       console.error(error)
     }
@@ -78,7 +80,11 @@ const MemberButtons = ({ memberId }) => {
   return (
     <ButtonContainer justify='space-evenly'>
       {!isCurrentUser && (
-        <SecondaryButton onClick={handleChatMemberClick} label='Send message' />
+        <SecondaryButton
+          loading={isLoading}
+          onClick={handleChatMemberClick}
+          label='Send message'
+        />
       )}
       <PrimaryButton onClick={handleProfile} label='View profile' />
     </ButtonContainer>

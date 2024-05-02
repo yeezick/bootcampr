@@ -13,6 +13,7 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
   const [isError, setIsError] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [showModal, setShowModal] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleEmailChange = e => {
     const newEmail = e.target.value.trim()
@@ -23,6 +24,7 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
 
   const handleSubmit = async () => {
     try {
+      setIsLoading(true)
       const { status, message } = await verifyEmail(newEmail)
 
       if (status !== 200) {
@@ -54,6 +56,7 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
       setErrorMessage('')
       setIsError(false)
       setNewEmail('')
+      setIsLoading(false)
     } catch (error) {
       console.error('Error updating email:', error)
     }
@@ -76,6 +79,7 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
       </div>
       {showModal && (
         <CommonModal
+          handlingRequest={isLoading}
           isOpen={true}
           handleCancel={onCloseModal}
           handleConfirm={handleSubmit}

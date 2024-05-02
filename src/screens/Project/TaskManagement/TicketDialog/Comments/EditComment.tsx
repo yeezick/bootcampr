@@ -14,11 +14,13 @@ export const EditComment = ({
 }) => {
   const { authorId, _id: commentId, content, createdAt } = comment
   const [updatedComment, setUpdatedComment] = useState(content)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const handleCancel = () => toggleEditMode(false)
   const handleInputChange = e => setUpdatedComment(e.target.value)
 
   const handleSave = async e => {
+    setIsLoading(true)
     const updateResponse = await updateComment(commentId, {
       content: updatedComment,
     })
@@ -31,6 +33,7 @@ export const EditComment = ({
 
     toggleFetchComments(state => !state)
     toggleEditMode(false)
+    setIsLoading(false)
   }
 
   return (
@@ -45,7 +48,7 @@ export const EditComment = ({
       </div>
       <ButtonContainer style={{ marginTop: '5px' }}>
         <SecondaryButton label='Cancel' onClick={handleCancel} />
-        <PrimaryButton label='Save' onClick={handleSave} />
+        <PrimaryButton loading={isLoading} label='Save' onClick={handleSave} />
       </ButtonContainer>
     </div>
   )

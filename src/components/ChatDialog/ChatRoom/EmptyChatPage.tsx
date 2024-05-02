@@ -9,7 +9,6 @@ export const EmptyChatPage = ({
   className,
   handler,
 }: EmptyChatPageProps) => {
-  console.log('handler', handler)
   return (
     <div className={className}>
       <img src={ChatIcons[screen]} alt='no data' />

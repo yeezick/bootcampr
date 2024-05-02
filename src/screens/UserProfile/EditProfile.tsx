@@ -15,6 +15,7 @@ export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
   const [updateUserForm, setUpdateUserForm] = useState(emptyUser)
   const [bioCharCount, setBioCharCount] = useState(0)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const {
@@ -60,6 +61,7 @@ export const EditProfile: React.FC = () => {
   }
 
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true)
     e.preventDefault()
 
     try {
@@ -73,6 +75,7 @@ export const EditProfile: React.FC = () => {
         errorSnackbar('Failed to update user profile. Please try again.')
       )
     }
+    setIsLoading(false)
   }
 
   if (!authUser) {
@@ -93,6 +96,7 @@ export const EditProfile: React.FC = () => {
               />
             </div>
             <PrimaryButton
+              loading={isLoading}
               type='submit'
               label='Save Profile'
               style={{ position: 'absolute', top: '0', right: '0' }}

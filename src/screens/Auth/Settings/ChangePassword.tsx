@@ -22,6 +22,7 @@ export const ChangePassword = () => {
   const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>({})
   const [inputError, setInputError] = useState<boolean>(false)
   const [isDisabled, toggleIsDisabled] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useDispatch()
 
@@ -31,7 +32,7 @@ export const ChangePassword = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-
+    setIsLoading(true)
     const reqBody = {
       password: formValues.currentPassword,
       newPassword: formValues.password,
@@ -52,6 +53,7 @@ export const ChangePassword = () => {
         `/success/${authUser._id}?screen=${SuccessQueryParam.changePassword}`
       )
     }
+    setIsLoading(false)
   }
 
   const resetErrorState = () => {
@@ -77,6 +79,7 @@ export const ChangePassword = () => {
         />
         <ButtonContainer style={{ marginTop: '32px' }}>
           <PrimaryButton
+            loading={isLoading}
             type='submit'
             disabled={isDisabled}
             label='Change password'

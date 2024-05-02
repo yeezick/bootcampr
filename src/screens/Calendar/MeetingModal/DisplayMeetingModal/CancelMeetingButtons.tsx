@@ -1,7 +1,11 @@
 import { PrimaryButton, TextButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
-export const CancelMeetingButtons = ({ handleCloseModal, handleDelete }) => {
+export const CancelMeetingButtons = ({
+  handleCloseModal,
+  handleDelete,
+  isLoading,
+}) => {
   return (
     <ButtonContainer style={{ marginTop: '30px' }}>
       <TextButton
@@ -10,6 +14,7 @@ export const CancelMeetingButtons = ({ handleCloseModal, handleDelete }) => {
         colorScheme='primary'
       />
       <PrimaryButton
+        loading={isLoading}
         colorScheme='secondary'
         onClick={handleDelete}
         label='Cancel Meeting'

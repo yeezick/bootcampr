@@ -43,6 +43,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const [inviteAll, toggleInviteAll] = useState(false)
   const [visibleModal, toggleVisibleModal] = useState(false)
   const [googleMeeting, toggleGoogleMeeting] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const modalDisplayStatus = useAppSelector(selectModalDisplayStatus)
   const displayedEvent = useAppSelector(selectDisplayedEvent)
   const radioGroupRef = useRef(null)
@@ -137,6 +138,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
 
   const handleSubmit = async e => {
     e.preventDefault()
+    setIsLoading(true)
     const { end, start, eventTimezone } = dateFields
     const { description, summary } = meetingText
     const attendeeList = []
@@ -197,6 +199,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
         )
         dispatch(updateExistingEvent(updatedEvent))
         handleClose()
+        setIsLoading(false)
       } catch (error) {
         console.error(
           `Error creating event for calendar (${calendarId}): `,
@@ -261,6 +264,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
         </DialogContent>
         <DialogActions>
           <PrimaryButton
+            loading={isLoading}
             label='Send Invite'
             type='submit'
             style={{ margin: '32px' }}

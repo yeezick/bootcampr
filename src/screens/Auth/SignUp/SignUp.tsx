@@ -26,6 +26,7 @@ export const SignUp: React.FC = () => {
     status: false,
     text: '',
   })
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const { password } = formValues
   const ALERT_BANNER_TIMEOUT = 16000
 
@@ -64,6 +65,7 @@ export const SignUp: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setIsLoading(true)
 
     try {
       const validForm = await dispatch(register(formValues))
@@ -99,6 +101,7 @@ export const SignUp: React.FC = () => {
       setTimeout(() => {
         setAlertBanner({ status: false })
       }, ALERT_BANNER_TIMEOUT)
+      setIsLoading(false)
     } catch (error) {
       console.error('Error occurred during form submission:', error)
     }
@@ -157,6 +160,7 @@ export const SignUp: React.FC = () => {
               setIsAccepted={setIsAccepted}
             />
             <PrimaryButton
+              loading={isLoading}
               disabled={disabledForm}
               fullWidth
               label='Sign up'

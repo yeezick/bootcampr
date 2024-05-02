@@ -169,11 +169,13 @@ const DeleteWarningModal = ({
   isDeleteModalOpen,
   closeDeleteModal,
 }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   /**
    * Handles discarding changes made to the image.
    */
   const handleDeleteImage = async () => {
     try {
+      setIsLoading(true)
       const res = await deleteUserImage(userId)
       if (res.success) {
         const userImageUpdate = await updateUser(userId, {
@@ -188,6 +190,7 @@ const DeleteWarningModal = ({
       } else {
         throw new Error('Failed to delete image')
       }
+      setIsLoading(false)
     } catch (err) {
       console.log('Error deleting image:', err)
       dispatch(errorSnackbar('Profile photo did not delete. Please try again.'))
@@ -218,6 +221,7 @@ const DeleteWarningModal = ({
           <DialogActions>
             <TextButton label='Cancel' onClick={closeDeleteModal} />
             <PrimaryButton
+              loading={isLoading}
               colorScheme='secondary'
               label='Delete'
               onClick={handleDeleteImage}

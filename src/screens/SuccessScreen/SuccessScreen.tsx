@@ -1,12 +1,12 @@
 import './SuccessScreen.scss'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import {
   ResType,
   SuccessQueryParam,
   emptySuccessScreenValues,
 } from 'utils/data/authSettingsConstants'
-import { forgotPasswordEmailVerification, getOneUser } from 'utils/api'
+import { forgotPasswordEmailVerification } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { SuccessScreenValues } from 'interfaces/AccountSettingsInterface'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'

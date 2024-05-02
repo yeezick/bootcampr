@@ -18,7 +18,7 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
   const [isDisabled, setIsDisabled] = useState(
     isInvalidUrl || isInvalidRadio ? true : false
   )
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   //TODO: convert alerts to MUI toast to match Figma designs
 
@@ -97,7 +97,8 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
         <ButtonContainer gap={16}>
           <BackButton onClick={handleCancel} label='Presentation' />
           <PrimaryButton
-            disabled={isDisabled || isLoading}
+            loading={isLoading}
+            disabled={isDisabled}
             label='Submit'
             type='submit'
             onClick={handleSubmit}

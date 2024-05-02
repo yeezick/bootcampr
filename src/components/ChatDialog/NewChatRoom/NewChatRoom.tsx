@@ -35,6 +35,7 @@ export const NewChatRoom = ({ chatScreen }) => {
   const [inviteList, setInviteList] = useState([])
   const [allChecked, setAllChecked] = useState(false)
   const [memberChecked, setMemberChecked] = useState({})
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const membersWithoutAuth = members.filter(
     member => member._id !== authUser._id
   )
@@ -154,6 +155,7 @@ export const NewChatRoom = ({ chatScreen }) => {
 
   const handleCreateChatRoom = async () => {
     try {
+      setIsLoading(true)
       const selectedUserIds = selectedChatUsers.map(user => user._id)
       if (
         currentConversation.chatType === 'group' ||
@@ -178,6 +180,7 @@ export const NewChatRoom = ({ chatScreen }) => {
       dispatch(successSnackbar('Successfully created a chat room.'))
       setSelectedChatUsers([])
       dispatch(onScreenUpdate(ChatScreen.ChatRoom))
+      setIsLoading(false)
     } catch (error) {
       console.error(error)
       dispatch(
@@ -240,6 +243,7 @@ export const NewChatRoom = ({ chatScreen }) => {
         <p className='members-invite-info'>{membersInviteInfo}</p>
       </section>
       <PrimaryButton
+        loading={isLoading}
         type='submit'
         onClick={handleCreateChatRoom}
         disabled={!selectedChatUsers.length}

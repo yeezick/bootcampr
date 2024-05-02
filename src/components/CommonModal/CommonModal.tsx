@@ -1,6 +1,5 @@
 import './CommonModal.scss'
 import { Modal } from '@mui/material'
-import { ButtonStyle } from 'utils/data/authSettingsConstants'
 import { CommonModalProps } from 'interfaces/AccountSettingsInterface'
 import { useEffect, useState } from 'react'
 import { PrimaryButton, TextButton } from 'components/Buttons'
@@ -10,6 +9,7 @@ export const CommonModal = ({
   isOpen,
   handleCancel,
   handleConfirm,
+  handlingRequest,
   heading,
   body,
   body2,
@@ -72,6 +72,7 @@ export const CommonModal = ({
               )}
               {confirmButtonLabel && (
                 <PrimaryButton
+                  loading={handlingRequest}
                   type='submit'
                   onClick={handleConfirm}
                   disabled={confirmButtonDisabled}

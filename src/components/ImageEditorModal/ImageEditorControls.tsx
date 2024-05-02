@@ -11,11 +11,15 @@ import { PrimaryButton, TextButton } from 'components/Buttons'
  * @param {Function} handleSave - Function to handle saving the edited image.
  * @returns {JSX.Element} - ImageEditorControls component.
  */
-const ImageEditorControls = ({ handleSave, handleClose }) => {
+const ImageEditorControls = ({ handleSave, handleClose, isLoading }) => {
   return (
     <ButtonContainer justify='center' gap={16}>
       <TextButton label='Cancel' onClick={handleClose} />
-      <PrimaryButton label='Save photo' onClick={handleSave} />
+      <PrimaryButton
+        label='Save photo'
+        onClick={handleSave}
+        loading={isLoading}
+      />
     </ButtonContainer>
   )
 }
