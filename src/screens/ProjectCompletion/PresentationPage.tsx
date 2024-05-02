@@ -100,7 +100,6 @@ export const PresentationPage = ({ handlePageNavigation }) => {
             <ForwardButton
               disabled={isDisabled}
               label='Confirmation'
-              type='submit'
               onClick={handleSubmit}
             />
           </ButtonContainer>

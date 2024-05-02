@@ -72,7 +72,7 @@ export const ContactForm = () => {
   return (
     <div>
       <div className='contact-container'>
-        <form onSubmit={handleSubmit} className='contact-wrapper'>
+        <form className='contact-wrapper'>
           <div className='contact-header'>
             <div className='question'>Questions?</div>
             <div className='contact'>Contact Us</div>
@@ -147,7 +147,11 @@ export const ContactForm = () => {
               </div>
             </div>
           </div>
-          <PrimaryButton loading={isLoading} type='submit' label='Submit' />
+          <PrimaryButton
+            onClick={handleSubmit}
+            loading={isLoading}
+            label='Submit'
+          />
         </form>
       </div>
     </div>

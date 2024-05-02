@@ -52,7 +52,6 @@ export const UrlPage = ({ handlePageNavigation }) => {
               disabled={isDisabled}
               label='Presentation'
               onClick={handleSubmit}
-              type='submit'
             />
           </ButtonContainer>
         </Stack>

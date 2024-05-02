@@ -63,7 +63,7 @@ export const SignUp: React.FC = () => {
     validateForm()
   }, [formValues, isAccepted, passwordErrors])
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
@@ -130,11 +130,7 @@ export const SignUp: React.FC = () => {
         </div>
 
         <div className='signup-container'>
-          <form
-            className='signup-form'
-            onSubmit={handleSubmit}
-            autoComplete='off'
-          >
+          <form className='signup-form' autoComplete='off'>
             <Text
               label='First Name'
               name='firstName'
@@ -161,12 +157,12 @@ export const SignUp: React.FC = () => {
               setIsAccepted={setIsAccepted}
             />
             <PrimaryButton
+              onClick={handleSubmit}
               loading={isLoading}
               disabled={disabledForm}
               fullWidth
               label='Sign up'
               style={{ marginTop: '-10px' }}
-              type='submit'
             />
             <div className='sign-up-redirect-link'>
               <p>

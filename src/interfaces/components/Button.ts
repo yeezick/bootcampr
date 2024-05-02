@@ -10,6 +10,7 @@ export interface CommonButtonProps extends ButtonProps {
   endIcon?: MappedIcons
   label: string
   loading?: boolean
+  onClick: (e) => void
   startIcon?: MappedIcons
 }
 

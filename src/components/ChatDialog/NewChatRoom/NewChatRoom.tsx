@@ -245,7 +245,6 @@ export const NewChatRoom = ({ chatScreen }) => {
       </section>
       <PrimaryButton
         loading={isLoading}
-        type='submit'
         onClick={handleCreateChatRoom}
         disabled={!selectedChatUsers.length}
         label={

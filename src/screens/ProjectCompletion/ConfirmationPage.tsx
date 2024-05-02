@@ -89,7 +89,6 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
             loading={isLoading}
             disabled={isDisabled}
             label='Submit'
-            type='submit'
             onClick={handleSubmit}
           />
         </ButtonContainer>

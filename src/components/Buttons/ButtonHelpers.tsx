@@ -20,6 +20,7 @@ export const createButton = (props: CommonButtonProps) => {
     startIcon,
     label,
     loading,
+    onClick,
     ...MuiProps
   } = props
 
@@ -39,7 +40,11 @@ export const createButton = (props: CommonButtonProps) => {
     : ''
 
   return (
-    <Button className={`common-button ${colorScheme}`} {...conditionalProps}>
+    <Button
+      className={`common-button ${colorScheme}`}
+      {...conditionalProps}
+      onClick={onClick}
+    >
       <span style={{ visibility: loading ? 'hidden' : 'visible' }}>
         {sentenceCaseLabel}
       </span>

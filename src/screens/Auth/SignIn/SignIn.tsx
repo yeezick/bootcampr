@@ -109,7 +109,7 @@ const SignIn: React.FC = (): JSX.Element => {
       <div className='sign_in'>
         <div className='sign_in_container'>
           <img src={login} alt='a person seated at a desk types on a laptop' />
-          <form className='sign_in_form' onSubmit={handleSubmitForm}>
+          <form className='sign_in_form'>
             <div className='sign_in_content'>
               <h1>Log in</h1>
               {alertBanner.status ? (
@@ -168,12 +168,12 @@ const SignIn: React.FC = (): JSX.Element => {
             </div>
             <ForgotPasswordLink hyperlinkText='Forgot your password?' />
             <PrimaryButton
+              onClick={handleSubmitForm}
               loading={isLoading}
               label='Log in'
               disabled={buttonDisabled}
               fullWidth
               style={{ marginTop: '32px' }}
-              type='submit'
             />
             <div className='sign_in_redirect_link'>
               <p>

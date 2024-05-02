@@ -60,7 +60,7 @@ export const EditProfile: React.FC = () => {
     }
   }
 
-  const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleUserUpdate = async (e: React.FormEvent) => {
     setIsLoading(true)
     e.preventDefault()
 
@@ -86,7 +86,7 @@ export const EditProfile: React.FC = () => {
   return (
     <div className='editprofile'>
       <div className='editprofile__container'>
-        <form onSubmit={handleUserUpdate} className='editprofile__form'>
+        <form className='editprofile__form'>
           <div className='editprofile__imageContainer'>
             <div className='editprofile__image'>
               <Avatar
@@ -97,8 +97,8 @@ export const EditProfile: React.FC = () => {
               />
             </div>
             <PrimaryButton
+              onClick={handleUserUpdate}
               loading={isLoading}
-              type='submit'
               label='Save Profile'
               style={{ position: 'absolute', top: '0', right: '0' }}
             />

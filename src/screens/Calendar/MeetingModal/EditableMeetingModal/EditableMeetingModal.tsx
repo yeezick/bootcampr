@@ -220,7 +220,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
       open={visibleModal}
       sx={modalStyles}
     >
-      <form onSubmit={handleSubmit}>
+      <form>
         <DialogContent className='modal-dialog-content'>
           <MeetingModalHeaderIcons handleCloseMeetingModal={handleClose} />
           <div className='content-wrapper'>
@@ -267,9 +267,9 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
         </DialogContent>
         <DialogActions>
           <PrimaryButton
+            onClick={handleSubmit}
             loading={isLoading}
             label='Send Invite'
-            type='submit'
             style={{ margin: '32px' }}
           />
         </DialogActions>

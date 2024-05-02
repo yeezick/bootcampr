@@ -85,7 +85,7 @@ export const ResetPassword = () => {
 
   return (
     <div className='settings-reset-password container'>
-      <form className='settings-reset-password form' onSubmit={handleReset}>
+      <form className='settings-reset-password form'>
         <div className='settings-reset-password header'>Reset Password</div>
         <PasswordInputs
           formValues={formValues}
@@ -97,7 +97,7 @@ export const ResetPassword = () => {
         />
         <ButtonContainer style={{ marginTop: '32px' }}>
           <PrimaryButton
-            type='submit'
+            onClick={handleReset}
             disabled={isDisabled}
             label='Reset password'
           />

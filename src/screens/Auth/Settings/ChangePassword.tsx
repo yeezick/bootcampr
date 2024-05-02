@@ -65,7 +65,7 @@ export const ChangePassword = () => {
   useFormValidation(formValues, currentPassword, toggleIsDisabled)
   return (
     <div className='settings-change-password container'>
-      <form className='settings-change-password form' onSubmit={handleSubmit}>
+      <form className='settings-change-password form'>
         <div className='settings-change-password header'>Change password</div>
         <PasswordInputs
           disableErrorState={resetErrorState}
@@ -79,8 +79,8 @@ export const ChangePassword = () => {
         />
         <ButtonContainer style={{ marginTop: '32px' }}>
           <PrimaryButton
+            onClick={handleSubmit}
             loading={isLoading}
-            type='submit'
             disabled={isDisabled}
             label='Change password'
           />
