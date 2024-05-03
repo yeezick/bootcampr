@@ -6,6 +6,7 @@ import {
   updateAuthUser,
   updateUserExperience,
 } from 'utils/redux/slices/userSlice'
+import { PrimaryButton } from 'components/Buttons'
 import './WhatsNext.scss'
 import {
   updatePaymentExperience,
@@ -13,7 +14,6 @@ import {
   verifyPayment,
 } from 'utils/api'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
-import { PrimaryButton } from 'components/Buttons'
 
 export const WhatsNext = () => {
   const authUser = useAppSelector(selectAuthUser)
@@ -101,8 +101,8 @@ export const WhatsNext = () => {
         <div className='project-details'>
           <p>You can view the product details at any time.</p>
           <PrimaryButton
-            label='View product details'
-            onClick={handleViewProjectDetails}
+            handler={handleViewProjectDetails}
+            text='View product details'
           />
         </div>
       </div>

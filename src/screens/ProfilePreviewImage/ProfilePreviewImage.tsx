@@ -25,7 +25,6 @@ import { GrTrash } from 'react-icons/gr'
 import { MdOutlineCameraEnhance } from 'react-icons/md'
 import './ProfilePreviewImage.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
-import { PrimaryButton, TextButton } from 'components/Buttons'
 
 /**
  * ProfilePreviewImage component displays a preview of the profile image, allowing the user to add, edit, or delete the image.
@@ -215,13 +214,19 @@ const DeleteWarningModal = ({
               </p>
             </DialogContent>
           </div>
-          <DialogActions>
-            <TextButton label='Cancel' onClick={closeDeleteModal} />
-            <PrimaryButton
-              colorScheme='secondary'
-              label='Delete'
+          <DialogActions className='profile-preview__dialog-actions'>
+            <button
+              onClick={closeDeleteModal}
+              className='profile-preview__cancel-btn'
+            >
+              <p>Cancel</p>
+            </button>
+            <button
               onClick={handleDeleteImage}
-            />
+              className='profile-preview__delete2-btn'
+            >
+              <p>Delete</p>
+            </button>
           </DialogActions>
         </div>
       </Dialog>

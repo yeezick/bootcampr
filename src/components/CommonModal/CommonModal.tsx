@@ -1,10 +1,8 @@
 import './CommonModal.scss'
-import { Modal } from '@mui/material'
+import { Button, CircularProgress, Modal } from '@mui/material'
 import { ButtonStyle } from 'utils/data/authSettingsConstants'
 import { CommonModalProps } from 'interfaces/AccountSettingsInterface'
 import { useEffect, useState } from 'react'
-import { PrimaryButton, TextButton } from 'components/Buttons'
-import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const CommonModal = ({
   isOpen,
@@ -24,6 +22,8 @@ export const CommonModal = ({
   confirmButtonLabel,
   confirmButtonDisabled,
   customWidth = 403,
+  confirmButtonStyle = ButtonStyle.Orange,
+  handlingRequest = false,
 }: CommonModalProps) => {
   const [inputClassname, setInputClassname] = useState('input')
 
@@ -62,23 +62,34 @@ export const CommonModal = ({
                 )}
               </div>
             )}
-            <ButtonContainer style={{ marginTop: '16px' }}>
+            <div className='common-modal buttons'>
               {cancelButtonLabel && (
-                <TextButton
+                <Button
+                  className='cancel'
+                  variant='text'
                   type='submit'
                   onClick={handleCancel}
-                  label={cancelButtonLabel}
-                />
+                >
+                  {cancelButtonLabel}
+                </Button>
               )}
               {confirmButtonLabel && (
-                <PrimaryButton
+                <Button
+                  className='confirm'
+                  variant='contained'
                   type='submit'
+                  style={{
+                    background: confirmButtonStyle.background,
+                    color: confirmButtonStyle.color,
+                  }}
                   onClick={handleConfirm}
                   disabled={confirmButtonDisabled}
-                  label={confirmButtonLabel}
-                />
+                >
+                  {confirmButtonLabel}
+                  {handlingRequest && <CircularProgress />}
+                </Button>
               )}
-            </ButtonContainer>
+            </div>
           </div>
         </div>
       </Modal>

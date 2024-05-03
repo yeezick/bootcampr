@@ -4,6 +4,19 @@
   flex-grow: 1;
   justify-content: space-between;
 
+  .chat-button {
+    background-color: #fa9413;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 8px 8px 0 8px;
+    text-transform: none;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
   .members-invite {
     display: flex;
     flex-direction: column;

@@ -4,8 +4,7 @@ import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
 import { Stack } from '@mui/material'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
 import { useState } from 'react'
-import { BackButton, ForwardButton } from 'components/Buttons'
-import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 
 export const PresentationPage = ({ handlePageNavigation }) => {
   const [isDisabled, setIsDisabled] = useState(true)
@@ -95,15 +94,21 @@ export const PresentationPage = ({ handlePageNavigation }) => {
             setIsDisabled={setIsDisabled}
           />
 
-          <ButtonContainer gap={16}>
-            <BackButton onClick={handleCancel} label='URL' />
-            <ForwardButton
-              disabled={isDisabled}
-              label='Confirmation'
-              type='submit'
-              onClick={handleSubmit}
+          <Stack className='btn-container'>
+            <PaginatorButton
+              buttonType='secondary'
+              handler={handleCancel}
+              text='URL'
             />
-          </ButtonContainer>
+            <PaginatorButton
+              buttonType='primary'
+              aria-disabled={isDisabled}
+              disabled={isDisabled}
+              text='Confirmation'
+              type='submit'
+              handler={handleSubmit}
+            />
+          </Stack>
         </Stack>
       </form>
     </div>
