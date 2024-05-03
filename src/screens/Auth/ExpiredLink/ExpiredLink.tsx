@@ -4,7 +4,6 @@ import { TbRefreshAlert } from 'react-icons/tb'
 import './ExpiredLink.scss'
 import { useDispatch } from 'react-redux'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
-import { PrimaryButton } from 'components/Buttons'
 
 export const ExpiredLink = () => {
   const dispatch = useDispatch()
@@ -40,10 +39,7 @@ export const ExpiredLink = () => {
             Looks like the verification link has expired. Not to worry, we can
             send the link again.
           </p>
-          <PrimaryButton
-            label='Resend verification link'
-            onClick={handleNewLink}
-          />
+          <button onClick={handleNewLink}>Resend verification link</button>
         </div>
       </div>
     </div>

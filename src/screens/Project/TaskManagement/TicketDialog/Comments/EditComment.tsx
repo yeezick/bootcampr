@@ -3,9 +3,8 @@ import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { CommentHeader } from './CommentHeader'
 import { TextField } from '@mui/material'
-import { updateComment } from 'utils/api/comments'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
-import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { updateComment } from 'utils/api/comments'
 
 export const EditComment = ({
   comment,
@@ -43,10 +42,10 @@ export const EditComment = ({
           multiline
         />
       </div>
-      <ButtonContainer style={{ marginTop: '5px' }}>
-        <SecondaryButton label='Cancel' onClick={handleCancel} />
-        <PrimaryButton label='Save' onClick={handleSave} />
-      </ButtonContainer>
+      <div className='edit-buttons'>
+        <SecondaryButton text='Cancel' handler={handleCancel} />
+        <PrimaryButton text='Save' handler={handleSave} />
+      </div>
     </div>
   )
 }

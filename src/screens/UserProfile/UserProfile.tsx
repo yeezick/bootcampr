@@ -5,6 +5,7 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 import { UserInterface } from 'interfaces'
 import { emptyUser } from 'utils/data/userConstants'
+import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 import Avatar from 'components/Avatar/Avatar'
 import { RiGithubLine } from 'react-icons/ri'
 import { FiLinkedin } from 'react-icons/fi'
@@ -19,7 +20,6 @@ import {
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useSocketEvents } from 'components/Notifications/Socket'
 import './UserProfile.scss'
-import { PrimaryButton } from 'components/Buttons'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
 
 export const UserProfile: React.FC = () => {
@@ -42,7 +42,7 @@ export const UserProfile: React.FC = () => {
     }
 
     setUserProfileInfo(userProfile)
-  }, [authUser, teamMembers, userProfileInfo])
+  }, [teamMembers, userProfileInfo, authUser, userId])
 
   // BC-334: should handle this case
   if (!userProfileInfo || !userProfileInfo._id) {
@@ -85,7 +85,13 @@ export const UserProfile: React.FC = () => {
       <div className='userProfile__container'>
         <div className='userProfile__titleContainer'>
           <div className='userProfile__image'>
-            <Avatar clickable={false} userId={userProfileInfo._id} />
+
+            {sameProfile ? (
+             <Avatar clickable={false} userId={userProfileInfo._id} />
+            ) : (
+              <TeamAvatar userId={userId} size='medium' />
+            )}
+
           </div>
           <div className='userProfile__title'>
             <h2>
@@ -93,11 +99,18 @@ export const UserProfile: React.FC = () => {
             </h2>
             {userProfileInfo.role && <h3>{userProfileInfo.role}</h3>}
           </div>
-          <PrimaryButton
-            label={sameProfile ? 'Edit Profile' : 'Message'}
-            onClick={sameProfile ? routeToEdit : handleProfileMessageClick}
-            style={{ position: 'absolute', top: '0', right: '0' }}
-          />
+          {sameProfile ? (
+            <button className='userProfile__editBtn' onClick={routeToEdit}>
+              Edit Profile
+            </button>
+          ) : (
+            <button
+              className='userProfile__messageBtn'
+              onClick={handleProfileMessageClick}
+            >
+              Message
+            </button>
+          )}
         </div>
         {userProfileInfo.bio && (
           <div className='userProfile__infoContainer'>

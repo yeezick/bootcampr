@@ -1,6 +1,6 @@
 import { Dialog, DialogContent } from '@mui/material'
-import { PrimaryButton, TextButton } from 'components/Buttons'
-import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { SecondaryButton } from 'components/Buttons'
+import { RedPrimaryButton } from 'components/Buttons/ButtonVariants'
 import { deleteComment } from 'utils/api/comments'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch } from 'utils/redux/hooks'
@@ -27,18 +27,19 @@ export const DeleteCommentDialog = ({
       <DialogContent className='confirmation-dialog'>
         <h3>Delete comment?</h3>
         <p>Deleting this comment cannot be undone.</p>
-        <ButtonContainer>
-          <TextButton
+        <div className='buttons'>
+          <SecondaryButton
             colorScheme='create-task'
-            onClick={handleCloseDialog}
-            label='Cancel'
+            handler={handleCloseDialog}
+            text='Cancel'
+            variant='text'
           />
-          <PrimaryButton
-            colorScheme='secondary'
-            onClick={handleDelete}
-            label='Delete'
+          <RedPrimaryButton
+            handler={handleDelete}
+            text='Delete'
+            variant='contained'
           />
-        </ButtonContainer>
+        </div>
       </DialogContent>
     </Dialog>
   )

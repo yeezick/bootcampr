@@ -11,8 +11,10 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useSocketEvents } from 'components/Notifications/Socket'
-import { PrimaryButton, SecondaryButton } from 'components/Buttons'
-import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import {
+  PrimaryButton,
+  SecondaryButton,
+} from 'components/Buttons/ButtonVariants'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
 
 export const TeamMemberCard = ({ member }) => {
@@ -76,11 +78,25 @@ const MemberButtons = ({ memberId }) => {
   const handleProfile = () => window.open(`/users/${memberId}`)
 
   return (
-    <ButtonContainer justify='space-evenly'>
+    <div className='member-buttons'>
       {!isCurrentUser && (
-        <SecondaryButton onClick={handleChatMemberClick} label='Send message' />
+        <SecondaryButton
+          handler={handleChatMemberClick}
+          text='Send message'
+          sx={buttonSx}
+        />
       )}
-      <PrimaryButton onClick={handleProfile} label='View profile' />
-    </ButtonContainer>
+      <PrimaryButton
+        handler={handleProfile}
+        text='View profile'
+        sx={buttonSx}
+      />
+    </div>
   )
+}
+
+const buttonSx = {
+  height: '32px',
+  fontSize: '12px',
+  backgroundColor: 'red',
 }

@@ -7,8 +7,8 @@ import {
 } from 'utils/redux/slices/taskBoardSlice'
 import { selectProjectTracker } from 'utils/redux/slices/projectSlice'
 import '../styles/NoTicketsCreated.scss'
-import { doTicketsExist } from 'utils/helpers/taskHelpers'
 import { PrimaryButton } from 'components/Buttons'
+import { doTicketsExist } from 'utils/helpers/taskHelpers'
 import {
   selectAuthUser,
   selectUserProjectId,
@@ -55,8 +55,8 @@ export const NoTicketsCreated = () => {
             </p>
           </div>
           <PrimaryButton
-            label='Create story'
-            onClick={openCreateTicketDialog}
+            handler={openCreateTicketDialog}
+            text='Create story'
             startIcon='plus'
           />
         </div>

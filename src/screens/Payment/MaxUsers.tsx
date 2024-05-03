@@ -1,7 +1,7 @@
+import { PrimaryButton } from 'components/Buttons'
 import { useNavigate } from 'react-router-dom'
 import maxUsersPng from '../../assets/Images/max-users.png'
 import './styles/MaxUsers.scss'
-import { PrimaryButton } from 'components/Buttons'
 
 export const MaxUsers = () => {
   const navigate = useNavigate()
@@ -25,8 +25,8 @@ export const MaxUsers = () => {
           tools.
         </p>
         <PrimaryButton
-          label='Enter Bootcampr Sandbox'
-          onClick={handleEnterSandbox}
+          text='Enter Bootcampr Sandbox'
+          handler={handleEnterSandbox}
         />
       </div>
     </div>

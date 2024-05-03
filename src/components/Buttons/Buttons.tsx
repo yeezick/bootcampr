@@ -15,18 +15,21 @@ import './Buttons.scss'
 
 export const createButton = (props: CommonButtonProps) => {
   const {
+    children,
     colorScheme = 'primary',
     endIcon,
+    //TODO: remove handler prop and utilize onClick instead. Implement during app-wide button refactor
+    handler,
     startIcon,
-    label,
+    text,
     ...MuiProps
   } = props
 
   const conditionalProps: ConditionalButtonProps = {
     ...MuiProps,
-    'aria-label': label + ' button',
     disableElevation: true,
     disableRipple: true,
+    onClick: handler,
     style: MuiProps.style,
     variant: MuiProps.variant,
     ...(startIcon && { startIcon: fetchIcon(startIcon) }),
@@ -35,7 +38,8 @@ export const createButton = (props: CommonButtonProps) => {
 
   return (
     <Button className={`common-button ${colorScheme}`} {...conditionalProps}>
-      {label}
+      {text}
+      {children}
     </Button>
   )
 }
@@ -46,11 +50,12 @@ export const createButton = (props: CommonButtonProps) => {
  * @see {@link 'src/components/Buttons/ButtonVariants.ts'} for example usage.
  */
 export const createIconButton = (props: IconBtnProps) => {
-  const { filled, icon, iconSize, ...MuiProps } = props
+  const { handler, filled, icon, iconSize, ...MuiProps } = props
   const conditionalProps = {
     ...MuiProps,
     children: fetchIcon(icon),
     disableRipple: true,
+    onClick: handler,
     style: MuiProps.style,
   }
 

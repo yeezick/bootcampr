@@ -1,4 +1,5 @@
 import { Dialog, DialogContent } from '@mui/material'
+import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { deleteTicketApi } from 'utils/api/tickets'
 import {
   closeConfirmationDialog,
@@ -13,8 +14,6 @@ import {
 } from 'utils/redux/slices/taskBoardSlice'
 import '../../styles/ConfirmationDialogs.scss'
 import { successSnackbar } from 'utils/helpers/commentHelpers'
-import { PrimaryButton, TextButton } from 'components/Buttons'
-import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const DeleteTicketDialog = () => {
   const confirmationDialogType = useAppSelector(selectConfirmationDialogType)
@@ -51,14 +50,19 @@ export const DeleteTicketDialog = () => {
           All the information, including comments, will be lost and gone
           forever.
         </p>
-        <ButtonContainer>
-          <TextButton onClick={handleCloseDialog} label='Cancel' />
-          <PrimaryButton
-            colorScheme='secondary'
-            onClick={handleDeleteTicket}
-            label='Delete'
+        <div className='buttons'>
+          <SecondaryButton
+            handler={handleCloseDialog}
+            text='Cancel'
+            variant='text'
           />
-        </ButtonContainer>
+          <PrimaryButton
+            disableElevation
+            handler={handleDeleteTicket}
+            text='Delete'
+            sx={{ backgroundColor: '#d32f2f', color: '#fff' }}
+          />
+        </div>
       </DialogContent>
     </Dialog>
   )

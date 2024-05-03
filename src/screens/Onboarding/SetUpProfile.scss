@@ -21,13 +21,15 @@
     width: 32px;
   }
 
-  &__cta-and-disclaimer {
-    position: relative;
+  &__cta-container {
+    align-content: flex-end;
+    align-items: flex-start;
+    display: flex;
+    gap: 32px;
 
-    p {
+    .payment-disclaimer {
       margin: 8px 0 0 0;
-      position: absolute;
-      width: 410px;
+      width: 181px;
     }
   }
 
@@ -51,7 +53,7 @@
     }
 
     p.error {
-      color: #b71c1c;
+      color: #B71C1C;
     }
 
     background-color: #fafafa;
@@ -61,35 +63,98 @@
     text-align: right;
   }
 
+  &__profile-btns {
+    @include flex(column, space-between, center);
+    justify-self: flex-end;
+    align-self: flex-end;
+    gap: 32px;
+    margin-top: 32px;
+  }
+
+
+  &__profile-cancelBtn,
+  &__profile-saveBtn {
+    @include font-properties(
+      (
+        size: 14px,
+        weight: 500,
+        line-height: 20px,
+      )
+    );
+
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+    gap: 8px;
+    height: 40px;
+    padding: 10px 16px;
+  }
+
+  &__profile-cancelBtn {
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #5c6bc0;
+    color: #1a237e;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 141px;
+  }
+
   &__profile-container {
     border-radius: 4px;
     max-width: 100%;
   }
 
+  &__profile-disabledBtn {
+    @include font-properties(
+      (
+        size: 14px,
+        weight: 500,
+        line-height: 20px,
+      )
+    );
+
+  align-items: center;
+  background-color: lightgray;
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: #1a237e;
+  cursor: not-allowed;
+  display: flex;
+  gap: 8px;
+  height: 40px;
+  justify-content: center;
+  padding: 10px 16px;
+  position: relative;
+  width: 146px;
+  }
+
   &__profile-form {
-    width: 100%;
+  width: 100%;
   }
 
   &__profile-header-cont {
-    margin: 0 auto 32px;
-    width: 520px;
+  margin: 0 auto 32px;
+  width: 520px;
 
-    h2 {
-      @include flex(row);
-      @include font-properties(
-        (
-          size: 24px,
-          weight: 600,
-          line-height: 33.6px,
-        )
-      );
-      margin: 0 auto 8px;
-      max-height: 45px;
-      max-width: 100%;
-      text-align: left;
-    }
+  h2 {
+    @include flex(row);
+    @include font-properties(
+      (
+        size: 24px,
+        weight: 600,
+        line-height: 33.6px,
+      )
+    );
+    margin: 0 auto 8px;
+    max-height: 45px;
+    max-width: 100%;
+    text-align: left;
+  }
 
-    i {
+  i {
       line-height: 23px;
     }
 
@@ -122,39 +187,41 @@
     }
   }
 
+
   &__profile-imageChange {
-    color: #121212;
-  }
+      color: #121212;
+    }
 
-  &__profile-label {
-    @include font-properties(
-      (
-        size: 16px,
-        line-height: 22px,
-      )
-    );
+    &__profile-label {
 
-    input,
-    textarea {
       @include font-properties(
         (
-          family: 'Inter',
-          size: 14px,
-          line-height: 20px,
+          size: 16px,
+          line-height: 22px,
         )
       );
 
-      background-color: #ffffff;
-      border: 1px solid #000;
-      border-radius: 4px;
-      margin: 8px 0 auto 0;
-    }
+      input,
+      textarea {
+        @include font-properties(
+          (
+            family: 'Inter',
+            size: 14px,
+            line-height: 20px,
+          )
+        );
 
-    .error {
-      border-color: #b71c1c;
-    }
+        background-color: #ffffff;
+        border: 1px solid #000;
+        border-radius: 4px;
+        margin: 8px 0 auto 0;
+      }
 
-    .bio-undertext {
+      .error {
+        border-color: #B71C1C;
+      }
+
+  .bio-undertext {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -162,7 +229,7 @@
     }
 
     h6.error {
-      color: #b71c1c;
+      color: #B71C1C;
       margin: 0 0 0 20px;
       font-size: 14px;
       font-weight: 400;
@@ -184,5 +251,16 @@
     color: #1a237e;
     cursor: pointer;
     text-decoration: underline;
+  }
+
+  &__profile-saveBtn {
+    align-items: center;
+    background-color: #fa9413;
+    border: none;
+    color: #1a237e;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 146px;
   }
 }

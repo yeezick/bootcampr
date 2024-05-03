@@ -12,7 +12,6 @@ import { Email, Text, PasswordInputs } from 'components/Inputs'
 import './SignUp.scss'
 import { Checkbox, FormControlLabel } from '@mui/material'
 import signup from '../../../assets/Images/signup.png'
-import { PrimaryButton } from 'components/Buttons'
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate()
@@ -104,6 +103,10 @@ export const SignUp: React.FC = () => {
     }
   }
 
+  const submitButtonStyle = `${
+    disabledForm ? 'sign-up-btn' : 'sign-up-btn-active'
+  }`
+
   return (
     <div className='signup-screen'>
       {alertBanner.status && (
@@ -137,6 +140,7 @@ export const SignUp: React.FC = () => {
               required
               setFormValues={setFormValues}
             />
+
             <Text
               label='Last Name'
               name='lastName'
@@ -152,17 +156,22 @@ export const SignUp: React.FC = () => {
               setFormValues={setFormValues}
               passwordInputName='sign-up'
             />
+
             <AcceptTermsCheckbox
               isAccepted={isAccepted}
               setIsAccepted={setIsAccepted}
             />
-            <PrimaryButton
-              disabled={disabledForm}
-              fullWidth
-              label='Sign up'
-              style={{ marginTop: '-10px' }}
-              type='submit'
-            />
+
+            <div className='sign-up-btn-container'>
+              {/* //TODO: refactor this to a PrimaryButton */}
+              <button
+                className={submitButtonStyle}
+                disabled={disabledForm}
+                type='submit'
+              >
+                Sign up
+              </button>
+            </div>
             <div className='sign-up-redirect-link'>
               <p>
                 Already have an account? <Link to='/sign-in'>Log in</Link>
