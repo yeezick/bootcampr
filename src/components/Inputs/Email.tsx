@@ -3,7 +3,7 @@ import { FormControl, FormHelperText } from '@mui/material'
 import { handleFormInputChange } from 'utils/helpers/stateHelpers'
 import { verifyEmail } from 'utils/api'
 
-export const Email = ({ setFormValues }) => {
+export const Email = ({ setFormValues, setIsValidEmail }) => {
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const inputId = 'email'
@@ -23,9 +23,11 @@ export const Email = ({ setFormValues }) => {
     if (status >= 400) {
       setError(true)
       setErrorMessage(message)
+      setIsValidEmail(false)
     } else if (status === 200) {
       setError(false)
       setErrorMessage('')
+      setIsValidEmail(true)
     }
   }
 
