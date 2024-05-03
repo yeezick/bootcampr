@@ -27,7 +27,7 @@ export const consolidateAvailability = (availability): string[][] => {
 }
 
 /**
- * Convert Logical Availability to User Friendly
+ * Convert Logical Availabilty to User Friendly
  */
 const convertLogicalToUserFriendly = (logical: number[]): string[][] => {
   let userFriendly = [timeOptions[logical[0]]]
@@ -82,7 +82,7 @@ const convertTimeSlotToLogical = (
 }
 
 /**
- * Create a holistic logical availability array for full day
+ * Create a holisitc logical availabilty array for full day
  */
 const createFullAvailability = (
   userFriendlyFullDay: Array<string>
@@ -162,7 +162,7 @@ export const handleTimeChange = (e, days, setDays, isStart) => {
 }
 
 /**
- * HANDLE AVAILABILITY CHECK BOX (SINGLE DAY)
+ * HANDLE AVAILBILITY CHECK BOX (SINGLE DAY)
  *
  * Handles when a single day check box is checked or unchecked
  * unchecked => checked - add and display default availability, or user availability if it exists
@@ -215,17 +215,12 @@ export const getNextTimeslot = currentTime => {
  * @param userId Auth user ID
  * @param {AvailabilityInterface} days State object representing the user's availability object
  */
-export const saveAvailability = async (
-  dispatch,
-  userId,
-  days,
-  userTimezone
-) => {
-  const updated = await updateAvailability(userId, days, userTimezone)
-  if (updated.status) {
-    dispatch(successSnackbar('Your availability has been updated!'))
-  } else {
-    dispatch(errorSnackbar('Something went wrong please try again'))
+export const saveAvailability = async (userId, days, userTimezone) => {
+  try {
+    const res = await updateAvailability(userId, days, userTimezone)
+    return res.data
+  } catch (error) {
+    throw error
   }
 }
 

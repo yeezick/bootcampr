@@ -8,9 +8,9 @@ import {
 } from 'utils/redux/slices/userSlice'
 import { saveAvailability } from 'components/Availability/utils/helpers'
 import { disableForwardButton } from 'components/Availability/utils/helpers'
+import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import './SetupAvailability.scss'
-import { BackButton, ForwardButton } from 'components/Buttons'
-import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 
 interface SetupAvailabilityProps {
   handlePageNavigation: (navType: 'previous' | 'next' | 'specific') => void
@@ -27,7 +27,15 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   const [isDisabled, setIsDisabled] = useState(true)
 
   const storeAvailability = async () => {
-    await saveAvailability(dispatch, authUser._id, days, storedUserTZinUTC)
+    try {
+      const avail = await saveAvailability(
+        authUser._id,
+        days,
+        storedUserTZinUTC
+      )
+    } catch (error) {
+      dispatch(errorSnackbar('Availability failed to save. Please try again.'))
+    }
   }
 
   const handleNavigationButtons = async (direction: 'previous' | 'next') => {
@@ -56,14 +64,21 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
         </i>
       </div>
       <Availability />
-      <ButtonContainer style={{ marginTop: '32px' }} gap={32}>
-        <BackButton onClick={handlePrevious} label='Role' />
-        <ForwardButton
-          disabled={isDisabled}
-          onClick={handleNext}
-          label='Set up profile'
-        />
-      </ButtonContainer>
+      <div className='setup-avail-buttons-wrapper'>
+        <div className='setup-avail-buttons'>
+          <PaginatorButton
+            buttonType='secondary'
+            handler={handlePrevious}
+            text='Role'
+          />
+          <PaginatorButton
+            buttonType='primary'
+            disabled={isDisabled}
+            handler={handleNext}
+            text='Set up profile'
+          />
+        </div>
+      </div>
     </div>
   )
 }

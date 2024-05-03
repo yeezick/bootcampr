@@ -105,13 +105,14 @@ export const CopyTimesModal = ({
             />
           )
       )}
-      <PrimaryButton
-        onClick={handleApply}
-        label='Apply'
-        disabled={isDisabled}
-        fullWidth
-        style={{ marginTop: '10px' }}
-      />
+      <div className='apply-submit-button'>
+        <PrimaryButton
+          handler={handleApply}
+          text='Apply'
+          disabled={isDisabled}
+          sx={{ width: '100%' }}
+        />
+      </div>
     </div>
   )
 }
