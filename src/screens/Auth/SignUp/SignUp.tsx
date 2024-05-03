@@ -21,6 +21,7 @@ export const SignUp: React.FC = () => {
   const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp)
   const [isAccepted, setIsAccepted] = useState(false)
   const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>({})
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(false)
   const [alertBanner, setAlertBanner] = useState<AlertBanners>({
     status: false,
     text: '',
@@ -52,14 +53,19 @@ export const SignUp: React.FC = () => {
         return true
       }
 
-      if (emptyForm === false && isAccepted && passwordsMatch()) {
+      if (
+        emptyForm === false &&
+        isAccepted &&
+        passwordsMatch() &&
+        isValidEmail
+      ) {
         return setDisabledForm(false)
       } else {
         return setDisabledForm(true)
       }
     }
     validateForm()
-  }, [formValues, isAccepted, passwordErrors])
+  }, [formValues, isAccepted, passwordErrors, isValidEmail])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -147,7 +153,10 @@ export const SignUp: React.FC = () => {
               required
               setFormValues={setFormValues}
             />
-            <Email setFormValues={setFormValues} />
+            <Email
+              setFormValues={setFormValues}
+              setIsValidEmail={setIsValidEmail}
+            />
             <PasswordInputs
               formValues={formValues}
               password={password}
