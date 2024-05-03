@@ -10,6 +10,7 @@ import { saveAvailability } from 'components/Availability/utils/helpers'
 import { disableForwardButton } from 'components/Availability/utils/helpers'
 import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import './SetupAvailability.scss'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 
 interface SetupAvailabilityProps {
   handlePageNavigation: (navType: 'previous' | 'next' | 'specific') => void
@@ -26,7 +27,15 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   const [isDisabled, setIsDisabled] = useState(true)
 
   const storeAvailability = async () => {
-    await saveAvailability(dispatch, authUser._id, days, storedUserTZinUTC)
+    try {
+      const avail = await saveAvailability(
+        authUser._id,
+        days,
+        storedUserTZinUTC
+      )
+    } catch (error) {
+      dispatch(errorSnackbar('Availability failed to save. Please try again.'))
+    }
   }
 
   const handleNavigationButtons = async (direction: 'previous' | 'next') => {
