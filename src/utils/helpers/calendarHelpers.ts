@@ -234,38 +234,63 @@ export const updateWeekNumber = (sundayDate, firstDay, setWeekNumber) => {
 }
 
 export const updateWeekDayNumber = teamCommonAvailability => {
-  Object.keys(teamCommonAvailability).forEach(key => {
-    switch (key) {
+  // return teamCommonAvailability
+  const updatedAvailability = {}
+
+  // Map the available days to their respective indexes
+  for (const day of Object.keys(teamCommonAvailability)) {
+    switch (day) {
       case 'SUN':
-        teamCommonAvailability[0] = teamCommonAvailability[key]
-        delete teamCommonAvailability[key]
+        updatedAvailability[0] = teamCommonAvailability[day]
         break
       case 'MON':
-        teamCommonAvailability[1] = teamCommonAvailability[key]
-        delete teamCommonAvailability[key]
+        updatedAvailability[1] = teamCommonAvailability[day]
         break
       case 'TUE':
-        teamCommonAvailability[2] = teamCommonAvailability[key]
-        delete teamCommonAvailability[key]
+        updatedAvailability[2] = teamCommonAvailability[day]
         break
       case 'WED':
-        teamCommonAvailability[3] = teamCommonAvailability[key]
-        delete teamCommonAvailability[key]
+        updatedAvailability[3] = teamCommonAvailability[day]
         break
       case 'THU':
-        teamCommonAvailability[4] = teamCommonAvailability[key]
-        delete teamCommonAvailability[key]
+        updatedAvailability[4] = teamCommonAvailability[day]
         break
       case 'FRI':
-        teamCommonAvailability[5] = teamCommonAvailability[key]
-        delete teamCommonAvailability[key]
+        updatedAvailability[5] = teamCommonAvailability[day]
         break
       case 'SAT':
-        teamCommonAvailability[6] = teamCommonAvailability[key]
-        delete teamCommonAvailability[key]
+        updatedAvailability[6] = teamCommonAvailability[day]
+        break
+      default:
         break
     }
-  })
+  }
 
-  return teamCommonAvailability
+  return updatedAvailability
 }
+
+export const formatAvailabilityDate = (
+  sundayDate,
+  dayOfWeek,
+  startTime,
+  endTime
+) => {
+  const start = dayjs(`${sundayDate} ${startTime}`)
+    .day(Number(dayOfWeek))
+    .format('YYYY-MM-DDTHH:mm:ss')
+  const end = dayjs(`${sundayDate} ${endTime}`)
+    .day(Number(dayOfWeek))
+    .format('YYYY-MM-DDTHH:mm:ss')
+  return {
+    start: dayjs.tz(start, 'America/New_York').format('YYYY-MM-DDTHH:mm:ssZ'),
+    end: dayjs.tz(end, 'America/New_York').format('YYYY-MM-DDTHH:mm:ssZ'),
+  }
+}
+
+export const generateTeamAvailabilityEvent = (start, end) => ({
+  title: 'Team Availability',
+  start: start,
+  end: end,
+  backgroundColor: '#E8F5E9',
+  borderColor: '#388E3C',
+})
