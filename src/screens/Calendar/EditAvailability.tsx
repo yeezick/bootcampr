@@ -1,5 +1,6 @@
 import { Availability } from 'components/Availability/Availability'
 import { saveAvailability } from 'components/Availability/utils/helpers'
+import { PrimaryButton } from 'components/Buttons'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   getUserTimezone,
@@ -8,8 +9,6 @@ import {
 } from 'utils/redux/slices/userSlice'
 import './EditAvailability.scss'
 import { AvailabilityInterface } from 'interfaces'
-import { PrimaryButton } from 'components/Buttons'
-import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const EditAvailability = () => {
   const dispatch = useAppDispatch()
@@ -31,9 +30,9 @@ export const EditAvailability = () => {
   return (
     <div className='edit-availability-container'>
       <Availability />
-      <ButtonContainer style={{ marginTop: '32px' }}>
-        <PrimaryButton onClick={handleSaveAvailability} label='Save' />
-      </ButtonContainer>
+      <div className='edit-availability-btn-group'>
+        <PrimaryButton handler={handleSaveAvailability} text='Save' />
+      </div>
     </div>
   )
 }

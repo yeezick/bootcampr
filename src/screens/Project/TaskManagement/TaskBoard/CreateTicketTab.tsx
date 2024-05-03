@@ -1,11 +1,12 @@
+import { Button } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { selectAuthUser, selectUserId } from 'utils/redux/slices/userSlice'
 import { selectProjectId } from 'utils/redux/slices/projectSlice'
 import {
   resetTicketFields,
   setVisibleTicketDialog,
 } from 'utils/redux/slices/taskBoardSlice'
-import { CreateTaskButton } from 'components/Buttons'
 
 export const CreateTicketTab = ({ columnStatus }) => {
   const projectId = useAppSelector(selectProjectId)
@@ -27,6 +28,13 @@ export const CreateTicketTab = ({ columnStatus }) => {
   }
 
   return (
-    <CreateTaskButton onClick={openCreateTicketDialog} label='Create story' />
+    <Button
+      className='create-ticket-btn'
+      onClick={openCreateTicketDialog}
+      startIcon={<AddIcon />}
+      variant='contained'
+    >
+      Create story
+    </Button>
   )
 }

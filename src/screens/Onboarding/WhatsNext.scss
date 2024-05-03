@@ -116,3 +116,19 @@
 .link {
   text-decoration: none;
 }
+
+.project-details-btn {
+  align-items: center;
+  background-color: #fa9413;
+  border: none;
+  border-radius: 4px;
+  color: #313335;
+  display: flex;
+  font-size: 16px;
+  font-weight: 500;
+  gap: 8px;
+  justify-content: center;
+  line-height: 22.4px;
+  padding: 10px 16px;
+  width: 183px;
+}
