@@ -34,4 +34,11 @@
       line-height: 24px;
     }
   }
+
+  .btn-container {
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 32px;
+    width: 100%;
+  }
 }

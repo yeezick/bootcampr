@@ -10,10 +10,10 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { logoutAuthUser, selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useFormValidation } from 'utils/helpers'
 import { PasswordInputs } from 'components/Inputs'
+import { ThemeProvider } from '@emotion/react'
+import { Button, createTheme } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
-import { PrimaryButton } from 'components/Buttons'
-import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const ChangePassword = () => {
   const navigate = useNavigate()
@@ -21,7 +21,7 @@ export const ChangePassword = () => {
     useState<PasswordFormData>(emptyPasswordData)
   const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>({})
   const [inputError, setInputError] = useState<boolean>(false)
-  const [isDisabled, toggleIsDisabled] = useState<boolean>(true)
+  const [isDisabled, toggleIsDisabled] = useState(false)
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useDispatch()
 
@@ -45,12 +45,8 @@ export const ChangePassword = () => {
 
       dispatch(errorSnackbar(passwordData.friendlyMessage))
     } else {
-      await logOut()
-      dispatch(logoutAuthUser())
       setInputError(false)
-      navigate(
-        `/success/${authUser._id}?screen=${SuccessQueryParam.changePassword}`
-      )
+      navigate(`/success?screen=${SuccessQueryParam.changePassword}`)
     }
   }
 
@@ -59,6 +55,14 @@ export const ChangePassword = () => {
   }
 
   const { password, currentPassword } = formValues
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#FFA726',
+      },
+    },
+  })
 
   useFormValidation(formValues, currentPassword, toggleIsDisabled)
   return (
@@ -75,13 +79,16 @@ export const ChangePassword = () => {
           setFormValues={setFormValues}
           passwordInputName='settings-pwd-reset'
         />
-        <ButtonContainer style={{ marginTop: '32px' }}>
-          <PrimaryButton
+        <ThemeProvider theme={theme}>
+          <Button
+            className='settings-change-password button'
+            variant='contained'
             type='submit'
             disabled={isDisabled}
-            label='Change password'
-          />
-        </ButtonContainer>
+          >
+            Change password
+          </Button>
+        </ThemeProvider>
       </form>
     </div>
   )

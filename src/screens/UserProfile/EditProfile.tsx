@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
@@ -9,7 +9,6 @@ import Avatar from 'components/Avatar/Avatar'
 import TextareaAutosize from 'react-textarea-autosize'
 import './EditProfile.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
-import { PrimaryButton } from 'components/Buttons'
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
@@ -92,11 +91,9 @@ export const EditProfile: React.FC = () => {
                 addPhotoIconId='imageChange'
               />
             </div>
-            <PrimaryButton
-              type='submit'
-              label='Save Profile'
-              style={{ position: 'absolute', top: '0', right: '0' }}
-            />
+            <button type='submit' className='editprofile__saveBtn'>
+              Save Profile
+            </button>
           </div>
           <div className='editprofile__labelContainer'>
             <label className='editprofile__label'>

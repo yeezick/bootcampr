@@ -5,9 +5,10 @@ import { onScreenUpdate, selectChat } from 'utils/redux/slices/chatSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { getSortedParticipants } from 'utils/functions/chatLogic'
 import { ChatScreen } from 'utils/data/chatConstants'
+import { Button } from '@mui/material'
+import { FiPlus } from 'react-icons/fi'
 import { ChatAvatar } from '../ChatAvatar/ChatAvatar'
 import './EditChatRoom.scss'
-import { TextButton } from 'components/Buttons'
 
 export const EditChatRoom = () => {
   const dispatch = useAppDispatch()
@@ -47,11 +48,12 @@ export const EditChatRoom = () => {
           ))}
         </div>
         {!hideButton && (
-          <TextButton
-            onClick={handleInviteMember}
-            label='Invite New Member'
-            startIcon='plus'
-          />
+          <div className='invite-button'>
+            <Button onClick={handleInviteMember} variant='text'>
+              <FiPlus size={20} />
+              Invite New Member
+            </Button>
+          </div>
         )}
       </div>
     </div>

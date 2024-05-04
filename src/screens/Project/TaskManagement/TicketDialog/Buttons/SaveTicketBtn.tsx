@@ -38,5 +38,5 @@ export const SaveTicketBtn = () => {
     }
   }
 
-  return <PrimaryButton onClick={handleSaveTicket} label={'Save Changes'} />
+  return <PrimaryButton handler={handleSaveTicket} text={'Save Changes'} />
 }

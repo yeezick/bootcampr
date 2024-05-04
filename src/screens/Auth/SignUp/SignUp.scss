@@ -246,6 +246,37 @@
   }
 }
 
+.sign-up-btn-container {
+  margin-top: -10px;
+}
+
+.sign-up-btn {
+  background-color: #ffa726;
+  border: none;
+  border-radius: 4px;
+  color: #1a237e;
+  cursor: not-allowed;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  opacity: 0.38;
+  width: 100%;
+}
+
+.sign-up-btn-active {
+  background-color: #ffa726;
+  border: none;
+  border-radius: 4px;
+  color: #1a237e;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  width: 100%;
+}
+
 .sign-up-redirect-link {
   margin: 64px 0 20px;
   text-align: center;

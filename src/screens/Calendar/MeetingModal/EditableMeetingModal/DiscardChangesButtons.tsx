@@ -1,14 +1,20 @@
-import { PrimaryButton, TextButton } from 'components/Buttons'
-import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { PrimaryButton, TextButton } from 'components/Buttons/ButtonVariants'
 
 export const DiscardChangesButtons = ({
   handleClose,
   handleCloseDiscardChanges,
 }) => {
   return (
-    <ButtonContainer>
-      <TextButton label='Cancel' onClick={handleClose} colorScheme='primary' />
-      <PrimaryButton label='Discard' onClick={handleCloseDiscardChanges} />
-    </ButtonContainer>
+    <div className='discard-buttons-container'>
+      <TextButton text='Cancel' handler={handleClose} colorScheme='primary' />
+      <PrimaryButton handler={handleCloseDiscardChanges} text='Discard' />
+    </div>
   )
+}
+
+const cancelButtonStyles = {
+  border: 'none',
+  '&:hover': {
+    border: 'none',
+  },
 }

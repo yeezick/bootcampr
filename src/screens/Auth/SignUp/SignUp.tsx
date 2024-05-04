@@ -12,7 +12,6 @@ import { Email, Text, PasswordInputs } from 'components/Inputs'
 import './SignUp.scss'
 import { Checkbox, FormControlLabel } from '@mui/material'
 import signup from '../../../assets/Images/signup.png'
-import { PrimaryButton } from 'components/Buttons'
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate()
@@ -22,6 +21,7 @@ export const SignUp: React.FC = () => {
   const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp)
   const [isAccepted, setIsAccepted] = useState(false)
   const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>({})
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(false)
   const [alertBanner, setAlertBanner] = useState<AlertBanners>({
     status: false,
     text: '',
@@ -53,14 +53,19 @@ export const SignUp: React.FC = () => {
         return true
       }
 
-      if (emptyForm === false && isAccepted && passwordsMatch()) {
+      if (
+        emptyForm === false &&
+        isAccepted &&
+        passwordsMatch() &&
+        isValidEmail
+      ) {
         return setDisabledForm(false)
       } else {
         return setDisabledForm(true)
       }
     }
     validateForm()
-  }, [formValues, isAccepted, passwordErrors])
+  }, [formValues, isAccepted, passwordErrors, isValidEmail])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -104,6 +109,10 @@ export const SignUp: React.FC = () => {
     }
   }
 
+  const submitButtonStyle = `${
+    disabledForm ? 'sign-up-btn' : 'sign-up-btn-active'
+  }`
+
   return (
     <div className='signup-screen'>
       {alertBanner.status && (
@@ -137,13 +146,17 @@ export const SignUp: React.FC = () => {
               required
               setFormValues={setFormValues}
             />
+
             <Text
               label='Last Name'
               name='lastName'
               required
               setFormValues={setFormValues}
             />
-            <Email setFormValues={setFormValues} />
+            <Email
+              setFormValues={setFormValues}
+              setIsValidEmail={setIsValidEmail}
+            />
             <PasswordInputs
               formValues={formValues}
               password={password}
@@ -152,17 +165,22 @@ export const SignUp: React.FC = () => {
               setFormValues={setFormValues}
               passwordInputName='sign-up'
             />
+
             <AcceptTermsCheckbox
               isAccepted={isAccepted}
               setIsAccepted={setIsAccepted}
             />
-            <PrimaryButton
-              disabled={disabledForm}
-              fullWidth
-              label='Sign up'
-              style={{ marginTop: '-10px' }}
-              type='submit'
-            />
+
+            <div className='sign-up-btn-container'>
+              {/* //TODO: refactor this to a PrimaryButton */}
+              <button
+                className={submitButtonStyle}
+                disabled={disabledForm}
+                type='submit'
+              >
+                Sign up
+              </button>
+            </div>
             <div className='sign-up-redirect-link'>
               <p>
                 Already have an account? <Link to='/sign-in'>Log in</Link>

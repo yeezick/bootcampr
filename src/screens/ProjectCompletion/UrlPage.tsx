@@ -6,11 +6,11 @@ import {
   updatePresenting,
 } from 'utils/redux/slices/projectSlice'
 import { Stack } from '@mui/material'
+import { SecondaryButton } from 'components/Buttons'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ButtonContainer } from 'components/Buttons/ButtonContainer'
-import { ForwardButton, SecondaryButton } from 'components/Buttons'
+import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 
 export const UrlPage = ({ handlePageNavigation }) => {
   const project = useSelector(selectProject)
@@ -46,15 +46,21 @@ export const UrlPage = ({ handlePageNavigation }) => {
         <Stack className='form-content' spacing={'32px'}>
           <p>First, input the URL to your website.</p>
           <ProjectUrl setIsDisabled={setIsDisabled} />
-          <ButtonContainer gap={16}>
-            <SecondaryButton onClick={handleCancel} label='Cancel' />
-            <ForwardButton
-              disabled={isDisabled}
-              label='Presentation'
-              onClick={handleSubmit}
-              type='submit'
+          <Stack className='btn-container'>
+            <SecondaryButton
+              className='cancel-btn'
+              handler={handleCancel}
+              text='Cancel'
             />
-          </ButtonContainer>
+            <PaginatorButton
+              buttonType='primary'
+              disabled={isDisabled}
+              text='Presentation'
+              type='submit'
+              aria-disabled={isDisabled}
+              handler={handleSubmit}
+            />
+          </Stack>
         </Stack>
       </form>
     </div>
