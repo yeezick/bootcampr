@@ -46,10 +46,6 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
         return { ...currForm, ...authUser }
       })
     }
-
-    if (authUser && authUser.bio) {
-      setBioCharCount(authUser.bio.length)
-    }
   }, [authUser])
 
   useEffect(() => {
