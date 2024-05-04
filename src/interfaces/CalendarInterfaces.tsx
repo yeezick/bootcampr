@@ -45,6 +45,5 @@ export interface TeamAvailability {
   end: string
   backgroundColor: string
   borderColor: string
+  timeZone: string
 }
-
-export type TeamAvailabilityArray = TeamAvailability[]
