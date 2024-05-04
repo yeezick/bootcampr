@@ -19,9 +19,9 @@ export const projectBriefContent = [
         restaurant, which will serve as this restaurant’s initial online
         presence. The MVP will consist of a website where customers can view the
         restaurant's menu, make reservations, and learn more about the
-        establishment and more (please see Product Details Tab for detailed
-        requirements). The project will last for four weeks, with key milestones
-        including product management, design and development. 
+        establishment and more (see the Product Requirements Document below for
+        detailed requirements). The project will last for four weeks, with key
+        milestones including product management, design and development. 
       </p>
     ),
   },
