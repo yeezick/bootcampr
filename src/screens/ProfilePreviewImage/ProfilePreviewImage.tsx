@@ -1,13 +1,12 @@
 import { useCallback, useState, useRef } from 'react'
 import { useAppSelector, useAppDispatch } from 'utils/redux/hooks'
-import { selectUserId, updateAuthUser } from 'utils/redux/slices/userSlice'
+import { selectUserId } from 'utils/redux/slices/userSlice'
 import {
   setUploadedImage,
   setDefaultProfilePicture,
 } from 'utils/redux/slices/userSlice'
 import { ProfilePreviewImageProps } from 'interfaces/ProfileImageInterfaces'
 import { deleteUserImage } from '../../utils/api/services'
-import { updateUser } from 'utils/api'
 import ImageEditorModal from 'components/ImageEditorModal/ImageEditorModal'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
 import Avatar from 'components/Avatar/Avatar'
@@ -160,8 +159,6 @@ const DeleteWarningModal = ({
     try {
       const res = await deleteUserImage(userId)
       if (res.success) {
-        const userImageUpdate = await updateUser(userId, {})
-        dispatch(updateAuthUser(userImageUpdate))
         dispatch(setUploadedImage(''))
         dispatch(setDefaultProfilePicture())
         dispatch(successSnackbar('Profile photo deleted'))

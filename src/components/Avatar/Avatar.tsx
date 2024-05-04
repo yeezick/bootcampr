@@ -11,10 +11,9 @@ import { IconButton } from '@mui/material'
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
 import { generateDefaultPicture } from 'utils/helpers'
-import './Avatar.scss'
 import { infoSnackbar } from 'utils/helpers/commentHelpers'
 import { selectUsersById } from 'utils/redux/slices/projectSlice'
-
+import './Avatar.scss'
 
 // TODO: avatar should take a user ID instead of relying on authUser
 /**
@@ -47,11 +46,13 @@ const Avatar: React.FC<AvatarProps> = ({
 
   const handleOpenModal = () => {
     dispatch(infoSnackbar('This feature is coming soon!'))
-    // setIsModalOpen(true) // revert when image uploading feature is fixed
+    setIsModalOpen(true) // revert when image uploading feature is fixed
   }
   const handleCloseModal = () => setIsModalOpen(false)
 
   useEffect(() => {
+    console.log('profile image avatar', profilePicture)
+
     dispatch(setUploadedImage(profilePicture))
   }, [dispatch, profilePicture])
 
@@ -64,7 +65,7 @@ const Avatar: React.FC<AvatarProps> = ({
         lastName: authUser.lastName,
       })
     }
-  }, [])
+  }, [authUser.firstName, authUser.lastName, user])
 
   const handleClick = e => {
     if (clickable && openModal) {
@@ -90,7 +91,6 @@ const Avatar: React.FC<AvatarProps> = ({
     userNames.firstName,
     userNames.lastName
   )
-  // create a func to check if the image does exist via fetch
 
   return (
     <>
@@ -99,7 +99,7 @@ const Avatar: React.FC<AvatarProps> = ({
           <div className='avatar-icon'>
             <img
               className={imgClassName}
-              src={defaultImageURL}
+              src={profilePicture}
               alt='avatar'
               onClick={handleClick}
             />

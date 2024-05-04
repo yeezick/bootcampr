@@ -26,5 +26,3 @@ export const deleteUserImage = async userId => {
     throw err
   }
 }
-
-// create a get fetch request to cehck the url to see if there is an image for status error
