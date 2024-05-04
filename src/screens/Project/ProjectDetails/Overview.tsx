@@ -1,24 +1,19 @@
 import './Overview.scss'
 import { AccordionItem } from '../../../components/Accordion/AccordionItem'
 import { projectBriefContent } from 'utils/data/projectBriefConstants'
-import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
+import {
+  isPaidActiveExperience,
+  isPaidWaitlistExperience,
+  isSandboxId,
+} from 'utils/helpers/taskHelpers'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectUserExperience } from 'utils/redux/slices/userSlice'
+import { selectUserPayment } from 'utils/redux/slices/userSlice'
 
 export const Overview = () => {
-  const experience = useAppSelector(selectUserExperience)
+  const payment = useAppSelector(selectUserPayment)
+  const { experience } = payment
   const accordionData = [...projectBriefContent]
-  if (isSandboxId(experience) || isWaitlistExperience(experience)) {
-    accordionData.push({
-      title: 'Product Requirements Document',
-      content: (
-        <p>
-          You'll find a detailed product requirements document here when you
-          join a team.{' '}
-        </p>
-      ),
-    })
-  } else {
+  if (isPaidWaitlistExperience(payment) || isPaidActiveExperience(payment)) {
     accordionData.push({
       title: 'Product Requirements Document',
       content: (
@@ -34,7 +29,18 @@ export const Overview = () => {
         </p>
       ),
     })
+  } else if (isSandboxId(experience)) {
+    accordionData.push({
+      title: 'Product Requirements Document',
+      content: (
+        <p>
+          You'll find a detailed product requirements document here when you
+          join a team.
+        </p>
+      ),
+    })
   }
+
   return (
     <div className='overview'>
       {accordionData.map(item => (

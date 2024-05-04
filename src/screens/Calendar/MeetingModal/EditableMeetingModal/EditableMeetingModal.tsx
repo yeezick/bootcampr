@@ -34,6 +34,8 @@ import { GoogleMeetsToggler } from './GoogleMeetsToggler'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import { PrimaryButton } from 'components/Buttons/ButtonVariants'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
+import validator from 'validator'
+import { isEmptyString } from 'utils/helpers/inputUtils'
 
 export const EditableMeetingModal = () => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
@@ -53,6 +55,7 @@ export const EditableMeetingModal = () => {
   const calendarId = useAppSelector(selectCalendarId)
   const userEmail = useAppSelector(selectUserEmail)
   const dispatch = useAppDispatch()
+  const disabledBtn = isEmptyString(meetingText.summary)
 
   useEffect(() => {
     if (modalDisplayStatus === 'create') {
@@ -218,7 +221,7 @@ export const EditableMeetingModal = () => {
       open={visibleModal}
       sx={modalStyles}
     >
-      <form>
+      <form onSubmit={handleSubmit}>
         <DialogContent className='modal-dialog-content'>
           <MeetingModalHeaderIcons handleCloseMeetingModal={handleClose} />
           <div className='content-wrapper'>
@@ -264,7 +267,11 @@ export const EditableMeetingModal = () => {
           </div>
         </DialogContent>
         <DialogActions sx={buttonDivStyle}>
-          <PrimaryButton text={'Send Invite'} type={'submit'} />
+          <PrimaryButton
+            disabled={disabledBtn}
+            text={'Send Invite'}
+            type={'submit'}
+          />
         </DialogActions>
       </form>
     </Dialog>

@@ -1,6 +1,6 @@
 import { PrimaryButton } from 'components/Buttons'
 import { createTicket } from 'utils/api/tickets'
-import { successSnackbar } from 'utils/helpers/commentHelpers'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import {
   buildTicketPayload,
   closeVisibleTicketDialog,
@@ -27,11 +27,11 @@ export const CreateTicketBtn = () => {
     const ticketResponse = await createTicket(ticketPayload)
 
     if (ticketResponse.error) {
-      // display error banner
+      dispatch(errorSnackbar('Something went wrong creating your story.'))
     } else {
       dispatch(addTicketToStatus(ticketResponse))
       dispatch(resetTicketFields({}))
-      dispatch(successSnackbar('Task created!'))
+      dispatch(successSnackbar('Story created!'))
       closeVisibleTicketDialog(dispatch)
     }
   }
