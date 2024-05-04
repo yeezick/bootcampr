@@ -7,10 +7,11 @@ import {
   SuccessQueryParam,
   emptySuccessScreenValues,
 } from 'utils/data/authSettingsConstants'
-import { forgotPasswordEmailVerification, getOneUser } from 'utils/api'
+import { forgotPasswordEmailVerification, getOneUser, logOut } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { SuccessScreenValues } from 'interfaces/AccountSettingsInterface'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import { logoutAuthUser } from 'utils/redux/slices/userSlice'
 
 export const SuccessScreen = () => {
   const navigate = useNavigate()
@@ -86,6 +87,14 @@ export const SuccessScreen = () => {
       setValues(successScreenData[screen])
     }
   }, [screen])
+
+  useEffect(() => {
+    const logUserOut = async () => {
+      await logOut()
+      dispatch(logoutAuthUser())
+    }
+    logUserOut()
+  }, [])
 
   const theme = createTheme({
     palette: {

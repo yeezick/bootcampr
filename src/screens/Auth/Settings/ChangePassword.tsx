@@ -45,12 +45,8 @@ export const ChangePassword = () => {
 
       dispatch(errorSnackbar(passwordData.friendlyMessage))
     } else {
-      await logOut()
-      dispatch(logoutAuthUser())
       setInputError(false)
-      navigate(
-        `/success/${authUser._id}?screen=${SuccessQueryParam.changePassword}`
-      )
+      navigate(`/success?screen=${SuccessQueryParam.changePassword}`)
     }
   }
 

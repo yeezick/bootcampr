@@ -182,6 +182,16 @@ export const isWaitlistExperience = experience => {
   }
 }
 
+export const isPaidWaitlistExperience = payment => {
+  const { paid, experience } = payment
+  return paid === true && experience === 'waitlist'
+}
+
+export const isPaidActiveExperience = payment => {
+  const { paid, experience } = payment
+  return paid === true && experience === 'active'
+}
+
 export const moveSandboxTicketBetweenColumns = (projectTracker, moveData) => {
   const { newColumnId, newColumnIdx, oldColumnId, oldColumnIdx } = moveData
   const updatedProjectTracker = produce(projectTracker, draft => {

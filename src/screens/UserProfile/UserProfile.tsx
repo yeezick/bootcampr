@@ -85,13 +85,11 @@ export const UserProfile: React.FC = () => {
       <div className='userProfile__container'>
         <div className='userProfile__titleContainer'>
           <div className='userProfile__image'>
-
             {sameProfile ? (
-             <Avatar clickable={false} userId={userProfileInfo._id} />
+              <Avatar clickable={false} userId={userProfileInfo._id} />
             ) : (
               <TeamAvatar userId={userId} size='medium' />
             )}
-
           </div>
           <div className='userProfile__title'>
             <h2>

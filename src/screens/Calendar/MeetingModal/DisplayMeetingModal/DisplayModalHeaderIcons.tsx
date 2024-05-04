@@ -11,6 +11,7 @@ import { DisplayPopover } from './DisplayPopover'
 import { deleteEvent } from 'utils/api/events'
 import { selectCalendarId } from 'utils/redux/slices/projectSlice'
 import { checkSandboxEvent } from 'utils/helpers'
+import { successSnackbar } from 'utils/helpers/commentHelpers'
 
 export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -33,6 +34,7 @@ export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
     try {
       await deleteEvent(calendarId, eventId)
       dispatch(deleteExistingEvent({ eventId }))
+      dispatch(successSnackbar('Meeting canceled successfully.'))
       handleClose()
     } catch (error) {
       console.log(error)
