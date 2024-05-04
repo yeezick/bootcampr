@@ -47,17 +47,9 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
         return { ...currForm, ...authUser }
       })
     }
-
-    isLinkedInUrl(links.linkedinUrl)
-      ? setIsInvalidURL(false)
-      : setIsInvalidURL(true)
   }, [authUser])
 
   useEffect(() => {
-    const charCount =
-      authUser.bio && authUser.bio.length > 0 ? authUser.bio.length : 0
-    setBioCharCount(charCount)
-
     const { firstName, lastName, bio, links } = updateUserForm
     const validForm = firstName && lastName && bio && links.linkedinUrl
     const validLinkedIn = isLinkedInUrl(links.linkedinUrl)
