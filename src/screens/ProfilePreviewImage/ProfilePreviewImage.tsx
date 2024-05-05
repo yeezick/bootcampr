@@ -5,7 +5,7 @@ import {
   setUploadedImage,
   setDefaultProfilePicture,
 } from 'utils/redux/slices/userSlice'
-import { ProfilePreviewImageProps } from 'interfaces/ProfileImageInterfaces'
+import { ToggleImageModalProps } from 'interfaces/ProfileImageInterfaces'
 import { deleteUserImage } from '../../utils/api/services'
 import ImageEditorModal from 'components/ImageEditorModal/ImageEditorModal'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
@@ -19,7 +19,7 @@ import {
   IconButton,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import { RiFileEditLine } from 'react-icons/ri'
+import { MdOutlineEdit } from 'react-icons/md'
 import { GrTrash } from 'react-icons/gr'
 import { MdOutlineCameraEnhance } from 'react-icons/md'
 import './ProfilePreviewImage.scss'
@@ -33,7 +33,7 @@ import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
  * @returns {JSX.Element} - ProfilePreviewImage component.
  */
 
-export const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
+export const ProfilePreviewImage: React.FC<ToggleImageModalProps> = ({
   onOpen,
   onClose,
 }) => {
@@ -48,6 +48,7 @@ export const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
   const closeImageEditor = () => setIsImageEditorOpen(false)
   const openDeleteModal = () => setIsDeleteModalOpen(true)
   const closeDeleteModal = () => setIsDeleteModalOpen(false)
+  const closeProfilePreviewImageModal = () => onClose()
   const handleOpenFileInput = () => fileInputRef.current?.click()
 
   const handleEditorModalClose = useCallback(() => {
@@ -101,7 +102,7 @@ export const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
                     className='profile-preview__edit-btn'
                     onClick={openImageEditor}
                   >
-                    <RiFileEditLine className='profile-preview__edit-icon' />
+                    <MdOutlineEdit className='profile-preview__edit-icon' />
                   </IconButton>
                   <p>Edit</p>
                 </div>
@@ -138,6 +139,7 @@ export const ProfilePreviewImage: React.FC<ProfilePreviewImageProps> = ({
           <ImageEditorModal
             onOpen={isImageEditorOpen}
             onClose={closeImageEditor}
+            onCloseProfilePreviewImageModal={closeProfilePreviewImageModal}
           />
         </div>
       </Dialog>
@@ -152,9 +154,6 @@ const DeleteWarningModal = ({
   isDeleteModalOpen,
   closeDeleteModal,
 }) => {
-  /**
-   * Handles discarding changes made to the image.
-   */
   const handleDeleteImage = async () => {
     try {
       const res = await deleteUserImage(userId)

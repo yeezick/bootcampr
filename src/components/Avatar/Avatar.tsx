@@ -51,8 +51,6 @@ const Avatar: React.FC<AvatarProps> = ({
   const handleCloseModal = () => setIsModalOpen(false)
 
   useEffect(() => {
-    console.log('profile image avatar', profilePicture)
-
     dispatch(setUploadedImage(profilePicture))
   }, [dispatch, profilePicture])
 

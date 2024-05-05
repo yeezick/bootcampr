@@ -17,27 +17,19 @@ export interface TeamAvatarProps {
   userId: string
 }
 
-export interface ProfilePreviewImageProps {
-  onOpen: boolean
-  onClose: () => void
-}
-
-export interface ImageEditorModalProps {
-  onOpen: boolean
-  onClose: () => void
-}
-
-export interface ImageEditorHeaderProps {
-  handleClose: () => void
+export interface ToggleImageModalProps {
+  onOpen?: boolean
+  onClose?: () => void
+  onCloseProfilePreviewImageModal?: () => void
 }
 
 export interface ImageEditorContentProps {
-  profilePicture: string
+  profilePicture: string | null
   crop: Point
-  zoom: number
+  zoom?: number
   setCrop: (crop: Point) => void
   setCropArea: (cropArea: Area) => void
-  setZoom: (zoom: number) => void
+  setZoom?: (zoom: number) => void
 }
 
 export interface FileInputProps {

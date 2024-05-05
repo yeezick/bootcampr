@@ -27,10 +27,6 @@ const ImageEditorContent: React.FC<ImageEditorContentProps> = ({
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  /**
-   * Handles the file input change event and sets the uploaded image.
-   * @param {string} dataURL - The image data URL.
-   */
   const handleFileInputChange = (dataURL: string) => {
     setUploadedImage(dataURL)
   }
@@ -40,7 +36,7 @@ const ImageEditorContent: React.FC<ImageEditorContentProps> = ({
    * @param {Object} croppedArea - The cropped area of the image.
    * @param {Object} croppedAreaPixels - The cropped area of the image in pixels.
    */
-  const cropComplete = (croppedArea, croppedAreaPixels) => {
+  const onCropComplete = (croppedArea, croppedAreaPixels) => {
     setCropArea(croppedAreaPixels)
   }
 
@@ -54,10 +50,10 @@ const ImageEditorContent: React.FC<ImageEditorContentProps> = ({
         <Cropper
           image={profilePicture}
           crop={crop}
-          zoom={zoom}
+          zoom={zoom} // currently disable for future release
           aspect={1}
           onCropChange={setCrop}
-          onCropComplete={cropComplete}
+          onCropComplete={onCropComplete}
           onZoomChange={setZoom}
           cropShape='round'
           cropSize={{ width: 250, height: 250 }}
