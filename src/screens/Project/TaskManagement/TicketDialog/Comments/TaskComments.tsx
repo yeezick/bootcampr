@@ -37,11 +37,11 @@ export const TaskComments = ({ ticketId }) => {
               fetchComments={fetchComments}
               key={comment._id}
             />
-            <Replies
+            {/* <Replies // Need ticket to fix 
               parentComment={comment}
               toggleFetchComments={toggleFetchComments}
               fetchComments={fetchComments}
-            />
+            /> */}
           </>
         ))}
       </div>
