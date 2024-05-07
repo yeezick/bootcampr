@@ -114,7 +114,7 @@ export const EditProfile: React.FC = () => {
               type='submit'
               className='editprofile__saveBtn'
             >
-              Save Profile
+              Save profile
             </button>
           </div>
           <div className='editprofile__labelContainer'>

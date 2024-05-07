@@ -99,7 +99,7 @@ export const UserProfile: React.FC = () => {
           </div>
           {sameProfile ? (
             <button className='userProfile__editBtn' onClick={routeToEdit}>
-              Edit Profile
+              Edit profile
             </button>
           ) : (
             <button
