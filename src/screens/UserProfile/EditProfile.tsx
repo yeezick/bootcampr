@@ -9,10 +9,13 @@ import Avatar from 'components/Avatar/Avatar'
 import TextareaAutosize from 'react-textarea-autosize'
 import './EditProfile.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import { isEmptyString } from 'utils/helpers/inputUtils'
+import { validLinkedinUrl, validGithubUrl } from 'utils/components/Inputs'
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
   const [updateUserForm, setUpdateUserForm] = useState(emptyUser)
+  const [disabledBtn, setDisabledBtn] = useState(true)
   const [bioCharCount, setBioCharCount] = useState(0)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -36,6 +39,21 @@ export const EditProfile: React.FC = () => {
       setBioCharCount(authUser.bio.length)
     }
   }, [authUser])
+
+  useEffect(() => {
+    console.log('hit')
+    if (
+      isEmptyString(firstName) ||
+      isEmptyString(lastName) ||
+      isEmptyString(bio) ||
+      !validLinkedinUrl(linkedinUrl) ||
+      (role === 'Software Engineer' && !validGithubUrl(githubUrl))
+    ) {
+      setDisabledBtn(true)
+    } else {
+      setDisabledBtn(false)
+    }
+  }, [updateUserForm])
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
@@ -91,7 +109,11 @@ export const EditProfile: React.FC = () => {
                 addPhotoIconId='imageChange'
               />
             </div>
-            <button type='submit' className='editprofile__saveBtn'>
+            <button
+              disabled={disabledBtn}
+              type='submit'
+              className='editprofile__saveBtn'
+            >
               Save Profile
             </button>
           </div>

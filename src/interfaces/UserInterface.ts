@@ -24,7 +24,7 @@ export interface UserInterface {
   profilePicture?: string
   defaultProfilePicture: string
   hasProfilePicture?: boolean
-  role?: string
+  role?: 'Software Engineer' | 'UX Designer' | 'Product Manager' | ''
   unreadMessages?: {}
   savedProjects?: ProjectInterface[]
   timezone?: TimezonesUTC

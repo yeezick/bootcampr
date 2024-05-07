@@ -1,5 +1,5 @@
 import { Paginator } from 'components/Paginator/Paginator'
-import { SetUpProfile } from './SetUpProfile'
+import { SetUpProfile } from './SetupProfile/SetUpProfile'
 import { Role } from './Role'
 import './Onboarding.scss'
 import { SetupAvailability } from './SetupAvailability'
