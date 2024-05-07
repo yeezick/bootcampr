@@ -48,13 +48,13 @@ const Avatar: React.FC<AvatarProps> = ({
 
   const handleOpenModal = () => {
     dispatch(infoSnackbar('This feature is coming soon!'))
-    // setIsModalOpen(true) // revert when image uploading feature is fixed
+    // setIsModalOpen(true) //BC-800 revert when image uploading feature is fixed
   }
   const handleCloseModal = () => setIsModalOpen(false)
 
-  useEffect(() => {
-    dispatch(setUploadedImage(profilePicture))
-  }, [dispatch, profilePicture])
+  // useEffect(() => {
+  //   dispatch(setUploadedImage(profilePicture))
+  // }, [dispatch, profilePicture]) //BC-800 revert when image uploading feature is fixed
 
   useEffect(() => {
     if (user) {
