@@ -22,6 +22,7 @@ import { selectUsersById } from 'utils/redux/slices/projectSlice'
  * @param {boolean} [clickable=true] - Indicates if the avatar is clickable.
  * @returns {JSX.Element} - Avatar component.
  */
+//BC-800 @hector, why do we have 3 functions for opening the modal? handleOpenModal, handleClick, handleIconClick?
 const Avatar: React.FC<AvatarProps> = ({
   clickable = true,
   openModal,
@@ -77,9 +78,11 @@ const Avatar: React.FC<AvatarProps> = ({
   }
 
   const handleIconClick = () => {
-    if (!hasProfilePicture && hasIcon) {
-      fileInputRef.current?.click()
-    }
+    // if (!hasProfilePicture && hasIcon) {
+    //   fileInputRef.current?.click()
+    // }
+
+    dispatch(infoSnackbar('This feature is coming soon!'))
   }
 
   const handleFileInputChange = (dataURL: string) => {
