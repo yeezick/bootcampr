@@ -3,7 +3,10 @@ import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined'
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
 import { useAppSelector } from 'utils/redux/hooks'
-import { getUserTimezone } from 'utils/redux/slices/userSlice'
+import {
+  getUserTimezone,
+  selectUserExperience,
+} from 'utils/redux/slices/userSlice'
 import { selectPresentationDate } from 'utils/redux/slices/projectSlice'
 import {
   formatPresentationDate,
@@ -13,19 +16,26 @@ import './PresentationDetails.scss'
 import { convertOffsetToTimezone } from 'utils/data/timeZoneConstants'
 
 export const PresentationDetails = () => {
+  const userExperience = useAppSelector(selectUserExperience)
+  const isActiveUser = userExperience === 'active'
   const userTimezoneOffset = useAppSelector(getUserTimezone)
-  const presentationDate = useAppSelector(selectPresentationDate)
-  const userTimezoneInfo = convertOffsetToTimezone[userTimezoneOffset]
-  const { startDate, endDate } = convertPresentationDateUserTZ(
-    presentationDate,
-    userTimezoneInfo.timezone
-  )
+  const presentationDateEST = useAppSelector(selectPresentationDate)
+  let presentationDate
 
-  const formattedPresentationDate = formatPresentationDate(
-    startDate,
-    endDate,
-    userTimezoneInfo.abbr
-  )
+  if (isActiveUser) {
+    const userTimezoneInfo = convertOffsetToTimezone[userTimezoneOffset]
+    const { startDate, endDate } = convertPresentationDateUserTZ(
+      presentationDateEST,
+      userTimezoneInfo.timezone
+    )
+    presentationDate = formatPresentationDate(
+      startDate,
+      endDate,
+      userTimezoneInfo.abbr
+    )
+  } else {
+    presentationDate = 'To be determined'
+  }
 
   return (
     <>
@@ -34,7 +44,7 @@ export const PresentationDetails = () => {
         <Stack spacing={'8px'} className='details-content'>
           <div className='detail'>
             <CalendarTodayOutlinedIcon aria-label='Calendar Icon' />
-            <p>{formattedPresentationDate}</p>
+            <p>{presentationDate}</p>
           </div>
           <div className='detail'>
             <AccessTimeOutlinedIcon aria-label='Clock Icon' />
