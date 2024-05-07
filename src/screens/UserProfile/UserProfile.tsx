@@ -9,7 +9,7 @@ import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 import Avatar from 'components/Avatar/Avatar'
 import { RiGithubLine } from 'react-icons/ri'
 import { FiLinkedin } from 'react-icons/fi'
-import { TbBriefcase } from 'react-icons/tb'
+import { TbBriefcase2 } from 'react-icons/tb'
 import { createOrGetPrivateChatRoom } from 'utils/api/chat'
 import {
   onScreenUpdate,
@@ -144,7 +144,7 @@ const UserInfoLinks = ({ links }) => {
 
       {links?.portfolioUrl && (
         <div className='userProfile__linkItem'>
-          <TbBriefcase className='userProfile__icons' />
+          <TbBriefcase2 className='userProfile__icons' />
           <div className='userProfile__link'>
             <h3>Portfolio</h3>
             <a
