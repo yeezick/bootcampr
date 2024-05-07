@@ -8,14 +8,17 @@ import { createComment } from 'utils/api/comments'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
 import { generateDefaultPicture } from 'utils/helpers'
+import { addCommentToTicket } from 'utils/redux/slices/projectSlice'
+import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
 
 export const NewComment = ({
   commentType,
   parentCommentId = undefined,
-  ticketId = undefined,
   fetchComments,
   toggleFetchComments,
 }) => {
+  const { _id: ticketId, status: ticketStatus } =
+    useAppSelector(selectTicketFields)
   const user = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
   let placeholderText =
@@ -47,7 +50,8 @@ export const NewComment = ({
     if (isSandboxId(ticketId || parentCommentId)) {
       dispatch(errorSnackbar('This feature is disabled for the sandbox!'))
     } else {
-      await createComment(commentPayload)
+      const { _id: commentId } = await createComment(commentPayload)
+      dispatch(addCommentToTicket({ commentId, ticketId, ticketStatus }))
       toggleFetchComments(!fetchComments)
     }
     setInputText('')

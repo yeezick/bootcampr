@@ -3,10 +3,12 @@ import { TicketTextLabel } from '../Fields'
 import { NewComment } from './InputBanner'
 import { Comment } from './Comment'
 import { CommentType } from 'interfaces/TaskBoardInterface'
-import { Replies } from './Replies'
 import { getTicketComments } from 'utils/api/comments'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
 
-export const TaskComments = ({ ticketId }) => {
+export const TaskComments = () => {
+  const { _id: ticketId } = useAppSelector(selectTicketFields)
   const [comments, setComments] = useState([])
   // BC-763: High priority! Makes an API call for each reply thread for every comment action
   const [fetchComments, toggleFetchComments] = useState(false)
@@ -24,7 +26,6 @@ export const TaskComments = ({ ticketId }) => {
       <TicketTextLabel icon={'chatBubble'} label='Comments' />
       <NewComment
         commentType={CommentType.Parent}
-        ticketId={ticketId}
         toggleFetchComments={toggleFetchComments}
         fetchComments={fetchComments}
       />

@@ -78,10 +78,10 @@ const Avatar: React.FC<AvatarProps> = ({
   }
 
   const handleIconClick = () => {
+    // BC-800
     // if (!hasProfilePicture && hasIcon) {
     //   fileInputRef.current?.click()
     // }
-
     dispatch(infoSnackbar('This feature is coming soon!'))
   }
 
