@@ -1,7 +1,9 @@
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import weekday from 'dayjs/plugin/weekday'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 
+dayjs.extend(customParseFormat)
 dayjs.extend(duration)
 dayjs.extend(weekday)
 
