@@ -2,6 +2,7 @@ import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { TicketInterface } from 'interfaces'
 import { ProjectInterface } from 'interfaces/ProjectInterface'
+import { generateDayJs } from 'utils/helpers'
 import { RootState } from 'utils/redux/store'
 
 // TODO: Make project tracker its own model and add to taskboard slice
@@ -254,6 +255,24 @@ export const selectRenderProjectPortal = (state: RootState) =>
   state.project.projectPortal.renderProjectPortal
 export const selectProjectTimeline = (state: RootState) =>
   state.project.timeline
+
+export const selectPresentationDate = createSelector(
+  selectProjectTimeline,
+  projectTimeline => {
+    const presentationStartEST = generateDayJs(projectTimeline.endDate)
+      .tz('America/New_York')
+      .hour(13)
+      .minute(0)
+      .second(0)
+      .add(7, 'day')
+    const presentationEndEST = presentationStartEST.add(1, 'hour')
+
+    return {
+      startDateEST: presentationStartEST,
+      endDateEST: presentationEndEST,
+    }
+  }
+)
 
 export const {
   addTicketToStatus,
