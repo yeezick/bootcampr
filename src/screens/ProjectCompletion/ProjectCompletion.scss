@@ -6,10 +6,6 @@
 @import 'WhatsNextPage';
 
 .project-completion {
-  .page-bar {
-    justify-content: flex-start;
-  }
-
   .page-container {
     @include container-properties(
       (
@@ -17,7 +13,7 @@
         width: 800px,
       )
     );
-    @include flex(column, flex-start, center);
+    @include flex(column);
     margin: 64px auto auto;
   }
 

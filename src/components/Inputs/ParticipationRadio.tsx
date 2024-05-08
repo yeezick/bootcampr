@@ -13,17 +13,7 @@ import {
   updatePresenting,
 } from 'utils/redux/slices/projectSlice'
 
-interface ParticipationRadioProps {
-  labelText: string
-  setIsDisabled: React.Dispatch<React.SetStateAction<boolean>>
-  helperText?: string
-}
-
-export const ParticipationRadio = ({
-  labelText,
-  setIsDisabled,
-  helperText,
-}: ParticipationRadioProps) => {
+export const ParticipationRadio = ({ labelText, setIsDisabled }) => {
   const dispatch = useDispatch()
   const completedInfo = useSelector(selectCompletedInfo)
   const presenting = completedInfo.presenting
@@ -59,7 +49,8 @@ export const ParticipationRadio = ({
           label='My team will not participate'
         />
         <FormHelperText className='participation-helper-text'>
-          *Please let us know by {helperText} if you plan to participate.
+          {/* //TODO: refactor date to dynamic value */}
+          *Please let us know by xx/xx if you plan to participate.
         </FormHelperText>
       </RadioGroup>
     </FormControl>
