@@ -55,6 +55,25 @@ export const bootcamprTimezoneToUTCMap = {
 }
 
 /**
+ * This will convert offsets to timezones to match dayjs format
+ * NOTE: This might not cover daylight savings for some areas
+ */
+
+export const convertOffsetToTimezone = {
+  '-10:00': {
+    timezone: 'America/Adak',
+    abbr: 'HT',
+  },
+  '-09:00': { timezone: 'America/Anchorage', abbr: 'AKT' },
+  '-08:00': { timezone: 'America/Los_Angeles', abbr: 'PT' },
+  '-07:00': { timezone: 'America/Denver', abbr: 'MT' },
+  '-06:00': { timezone: 'America/Chicago', abbr: 'CT' },
+  '-05:00': { timezone: 'America/New_York', abbr: 'ET' },
+  '-04:00': { timezone: 'America/Halifax', abbr: 'AT' },
+  '-03:30': { timezone: 'America/St_Johns', abbr: 'NT' },
+}
+
+/**
  * DayJS library data for each timezone in our determind range (North American zones)
  */
 export const dayJSformattedTZdata = {
