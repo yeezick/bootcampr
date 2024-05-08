@@ -1,6 +1,7 @@
 import { PrimaryButton } from 'components/Buttons'
 import { createTicket } from 'utils/api/tickets'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import { isEmptyString } from 'utils/helpers/inputUtils'
 import {
   buildTicketPayload,
   closeVisibleTicketDialog,
@@ -38,6 +39,7 @@ export const CreateTicketBtn = () => {
 
   return (
     <PrimaryButton
+      disabled={isEmptyString(ticketFields.title)}
       handler={handleCreateTicket}
       text={'Create story'}
       disableElevation

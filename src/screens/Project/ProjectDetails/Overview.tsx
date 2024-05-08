@@ -4,7 +4,6 @@ import { projectBriefContent } from 'utils/data/projectBriefConstants'
 import {
   isPaidActiveExperience,
   isPaidWaitlistExperience,
-  isSandboxId,
 } from 'utils/helpers/taskHelpers'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectUserPayment } from 'utils/redux/slices/userSlice'
@@ -29,7 +28,7 @@ export const Overview = () => {
         </p>
       ),
     })
-  } else if (isSandboxId(experience)) {
+  } else {
     accordionData.push({
       title: 'Product Requirements Document',
       content: (

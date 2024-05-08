@@ -1,6 +1,7 @@
 import { PrimaryButton } from 'components/Buttons'
 import { saveUpdatedTicket } from 'utils/api/tickets'
 import { successSnackbar } from 'utils/helpers/commentHelpers'
+import { isEmptyString } from 'utils/helpers/inputUtils'
 import {
   buildTicketPayload,
   closeVisibleTicketDialog,
@@ -38,5 +39,11 @@ export const SaveTicketBtn = () => {
     }
   }
 
-  return <PrimaryButton handler={handleSaveTicket} text={'Save Changes'} />
+  return (
+    <PrimaryButton
+      disabled={isEmptyString(ticketFields.title)}
+      handler={handleSaveTicket}
+      text={'Save Changes'}
+    />
+  )
 }

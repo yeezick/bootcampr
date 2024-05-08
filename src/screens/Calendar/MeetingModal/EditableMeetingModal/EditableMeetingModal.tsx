@@ -34,7 +34,6 @@ import { GoogleMeetsToggler } from './GoogleMeetsToggler'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import { PrimaryButton } from 'components/Buttons/ButtonVariants'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
-import validator from 'validator'
 import { isEmptyString } from 'utils/helpers/inputUtils'
 
 export const EditableMeetingModal = () => {

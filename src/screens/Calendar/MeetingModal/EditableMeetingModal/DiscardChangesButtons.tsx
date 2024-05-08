@@ -11,10 +11,3 @@ export const DiscardChangesButtons = ({
     </div>
   )
 }
-
-const cancelButtonStyles = {
-  border: 'none',
-  '&:hover': {
-    border: 'none',
-  },
-}
