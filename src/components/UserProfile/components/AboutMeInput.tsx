@@ -1,18 +1,20 @@
+import { useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 
-export const AboutMeInput = ({
-  handleInputChange,
-  errorState,
-  bio,
-  bioCharCount,
-}) => {
+export const AboutMeInput = ({ handleInputChange, errorState, bio }) => {
+  const [bioCharCount, setBioCharCount] = useState(bio.length)
+  const handleAboutMeInputChange = e => {
+    handleInputChange(e)
+    setBioCharCount(e.target.value.length)
+  }
+
   return (
     <label className='setupProfile__profile-label'>
       *About me
       <TextareaAutosize
         name='bio'
         className={`setupProfile__profile-label ${errorState && 'error'}`}
-        onChange={handleInputChange}
+        onChange={handleAboutMeInputChange}
         maxLength={500}
         minRows={8}
         placeholder={

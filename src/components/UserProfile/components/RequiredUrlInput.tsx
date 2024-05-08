@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { validGithubUrl, validLinkedinUrl } from 'utils/components/Inputs'
 import { isEmptyString } from 'utils/helpers/inputUtils'
 
@@ -8,11 +9,12 @@ export const RequiredUrlInput = ({
   name,
   label,
 }) => {
+  const [emptyInput, setEmptyInput] = useState(false)
   const isLinkedInUrl = name === 'linkedinUrl'
 
   const requiredtext = isLinkedInUrl
     ? 'LinkedIn profile is required.'
-    : 'Github URL is required'
+    : 'Github URL is required.'
 
   const invalidUrlText = isLinkedInUrl
     ? 'Not a valid LinkedIn URL.'
@@ -26,6 +28,15 @@ export const RequiredUrlInput = ({
     ? !validLinkedinUrl(value)
     : !validGithubUrl(value)
 
+  const handleOnBlur = e => {
+    const { value } = e.target
+    if (isEmptyString(value)) {
+      setEmptyInput(true)
+    } else {
+      setEmptyInput(false)
+    }
+  }
+
   return (
     <label className='setupProfile__profile-label'>
       {label}
@@ -34,10 +45,11 @@ export const RequiredUrlInput = ({
         name={name}
         className={`setupProfile__profile-input ${errorState && 'error'}`}
         onChange={handleInputChange}
+        onBlur={handleOnBlur}
         placeholder={placeholderText}
         value={value}
       />
-      {isEmptyString(value) && <h6 className='error'>{requiredtext}</h6>}
+      {emptyInput && <h6 className='error'>{requiredtext}</h6>}
       {!isEmptyString(value) && displayInvalidUrlError && (
         <h6 className='error'>{invalidUrlText}</h6>
       )}

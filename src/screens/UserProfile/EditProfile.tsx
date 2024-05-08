@@ -1,32 +1,30 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
 import { emptyUser } from 'utils/data/userConstants'
 import { updateUser } from 'utils/api/users'
 import Avatar from 'components/Avatar/Avatar'
-import TextareaAutosize from 'react-textarea-autosize'
 import './EditProfile.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
-import { isEmptyString } from 'utils/helpers/inputUtils'
-import { validLinkedinUrl, validGithubUrl } from 'utils/components/Inputs'
+import { ProfileInputs } from 'components/UserProfile/components/ProfileInputs'
+import { determineDisabledbtn } from 'screens/Onboarding/SetUpProfile'
+import { handleUserProfileInputChange } from 'utils/helpers'
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
   const [updateUserForm, setUpdateUserForm] = useState(emptyUser)
   const [disabledBtn, setDisabledBtn] = useState(true)
-  const [bioCharCount, setBioCharCount] = useState(0)
+  const [errorStates, setErrorStates] = useState({
+    firstName: false,
+    lastName: false,
+    bio: false,
+    linkedinUrl: false,
+    githubUrl: false,
+  })
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const {
-    bio,
-    firstName,
-    lastName,
-    links: { githubUrl, linkedinUrl, portfolioUrl },
-    role,
-  } = updateUserForm
-  const nestedLinks = ['githubUrl', 'linkedinUrl', 'portfolioUrl']
 
   useEffect(() => {
     if (authUser) {
@@ -34,47 +32,14 @@ export const EditProfile: React.FC = () => {
         return { ...currForm, ...authUser }
       })
     }
-
-    if (authUser && authUser.bio) {
-      setBioCharCount(authUser.bio.length)
-    }
   }, [authUser])
 
   useEffect(() => {
-    console.log('hit')
-    if (
-      isEmptyString(firstName) ||
-      isEmptyString(lastName) ||
-      isEmptyString(bio) ||
-      !validLinkedinUrl(linkedinUrl) ||
-      (role === 'Software Engineer' && !validGithubUrl(githubUrl))
-    ) {
-      setDisabledBtn(true)
-    } else {
-      setDisabledBtn(false)
-    }
+    determineDisabledbtn(updateUserForm, setDisabledBtn)
   }, [updateUserForm])
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target
-    if (nestedLinks.includes(name)) {
-      setUpdateUserForm(prevForm => ({
-        ...prevForm,
-        links: {
-          ...prevForm.links,
-          [name]: value,
-        },
-      }))
-    } else {
-      setUpdateUserForm({ ...updateUserForm, [name]: value })
-    }
-
-    if (name === 'bio') {
-      setBioCharCount(value.length)
-    }
-  }
+  const handleInputChange = e =>
+    handleUserProfileInputChange(e, setUpdateUserForm, setErrorStates)
 
   const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -103,10 +68,10 @@ export const EditProfile: React.FC = () => {
           <div className='editprofile__imageContainer'>
             <div className='editprofile__image'>
               <Avatar
-                hasIcon={true}
-                clickable={false}
-                iconButtonClassName='editprofile__cameraIcon'
                 addPhotoIconId='imageChange'
+                clickable={false}
+                hasIcon={true}
+                iconButtonClassName='editprofile__cameraIcon'
               />
             </div>
             <button
@@ -118,82 +83,11 @@ export const EditProfile: React.FC = () => {
             </button>
           </div>
           <div className='editprofile__labelContainer'>
-            <label className='editprofile__label'>
-              First name
-              <input
-                type='text'
-                name='firstName'
-                className='editprofile__input'
-                value={firstName}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-
-            <label className='editprofile__label'>
-              Last name
-              <input
-                type='text'
-                name='lastName'
-                className='editprofile__input'
-                value={lastName}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-
-            <label className='editprofile__label'>
-              About me
-              <TextareaAutosize
-                name='bio'
-                className='editprofile__textarea'
-                minRows={8}
-                maxRows={9}
-                value={bio}
-                onChange={handleInputChange}
-                maxLength={500}
-                required
-              />
-              <div className='editprofile__bioCharCount'>
-                {500 - bioCharCount}/500
-              </div>
-            </label>
-
-            <label className='editprofile__label'>
-              Linkedin profile (URL)
-              <input
-                type='text'
-                name='linkedinUrl'
-                className='editprofile__input'
-                value={linkedinUrl}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-
-            <label className='editprofile__label'>
-              Portfolio (URL)
-              <input
-                type='text'
-                name='portfolioUrl'
-                className='editprofile__input'
-                value={portfolioUrl}
-                onChange={handleInputChange}
-              />
-            </label>
-
-            {role === 'Software Engineer' && (
-              <label className='editprofile__label'>
-                Github (URL) {role}
-                <input
-                  type='text'
-                  name='githubUrl'
-                  className='editprofile__input'
-                  value={githubUrl}
-                  onChange={handleInputChange}
-                />
-              </label>
-            )}
+            <ProfileInputs
+              errorStates={errorStates}
+              handleInputChange={handleInputChange}
+              updateUserForm={updateUserForm}
+            />
           </div>
         </form>
       </div>

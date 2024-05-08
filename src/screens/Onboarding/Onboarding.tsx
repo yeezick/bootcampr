@@ -1,5 +1,5 @@
 import { Paginator } from 'components/Paginator/Paginator'
-import { SetUpProfile } from './SetupProfile/SetUpProfile'
+import { SetUpProfile } from './SetUpProfile'
 import { Role } from './Role'
 import './Onboarding.scss'
 import { SetupAvailability } from './SetupAvailability'
@@ -31,7 +31,7 @@ export const Onboarding = () => {
     ) {
       navigate(`/project/${activeProject}`)
     } else if (pageId) {
-      navigate(`/onboarding/${authUser._id}?pageId=${pageId}`)
+      navigate(`/onboarding?pageId=${pageId}`)
     }
   }, [])
 
