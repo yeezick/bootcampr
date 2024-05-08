@@ -9,53 +9,6 @@
     line-height: 24px;
   }
 
-  .details-container {
-    h1 {
-      font-size: 24px;
-      font-weight: 700;
-      line-height: 32px;
-      margin: 0px 0px 16px;
-    }
-
-    .detail {
-      @include flex(row, flex-start, center);
-      gap: 8px;
-
-      p {
-        @include font-properties();
-        margin: 0;
-      }
-    }
-
-    .details-brief {
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 24px;
-      margin: 16px 0px 0px;
-      width: 608px;
-    }
-  }
-
-  .faq-container {
-    ul {
-      margin: 0;
-      padding-left: 10px;
-    }
-
-    li {
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 24px;
-      list-style-type: none;
-    }
-
-    li::before {
-      content: '\2022';
-      font-size: 14px;
-      margin-right: 8px;
-    }
-  }
-
   .btn-container {
     flex-direction: row;
     justify-content: flex-end;
