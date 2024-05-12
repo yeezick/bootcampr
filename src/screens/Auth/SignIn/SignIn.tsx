@@ -157,9 +157,9 @@ const SignIn: React.FC = (): JSX.Element => {
                       onClick={() => toggleVisiblity(inputType, setInputType)}
                     >
                       {inputType === 'password' ? (
-                        <Visibility />
-                      ) : (
                         <VisibilityOff />
+                      ) : (
+                        <Visibility />
                       )}
                     </IconButton>
                   </div>
