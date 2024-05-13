@@ -29,7 +29,7 @@ import { logOut } from 'utils/api'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
-  const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const authUser = useAppSelector(selectAuthUser)
   const experience = useAppSelector(selectUserExperience)
   const {
@@ -50,7 +50,6 @@ export const Nav = () => {
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
   )
-  const closeDropdown = () => setAnchorEl(null)
   const handlePortalLink = () =>
     buildPortal(dispatch, 'project', activeProject, experience)
   const handleNonPortalLink = async () => {
@@ -119,7 +118,7 @@ export const Nav = () => {
           )}
         </div>
       )}
-      <AccountDropdown anchorEl={anchorEl} closeDropdown={closeDropdown} />
+      <AccountDropdown anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
     </nav>
   )
 }
@@ -147,6 +146,11 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl, anchorEl }) => {
   const handleToggleChatBox = () => {
     toggleChatBox()
   }
+
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(e.currentTarget)
+  }
+
   //TODO - chat icon position needs to be tested when we remove the unicorn landing page
   return (
     <div className='notifications'>
@@ -164,7 +168,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl, anchorEl }) => {
           <p className='account'>Messages</p>
         </div>
       )}
-      <div className='nav-icons-container' onClick={() => setAnchorEl(true)}>
+      <div className='nav-icons-container' onClick={handleClick}>
         <div className='account avatar'>
           <Avatar size='medium' />
         </div>
