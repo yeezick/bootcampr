@@ -48,7 +48,7 @@ export const PortalView = ({ children }) => {
       routeId = domain === 'project' ? projectId : userId
       buildPortal(dispatch, domain, routeId, experience, headerTitle)
     }
-  }, [activePortal, portalType, experience])
+  }, [activePortal, portalType, experience, projectId])
 
   return (
     <div className='portal-wrapper'>
