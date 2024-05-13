@@ -119,7 +119,11 @@ const Avatar: React.FC<AvatarProps> = ({
           </div>
         ) : (
           <div className='avatar-default-picture'>
-            <img src={defaultImageURL} alt='default' />
+            <img
+              src={defaultImageURL}
+              alt='default'
+              className={clickable ? 'clickable' : ''}
+            />
             {hasIcon && (
               <IconButton
                 aria-label='change profile pic'

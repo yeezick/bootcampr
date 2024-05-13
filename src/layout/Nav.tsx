@@ -6,7 +6,7 @@ import {
   selectUserExperience,
 } from 'utils/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { MdArrowDropDown } from 'react-icons/md'
+import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md'
 import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
@@ -112,6 +112,7 @@ export const Nav = () => {
             <AuthorizedNavLinks
               notificationCount={notificationCount}
               setAnchorEl={setAnchorEl}
+              anchorEl={anchorEl}
             />
           ) : (
             <UnauthorizedNavLinks />
@@ -123,7 +124,7 @@ export const Nav = () => {
   )
 }
 
-const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
+const AuthorizedNavLinks = ({ notificationCount, setAnchorEl, anchorEl }) => {
   const dispatch = useAppDispatch()
   const { visibleChat } = useAppSelector(selectChatUI)
   const unreadMessagesCount = useAppSelector(selectUnreadMessageCount)
@@ -163,13 +164,17 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
           <p className='account'>Messages</p>
         </div>
       )}
-      <div className='nav-icons-container'>
+      <div className='nav-icons-container' onClick={() => setAnchorEl(true)}>
         <div className='account avatar'>
-          <Avatar clickable={false} setAnchorEl={setAnchorEl} size='medium' />
+          <Avatar size='medium' />
         </div>
-        <div onClick={setAnchorEl}>
+        <div>
           <p className='account'>My Account </p>
-          <MdArrowDropDown size={33} className='drop-down' />
+          {anchorEl === null ? (
+            <MdArrowDropDown size={33} className='drop-down' />
+          ) : (
+            <MdArrowDropUp size={33} className='drop-down' />
+          )}
         </div>
       </div>
     </div>
