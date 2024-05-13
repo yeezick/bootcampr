@@ -194,7 +194,13 @@ export const SignUp: React.FC = () => {
 }
 
 const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
-  const handleCheckbox = e => setIsAccepted(e.target.checked)
+  const handleCheckbox = () => {
+    setIsAccepted(true)
+    window.open(
+      'https://docs.google.com/document/d/1Mhl_-ON-qayHKilEKCWKZ8xQBi8JLR9U5Mi_0dWLh8c/edit?usp=sharing',
+      '_blank'
+    )
+  }
   const checkboxStyles = {
     '& .MuiFormControlLabel-root': {
       display: 'flex',
@@ -210,10 +216,6 @@ const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
 
   return (
     <div id='signup-agreement'>
-      <p>
-        Bootcampr sends important information, including project start dates and
-        team notifications by email. We will not sell your information!
-      </p>
       <FormControlLabel
         sx={checkboxStyles}
         control={
@@ -223,8 +225,19 @@ const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
             aria-required
           />
         }
-        label={`I agree to receive emails from Bootcampr.`}
+        label={<TermsLink />}
       />
     </div>
+  )
+}
+
+const TermsLink = () => {
+  return (
+    <a
+      href='https://docs.google.com/document/d/1Mhl_-ON-qayHKilEKCWKZ8xQBi8JLR9U5Mi_0dWLh8c/edit?usp=sharing'
+      target='_blank'
+    >
+      I have read the terms and conditions.
+    </a>
   )
 }
