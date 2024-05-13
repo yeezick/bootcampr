@@ -117,8 +117,10 @@ export const ChatPageHeader = () => {
       const user = participants.find(
         participant => participant.userInfo._id !== authUser._id
       )
-      const userId = user.userInfo._id
-      navigate(`/users/${userId}`)
+      if (user) {
+        const userId = user.userInfo._id
+        window.open(`/users/${userId}`)
+      }
     }
   }
 

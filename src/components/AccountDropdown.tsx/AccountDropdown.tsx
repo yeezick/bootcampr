@@ -1,11 +1,10 @@
 import { Menu, MenuItem } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { logoutAuthUser, selectUserId } from 'utils/redux/slices/userSlice'
+import { clearStates, selectUserId } from 'utils/redux/slices/userSlice'
 import { logOut } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { buildPortal, navigateToDomain } from 'utils/helpers'
-import { toggleChatClose } from 'utils/redux/slices/chatSlice'
 
 export const AccountDropdown = ({ anchorEl, setAnchorEl }) => {
   const userId = useSelector(selectUserId)
@@ -24,8 +23,7 @@ export const AccountDropdown = ({ anchorEl, setAnchorEl }) => {
       navigateToDomain(navigate, `/users/${userId}/settings/email`, 'settings')
     } else if (innerText === 'Log out') {
       logOut()
-      dispatch(logoutAuthUser())
-      dispatch(toggleChatClose())
+      dispatch(clearStates())
       navigate('/')
     }
   }
