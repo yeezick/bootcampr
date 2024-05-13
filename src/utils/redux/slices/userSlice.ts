@@ -49,6 +49,7 @@ const userSlice = createSlice({
   name: 'ui',
   initialState: initialUserSliceState,
   reducers: {
+    clearStates: state => {},
     logoutAuthUser: state => {
       state.auth.user = emptyUser
     },
@@ -170,5 +171,6 @@ export const {
   updateUnreadMessagesObj,
   setUploadedImage,
   setDefaultProfilePicture,
+  clearStates,
 } = userSlice.actions
 export default userSlice.reducer
