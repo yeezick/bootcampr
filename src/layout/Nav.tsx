@@ -147,8 +147,9 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl, anchorEl }) => {
     toggleChatBox()
   }
 
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(e.currentTarget)
+  const handleClick = () => {
+    const dropDownIcon = document.querySelector('.drop-down')
+    setAnchorEl(dropDownIcon)
   }
 
   //TODO - chat icon position needs to be tested when we remove the unicorn landing page
@@ -169,16 +170,14 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl, anchorEl }) => {
         </div>
       )}
       <div className='nav-icons-container' onClick={handleClick}>
-        <div className='account avatar'>
-          <Avatar size='medium' />
+        <div className='avatar'>
+          <Avatar />
         </div>
-        <div>
-          <p className='account'>My Account</p>
-          <MdArrowDropDown
-            size={33}
-            className={`drop-down ${anchorEl ? 'open' : ''}`}
-          />
-        </div>
+        <p className='account'>My Account</p>
+        <MdArrowDropDown
+          size={33}
+          className={`drop-down ${anchorEl ? 'open' : ''}`}
+        />
       </div>
     </div>
   )
