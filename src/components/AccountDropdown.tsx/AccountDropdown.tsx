@@ -44,7 +44,7 @@ export const AccountDropdown = ({ anchorEl, setAnchorEl }) => {
         horizontal: 'right',
       }}
       id='custom-menu-paper'
-      sx={{ margin: '13px 25px' }}
+      sx={{ margin: '10px 30px' }}
       autoFocus={false}
     >
       <MenuItem onClick={handleClose}>View Profile</MenuItem>

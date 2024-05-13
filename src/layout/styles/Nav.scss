@@ -97,8 +97,12 @@ nav {
       position: absolute;
       right: 5px;
       top: 59px;
+      transition: transform 0.3s ease;
     }
 
+    .open {
+      transform: rotate(180deg);
+    }
     .avatar-default-picture {
       background-color: #ffa726;
       border-radius: 50%;

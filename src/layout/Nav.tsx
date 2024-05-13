@@ -6,7 +6,7 @@ import {
   selectUserExperience,
 } from 'utils/redux/slices/userSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md'
+import { MdArrowDropDown } from 'react-icons/md'
 import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
@@ -173,12 +173,11 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl, anchorEl }) => {
           <Avatar size='medium' />
         </div>
         <div>
-          <p className='account'>My Account </p>
-          {anchorEl === null ? (
-            <MdArrowDropDown size={33} className='drop-down' />
-          ) : (
-            <MdArrowDropUp size={33} className='drop-down' />
-          )}
+          <p className='account'>My Account</p>
+          <MdArrowDropDown
+            size={33}
+            className={`drop-down ${anchorEl ? 'open' : ''}`}
+          />
         </div>
       </div>
     </div>
