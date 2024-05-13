@@ -166,7 +166,9 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl, anchorEl }) => {
             <CustomBadge content={unreadMessagesCount} variant='standard' />
             {visibleChat && <ChatDialogMain />}
           </div>
-          <p className='account'>Messages</p>
+          <p className='account' onClick={handleToggleChatBox}>
+            Messages
+          </p>
         </div>
       )}
       <div className='nav-icons-container' onClick={handleClick}>
