@@ -9,6 +9,7 @@ import {
 import { saveAvailability } from 'components/Availability/utils/helpers'
 import { disableForwardButton } from 'components/Availability/utils/helpers'
 import './SetupAvailability.scss'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { BackButton, ForwardButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
@@ -27,7 +28,15 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   const [isDisabled, setIsDisabled] = useState(true)
 
   const storeAvailability = async () => {
-    await saveAvailability(dispatch, authUser._id, days, storedUserTZinUTC)
+    try {
+      const avail = await saveAvailability(
+        authUser._id,
+        days,
+        storedUserTZinUTC
+      )
+    } catch (error) {
+      dispatch(errorSnackbar('Availability failed to save. Please try again.'))
+    }
   }
 
   const handleNavigationButtons = async (direction: 'previous' | 'next') => {

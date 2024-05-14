@@ -1,23 +1,44 @@
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined'
-import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined'
-import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
+import { useState } from 'react'
 import { Stack } from '@mui/material'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { errorSnackbar } from 'utils/helpers/commentHelpers'
+import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
+import { PresentationDetails } from 'screens/Project/ProjectDetails/PresentationDetails'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
+import {
+  convertPresentationDateUserTZ,
+  getLastCallForPresentation,
+} from 'utils/helpers'
+import { convertOffsetToTimezone } from 'utils/data/timeZoneConstants'
+import { selectPresentationDate } from 'utils/redux/slices/projectSlice'
+import { getUserTimezone } from 'utils/redux/slices/userSlice'
 import { useState } from 'react'
 import { BackButton, ForwardButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const PresentationPage = ({ handlePageNavigation }) => {
+  const dispatch = useAppDispatch()
   const [isDisabled, setIsDisabled] = useState(true)
-
-  //TODO: convert alerts to MUI toast to match Figma designs
+  const userTimezoneOffset = useAppSelector(getUserTimezone)
+  const presentationDate = useAppSelector(selectPresentationDate)
+  const userTimezoneInfo = convertOffsetToTimezone[userTimezoneOffset]
+  const { startDate } = convertPresentationDateUserTZ(
+    presentationDate,
+    userTimezoneInfo.timezone
+  )
+  const presentationDateLastCall = getLastCallForPresentation(
+    startDate,
+    userTimezoneInfo.abbr
+  )
 
   const handleSubmit = e => {
     e.preventDefault()
 
     if (isDisabled) {
-      alert(
-        `Please indicate whether or not your team will be presenting before submitting.`
+      dispatch(
+        errorSnackbar(
+          'Please indicate whether or not your team will be presenting before submitting.'
+        )
       )
       return
     } else {
@@ -36,63 +57,12 @@ export const PresentationPage = ({ handlePageNavigation }) => {
     <div className='project-completion-presentation-page'>
       <form>
         <Stack spacing={'32px'} className='page-content'>
-          <section aria-labelledby='formHeading' className='details-container'>
-            <h1 id='formHeading'>Project Presentation</h1>
-            <Stack spacing={'8px'} className='details-content'>
-              <div className='detail'>
-                <CalendarTodayOutlinedIcon aria-label='Calendar Icon' />
-                {/* //TODO: refactor this to display dynamic info */}
-                <p>Sep 1, 2023 | 12:00pm - 2:00pm PST</p>
-              </div>
-              <div className='detail'>
-                <AccessTimeOutlinedIcon aria-label='Clock Icon' />
-                <p>15 min presentation</p>
-              </div>
-              <div className='detail'>
-                <VideocamOutlinedIcon aria-label='Camera Icon' />
-                <p>Meeting detail will be provided upon confirmation</p>
-              </div>
-            </Stack>
-            <p className='details-brief'>
-              Present your team’s work to professional Product Managers, UX
-              Designers, and Software Engineers.
-            </p>
-          </section>
-
-          <section className='faq-container'>
-            <h2>Why present your project?</h2>
-            <ul>
-              <li>
-                Hone your presentation skills in front of the Bootcampr product
-                team.
-              </li>
-              <li>
-                Get feedback from people with experience launching a new
-                product.
-              </li>
-              <li>Identify room for improvements.</li>
-              <li>
-                Use the feedback you receive to present your work in interviews
-                with confidence!
-              </li>
-            </ul>
-          </section>
-          <section className='faq-container'>
-            <h2>Who is presenting your project?</h2>
-            <ul>
-              <li>
-                At least one person must participate to present team’s work.
-              </li>
-              <li>
-                Participation by all team members is not required but
-                encouraged.
-              </li>
-            </ul>
-          </section>
+          <PresentationDetails />
 
           <ParticipationRadio
             labelText='Let us know if your team will be presenting.'
             setIsDisabled={setIsDisabled}
+            helperText={presentationDateLastCall}
           />
 
           <ButtonContainer gap={16}>

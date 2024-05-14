@@ -59,6 +59,7 @@ const MemberButtons = ({ memberId }) => {
       if (isSandboxId(userExperience) || isWaitlistExperience(userExperience)) {
         dispatch(toggleChatOpen())
         dispatch(onScreenUpdate(ChatScreen.Main))
+        return
       }
       const chatResponse = await createOrGetPrivateChatRoom(memberId)
       let room = chatResponse.chatRoom

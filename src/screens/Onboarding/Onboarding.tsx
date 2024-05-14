@@ -31,7 +31,7 @@ export const Onboarding = () => {
     ) {
       navigate(`/project/${activeProject}`)
     } else if (pageId) {
-      navigate(`/onboarding/${authUser._id}?pageId=${pageId}`)
+      navigate(`/onboarding?pageId=${pageId}`)
     }
   }, [])
 

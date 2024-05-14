@@ -75,8 +75,6 @@ export const ResetPassword = () => {
     if (passwordData.status >= 400) {
       dispatch(errorSnackbar(passwordData.friendlyMessage))
     } else {
-      await logOut()
-      dispatch(logoutAuthUser())
       navigate(`/success?screen=${SuccessQueryParam.resetPassword}`)
     }
   }

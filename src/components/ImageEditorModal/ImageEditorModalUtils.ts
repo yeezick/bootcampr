@@ -14,7 +14,7 @@ export const createUserImage: any = async (
   addImage.append('image', profileImageFile)
   addImage.append('userId', userId)
   return await axios.post(
-    `${process.env.REACT_APP_LOCAL_URL}users/${userId}/addImage`,
+    `${process.env.REACT_APP_LOCAL_URL}/users/${userId}/addImage`,
     addImage,
     {
       headers: { 'Content-Type': 'multipart/form-data' },

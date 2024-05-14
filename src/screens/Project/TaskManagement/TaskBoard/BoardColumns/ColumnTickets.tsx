@@ -4,7 +4,6 @@ import { TicketTab } from './TicketTab'
 
 export const ColumnTickets = ({ columnStatus, provided }) => {
   const visibleTickets = useAppSelector(selectVisibleTickets)
-
   return (
     <div
       className='tickets'

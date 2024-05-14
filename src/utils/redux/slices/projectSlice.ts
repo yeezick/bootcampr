@@ -2,6 +2,7 @@ import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { TicketInterface } from 'interfaces'
 import { ProjectInterface } from 'interfaces/ProjectInterface'
+import { generateDayJs } from 'utils/helpers'
 import { RootState } from 'utils/redux/store'
 
 // TODO: Make project tracker its own model and add to taskboard slice
@@ -45,6 +46,12 @@ const initialState: ProjectInterface = {
   },
 }
 
+export interface AddCommentToTicketReducer {
+  commentId: string
+  ticketId: string
+  ticketStatus: string
+}
+
 export interface AddTicketReducer {
   status: string
   newTicket: TicketInterface
@@ -71,6 +78,19 @@ const projectSlice = createSlice({
   name: 'project',
   initialState,
   reducers: {
+    addCommentToTicket: (
+      state,
+      action: PayloadAction<AddCommentToTicketReducer>
+    ) => {
+      const { commentId, ticketId, ticketStatus } = action.payload
+      const updatedTracker = state.projectTracker[ticketStatus].map(ticket => {
+        if (ticket._id === ticketId) {
+          ticket.comments.push(commentId)
+        }
+        return ticket
+      })
+      state.projectTracker[ticketStatus] = updatedTracker
+    },
     addTicketToStatus: (state, action: PayloadAction<AddTicketReducer>) => {
       const newTicket = action.payload
       state.projectTracker[newTicket.status].push(newTicket)
@@ -109,6 +129,21 @@ const projectSlice = createSlice({
       state.projectTracker[status] = state.projectTracker[status].filter(
         ticket => ticket._id !== ticketId
       )
+    },
+    deleteCommentFromTicket: (
+      state,
+      action: PayloadAction<AddCommentToTicketReducer>
+    ) => {
+      const { commentId, ticketId, ticketStatus } = action.payload
+      const updatedTracker = state.projectTracker[ticketStatus].map(ticket => {
+        if (ticket._id === ticketId) {
+          ticket.comments = ticket.comments.filter(
+            comment => comment !== commentId
+          )
+        }
+        return ticket
+      })
+      state.projectTracker[ticketStatus] = updatedTracker
     },
     updateProject: (state, action: PayloadAction<ProjectInterface>) => {
       return {
@@ -221,10 +256,30 @@ export const selectRenderProjectPortal = (state: RootState) =>
 export const selectProjectTimeline = (state: RootState) =>
   state.project.timeline
 
+export const selectPresentationDate = createSelector(
+  selectProjectTimeline,
+  projectTimeline => {
+    const presentationStartEST = generateDayJs(projectTimeline.endDate)
+      .tz('America/New_York')
+      .hour(13)
+      .minute(0)
+      .second(0)
+      .add(7, 'day')
+    const presentationEndEST = presentationStartEST.add(1, 'hour')
+
+    return {
+      startDateEST: presentationStartEST,
+      endDateEST: presentationEndEST,
+    }
+  }
+)
+
 export const {
   addTicketToStatus,
+  addCommentToTicket,
   updateTicketStatus,
   deleteTicket,
+  deleteCommentFromTicket,
   moveTicketBetweenColumns,
   setProject,
   updateTicket,

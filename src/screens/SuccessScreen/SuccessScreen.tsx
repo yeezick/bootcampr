@@ -6,10 +6,11 @@ import {
   SuccessQueryParam,
   emptySuccessScreenValues,
 } from 'utils/data/authSettingsConstants'
-import { forgotPasswordEmailVerification } from 'utils/api'
+import { forgotPasswordEmailVerification, logOut } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { SuccessScreenValues } from 'interfaces/AccountSettingsInterface'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import { logoutAuthUser } from 'utils/redux/slices/userSlice'
 import { PrimaryButton } from 'components/Buttons'
 
 export const SuccessScreen = () => {
@@ -86,6 +87,14 @@ export const SuccessScreen = () => {
       setValues(successScreenData[screen])
     }
   }, [screen])
+
+  useEffect(() => {
+    const logUserOut = async () => {
+      await logOut()
+      dispatch(logoutAuthUser())
+    }
+    logUserOut()
+  }, [])
 
   const containerClass =
     screen === SuccessQueryParam.resetPasswordEmail

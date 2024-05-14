@@ -84,8 +84,8 @@ const SignIn: React.FC = (): JSX.Element => {
       (isWaitlistExperience(payment.experience) &&
         projects.activeProject === null)
     ) {
+      await storeUserProject(dispatch, 'sandbox')
       navigate('/project/sandbox')
-      storeUserProject(dispatch, 'sandbox')
       dispatch(setPortal(buildProjectPortal('sandbox')))
       dispatch(
         updateAuthUser({
@@ -94,8 +94,8 @@ const SignIn: React.FC = (): JSX.Element => {
         })
       )
     } else {
+      await storeUserProject(dispatch, projects.activeProject)
       navigate(`/project/${projects.activeProject}`)
-      storeUserProject(dispatch, projects.activeProject)
       dispatch(setPortal(buildProjectPortal(projects.activeProject)))
     }
   }
@@ -157,9 +157,9 @@ const SignIn: React.FC = (): JSX.Element => {
                       onClick={() => toggleVisiblity(inputType, setInputType)}
                     >
                       {inputType === 'password' ? (
-                        <Visibility />
-                      ) : (
                         <VisibilityOff />
+                      ) : (
+                        <Visibility />
                       )}
                     </IconButton>
                   </div>

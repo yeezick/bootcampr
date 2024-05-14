@@ -22,6 +22,7 @@ export const SignUp: React.FC = () => {
   const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp)
   const [isAccepted, setIsAccepted] = useState(false)
   const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>({})
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(false)
   const [alertBanner, setAlertBanner] = useState<AlertBanners>({
     status: false,
     text: '',
@@ -54,14 +55,19 @@ export const SignUp: React.FC = () => {
         return true
       }
 
-      if (emptyForm === false && isAccepted && passwordsMatch()) {
+      if (
+        emptyForm === false &&
+        isAccepted &&
+        passwordsMatch() &&
+        isValidEmail
+      ) {
         return setDisabledForm(false)
       } else {
         return setDisabledForm(true)
       }
     }
     validateForm()
-  }, [formValues, isAccepted, passwordErrors])
+  }, [formValues, isAccepted, passwordErrors, isValidEmail])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -143,7 +149,10 @@ export const SignUp: React.FC = () => {
               required
               setFormValues={setFormValues}
             />
-            <Email setFormValues={setFormValues} />
+            <Email
+              setFormValues={setFormValues}
+              setIsValidEmail={setIsValidEmail}
+            />
             <PasswordInputs
               formValues={formValues}
               password={password}
@@ -177,7 +186,13 @@ export const SignUp: React.FC = () => {
 }
 
 const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
-  const handleCheckbox = e => setIsAccepted(e.target.checked)
+  const handleCheckbox = () => {
+    setIsAccepted(true)
+    window.open(
+      'https://docs.google.com/document/d/1Mhl_-ON-qayHKilEKCWKZ8xQBi8JLR9U5Mi_0dWLh8c/edit?usp=sharing',
+      '_blank'
+    )
+  }
   const checkboxStyles = {
     '& .MuiFormControlLabel-root': {
       display: 'flex',
@@ -193,10 +208,6 @@ const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
 
   return (
     <div id='signup-agreement'>
-      <p>
-        Bootcampr sends important information, including project start dates and
-        team notifications by email. We will not sell your information!
-      </p>
       <FormControlLabel
         sx={checkboxStyles}
         control={
@@ -206,8 +217,19 @@ const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
             aria-required
           />
         }
-        label={`I agree to receive emails from Bootcampr.`}
+        label={<TermsLink />}
       />
     </div>
+  )
+}
+
+const TermsLink = () => {
+  return (
+    <a
+      href='https://docs.google.com/document/d/1Mhl_-ON-qayHKilEKCWKZ8xQBi8JLR9U5Mi_0dWLh8c/edit?usp=sharing'
+      target='_blank'
+    >
+      I have read the terms and conditions.
+    </a>
   )
 }
