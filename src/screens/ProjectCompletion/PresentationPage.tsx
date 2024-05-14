@@ -21,11 +21,11 @@ export const PresentationPage = ({ handlePageNavigation }) => {
   const userTimezoneInfo = convertOffsetToTimezone[userTimezoneOffset]
   const { startDate } = convertPresentationDateUserTZ(
     presentationDate,
-    userTimezoneInfo.timezone
+    userTimezoneInfo?.timezone
   )
   const presentationDateLastCall = getLastCallForPresentation(
     startDate,
-    userTimezoneInfo.abbr
+    userTimezoneInfo?.abbr
   )
 
   const handleSubmit = e => {
