@@ -11,6 +11,7 @@ import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { AvailabilityInterface } from 'interfaces'
 import { PrimaryButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { useState } from 'react'
 
 export const EditAvailability = () => {
   const dispatch = useAppDispatch()
@@ -19,13 +20,17 @@ export const EditAvailability = () => {
   const userAvailability = useAppSelector<AvailabilityInterface>(
     selectUserAvailability
   )
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleSaveAvailability = async () => {
+    setIsLoading(true)
     try {
       await saveAvailability(authUser._id, userAvailability, userTimezoneInUTC)
       dispatch(successSnackbar('Your availability has been updated!'))
+      setIsLoading(false)
     } catch (error) {
       dispatch(errorSnackbar('Something went wrong please try again'))
+      setIsLoading(false)
     }
   }
 
@@ -33,7 +38,11 @@ export const EditAvailability = () => {
     <div className='edit-availability-container'>
       <Availability />
       <ButtonContainer style={{ marginTop: '32px' }}>
-        <PrimaryButton onClick={handleSaveAvailability} label='Save' />
+        <PrimaryButton
+          onClick={handleSaveAvailability}
+          label='Save'
+          loading={isLoading}
+        />
       </ButtonContainer>
     </div>
   )
