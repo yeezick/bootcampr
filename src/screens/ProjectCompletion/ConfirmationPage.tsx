@@ -33,8 +33,8 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
 
     const updatedProject = {
       completedInfo: {
-        deployedUrl: deployedUrl,
         presenting: presenting,
+        deployedUrl: deployedUrl,
       },
     }
 
@@ -45,7 +45,11 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
       setIsLoading(false)
     } catch (error) {
       console.error(error)
-      dispatch(errorSnackbar('Participation failed to save. Please try again.'))
+      dispatch(
+        errorSnackbar(
+          'Presentation information failed to save. Please try again.'
+        )
+      )
       setIsLoading(false)
     }
   }
