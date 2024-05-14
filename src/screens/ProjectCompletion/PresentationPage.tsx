@@ -1,8 +1,6 @@
-import { useState } from 'react'
 import { Stack } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
-import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import { PresentationDetails } from 'screens/Project/ProjectDetails/PresentationDetails'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
 import {
