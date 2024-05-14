@@ -31,11 +31,10 @@ export const ParticipationRadio = ({
   const handleChange = e => {
     const participating = e.target.value
     dispatch(updatePresenting(participating))
-    setIsDisabled(false)
   }
 
   useEffect(() => {
-    presenting ? setIsDisabled(false) : setIsDisabled(true)
+    presenting !== null ? setIsDisabled(false) : setIsDisabled(true)
   }, [presenting, setIsDisabled])
 
   return (

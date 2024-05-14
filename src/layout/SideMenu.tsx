@@ -60,7 +60,7 @@ export const SideMenu = () => {
         {title === 'Project Portal' && isActiveUser && (
           <PrimaryButton
             className={btnClassName}
-            disabled={isDisabled}
+            // disabled={isDisabled}
             handler={handleProjectCompletion}
             text='Submit Project'
           />

@@ -10,12 +10,22 @@ import {
   getLastCallForPresentation,
 } from 'utils/helpers'
 import { convertOffsetToTimezone } from 'utils/data/timeZoneConstants'
-import { selectPresentationDate } from 'utils/redux/slices/projectSlice'
+import {
+  selectPresentationDate,
+  selectProject,
+} from 'utils/redux/slices/projectSlice'
 import { getUserTimezone } from 'utils/redux/slices/userSlice'
+import { useSelector } from 'react-redux'
+import { editProject } from 'utils/api'
 
 export const PresentationPage = ({ handlePageNavigation }) => {
+  const project = useSelector(selectProject)
+  const projectID = project._id
+  const completedInfo = project.completedInfo
+  const presenting = completedInfo.presenting
   const dispatch = useAppDispatch()
   const [isDisabled, setIsDisabled] = useState(true)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const userTimezoneOffset = useAppSelector(getUserTimezone)
   const presentationDate = useAppSelector(selectPresentationDate)
   const userTimezoneInfo = convertOffsetToTimezone[userTimezoneOffset]
@@ -28,57 +38,62 @@ export const PresentationPage = ({ handlePageNavigation }) => {
     userTimezoneInfo?.abbr
   )
 
-  const handleSubmit = e => {
-    e.preventDefault()
+  const updatePresenting = async () => {
+    setIsLoading(true)
 
-    if (isDisabled) {
-      dispatch(
-        errorSnackbar(
-          'Please indicate whether or not your team will be presenting before submitting.'
-        )
-      )
-      return
-    } else {
-      setIsDisabled(true)
+    const updatedProject = {
+      completedInfo: {
+        presenting: presenting,
+        ...completedInfo,
+      },
+    }
+
+    try {
+      await editProject(projectID, updatedProject)
       handlePageNavigation('next')
       window.scrollTo(0, 0)
+      setIsLoading(false)
+    } catch (error) {
+      console.error(error)
+      dispatch(errorSnackbar('Participation failed to save. Please try again.'))
+      setIsLoading(false)
     }
   }
 
-  const handleCancel = () => {
-    handlePageNavigation('previous')
-    window.scrollTo(0, 0)
+  const handleNavigationButtons = async (direction: 'previous' | 'next') => {
+    await updatePresenting()
+    handlePageNavigation(direction)
   }
+  const handlePrevious = () => handleNavigationButtons('previous')
+  const handleNext = () => handleNavigationButtons('next')
 
   return (
     <div className='project-completion-presentation-page'>
-      <form>
-        <Stack spacing={'32px'} className='page-content'>
-          <PresentationDetails />
+      <Stack spacing={'32px'} className='page-content'>
+        <PresentationDetails />
 
-          <ParticipationRadio
-            labelText='Let us know if your team will be presenting.'
-            setIsDisabled={setIsDisabled}
-            helperText={presentationDateLastCall}
+        <ParticipationRadio
+          labelText='Let us know if your team will be presenting.'
+          setIsDisabled={setIsDisabled}
+          helperText={presentationDateLastCall}
+        />
+
+        <Stack className='btn-container'>
+          <PaginatorButton
+            buttonType='secondary'
+            handler={handlePrevious}
+            text='URL'
           />
-
-          <Stack className='btn-container'>
-            <PaginatorButton
-              buttonType='secondary'
-              handler={handleCancel}
-              text='URL'
-            />
-            <PaginatorButton
-              buttonType='primary'
-              aria-disabled={isDisabled}
-              disabled={isDisabled}
-              text='Confirmation'
-              type='submit'
-              handler={handleSubmit}
-            />
-          </Stack>
+          <PaginatorButton
+            buttonType='primary'
+            aria-disabled={isDisabled}
+            disabled={isDisabled}
+            text='Confirmation'
+            type='submit'
+            handler={handleNext}
+          />
         </Stack>
-      </form>
+      </Stack>
     </div>
   )
 }
