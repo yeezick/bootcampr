@@ -275,6 +275,7 @@ export const EditableMeetingModal = () => {
           <PrimaryButton
             onClick={handleSubmit}
             loading={isLoading}
+            disabled={disabledBtn}
             label='Send Invite'
             style={{ margin: '32px' }}
           />
