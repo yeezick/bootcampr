@@ -14,17 +14,28 @@ import { BCToolTip } from 'components/ToolTip/ToolTip'
 import { CopyTimesModal } from './CopyTimesModal'
 
 export const TimeSlotInput = ({ day, days, setDays }) => {
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [currentIdx, setCurrentIdx] = useState(null)
   const [disableAdd, toggleDisableAdd] = useState(false)
   const [displayModal, toggleDisplayModal] = useState({
     0: false,
   })
+  const open = Boolean(anchorEl)
+  const id = open ? 'meeting-popover' : undefined
+  const handleClosePopover = () => {
+    setAnchorEl(null)
+    setCurrentIdx(null)
+    toggleDisplayModal({ ...displayModal, [currentIdx]: false })
+  }
 
   const getDisplay = idx => {
     return displayModal[idx]
   }
 
   const handleRenderModal = (e, idx) => {
-    renderCopyTimesModal(idx, displayModal, toggleDisplayModal)
+    setAnchorEl(e.currentTarget)
+    setCurrentIdx(idx)
+    toggleDisplayModal({ ...displayModal, [idx]: true })
   }
 
   return (
@@ -94,6 +105,10 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
                   copyTimes={copyTimes}
                   setDays={setDays}
                   handleRenderModal={handleRenderModal}
+                  open={open}
+                  id={id}
+                  anchorEl={anchorEl}
+                  handleClosePopover={handleClosePopover}
                 />
               )}
               <BCToolTip
