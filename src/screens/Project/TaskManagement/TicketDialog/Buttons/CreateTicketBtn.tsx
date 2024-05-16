@@ -1,4 +1,5 @@
 import { PrimaryButton } from 'components/Buttons'
+import { useState } from 'react'
 import { createTicket } from 'utils/api/tickets'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { isEmptyString } from 'utils/helpers/inputUtils'
@@ -22,8 +23,10 @@ export const CreateTicketBtn = () => {
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleCreateTicket = async e => {
+    setIsLoading(true)
     const ticketPayload = buildTicketPayload(projectId, userId, ticketFields)
     const ticketResponse = await createTicket(ticketPayload)
 
@@ -35,14 +38,15 @@ export const CreateTicketBtn = () => {
       dispatch(successSnackbar('Story created!'))
       closeVisibleTicketDialog(dispatch)
     }
+    setIsLoading(false)
   }
 
   return (
     <PrimaryButton
       disabled={isEmptyString(ticketFields.title)}
-      handler={handleCreateTicket}
-      text={'Create story'}
-      disableElevation
+      loading={isLoading}
+      label={'Create story'}
+      onClick={handleCreateTicket}
     />
   )
 }

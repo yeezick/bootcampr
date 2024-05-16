@@ -1,5 +1,3 @@
-import { useAppDispatch } from 'utils/redux/hooks'
-import { setModalDisplayStatus } from 'utils/redux/slices/calendarSlice'
 import { Clear } from '@mui/icons-material'
 import { useState } from 'react'
 import { DiscardChangesModal } from './DiscardChangesModal'

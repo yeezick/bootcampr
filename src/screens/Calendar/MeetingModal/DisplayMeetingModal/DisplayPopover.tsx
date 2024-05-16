@@ -8,6 +8,7 @@ export const DisplayPopover = ({
   handleClosePopover,
   handleEdit,
   handleDelete,
+  isLoading,
   popoverId,
   open,
 }) => {
@@ -38,6 +39,7 @@ export const DisplayPopover = ({
         openModal={openModal}
         handleCloseModal={handleCloseModal}
         handleDelete={handleDelete}
+        isLoading={isLoading}
       />
     </>
   )

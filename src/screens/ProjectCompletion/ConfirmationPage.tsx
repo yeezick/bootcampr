@@ -1,12 +1,11 @@
 import { useSelector } from 'react-redux'
 import { selectProject } from 'utils/redux/slices/projectSlice'
 import { useEffect, useState } from 'react'
-import { Stack } from '@mui/material'
-import { PrimaryButton } from 'components/Buttons'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
 import { editProject } from 'utils/api'
-import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { BackButton, PrimaryButton } from 'components/Buttons'
 
 export const ConfirmationPage = ({ handlePageNavigation }) => {
   const project = useSelector(selectProject)
@@ -19,13 +18,9 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
   const [isDisabled, setIsDisabled] = useState(
     isInvalidUrl || isInvalidRadio ? true : false
   )
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   //TODO: convert alerts to MUI toast to match Figma designs
-
-  useEffect(() => {
-    setIsLoading(false)
-  }, [setIsLoading])
 
   useEffect(() => {
     setIsDisabled(isInvalidUrl || isInvalidRadio ? true : false)
@@ -33,6 +28,7 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
 
   const handleSubmit = async e => {
     e.preventDefault()
+    setIsLoading(true)
 
     const updatedProject = {
       completedInfo: {
@@ -41,28 +37,20 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
       },
     }
 
-    if (isDisabled) {
-      alert(
-        `Please enter a valid URL and indicate whether or not your team is presenting`
-      )
-      return
-    } else {
-      try {
-        setIsLoading(true)
-        const response = await editProject(projectID, updatedProject)
+    try {
+      const response = await editProject(projectID, updatedProject)
 
-        if (response) {
-          handlePageNavigation('next')
-          window.scrollTo(0, 0)
-          setIsLoading(false)
-        }
-      } catch (error) {
-        console.error(
-          `An error occurred while saving presentation details.`,
-          error
-        )
+      if (response) {
+        handlePageNavigation('next')
+        window.scrollTo(0, 0)
         setIsLoading(false)
       }
+    } catch (error) {
+      console.error(
+        `An error occurred while saving presentation details.`,
+        error
+      )
+      setIsLoading(false)
     }
   }
 
@@ -95,20 +83,15 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
           />
         </section>
 
-        <Stack className='btn-container'>
-          <PaginatorButton
-            buttonType='secondary'
-            handler={handleCancel}
-            text='Presentation'
-          />
+        <ButtonContainer gap={16}>
+          <BackButton onClick={handleCancel} label='Presentation' />
           <PrimaryButton
-            aria-disabled={isDisabled || isLoading}
-            disabled={isDisabled || isLoading}
-            text='Submit'
-            type='submit'
-            handler={handleSubmit}
+            loading={isLoading}
+            disabled={isDisabled}
+            label='Submit'
+            onClick={handleSubmit}
           />
-        </Stack>
+        </ButtonContainer>
       </form>
     </div>
   )

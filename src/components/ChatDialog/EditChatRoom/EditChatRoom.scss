@@ -23,20 +23,6 @@
       }
     }
 
-    .MuiButtonBase-root {
-      align-items: center;
-      color: #1a237e;
-      column-gap: 8px;
-      display: flex;
-      justify-content: flex-start;
-      padding: 8px 16px 8px 12px;
-      text-transform: none;
-
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.08);
-      }
-    }
-
     p {
       font-family: 'Roboto';
       font-size: 16px;

@@ -1,4 +1,5 @@
 import { PrimaryButton } from 'components/Buttons'
+import { useState } from 'react'
 import { saveUpdatedTicket } from 'utils/api/tickets'
 import { successSnackbar } from 'utils/helpers/commentHelpers'
 import { isEmptyString } from 'utils/helpers/inputUtils'
@@ -19,8 +20,10 @@ export const SaveTicketBtn = () => {
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleSaveTicket = async e => {
+    setIsLoading(true)
     const ticketPayload = buildTicketPayload(projectId, userId, ticketFields)
     const ticketResponse = await saveUpdatedTicket(ticketPayload)
 
@@ -37,13 +40,15 @@ export const SaveTicketBtn = () => {
       dispatch(successSnackbar('Changes saved!'))
       closeVisibleTicketDialog(dispatch)
     }
+    setIsLoading(false)
   }
 
   return (
     <PrimaryButton
       disabled={isEmptyString(ticketFields.title)}
-      handler={handleSaveTicket}
-      text={'Save Changes'}
+      loading={isLoading}
+      onClick={handleSaveTicket}
+      label={'Save Changes'}
     />
   )
 }
