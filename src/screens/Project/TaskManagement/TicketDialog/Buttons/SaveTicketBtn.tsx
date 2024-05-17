@@ -48,7 +48,7 @@ export const SaveTicketBtn = () => {
       disabled={isEmptyString(ticketFields.title)}
       loading={isLoading}
       onClick={handleSaveTicket}
-      label={'Save Changes'}
+      label={'Save changes'}
     />
   )
 }

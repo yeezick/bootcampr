@@ -15,13 +15,14 @@
 
   .ticket-fields {
     display: flex;
-    gap: 146px;
+    gap: 64px;
     justify-content: space-evenly;
 
     .text-label {
       align-items: center;
       display: flex;
       margin-bottom: 8px;
+      line-height: 24px;
 
       span {
         margin-left: 8px;
@@ -31,16 +32,16 @@
     .ticket-text-fields {
       display: flex;
       flex-direction: column;
+      height: 512px;
       gap: 32px;
-      max-height: 520px;
       overflow-y: scroll;
       padding-right: 16px;
-      width: 486px;
+      width: 470px;
      
       .text-input {
         background-color: #fff;
         margin-left: 32px;
-        width: calc(100% - 32px);
+        width: 438px;
 
         .MuiInputBase-root {
           padding: 0;
@@ -64,6 +65,7 @@
 .ticket-creator {
   .MuiPaper-root {
     margin-top: 4px;
+    width: 204px;
   }
 
   .MuiMenuItem-root {
@@ -81,6 +83,9 @@
       color: #212121;
       font-size: 16px;
       line-height: 24px;
+      text-overflow: ellipsis;
+      overflow:hidden;
+      width: 132px;
     }
 
     .role {
@@ -94,7 +99,9 @@
   .user-card {
     align-items: center;
     display: flex;
+    height: 44px;
     gap: 16px;
+    overflow-x: hidden;
 
     .assignee-thumbnail {
       border-radius: 100%;
