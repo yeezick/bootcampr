@@ -103,7 +103,6 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
                   idx={idx}
                   copyTimes={copyTimes}
                   setDays={setDays}
-                  handleRenderModal={handleRenderModal}
                   open={open && currentIdx === idx}
                   id={id}
                   anchorEl={anchorEl}

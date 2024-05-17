@@ -10,7 +10,6 @@ export const CopyTimesModal = ({
   idx,
   copyTimes,
   setDays,
-  handleRenderModal,
   open,
   id,
   anchorEl,
@@ -43,7 +42,7 @@ export const CopyTimesModal = ({
 
   const handleApply = e => {
     copyTimes(checked, day, days, idx, setDays)
-    handleRenderModal(e, idx)
+    handleClosePopover()
   }
 
   useEffect(() => {
