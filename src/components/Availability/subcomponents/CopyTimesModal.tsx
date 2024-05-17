@@ -1,4 +1,4 @@
-import { Checkbox, Popover } from '@mui/material'
+import { Checkbox, Popover, Paper } from '@mui/material'
 import { useState, useEffect, useRef } from 'react'
 import './CopyTimesModal.scss'
 import { weekdaysMap } from '../utils/data'
@@ -48,18 +48,21 @@ export const CopyTimesModal = ({
 
   useEffect(() => {
     const handler = e => {
-      if (!modalEl.current) {
-        return
-      }
-      if (!modalEl.current.contains(e.target)) {
-        handleRenderModal(e, idx)
+      if (
+        modalEl.current &&
+        !modalEl.current.contains(e.target) &&
+        anchorEl &&
+        !anchorEl.contains(e.target)
+      ) {
+        handleClosePopover()
       }
     }
-    document.addEventListener('click', handler, true)
+    document.addEventListener('mousedown', handler)
+
     return () => {
-      document.removeEventListener('click', handler)
+      document.removeEventListener('mousedown', handler)
     }
-  }, [])
+  }, [anchorEl, handleClosePopover])
 
   useEffect(() => {
     const {
@@ -93,12 +96,14 @@ export const CopyTimesModal = ({
       onClose={handleClosePopover}
       anchorOrigin={{
         vertical: 'bottom',
-        horizontal: 'right',
+        horizontal: 'left',
       }}
       transformOrigin={{
         vertical: 'top',
         horizontal: 'left',
       }}
+      disablePortal
+      keepMounted
     >
       <div className='copy-times-modal' ref={modalEl}>
         <p className='copy-times-text'>
@@ -109,11 +114,11 @@ export const CopyTimesModal = ({
           selectedDay={day}
           checked={checked}
           setChecked={setChecked}
-          key={idx}
+          key='Everyday'
         />
         {weekdayNames.map(
           weekdayName =>
-            weekdayName != weekdaysMap[day] && (
+            weekdayName !== weekdaysMap[day] && (
               <CopyTimesOption
                 day={weekdayName}
                 selectedDay={day}

@@ -17,25 +17,24 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const [currentIdx, setCurrentIdx] = useState(null)
   const [disableAdd, toggleDisableAdd] = useState(false)
-  const [displayModal, toggleDisplayModal] = useState({
-    0: false,
-  })
+  const [displayModal, toggleDisplayModal] = useState({})
   const open = Boolean(anchorEl)
   const id = open ? 'meeting-popover' : undefined
-  const handleClosePopover = () => {
-    setAnchorEl(null)
-    setCurrentIdx(null)
-    toggleDisplayModal({ ...displayModal, [currentIdx]: false })
-  }
 
   const getDisplay = idx => {
     return displayModal[idx]
   }
 
+  const handleClosePopover = () => {
+    setAnchorEl(null)
+    setCurrentIdx(null)
+    toggleDisplayModal({})
+  }
+
   const handleRenderModal = (e, idx) => {
     setAnchorEl(e.currentTarget)
     setCurrentIdx(idx)
-    toggleDisplayModal({ ...displayModal, [idx]: true })
+    toggleDisplayModal({ [idx]: true })
   }
 
   return (
@@ -105,7 +104,7 @@ export const TimeSlotInput = ({ day, days, setDays }) => {
                   copyTimes={copyTimes}
                   setDays={setDays}
                   handleRenderModal={handleRenderModal}
-                  open={open}
+                  open={open && currentIdx === idx}
                   id={id}
                   anchorEl={anchorEl}
                   handleClosePopover={handleClosePopover}
