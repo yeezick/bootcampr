@@ -32,8 +32,11 @@
       display: flex;
       flex-direction: column;
       gap: 32px;
-      width: 470px;
-
+      max-height: 520px;
+      overflow-y: scroll;
+      padding-right: 16px;
+      width: 486px;
+     
       .text-input {
         background-color: #fff;
         margin-left: 32px;
