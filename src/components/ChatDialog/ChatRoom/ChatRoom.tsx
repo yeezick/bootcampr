@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { AiOutlineSend } from 'react-icons/ai'
 import { createGroupChatMessage, createPrivateMessage } from 'utils/api/chat'
-import { useSocketEvents } from 'components/Notifications/Socket'
+import { useChatSocketEvents } from 'components/Socket/chatSocket'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import {
@@ -18,7 +18,7 @@ export const ChatRoom = () => {
   const textForm = useAppSelector(state => state.chatbox.chatText)
   const [selectedMessages, setSelectedMessages] = useState([])
   const containerRef = useRef(null)
-  const { sendMessage } = useSocketEvents(true)
+  const { sendMessage } = useChatSocketEvents(true)
 
   useEffect(() => {
     dispatch(setActiveChatRoomId(currentConversation._id))
