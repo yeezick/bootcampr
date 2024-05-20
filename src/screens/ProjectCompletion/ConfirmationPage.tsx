@@ -78,7 +78,7 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
       </section>
 
       <section className='url-container'>
-        <ProjectUrl setIsDisabled={setIsInvalidUrl} />
+        <ProjectUrl setIsDisabled={setIsInvalidUrl} labelText='Project URL' />
       </section>
 
       <section className='participation-container'>

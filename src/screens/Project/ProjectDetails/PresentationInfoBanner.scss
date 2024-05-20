@@ -1,7 +1,10 @@
 .presentation-info-banner {
   background-color: lightblue;
   color: blue;
-
+  .modal-trigger {
+    font-weight: bold;
+    text-decoration: underline;
+  }
   .deployed-url {
     text-decoration: underline;
   }

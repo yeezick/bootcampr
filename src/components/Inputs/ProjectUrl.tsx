@@ -8,7 +8,12 @@ import {
   updateDeployedUrl,
 } from 'utils/redux/slices/projectSlice'
 
-export const ProjectUrl = ({ setIsDisabled }) => {
+interface ProjectUrlProps {
+  labelText?: string
+  setIsDisabled: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const ProjectUrl = ({ setIsDisabled, labelText }: ProjectUrlProps) => {
   const dispatch = useDispatch()
   const completedInfo = useSelector(selectCompletedInfo)
   const deployedUrl =
@@ -28,7 +33,7 @@ export const ProjectUrl = ({ setIsDisabled }) => {
   return (
     <FormControl className='url-input'>
       <label htmlFor='projectUrl'>
-        <p>Project Url</p>
+        <p>{labelText}</p>
       </label>
       <input
         id='projectUrl'

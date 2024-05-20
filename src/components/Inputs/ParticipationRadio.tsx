@@ -14,7 +14,7 @@ import {
 } from 'utils/redux/slices/projectSlice'
 
 interface ParticipationRadioProps {
-  labelText: string
+  labelText?: string
   setIsDisabled: React.Dispatch<React.SetStateAction<boolean>>
   helperText?: string
 }
@@ -57,9 +57,11 @@ export const ParticipationRadio = ({
           control={<Radio className='participation-radio' />}
           label='My team will not participate'
         />
-        <FormHelperText className='participation-helper-text'>
-          *Please let us know by {helperText} if you plan to participate.
-        </FormHelperText>
+        {helperText && (
+          <FormHelperText className='participation-helper-text'>
+            *Please let us know by {helperText} if you plan to participate.
+          </FormHelperText>
+        )}
       </RadioGroup>
     </FormControl>
   )
