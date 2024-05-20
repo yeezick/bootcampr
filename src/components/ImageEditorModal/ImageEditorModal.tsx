@@ -6,8 +6,7 @@ import {
   setUploadedImage,
 } from 'utils/redux/slices/userSlice'
 import { ToggleImageModalProps } from '../../interfaces/ProfileImageInterfaces'
-import ImageEditorControls from './ImageEditorControls'
-import ImageEditorContent from './ImageEditorContent'
+import { ImageEditorAvatar } from './ImageEditorAvatar'
 import { saveCroppedImage } from './ImageEditorModalUtils'
 import getCroppedImg from 'components/Crop/Utils/CropImage'
 import { Box, DialogTitle, Dialog, DialogActions } from '@mui/material'
@@ -25,10 +24,11 @@ import './ImageEditorModal.scss'
  * @param {Function} setUploadedImage - Function to update the uploaded image.
  * @returns {JSX.Element} - ImageEditorModal component.
  */
-const ImageEditorModal: React.FC<ToggleImageModalProps> = ({
+export const ImageEditorModal: React.FC<ToggleImageModalProps> = ({
   onOpen,
   onClose,
-  onCloseProfilePreviewImageModal,
+  onCloseProfilePreviewAvatarModal = () => {},
+  setImageUploaded,
 }) => {
   const dispatch = useAppDispatch()
   const profilePicture = useAppSelector(getUserProfileImage)
@@ -58,16 +58,12 @@ const ImageEditorModal: React.FC<ToggleImageModalProps> = ({
         if (croppedImageURL) {
           try {
             const croppedImageFile = await saveCroppedImage(croppedImageURL)
-            const imageUploaded = await updateUserImage(
-              userId,
-              croppedImageFile
-            )
-
-            console.log('saved imagedUploaded', imageUploaded.image)
-            dispatch(setUploadedImage(imageUploaded.image))
+            const updateUser = await updateUserImage(userId, croppedImageFile)
+            dispatch(setUploadedImage(updateUser.image))
             dispatch(successSnackbar('Photo saved!'))
             handleClose()
-            onCloseProfilePreviewImageModal()
+            onCloseProfilePreviewAvatarModal()
+            if (setImageUploaded) setImageUploaded(true)
           } catch (error) {
             console.log('Failed to generate cropped image URL:', error)
             dispatch(errorSnackbar('Photo did not upload. Please try again.'))
@@ -79,9 +75,10 @@ const ImageEditorModal: React.FC<ToggleImageModalProps> = ({
     profilePicture,
     cropArea,
     handleClose,
-    onCloseProfilePreviewImageModal,
+    onCloseProfilePreviewAvatarModal,
     dispatch,
     userId,
+    setImageUploaded,
   ])
 
   return (
@@ -98,7 +95,7 @@ const ImageEditorModal: React.FC<ToggleImageModalProps> = ({
         <CloseIcon className='image-modal__close-btn' onClick={onClose} />
       </Box>
       <div className='image-modal__content'>
-        <ImageEditorContent
+        <ImageEditorAvatar
           profilePicture={profilePicture}
           crop={crop}
           setCrop={setCrop}
@@ -107,14 +104,18 @@ const ImageEditorModal: React.FC<ToggleImageModalProps> = ({
           // setZoom={setZoom}
         />
         <DialogActions className='image-modal__actions'>
-          <ImageEditorControls
-            handleClose={handleClose}
-            handleSave={handleSave}
-          />
+          <Box className='image-modal__action-box'>
+            <Box className='image-modal__button-box'>
+              <button className='image-modal__cancel-btn' onClick={handleClose}>
+                Cancel
+              </button>
+              <button className='image-modal__save-btn' onClick={handleSave}>
+                Save photo
+              </button>
+            </Box>
+          </Box>
         </DialogActions>
       </div>
     </Dialog>
   )
 }
-
-export default ImageEditorModal

@@ -1,13 +1,13 @@
 import { useCallback, useState, useRef } from 'react'
 import { useAppSelector, useAppDispatch } from 'utils/redux/hooks'
-import { selectUserId } from 'utils/redux/slices/userSlice'
 import {
+  selectUserId,
   setUploadedImage,
   setDefaultProfilePicture,
 } from 'utils/redux/slices/userSlice'
 import { ToggleImageModalProps } from 'interfaces/ProfileImageInterfaces'
 import { deleteUserImage } from '../../utils/api/services'
-import ImageEditorModal from 'components/ImageEditorModal/ImageEditorModal'
+import { ImageEditorModal } from 'components/ImageEditorModal/ImageEditorModal'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
 import Avatar from 'components/Avatar/Avatar'
 import {
@@ -19,23 +19,23 @@ import {
   IconButton,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import { MdOutlineEdit } from 'react-icons/md'
 import { GrTrash } from 'react-icons/gr'
 import { MdOutlineCameraEnhance } from 'react-icons/md'
-import './ProfilePreviewImage.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import './ProfilePreviewAvatar.scss'
 
 /**
- * ProfilePreviewImage component displays a preview of the profile image, allowing the user to add, edit, or delete the image.
+ * ProfilePreviewAvatar component displays a preview of the profile image, allowing the user to add, edit, or delete the image.
  * @param {boolean} open - Indicates if the dialog is open.
  * @param {Function} onClose - Function to call when the dialog is closed.
- * @param {string} uploadedImage - The uploaded image in base64 format.
- * @returns {JSX.Element} - ProfilePreviewImage component.
+ * @param {string} setImageUploaded - To determine if t he uploaded image state is true or false.
+ * @returns {JSX.Element} - ProfilePreviewAvatar component.
  */
 
-export const ProfilePreviewImage: React.FC<ToggleImageModalProps> = ({
+export const ProfilePreviewAvatar: React.FC<ToggleImageModalProps> = ({
   onOpen,
   onClose,
+  setImageUploaded,
 }) => {
   const dispatch = useAppDispatch()
   const userId = useAppSelector(selectUserId)
@@ -44,11 +44,10 @@ export const ProfilePreviewImage: React.FC<ToggleImageModalProps> = ({
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const openImageEditor = () => setIsImageEditorOpen(true)
   const closeImageEditor = () => setIsImageEditorOpen(false)
   const openDeleteModal = () => setIsDeleteModalOpen(true)
   const closeDeleteModal = () => setIsDeleteModalOpen(false)
-  const closeProfilePreviewImageModal = () => onClose()
+  const closeProfilePreviewAvatarModal = () => onClose()
   const handleOpenFileInput = () => fileInputRef.current?.click()
 
   const handleEditorModalClose = useCallback(() => {
@@ -98,16 +97,6 @@ export const ProfilePreviewImage: React.FC<ToggleImageModalProps> = ({
               <Box className='profile-preview__edit-box'>
                 <div className='profile-preview__btn-container'>
                   <IconButton
-                    aria-label='edit'
-                    className='profile-preview__edit-btn'
-                    onClick={openImageEditor}
-                  >
-                    <MdOutlineEdit className='profile-preview__edit-icon' />
-                  </IconButton>
-                  <p>Edit</p>
-                </div>
-                <div className='profile-preview__btn-container'>
-                  <IconButton
                     aria-label='change'
                     className='profile-preview__add-btn'
                     onClick={handleOpenFileInput}
@@ -135,11 +124,12 @@ export const ProfilePreviewImage: React.FC<ToggleImageModalProps> = ({
             onClose={onClose}
             isDeleteModalOpen={isDeleteModalOpen}
             closeDeleteModal={closeDeleteModal}
+            setImageUploaded={setImageUploaded}
           />
           <ImageEditorModal
             onOpen={isImageEditorOpen}
             onClose={closeImageEditor}
-            onCloseProfilePreviewImageModal={closeProfilePreviewImageModal}
+            onCloseProfilePreviewAvatarModal={closeProfilePreviewAvatarModal}
           />
         </div>
       </Dialog>
@@ -153,6 +143,7 @@ const DeleteWarningModal = ({
   onClose,
   isDeleteModalOpen,
   closeDeleteModal,
+  setImageUploaded,
 }) => {
   const handleDeleteImage = async () => {
     try {
@@ -163,6 +154,7 @@ const DeleteWarningModal = ({
         dispatch(successSnackbar('Profile photo deleted'))
         closeDeleteModal()
         onClose()
+        if (setImageUploaded) setImageUploaded(false)
       } else {
         throw new Error('Failed to delete image')
       }

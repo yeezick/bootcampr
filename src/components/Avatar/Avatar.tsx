@@ -1,26 +1,20 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   getUserProfileImage,
   selectAuthUser,
   setUploadedImage,
 } from 'utils/redux/slices/userSlice'
-import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { selectUsersById } from 'utils/redux/slices/projectSlice'
+import { generateDefaultPicture } from 'utils/helpers'
 import { AvatarProps } from 'interfaces/ProfileImageInterfaces'
-import { ProfilePreviewImage } from 'screens/ProfilePreviewImage/ProfilePreviewImage'
+import { ProfilePreviewAvatar } from 'screens/ProfilePreviewAvatar/ProfilePreviewAvatar'
+import { ImageEditorModal } from 'components/ImageEditorModal/ImageEditorModal'
+import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
 import { IconButton } from '@mui/material'
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined'
-import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
-import { generateDefaultPicture } from 'utils/helpers'
-import { infoSnackbar } from 'utils/helpers/commentHelpers'
-import { selectUsersById } from 'utils/redux/slices/projectSlice'
 import './Avatar.scss'
 
-// TODO: avatar should take a user ID instead of relying on authUser
-/**
- * Avatar component to display a user's avatar image.
- * @param {boolean} [clickable=true] - Indicates if the avatar is clickable.
- * @returns {JSX.Element} - Avatar component.
- */
 const Avatar: React.FC<AvatarProps> = ({
   clickable = true,
   openModal,
@@ -28,31 +22,37 @@ const Avatar: React.FC<AvatarProps> = ({
   hasIcon = false,
   iconButtonClassName,
   addPhotoIconId,
-  size,
   userId,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false) // should be more semantic.
+  const dispatch = useAppDispatch()
+  const memoizedUserId = useMemo(() => selectUsersById([userId]), [userId])
+  const [user] = useAppSelector(memoizedUserId)
+  const profilePicture = useAppSelector(getUserProfileImage)
+  const authUser = useAppSelector(selectAuthUser)
+
+  const [isImageEditorOpen, setIsImageEditorOpen] = useState<boolean>(false)
+  const [imageUploaded, setImageUploaded] = useState<boolean>(false)
   const [userNames, setUserNames] = useState({
     firstName: '',
     lastName: '',
   })
-  const dispatch = useAppDispatch()
-  const profilePicture = useAppSelector(getUserProfileImage)
-  const memoizedUserId = useMemo(() => selectUsersById([userId]), [userId])
-  const [user] = useAppSelector(memoizedUserId)
-  const authUser = useAppSelector(selectAuthUser)
+
   const imgClassName = clickable || setAnchorEl ? 'avatar-img' : 'non-clickable'
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const handleOpenModal = () => {
-    dispatch(infoSnackbar('This feature is coming soon!'))
-    setIsModalOpen(true) // revert when image uploading feature is fixed
-  }
-  const handleCloseModal = () => setIsModalOpen(false)
+  const handleCloseImageEditor = () => setIsImageEditorOpen(false)
+
+  const defaultImageURL = generateDefaultPicture(
+    userNames.firstName,
+    userNames.lastName
+  )
 
   useEffect(() => {
     dispatch(setUploadedImage(profilePicture))
-  }, [dispatch, profilePicture])
+    if (profilePicture === defaultImageURL) {
+      setImageUploaded(false)
+    }
+  }, [dispatch, profilePicture, defaultImageURL])
 
   useEffect(() => {
     if (user) {
@@ -63,9 +63,9 @@ const Avatar: React.FC<AvatarProps> = ({
         lastName: authUser.lastName,
       })
     }
-  }, [authUser.firstName, authUser.lastName, user])
+  }, [authUser, user])
 
-  const handleClick = e => {
+  const handleAvatarClick = e => {
     if (clickable && openModal) {
       openModal()
       return
@@ -74,21 +74,21 @@ const Avatar: React.FC<AvatarProps> = ({
     }
   }
 
+  const handleFileInputChange = (dataUrl: string) => {
+    dispatch(setUploadedImage(dataUrl))
+    setIsImageEditorOpen(true)
+  }
+
   const handleIconClick = () => {
-    if (!profilePicture && hasIcon) {
+    if (!hasIcon) return
+
+    if (profilePicture !== defaultImageURL) {
+      setIsImageEditorOpen(true)
+      setImageUploaded(true)
+    } else {
       fileInputRef.current?.click()
     }
   }
-
-  const handleFileInputChange = (dataURL: string) => {
-    dispatch(setUploadedImage(dataURL))
-    setIsModalOpen(true)
-  }
-
-  const defaultImageURL = generateDefaultPicture(
-    userNames.firstName,
-    userNames.lastName
-  )
 
   return (
     <>
@@ -99,13 +99,13 @@ const Avatar: React.FC<AvatarProps> = ({
               className={imgClassName}
               src={profilePicture}
               alt='avatar'
-              onClick={handleClick}
+              onClick={handleAvatarClick}
             />
             {hasIcon && (
               <IconButton
                 aria-label='change profile pic'
                 className={iconButtonClassName}
-                onClick={handleOpenModal}
+                onClick={handleIconClick}
                 sx={{ backgroundColor: '#ecebeb' }}
               >
                 <AddAPhotoOutlinedIcon id={addPhotoIconId} />
@@ -132,7 +132,19 @@ const Avatar: React.FC<AvatarProps> = ({
         onFileChange={handleFileInputChange}
         fileInputRef={fileInputRef}
       />
-      <ProfilePreviewImage onOpen={isModalOpen} onClose={handleCloseModal} />
+      {!imageUploaded ? (
+        <ImageEditorModal
+          onOpen={isImageEditorOpen}
+          onClose={handleCloseImageEditor}
+          setImageUploaded={setImageUploaded}
+        />
+      ) : (
+        <ProfilePreviewAvatar
+          onOpen={isImageEditorOpen}
+          onClose={handleCloseImageEditor}
+          setImageUploaded={setImageUploaded}
+        />
+      )}
     </>
   )
 }

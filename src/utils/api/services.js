@@ -9,7 +9,6 @@ export const updateUserImage = async (userId, imageFile) => {
     const res = await api.post(`/users/${userId}/addImage`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
-    console.log('data', res.data)
     return res.data
   } catch (err) {
     console.error('Error updating user image:', err)

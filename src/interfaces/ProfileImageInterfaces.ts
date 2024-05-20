@@ -20,7 +20,8 @@ export interface TeamAvatarProps {
 export interface ToggleImageModalProps {
   onOpen?: boolean
   onClose?: () => void
-  onCloseProfilePreviewImageModal?: () => void
+  onCloseProfilePreviewAvatarModal?: () => void
+  setImageUploaded?: (value: boolean) => void
 }
 
 export interface ImageEditorContentProps {
