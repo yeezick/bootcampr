@@ -63,14 +63,18 @@ export const SelectTimeInput = ({
 
 const selectSX = {
   padding: '0 !important',
-  fontSize: '14px',
+  fontSize: '16px',
   '& .MuiSvgIcon-root': { display: 'none' },
   backgroundColor: '#fefefe',
+  borderColor: 'black',
+  '& .MuiOutlinedInput-notchedOutline': {
+    border: '1px solid black',
+  },
   '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
     border: 1,
     borderColor: 'black',
   },
-  width: '87px',
+  width: '108px',
   elevation: '0',
 }
 

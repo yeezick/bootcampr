@@ -30,7 +30,7 @@ export const EditAvailability = () => {
 
   return (
     <div className='edit-availability-container'>
-      <Availability />
+      <Availability context='users-profile' />
       <div className='edit-availability-btn-group'>
         <PrimaryButton handler={handleSaveAvailability} text='Save' />
       </div>

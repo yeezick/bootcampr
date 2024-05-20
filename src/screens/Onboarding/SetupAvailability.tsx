@@ -63,7 +63,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
           </strong>
         </i>
       </div>
-      <Availability />
+      <Availability context='onboarding' />
       <div className='setup-avail-buttons-wrapper'>
         <div className='setup-avail-buttons'>
           <PaginatorButton
