@@ -3,6 +3,7 @@ import { Overview } from './Overview'
 import { ProjectTimeline } from './ProjectTimeline'
 import { Presentation } from './Presentation'
 import './ProjectDetails.scss'
+import { PresentationInfoBanner } from './PresentationInfoBanner'
 
 export const ProjectDetails = () => {
   const tabData = [
@@ -43,6 +44,7 @@ const RenderTab = ({ tabs }) => {
 
   return (
     <div className='pd-nav-cont'>
+      <PresentationInfoBanner />
       <div className='pd-nav-tabs-btns'>
         {tabs.map((tab, index) => (
           <TabButton
