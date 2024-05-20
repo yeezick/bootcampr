@@ -1,5 +1,8 @@
 import { Availability } from 'components/Availability/Availability'
-import { saveAvailability } from 'components/Availability/utils/helpers'
+import {
+  disableForwardButton,
+  saveAvailability,
+} from 'components/Availability/utils/helpers'
 import { PrimaryButton } from 'components/Buttons'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
@@ -10,6 +13,7 @@ import {
 import './EditAvailability.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { AvailabilityInterface } from 'interfaces'
+import { useEffect, useState } from 'react'
 
 export const EditAvailability = () => {
   const dispatch = useAppDispatch()
@@ -18,6 +22,7 @@ export const EditAvailability = () => {
   const userAvailability = useAppSelector<AvailabilityInterface>(
     selectUserAvailability
   )
+  const [isDisabled, setIsDisabled] = useState(true)
 
   const handleSaveAvailability = async () => {
     try {
@@ -28,11 +33,20 @@ export const EditAvailability = () => {
     }
   }
 
+  useEffect(() => {
+    const disabled = disableForwardButton(userAvailability)
+    setIsDisabled(disabled)
+  }, [userAvailability])
+
   return (
     <div className='edit-availability-container'>
       <Availability context='users-profile' />
       <div className='edit-availability-btn-group'>
-        <PrimaryButton handler={handleSaveAvailability} text='Save' />
+        <PrimaryButton
+          handler={handleSaveAvailability}
+          text='Save'
+          disabled={isDisabled}
+        />
       </div>
     </div>
   )
