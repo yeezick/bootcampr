@@ -4,6 +4,8 @@ import { ProjectTimeline } from './ProjectTimeline'
 import { Presentation } from './Presentation'
 import './ProjectDetails.scss'
 import { PresentationInfoBanner } from './PresentationInfoBanner'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectCompletedInfo } from 'utils/redux/slices/projectSlice'
 
 export const ProjectDetails = () => {
   const tabData = [
@@ -27,6 +29,8 @@ const RenderTab = ({ tabs }) => {
   const [activeTab, setActiveTab] = useState(0)
   const [indicatorWidth, setIndicatorWidth] = useState(0)
   const [indicatorLeft, setIndicatorLeft] = useState(0)
+  const projectSubmissionInfo = useAppSelector(selectCompletedInfo)
+  const isProjectSubmitted = Boolean(projectSubmissionInfo.deployedUrl)
 
   const handleTabClick = (tabIndex: number) => {
     setActiveTab(tabIndex)
@@ -44,7 +48,7 @@ const RenderTab = ({ tabs }) => {
 
   return (
     <div className='pd-nav-cont'>
-      <PresentationInfoBanner />
+      {isProjectSubmitted && <PresentationInfoBanner />}
       <div className='pd-nav-tabs-btns'>
         {tabs.map((tab, index) => (
           <TabButton

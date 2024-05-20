@@ -57,7 +57,7 @@ export const SideMenu = () => {
         <SideMenuLinks />
         {title === 'Project Portal' && isActiveUser && (
           <PrimaryButton
-            disabled={isDisabled}
+            // disabled={isDisabled}
             onClick={handleProjectCompletion}
             label='Submit project'
             style={{ bottom: 32, position: 'absolute', width: '235px' }}

@@ -29,7 +29,7 @@ export const ParticipationRadio = ({
   const presenting = completedInfo.presenting
 
   const handleChange = e => {
-    const participating = e.target.value
+    const participating = e.target.value === 'true'
     dispatch(updatePresenting(participating))
   }
 
@@ -48,12 +48,12 @@ export const ParticipationRadio = ({
         onChange={handleChange}
       >
         <FormControlLabel
-          value='true'
+          value={true}
           control={<Radio className='participation-radio' />}
           label='My team will participate'
         />
         <FormControlLabel
-          value='false'
+          value={false}
           control={<Radio className='participation-radio' />}
           label='My team will not participate'
         />
