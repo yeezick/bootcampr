@@ -4,13 +4,7 @@ import {
   selectPresentationDate,
 } from 'utils/redux/slices/projectSlice'
 import './PresentationInfoBanner.scss'
-import { getUserTimezone } from 'utils/redux/slices/userSlice'
-import { convertOffsetToTimezone } from 'utils/data/timeZoneConstants'
-import {
-  convertPresentationDateUserTZ,
-  formatLastCallDate,
-  getFullUrl,
-} from 'utils/helpers'
+import { formatLastCallDate, getFullUrl } from 'utils/helpers'
 import { useState } from 'react'
 import { CommonModal } from 'components/CommonModal/CommonModal'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
@@ -23,15 +17,11 @@ export const PresentationInfoBanner = () => {
     useState<boolean>(false)
   const [isDisabled, setIsDisabled] = useState<boolean>(true)
   const projectSubmissionInfo = useAppSelector(selectCompletedInfo)
-  const userTimezoneOffset = useAppSelector(getUserTimezone)
   const presentationDate = useAppSelector(selectPresentationDate)
   const { presenting, deployedUrl } = projectSubmissionInfo
-  const userTimezoneInfo = convertOffsetToTimezone[userTimezoneOffset]
-  const { startDate } = convertPresentationDateUserTZ(
-    presentationDate,
-    userTimezoneInfo?.timezone
+  const lastCallForProjectEditsDate = formatLastCallDate(
+    presentationDate.startDateEST
   )
-  const lastCallForProjectEditsDate = formatLastCallDate(startDate)
   const fullUrl = getFullUrl(deployedUrl)
 
   const isModalOpen = isUrlModalOpen || isPresentingModalOpen
