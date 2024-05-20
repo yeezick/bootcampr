@@ -22,12 +22,22 @@ export const UrlPage = ({ handlePageNavigation }) => {
   const [isDisabled, setIsDisabled] = useState(true)
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
-  const [primaryIsLoading, setPrimaryIsLoading] = useState<boolean>(false)
-  const [secondaryIsLoading, setSecondaryIsLoading] = useState<boolean>(false)
+  const [isForwardLoading, setIsForwardLoading] = useState<boolean>(false)
+  const [isCancelLoading, setIsCancelLoading] = useState<boolean>(false)
 
-  const handleSubmit = async () => {
-    setPrimaryIsLoading(true)
+  const withLoadingState = (loadingSetter, asyncFunction) => async () => {
+    loadingSetter(true)
+    try {
+      await asyncFunction()
+    } catch (err) {
+      console.error(err)
+      dispatch(errorSnackbar('Url failed to save. Please try again.'))
+    } finally {
+      loadingSetter(false)
+    }
+  }
 
+  const handleSubmitAction = async () => {
     const updatedProject = {
       completedInfo: {
         ...completedInfo,
@@ -35,21 +45,12 @@ export const UrlPage = ({ handlePageNavigation }) => {
       },
     }
 
-    try {
-      await editProject(projectID, updatedProject)
-      handlePageNavigation('next')
-      window.scrollTo(0, 0)
-      setPrimaryIsLoading(false)
-    } catch (err) {
-      console.error(err)
-      dispatch(errorSnackbar('Url failed to save. Please try again.'))
-      setPrimaryIsLoading(false)
-    }
+    await editProject(projectID, updatedProject)
+    handlePageNavigation('next')
+    window.scrollTo(0, 0)
   }
 
-  const handleCancel = async () => {
-    setSecondaryIsLoading(true)
-
+  const handleCancelAction = async () => {
     const updatedProject = {
       completedInfo: {
         deployedUrl: '',
@@ -57,18 +58,14 @@ export const UrlPage = ({ handlePageNavigation }) => {
       },
     }
 
-    try {
-      await editProject(projectID, updatedProject)
-      navigate(`/project/${projectID}`)
-      dispatch(updateDeployedUrl(''))
-      dispatch(updatePresenting(null))
-      setSecondaryIsLoading(false)
-    } catch (err) {
-      console.error(err)
-      dispatch(errorSnackbar('Url failed to save. Please try again.'))
-      setSecondaryIsLoading(false)
-    }
+    await editProject(projectID, updatedProject)
+    navigate(`/project/${projectID}`)
+    dispatch(updateDeployedUrl(''))
+    dispatch(updatePresenting(null))
   }
+
+  const handleNext = withLoadingState(setIsForwardLoading, handleSubmitAction)
+  const handleCancel = withLoadingState(setIsCancelLoading, handleCancelAction)
 
   return (
     <div className='project-completion-url-page' aria-labelledby='formHeading'>
@@ -81,13 +78,13 @@ export const UrlPage = ({ handlePageNavigation }) => {
             <SecondaryButton
               onClick={handleCancel}
               label='Cancel'
-              loading={secondaryIsLoading}
+              loading={isCancelLoading}
             />
             <ForwardButton
-              onClick={handleSubmit}
+              onClick={handleNext}
               label='Presentation'
               disabled={isDisabled}
-              loading={primaryIsLoading}
+              loading={isForwardLoading}
             />
           </ButtonContainer>
         </Stack>

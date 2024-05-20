@@ -26,7 +26,8 @@ export const PresentationPage = ({ handlePageNavigation }) => {
   const presenting = completedInfo.presenting
   const dispatch = useAppDispatch()
   const [isDisabled, setIsDisabled] = useState(true)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isForwardLoading, setIsForwardLoading] = useState<boolean>(false)
+  const [isBackLoading, setIsBackLoading] = useState<boolean>(false)
   const userTimezoneOffset = useAppSelector(getUserTimezone)
   const presentationDate = useAppSelector(selectPresentationDate)
   const userTimezoneInfo = convertOffsetToTimezone[userTimezoneOffset]
@@ -40,8 +41,6 @@ export const PresentationPage = ({ handlePageNavigation }) => {
   )
 
   const updatePresenting = async () => {
-    setIsLoading(true)
-
     const updatedProject = {
       completedInfo: {
         presenting: presenting,
@@ -51,20 +50,26 @@ export const PresentationPage = ({ handlePageNavigation }) => {
 
     try {
       await editProject(projectID, updatedProject)
-      handlePageNavigation('next')
       window.scrollTo(0, 0)
-      setIsLoading(false)
     } catch (error) {
       console.error(error)
       dispatch(errorSnackbar('Participation failed to save. Please try again.'))
-      setIsLoading(false)
     }
   }
 
   const handleNavigationButtons = async (direction: 'previous' | 'next') => {
-    await updatePresenting()
-    handlePageNavigation(direction)
+    const setLoading =
+      direction === 'next' ? setIsForwardLoading : setIsBackLoading
+
+    setLoading(true)
+    try {
+      await updatePresenting()
+      handlePageNavigation(direction)
+    } finally {
+      setLoading(false)
+    }
   }
+
   const handlePrevious = () => handleNavigationButtons('previous')
   const handleNext = () => handleNavigationButtons('next')
 
@@ -80,11 +85,16 @@ export const PresentationPage = ({ handlePageNavigation }) => {
         />
 
         <ButtonContainer gap={16}>
-          <BackButton onClick={handlePrevious} label='URL' />
+          <BackButton
+            onClick={handlePrevious}
+            label='URL'
+            loading={isBackLoading}
+          />
           <ForwardButton
-            disabled={isDisabled}
-            label='Confirmation'
             onClick={handleNext}
+            label='Confirmation'
+            disabled={isDisabled}
+            loading={isForwardLoading}
           />
         </ButtonContainer>
       </Stack>
