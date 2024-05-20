@@ -21,15 +21,14 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
   const [isDisabled, setIsDisabled] = useState(
     isInvalidUrl || isInvalidRadio ? true : false
   )
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isForwardLoading, setIsForwardLoading] = useState<boolean>(false)
+  const [isBackLoading, setIsBackLoading] = useState<boolean>(false)
 
   useEffect(() => {
     setIsDisabled(isInvalidUrl || isInvalidRadio ? true : false)
   }, [setIsDisabled, isInvalidUrl, isInvalidRadio])
 
   const updateCompletedInfo = async () => {
-    setIsLoading(true)
-
     const updatedProject = {
       completedInfo: {
         presenting: presenting,
@@ -39,9 +38,7 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
 
     try {
       await editProject(projectID, updatedProject)
-      handlePageNavigation('next')
       window.scrollTo(0, 0)
-      setIsLoading(false)
     } catch (error) {
       console.error(error)
       dispatch(
@@ -49,14 +46,22 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
           'Presentation information failed to save. Please try again.'
         )
       )
-      setIsLoading(false)
     }
   }
 
   const handleNavigationButtons = async (direction: 'previous' | 'next') => {
-    await updateCompletedInfo()
-    handlePageNavigation(direction)
+    const setLoading =
+      direction === 'next' ? setIsForwardLoading : setIsBackLoading
+
+    setLoading(true)
+    try {
+      await updateCompletedInfo()
+      handlePageNavigation(direction)
+    } finally {
+      setLoading(false)
+    }
   }
+
   const handlePrevious = () => handleNavigationButtons('previous')
   const handleNext = () => handleNavigationButtons('next')
 
@@ -84,12 +89,16 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
       </section>
 
       <ButtonContainer gap={16}>
-        <BackButton onClick={handlePrevious} label='Presentation' />
+        <BackButton
+          onClick={handlePrevious}
+          label='Presentation'
+          loading={isBackLoading}
+        />
         <PrimaryButton
-          loading={isLoading}
-          disabled={isDisabled}
-          label='Submit'
           onClick={handleNext}
+          label='Submit'
+          disabled={isDisabled}
+          loading={isForwardLoading}
         />
       </ButtonContainer>
     </div>
