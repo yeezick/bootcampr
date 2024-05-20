@@ -1,4 +1,6 @@
-import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
+import { BackButton, ForwardButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { useState } from 'react'
 import {
   createCheckout,
   updatePaymentExperience,
@@ -20,28 +22,38 @@ export const SetupProfileBtns = ({
 }) => {
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
+  const [primaryIsLoading, setPrimaryIsLoading] = useState<boolean>(false)
+  const [secondaryIsLoading, setSecondaryIsLoading] = useState<boolean>(false)
+
   const handleSecondaryClick = async e => {
     e.preventDefault()
+    setSecondaryIsLoading(true)
 
     try {
       const updatedUser = await updateUser(authUser._id, updateUserForm)
       dispatch(setAuthUser(updatedUser))
       handlePageNavigation('previous')
+      setSecondaryIsLoading(false)
     } catch (error) {
       dispatch(errorSnackbar('Profile failed to save. Please try again.'))
+      setSecondaryIsLoading(false)
     }
   }
 
   const handlePrimaryClick = async () => {
+    setPrimaryIsLoading(true)
     try {
       await updateUserProfile(updateUserForm)
+      setPrimaryIsLoading(false)
     } catch (err) {
       dispatch(errorSnackbar('Profile failed to save. Please try again.'))
+      setPrimaryIsLoading(false)
     }
 
     const checkoutResponse = await createCheckout()
     if (checkoutResponse.error && !checkoutResponse.checkoutUrl) {
       dispatch(errorSnackbar(checkoutResponse.error))
+      setPrimaryIsLoading(false)
       return
     }
 
@@ -51,34 +63,36 @@ export const SetupProfileBtns = ({
 
     if (updatedUserExperience.error) {
       dispatch(errorSnackbar('Error setting project experience.'))
+      setPrimaryIsLoading(false)
       return
     } else {
       dispatch(updateUserExperience(updatedUserExperience))
       window.location.href = checkoutResponse.checkoutUrl
+      setPrimaryIsLoading(false)
     }
   }
   return (
-    <div className='setupProfile__profile-btns'>
-      <div className='setupProfile__cta-container'>
-        <PaginatorButton
-          buttonType='secondary'
-          text='Availability'
-          handler={handleSecondaryClick}
+    <ButtonContainer
+      style={{ marginTop: '32px', position: 'relative' }}
+      gap={32}
+    >
+      <BackButton
+        loading={secondaryIsLoading}
+        label='Availability'
+        onClick={handleSecondaryClick}
+      />
+      <div className='setupProfile__cta-and-disclaimer'>
+        <ForwardButton
+          loading={primaryIsLoading}
+          label='Complete payment'
+          onClick={handlePrimaryClick}
           disabled={disabledBtn}
         />
-        <div className='complete-payment'>
-          <PaginatorButton
-            buttonType='primary'
-            text='Complete payment'
-            handler={handlePrimaryClick}
-            disabled={disabledBtn}
-          />
-          <p className='payment-disclaimer'>
-            *You will be directed to a third-party payment processor. It is
-            secure.
-          </p>
-        </div>
+        <p>
+          *You will be directed to a third-party payment processor. It is
+          secure.
+        </p>
       </div>
-    </div>
+    </ButtonContainer>
   )
 }

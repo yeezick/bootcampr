@@ -1,8 +1,6 @@
-import { useState } from 'react'
 import { Stack } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
-import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import { PresentationDetails } from 'screens/Project/ProjectDetails/PresentationDetails'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
 import {
@@ -15,6 +13,9 @@ import {
   selectProject,
 } from 'utils/redux/slices/projectSlice'
 import { getUserTimezone } from 'utils/redux/slices/userSlice'
+import { useState } from 'react'
+import { BackButton, ForwardButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 import { useSelector } from 'react-redux'
 import { editProject } from 'utils/api'
 
@@ -78,21 +79,14 @@ export const PresentationPage = ({ handlePageNavigation }) => {
           helperText={presentationDateLastCall}
         />
 
-        <Stack className='btn-container'>
-          <PaginatorButton
-            buttonType='secondary'
-            handler={handlePrevious}
-            text='URL'
-          />
-          <PaginatorButton
-            buttonType='primary'
-            aria-disabled={isDisabled}
+        <ButtonContainer gap={16}>
+          <BackButton onClick={handlePrevious} label='URL' />
+          <ForwardButton
             disabled={isDisabled}
-            text='Confirmation'
-            type='submit'
-            handler={handleNext}
+            label='Confirmation'
+            onClick={handleNext}
           />
-        </Stack>
+        </ButtonContainer>
       </Stack>
     </div>
   )

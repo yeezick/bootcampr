@@ -17,6 +17,7 @@ import './SignIn.scss'
 import { buildProjectPortal } from 'utils/helpers'
 import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
+import { PrimaryButton } from 'components/Buttons'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -30,6 +31,7 @@ const SignIn: React.FC = (): JSX.Element => {
     type: '',
   })
   const [inputType, setInputType] = useState('password')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const VALID_EMAIL_REGEX =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -53,6 +55,7 @@ const SignIn: React.FC = (): JSX.Element => {
 
   const handleSubmitForm = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault()
+    setIsLoading(true)
 
     const response = await signIn(formData)
     if (response?.message) {
@@ -65,6 +68,7 @@ const SignIn: React.FC = (): JSX.Element => {
       setTimeout(() => {
         setAlertBanner({ status: false })
       }, 12000)
+      setIsLoading(false)
       return
     }
 
@@ -100,16 +104,12 @@ const SignIn: React.FC = (): JSX.Element => {
     formValidation()
   }, [formData])
 
-  const nextButtonStyle = `${
-    buttonDisabled ? 'sign_in_btn' : 'sign_in_btn_active'
-  }`
-
   return (
     <div>
       <div className='sign_in'>
         <div className='sign_in_container'>
           <img src={login} alt='a person seated at a desk types on a laptop' />
-          <form className='sign_in_form' onSubmit={handleSubmitForm}>
+          <form className='sign_in_form'>
             <div className='sign_in_content'>
               <h1>Log in</h1>
               {alertBanner.status ? (
@@ -167,15 +167,14 @@ const SignIn: React.FC = (): JSX.Element => {
               </FormControl>
             </div>
             <ForgotPasswordLink hyperlinkText='Forgot your password?' />
-            <div className='sign_in_btn_container'>
-              <button
-                className={nextButtonStyle}
-                disabled={buttonDisabled}
-                type='submit'
-              >
-                Log in
-              </button>
-            </div>
+            <PrimaryButton
+              onClick={handleSubmitForm}
+              loading={isLoading}
+              label='Log in'
+              disabled={buttonDisabled}
+              fullWidth
+              style={{ marginTop: '32px' }}
+            />
             <div className='sign_in_redirect_link'>
               <p>
                 Don't have an account? <Link to='/sign-up'>Sign up</Link>

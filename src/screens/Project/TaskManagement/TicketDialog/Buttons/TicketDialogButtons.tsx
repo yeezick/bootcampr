@@ -6,12 +6,13 @@ import {
   CreateTicketBtn,
   CancelTicketBtn,
 } from '.'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const TicketDialogButtons = () => {
   const ticketDialogState = useAppSelector(selectTicketDialogState)
 
   return (
-    <div className='buttons'>
+    <ButtonContainer gap={32}>
       {ticketDialogState === 'edit' ? (
         <>
           <DeleteTicketBtn />
@@ -23,6 +24,6 @@ export const TicketDialogButtons = () => {
           <CreateTicketBtn />
         </>
       )}
-    </div>
+    </ButtonContainer>
   )
 }

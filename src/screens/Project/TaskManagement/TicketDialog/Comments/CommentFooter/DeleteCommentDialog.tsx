@@ -1,6 +1,7 @@
 import { Dialog, DialogContent } from '@mui/material'
-import { SecondaryButton } from 'components/Buttons'
-import { RedPrimaryButton } from 'components/Buttons/ButtonVariants'
+import { PrimaryButton, TextButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { useState } from 'react'
 import { deleteComment } from 'utils/api/comments'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
@@ -17,7 +18,10 @@ export const DeleteCommentDialog = ({
     useAppSelector(selectTicketFields)
   const dispatch = useAppDispatch()
   const handleCloseDialog = () => toggleDeleteDialog(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   const handleDelete = async () => {
+    setIsLoading(true)
     const deleteResponse = await deleteComment(commentId, ticketId)
     if (deleteResponse.status === 500) {
       dispatch(errorSnackbar(deleteResponse.message))
@@ -26,25 +30,22 @@ export const DeleteCommentDialog = ({
     dispatch(deleteCommentFromTicket({ commentId, ticketId, ticketStatus }))
     toggleFetchComments(state => !state)
     toggleDeleteDialog(false)
+    setIsLoading(false)
   }
   return (
     <Dialog open={open} onClose={handleCloseDialog} maxWidth='xs'>
       <DialogContent className='confirmation-dialog'>
         <h3>Delete comment?</h3>
         <p>Deleting this comment cannot be undone.</p>
-        <div className='buttons'>
-          <SecondaryButton
-            colorScheme='create-task'
-            handler={handleCloseDialog}
-            text='Cancel'
-            variant='text'
+        <ButtonContainer>
+          <TextButton onClick={handleCloseDialog} label='Cancel' />
+          <PrimaryButton
+            loading={isLoading}
+            colorScheme='secondary'
+            onClick={handleDelete}
+            label='Delete'
           />
-          <RedPrimaryButton
-            handler={handleDelete}
-            text='Delete'
-            variant='contained'
-          />
-        </div>
+        </ButtonContainer>
       </DialogContent>
     </Dialog>
   )

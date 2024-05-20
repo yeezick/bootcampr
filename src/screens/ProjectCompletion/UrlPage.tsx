@@ -6,11 +6,11 @@ import {
   updatePresenting,
 } from 'utils/redux/slices/projectSlice'
 import { Stack } from '@mui/material'
-import { SecondaryButton } from 'components/Buttons'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { ForwardButton, SecondaryButton } from 'components/Buttons'
 import { editProject } from 'utils/api'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 
@@ -72,25 +72,20 @@ export const UrlPage = ({ handlePageNavigation }) => {
   return (
     <div className='project-completion-url-page' aria-labelledby='formHeading'>
       <h1 id='formHeading'>Congrats! You've shipped a live product!</h1>
-      <Stack className='form-content' spacing={'32px'}>
-        <p>First, input the URL to your website.</p>
-        <ProjectUrl setIsDisabled={setIsDisabled} />
-        <Stack className='btn-container'>
-          <SecondaryButton
-            className='cancel-btn'
-            handler={handleCancel}
-            text='Cancel'
-          />
-          <PaginatorButton
-            buttonType='primary'
-            disabled={isDisabled}
-            text='Presentation'
-            type='submit'
-            aria-disabled={isDisabled}
-            handler={handleSubmit}
-          />
+      <form>
+        <Stack className='form-content' spacing={'32px'}>
+          <p>First, input the URL to your website.</p>
+          <ProjectUrl setIsDisabled={setIsDisabled} />
+          <ButtonContainer gap={16}>
+            <SecondaryButton onClick={handleCancel} label='Cancel' />
+            <ForwardButton
+              disabled={isDisabled}
+              label='Presentation'
+              onClick={handleSubmit}
+            />
+          </ButtonContainer>
         </Stack>
-      </Stack>
+      </form>
     </div>
   )
 }

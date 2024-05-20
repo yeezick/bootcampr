@@ -4,13 +4,13 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
 import { blankDayJs, changePortalPage, generateDayJs } from 'utils/helpers'
 import { iconMap } from 'utils/components/Icons'
-import { PrimaryButton } from 'components/Buttons'
 import {
   selectCompletedInfo,
   selectProjectId,
   selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
 import './styles/SideMenu.scss'
+import { PrimaryButton } from 'components/Buttons'
 import { selectUserExperience } from 'utils/redux/slices/userSlice'
 
 export const SideMenu = () => {
@@ -48,8 +48,6 @@ export const SideMenu = () => {
     return () => clearInterval(dateCheckInterval)
   }, [active, projectSubmissionDate, isProjectSubmitted])
 
-  const btnClassName = `completion-btn ${!projectId && 'disabled-btn'}`
-
   return (
     <div className='sidemenu'>
       <div className='sidemenu-content'>
@@ -59,10 +57,10 @@ export const SideMenu = () => {
         <SideMenuLinks />
         {title === 'Project Portal' && isActiveUser && (
           <PrimaryButton
-            className={btnClassName}
-            // disabled={isDisabled}
-            handler={handleProjectCompletion}
-            text='Submit Project'
+            disabled={isDisabled}
+            onClick={handleProjectCompletion}
+            label='Submit project'
+            style={{ bottom: 32, position: 'absolute', width: '235px' }}
           />
         )}
       </div>
