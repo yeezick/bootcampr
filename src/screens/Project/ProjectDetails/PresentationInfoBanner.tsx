@@ -8,12 +8,14 @@ import { getUserTimezone } from 'utils/redux/slices/userSlice'
 import { convertOffsetToTimezone } from 'utils/data/timeZoneConstants'
 import {
   convertPresentationDateUserTZ,
-  getLastCallForPresentation,
+  formatLastCallDate,
+  getFullUrl,
 } from 'utils/helpers'
 import { useState } from 'react'
 import { CommonModal } from 'components/CommonModal/CommonModal'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
+import { fetchIcon } from 'utils/components/Icons'
 
 export const PresentationInfoBanner = () => {
   const [isUrlModalOpen, setIsUrlModalOpen] = useState<boolean>(false)
@@ -29,15 +31,13 @@ export const PresentationInfoBanner = () => {
     presentationDate,
     userTimezoneInfo?.timezone
   )
-  const presentationDateLastCall = getLastCallForPresentation(
-    startDate,
-    userTimezoneInfo?.abbr
-  )
+  const lastCallForProjectEditsDate = formatLastCallDate(startDate)
+  const fullUrl = getFullUrl(deployedUrl)
 
   const isModalOpen = isUrlModalOpen || isPresentingModalOpen
   const modalHeading = isUrlModalOpen
     ? 'Update project URL'
-    : 'Edit participation status.'
+    : 'Update participation status.'
   const modalBody = isUrlModalOpen ? (
     <ProjectUrl setIsDisabled={setIsDisabled} />
   ) : (
@@ -50,29 +50,39 @@ export const PresentationInfoBanner = () => {
   return (
     <>
       <div className='presentation-info-banner'>
-        <p>
-          (i) Your team will{presenting ? ' ' : ' not '}be presenting. You can
-          update your participation status{' '}
-          <span
-            className='modal-trigger'
-            onClick={() => setIsPresentingModalOpen(true)}
-          >
-            here
-          </span>{' '}
-          until {presentationDateLastCall}.
-        </p>
-        <p>
-          Your submitted project URL is:{' '}
-          <span className='deployed-url'>{deployedUrl}</span>. You can update
-          your project URL{' '}
-          <span
-            className='modal-trigger'
-            onClick={() => setIsUrlModalOpen(true)}
-          >
-            here
-          </span>
-          .
-        </p>
+        <div className='icon-container'>{fetchIcon('info')}</div>
+        <div className='text-container'>
+          <p>
+            Your team will{presenting ? ' ' : ' not '}be presenting. You can
+            update your participation status{' '}
+            <span
+              className='modal-trigger'
+              onClick={() => setIsPresentingModalOpen(true)}
+            >
+              here
+            </span>{' '}
+            until {lastCallForProjectEditsDate}.
+          </p>
+          <p>
+            Your submitted project URL is:{' '}
+            <a
+              href={fullUrl}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='deployed-url'
+            >
+              {deployedUrl}
+            </a>
+            . You can update your project URL{' '}
+            <span
+              className='modal-trigger'
+              onClick={() => setIsUrlModalOpen(true)}
+            >
+              here
+            </span>
+            .
+          </p>
+        </div>
       </div>
       <CommonModal
         isOpen={isModalOpen}
@@ -82,6 +92,7 @@ export const PresentationInfoBanner = () => {
         handleCancel={handleCancel}
         confirmButtonLabel='Update'
         confirmButtonDisabled={isDisabled}
+        customWidth={368}
       />
     </>
   )

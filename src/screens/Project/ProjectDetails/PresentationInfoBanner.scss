@@ -1,11 +1,26 @@
 .presentation-info-banner {
-  background-color: lightblue;
-  color: blue;
+  background-color: #e4f0f8;
+  color: #1a237e;
+  display: flex;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 16px;
+  width: 77vw;
+
+  .icon-container {
+    padding: 16px;
+  }
+
   .modal-trigger {
-    font-weight: bold;
+    cursor: pointer;
+    font-weight: 700;
     text-decoration: underline;
   }
-  .deployed-url {
-    text-decoration: underline;
+
+  .deployed-url,
+  .deployed-url:visited,
+  .deployed-url:hover,
+  .deployed-url:active {
+    color: #1a237e;
   }
 }
