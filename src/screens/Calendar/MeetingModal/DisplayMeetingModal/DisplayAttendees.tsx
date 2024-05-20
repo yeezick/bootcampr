@@ -60,14 +60,13 @@ export const DisplayAttendees = ({ creator }) => {
 const InvitedMember = ({ member }) => {
   const navigate = useNavigate()
   const memberName = `${member.firstName} ${member.lastName}`
-  const defaultImageURL = generateDefaultPicture(
-    member.firstName,
-    member.lastName
-  ) // BC-800 revert when image uploading feature is fixed
+  const userProfilePicture =
+    member.profilePicture ||
+    generateDefaultPicture(member.firstName, member.lastName)
 
   return (
     <div className='invited-member' key={`${memberName}`}>
-      <img className='member-photo' src={defaultImageURL} />
+      <img className='member-photo' src={userProfilePicture} alt='member-pic' />
       <div className='member-info'>
         <p onClick={() => navigate(`/users/${member.userId}`)}>{memberName}</p>
         <p className='role'>{member.role}</p>
