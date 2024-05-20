@@ -4,13 +4,14 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
 import { blankDayJs, changePortalPage, generateDayJs } from 'utils/helpers'
 import { iconMap } from 'utils/components/Icons'
-import { PrimaryButton } from 'components/Buttons'
 import {
   selectCompletedInfo,
   selectProjectId,
   selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
 import './styles/SideMenu.scss'
+import { PrimaryButton } from 'components/Buttons'
+import { selectUserExperience } from 'utils/redux/slices/userSlice'
 
 export const SideMenu = () => {
   const navigate = useNavigate()
@@ -19,13 +20,19 @@ export const SideMenu = () => {
   const { projectSubmissionDate } = useAppSelector(selectProjectTimeline)
   const { active } = useAppSelector(selectSideMenu)
   const projectSubmissionInfo = useAppSelector(selectCompletedInfo)
+  const userExperience = useAppSelector(selectUserExperience)
   const [isDisabled, setIsDisabled] = useState(true)
   const isProjectSubmitted = Boolean(projectSubmissionInfo.deployedUrl)
+  const isActiveUser = userExperience === 'active'
 
   const handleProjectCompletion = () =>
     navigate(`/project/${projectId}/complete`)
+
   //TODO: Currently set to check every minute but we can adjust as needed, there might be a delay in seconds.
   useEffect(() => {
+    if (!projectSubmissionDate) {
+      return
+    }
     const checkSubmissionTime = () => {
       const submissionDate = generateDayJs(projectSubmissionDate)
       const now = blankDayJs()
@@ -41,8 +48,6 @@ export const SideMenu = () => {
     return () => clearInterval(dateCheckInterval)
   }, [active, projectSubmissionDate, isProjectSubmitted])
 
-  const btnClassName = `completion-btn ${!projectId && 'disabled-btn'}`
-
   return (
     <div className='sidemenu'>
       <div className='sidemenu-content'>
@@ -50,12 +55,12 @@ export const SideMenu = () => {
           <h2>{title}</h2>
         </div>
         <SideMenuLinks />
-        {title === 'Project Portal' && (
+        {title === 'Project Portal' && isActiveUser && (
           <PrimaryButton
-            className={btnClassName}
             disabled={isDisabled}
-            handler={handleProjectCompletion}
-            text='Submit Project'
+            onClick={handleProjectCompletion}
+            label='Submit Project'
+            style={{ bottom: 32, position: 'absolute', width: '235px' }}
           />
         )}
       </div>

@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
@@ -11,11 +10,10 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useSocketEvents } from 'components/Notifications/Socket'
-import {
-  PrimaryButton,
-  SecondaryButton,
-} from 'components/Buttons/ButtonVariants'
+import { PrimaryButton, SecondaryButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
+import { useState } from 'react'
 
 export const TeamMemberCard = ({ member }) => {
   const { _id: memberId } = member
@@ -53,13 +51,16 @@ const MemberButtons = ({ memberId }) => {
   const isCurrentUser = memberId === loggedInUserId
   const dispatch = useAppDispatch()
   const { createNewRoom } = useSocketEvents(false)
-  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleChatMemberClick = async () => {
+    setIsLoading(true)
     try {
       if (isSandboxId(userExperience) || isWaitlistExperience(userExperience)) {
         dispatch(toggleChatOpen())
         dispatch(onScreenUpdate(ChatScreen.Main))
+        setIsLoading(false)
+        return
       }
       const chatResponse = await createOrGetPrivateChatRoom(memberId)
       let room = chatResponse.chatRoom
@@ -70,33 +71,25 @@ const MemberButtons = ({ memberId }) => {
       dispatch(setCurrentChat(room))
       dispatch(toggleChatOpen())
       dispatch(onScreenUpdate(ChatScreen.ChatRoom))
+      setIsLoading(false)
     } catch (error) {
       console.error(error)
+      setIsLoading(false)
     }
   }
 
-  const handleProfile = () => navigate(`/users/${memberId}`)
+  const handleProfile = () => window.open(`/users/${memberId}`)
 
   return (
-    <div className='member-buttons'>
+    <ButtonContainer justify='space-evenly'>
       {!isCurrentUser && (
         <SecondaryButton
-          handler={handleChatMemberClick}
-          text='Send message'
-          sx={buttonSx}
+          loading={isLoading}
+          onClick={handleChatMemberClick}
+          label='Send message'
         />
       )}
-      <PrimaryButton
-        handler={handleProfile}
-        text='View profile'
-        sx={buttonSx}
-      />
-    </div>
+      <PrimaryButton onClick={handleProfile} label='View profile' />
+    </ButtonContainer>
   )
-}
-
-const buttonSx = {
-  height: '32px',
-  fontSize: '12px',
-  backgroundColor: 'red',
 }

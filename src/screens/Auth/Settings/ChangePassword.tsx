@@ -10,10 +10,10 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { logoutAuthUser, selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useFormValidation } from 'utils/helpers'
 import { PasswordInputs } from 'components/Inputs'
-import { ThemeProvider } from '@emotion/react'
-import { Button, createTheme } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
+import { PrimaryButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const ChangePassword = () => {
   const navigate = useNavigate()
@@ -21,7 +21,8 @@ export const ChangePassword = () => {
     useState<PasswordFormData>(emptyPasswordData)
   const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>({})
   const [inputError, setInputError] = useState<boolean>(false)
-  const [isDisabled, toggleIsDisabled] = useState(false)
+  const [isDisabled, toggleIsDisabled] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useDispatch()
 
@@ -31,7 +32,7 @@ export const ChangePassword = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-
+    setIsLoading(true)
     const reqBody = {
       password: formValues.currentPassword,
       newPassword: formValues.password,
@@ -45,13 +46,10 @@ export const ChangePassword = () => {
 
       dispatch(errorSnackbar(passwordData.friendlyMessage))
     } else {
-      await logOut()
-      dispatch(logoutAuthUser())
       setInputError(false)
-      navigate(
-        `/success/${authUser._id}?screen=${SuccessQueryParam.changePassword}`
-      )
+      navigate(`/success?screen=${SuccessQueryParam.changePassword}`)
     }
+    setIsLoading(false)
   }
 
   const resetErrorState = () => {
@@ -60,18 +58,10 @@ export const ChangePassword = () => {
 
   const { password, currentPassword } = formValues
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#FFA726',
-      },
-    },
-  })
-
   useFormValidation(formValues, currentPassword, toggleIsDisabled)
   return (
     <div className='settings-change-password container'>
-      <form className='settings-change-password form' onSubmit={handleSubmit}>
+      <form className='settings-change-password form'>
         <div className='settings-change-password header'>Change password</div>
         <PasswordInputs
           disableErrorState={resetErrorState}
@@ -83,16 +73,14 @@ export const ChangePassword = () => {
           setFormValues={setFormValues}
           passwordInputName='settings-pwd-reset'
         />
-        <ThemeProvider theme={theme}>
-          <Button
-            className='settings-change-password button'
-            variant='contained'
-            type='submit'
+        <ButtonContainer style={{ marginTop: '32px' }}>
+          <PrimaryButton
+            onClick={handleSubmit}
+            loading={isLoading}
             disabled={isDisabled}
-          >
-            Change password
-          </Button>
-        </ThemeProvider>
+            label='Change password'
+          />
+        </ButtonContainer>
       </form>
     </div>
   )

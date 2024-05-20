@@ -30,9 +30,13 @@ import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import './CalendarView.scss'
 import dayjs from 'dayjs'
 import weekday from 'dayjs/plugin/weekday'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
 import { getTeamCommonAvailability } from 'utils/api'
 import { TeamAvailability } from 'interfaces'
 dayjs.extend(weekday)
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 export const CalendarView = () => {
   const calendarId = useAppSelector(selectCalendarId)
@@ -93,11 +97,17 @@ export const CalendarView = () => {
             const end = dayjs(`${projectSundayDates[j]} ${arr[i][1]}`)
               .day(Number(key))
               .format('YYYY-MM-DDTHH:mm:ss')
+            const formatedStart = dayjs
+              .tz(start, 'America/New_York')
+              .format('YYYY-MM-DDTHH:mm:ssZ')
+            const formatedEnd = dayjs
+              .tz(end, 'America/New_York')
+              .format('YYYY-MM-DDTHH:mm:ssZ')
 
             const teamAvailability: TeamAvailability = {
               title: 'Team Availability',
-              start: start,
-              end: end,
+              start: formatedStart,
+              end: formatedEnd,
               backgroundColor: '#E8F5E9',
               borderColor: '#388E3C',
               timeZone: 'America/New_York',
@@ -162,7 +172,7 @@ export const CalendarView = () => {
             }}
             customButtons={{
               createMeeting: {
-                text: '+ Creating Meeting',
+                text: '+ Create meeting',
                 click: () => dispatch(setModalDisplayStatus('create')),
               },
               weekTitle: {

@@ -1,6 +1,7 @@
 @import 'scss/variables';
 
-.main-wrapper, .portal-wrapper {
+.main-wrapper,
+.portal-wrapper {
   margin-top: $nav-height;
 }
 
@@ -44,13 +45,14 @@
       margin: 16px 0;
       font-weight: bold;
 
-      h2, p {
-        margin: 0
+      h2,
+      p {
+        margin: 0;
       }
 
       h2 {
         font-weight: bold;
-        font-size: 28;
+        font-size: 28px;
         line-height: 36px;
       }
 
@@ -67,32 +69,28 @@
         align-items: center;
       }
     }
-
-    .cta-button {
-      margin-right: 32px;
-    }
   }
-  
+
   .portal-layout {
-    display:flex;
-    
+    display: flex;
+
     .portal-view {
       background-color: white;
       height: calc(100vh - $nav-height);
       overflow-y: scroll;
-      width: calc(100% - $sidemenu-width); 
-      
+      width: calc(100% - $sidemenu-width);
+
       &::-webkit-scrollbar {
         display: none;
       }
-      
-      .portal-content { 
-        height: calc(100% - $header-height);        
+
+      .portal-content {
+        height: calc(100% - $header-height);
       }
     }
   }
 }
-  
+
 .landing-main-content-container {
   min-height: calc(100vh - 250px);
 }

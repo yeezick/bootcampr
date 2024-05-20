@@ -11,7 +11,7 @@ import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
 import { useSocketEvents } from 'components/Notifications/Socket'
-import Avatar from 'components/Avatar/Avatar'
+import { Avatar } from 'components/Avatar/Avatar'
 import {
   fetchThreads,
   selectChatUI,
@@ -92,18 +92,21 @@ export const Nav = () => {
             <a
               className={`header-link ${isActiveLink('contact-us')}`}
               href='https://landing.bootcampr.io/contactus'
+              target='_blank'
             >
               Contact Us
             </a>
             <a
               className={`header-link ${isActiveLink('community')}`}
               href='https://landing.bootcampr.io/community'
+              target='_blank'
             >
               Community
             </a>
             <a
               className={`header-link ${isActiveLink('enterprise')}`}
               href='https://landing.bootcampr.io/enterprise'
+              target='_blank'
             >
               Enterprise
             </a>

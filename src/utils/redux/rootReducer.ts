@@ -22,7 +22,7 @@ export type RootState = {
 /**
  * Combines all the reducers into a single rootReducer.
  */
-const rootReducer: Reducer<RootState> = combineReducers({
+const appReducer: Reducer<RootState> = combineReducers({
   calendar: calendarReducer,
   chatbox: chatReducer,
   notification: notificationReducer,
@@ -32,5 +32,13 @@ const rootReducer: Reducer<RootState> = combineReducers({
   ui: userReducer,
   userInterface: userInterfaceReducer,
 })
+
+const rootReducer: Reducer<RootState> = (state, action) => {
+  if (action.type === 'ui/clearStates') {
+    // Returning undefined to all reducers will trigger them to return their initial states
+    state = undefined
+  }
+  return appReducer(state, action)
+}
 
 export default rootReducer

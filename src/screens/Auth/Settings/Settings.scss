@@ -16,6 +16,7 @@
     font-weight: 700;
     line-height: 28px;
     text-align: left;
+    margin-bottom: 0px;
   }
 
   h4 {
@@ -23,11 +24,12 @@
     font-weight: 700;
     line-height: 24px;
     margin-top: 16px;
+    margin-bottom: 0px;
     text-align: left;
   }
 
   input {
-    background-color: #FFF;
+    background-color: #fff;
     border: 1px solid #212121;
     border-radius: 4px;
     font-size: 18px;
@@ -48,11 +50,11 @@
   }
 
   .invalid-email {
-    border: 1px solid #B71C1C;
+    border: 1px solid #b71c1c;
   }
 
   .invalid-msg {
-    color: #B71C1C;
+    color: #b71c1c;
     font-size: 12px;
     line-height: 16px;
     padding-left: 16px;
@@ -68,49 +70,7 @@
 
   p {
     font-size: 16px;
-    margin-top: 8px;
-  }
-
-  .buttons {
-    align-items: flex-end;
-    column-gap: 20px;
-    display: flex;
-    height: 72px;
-    justify-content: flex-end;
-    width: 100%;
-
-    button {
-      border-radius: 4px;
-      font-size: 14px;
-      height: 40px;
-      padding: 0px 24px;
-    }
-
-    // TODO: swap these for color variables
-    .cancel {
-      background-color: white;
-      border-color: #8048cb;
-      border-style: solid;
-      border-width: 1px;
-      color: #8048cb;
-    }
-
-    .update {
-      background-color: #FFA726;
-      border-style: none;
-      cursor: pointer;
-      color: #1A237E;
-      font-size: 14px;
-      font-weight: 500;
-
-      &:disabled {
-        background-color: #FFA726;
-        color: #1A237E;
-        cursor: auto;
-        opacity: 0.5;
-      }
-    }
-
+    margin-top: 4px;
   }
 
   .valid {
@@ -121,7 +81,6 @@
     color: red;
   }
 }
-
 
 .DeleteAccount {
   align-items: flex-start;
@@ -149,10 +108,10 @@
   }
 
   .delete-account-button {
-    background-color: #D32F2F;
+    background-color: #d32f2f;
     border-radius: 4px;
     border-style: none;
-    color: #FFF;
+    color: #fff;
     cursor: pointer;
     font-family: 'Roboto', sans-serif;
     font-size: 14px;

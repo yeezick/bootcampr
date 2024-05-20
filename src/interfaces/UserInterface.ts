@@ -21,7 +21,7 @@ export interface UserInterface {
   project?: string
   onboarded?: boolean
   profilePicture?: string
-  role?: string
+  role?: 'Software Engineer' | 'UX Designer' | 'Product Manager' | ''
   unreadMessages?: {}
   savedProjects?: ProjectInterface[]
   timezone?: TimezonesUTC

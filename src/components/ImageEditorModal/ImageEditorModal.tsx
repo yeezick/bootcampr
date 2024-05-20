@@ -7,6 +7,7 @@ import {
 } from 'utils/redux/slices/userSlice'
 import { ToggleImageModalProps } from '../../interfaces/ProfileImageInterfaces'
 import { ImageEditorAvatar } from './ImageEditorAvatar'
+import { ImageEditorControls } from './ImageEditorControls'
 import { saveCroppedImage } from './ImageEditorModalUtils'
 import getCroppedImg from 'components/Crop/Utils/CropImage'
 import { Box, DialogTitle, Dialog, DialogActions } from '@mui/material'
@@ -41,6 +42,7 @@ export const ImageEditorModal: React.FC<ToggleImageModalProps> = ({
     height: 100,
   })
   // const [zoom, setZoom] = useState<number>(1)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleClose = useCallback(() => {
     setCrop({ x: 0, y: 0 })
@@ -56,6 +58,7 @@ export const ImageEditorModal: React.FC<ToggleImageModalProps> = ({
     if (profilePicture) {
       getCroppedImg(profilePicture, cropArea).then(async croppedImageURL => {
         if (croppedImageURL) {
+          setIsLoading(true)
           try {
             const croppedImageFile = await saveCroppedImage(croppedImageURL)
             const updateUser = await updateUserImage(userId, croppedImageFile)
@@ -63,10 +66,12 @@ export const ImageEditorModal: React.FC<ToggleImageModalProps> = ({
             dispatch(successSnackbar('Photo saved!'))
             handleClose()
             onCloseProfilePreviewAvatarModal()
+            setIsLoading(false)
             if (setImageUploaded) setImageUploaded(true)
           } catch (error) {
             console.log('Failed to generate cropped image URL:', error)
             dispatch(errorSnackbar('Photo did not upload. Please try again.'))
+            setIsLoading(false)
           }
         }
       })
@@ -104,16 +109,11 @@ export const ImageEditorModal: React.FC<ToggleImageModalProps> = ({
           // setZoom={setZoom}
         />
         <DialogActions className='image-modal__actions'>
-          <Box className='image-modal__action-box'>
-            <Box className='image-modal__button-box'>
-              <button className='image-modal__cancel-btn' onClick={handleClose}>
-                Cancel
-              </button>
-              <button className='image-modal__save-btn' onClick={handleSave}>
-                Save photo
-              </button>
-            </Box>
-          </Box>
+          <ImageEditorControls
+            handleClose={handleClose}
+            handleSave={handleSave}
+            isLoading={isLoading}
+          />
         </DialogActions>
       </div>
     </Dialog>

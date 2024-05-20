@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { BooleanObject, DateFieldsInterface, EventInfo } from 'interfaces'
 import dayjs from 'dayjs'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { successSnackbar, errorSnackbar } from 'utils/helpers/commentHelpers'
 import {
   selectCalendarId,
   selectMembersAsTeam,
@@ -31,10 +32,11 @@ import '../styles/EditableMeetingModal.scss'
 import { MeetingModalHeaderIcons } from './MeetingModalHeaderIcons'
 import { GoogleMeetsToggler } from './GoogleMeetsToggler'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
-import { PrimaryButton } from 'components/Buttons/ButtonVariants'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
+import { PrimaryButton } from 'components/Buttons'
+import { isEmptyString } from 'utils/helpers/inputUtils'
 
-export const EditableMeetingModal = ({ handleOpenAlert }) => {
+export const EditableMeetingModal = () => {
   const [meetingText, setMeetingText] = useState(initialMeetingText)
   const [dateFields, setDateFields] = useState<DateFieldsInterface>(
     initialDateFields()
@@ -43,6 +45,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const [inviteAll, toggleInviteAll] = useState(false)
   const [visibleModal, toggleVisibleModal] = useState(false)
   const [googleMeeting, toggleGoogleMeeting] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const modalDisplayStatus = useAppSelector(selectModalDisplayStatus)
   const displayedEvent = useAppSelector(selectDisplayedEvent)
   const radioGroupRef = useRef(null)
@@ -52,6 +55,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
   const calendarId = useAppSelector(selectCalendarId)
   const userEmail = useAppSelector(selectUserEmail)
   const dispatch = useAppDispatch()
+  const disabledBtn = isEmptyString(meetingText.summary)
 
   useEffect(() => {
     if (modalDisplayStatus === 'create') {
@@ -137,6 +141,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
 
   const handleSubmit = async e => {
     e.preventDefault()
+    setIsLoading(true)
     const { end, start, eventTimezone } = dateFields
     const { description, summary } = meetingText
     const attendeeList = []
@@ -181,12 +186,15 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
         const newEvent = await createEvent(calendarId, eventInfo)
         dispatch(addNewEvent(newEvent))
         handleClose()
-        handleOpenAlert()
+        dispatch(successSnackbar('Invite sent successfully!'))
+        setIsLoading(false)
       } catch (error) {
         console.error(
           `Error creating event for calendar (${calendarId}): `,
           error
         )
+        dispatch(errorSnackbar('Unable to create meeting. Please try again.'))
+        setIsLoading(false)
       }
     } else if (modalDisplayStatus === 'edit') {
       try {
@@ -197,11 +205,15 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
         )
         dispatch(updateExistingEvent(updatedEvent))
         handleClose()
+        dispatch(successSnackbar('Meeting updated successfully!'))
+        setIsLoading(false)
       } catch (error) {
         console.error(
           `Error creating event for calendar (${calendarId}): `,
           error
         )
+        dispatch(errorSnackbar('Meeting failed to update. Please try again.'))
+        setIsLoading(false)
       }
     }
   }
@@ -214,7 +226,7 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
       open={visibleModal}
       sx={modalStyles}
     >
-      <form onSubmit={handleSubmit}>
+      <form>
         <DialogContent className='modal-dialog-content'>
           <MeetingModalHeaderIcons handleCloseMeetingModal={handleClose} />
           <div className='content-wrapper'>
@@ -259,8 +271,14 @@ export const EditableMeetingModal = ({ handleOpenAlert }) => {
             />
           </div>
         </DialogContent>
-        <DialogActions sx={buttonDivStyle}>
-          <PrimaryButton text={'Send Invite'} type={'submit'} />
+        <DialogActions>
+          <PrimaryButton
+            onClick={handleSubmit}
+            loading={isLoading}
+            disabled={disabledBtn}
+            label='Send Invite'
+            style={{ margin: '32px' }}
+          />
         </DialogActions>
       </form>
     </Dialog>
@@ -296,10 +314,6 @@ const titleInputFieldStyles = {
   '&:after': {
     borderBottom: 'none',
   },
-}
-
-const buttonDivStyle = {
-  padding: '32px',
 }
 
 const modalStyles = {

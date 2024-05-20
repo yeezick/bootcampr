@@ -1,11 +1,11 @@
 import { useRef } from 'react'
+import { useAppDispatch } from 'utils/redux/hooks'
+import { Avatar } from 'components/Avatar/Avatar'
+import { setUploadedImage } from 'utils/redux/slices/userSlice'
+import { ImageEditorContentProps } from 'interfaces/ProfileImageInterfaces'
 import Cropper from 'react-easy-crop'
-import Avatar from 'components/Avatar/Avatar'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
 import { Box, DialogContent } from '@mui/material'
-import { ImageEditorContentProps } from 'interfaces/ProfileImageInterfaces'
-import { setUploadedImage } from 'utils/redux/slices/userSlice'
-import { useAppDispatch } from 'utils/redux/hooks'
 import './ImageEditorModal.scss'
 
 /**

@@ -11,6 +11,8 @@ import { storeUserProject, useFormValidation } from 'utils/helpers'
 import { Button, ThemeProvider, createTheme } from '@mui/material'
 import { PasswordInputs } from 'components/Inputs'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import { PrimaryButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 import {
   logoutAuthUser,
   selectUserId,
@@ -73,25 +75,15 @@ export const ResetPassword = () => {
     if (passwordData.status >= 400) {
       dispatch(errorSnackbar(passwordData.friendlyMessage))
     } else {
-      await logOut()
-      dispatch(logoutAuthUser())
       navigate(`/success?screen=${SuccessQueryParam.resetPassword}`)
     }
   }
 
   useFormValidation(formValues, password, toggleIsDisabled)
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#FFA726',
-      },
-    },
-  })
-
   return (
     <div className='settings-reset-password container'>
-      <form className='settings-reset-password form' onSubmit={handleReset}>
+      <form className='settings-reset-password form'>
         <div className='settings-reset-password header'>Reset Password</div>
         <PasswordInputs
           formValues={formValues}
@@ -101,16 +93,13 @@ export const ResetPassword = () => {
           setFormValues={setFormValues}
           passwordInputName='email-pwd-reset'
         />
-        <ThemeProvider theme={theme}>
-          <Button
-            className='settings-reset-password button'
-            variant='contained'
-            type='submit'
+        <ButtonContainer style={{ marginTop: '32px' }}>
+          <PrimaryButton
+            onClick={handleReset}
             disabled={isDisabled}
-          >
-            Reset password
-          </Button>
-        </ThemeProvider>
+            label='Reset password'
+          />
+        </ButtonContainer>
       </form>
     </div>
   )

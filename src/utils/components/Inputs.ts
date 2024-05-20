@@ -1,3 +1,5 @@
+import { isEmptyString } from 'utils/helpers/inputUtils'
+
 /* Password Utils */
 export const handlePasswordChange = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -58,14 +60,22 @@ export const isUrl = string => {
   return urlPattern.test(string)
 }
 
-export const isLinkedInUrl = string => {
-  if (string && string.length > 0) {
-    const urlPattern = new RegExp(
-      '(http(s?)://)?(www.)?linkedin.([a-z])+/(in/)([A-Za-z0-9]+)+/?'
-    )
-
-    return urlPattern.test(string)
-  } else {
-    return true
+export const validLinkedinUrl = string => {
+  if (isEmptyString(string)) {
+    return false
   }
+  const urlPattern = new RegExp(
+    '(http(s?)://)?(www.)?linkedin.([a-z])+/(in/)([A-Za-z0-9]+)+/?'
+  )
+  return urlPattern.test(string)
+}
+
+export const validGithubUrl = string => {
+  if (isEmptyString(string)) {
+    return false
+  }
+  const urlPattern = new RegExp(
+    '(http(s?)://)?(www.)?github.([a-z])+/([A-Za-z0-9]+)+/?'
+  )
+  return urlPattern.test(string)
 }

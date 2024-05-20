@@ -21,21 +21,34 @@ export const PortalView = ({ children }) => {
   const dispatch = useAppDispatch()
   const { pathname } = useLocation()
   const portal = searchParams.get('portal')
+  const currentPath = pathname.split('/').pop()
 
   useEffect(() => {
     let routeId
+    let headerTitle
+    switch (currentPath) {
+      case 'team':
+        headerTitle = 'Team Members'
+        break
+      case 'calendar':
+        headerTitle = 'Scrum Calendar'
+        break
+      case 'tasks':
+        headerTitle = 'Sprints'
+        break
+    }
     if (activePortal) {
       routeId = portalType === 'project' ? projectId : userId
-      buildPortal(dispatch, portalType, routeId, experience)
+      buildPortal(dispatch, portalType, routeId, experience, headerTitle)
     } else if (portal) {
       routeId = portal === 'project' ? projectId : userId
-      buildPortal(dispatch, portal, routeId, experience)
+      buildPortal(dispatch, portal, routeId, experience, headerTitle)
     } else {
       const { domain } = determinePortalFromUrl(pathname, userId, projectId)
       routeId = domain === 'project' ? projectId : userId
-      buildPortal(dispatch, domain, routeId, experience)
+      buildPortal(dispatch, domain, routeId, experience, headerTitle)
     }
-  }, [activePortal, portalType, experience])
+  }, [activePortal, portalType, experience, projectId])
 
   return (
     <div className='portal-wrapper'>

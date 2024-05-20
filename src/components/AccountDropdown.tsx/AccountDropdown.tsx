@@ -2,11 +2,10 @@ import { useEffect, useState } from 'react'
 import { Menu, MenuItem } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { logoutAuthUser, selectUserId } from 'utils/redux/slices/userSlice'
+import { clearStates, selectUserId } from 'utils/redux/slices/userSlice'
 import { logOut } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { buildPortal, navigateToDomain } from 'utils/helpers'
-import { toggleChatClose } from 'utils/redux/slices/chatSlice'
 
 export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
   const [open, setOpen] = useState(false)
@@ -29,14 +28,13 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
 
     const { innerText } = e.target
     if (innerText === 'View Profile') {
-      navigate(`/users/${userId}`)
+      window.open(`/users/${userId}`)
     } else if (innerText === 'Settings') {
       buildPortal(dispatch, 'settings', userId)
       navigateToDomain(navigate, `/users/${userId}/settings/email`, 'settings')
     } else if (innerText === 'Log out') {
       logOut()
-      dispatch(logoutAuthUser())
-      dispatch(toggleChatClose())
+      dispatch(clearStates())
       navigate('/')
     }
   }

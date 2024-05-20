@@ -12,6 +12,7 @@ import { Email, Text, PasswordInputs } from 'components/Inputs'
 import './SignUp.scss'
 import { Checkbox, FormControlLabel } from '@mui/material'
 import signup from '../../../assets/Images/signup.png'
+import { PrimaryButton } from 'components/Buttons'
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate()
@@ -21,10 +22,12 @@ export const SignUp: React.FC = () => {
   const [formValues, setFormValues] = useState<SignUpInterface>(emptySignUp)
   const [isAccepted, setIsAccepted] = useState(false)
   const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>({})
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(false)
   const [alertBanner, setAlertBanner] = useState<AlertBanners>({
     status: false,
     text: '',
   })
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const { password } = formValues
   const ALERT_BANNER_TIMEOUT = 16000
 
@@ -52,17 +55,23 @@ export const SignUp: React.FC = () => {
         return true
       }
 
-      if (emptyForm === false && isAccepted && passwordsMatch()) {
+      if (
+        emptyForm === false &&
+        isAccepted &&
+        passwordsMatch() &&
+        isValidEmail
+      ) {
         return setDisabledForm(false)
       } else {
         return setDisabledForm(true)
       }
     }
     validateForm()
-  }, [formValues, isAccepted, passwordErrors])
+  }, [formValues, isAccepted, passwordErrors, isValidEmail])
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
 
     try {
       const validForm = await dispatch(register(formValues))
@@ -98,14 +107,12 @@ export const SignUp: React.FC = () => {
       setTimeout(() => {
         setAlertBanner({ status: false })
       }, ALERT_BANNER_TIMEOUT)
+      setIsLoading(false)
     } catch (error) {
       console.error('Error occurred during form submission:', error)
+      setIsLoading(false)
     }
   }
-
-  const submitButtonStyle = `${
-    disabledForm ? 'sign-up-btn' : 'sign-up-btn-active'
-  }`
 
   return (
     <div className='signup-screen'>
@@ -129,25 +136,23 @@ export const SignUp: React.FC = () => {
         </div>
 
         <div className='signup-container'>
-          <form
-            className='signup-form'
-            onSubmit={handleSubmit}
-            autoComplete='off'
-          >
+          <form className='signup-form' autoComplete='off'>
             <Text
               label='First Name'
               name='firstName'
               required
               setFormValues={setFormValues}
             />
-
             <Text
               label='Last Name'
               name='lastName'
               required
               setFormValues={setFormValues}
             />
-            <Email setFormValues={setFormValues} />
+            <Email
+              setFormValues={setFormValues}
+              setIsValidEmail={setIsValidEmail}
+            />
             <PasswordInputs
               formValues={formValues}
               password={password}
@@ -156,22 +161,18 @@ export const SignUp: React.FC = () => {
               setFormValues={setFormValues}
               passwordInputName='sign-up'
             />
-
             <AcceptTermsCheckbox
               isAccepted={isAccepted}
               setIsAccepted={setIsAccepted}
             />
-
-            <div className='sign-up-btn-container'>
-              {/* //TODO: refactor this to a PrimaryButton */}
-              <button
-                className={submitButtonStyle}
-                disabled={disabledForm}
-                type='submit'
-              >
-                Sign up
-              </button>
-            </div>
+            <PrimaryButton
+              onClick={handleSubmit}
+              loading={isLoading}
+              disabled={disabledForm}
+              fullWidth
+              label='Sign up'
+              style={{ marginTop: '-10px' }}
+            />
             <div className='sign-up-redirect-link'>
               <p>
                 Already have an account? <Link to='/sign-in'>Log in</Link>
@@ -185,7 +186,13 @@ export const SignUp: React.FC = () => {
 }
 
 const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
-  const handleCheckbox = e => setIsAccepted(e.target.checked)
+  const handleCheckbox = () => {
+    setIsAccepted(true)
+    window.open(
+      'https://docs.google.com/document/d/1Mhl_-ON-qayHKilEKCWKZ8xQBi8JLR9U5Mi_0dWLh8c/edit?usp=sharing',
+      '_blank'
+    )
+  }
   const checkboxStyles = {
     '& .MuiFormControlLabel-root': {
       display: 'flex',
@@ -201,10 +208,6 @@ const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
 
   return (
     <div id='signup-agreement'>
-      <p>
-        Bootcampr sends important information, including project start dates and
-        team notifications by email. We will not sell your information!
-      </p>
       <FormControlLabel
         sx={checkboxStyles}
         control={
@@ -214,8 +217,19 @@ const AcceptTermsCheckbox = ({ isAccepted, setIsAccepted }) => {
             aria-required
           />
         }
-        label={`I agree to receive emails from Bootcampr.`}
+        label={<TermsLink />}
       />
     </div>
+  )
+}
+
+const TermsLink = () => {
+  return (
+    <a
+      href='https://docs.google.com/document/d/1Mhl_-ON-qayHKilEKCWKZ8xQBi8JLR9U5Mi_0dWLh8c/edit?usp=sharing'
+      target='_blank'
+    >
+      I have read the terms and conditions.
+    </a>
   )
 }

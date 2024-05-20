@@ -1,9 +1,12 @@
 import { Dialog, DialogContent } from '@mui/material'
-import { SecondaryButton } from 'components/Buttons'
-import { RedPrimaryButton } from 'components/Buttons/ButtonVariants'
+import { PrimaryButton, TextButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { useState } from 'react'
 import { deleteComment } from 'utils/api/comments'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
-import { useAppDispatch } from 'utils/redux/hooks'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { deleteCommentFromTicket } from 'utils/redux/slices/projectSlice'
+import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
 
 export const DeleteCommentDialog = ({
   commentId,
@@ -11,35 +14,38 @@ export const DeleteCommentDialog = ({
   toggleDeleteDialog,
   toggleFetchComments,
 }) => {
+  const { _id: ticketId, status: ticketStatus } =
+    useAppSelector(selectTicketFields)
   const dispatch = useAppDispatch()
   const handleCloseDialog = () => toggleDeleteDialog(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   const handleDelete = async () => {
-    const deleteResponse = await deleteComment(commentId)
+    setIsLoading(true)
+    const deleteResponse = await deleteComment(commentId, ticketId)
     if (deleteResponse.status === 500) {
       dispatch(errorSnackbar(deleteResponse.message))
       return
     }
+    dispatch(deleteCommentFromTicket({ commentId, ticketId, ticketStatus }))
     toggleFetchComments(state => !state)
     toggleDeleteDialog(false)
+    setIsLoading(false)
   }
   return (
     <Dialog open={open} onClose={handleCloseDialog} maxWidth='xs'>
       <DialogContent className='confirmation-dialog'>
         <h3>Delete comment?</h3>
         <p>Deleting this comment cannot be undone.</p>
-        <div className='buttons'>
-          <SecondaryButton
-            colorScheme='create-task'
-            handler={handleCloseDialog}
-            text='Cancel'
-            variant='text'
+        <ButtonContainer>
+          <TextButton onClick={handleCloseDialog} label='Cancel' />
+          <PrimaryButton
+            loading={isLoading}
+            colorScheme='secondary'
+            onClick={handleDelete}
+            label='Delete'
           />
-          <RedPrimaryButton
-            handler={handleDelete}
-            text='Delete'
-            variant='contained'
-          />
-        </div>
+        </ButtonContainer>
       </DialogContent>
     </Dialog>
   )

@@ -15,7 +15,12 @@ import { IconButton } from '@mui/material'
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined'
 import './Avatar.scss'
 
-const Avatar: React.FC<AvatarProps> = ({
+/**
+ * Avatar component to display a user's avatar image.
+ * @param {boolean} [clickable=true] - Indicates if the avatar is clickable.
+ * @returns {JSX.Element} - Avatar component.
+ */
+export const Avatar: React.FC<AvatarProps> = ({
   clickable = true,
   openModal,
   setAnchorEl,
@@ -29,14 +34,12 @@ const Avatar: React.FC<AvatarProps> = ({
   const [user] = useAppSelector(memoizedUserId)
   const profilePicture = useAppSelector(getUserProfileImage)
   const authUser = useAppSelector(selectAuthUser)
-
   const [isImageEditorOpen, setIsImageEditorOpen] = useState<boolean>(false)
   const [imageUploaded, setImageUploaded] = useState<boolean>(false)
   const [userNames, setUserNames] = useState({
     firstName: '',
     lastName: '',
   })
-
   const imgClassName = clickable || setAnchorEl ? 'avatar-img' : 'non-clickable'
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -65,6 +68,11 @@ const Avatar: React.FC<AvatarProps> = ({
     }
   }, [authUser, user])
 
+  const handleFileInputChange = (dataUrl: string) => {
+    dispatch(setUploadedImage(dataUrl))
+    setIsImageEditorOpen(true)
+  }
+
   const handleAvatarClick = e => {
     if (clickable && openModal) {
       openModal()
@@ -74,12 +82,7 @@ const Avatar: React.FC<AvatarProps> = ({
     }
   }
 
-  const handleFileInputChange = (dataUrl: string) => {
-    dispatch(setUploadedImage(dataUrl))
-    setIsImageEditorOpen(true)
-  }
-
-  const handleIconClick = () => {
+  const handleAvatarIconClick = () => {
     if (!hasIcon) return
 
     if (profilePicture !== defaultImageURL) {
@@ -105,7 +108,7 @@ const Avatar: React.FC<AvatarProps> = ({
               <IconButton
                 aria-label='change profile pic'
                 className={iconButtonClassName}
-                onClick={handleIconClick}
+                onClick={handleAvatarIconClick}
                 sx={{ backgroundColor: '#ecebeb' }}
               >
                 <AddAPhotoOutlinedIcon id={addPhotoIconId} />
@@ -120,7 +123,7 @@ const Avatar: React.FC<AvatarProps> = ({
                 aria-label='change profile pic'
                 className='avatar-default-cameraIcon'
                 id='cameraIcon'
-                onClick={handleIconClick}
+                onClick={handleAvatarIconClick}
               >
                 <AddAPhotoOutlinedIcon id={addPhotoIconId} />
               </IconButton>
@@ -148,5 +151,3 @@ const Avatar: React.FC<AvatarProps> = ({
     </>
   )
 }
-
-export default Avatar

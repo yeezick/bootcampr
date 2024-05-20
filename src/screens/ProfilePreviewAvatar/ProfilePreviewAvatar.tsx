@@ -9,7 +9,7 @@ import { ToggleImageModalProps } from 'interfaces/ProfileImageInterfaces'
 import { deleteUserImage } from '../../utils/api/services'
 import { ImageEditorModal } from 'components/ImageEditorModal/ImageEditorModal'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
-import Avatar from 'components/Avatar/Avatar'
+import { Avatar } from 'components/Avatar/Avatar'
 import {
   Box,
   Dialog,
@@ -23,6 +23,7 @@ import { GrTrash } from 'react-icons/gr'
 import { MdOutlineCameraEnhance } from 'react-icons/md'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import './ProfilePreviewAvatar.scss'
+import { PrimaryButton, TextButton } from 'components/Buttons'
 
 /**
  * ProfilePreviewAvatar component displays a preview of the profile image, allowing the user to add, edit, or delete the image.
@@ -145,7 +146,10 @@ const DeleteWarningModal = ({
   closeDeleteModal,
   setImageUploaded,
 }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   const handleDeleteImage = async () => {
+    setIsLoading(true)
     try {
       const res = await deleteUserImage(userId)
       if (res.success) {
@@ -158,9 +162,11 @@ const DeleteWarningModal = ({
       } else {
         throw new Error('Failed to delete image')
       }
+      setIsLoading(false)
     } catch (err) {
       console.log('Error deleting image:', err)
       dispatch(errorSnackbar('Profile photo did not delete. Please try again.'))
+      setIsLoading(false)
     }
   }
 
@@ -185,19 +191,14 @@ const DeleteWarningModal = ({
               </p>
             </DialogContent>
           </div>
-          <DialogActions className='profile-preview__dialog-actions'>
-            <button
-              onClick={closeDeleteModal}
-              className='profile-preview__cancel-btn'
-            >
-              <p>Cancel</p>
-            </button>
-            <button
+          <DialogActions>
+            <TextButton label='Cancel' onClick={closeDeleteModal} />
+            <PrimaryButton
+              loading={isLoading}
+              colorScheme='secondary'
+              label='Delete'
               onClick={handleDeleteImage}
-              className='profile-preview__delete2-btn'
-            >
-              <p>Delete</p>
-            </button>
+            />
           </DialogActions>
         </div>
       </Dialog>

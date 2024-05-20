@@ -1,6 +1,8 @@
 import { PrimaryButton } from 'components/Buttons'
+import { useState } from 'react'
 import { createTicket } from 'utils/api/tickets'
-import { successSnackbar } from 'utils/helpers/commentHelpers'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import { isEmptyString } from 'utils/helpers/inputUtils'
 import {
   buildTicketPayload,
   closeVisibleTicketDialog,
@@ -21,26 +23,30 @@ export const CreateTicketBtn = () => {
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleCreateTicket = async e => {
+    setIsLoading(true)
     const ticketPayload = buildTicketPayload(projectId, userId, ticketFields)
     const ticketResponse = await createTicket(ticketPayload)
 
     if (ticketResponse.error) {
-      // display error banner
+      dispatch(errorSnackbar('Something went wrong creating your story.'))
     } else {
       dispatch(addTicketToStatus(ticketResponse))
       dispatch(resetTicketFields({}))
-      dispatch(successSnackbar('Task created!'))
+      dispatch(successSnackbar('Story created!'))
       closeVisibleTicketDialog(dispatch)
     }
+    setIsLoading(false)
   }
 
   return (
     <PrimaryButton
-      handler={handleCreateTicket}
-      text={'Create story'}
-      disableElevation
+      disabled={isEmptyString(ticketFields.title)}
+      loading={isLoading}
+      label={'Create story'}
+      onClick={handleCreateTicket}
     />
   )
 }

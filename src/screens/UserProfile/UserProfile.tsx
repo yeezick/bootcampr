@@ -5,10 +5,11 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 import { UserInterface } from 'interfaces'
 import { emptyUser } from 'utils/data/userConstants'
-import Avatar from 'components/Avatar/Avatar'
+import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
+import { Avatar } from 'components/Avatar/Avatar'
 import { RiGithubLine } from 'react-icons/ri'
 import { FiLinkedin } from 'react-icons/fi'
-import { TbBriefcase } from 'react-icons/tb'
+import { TbBriefcase2 } from 'react-icons/tb'
 import { createOrGetPrivateChatRoom } from 'utils/api/chat'
 import {
   onScreenUpdate,
@@ -19,6 +20,7 @@ import {
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useSocketEvents } from 'components/Notifications/Socket'
 import './UserProfile.scss'
+import { PrimaryButton } from 'components/Buttons'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
 
 export const UserProfile: React.FC = () => {
@@ -31,6 +33,7 @@ export const UserProfile: React.FC = () => {
   const [userProfileInfo, setUserProfileInfo] =
     useState<UserInterface>(emptyUser)
   const sameProfile = authUser._id === userId ? true : false
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
     let userProfile
@@ -41,7 +44,7 @@ export const UserProfile: React.FC = () => {
     }
 
     setUserProfileInfo(userProfile)
-  }, [authUser, teamMembers, userProfileInfo])
+  }, [teamMembers, userProfileInfo, authUser, userId])
 
   // BC-334: should handle this case
   if (!userProfileInfo || !userProfileInfo._id) {
@@ -50,6 +53,7 @@ export const UserProfile: React.FC = () => {
 
   const handleProfileMessageClick = async () => {
     const { _id: memberId } = userProfileInfo
+    setIsLoading(true)
     try {
       const {
         payment: { experience: userExperience },
@@ -70,8 +74,10 @@ export const UserProfile: React.FC = () => {
           dispatch(onScreenUpdate(ChatScreen.ChatRoom))
         }
       }
+      setIsLoading(false)
     } catch (error) {
       console.error('Error in chat open: ', error)
+      setIsLoading(false)
     }
   }
 
@@ -84,7 +90,11 @@ export const UserProfile: React.FC = () => {
       <div className='userProfile__container'>
         <div className='userProfile__titleContainer'>
           <div className='userProfile__image'>
-            <Avatar clickable={false} userId={userProfileInfo._id} />
+            {sameProfile ? (
+              <Avatar clickable={false} userId={userProfileInfo._id} />
+            ) : (
+              <TeamAvatar userId={userId} size='medium' />
+            )}
           </div>
           <div className='userProfile__title'>
             <h2>
@@ -92,18 +102,12 @@ export const UserProfile: React.FC = () => {
             </h2>
             {userProfileInfo.role && <h3>{userProfileInfo.role}</h3>}
           </div>
-          {sameProfile ? (
-            <button className='userProfile__editBtn' onClick={routeToEdit}>
-              Edit Profile
-            </button>
-          ) : (
-            <button
-              className='userProfile__messageBtn'
-              onClick={handleProfileMessageClick}
-            >
-              Message
-            </button>
-          )}
+          <PrimaryButton
+            loading={isLoading}
+            label={sameProfile ? 'Edit profile' : 'Message'}
+            onClick={sameProfile ? routeToEdit : handleProfileMessageClick}
+            style={{ position: 'absolute', top: '0', right: '0' }}
+          />
         </div>
         {userProfileInfo.bio && (
           <div className='userProfile__infoContainer'>
@@ -118,55 +122,54 @@ export const UserProfile: React.FC = () => {
 }
 
 const UserInfoLinks = ({ links }) => {
-  const { githubUrl, linkedinUrl, portfolioUrl } = links
   return (
     <div className='userProfile__linksContainer'>
-      {linkedinUrl && (
+      {links?.linkedinUrl && (
         <div className='userProfile__linkItem'>
           <FiLinkedin className='userProfile__icons' />
           <div className='userProfile__linkLast'>
             <h3>LinkedIn</h3>
             <a
               className='userProfile__url'
-              href={linkedinUrl}
+              href={links.linkedinUrl}
               target='_blank'
               rel='noopener noreferrer'
             >
-              {linkedinUrl}
+              {links.linkedinUrl}
             </a>
           </div>
         </div>
       )}
 
-      {portfolioUrl && (
+      {links?.portfolioUrl && (
         <div className='userProfile__linkItem'>
-          <TbBriefcase className='userProfile__icons' />
+          <TbBriefcase2 className='userProfile__icons' />
           <div className='userProfile__link'>
             <h3>Portfolio</h3>
             <a
               className='userProfile__url'
-              href={portfolioUrl}
+              href={links.portfolioUrl}
               target='_blank'
               rel='noopener noreferrer'
             >
-              {portfolioUrl}
+              {links.portfolioUrl}
             </a>
           </div>
         </div>
       )}
 
-      {githubUrl && (
+      {links?.githubUrl && (
         <div className='userProfile__linkItem'>
           <RiGithubLine className='userProfile__icons' />
           <div className='userProfile__link'>
             <h3>Github</h3>
             <a
               className='userProfile__url'
-              href={githubUrl}
+              href={links.githubUrl}
               target='_blank'
               rel='noopener noreferrer'
             >
-              {githubUrl}
+              {links.githubUrl}
             </a>
           </div>
         </div>

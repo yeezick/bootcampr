@@ -5,16 +5,18 @@ import { updateUserProfile } from 'utils/api'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
-import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
 import softwareEngineer from '../../assets/Images/software-engineer.png'
 import uxDesigner from '../../assets/Images/ux-designer.png'
 import productManager from '../../assets/Images/product-manager.png'
-import { successSnackbar } from 'utils/helpers/commentHelpers'
+import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import { ForwardButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const Role = ({ handlePageNavigation }) => {
   const dispatch = useDispatch()
   const [selectedRole, setSelectedRole] = useState('')
   const [buttonEnabled, setButtonEnabled] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const authUser = useAppSelector(selectAuthUser)
 
   const roles = [
@@ -42,16 +44,19 @@ export const Role = ({ handlePageNavigation }) => {
 
   const handleSubmit = async event => {
     event.preventDefault()
+    setIsLoading(true)
     try {
       const response = await updateUserProfile({
         role: selectedRole,
       })
       dispatch(updateAuthUser(response.userProfile))
-      dispatch(successSnackbar('Your role has been updated!'))
       setButtonEnabled(false)
       handlePageNavigation('next')
+      setIsLoading(false)
     } catch (error) {
       console.error(error)
+      dispatch(errorSnackbar('Role failed to save. Please try again.'))
+      setIsLoading(false)
     }
   }
 
@@ -86,14 +91,14 @@ export const Role = ({ handlePageNavigation }) => {
           ))}
         </div>
       </div>
-      <div className='onboarding-button-section'>
-        <PaginatorButton
-          buttonType='primary'
+      <ButtonContainer>
+        <ForwardButton
+          loading={isLoading}
           disabled={!buttonEnabled}
-          handler={handleSubmit}
-          text='Set availability'
+          onClick={handleSubmit}
+          label='Set availability'
         />
-      </div>
+      </ButtonContainer>
     </div>
   )
 }

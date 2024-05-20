@@ -11,7 +11,6 @@ import { TaskComments } from '../Comments/TaskComments'
 
 export const TicketTextFields = () => {
   const ticketDialogState = useAppSelector(selectTicketDialogState)
-  const ticketFields = useAppSelector(selectTicketFields)
 
   return (
     <div className='ticket-text-fields'>
@@ -23,9 +22,7 @@ export const TicketTextFields = () => {
         multiline
       />
       <TicketTextField icon='link' label='Link' field='link' />
-      {ticketDialogState === 'edit' && (
-        <TaskComments ticketId={ticketFields._id} />
-      )}
+      {ticketDialogState === 'edit' && <TaskComments />}
     </div>
   )
 }

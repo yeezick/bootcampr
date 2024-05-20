@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './ContactForm.scss'
-import { Button } from '@mui/material'
+import { PrimaryButton } from 'components/Buttons'
 
 export const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +17,7 @@ export const ContactForm = () => {
 
   const [hasErrors, setHasErrors] = useState<boolean>(false)
   const [wordCount, setWordCount] = useState(0)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const maxWordCount = 500
 
   const handleChange = (
@@ -41,6 +42,7 @@ export const ContactForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
     const errors: { name: string; email: string; message: string } = {
       name: '',
       email: '',
@@ -65,11 +67,12 @@ export const ContactForm = () => {
     if (Object.values(errors).every(value => value === '')) {
       alert('Message sent successfully!')
     }
+    setIsLoading(false)
   }
   return (
     <div>
       <div className='contact-container'>
-        <form onSubmit={handleSubmit} className='contact-wrapper'>
+        <form className='contact-wrapper'>
           <div className='contact-header'>
             <div className='question'>Questions?</div>
             <div className='contact'>Contact Us</div>
@@ -144,14 +147,11 @@ export const ContactForm = () => {
               </div>
             </div>
           </div>
-          <Button
-            className='contact-button'
-            variant='contained'
-            type='submit'
-            disableElevation
-          >
-            Submit
-          </Button>
+          <PrimaryButton
+            onClick={handleSubmit}
+            loading={isLoading}
+            label='Submit'
+          />
         </form>
       </div>
     </div>
