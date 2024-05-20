@@ -16,11 +16,13 @@ import { successSnackbar } from 'utils/helpers/commentHelpers'
 import { PrimaryButton, TextButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 import { useState } from 'react'
+import { useKanbanSocketEvents } from 'components/Socket/kanbanSocket'
 
 export const DeleteTicketDialog = () => {
   const confirmationDialogType = useAppSelector(selectConfirmationDialogType)
   const projectId = useAppSelector(selectProjectId)
   const ticketFields = useAppSelector(selectTicketFields)
+  const { deleteTicketEvent } = useKanbanSocketEvents()
   const dispatch = useAppDispatch()
   const handleCloseDialog = () => closeConfirmationDialog(dispatch)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -34,6 +36,10 @@ export const DeleteTicketDialog = () => {
         ticketId,
         ticketStatus: status,
         projectId,
+      })
+      deleteTicketEvent({
+        ticketId,
+        ticketStatus: status,
       })
     }
 
