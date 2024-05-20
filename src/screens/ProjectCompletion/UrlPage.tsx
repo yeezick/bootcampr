@@ -22,10 +22,11 @@ export const UrlPage = ({ handlePageNavigation }) => {
   const [isDisabled, setIsDisabled] = useState(true)
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [primaryIsLoading, setPrimaryIsLoading] = useState<boolean>(false)
+  const [secondaryIsLoading, setSecondaryIsLoading] = useState<boolean>(false)
 
   const handleSubmit = async () => {
-    setIsLoading(true)
+    setPrimaryIsLoading(true)
 
     const updatedProject = {
       completedInfo: {
@@ -38,16 +39,16 @@ export const UrlPage = ({ handlePageNavigation }) => {
       await editProject(projectID, updatedProject)
       handlePageNavigation('next')
       window.scrollTo(0, 0)
-      setIsLoading(false)
+      setPrimaryIsLoading(false)
     } catch (err) {
       console.error(err)
       dispatch(errorSnackbar('Url failed to save. Please try again.'))
-      setIsLoading(false)
+      setPrimaryIsLoading(false)
     }
   }
 
   const handleCancel = async () => {
-    setIsLoading(true)
+    setSecondaryIsLoading(true)
 
     const updatedProject = {
       completedInfo: {
@@ -61,11 +62,11 @@ export const UrlPage = ({ handlePageNavigation }) => {
       navigate(`/project/${projectID}`)
       dispatch(updateDeployedUrl(''))
       dispatch(updatePresenting(null))
-      setIsLoading(false)
+      setSecondaryIsLoading(false)
     } catch (err) {
       console.error(err)
       dispatch(errorSnackbar('Url failed to save. Please try again.'))
-      setIsLoading(false)
+      setSecondaryIsLoading(false)
     }
   }
 
@@ -77,11 +78,16 @@ export const UrlPage = ({ handlePageNavigation }) => {
           <p>First, input the URL to your website.</p>
           <ProjectUrl setIsDisabled={setIsDisabled} />
           <ButtonContainer gap={16}>
-            <SecondaryButton onClick={handleCancel} label='Cancel' />
+            <SecondaryButton
+              onClick={handleCancel}
+              label='Cancel'
+              loading={secondaryIsLoading}
+            />
             <ForwardButton
-              disabled={isDisabled}
-              label='Presentation'
               onClick={handleSubmit}
+              label='Presentation'
+              disabled={isDisabled}
+              loading={primaryIsLoading}
             />
           </ButtonContainer>
         </Stack>
