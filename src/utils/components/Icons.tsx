@@ -37,6 +37,7 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked'
+import ReplayIcon from '@mui/icons-material/Replay'
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined'
 import SearchIcon from '@mui/icons-material/Search'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
@@ -97,6 +98,7 @@ export const iconMap: IconMap = {
   notifications: NotificationsNoneOutlinedIcon,
   radioButton: RadioButtonUncheckedIcon,
   radioButtonFilled: RadioButtonCheckedIcon,
+  refresh: ReplayIcon,
   rightArrow: EastIcon,
   page: ArticleOutlinedIcon,
   plus: AddIcon,
