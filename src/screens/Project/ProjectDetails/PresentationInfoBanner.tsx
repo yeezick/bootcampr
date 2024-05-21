@@ -4,6 +4,7 @@ import {
   selectPresentationDate,
   selectProject,
   updateDeployedUrl,
+  updatePresenting,
 } from 'utils/redux/slices/projectSlice'
 import './PresentationInfoBanner.scss'
 import { formatLastCallDate, getFullUrl } from 'utils/helpers'
@@ -30,8 +31,10 @@ export const PresentationInfoBanner = () => {
 
   const { presenting, deployedUrl } = projectSubmissionInfo
   const [displayedUrl, setDisplayedUrl] = useState<string>(deployedUrl)
+  const [displayedPresenting, setDisplayedPresenting] =
+    useState<boolean>(presenting)
   const initialUrlRef = useRef(deployedUrl)
-  // const initialPresentingRef = useRef(presenting)
+  const initialPresentingRef = useRef(presenting)
 
   const fullUrl = getFullUrl(deployedUrl)
   const lastCallForProjectEditsDate = formatLastCallDate(
@@ -52,6 +55,7 @@ export const PresentationInfoBanner = () => {
     setIsUrlModalOpen(false)
     setIsPresentingModalOpen(false)
     dispatch(updateDeployedUrl(initialUrlRef.current))
+    dispatch(updatePresenting(initialPresentingRef.current))
   }
 
   const handleUpdate = async () => {
@@ -66,6 +70,7 @@ export const PresentationInfoBanner = () => {
     try {
       await editProject(projectID, updatedProject)
       setDisplayedUrl(deployedUrl)
+      setDisplayedPresenting(presenting)
       setIsUrlModalOpen(false)
       setIsPresentingModalOpen(false)
       setIsLoading(false)
@@ -88,8 +93,8 @@ export const PresentationInfoBanner = () => {
         <div className='icon-container'>{fetchIcon('info')}</div>
         <div className='text-container'>
           <p>
-            Your team will{presenting ? ' ' : ' not '}be presenting. You can
-            update your participation status{' '}
+            Your team will{displayedPresenting ? ' ' : ' not '}be presenting.
+            You can update your participation status{' '}
             <span
               className='modal-trigger'
               onClick={() => setIsPresentingModalOpen(true)}
