@@ -16,17 +16,17 @@ import {
   setCurrentChat,
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
-import { UserDetails } from 'components/ChatDialog/UserDetails/UserDetails'
-import { useSocketEvents } from 'components/Notifications/Socket'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
-import './NewChatRoom.scss'
 import { isTeamMembersSelected } from 'utils/functions/chatLogic'
 import { PrimaryButton } from 'components/Buttons'
+import { UserDetails } from 'components/ChatDialog/UserDetails/UserDetails'
+import { useChatSocketEvents } from 'components/Socket/chatSocket'
+import './NewChatRoom.scss'
 
 export const NewChatRoom = ({ chatScreen }) => {
   const dispatch = useAppDispatch()
-  const { createNewRoom } = useSocketEvents(false)
+  const { createNewRoom } = useChatSocketEvents(false)
   const currentConversation = useAppSelector(selectChat)
   const authUser = useAppSelector(selectAuthUser)
   const members = useAppSelector(selectMembersAsTeam)

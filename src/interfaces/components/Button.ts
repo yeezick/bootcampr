@@ -78,6 +78,7 @@ export type MappedIcons =
   | 'portfolio'
   | 'radioButton'
   | 'radioButtonFilled'
+  | 'refresh'
   | 'rightArrow'
   | 'search'
   | 'tasks' //called checkList in design
