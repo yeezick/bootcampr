@@ -32,7 +32,7 @@ export const AccountDropdown = ({ anchorEl, setAnchorEl }) => {
     <Menu
       anchorEl={anchorEl}
       open={open}
-      onClose={e => handleClose(e)}
+      onClose={handleClose}
       anchorOrigin={{
         vertical: 'bottom',
         horizontal: 'right',
