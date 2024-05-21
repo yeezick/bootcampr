@@ -44,9 +44,12 @@ export const PresentationInfoBanner = () => {
   const isModalOpen = isUrlModalOpen || isPresentingModalOpen
   const modalHeading = isUrlModalOpen
     ? 'Update project URL'
-    : 'Update participation status.'
+    : 'Update participation status'
   const modalBody = isUrlModalOpen ? (
-    <ProjectUrl setIsDisabled={setIsDisabled} />
+    <ProjectUrl
+      setIsDisabled={setIsDisabled}
+      labelText='This is the URL of your completed MVP.'
+    />
   ) : (
     <ParticipationRadio setIsDisabled={setIsDisabled} />
   )
