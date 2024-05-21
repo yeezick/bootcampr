@@ -3,10 +3,11 @@ import {
   selectCompletedInfo,
   selectPresentationDate,
   selectProject,
+  updateDeployedUrl,
 } from 'utils/redux/slices/projectSlice'
 import './PresentationInfoBanner.scss'
 import { formatLastCallDate, getFullUrl } from 'utils/helpers'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { CommonModal } from 'components/CommonModal/CommonModal'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
@@ -28,10 +29,14 @@ export const PresentationInfoBanner = () => {
   const projectID = project._id
 
   const { presenting, deployedUrl } = projectSubmissionInfo
+  const [displayedUrl, setDisplayedUrl] = useState<string>(deployedUrl)
+  const initialUrlRef = useRef(deployedUrl)
+  // const initialPresentingRef = useRef(presenting)
+
+  const fullUrl = getFullUrl(deployedUrl)
   const lastCallForProjectEditsDate = formatLastCallDate(
     presentationDate.startDateEST
   )
-  const fullUrl = getFullUrl(deployedUrl)
 
   const isModalOpen = isUrlModalOpen || isPresentingModalOpen
   const modalHeading = isUrlModalOpen
@@ -46,9 +51,10 @@ export const PresentationInfoBanner = () => {
   const handleCancel = () => {
     setIsUrlModalOpen(false)
     setIsPresentingModalOpen(false)
+    dispatch(updateDeployedUrl(initialUrlRef.current))
   }
 
-  const updateCompletedInfo = async () => {
+  const handleUpdate = async () => {
     setIsLoading(true)
     const updatedProject = {
       completedInfo: {
@@ -59,6 +65,7 @@ export const PresentationInfoBanner = () => {
 
     try {
       await editProject(projectID, updatedProject)
+      setDisplayedUrl(deployedUrl)
       setIsUrlModalOpen(false)
       setIsPresentingModalOpen(false)
       setIsLoading(false)
@@ -99,7 +106,7 @@ export const PresentationInfoBanner = () => {
               rel='noopener noreferrer'
               className='deployed-url'
             >
-              {deployedUrl}
+              {displayedUrl}
             </a>
             . You can update your project URL{' '}
             <span
@@ -120,7 +127,7 @@ export const PresentationInfoBanner = () => {
         cancelButtonLabel='Cancel'
         handleCancel={handleCancel}
         confirmButtonLabel='Update'
-        handleConfirm={updateCompletedInfo}
+        handleConfirm={handleUpdate}
         confirmButtonDisabled={isDisabled}
         customWidth={368}
       />

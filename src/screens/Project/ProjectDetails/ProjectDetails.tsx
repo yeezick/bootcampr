@@ -30,7 +30,7 @@ const RenderTab = ({ tabs }) => {
   const [indicatorWidth, setIndicatorWidth] = useState(0)
   const [indicatorLeft, setIndicatorLeft] = useState(0)
   const projectSubmissionInfo = useAppSelector(selectCompletedInfo)
-  const isProjectSubmitted = Boolean(projectSubmissionInfo.deployedUrl)
+  const isProjectSubmitted = Boolean(projectSubmissionInfo.presenting !== null)
 
   const handleTabClick = (tabIndex: number) => {
     setActiveTab(tabIndex)

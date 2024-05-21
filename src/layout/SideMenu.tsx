@@ -22,7 +22,7 @@ export const SideMenu = () => {
   const projectSubmissionInfo = useAppSelector(selectCompletedInfo)
   const userExperience = useAppSelector(selectUserExperience)
   const [isDisabled, setIsDisabled] = useState(true)
-  const isProjectSubmitted = Boolean(projectSubmissionInfo.deployedUrl)
+  const isProjectSubmitted = Boolean(projectSubmissionInfo.presenting !== null)
   const isActiveUser = userExperience === 'active'
 
   const handleProjectCompletion = () =>
