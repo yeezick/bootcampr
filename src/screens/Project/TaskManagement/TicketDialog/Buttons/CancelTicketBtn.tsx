@@ -13,11 +13,5 @@ export const CancelTicketBtn = () => {
   const handleCancel = () =>
     toggleCancelDialog(dispatch, userId, projectId, ticketFields)
 
-  return (
-    <SecondaryButton
-      handler={handleCancel}
-      text={'Cancel'}
-      sx={{ backgroundColor: '#fff' }}
-    />
-  )
+  return <SecondaryButton onClick={handleCancel} label={'Cancel'} />
 }

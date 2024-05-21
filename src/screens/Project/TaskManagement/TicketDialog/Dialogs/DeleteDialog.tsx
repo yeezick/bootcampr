@@ -1,5 +1,4 @@
 import { Dialog, DialogContent } from '@mui/material'
-import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { deleteTicketApi } from 'utils/api/tickets'
 import {
   closeConfirmationDialog,
@@ -14,6 +13,9 @@ import {
 } from 'utils/redux/slices/taskBoardSlice'
 import '../../styles/ConfirmationDialogs.scss'
 import { successSnackbar } from 'utils/helpers/commentHelpers'
+import { PrimaryButton, TextButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { useState } from 'react'
 
 export const DeleteTicketDialog = () => {
   const confirmationDialogType = useAppSelector(selectConfirmationDialogType)
@@ -21,8 +23,10 @@ export const DeleteTicketDialog = () => {
   const ticketFields = useAppSelector(selectTicketFields)
   const dispatch = useAppDispatch()
   const handleCloseDialog = () => closeConfirmationDialog(dispatch)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleDeleteTicket = async () => {
+    setIsLoading(true)
     const { status, _id: ticketId } = ticketFields
     // BC-412: add guard clause for tickets that failed to delete & display error toast
     if (!isSandboxId(ticketId)) {
@@ -36,6 +40,7 @@ export const DeleteTicketDialog = () => {
     dispatch(deleteTicket({ status, ticketId }))
     dispatch(successSnackbar('Story deleted successfully'))
     closeVisibleTicketDialog(dispatch)
+    setIsLoading(false)
   }
 
   return (
@@ -50,19 +55,15 @@ export const DeleteTicketDialog = () => {
           All the information, including comments, will be lost and gone
           forever.
         </p>
-        <div className='buttons'>
-          <SecondaryButton
-            handler={handleCloseDialog}
-            text='Cancel'
-            variant='text'
-          />
+        <ButtonContainer>
+          <TextButton onClick={handleCloseDialog} label='Cancel' />
           <PrimaryButton
-            disableElevation
-            handler={handleDeleteTicket}
-            text='Delete'
-            sx={{ backgroundColor: '#d32f2f', color: '#fff' }}
+            loading={isLoading}
+            colorScheme='secondary'
+            onClick={handleDeleteTicket}
+            label='Delete'
           />
-        </div>
+        </ButtonContainer>
       </DialogContent>
     </Dialog>
   )

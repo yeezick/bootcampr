@@ -38,6 +38,7 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
     height: 100,
   })
   const [zoom, setZoom] = useState<number>(1)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const profilePicture = useAppSelector(getUserProfileImage)
   const authUser = useAppSelector(selectAuthUser)
@@ -61,6 +62,7 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
       getCroppedImg(profilePicture, cropArea, zoom).then(
         async croppedImageURL => {
           if (croppedImageURL) {
+            setIsLoading(true)
             try {
               const croppedImageFile = await saveCroppedImage(croppedImageURL)
               await createUserImage(croppedImageFile, userId)
@@ -71,9 +73,11 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
               dispatch(updateAuthUser(userImageUpdate))
               dispatch(successSnackbar('Photo saved!'))
               handleClose()
+              setIsLoading(false)
             } catch (error) {
               console.log('Failed to generate cropped image URL:', error)
               dispatch(errorSnackbar('Photo did not upload. Please try again.'))
+              setIsLoading(false)
             }
           }
         }
@@ -103,6 +107,7 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
           <ImageEditorControls
             handleClose={handleClose}
             handleSave={handleSave}
+            isLoading={isLoading}
           />
         </DialogActions>
       </div>

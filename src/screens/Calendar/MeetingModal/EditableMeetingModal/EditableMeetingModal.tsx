@@ -32,8 +32,8 @@ import '../styles/EditableMeetingModal.scss'
 import { MeetingModalHeaderIcons } from './MeetingModalHeaderIcons'
 import { GoogleMeetsToggler } from './GoogleMeetsToggler'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
-import { PrimaryButton } from 'components/Buttons/ButtonVariants'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
+import { PrimaryButton } from 'components/Buttons'
 import { isEmptyString } from 'utils/helpers/inputUtils'
 
 export const EditableMeetingModal = () => {
@@ -45,6 +45,7 @@ export const EditableMeetingModal = () => {
   const [inviteAll, toggleInviteAll] = useState(false)
   const [visibleModal, toggleVisibleModal] = useState(false)
   const [googleMeeting, toggleGoogleMeeting] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const modalDisplayStatus = useAppSelector(selectModalDisplayStatus)
   const displayedEvent = useAppSelector(selectDisplayedEvent)
   const radioGroupRef = useRef(null)
@@ -140,6 +141,7 @@ export const EditableMeetingModal = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
+    setIsLoading(true)
     const { end, start, eventTimezone } = dateFields
     const { description, summary } = meetingText
     const attendeeList = []
@@ -185,12 +187,14 @@ export const EditableMeetingModal = () => {
         dispatch(addNewEvent(newEvent))
         handleClose()
         dispatch(successSnackbar('Invite sent successfully!'))
+        setIsLoading(false)
       } catch (error) {
         console.error(
           `Error creating event for calendar (${calendarId}): `,
           error
         )
         dispatch(errorSnackbar('Unable to create meeting. Please try again.'))
+        setIsLoading(false)
       }
     } else if (modalDisplayStatus === 'edit') {
       try {
@@ -202,12 +206,14 @@ export const EditableMeetingModal = () => {
         dispatch(updateExistingEvent(updatedEvent))
         handleClose()
         dispatch(successSnackbar('Meeting updated successfully!'))
+        setIsLoading(false)
       } catch (error) {
         console.error(
           `Error creating event for calendar (${calendarId}): `,
           error
         )
         dispatch(errorSnackbar('Meeting failed to update. Please try again.'))
+        setIsLoading(false)
       }
     }
   }
@@ -220,7 +226,7 @@ export const EditableMeetingModal = () => {
       open={visibleModal}
       sx={modalStyles}
     >
-      <form onSubmit={handleSubmit}>
+      <form>
         <DialogContent className='modal-dialog-content'>
           <MeetingModalHeaderIcons handleCloseMeetingModal={handleClose} />
           <div className='content-wrapper'>
@@ -265,11 +271,13 @@ export const EditableMeetingModal = () => {
             />
           </div>
         </DialogContent>
-        <DialogActions sx={buttonDivStyle}>
+        <DialogActions>
           <PrimaryButton
+            onClick={handleSubmit}
+            loading={isLoading}
             disabled={disabledBtn}
-            text={'Send Invite'}
-            type={'submit'}
+            label='Send Invite'
+            style={{ margin: '32px' }}
           />
         </DialogActions>
       </form>
@@ -306,10 +314,6 @@ const titleInputFieldStyles = {
   '&:after': {
     borderBottom: 'none',
   },
-}
-
-const buttonDivStyle = {
-  padding: '32px',
 }
 
 const modalStyles = {

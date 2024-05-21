@@ -11,6 +11,7 @@ import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { ProfileInputs } from 'components/UserProfile/components/ProfileInputs'
 import { determineDisabledbtn } from 'screens/Onboarding/SetUpProfile'
 import { handleUserProfileInputChange } from 'utils/helpers'
+import { PrimaryButton } from 'components/Buttons'
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
@@ -23,6 +24,7 @@ export const EditProfile: React.FC = () => {
     linkedinUrl: false,
     githubUrl: false,
   })
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -41,7 +43,8 @@ export const EditProfile: React.FC = () => {
   const handleInputChange = e =>
     handleUserProfileInputChange(e, setUpdateUserForm, setErrorStates)
 
-  const handleUserUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleUserUpdate = async (e: React.FormEvent) => {
+    setIsLoading(true)
     e.preventDefault()
 
     try {
@@ -49,11 +52,13 @@ export const EditProfile: React.FC = () => {
       dispatch(setAuthUser(updatedUser))
       dispatch(successSnackbar('Profile saved!'))
       navigate(`/users/${authUser._id}`)
+      setIsLoading(false)
     } catch (error) {
       console.log('Error occurred when trying to update User Profile', error)
       dispatch(
         errorSnackbar('Failed to update user profile. Please try again.')
       )
+      setIsLoading(false)
     }
   }
 
@@ -64,7 +69,7 @@ export const EditProfile: React.FC = () => {
   return (
     <div className='editprofile'>
       <div className='editprofile__container'>
-        <form onSubmit={handleUserUpdate} className='editprofile__form'>
+        <form className='editprofile__form'>
           <div className='editprofile__imageContainer'>
             <div className='editprofile__image'>
               <Avatar
@@ -74,13 +79,13 @@ export const EditProfile: React.FC = () => {
                 iconButtonClassName='editprofile__cameraIcon'
               />
             </div>
-            <button
+            <PrimaryButton
+              onClick={handleUserUpdate}
+              loading={isLoading}
               disabled={disabledBtn}
-              type='submit'
-              className='editprofile__saveBtn'
-            >
-              Save profile
-            </button>
+              label='Save Profile'
+              style={{ position: 'absolute', top: '0', right: '0' }}
+            />
           </div>
           <div className='editprofile__labelContainer'>
             <ProfileInputs

@@ -25,6 +25,7 @@ import { GrTrash } from 'react-icons/gr'
 import { MdOutlineCameraEnhance } from 'react-icons/md'
 import './ProfilePreviewImage.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import { PrimaryButton, TextButton } from 'components/Buttons'
 
 /**
  * ProfilePreviewImage component displays a preview of the profile image, allowing the user to add, edit, or delete the image.
@@ -168,10 +169,12 @@ const DeleteWarningModal = ({
   isDeleteModalOpen,
   closeDeleteModal,
 }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   /**
    * Handles discarding changes made to the image.
    */
   const handleDeleteImage = async () => {
+    setIsLoading(true)
     try {
       const res = await deleteUserImage(userId)
       if (res.success) {
@@ -187,9 +190,11 @@ const DeleteWarningModal = ({
       } else {
         throw new Error('Failed to delete image')
       }
+      setIsLoading(false)
     } catch (err) {
       console.log('Error deleting image:', err)
       dispatch(errorSnackbar('Profile photo did not delete. Please try again.'))
+      setIsLoading(false)
     }
   }
 
@@ -214,19 +219,14 @@ const DeleteWarningModal = ({
               </p>
             </DialogContent>
           </div>
-          <DialogActions className='profile-preview__dialog-actions'>
-            <button
-              onClick={closeDeleteModal}
-              className='profile-preview__cancel-btn'
-            >
-              <p>Cancel</p>
-            </button>
-            <button
+          <DialogActions>
+            <TextButton label='Cancel' onClick={closeDeleteModal} />
+            <PrimaryButton
+              loading={isLoading}
+              colorScheme='secondary'
+              label='Delete'
               onClick={handleDeleteImage}
-              className='profile-preview__delete2-btn'
-            >
-              <p>Delete</p>
-            </button>
+            />
           </DialogActions>
         </div>
       </Dialog>

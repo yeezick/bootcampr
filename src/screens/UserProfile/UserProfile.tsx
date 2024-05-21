@@ -20,6 +20,7 @@ import {
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useSocketEvents } from 'components/Notifications/Socket'
 import './UserProfile.scss'
+import { PrimaryButton } from 'components/Buttons'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
 
 export const UserProfile: React.FC = () => {
@@ -32,6 +33,7 @@ export const UserProfile: React.FC = () => {
   const [userProfileInfo, setUserProfileInfo] =
     useState<UserInterface>(emptyUser)
   const sameProfile = authUser._id === userId ? true : false
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
     let userProfile
@@ -51,6 +53,7 @@ export const UserProfile: React.FC = () => {
 
   const handleProfileMessageClick = async () => {
     const { _id: memberId } = userProfileInfo
+    setIsLoading(true)
     try {
       const {
         payment: { experience: userExperience },
@@ -71,8 +74,10 @@ export const UserProfile: React.FC = () => {
           dispatch(onScreenUpdate(ChatScreen.ChatRoom))
         }
       }
+      setIsLoading(false)
     } catch (error) {
       console.error('Error in chat open: ', error)
+      setIsLoading(false)
     }
   }
 
@@ -97,18 +102,12 @@ export const UserProfile: React.FC = () => {
             </h2>
             {userProfileInfo.role && <h3>{userProfileInfo.role}</h3>}
           </div>
-          {sameProfile ? (
-            <button className='userProfile__editBtn' onClick={routeToEdit}>
-              Edit profile
-            </button>
-          ) : (
-            <button
-              className='userProfile__messageBtn'
-              onClick={handleProfileMessageClick}
-            >
-              Message
-            </button>
-          )}
+          <PrimaryButton
+            loading={isLoading}
+            label={sameProfile ? 'Edit profile' : 'Message'}
+            onClick={sameProfile ? routeToEdit : handleProfileMessageClick}
+            style={{ position: 'absolute', top: '0', right: '0' }}
+          />
         </div>
         {userProfileInfo.bio && (
           <div className='userProfile__infoContainer'>

@@ -1,4 +1,3 @@
-import { PrimaryButton } from 'components/Buttons/ButtonVariants'
 import { useNavigate } from 'react-router-dom'
 import { updatePaymentExperience } from 'utils/api/payment'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
@@ -14,8 +13,9 @@ import { buildProjectPortal } from 'utils/helpers'
 import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { getOneProject } from 'utils/api'
 import { setProject } from 'utils/redux/slices/projectSlice'
-import { SecondaryButton } from 'components/Buttons'
 import { handleJoinTeam } from 'utils/helpers/paymentHelpers'
+import { PrimaryButton, SecondaryButton } from 'components/Buttons'
+import { useState } from 'react'
 
 export const ChooseExperience = () => {
   return (
@@ -34,8 +34,10 @@ const SandboxCard = () => {
   const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const [sandboxIsLoading, setSandboxIsLoading] = useState<boolean>(false)
 
   const handleEnterSandbox = async () => {
+    setSandboxIsLoading(true)
     const updatedExperience = await updatePaymentExperience(userId, {
       experience: 'sandbox',
     })
@@ -53,6 +55,7 @@ const SandboxCard = () => {
     dispatch(updateUserExperience(updatedExperience))
     dispatch(setPortal(buildProjectPortal('sandbox')))
     navigate('/project/sandbox')
+    setSandboxIsLoading(false)
   }
 
   return (
@@ -76,9 +79,10 @@ const SandboxCard = () => {
           <BenefitItem text='Get comfortable using the Kanban Board' />
         </div>
         <SecondaryButton
+          loading={sandboxIsLoading}
           fullWidth
-          handler={handleEnterSandbox}
-          text='Enter sandbox'
+          label='Enter sandbox'
+          onClick={handleEnterSandbox}
         />
       </div>
     </div>
@@ -89,7 +93,12 @@ const JoinTeamCard = () => {
   const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const handleJoinTeamBtn = () => handleJoinTeam(dispatch, navigate, userId)
+  const [joinTeamIsLoading, setJoinTeamIsLoading] = useState<boolean>(false)
+  const handleJoinTeamBtn = async () => {
+    setJoinTeamIsLoading(true)
+    await handleJoinTeam(dispatch, navigate, userId)
+    setJoinTeamIsLoading(false)
+  }
 
   return (
     <div className='experience-card'>
@@ -114,7 +123,12 @@ const JoinTeamCard = () => {
         <BenefitItem text='Showcase your product on your portfolio' />
         <BenefitItem text='Talk about your experience in interviews' />
       </div>
-      <PrimaryButton fullWidth handler={handleJoinTeamBtn} text='Join a team' />
+      <PrimaryButton
+        loading={joinTeamIsLoading}
+        fullWidth
+        onClick={handleJoinTeamBtn}
+        label='Join a team'
+      />
       <p className='refund-text'>
         *There is a 3.5% processing fee for refund requests during the matching
         process.
