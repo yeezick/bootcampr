@@ -48,21 +48,36 @@ export const ParticipationRadio = ({
         onChange={handleChange}
       >
         <FormControlLabel
+          sx={participationRadioStyles}
           value={true}
-          control={<Radio className='participation-radio' />}
+          control={<Radio />}
           label='My team will participate'
         />
         <FormControlLabel
+          sx={participationRadioStyles}
           value={false}
-          control={<Radio className='participation-radio' />}
+          control={<Radio />}
           label='My team will not participate'
         />
         {helperText && (
-          <FormHelperText className='participation-helper-text'>
+          <FormHelperText sx={{ margin: '-5px 0px 0px 30px' }}>
             *Please let us know by {helperText} if you plan to participate.
           </FormHelperText>
         )}
       </RadioGroup>
     </FormControl>
   )
+}
+
+const participationRadioStyles = {
+  '.MuiRadio-root': {
+    color: 'black',
+    paddingLeft: '15px',
+  },
+  '.Mui-checked': {
+    color: '#0d47a1',
+  },
+  '.MuiSvgIcon-root': {
+    fontSize: '16px',
+  },
 }

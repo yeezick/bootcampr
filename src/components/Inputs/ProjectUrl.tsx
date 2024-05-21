@@ -31,11 +31,19 @@ export const ProjectUrl = ({ setIsDisabled, labelText }: ProjectUrlProps) => {
   }, [deployedUrl, setIsDisabled])
 
   return (
-    <FormControl className='url-input'>
+    <FormControl>
       <label htmlFor='projectUrl'>
-        <p>{labelText}</p>
+        <p style={styles.labelText}>{labelText}</p>
       </label>
+      <style>{`
+			.url-input:focus-visible {
+				border: none; 
+				outline: 2px solid #0d47a1 !important; 
+				outline-offset: -1px;
+				}`}</style>
       <input
+        className='url-input'
+        style={{ ...styles.input, boxSizing: 'border-box' }}
         id='projectUrl'
         onBlur={handleUrlChange}
         onChange={handleUrlChange}
@@ -44,4 +52,23 @@ export const ProjectUrl = ({ setIsDisabled, labelText }: ProjectUrlProps) => {
       />
     </FormControl>
   )
+}
+
+const styles = {
+  labelText: {
+    fontSize: '16px',
+    lineHeight: '24px',
+    margin: '0',
+  },
+  input: {
+    border: 'none',
+    borderRadius: '4px',
+    fontSize: '16px',
+    height: '40px',
+    lineHeight: '24px',
+    marginTop: '16px',
+    outline: '1px solid #212121',
+    padding: '8px 16px',
+    width: '328px',
+  },
 }
