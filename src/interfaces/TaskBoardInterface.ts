@@ -28,6 +28,10 @@ export interface TaskBoardInterface {
   ticketFields: TicketFieldsInterface
   visibleTickets: ProjectTrackerInterface
   visibleTicketDialog: boolean
+  conflictedTicket: {
+    ticket: TicketInterface
+    dialogState: '' | 'delete' | 'edit'
+  }
 }
 
 export type TicketDialogState = '' | 'create' | 'edit'

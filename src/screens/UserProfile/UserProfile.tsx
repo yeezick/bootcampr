@@ -18,7 +18,7 @@ import {
   toggleChatOpen,
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
-import { useSocketEvents } from 'components/Notifications/Socket'
+import { useChatSocketEvents } from 'components/Socket/chatSocket'
 import './UserProfile.scss'
 import { PrimaryButton } from 'components/Buttons'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
@@ -29,7 +29,7 @@ export const UserProfile: React.FC = () => {
   const teamMembers = useAppSelector(selectMembersAsTeam)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { createNewRoom } = useSocketEvents(false)
+  const { createNewRoom } = useChatSocketEvents(false)
   const [userProfileInfo, setUserProfileInfo] =
     useState<UserInterface>(emptyUser)
   const sameProfile = authUser._id === userId ? true : false
