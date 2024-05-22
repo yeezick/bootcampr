@@ -44,6 +44,7 @@ export const PresentationInfoBanner = () => {
   const [urlIsDisabled, setUrlIsDisabled] = useState<boolean>(true)
   const [presentingIsDisabled, setPresentingIsDisabled] =
     useState<boolean>(true)
+
   useEffect(() => {
     deployedUrl === initialUrlRef.current
       ? setUrlIsDisabled(true)
