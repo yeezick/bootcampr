@@ -20,64 +20,56 @@ export const ProjectDetails = () => {
   }
 
   return (
-    <Box sx={{ width: '100%', typography: 'body1' }}>
+    <Box className='project-details-content'>
       <TabContext value={value}>
         <Box>
           <TabList
-            sx={{ ...tabListStyles }}
+            className='tab-list'
             onChange={handleChange}
             aria-label='Product Details navigation'
           >
             {/* {tabData.map((tab, idx) => (
-              <CustomTab label={tab.label} value={`${idx} + 1`} />
+              <CustomTab
+                key={`tab-${idx + 1}`}
+                label={tab.label}
+                value={(idx + 1).toString()}
+              />
             ))} */}
-            <Tab label='PROJECT BRIEF' value='1' sx={tabStyles} {...tabProps} />
-            <Tab label='TIMELINE' value='2' sx={tabStyles} {...tabProps} />
-            <Tab label='PRESENTATION' value='3' sx={tabStyles} {...tabProps} />
+            <Tab
+              label='PROJECT BRIEF'
+              value='1'
+              className='tab'
+              {...tabProps}
+            />
+            <Tab label='TIMELINE' value='2' className='tab' {...tabProps} />
+            <Tab label='PRESENTATION' value='3' className='tab' {...tabProps} />
           </TabList>
         </Box>
-        <TabPanel value='1' sx={{ marginLeft: '10px' }}>
-          <Overview />
-        </TabPanel>
-        <TabPanel value='2' sx={{ marginLeft: '10px' }}>
-          <ProjectTimeline />
-        </TabPanel>
-        <TabPanel value='3' sx={{ marginLeft: '10px' }}>
-          <Presentation />
-        </TabPanel>
+        {tabData.map((tab, idx) => (
+          <CustomTabPanel
+            key={`tab-panel-${idx + 1}`}
+            value={(idx + 1).toString()}
+          >
+            {tab.content}
+          </CustomTabPanel>
+        ))}
       </TabContext>
     </Box>
   )
 }
 
-// const CustomTab = ({ label, value }) => {
-//   return <Tab label={label} value={value} />
-// }
-const tabListStyles = {
-  background: '#fff',
-  marginLeft: '32px',
-  marginBottom: '-40px',
-  marginTop: '16px',
-  paddingBottom: '16px',
-  '& .MuiTabs-indicator': {
-    backgroundColor: '#ffa726',
-    height: '4px',
-  },
-  '& .MuiTab-root': {
-    minWidth: 'auto',
-    marginRight: '16px',
-    color: 'black',
-    '&.Mui-selected': {
-      color: 'black',
-    },
-  },
+const CustomTab = ({ label, value }) => {
+  return <Tab label={label} value={value} className='tab' {...tabProps} />
 }
-const tabStyles = {
-  border: '1px solid violet',
-  padding: '0',
-  fontSize: '16px',
-  fontWeight: '600',
+
+const CustomTabPanel = ({ value, children }) => {
+  return (
+    <TabPanel value={value} sx={{ marginLeft: '10px' }}>
+      {children}
+    </TabPanel>
+  )
 }
+
 const tabProps = {
   disableRipple: true,
   disableFocusRipple: true,
