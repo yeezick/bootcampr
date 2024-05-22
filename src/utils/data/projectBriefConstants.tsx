@@ -88,13 +88,13 @@ export const projectBriefContent = [
         <p className='title'>Technical:</p>
         <ul>
           <li>Responsive design for seamless browsing across devices</li>
-          <li>Integration with reservation system.</li>
+          <li>Integration with reservation system</li>
         </ul>
         <p className='title'>Brand and Style: </p>
         <ul>
           <li>
             Incorporation of the restaurant’s branding elements, such as logo
-            and color scheme.
+            and color scheme
           </li>
         </ul>
         <p className='title'>Functional Requirements:</p>
