@@ -8,7 +8,7 @@ import {
 } from 'utils/redux/slices/projectSlice'
 import './PresentationInfoBanner.scss'
 import { formatLastCallDate, getFullUrl } from 'utils/helpers'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { CommonModal } from 'components/CommonModal/CommonModal'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
@@ -41,18 +41,17 @@ export const PresentationInfoBanner = () => {
     presentationDate.startDateEST
   )
 
-  const isModalOpen = isUrlModalOpen || isPresentingModalOpen
-  const modalHeading = isUrlModalOpen
-    ? 'Update project URL'
-    : 'Update participation status'
-  const modalBody = isUrlModalOpen ? (
-    <ProjectUrl
-      setIsDisabled={setIsDisabled}
-      labelText='This is the URL of your completed MVP.'
-    />
-  ) : (
-    <ParticipationRadio setIsDisabled={setIsDisabled} />
-  )
+  const [urlIsDisabled, setUrlIsDisabled] = useState<boolean>(true)
+  const [presentingIsDisabled, setPresentingIsDisabled] =
+    useState<boolean>(true)
+  useEffect(() => {
+    deployedUrl === initialUrlRef.current
+      ? setUrlIsDisabled(true)
+      : setUrlIsDisabled(false)
+    presenting === initialPresentingRef.current
+      ? setPresentingIsDisabled(true)
+      : setPresentingIsDisabled(false)
+  }, [deployedUrl, displayedUrl, presenting, displayedPresenting])
 
   const handleCancel = () => {
     setIsUrlModalOpen(false)
@@ -74,6 +73,8 @@ export const PresentationInfoBanner = () => {
       await editProject(projectID, updatedProject)
       setDisplayedUrl(deployedUrl)
       setDisplayedPresenting(presenting)
+      initialUrlRef.current = deployedUrl
+      initialPresentingRef.current = presenting
       setIsUrlModalOpen(false)
       setIsPresentingModalOpen(false)
       setIsLoading(false)
@@ -89,6 +90,22 @@ export const PresentationInfoBanner = () => {
       setIsLoading(false)
     }
   }
+
+  //Modal props
+  const isModalOpen = isUrlModalOpen || isPresentingModalOpen
+  const modalHeading = isUrlModalOpen
+    ? 'Update project URL'
+    : 'Update participation status'
+  const modalBody = isUrlModalOpen ? (
+    <ProjectUrl
+      setIsDisabled={setIsDisabled}
+      labelText='This is the URL of your completed MVP.'
+    />
+  ) : (
+    <ParticipationRadio setIsDisabled={setIsDisabled} />
+  )
+  const modalIsDisabled =
+    (urlIsDisabled || isDisabled) && (presentingIsDisabled || isDisabled)
 
   return (
     <>
@@ -136,7 +153,7 @@ export const PresentationInfoBanner = () => {
         handleCancel={handleCancel}
         confirmButtonLabel='Update'
         handleConfirm={handleUpdate}
-        confirmButtonDisabled={isDisabled}
+        confirmButtonDisabled={modalIsDisabled}
         customWidth={368}
       />
     </>

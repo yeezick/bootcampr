@@ -18,6 +18,10 @@
     padding: 32px 0;
   }
 
+  &.container:focus-visible {
+    outline: none;
+  }
+
   &.contents {
     align-items: flex-end;
     display: flex;
