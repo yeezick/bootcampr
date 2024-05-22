@@ -32,10 +32,12 @@ export const projectBriefContent = [
   {
     title: 'Target Audience',
     content: (
-      <p>
-        The target audience for this restaurant includes urban residents aged
-        25-45, primarily working professionals and young couples. They are
-        tech-savvy, value convenience, and appreciate culinary innovation.
+      <>
+        <p>
+          The target audience for this restaurant includes urban residents aged
+          25-45, primarily working professionals and young couples. They are
+          tech-savvy, value convenience, and appreciate culinary innovation.
+        </p>
         <p className='title'>Demographics: </p>
         <ul>
           <li>Urban residents</li>
@@ -57,13 +59,13 @@ export const projectBriefContent = [
           <li>Unique dining experiences</li>
           <li>Convenience</li>
         </ul>
-      </p>
+      </>
     ),
   },
   {
     title: 'Competitors',
     content: (
-      <p>
+      <>
         Competitors in the restaurant industry within the same urban area
         include established eateries with strong online presences.
         <p className='title'>Key findings include:</p>
@@ -78,13 +80,13 @@ export const projectBriefContent = [
             personalized content
           </li>
         </ul>
-      </p>
+      </>
     ),
   },
   {
     title: 'Design Requirements',
     content: (
-      <p>
+      <>
         <p className='title'>Technical:</p>
         <ul>
           <li>Responsive design for seamless browsing across devices</li>
@@ -103,20 +105,20 @@ export const projectBriefContent = [
           <li>Online reservation system</li>
           <li>Contact information display</li>
         </ul>
-      </p>
+      </>
     ),
   },
   {
     title: 'Project Deliverables',
     content: (
-      <p>
+      <>
         <p>Upon completing the project, the restaurant will have:</p>
         <ul>
           <li>A fully functional website showcasing menu and services</li>
           <li>An online reservation and booking system</li>
           <li>Documentation for website maintenance and future enhancements</li>
         </ul>
-      </p>
+      </>
     ),
   },
 ]
