@@ -65,11 +65,18 @@ const taskBoardSlice = createSlice({
       }
       state.displayAllTickets = shouldDisplayAllTickets
     },
+    setConflictTicket: (state, action) => {
+      const { ticket, dialogState } = action.payload
+      state.conflictedTicket.ticket = ticket
+      state.conflictedTicket.dialogState = dialogState
+    },
   },
 })
 
 export const selectConfirmationDialogType = (state: RootState) =>
   state.taskBoard.confirmationDialogType
+export const selectConflictedTicket = (state: RootState) =>
+  state.taskBoard.conflictedTicket
 export const selectDisplayAllTickets = (state: RootState) =>
   state.taskBoard.displayAllTickets
 export const selectTicketDialogState = (state: RootState) =>
@@ -88,5 +95,6 @@ export const {
   setTicketFields,
   setVisibleTickets,
   setVisibleTicketDialog,
+  setConflictTicket,
 } = taskBoardSlice.actions
 export default taskBoardSlice.reducer

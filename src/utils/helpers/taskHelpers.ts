@@ -76,38 +76,54 @@ export const formatTaskStatus = (status: string) => {
   }
 }
 
+export const getColumnState = (tracker, columnId) => {
+  return [...tracker[columnId]]
+}
+
 export const handleColumnReordering = async (
   dispatch,
   projectId,
   projectTracker,
-  movingTicket
+  movingTicket,
+  reorderTicket
 ) => {
   const {
     source: { droppableId: oldColumnId, index: oldColumnIdx },
     destination: { index: newColumnIdx },
   } = movingTicket
-  const response =
-    projectId === 'sandbox'
-      ? reorderSandboxColumn(
-          projectTracker[oldColumnId],
-          oldColumnIdx,
-          newColumnIdx
-        )
-      : await reorderProjectColumn(projectId, {
-          columnId: projectTracker[oldColumnId],
-          oldIdx: oldColumnIdx,
-          newIdx: newColumnIdx,
-        })
+  const initialColumnState = getColumnState(projectTracker, oldColumnId)
 
-  if (response.status !== 200) {
-    dispatch(errorSnackbar(response.message))
-  } else {
+  try {
+    const response = reorderColumnHandler(
+      projectTracker[oldColumnId],
+      oldColumnIdx,
+      newColumnIdx
+    )
     dispatch(
       reorderColumn({
         columnId: oldColumnId,
         reorderedColumn: response.reorderedColumn,
       })
     )
+    if (!isSandboxId(projectId)) {
+      await reorderProjectColumn(projectId, {
+        columnId: oldColumnId,
+        oldIdx: oldColumnIdx,
+        newIdx: newColumnIdx,
+      })
+      reorderTicket({
+        columnId: oldColumnId,
+        reorderedColumn: response.reorderedColumn,
+      })
+    }
+  } catch (error) {
+    dispatch(
+      reorderColumn({
+        columnId: oldColumnId,
+        reorderedColumn: initialColumnState,
+      })
+    )
+    dispatch(errorSnackbar('Error reordering ticket within column.'))
   }
 }
 
@@ -115,14 +131,14 @@ export const handleTicketMovingBetweenColumns = async (
   dispatch,
   projectId,
   projectTracker,
-  movingTicket
+  movingTicket,
+  moveTicket
 ) => {
   const {
     source: { droppableId: oldColumnId, index: oldColumnIdx },
     destination: { droppableId: newColumnId, index: newColumnIdx },
     draggableId: ticketId,
   } = movingTicket
-
   const moveData = {
     oldColumnId,
     oldColumnIdx,
@@ -130,22 +146,37 @@ export const handleTicketMovingBetweenColumns = async (
     newColumnIdx,
     ticketId,
   }
+  const initialColumnsStates = {
+    oldColumn: getColumnState(projectTracker, oldColumnId),
+    newColumn: getColumnState(projectTracker, newColumnId),
+  }
 
-  const response = isSandboxId(projectId)
-    ? moveSandboxTicketBetweenColumns(projectTracker, moveData)
-    : await moveTicketColumn(projectId, moveData)
+  try {
+    const response = moveTicketBetweenColumnsHandler(projectTracker, moveData)
+    const ticketInfo = {
+      newColumnId,
+      newColumn: response.newColumn,
+      oldColumnId,
+      oldColumn: response.oldColumn,
+    }
 
-  if (response.status !== 200) {
-    dispatch(errorSnackbar(response.message))
-  } else {
+    dispatch(moveTicketBetweenColumns(ticketInfo))
+
+    if (!isSandboxId(projectId)) {
+      await moveTicketColumn(projectId, moveData)
+      moveTicket(ticketInfo)
+    }
+  } catch (error) {
+    console.error(error)
     dispatch(
       moveTicketBetweenColumns({
-        newColumnId,
-        newColumn: response.newColumn,
-        oldColumnId,
-        oldColumn: response.oldColumn,
+        newColumnId: oldColumnId,
+        newColumn: initialColumnsStates.oldColumn,
+        oldColumnId: newColumnId,
+        oldColumn: initialColumnsStates.newColumn,
       })
     )
+    dispatch(errorSnackbar('Error moving tickets between columns'))
   }
 }
 
@@ -192,7 +223,7 @@ export const isPaidActiveExperience = payment => {
   return paid === true && experience === 'active'
 }
 
-export const moveSandboxTicketBetweenColumns = (projectTracker, moveData) => {
+export const moveTicketBetweenColumnsHandler = (projectTracker, moveData) => {
   const { newColumnId, newColumnIdx, oldColumnId, oldColumnIdx } = moveData
   const updatedProjectTracker = produce(projectTracker, draft => {
     const [movingTicket] = draft[oldColumnId].splice(oldColumnIdx, 1)
@@ -201,7 +232,6 @@ export const moveSandboxTicketBetweenColumns = (projectTracker, moveData) => {
   })
 
   const updatedColumns = {
-    status: 200,
     newColumn: updatedProjectTracker[newColumnId],
     oldColumn: updatedProjectTracker[oldColumnId],
   }
@@ -209,7 +239,8 @@ export const moveSandboxTicketBetweenColumns = (projectTracker, moveData) => {
   return updatedColumns
 }
 
-const reorderSandboxColumn = (column, oldIdx, newIdx) => {
+const reorderColumnHandler = (column, oldIdx, newIdx) => {
+  console.log(column, oldIdx, newIdx)
   const updatedColumn = produce(column, draft => {
     const [movingTicket] = draft.splice(oldIdx, 1)
     draft.splice(newIdx, 0, movingTicket)

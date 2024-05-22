@@ -1,6 +1,6 @@
 import { CommonModal } from 'components/CommonModal/CommonModal'
 import { useState } from 'react'
-import { updateUnverifiedEmail, verifyEmail } from 'utils/api'
+import { updateEmailAddress, verifyEmail } from 'utils/api'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
@@ -33,7 +33,7 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
         setIsLoading(false)
         return
       }
-      const response = await updateUnverifiedEmail(newEmail, userId)
+      const response = await updateEmailAddress(newEmail, userId)
 
       if (response.status !== 201) {
         setErrorMessage(response.data.friendlyMessage)

@@ -10,7 +10,7 @@ import { MdArrowDropDown } from 'react-icons/md'
 import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
-import { useSocketEvents } from 'components/Notifications/Socket'
+import { useChatSocketEvents } from 'components/Socket/chatSocket'
 import Avatar from 'components/Avatar/Avatar'
 import {
   fetchThreads,
@@ -134,7 +134,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   const authUser = useAppSelector(selectAuthUser)
   const { _id: userId } = authUser
   const chatRef = useRef(null)
-  useSocketEvents(false)
+  useChatSocketEvents(false)
 
   useEffect(() => {
     //Warning: needs to be checked if members are loaded
