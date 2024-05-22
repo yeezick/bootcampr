@@ -110,23 +110,11 @@ export const projectBriefContent = [
     title: 'Project Deliverables',
     content: (
       <p>
-        <p className='title'>Technical:</p>
+        <p>Upon completing the project, the restaurant will have:</p>
         <ul>
-          <li>Responsive design for seamless browsing across devices</li>
-          <li>Integration with reservation system.</li>
-        </ul>
-        <p className='title'>Brand and Style: </p>
-        <ul>
-          <li>
-            Incorporation of the restaurant’s branding elements, such as logo
-            and color scheme.
-          </li>
-        </ul>
-        <p className='title'>Functional Requirements:</p>
-        <ul>
-          <li>Menu browsing functionality</li>
-          <li>Online reservation system</li>
-          <li>Contact information display</li>
+          <li>A fully functional website showcasing menu and services</li>
+          <li>An online reservation and booking system</li>
+          <li>Documentation for website maintenance and future enhancements</li>
         </ul>
       </p>
     ),
