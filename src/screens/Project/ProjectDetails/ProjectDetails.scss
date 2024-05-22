@@ -3,7 +3,6 @@
 
 .project-details-portal {
   background: #ffffff;
-  height: 100vh;
   width: auto;
 
   .pd-cont {
@@ -65,32 +64,6 @@
     }
   }
 
-  .pd-nav-tabs-active {
-    @include flex(column);
-    background: none;
-    border: none;
-    height: 28px;
-    padding: 0;
-    position: relative;
-    cursor: pointer;
-
-    h1 {
-      @include font-properties(
-        (
-          size: 16px,
-          weight: 600,
-          line-height: 24px,
-        )
-      );
-      color: #212121;
-      flex: 1 1 0;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      word-wrap: break-word;
-    }
-  }
-
   .pd-nav-content-cont {
     width: 100%;
     height: auto;
@@ -103,17 +76,5 @@
     left: 0;
     position: absolute;
     transition: transform 0.3s ease-in-out;
-  }
-
-  .pd-nav-tabs-active:nth-child(1) .pd-nav-indicator {
-    left: 0;
-  }
-
-  .pd-nav-tabs-active:nth-child(2) .pd-nav-indicator {
-    left: 33.33%;
-  }
-
-  .pd-nav-tabs-active:nth-child(3) .pd-nav-indicator {
-    left: 66.66%;
   }
 }

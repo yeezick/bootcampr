@@ -49,7 +49,6 @@ const RenderTab = ({ tabs }) => {
             key={index}
             id={`tab-${index}`}
             tabIndex={index}
-            activeTab={activeTab}
             handleTabClick={handleTabClick}
             tabName={tab.label}
           />
@@ -67,17 +66,13 @@ const RenderTab = ({ tabs }) => {
   )
 }
 
-const TabButton = ({ id, activeTab, tabIndex, handleTabClick, tabName }) => {
-  const isActive = activeTab === tabIndex
-
+const TabButton = ({ id, tabIndex, handleTabClick, tabName }) => {
   const handleClick = () => {
     handleTabClick(tabIndex)
   }
 
-  const tabClass = isActive ? 'pd-nav-tabs-active' : 'pd-nav-tabs'
-
   return (
-    <button id={id} className={tabClass} onClick={handleClick}>
+    <button id={id} className='pd-nav-tabs' onClick={handleClick}>
       <h1>{tabName}</h1>
     </button>
   )
