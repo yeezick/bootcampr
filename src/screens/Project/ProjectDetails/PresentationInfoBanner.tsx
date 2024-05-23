@@ -92,6 +92,9 @@ export const PresentationInfoBanner = () => {
     }
   }
 
+  const handlePresentingClick = () => setIsPresentingModalOpen(true)
+  const handleUrlClick = () => setIsUrlModalOpen(true)
+
   //Modal props
   const isModalOpen = isUrlModalOpen || isPresentingModalOpen
   const modalHeading = isUrlModalOpen
@@ -116,10 +119,7 @@ export const PresentationInfoBanner = () => {
           <p>
             Your team will{displayedPresenting ? ' ' : ' not '}be presenting.
             You can update your participation status{' '}
-            <span
-              className='modal-trigger'
-              onClick={() => setIsPresentingModalOpen(true)}
-            >
+            <span className='modal-trigger' onClick={handlePresentingClick}>
               here
             </span>{' '}
             until {lastCallForProjectEditsDate}.
@@ -135,10 +135,7 @@ export const PresentationInfoBanner = () => {
               {displayedUrl}
             </a>
             . You can update your project URL{' '}
-            <span
-              className='modal-trigger'
-              onClick={() => setIsUrlModalOpen(true)}
-            >
+            <span className='modal-trigger' onClick={handleUrlClick}>
               here
             </span>
             .

@@ -1,4 +1,5 @@
 import { FormControl } from '@mui/material'
+import { ProjectUrlProps } from 'interfaces/components'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
@@ -7,11 +8,7 @@ import {
   selectCompletedInfo,
   updateDeployedUrl,
 } from 'utils/redux/slices/projectSlice'
-
-interface ProjectUrlProps {
-  labelText?: string
-  setIsDisabled: React.Dispatch<React.SetStateAction<boolean>>
-}
+import './ProjectUrl.scss'
 
 export const ProjectUrl = ({ setIsDisabled, labelText }: ProjectUrlProps) => {
   const dispatch = useDispatch()
@@ -31,19 +28,12 @@ export const ProjectUrl = ({ setIsDisabled, labelText }: ProjectUrlProps) => {
   }, [deployedUrl, setIsDisabled])
 
   return (
-    <FormControl>
+    <FormControl className='project-url-container'>
       <label htmlFor='projectUrl'>
-        <p style={styles.labelText}>{labelText}</p>
+        <p className='label-text'>{labelText}</p>
       </label>
-      <style>{`
-			.url-input:focus-visible {
-				border: none; 
-				outline: 2px solid #0d47a1 !important; 
-				outline-offset: -1px;
-				}`}</style>
       <input
         className='url-input'
-        style={{ ...styles.input, boxSizing: 'border-box' }}
         id='projectUrl'
         onBlur={handleUrlChange}
         onChange={handleUrlChange}
@@ -52,23 +42,4 @@ export const ProjectUrl = ({ setIsDisabled, labelText }: ProjectUrlProps) => {
       />
     </FormControl>
   )
-}
-
-const styles = {
-  labelText: {
-    fontSize: '16px',
-    lineHeight: '24px',
-    margin: '0',
-  },
-  input: {
-    border: 'none',
-    borderRadius: '4px',
-    fontSize: '16px',
-    height: '40px',
-    lineHeight: '24px',
-    marginTop: '16px',
-    outline: '1px solid #212121',
-    padding: '8px 16px',
-    width: '328px',
-  },
 }
