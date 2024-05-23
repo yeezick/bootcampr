@@ -1,9 +1,4 @@
 .project-details-content {
-  .tab {
-    font-size: 16px;
-    font-weight: 600;
-    padding: 0;
-  }
   .tab-list {
     background: #fff;
     margin: 16px 0 -40px 32px;
@@ -23,5 +18,15 @@
         color: black;
       }
     }
+  }
+
+  .tab {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 0;
+  }
+
+  .tab-panel {
+    margin-left: 10px;
   }
 }

@@ -28,49 +28,27 @@ export const ProjectDetails = () => {
             onChange={handleChange}
             aria-label='Product Details navigation'
           >
-            {/* {tabData.map((tab, idx) => (
-              <CustomTab
+            {tabData.map((tab, idx) => (
+              <Tab
                 key={`tab-${idx + 1}`}
                 label={tab.label}
                 value={(idx + 1).toString()}
+                className='tab'
+                disableRipple
               />
-            ))} */}
-            <Tab
-              label='PROJECT BRIEF'
-              value='1'
-              className='tab'
-              {...tabProps}
-            />
-            <Tab label='TIMELINE' value='2' className='tab' {...tabProps} />
-            <Tab label='PRESENTATION' value='3' className='tab' {...tabProps} />
+            ))}
           </TabList>
         </Box>
         {tabData.map((tab, idx) => (
-          <CustomTabPanel
+          <TabPanel
             key={`tab-panel-${idx + 1}`}
             value={(idx + 1).toString()}
+            className='tab-panel'
           >
             {tab.content}
-          </CustomTabPanel>
+          </TabPanel>
         ))}
       </TabContext>
     </Box>
   )
-}
-
-const CustomTab = ({ label, value }) => {
-  return <Tab label={label} value={value} className='tab' {...tabProps} />
-}
-
-const CustomTabPanel = ({ value, children }) => {
-  return (
-    <TabPanel value={value} sx={{ marginLeft: '10px' }}>
-      {children}
-    </TabPanel>
-  )
-}
-
-const tabProps = {
-  disableRipple: true,
-  disableFocusRipple: true,
 }
