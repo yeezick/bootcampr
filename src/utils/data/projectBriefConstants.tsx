@@ -38,21 +38,25 @@ export const projectBriefContent = [
           25-45, primarily working professionals and young couples. They are
           tech-savvy, value convenience, and appreciate culinary innovation.
         </p>
+        <br />
         <p className='title'>Demographics: </p>
         <ul>
           <li>Urban residents</li>
           <li>25-45 years old</li>
           <li>Diverse backgrounds</li>
         </ul>
+        <br />
         <p className='title'>Interests:</p>
         <ul>
           <li>Food enthusiasts</li>
         </ul>
+        <br />
         <p className='title'>Pain Points:</p>
         <ul>
           <li>Limited time for dining out</li>
           <li>Desire for hassle-free reservation process</li>
         </ul>
+        <br />
         <p className='title'>Motivators:</p>
         <ul>
           <li>Quality food</li>
@@ -66,8 +70,11 @@ export const projectBriefContent = [
     title: 'Competitors',
     content: (
       <>
-        Competitors in the restaurant industry within the same urban area
-        include established eateries with strong online presences.
+        <p>
+          Competitors in the restaurant industry within the same urban area
+          include established eateries with strong online presences.
+        </p>
+        <br />
         <p className='title'>Key findings include:</p>
         <ul>
           <li>Many competitors offer online reservations and menu browsing</li>
@@ -92,6 +99,7 @@ export const projectBriefContent = [
           <li>Responsive design for seamless browsing across devices</li>
           <li>Integration with reservation system</li>
         </ul>
+        <br />
         <p className='title'>Brand and Style: </p>
         <ul>
           <li>
@@ -99,6 +107,7 @@ export const projectBriefContent = [
             and color scheme
           </li>
         </ul>
+        <br />
         <p className='title'>Functional Requirements:</p>
         <ul>
           <li>Menu browsing functionality</li>
