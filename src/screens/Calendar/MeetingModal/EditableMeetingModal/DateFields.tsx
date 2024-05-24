@@ -16,6 +16,7 @@ import timezone from 'dayjs/plugin/timezone'
 import '../styles/DisplayMeetingModal.scss'
 import '../styles/Datefields.scss'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 dayjs.extend(isSameOrAfter)

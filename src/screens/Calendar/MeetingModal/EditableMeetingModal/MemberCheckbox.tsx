@@ -23,7 +23,7 @@ export const MemberCheckbox = ({
 
   useEffect(() => {
     determineUserAvailability(currMember, dateFields, setIsAvailable)
-  }, [dateFields.start, dateFields.end, dateFields.eventTimezone])
+  }, [dateFields.start, dateFields.end])
 
   let availabilityText = ''
   if (isAvailable === 'available') {
