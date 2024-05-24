@@ -8,7 +8,7 @@ import {
 import { ConversationThumbnail } from '../ConversationThumbnail/ConversationThumbnail'
 import { EmptyChatPage } from '../ChatRoom/EmptyChatPage'
 import { ChatInterface } from 'interfaces/ChatInterface'
-import { useSocketEvents } from 'components/Notifications/Socket'
+import { useChatSocketEvents } from 'components/Socket/chatSocket'
 import './ChatsList.scss'
 import {
   selectUserExperience,
@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router-dom'
 import { closeChatBox } from 'utils/helpers/chatHelpers'
 
 export const ChatsList = ({ handleConversationClick }) => {
-  useSocketEvents(false)
+  useChatSocketEvents(false)
   const userExperience = useAppSelector(selectUserExperience)
   const userId = useAppSelector(selectUserId)
   const dispatch = useAppDispatch()

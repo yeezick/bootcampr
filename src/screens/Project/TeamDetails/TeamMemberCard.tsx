@@ -9,7 +9,7 @@ import {
   toggleChatOpen,
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
-import { useSocketEvents } from 'components/Notifications/Socket'
+import { useChatSocketEvents } from 'components/Socket/chatSocket'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
@@ -50,7 +50,7 @@ const MemberButtons = ({ memberId }) => {
   } = useAppSelector(selectAuthUser)
   const isCurrentUser = memberId === loggedInUserId
   const dispatch = useAppDispatch()
-  const { createNewRoom } = useSocketEvents(false)
+  const { createNewRoom } = useChatSocketEvents(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleChatMemberClick = async () => {

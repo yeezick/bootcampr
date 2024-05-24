@@ -133,10 +133,10 @@ export const resendNewEmailLink = async (userId: string) => {
   }
 }
 
-export const updateUnverifiedEmail = async (newEmail, userId) => {
+export const updateEmailAddress = async (newEmail, userId) => {
   const reqBody = {
-    userId: userId,
-    newEmail: newEmail,
+    newEmail,
+    userId,
   }
   const response = await api.post(
     `/users/${userId}/update-email-verification`,
