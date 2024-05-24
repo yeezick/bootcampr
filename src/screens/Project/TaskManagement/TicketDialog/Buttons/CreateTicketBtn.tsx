@@ -35,7 +35,7 @@ export const CreateTicketBtn = () => {
     } else {
       dispatch(addTicketToStatus(ticketResponse))
       dispatch(resetTicketFields({}))
-      dispatch(successSnackbar('Story created!'))
+      dispatch(successSnackbar('Task created!'))
       closeVisibleTicketDialog(dispatch)
     }
     setIsLoading(false)
@@ -45,7 +45,7 @@ export const CreateTicketBtn = () => {
     <PrimaryButton
       disabled={isEmptyString(ticketFields.title)}
       loading={isLoading}
-      label={'Create story'}
+      label={'Create task'}
       onClick={handleCreateTicket}
     />
   )

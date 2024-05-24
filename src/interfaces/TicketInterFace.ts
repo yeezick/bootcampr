@@ -1,8 +1,8 @@
 export interface CommentInterface {
   authorId: string
+  createdAt: string
   content: string
   likes: string[]
-  isReply: boolean
   replies: string[]
 }
 

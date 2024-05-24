@@ -20,10 +20,10 @@ export const getTicketComments = async (
 
 export const createComment = async commentData => {
   try {
-    const ticketData = await api.post('/comments/create', commentData)
-    return ticketData.data
+    const newComment = await api.post('/comments/create', commentData)
+    return newComment.data
   } catch (error) {
-    return { error: { status: 500, message: 'Failed to create comment' } }
+    return { error }
   }
 }
 
