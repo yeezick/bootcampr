@@ -1,8 +1,10 @@
 import { KeyboardArrowDown } from '@mui/icons-material'
 import { FormControl, MenuItem, Select } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { usTimeZones } from 'utils/data/calendarConstants'
 import '../styles/SelectTimeZone.scss'
+import { guessUserTimezone } from 'utils/helpers/availabilityHelpers'
+
 export const SelectTimeZone = ({
   dateFields,
   setDateFields,
@@ -26,7 +28,8 @@ export const SelectTimeZone = ({
           onClick={toggleSelect}
           open={openSelect}
           sx={timeZoneSelectStyles}
-          value={eventTimezone}
+          value={dateFields.eventTimezone}
+          required
         >
           {usTimeZones.map(timeZone => (
             <MenuItem value={timeZone.value} key={timeZone.value}>

@@ -46,6 +46,7 @@ export const EditableMeetingModal = () => {
   const [visibleModal, toggleVisibleModal] = useState(false)
   const [googleMeeting, toggleGoogleMeeting] = useState(false)
   const modalDisplayStatus = useAppSelector(selectModalDisplayStatus)
+  const [disabledBtn, setDisabledBtn] = useState(true)
   const displayedEvent = useAppSelector(selectDisplayedEvent)
   const radioGroupRef = useRef(null)
   const authUser = useAppSelector(selectAuthUser)
@@ -54,7 +55,12 @@ export const EditableMeetingModal = () => {
   const calendarId = useAppSelector(selectCalendarId)
   const userEmail = useAppSelector(selectUserEmail)
   const dispatch = useAppDispatch()
-  const disabledBtn = isEmptyString(meetingText.summary)
+
+  useEffect(() => {
+    if (dateFields.eventTimezone) {
+      setDisabledBtn(isEmptyString(meetingText.summary))
+    }
+  }, [meetingText, dateFields.eventTimezone])
 
   useEffect(() => {
     if (modalDisplayStatus === 'create') {

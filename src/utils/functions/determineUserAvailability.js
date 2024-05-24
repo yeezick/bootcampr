@@ -11,6 +11,7 @@ export const determineUserAvailability = (
   const weekDay = weekday.toUpperCase()
   const { availability } = currMember
   const dayAvailability = availability[weekDay].availability
+
   for (let i = 0; i < dayAvailability.length; i++) {
     const [timeSlotStart, timeSlotEnd] = dayAvailability[i]
     const isLastSlot = i === dayAvailability.length - 1

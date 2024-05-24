@@ -133,8 +133,8 @@ export const initialDateFields = (): DateFieldsInterface => {
   }
 }
 
-export const generateDayJs = (date: string) => {
-  return dayjs(date)
+export const generateDayJs = (date, tz = null) => {
+  return tz ? dayjs(date).tz(tz.tz) : dayjs(date)
 }
 
 const generateInitialTime = type => {
