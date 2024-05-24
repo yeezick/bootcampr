@@ -63,8 +63,13 @@ const TabContent = props => {
 }
 
 const tabsSelectStyles = {
-  borderBottom: 'none',
+  backgroundColor: 'white',
   color: 'black',
+  margin: '-20px 0 0 -4px',
+  padding: '16px',
+  position: 'absolute',
+  width: 'calc(100% - 320px)',
+  zIndex: '2',
   '& .MuiTabs-scroller': {
     height: '40px',
   },
@@ -83,8 +88,7 @@ const tabsSelectStyles = {
     lineHeight: '24px',
     color: 'black',
     padding: '0px',
-    margin: '0px',
-    marginRight: '10px',
+    margin: '0 5px',
     minWidth: '82px',
   },
 }

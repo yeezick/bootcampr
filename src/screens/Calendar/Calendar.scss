@@ -7,14 +7,14 @@
   flex-direction: column;
 
   .calendar-header {
-      align-items: center;
-      background-color: white;
-      box-shadow: -1px 1px 6px -3px #1a237e;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      margin-left: 0px;
-      padding: 20px;
+    align-items: center;
+    background-color: white;
+    box-shadow: -1px 1px 6px -3px #1a237e;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 0px;
+    padding: 20px;
 
     .header-title {
       font-size: 32px;
@@ -23,7 +23,7 @@
         margin: 0px;
       }
     }
-    }
+  }
 
   .calendar-body {
     margin: 0 115px 0 0px;
@@ -36,7 +36,7 @@
     justify-content: flex-end;
     margin-right: 20px;
 
-    .MuiPaper-root{
+    .MuiPaper-root {
       bottom: 30px;
       position: fixed;
       z-index: 1;
