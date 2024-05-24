@@ -27,6 +27,7 @@ export const SelectTimeZone = ({
           open={openSelect}
           sx={timeZoneSelectStyles}
           value={eventTimezone}
+          required
         >
           {usTimeZones.map(timeZone => (
             <MenuItem value={timeZone.value} key={timeZone.value}>
