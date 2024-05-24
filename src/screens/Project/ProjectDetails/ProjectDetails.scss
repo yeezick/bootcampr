@@ -1,8 +1,11 @@
 .project-details-content {
   .tab-list {
     background: #fff;
-    margin: 16px 0 -40px 32px;
-    padding-bottom: 16px;
+    margin: 0 0 -40px 32px;
+    padding: 16px 0;
+    position: absolute;
+    width: calc(100% - 320px);
+    z-index: 2;
 
     & .MuiTabs-indicator {
       background-color: #ffa726;
