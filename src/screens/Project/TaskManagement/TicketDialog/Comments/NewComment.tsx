@@ -1,7 +1,6 @@
 import { InputAdornment, TextField } from '@mui/material'
 import { useState } from 'react'
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined'
-import { CommentType } from 'interfaces/TaskBoardInterface'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { createComment } from 'utils/api/comments'
@@ -55,16 +54,16 @@ export const NewComment = ({
     }
 
     let response
-    const payload = {
+    const commentPayload = {
       authorId: userId,
       content: inputText,
+      ticketId,
     }
 
     if (!isReply) {
-      const commentPayload = { ...payload, ticketId }
       response = await createComment(commentPayload)
     } else {
-      const replyPayload = { ...payload, parentCommentId }
+      const replyPayload = { ...commentPayload, parentCommentId }
       response = await createReply(replyPayload)
     }
 

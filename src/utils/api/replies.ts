@@ -8,3 +8,12 @@ export const createReply = async replyData => {
     return { error }
   }
 }
+
+export const updateReply = async (replyId, content) => {
+  try {
+    const response = await api.patch(`/replies/update/${replyId}`, content)
+    return response.data
+  } catch (error) {
+    return { error }
+  }
+}
