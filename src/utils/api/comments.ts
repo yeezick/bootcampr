@@ -44,7 +44,7 @@ export const updateComment = async (commentId, commentUpdates) => {
     )
     return { status: 200, ...response.data }
   } catch (error) {
-    return { error: { status: 500, message: 'Failed to update comment' } }
+    return { error: 'Failed to update comment' }
   }
 }
 
