@@ -29,10 +29,10 @@ export const createComment = async commentData => {
 
 export const deleteComment = async (commentId, ticketId) => {
   try {
-    const response = await api.delete(`/comments/${ticketId}/${commentId}`)
+    const response = await api.delete(`/comments/${commentId}/${ticketId}`)
     return { status: response.status }
   } catch (error) {
-    return { status: 500, message: 'Failed to delete comment' }
+    return { error: 'Failed to delete comment' }
   }
 }
 

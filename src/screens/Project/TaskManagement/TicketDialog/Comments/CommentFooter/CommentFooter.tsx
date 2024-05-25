@@ -17,8 +17,7 @@ export const CommentFooter = ({
         toggleFetchComments={toggleFetchComments}
       />
       <AuthorActions
-        authorId={authorId}
-        commentId={commentId}
+        comment={comment}
         toggleEditMode={toggleEditMode}
         toggleFetchComments={toggleFetchComments}
       />
