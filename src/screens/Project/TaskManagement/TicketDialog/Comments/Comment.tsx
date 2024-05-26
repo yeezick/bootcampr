@@ -12,6 +12,7 @@ export const Comment = ({ comment, fetchComments, toggleFetchComments }) => {
   const { authorId, createdAt } = comment
   const [authorData] = useAppSelector(selectUsersById([authorId]))
   const [editMode, toggleEditMode] = useState(false)
+  console.log(authorId)
   const { firstName, lastName, profilePicture } = authorData
   const authorProfilePicture =
     profilePicture || generateDefaultPicture(firstName, lastName)
