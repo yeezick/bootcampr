@@ -7,11 +7,11 @@ export const initialMeetingText: MeetingText = {
 }
 
 export const staticEmails = [
-  'elizabeth@engineer.com',
-  'evie@engineer.com',
+  'star@struck.com',
+  'silly@goose.com',
   'polly@product.com',
-  'dana@designer.com',
-  'david@designer.com',
+  'apple@pie.com',
+  'later@gator.com',
   'svc.jira.swe@gmail.com',
 ]
 
