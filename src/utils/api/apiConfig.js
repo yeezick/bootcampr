@@ -44,7 +44,6 @@ const getToken = () => {
   })
 }
 
-// Does this mean every request is including this?
 api.interceptors.request.use(
   async config => {
     config.headers['Authorization'] = await getToken()
