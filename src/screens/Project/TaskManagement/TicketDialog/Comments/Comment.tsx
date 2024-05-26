@@ -8,14 +8,7 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { selectUsersById } from 'utils/redux/slices/projectSlice'
 import { generateDefaultPicture } from 'utils/helpers'
 import { Replies } from './Replies'
-import { CommentInterface } from 'interfaces'
-
-interface CommentProps {
-  comment: CommentInterface
-  fetchComments: boolean
-  isReply?: boolean
-  toggleFetchComments: React.Dispatch<React.SetStateAction<boolean>>
-}
+import { CommentProps } from 'interfaces/Comments'
 
 export const Comment = ({
   comment,

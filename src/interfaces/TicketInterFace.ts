@@ -1,10 +1,4 @@
-export interface CommentInterface {
-  authorId: string
-  createdAt: string
-  content: string
-  likes: string[]
-  replies: string[]
-}
+import { CommentInterface } from './Comments'
 
 export interface TicketInterface {
   assignee?: string

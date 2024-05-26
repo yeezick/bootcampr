@@ -10,12 +10,7 @@ import { generateDefaultPicture } from 'utils/helpers'
 import { addCommentToTicket } from 'utils/redux/slices/projectSlice'
 import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
 import { createReply } from 'utils/api/replies'
-
-interface NewCommentProps {
-  fetchComments: boolean
-  parentCommentId?: string
-  toggleFetchComments: React.Dispatch<React.SetStateAction<boolean>>
-}
+import { NewCommentProps } from 'interfaces/Comments'
 
 export const NewComment = ({
   fetchComments,
