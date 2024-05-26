@@ -27,4 +27,8 @@ export const initialTaskBoardState: TaskBoardInterface = {
     underReview: [],
   },
   visibleTicketDialog: false,
+  conflictedTicket: {
+    ticket: null,
+    dialogState: '',
+  },
 }

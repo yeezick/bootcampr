@@ -8,6 +8,8 @@ import { api } from 'utils/api/apiConfig'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
 import { PrimaryButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { updateEmailAddress } from 'utils/api'
+import { errorSnackbar } from 'utils/helpers/commentHelpers'
 
 export const Email = () => {
   const navigate = useNavigate()
@@ -37,21 +39,16 @@ export const Email = () => {
 
   const handleUpdateNewEmail = async () => {
     setIsLoading(true)
+    const response = await updateEmailAddress(newEmail, authUser._id)
 
-    const response = await updateEmailAddress(
-      currentUserEmail,
-      newEmail,
-      authUser,
-      navigate
-    )
-    const severity = response.status >= 400 ? 'error' : 'success'
-    const backUpMessage = severity === 'error' ? 'Unexpected Error' : 'Success'
-    dispatch(
-      createSnackBar({
-        message: response.data.friendlyMessage || backUpMessage,
-        severity,
-      })
-    )
+    if (response.status === 201) {
+      const encodedEmail = btoa(newEmail)
+      navigate(
+        `/users/${authUser._id}/update-email-confirmation?${encodedEmail}`
+      )
+    } else {
+      dispatch(errorSnackbar('There was an error updating your email'))
+    }
     setIsLoading(false)
   }
 
@@ -91,28 +88,4 @@ export const Email = () => {
       </ButtonContainer>
     </div>
   )
-}
-
-export const updateEmailAddress = async (
-  currentUserEmail,
-  newEmail,
-  authUser,
-  navigate
-) => {
-  const reqBody = {
-    userId: authUser._id,
-    oldEmail: currentUserEmail,
-    newEmail: newEmail,
-  }
-  const response = await api.post(
-    `/users/${authUser._id}/update-email-verification`,
-    reqBody
-  )
-  // only redirect to info page if above response is successful
-  if (response.status === 201) {
-    const encodedEmail = btoa(newEmail)
-    navigate(`/users/${authUser._id}/update-email-confirmation?${encodedEmail}`)
-  }
-
-  return response
 }

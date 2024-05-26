@@ -44,10 +44,10 @@ const DesktopEmailSentConfirmation = ({ email, setEmail }) => {
       <div className='message-content confirm'>
         <p>Confirm your email address to log in.</p>
       </div>
-      {/* <div className='message-content update-email'>
+      <div className='message-content update-email'>
         <UpdateEmailAddressLink setEmail={setEmail} />
         <span> if it's incorrect.</span>
-      </div> */}
+      </div>
       <div className='img-container'>
         <img alt='A person jumps in the air in celebration' />
       </div>

@@ -29,7 +29,7 @@ export const SelectDate = () => {
     } else {
       setDayPickerDayjs(generateDayJs(dueDate))
     }
-  }, [])
+  }, [dueDate])
 
   const handleDateChange = newDate => {
     setDayPickerDayjs(newDate)
