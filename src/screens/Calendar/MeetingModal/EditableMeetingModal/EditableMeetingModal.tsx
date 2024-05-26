@@ -61,7 +61,7 @@ export const EditableMeetingModal = () => {
     if (modalDisplayStatus === 'create') {
       const updatedAttendees = { ...attendees }
       if (isSandboxId(calendarId)) {
-        updatedAttendees['star@struck.com'] = true
+        updatedAttendees['dana@designer.com'] = true
       } else {
         updatedAttendees[authUser.email] = true
       }

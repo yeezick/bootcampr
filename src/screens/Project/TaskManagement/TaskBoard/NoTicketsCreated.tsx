@@ -27,7 +27,7 @@ export const NoTicketsCreated = () => {
     dispatch(setVisibleTicketDialog('create'))
     dispatch(
       resetTicketFields({
-        createdBy: experience === 'sandbox' ? 'starStruck' : userId,
+        createdBy: experience === 'sandbox' ? 'edwardEngineer' : userId,
         status: 'toDo',
         projectId,
       })

@@ -17,7 +17,7 @@ export const CreateTicketTab = ({ columnStatus }) => {
     dispatch(setVisibleTicketDialog('create'))
     dispatch(
       resetTicketFields({
-        createdBy: isPaidActiveExperience(payment) ? userId : 'starStruck',
+        createdBy: isPaidActiveExperience(payment) ? userId : 'edwardEngineer',
         status: columnStatus,
         projectId,
       })
