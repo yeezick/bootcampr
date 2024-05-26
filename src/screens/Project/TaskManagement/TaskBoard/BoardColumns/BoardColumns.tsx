@@ -12,7 +12,7 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import { useKanbanSocketEvents } from 'components/Socket/kanbanSocket'
 
 export const BoardColumns = () => {
-  const { moveTicket, reorderTicket } = useKanbanSocketEvents()
+  const { moveTicketEvent, reorderTicketEvent } = useKanbanSocketEvents()
   const { projectId } = useParams()
   const projectTracker = useAppSelector(selectProjectTracker)
   const dispatch = useAppDispatch()
@@ -44,7 +44,7 @@ export const BoardColumns = () => {
         projectId,
         projectTracker,
         movingTicket,
-        reorderTicket
+        reorderTicketEvent
       )
     } else {
       await handleTicketMovingBetweenColumns(
@@ -52,7 +52,7 @@ export const BoardColumns = () => {
         projectId,
         projectTracker,
         movingTicket,
-        moveTicket
+        moveTicketEvent
       )
     }
   }

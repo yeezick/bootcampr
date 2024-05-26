@@ -76,14 +76,16 @@ export const useKanbanSocketEvents = () => {
     })
   }
 
-  const moveTicket = ticketInfo => {
+  const moveTicketEvent = ({ ticketInfo, ticketId }) => {
     socket.emit('move-ticket', {
       ticketInfo,
       receiversIds: membersWithoutAuthIds,
+      authUserId: authUserId,
+      ticketId: ticketId,
     })
   }
 
-  const reorderTicket = ticketInfo => {
+  const reorderTicketEvent = ticketInfo => {
     socket.emit('reorder-ticket', {
       ticketInfo,
       receiversIds: membersWithoutAuthIds,
@@ -112,8 +114,34 @@ export const useKanbanSocketEvents = () => {
       }
     }
 
-    const handleMoveTicket = ticketInfo => {
+    const handleMoveTicket = ({ ticketInfo, updaterId, ticketId }) => {
+      const newStatus = ticketInfo.newColumnId
+      const isCurrentTicketMoved =
+        ticketId === currentTicketFields._id &&
+        currentTicketFields.status !== newStatus
+
       dispatch(moveTicketBetweenColumns(ticketInfo))
+
+      if (
+        authUserId !== updaterId &&
+        visibleTicketDialog &&
+        isCurrentTicketMoved
+      ) {
+        const updatedTicket = projectTracker[newStatus].find(
+          ticket => ticket._id === ticketId
+        )
+
+        if (!updateTicket) return
+
+        dispatch(
+          infoSnackbar(
+            'This ticket has been updated. Please click the refresh icon on the ticket to see the changes.'
+          )
+        )
+        dispatch(
+          setConflictTicket({ ticket: updatedTicket, dialogState: 'edit' })
+        )
+      }
     }
 
     const handleReoerderTicket = ticketInfo => {
@@ -170,8 +198,21 @@ export const useKanbanSocketEvents = () => {
 
   return {
     deleteTicketEvent,
-    moveTicket,
-    reorderTicket,
+    moveTicketEvent,
+    reorderTicketEvent,
     updateTicketEvent,
   }
 }
+
+// const checkConflictedTicket = (ticketInfo, dialogState) => {
+//   if (authUserId !== updaterId && visibleTicketDialog && isCurrentTicket) {
+//     dispatch(
+//       infoSnackbar(
+//         'This ticket has been updated. Please click the refresh icon on the ticket to see the changes.'
+//       )
+//     )
+//     dispatch(
+//       setConflictTicket({ ticket: updatedTicket, dialogState: 'edit' })
+//     )
+//   }
+// }
