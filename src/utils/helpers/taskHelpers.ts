@@ -240,7 +240,6 @@ export const moveTicketBetweenColumnsHandler = (projectTracker, moveData) => {
 }
 
 const reorderColumnHandler = (column, oldIdx, newIdx) => {
-  console.log(column, oldIdx, newIdx)
   const updatedColumn = produce(column, draft => {
     const [movingTicket] = draft.splice(oldIdx, 1)
     draft.splice(newIdx, 0, movingTicket)

@@ -203,16 +203,3 @@ export const useKanbanSocketEvents = () => {
     updateTicketEvent,
   }
 }
-
-// const checkConflictedTicket = (ticketInfo, dialogState) => {
-//   if (authUserId !== updaterId && visibleTicketDialog && isCurrentTicket) {
-//     dispatch(
-//       infoSnackbar(
-//         'This ticket has been updated. Please click the refresh icon on the ticket to see the changes.'
-//       )
-//     )
-//     dispatch(
-//       setConflictTicket({ ticket: updatedTicket, dialogState: 'edit' })
-//     )
-//   }
-// }
