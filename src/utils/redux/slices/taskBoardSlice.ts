@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ProjectTrackerInterface, TicketInterface } from 'interfaces'
 import { RootState } from '../rootReducer'
 import { filterUserTickets } from 'utils/helpers/taskHelpers'
@@ -79,6 +79,10 @@ export const selectConflictedTicket = (state: RootState) =>
   state.taskBoard.conflictedTicket
 export const selectDisplayAllTickets = (state: RootState) =>
   state.taskBoard.displayAllTickets
+export const selectHasConflictedTicket = createSelector(
+  selectConflictedTicket,
+  conflictedTicket => Boolean(conflictedTicket.ticket)
+)
 export const selectTicketDialogState = (state: RootState) =>
   state.taskBoard.ticketDialogState
 export const selectTicketFields = (state: RootState) =>

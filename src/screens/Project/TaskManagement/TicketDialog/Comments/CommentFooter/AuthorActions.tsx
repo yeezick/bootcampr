@@ -9,6 +9,7 @@ export const AuthorActions = ({
   comment,
   toggleEditMode,
   toggleFetchComments,
+  isDisabled,
 }) => {
   const { authorId, _id: commentId } = comment
   const [deleteDialog, toggleDeleteDialog] = useState(false)
@@ -19,11 +20,17 @@ export const AuthorActions = ({
   if (authorId === userId) {
     return (
       <div className='author-actions'>
-        <Button onClick={allowEditComment} sx={{ minWidth: '0' }}>
+        <Button
+          onClick={allowEditComment}
+          sx={{ minWidth: '0' }}
+          disabled={isDisabled}
+        >
           Edit
         </Button>
         {fetchIcon('circle')}
-        <Button onClick={deleteThisComment}>Delete</Button>
+        <Button onClick={deleteThisComment} disabled={isDisabled}>
+          Delete
+        </Button>
         <DeleteCommentDialog
           comment={comment}
           open={deleteDialog}

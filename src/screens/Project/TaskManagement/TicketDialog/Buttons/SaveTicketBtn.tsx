@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectProjectId, updateTicket } from 'utils/redux/slices/projectSlice'
 import {
   resetTicketFields,
-  selectConflictedTicket,
+  selectHasConflictedTicket,
   selectTicketFields,
 } from 'utils/redux/slices/taskBoardSlice'
 import { selectUserId } from 'utils/redux/slices/userSlice'
@@ -22,7 +22,7 @@ export const SaveTicketBtn = () => {
   const ticketFields = useAppSelector(selectTicketFields)
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
-  const conflictedTicket = useAppSelector(selectConflictedTicket)
+  const hasConflictedTicket = useAppSelector(selectHasConflictedTicket)
   const dispatch = useAppDispatch()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { updateTicketEvent } = useKanbanSocketEvents()
@@ -57,9 +57,7 @@ export const SaveTicketBtn = () => {
 
   return (
     <PrimaryButton
-      disabled={
-        isEmptyString(ticketFields.title) || Boolean(conflictedTicket.ticket)
-      }
+      disabled={isEmptyString(ticketFields.title) || hasConflictedTicket}
       loading={isLoading}
       onClick={handleSaveTicket}
       label={'Save changes'}

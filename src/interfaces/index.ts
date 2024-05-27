@@ -1,4 +1,5 @@
 export * from './CalendarInterfaces'
+export * from './Comments'
 export * from './GenericInterfaces'
 export * from './MeetingModalInterfaces'
 export * from './ProjectInterface'

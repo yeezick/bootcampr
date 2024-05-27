@@ -8,7 +8,12 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectUsersById } from 'utils/redux/slices/projectSlice'
 import { selectUserId } from 'utils/redux/slices/userSlice'
 
-export const LikeButton = ({ comment, fetchComments, toggleFetchComments }) => {
+export const LikeButton = ({
+  comment,
+  fetchComments,
+  isDisabled,
+  toggleFetchComments,
+}) => {
   const { likes, _id: commentId } = comment
   const [likedByUser, toggleLikedByUser] = useState(false)
   const likers = useAppSelector(selectUsersById(likes))
@@ -26,6 +31,8 @@ export const LikeButton = ({ comment, fetchComments, toggleFetchComments }) => {
 
   //BC-763
   const handleCommentLike = async () => {
+    if (isDisabled) return
+
     if (isSandboxId(commentId)) {
       dispatch(errorSnackbar('This feature is disabled for the sandbox!'))
     } else {
@@ -58,6 +65,7 @@ export const LikeButton = ({ comment, fetchComments, toggleFetchComments }) => {
   const tooltipTitle =
     likers.length > 0 &&
     likers.map(liker => `${liker.firstName} ${liker.lastName}`).join(', ')
+  const isButtonDisabled = isDisabled ? 'disabled' : ''
 
   return (
     <LikeToolTip
@@ -65,7 +73,7 @@ export const LikeButton = ({ comment, fetchComments, toggleFetchComments }) => {
       placement='top-start'
       slotProps={TooltipSlotProps}
     >
-      <div className='like-button'>
+      <div className={`like-button ${isButtonDisabled}`}>
         <div onClick={handleCommentLike}>{determineLikeIcon(likedByUser)}</div>
         <p>{likes.length}</p>
       </div>

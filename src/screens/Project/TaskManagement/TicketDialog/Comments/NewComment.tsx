@@ -8,9 +8,12 @@ import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
 import { generateDefaultPicture } from 'utils/helpers'
 import { addCommentToTicket } from 'utils/redux/slices/projectSlice'
-import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
 import { createReply } from 'utils/api/replies'
 import { NewCommentProps } from 'interfaces/Comments'
+import {
+  selectHasConflictedTicket,
+  selectTicketFields,
+} from 'utils/redux/slices/taskBoardSlice'
 
 export const NewComment = ({
   fetchComments,
@@ -20,6 +23,7 @@ export const NewComment = ({
   const [inputText, setInputText] = useState('')
   const { _id: ticketId, status: ticketStatus } =
     useAppSelector(selectTicketFields)
+  const hasConflictedTicket = useAppSelector(selectHasConflictedTicket)
   const {
     _id: userId,
     firstName,
@@ -36,12 +40,14 @@ export const NewComment = ({
   const commentClass = isReply ? 'REPLY' : 'PARENT'
 
   const createOnEnter = async e => {
+    if (hasConflictedTicket) return
     if (e.key === 'Enter' && !e.shiftKey) {
       handleCreate(e.target.value.slice(0, -1))
     }
   }
 
   const handleCreate = async inputText => {
+    if (hasConflictedTicket) return
     if (isSandboxId(ticketId || parentCommentId)) {
       dispatch(errorSnackbar('This feature is disabled for the sandbox!'))
       setInputText('')
@@ -88,12 +94,18 @@ export const NewComment = ({
       <img src={defaultImageURL} alt='commentor-profile-picture' />
       <TextField
         className='comment-input'
+        disabled={hasConflictedTicket}
         onKeyUp={createOnEnter}
         placeholder={placeholder}
         value={inputText}
         onChange={handleInputChange}
         InputProps={{
-          endAdornment: <SendAdornment handleSendClick={handleSendClick} />,
+          endAdornment: (
+            <SendAdornment
+              handleSendClick={handleSendClick}
+              disabled={hasConflictedTicket}
+            />
+          ),
         }}
         multiline
       />
@@ -101,11 +113,15 @@ export const NewComment = ({
   )
 }
 
-const SendAdornment = ({ handleSendClick }) => (
+const SendAdornment = ({ handleSendClick, disabled }) => (
   <InputAdornment
     onClick={handleSendClick}
     position='end'
-    sx={{ cursor: 'pointer', marginLeft: 0, padding: '0 12px 0 16px' }}
+    sx={{
+      cursor: disabled ? 'default' : 'pointer',
+      marginLeft: 0,
+      padding: '0 12px 0 16px',
+    }}
   >
     <SendOutlinedIcon />
   </InputAdornment>
