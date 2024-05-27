@@ -11,7 +11,7 @@ import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
 import { useChatSocketEvents } from 'components/Socket/chatSocket'
-import Avatar from 'components/Avatar/Avatar'
+import { Avatar } from 'components/Avatar/Avatar'
 import {
   fetchThreads,
   selectChatUI,

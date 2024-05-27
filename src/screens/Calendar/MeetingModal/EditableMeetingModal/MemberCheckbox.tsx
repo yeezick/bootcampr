@@ -1,12 +1,13 @@
-import { Checkbox, FormControlLabel } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { determineUserAvailability } from 'utils/functions/determineUserAvailability'
 import { MeetingAvailability } from './MeetingAvailability'
-import '../styles/MemberCheckbox.scss'
+import { Checkbox } from '@mui/material'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
-import { useEffect, useState } from 'react'
-import { determineUserAvailability } from 'utils/functions/determineUserAvailability'
+import '../styles/MemberCheckbox.scss'
+import { generateDefaultPicture } from 'utils/helpers'
 
 export const MemberCheckbox = ({
   attendees,
@@ -34,6 +35,11 @@ export const MemberCheckbox = ({
     availabilityText = 'Unavailable'
   }
 
+  const defaultImageURL = generateDefaultPicture(
+    currMember.firstName,
+    currMember.lastName
+  )
+
   return (
     <div
       key={`select-member-${currMember._id}`}
@@ -51,7 +57,7 @@ export const MemberCheckbox = ({
           sx={checkboxStyle}
         />
         <ListItemAvatar>
-          <Avatar src={currMember.profilePicture} />
+          <Avatar src={currMember.profilePicture || defaultImageURL} />
         </ListItemAvatar>
         <ListItemText
           primary={`${currMember.firstName} ${currMember.lastName}`}

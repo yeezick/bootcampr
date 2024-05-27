@@ -1,23 +1,24 @@
 import { useRef } from 'react'
+import { useAppDispatch } from 'utils/redux/hooks'
+import { Avatar } from 'components/Avatar/Avatar'
+import { setUploadedImage } from 'utils/redux/slices/userSlice'
+import { ImageEditorContentProps } from 'interfaces/ProfileImageInterfaces'
 import Cropper from 'react-easy-crop'
-import Avatar from 'components/Avatar/Avatar'
 import FileInput from 'screens/AccountSettings/components/FileInput/FileInput'
 import { Box, DialogContent } from '@mui/material'
-import { ImageEditorContentProps } from 'interfaces/ProfileImageInterfaces'
-import { setUploadedImage } from 'utils/redux/slices/userSlice'
 import './ImageEditorModal.scss'
 
 /**
- * ImageEditorContent component displays the image editing content.
+ * ImageEditorAvatar component displays the image editing content.
  * @param {string} profilePicture - The uploaded image in base64 format.
  * @param {Object} crop - The crop position of the image.
  * @param {number} zoom - The zoom level of the image.
  * @param {Function} setCrop - Function to set the crop position of the image.
  * @param {Function} setCropArea - Function to set the crop area of the image.
  * @param {Function} setZoom - Function to set the zoom level of the image.
- * @returns {JSX.Element} - ImageEditorContent component.
+ * @returns {JSX.Element} - ImageEditorAvatar component.
  */
-const ImageEditorContent: React.FC<ImageEditorContentProps> = ({
+export const ImageEditorAvatar: React.FC<ImageEditorContentProps> = ({
   profilePicture,
   crop,
   zoom,
@@ -26,13 +27,10 @@ const ImageEditorContent: React.FC<ImageEditorContentProps> = ({
   setZoom,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const dispatch = useAppDispatch()
 
-  /**
-   * Handles the file input change event and sets the uploaded image.
-   * @param {string} dataURL - The image data URL.
-   */
-  const handleFileInputChange = (dataURL: string) => {
-    setUploadedImage(dataURL)
+  const handleFileInputChange = (dataUrl: string) => {
+    dispatch(setUploadedImage(dataUrl))
   }
 
   /**
@@ -40,7 +38,7 @@ const ImageEditorContent: React.FC<ImageEditorContentProps> = ({
    * @param {Object} croppedArea - The cropped area of the image.
    * @param {Object} croppedAreaPixels - The cropped area of the image in pixels.
    */
-  const cropComplete = (croppedArea, croppedAreaPixels) => {
+  const onCropComplete = (croppedArea, croppedAreaPixels) => {
     setCropArea(croppedAreaPixels)
   }
 
@@ -54,13 +52,13 @@ const ImageEditorContent: React.FC<ImageEditorContentProps> = ({
         <Cropper
           image={profilePicture}
           crop={crop}
-          zoom={zoom}
+          zoom={zoom} // currently disable for future release
           aspect={1}
           onCropChange={setCrop}
-          onCropComplete={cropComplete}
+          onCropComplete={onCropComplete}
           onZoomChange={setZoom}
           cropShape='round'
-          cropSize={{ width: 250, height: 250 }}
+          cropSize={{ width: 300, height: 300 }}
           showGrid={false}
         />
       ) : (
@@ -71,5 +69,3 @@ const ImageEditorContent: React.FC<ImageEditorContentProps> = ({
     </DialogContent>
   )
 }
-
-export default ImageEditorContent

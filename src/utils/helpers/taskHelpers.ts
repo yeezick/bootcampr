@@ -85,7 +85,7 @@ export const handleColumnReordering = async (
   projectId,
   projectTracker,
   movingTicket,
-  reorderTicket
+  reorderTicketEvent
 ) => {
   const {
     source: { droppableId: oldColumnId, index: oldColumnIdx },
@@ -111,7 +111,7 @@ export const handleColumnReordering = async (
         oldIdx: oldColumnIdx,
         newIdx: newColumnIdx,
       })
-      reorderTicket({
+      reorderTicketEvent({
         columnId: oldColumnId,
         reorderedColumn: response.reorderedColumn,
       })
@@ -132,7 +132,7 @@ export const handleTicketMovingBetweenColumns = async (
   projectId,
   projectTracker,
   movingTicket,
-  moveTicket
+  moveTicketEvent
 ) => {
   const {
     source: { droppableId: oldColumnId, index: oldColumnIdx },
@@ -153,18 +153,18 @@ export const handleTicketMovingBetweenColumns = async (
 
   try {
     const response = moveTicketBetweenColumnsHandler(projectTracker, moveData)
-    const ticketInfo = {
+    const movingTicketColumns = {
       newColumnId,
       newColumn: response.newColumn,
       oldColumnId,
       oldColumn: response.oldColumn,
     }
 
-    dispatch(moveTicketBetweenColumns(ticketInfo))
+    dispatch(moveTicketBetweenColumns(movingTicketColumns))
 
     if (!isSandboxId(projectId)) {
       await moveTicketColumn(projectId, moveData)
-      moveTicket(ticketInfo)
+      moveTicketEvent({ ticketInfo: movingTicketColumns, ticketId })
     }
   } catch (error) {
     console.error(error)
@@ -240,7 +240,6 @@ export const moveTicketBetweenColumnsHandler = (projectTracker, moveData) => {
 }
 
 const reorderColumnHandler = (column, oldIdx, newIdx) => {
-  console.log(column, oldIdx, newIdx)
   const updatedColumn = produce(column, draft => {
     const [movingTicket] = draft.splice(oldIdx, 1)
     draft.splice(newIdx, 0, movingTicket)
