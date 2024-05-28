@@ -1,23 +1,23 @@
 .css-19kzrtu {
   border-radius: 4px;
   box-shadow: 0.5px 2px 5px -2px #1a237e;
-  margin-top: 20px;
-  padding: 0px;
+  margin-top: 68px;
   padding: 20px;
   width: 100%;
 }
 
-.calendar-container{
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
+.calendar-container {
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 
-  .fc .fc-toolbar-title{
+  .fc .fc-toolbar-title {
     font-size: 22px;
     margin-bottom: 20px;
   }
 
-  .fc .fc-today-button,  .fc  .fc-today-button:active  {
+  .fc .fc-today-button,
+  .fc .fc-today-button:active {
     background-color: white;
-    border-color: #1A237E; 
+    border-color: #1a237e;
     color: #1a237e;
     font-size: 14px;
     font-weight: 500;
@@ -26,34 +26,36 @@
     text-transform: capitalize;
   }
 
-  .fc .fc-prev-button{
+  .fc .fc-prev-button {
     background-color: transparent;
     border: none;
     color: #212121;
   }
 
-  .fc .fc-prev-button:active:focus, .fc .fc-prev-button:focus{
+  .fc .fc-prev-button:active:focus,
+  .fc .fc-prev-button:focus {
     box-shadow: none;
   }
 
-  .fc .fc-prev-button:active{
+  .fc .fc-prev-button:active {
     background-color: transparent;
     border: none;
     box-shadow: none;
   }
 
-  .fc .fc-next-button{
+  .fc .fc-next-button {
     background-color: transparent;
     border: none;
     color: #212121;
-    margin: 0px
+    margin: 0px;
   }
 
-  .fc .fc-next-button:active:focus,  .fc .fc-next-button:focus{
+  .fc .fc-next-button:active:focus,
+  .fc .fc-next-button:focus {
     box-shadow: none;
   }
 
-  .fc .fc-next-button:active{
+  .fc .fc-next-button:active {
     background-color: transparent;
     border: none;
     box-shadow: none;
@@ -62,8 +64,8 @@
     background-color: transparent;
   }
 
-  .tbody{
-    z-index: 0
+  .tbody {
+    z-index: 0;
   }
 
   .fc-col-header-cell {
@@ -71,37 +73,41 @@
   }
 
   .fc-col-header-cell.fc-day-today {
-    background: #E3F2FD !important;
+    background: #e3f2fd !important;
   }
 
-  .fc-theme-standard .fc-scrollgrid{
+  .fc-theme-standard .fc-scrollgrid {
     border: none;
   }
 
-  .fc .fc-createMeeting-button, .fc .fc-createMeeting-button:active{
+  .fc .fc-createMeeting-button,
+  .fc .fc-createMeeting-button:active {
     background-color: #ffa726;
     border: none;
-    color: #1A237E;
+    color: #1a237e;
     font-size: 14px;
     font-weight: 500;
     padding: 9px 21px;
   }
 
-  .fc .fc-createMeeting-button:focus, .fc .fc-createMeeting-button:active:focus {
+  .fc .fc-createMeeting-button:focus,
+  .fc .fc-createMeeting-button:active:focus {
     box-shadow: none;
   }
 
-  .fc .fc-weekTitle-button, .fc .fc-weekTitle-button:active{
+  .fc .fc-weekTitle-button,
+  .fc .fc-weekTitle-button:active {
     background-color: transparent;
     border: none;
     color: black;
-    cursor:default;
+    cursor: default;
     font-size: 16px;
     margin: 0px;
     padding: 0px;
   }
 
-  .fc .fc-weekTitle-button:focus, .fc .fc-weekTitle-button:active:focus {
+  .fc .fc-weekTitle-button:focus,
+  .fc .fc-weekTitle-button:active:focus {
     box-shadow: none;
   }
   //calendar date/day labels
@@ -112,50 +118,51 @@
 
   //calendar timeslots
   .fc .fc-timegrid-slot {
-    height: 2.3em
+    height: 2.3em;
   }
 
   //calendar timeslot time labels
-  .fc .fc-timegrid-slot-label-cushion{
+  .fc .fc-timegrid-slot-label-cushion {
     color: #616161;
     font-size: 12px;
     text-transform: uppercase;
   }
 
   //calendar events
-  .fc .fc-v-event{
-    background-color: #F2F4FF;
+  .fc .fc-v-event {
+    background-color: #f2f4ff;
     border: none;
-    border-left: 3px solid #1A237E;
+    border-left: 3px solid #1a237e;
 
-    .fc-event-frame{
+    .fc-event-frame {
       font-size: 12px;
     }
 
-    .fc-event-title-container{
+    .fc-event-title-container {
       font-weight: 600;
       margin-top: 2px;
       text-transform: capitalize;
     }
 
-    .fc-event-main{
+    .fc-event-main {
       color: #212121;
       font-size: 12px;
     }
   }
 
   .fc .fc-day-today {
-    background: #FFF;
-  } 
+    background: #fff;
+  }
 
-  .fc-day-sat, .fc-day-sun {
-    background: #FAFAFA;
+  .fc-day-sat,
+  .fc-day-sun {
+    background: #fafafa;
   }
 
   .fc .fc-timegrid-now-indicator-line {
-      border-color: #FFA726;
-      border-width: 2px 0px 0px;
-    }
+    border-color: #ffa726;
+    border-width: 2px 0px 0px;
+  }
 
   .fc .fc-timegrid-now-indicator-arrow {
     --fc-now-indicator-color: orange;

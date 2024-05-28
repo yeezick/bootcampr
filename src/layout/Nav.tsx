@@ -11,7 +11,7 @@ import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import Logo from 'assets/Logo.svg'
 import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogMain'
 import { useChatSocketEvents } from 'components/Socket/chatSocket'
-import Avatar from 'components/Avatar/Avatar'
+import { Avatar } from 'components/Avatar/Avatar'
 import {
   fetchThreads,
   selectChatUI,
@@ -29,7 +29,7 @@ import { logOut } from 'utils/api'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
-  const [anchorEl, setAnchorEl] = useState<boolean | null>(null)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const authUser = useAppSelector(selectAuthUser)
   const experience = useAppSelector(selectUserExperience)
   const {
@@ -50,7 +50,6 @@ export const Nav = () => {
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
   )
-  const closeDropdown = () => setAnchorEl(null)
   const handlePortalLink = () =>
     buildPortal(dispatch, 'project', activeProject, experience)
   const handleNonPortalLink = async () => {
@@ -115,18 +114,19 @@ export const Nav = () => {
             <AuthorizedNavLinks
               notificationCount={notificationCount}
               setAnchorEl={setAnchorEl}
+              anchorEl={anchorEl}
             />
           ) : (
             <UnauthorizedNavLinks />
           )}
         </div>
       )}
-      <AccountDropdown anchorEl={anchorEl} closeDropdown={closeDropdown} />
+      <AccountDropdown anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
     </nav>
   )
 }
 
-const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
+const AuthorizedNavLinks = ({ notificationCount, setAnchorEl, anchorEl }) => {
   const dispatch = useAppDispatch()
   const { visibleChat } = useAppSelector(selectChatUI)
   const unreadMessagesCount = useAppSelector(selectUnreadMessageCount)
@@ -149,6 +149,12 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
   const handleToggleChatBox = () => {
     toggleChatBox()
   }
+
+  const handleClick = () => {
+    const dropDownIcon = document.querySelector('.drop-down')
+    setAnchorEl(dropDownIcon)
+  }
+
   //TODO - chat icon position needs to be tested when we remove the unicorn landing page
   return (
     <div className='notifications'>
@@ -163,17 +169,20 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl }) => {
             <CustomBadge content={unreadMessagesCount} variant='standard' />
             {visibleChat && <ChatDialogMain />}
           </div>
-          <p className='account'>Messages</p>
+          <p className='account' onClick={handleToggleChatBox}>
+            Messages
+          </p>
         </div>
       )}
-      <div className='nav-icons-container'>
-        <div className='account avatar'>
-          <Avatar clickable={false} setAnchorEl={setAnchorEl} size='medium' />
+      <div className='nav-icons-container' onClick={handleClick}>
+        <div className='avatar'>
+          <Avatar />
         </div>
-        <div onClick={setAnchorEl}>
-          <p className='account'>My Account </p>
-          <MdArrowDropDown size={33} className='drop-down' />
-        </div>
+        <p className='account'>My Account</p>
+        <MdArrowDropDown
+          size={33}
+          className={`drop-down ${anchorEl ? 'open' : ''}`}
+        />
       </div>
     </div>
   )

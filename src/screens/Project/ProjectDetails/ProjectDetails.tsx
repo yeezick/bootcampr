@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Overview } from './Overview'
 import { ProjectTimeline } from './ProjectTimeline'
 import { Presentation } from './Presentation'
 import './ProjectDetails.scss'
-import { PresentationInfoBanner } from './PresentationInfoBanner'
-import { useAppSelector } from 'utils/redux/hooks'
-import { selectCompletedInfo } from 'utils/redux/slices/projectSlice'
+import { Box, Tab } from '@mui/material'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
 
 export const ProjectDetails = () => {
   const tabData = [
@@ -14,77 +13,42 @@ export const ProjectDetails = () => {
     { label: 'PRESENTATION', content: <Presentation /> },
   ]
 
-  return (
-    <div className='project-details-portal'>
-      <div className='pd-cont'>
-        <div className='pd-header-cont'>
-          <RenderTab tabs={tabData} />
-        </div>
-      </div>
-    </div>
-  )
-}
+  const [value, setValue] = useState('1')
 
-const RenderTab = ({ tabs }) => {
-  const [activeTab, setActiveTab] = useState(0)
-  const [indicatorWidth, setIndicatorWidth] = useState(0)
-  const [indicatorLeft, setIndicatorLeft] = useState(0)
-  const projectSubmissionInfo = useAppSelector(selectCompletedInfo)
-  const isProjectSubmitted = Boolean(projectSubmissionInfo.presenting !== null)
-
-  const handleTabClick = (tabIndex: number) => {
-    setActiveTab(tabIndex)
-    const buttonWidth = document.getElementById(`tab-${tabIndex}`)?.offsetWidth
-    const buttonLeft = document.getElementById(`tab-${tabIndex}`)?.offsetLeft
-
-    setIndicatorWidth(buttonWidth)
-    setIndicatorLeft(buttonLeft)
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue)
   }
 
-  useEffect(() => {
-    const buttonWidth = document.getElementById(`tab-${activeTab}`)?.offsetWidth
-    setIndicatorWidth(buttonWidth)
-  }, [activeTab])
-
   return (
-    <div className='pd-nav-cont'>
-      {isProjectSubmitted && <PresentationInfoBanner />}
-      <div className='pd-nav-tabs-btns'>
-        {tabs.map((tab, index) => (
-          <TabButton
-            key={index}
-            id={`tab-${index}`}
-            tabIndex={index}
-            activeTab={activeTab}
-            handleTabClick={handleTabClick}
-            tabName={tab.label}
-          />
+    <Box className='project-details-content'>
+      <TabContext value={value}>
+        <Box>
+          <TabList
+            className='tab-list'
+            onChange={handleChange}
+            aria-label='Product Details navigation'
+          >
+            {tabData.map((tab, idx) => (
+              <Tab
+                key={`tab-${idx + 1}`}
+                label={tab.label}
+                value={(idx + 1).toString()}
+                className='tab'
+                disableRipple
+              />
+            ))}
+          </TabList>
+        </Box>
+        {tabData.map((tab, idx) => (
+          <TabPanel
+            key={`tab-panel-${idx + 1}`}
+            value={(idx + 1).toString()}
+            className='tab-panel'
+          >
+            {tab.content}
+          </TabPanel>
         ))}
-        <span
-          className='pd-nav-indicator'
-          style={{
-            width: `${indicatorWidth}px`,
-            transform: `translateX(${indicatorLeft}px)`,
-          }}
-        />
-      </div>
-      <div className='pd-nav-content-cont'>{tabs[activeTab].content}</div>
-    </div>
-  )
-}
-
-const TabButton = ({ id, activeTab, tabIndex, handleTabClick, tabName }) => {
-  const isActive = activeTab === tabIndex
-
-  const handleClick = () => {
-    handleTabClick(tabIndex)
-  }
-
-  const tabClass = isActive ? 'pd-nav-tabs-active' : 'pd-nav-tabs'
-
-  return (
-    <button id={id} className={tabClass} onClick={handleClick}>
-      <h1>{tabName}</h1>
-    </button>
+      </TabContext>
+    </Box>
   )
 }

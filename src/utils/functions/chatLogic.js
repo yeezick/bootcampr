@@ -1,7 +1,9 @@
 export const extractConversationAvatars = (chatMembers, authUserId) => {
   const avatars = chatMembers
     .filter(({ userInfo }) => userInfo && userInfo._id !== authUserId)
-    .map(({ userInfo }) => getDefaultAvatar(userInfo))
+    .map(
+      ({ userInfo }) => userInfo.profilePicture || getDefaultAvatar(userInfo)
+    )
 
   return avatars
 }
