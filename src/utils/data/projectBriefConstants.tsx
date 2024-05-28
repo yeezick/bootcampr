@@ -32,40 +32,49 @@ export const projectBriefContent = [
   {
     title: 'Target Audience',
     content: (
-      <p>
-        The target audience for this restaurant includes urban residents aged
-        25-45, primarily working professionals and young couples. They are
-        tech-savvy, value convenience, and appreciate culinary innovation.
+      <>
+        <p>
+          The target audience for this restaurant includes urban residents aged
+          25-45, primarily working professionals and young couples. They are
+          tech-savvy, value convenience, and appreciate culinary innovation.
+        </p>
+        <br />
         <p className='title'>Demographics: </p>
         <ul>
           <li>Urban residents</li>
           <li>25-45 years old</li>
           <li>Diverse backgrounds</li>
         </ul>
+        <br />
         <p className='title'>Interests:</p>
         <ul>
           <li>Food enthusiasts</li>
         </ul>
+        <br />
         <p className='title'>Pain Points:</p>
         <ul>
           <li>Limited time for dining out</li>
           <li>Desire for hassle-free reservation process</li>
         </ul>
+        <br />
         <p className='title'>Motivators:</p>
         <ul>
           <li>Quality food</li>
           <li>Unique dining experiences</li>
           <li>Convenience</li>
         </ul>
-      </p>
+      </>
     ),
   },
   {
     title: 'Competitors',
     content: (
-      <p>
-        Competitors in the restaurant industry within the same urban area
-        include established eateries with strong online presences.
+      <>
+        <p>
+          Competitors in the restaurant industry within the same urban area
+          include established eateries with strong online presences.
+        </p>
+        <br />
         <p className='title'>Key findings include:</p>
         <ul>
           <li>Many competitors offer online reservations and menu browsing</li>
@@ -78,57 +87,47 @@ export const projectBriefContent = [
             personalized content
           </li>
         </ul>
-      </p>
+      </>
     ),
   },
   {
     title: 'Design Requirements',
     content: (
-      <p>
+      <>
         <p className='title'>Technical:</p>
         <ul>
           <li>Responsive design for seamless browsing across devices</li>
-          <li>Integration with reservation system.</li>
+          <li>Integration with reservation system</li>
         </ul>
+        <br />
         <p className='title'>Brand and Style: </p>
         <ul>
           <li>
             Incorporation of the restaurant’s branding elements, such as logo
-            and color scheme.
+            and color scheme
           </li>
         </ul>
+        <br />
         <p className='title'>Functional Requirements:</p>
         <ul>
           <li>Menu browsing functionality</li>
           <li>Online reservation system</li>
           <li>Contact information display</li>
         </ul>
-      </p>
+      </>
     ),
   },
   {
     title: 'Project Deliverables',
     content: (
-      <p>
-        <p className='title'>Technical:</p>
+      <>
+        <p>Upon completing the project, the restaurant will have:</p>
         <ul>
-          <li>Responsive design for seamless browsing across devices</li>
-          <li>Integration with reservation system.</li>
+          <li>A fully functional website showcasing menu and services</li>
+          <li>An online reservation and booking system</li>
+          <li>Documentation for website maintenance and future enhancements</li>
         </ul>
-        <p className='title'>Brand and Style: </p>
-        <ul>
-          <li>
-            Incorporation of the restaurant’s branding elements, such as logo
-            and color scheme.
-          </li>
-        </ul>
-        <p className='title'>Functional Requirements:</p>
-        <ul>
-          <li>Menu browsing functionality</li>
-          <li>Online reservation system</li>
-          <li>Contact information display</li>
-        </ul>
-      </p>
+      </>
     ),
   },
 ]

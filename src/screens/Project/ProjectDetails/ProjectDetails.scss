@@ -1,119 +1,35 @@
-@import 'scss/variables';
-@import 'scss/mixins';
-
-.project-details-portal {
-  background: #ffffff;
-  height: 100vh;
-  width: auto;
-
-  .pd-cont {
-    @include flex(column);
-  }
-
-  .pd-header-cont {
-    @include flex(column);
+.project-details-content {
+  .tab-list {
     background: #fff;
-    gap: 8px;
-    height: 100%;
-    margin: 0;
-    padding-bottom: 16px;
-    position: relative;
-    width: 100%;
-  }
-
-  .pd-nav-cont {
-    @include flex(column);
-    align-self: stretch;
-    background-color: #ffffff;
-    box-sizing: border-box;
-    color: #212121;
-    height: 100%;
-    padding: 16px 32px;
-    width: 94%;
-  }
-
-  .pd-nav-tabs-btns {
-    @include flex(row);
-    gap: 16px;
-    margin-bottom: 16px;
-    position: relative;
-  }
-
-  .pd-nav-tabs {
-    @include flex(column);
-    background: none;
-    border: none;
-    height: 28px;
-    padding: 0;
-    position: relative;
-    cursor: pointer;
-
-    h1 {
-      @include font-properties(
-        (
-          size: 16px,
-          weight: 600,
-          line-height: 24px,
-        )
-      );
-      color: #212121;
-      flex: 1 1 0;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      word-wrap: break-word;
-    }
-  }
-
-  .pd-nav-tabs-active {
-    @include flex(column);
-    background: none;
-    border: none;
-    height: 28px;
-    padding: 0;
-    position: relative;
-    cursor: pointer;
-
-    h1 {
-      @include font-properties(
-        (
-          size: 16px,
-          weight: 600,
-          line-height: 24px,
-        )
-      );
-      color: #212121;
-      flex: 1 1 0;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      word-wrap: break-word;
-    }
-  }
-
-  .pd-nav-content-cont {
-    width: 100%;
-    height: auto;
-  }
-
-  .pd-nav-indicator {
-    background-color: #ffa726;
-    bottom: 0;
-    height: 4px;
-    left: 0;
+    margin: 0 0 -40px 32px;
+    padding: 16px 0;
     position: absolute;
-    transition: transform 0.3s ease-in-out;
+    width: calc(100% - 320px);
+    z-index: 2;
+
+    & .MuiTabs-indicator {
+      background-color: #ffa726;
+      bottom: 6px;
+      height: 4px;
+    }
+
+    & .MuiTab-root {
+      color: black;
+      margin-right: 16px;
+      min-width: auto;
+      &.Mui-selected {
+        color: black;
+      }
+    }
   }
 
-  .pd-nav-tabs-active:nth-child(1) .pd-nav-indicator {
-    left: 0;
+  .tab {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 0;
   }
 
-  .pd-nav-tabs-active:nth-child(2) .pd-nav-indicator {
-    left: 33.33%;
-  }
-
-  .pd-nav-tabs-active:nth-child(3) .pd-nav-indicator {
-    left: 66.66%;
+  .tab-panel {
+    margin-left: 10px;
   }
 }

@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { Menu, MenuItem } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -7,27 +6,17 @@ import { logOut } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { buildPortal, navigateToDomain } from 'utils/helpers'
 
-export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
-  const [open, setOpen] = useState(false)
+export const AccountDropdown = ({ anchorEl, setAnchorEl }) => {
   const userId = useSelector(selectUserId)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const open = Boolean(anchorEl)
 
-  useEffect(() => {
-    if (anchorEl) {
-      setOpen(true)
-    } else {
-      setOpen(false)
-    }
-  }, [anchorEl])
-
-  const handleClose = (e, bypassSelection?) => {
-    closeDropdown()
-    setOpen(false)
-    if (bypassSelection) return
+  const handleClose = e => {
+    setAnchorEl(null)
 
     const { innerText } = e.target
-    if (innerText === 'View Profile') {
+    if (innerText === 'My profile') {
       window.open(`/users/${userId}`)
     } else if (innerText === 'Settings') {
       buildPortal(dispatch, 'settings', userId)
@@ -40,28 +29,24 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
   }
 
   return (
-    <div>
-      <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={e => handleClose(e, false)}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        id='custom-menu-paper'
-        classes={{
-          paper: 'custom-menu-paper',
-        }}
-      >
-        <MenuItem onClick={handleClose}>View Profile</MenuItem>
-        <MenuItem onClick={handleClose}>Settings</MenuItem>
-        <MenuItem onClick={handleClose}>Log out</MenuItem>
-      </Menu>
-    </div>
+    <Menu
+      anchorEl={anchorEl}
+      open={open}
+      onClose={handleClose}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id='custom-menu-paper'
+      autoFocus={false}
+    >
+      <MenuItem onClick={handleClose}>My profile</MenuItem>
+      <MenuItem onClick={handleClose}>Settings</MenuItem>
+      <MenuItem onClick={handleClose}>Log out</MenuItem>
+    </Menu>
   )
 }
