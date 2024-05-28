@@ -152,7 +152,7 @@ export const PresentationInfoBanner = () => {
         confirmButtonLabel='Update'
         handleConfirm={handleUpdate}
         confirmButtonDisabled={modalIsDisabled}
-        customWidth={368}
+        customWidth={338}
       />
     </>
   )
