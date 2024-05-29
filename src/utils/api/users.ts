@@ -209,3 +209,13 @@ export const deleteUserAccount = async (id: string) => {
     throw error
   }
 }
+
+export const removeActiveProject = async (id: string) => {
+  try {
+    const res = await api.put(`/users/${id}/removeActiveProject`)
+    return res.data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
