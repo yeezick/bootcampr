@@ -24,11 +24,13 @@ export const ProjectDetails = () => {
     setValue(newValue)
   }
 
+  const tabPanelStyles = isProjectSubmitted ? 'with-banner' : 'tab-panel'
+
   return (
     <Box className='project-details-content'>
-      {isProjectSubmitted && <PresentationInfoBanner />}
       <TabContext value={value}>
-        <Box>
+        <Box className='banner-and-tab-list'>
+          {isProjectSubmitted && <PresentationInfoBanner />}
           <TabList
             className='tab-list'
             onChange={handleChange}
@@ -49,7 +51,7 @@ export const ProjectDetails = () => {
           <TabPanel
             key={`tab-panel-${idx + 1}`}
             value={(idx + 1).toString()}
-            className='tab-panel'
+            className={tabPanelStyles}
           >
             {tab.content}
           </TabPanel>
