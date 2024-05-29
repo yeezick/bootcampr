@@ -10,10 +10,6 @@ function convertToUTC(time, timezoneOffset) {
   return dayjs.tz(formatedTime, timezoneOffset).utc().format()
 }
 
-function convertAvailabilityToUTC(time, timezone) {
-  return dayjs.tz(time, timezone).utc().format()
-}
-
 export const determineUserAvailability = (
   currMember,
   dateFields,
