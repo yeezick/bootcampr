@@ -5,8 +5,13 @@ import { Presentation } from './Presentation'
 import './ProjectDetails.scss'
 import { Box, Tab } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
+import { useAppSelector } from 'utils/redux/hooks'
+import { selectCompletedInfo } from 'utils/redux/slices/projectSlice'
+import { ProjectComplationBanner } from 'screens/ProjectCompletion/ProjectCompletionBanner'
 
 export const ProjectDetails = () => {
+  const projectCompletedInfo = useAppSelector(selectCompletedInfo)
+  const isProjectCompleted = projectCompletedInfo.presenting !== null
   const tabData = [
     { label: 'PROJECT BRIEF', content: <Overview /> },
     { label: 'TIMELINE', content: <ProjectTimeline /> },
@@ -21,6 +26,7 @@ export const ProjectDetails = () => {
 
   return (
     <Box className='project-details-content'>
+      <>{isProjectCompleted && <ProjectComplationBanner />} </>
       <TabContext value={value}>
         <Box>
           <TabList
