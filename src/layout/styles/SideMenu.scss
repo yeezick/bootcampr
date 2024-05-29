@@ -58,6 +58,14 @@
       color: 'red';
       margin-right: 16px;
     }
+
+    &.disabled-link {
+      cursor: not-allowed;
+      color: #212121;
+      opacity: 0.38;
+      text-decoration: none;
+      pointer-events: none;
+    }
   }
 
   .link-disable {

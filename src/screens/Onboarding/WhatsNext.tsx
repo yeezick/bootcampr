@@ -3,23 +3,28 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectAuthUser,
+  selectIsRecurringWaitlistUser,
   updateAuthUser,
   updateUserExperience,
+  updateUserProject,
 } from 'utils/redux/slices/userSlice'
 import './WhatsNext.scss'
 import {
+  removeActiveProject,
   updatePaymentExperience,
   updateUserProfile,
   verifyPayment,
 } from 'utils/api'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { PrimaryButton } from 'components/Buttons'
+import { storeUserProject } from 'utils/helpers'
 
 export const WhatsNext = () => {
   const authUser = useAppSelector(selectAuthUser)
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const isRecurringWaitlistUser = useAppSelector(selectIsRecurringWaitlistUser)
 
   useEffect(() => {
     const checkUserPayment = async () => {
@@ -41,6 +46,11 @@ export const WhatsNext = () => {
           { experience: 'waitlist', paid: true }
         )
         const updatedUserProfile = await updateUserProfile({ onboarded: true })
+
+        //reset fields for recurring user
+        dispatch(updateUserProject(''))
+        await removeActiveProject(authUser._id)
+        await storeUserProject(dispatch, 'sandbox')
 
         if (updatedUserExperience.error) {
           dispatch(errorSnackbar('Error updating project experience.'))
@@ -71,7 +81,11 @@ export const WhatsNext = () => {
     <div className='onboarding-lastscreen-container'>
       <div className='lastscreen-text-container'>
         <div className='lastscreen-header'>
-          <h1> You're a Bootcampr now!</h1>
+          <h1>
+            {isRecurringWaitlistUser
+              ? "You're ready for your next project!"
+              : "You're a Bootcampr now!"}
+          </h1>
         </div>
         <div className='whats-next'>
           <h2> What's next?</h2>

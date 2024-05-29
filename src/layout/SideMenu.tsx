@@ -11,7 +11,10 @@ import {
 } from 'utils/redux/slices/projectSlice'
 import './styles/SideMenu.scss'
 import { PrimaryButton } from 'components/Buttons'
-import { selectUserExperience } from 'utils/redux/slices/userSlice'
+import {
+  selectIsRecurringWaitlistUser,
+  selectUserExperience,
+} from 'utils/redux/slices/userSlice'
 
 export const SideMenu = () => {
   const navigate = useNavigate()
@@ -21,7 +24,7 @@ export const SideMenu = () => {
   const { active } = useAppSelector(selectSideMenu)
   const projectSubmissionInfo = useAppSelector(selectCompletedInfo)
   const userExperience = useAppSelector(selectUserExperience)
-  const [isDisabled, setIsDisabled] = useState(true)
+  const [isDisabled, setIsDisabled] = useState(false)
   const isProjectSubmitted = Boolean(projectSubmissionInfo.deployedUrl)
   const isActiveUser = userExperience === 'active'
 
@@ -33,19 +36,19 @@ export const SideMenu = () => {
     if (!projectSubmissionDate) {
       return
     }
-    const checkSubmissionTime = () => {
-      const submissionDate = generateDayJs(projectSubmissionDate)
-      const now = blankDayJs()
-      setIsDisabled(
-        now.isBefore(submissionDate, 'minute') || isProjectSubmitted
-      )
-    }
+    // const checkSubmissionTime = () => {
+    //   const submissionDate = generateDayJs(projectSubmissionDate)
+    //   const now = blankDayJs()
+    //   setIsDisabled(
+    //     now.isBefore(submissionDate, 'minute') || isProjectSubmitted
+    //   )
+    // }
 
-    checkSubmissionTime()
+    // checkSubmissionTime()
 
-    const dateCheckInterval = setInterval(checkSubmissionTime, 60000)
+    // const dateCheckInterval = setInterval(checkSubmissionTime, 60000)
 
-    return () => clearInterval(dateCheckInterval)
+    // return () => clearInterval(dateCheckInterval)
   }, [active, projectSubmissionDate, isProjectSubmitted])
 
   return (
@@ -85,10 +88,24 @@ const MenuLink = ({ linkDetails }) => {
   const { domain, icon, label, route, headerTitle } = linkDetails
   const LinkIcon = iconMap[icon]
   const dispatch = useAppDispatch()
-  const linkClassName = `${'link'} ${
+  const isRecurringWaitlistUser = useAppSelector(selectIsRecurringWaitlistUser)
+  const disableLinks =
+    isRecurringWaitlistUser &&
+    headerTitle !== 'Product Details' &&
+    domain === 'project'
+
+  const linkClassName = `link ${
     location.pathname === route ? 'current-location' : ''
-  }`
-  const handlePortalLinkClick = () => changePortalPage(dispatch, headerTitle)
+  } ${disableLinks ? 'disabled-link' : ''}`
+
+  const handlePortalLinkClick = event => {
+    if (disableLinks) {
+      event.preventDefault()
+      return
+    } else {
+      changePortalPage(dispatch, headerTitle)
+    }
+  }
 
   return (
     <Link
