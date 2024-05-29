@@ -1,4 +1,9 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+  createSelector,
+} from '@reduxjs/toolkit'
 import {
   AvailabilityInterface,
   Payment,
@@ -12,6 +17,7 @@ import { TimezonesUTC } from 'utils/data/timeZoneConstants'
 import { UpdateUserReducer } from 'interfaces/UserReducers'
 import { produce } from 'immer'
 import { generateDefaultPicture } from 'utils/helpers'
+import { selectCompletedInfo } from './projectSlice'
 
 // todo: auth.status should be its own slice
 // todo: sidemenu & ui like notifications should be its own slice
@@ -58,6 +64,8 @@ const userSlice = createSlice({
         if (action.payload.payment.experience === 'sandbox') {
           draft.projects.activeProject = 'sandbox'
         }
+        const hasManyProjects = action.payload.projects.projects.length > 1
+        draft.isRecurringUser = hasManyProjects ? true : false
       })
       state.auth.user = authUserPayload
     },
@@ -152,7 +160,20 @@ export const selectUserExperience = (state: RootState) =>
   state.ui.auth.user.payment.experience
 export const selectUserPayment = (state: RootState) =>
   state.ui.auth.user.payment
+export const selectIsRecurringWaitlistUser = (state: RootState) =>
+  !state.ui.auth.user.projects.activeProject &&
+  state.ui.auth.user.projects.projects.length > 0
 export const uiStatus = (state: RootState) => state.ui.status
+export const selectIsRecurringUnpaidUser = createSelector(
+  [selectCompletedInfo, selectUserPayment],
+  (projectCompletion, payment) => {
+    const projectSubmitted =
+      projectCompletion.presenting !== null &&
+      projectCompletion.deployedUrl?.length !== 0
+    const unpaidUser = payment.experience === 'waitlist' && !payment.paid
+    return projectSubmitted && unpaidUser
+  }
+)
 
 export const {
   setAuthUser,

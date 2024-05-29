@@ -48,6 +48,7 @@ export const emptyUser: UserInterface = {
     linkedinUrl: '',
     portfolioUrl: '',
   },
+  isRecurringUser: false,
   profilePicture: '',
   payment: {
     experience: 'unchosen',

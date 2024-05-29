@@ -10,6 +10,7 @@ export interface UserInterface {
   email: string
   firstName: string
   interestedProjects?: ProjectInterface[]
+  isRecurringUser: boolean
   lastName: string
   links?: {
     githubUrl?: string
