@@ -5,8 +5,11 @@ import { clearStates, selectUserId } from 'utils/redux/slices/userSlice'
 import { logOut } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { buildPortal, navigateToDomain } from 'utils/helpers'
+import { CommonModal } from 'components/CommonModal/CommonModal'
+import { useState } from 'react'
 
 export const AccountDropdown = ({ anchorEl, setAnchorEl }) => {
+  const [logoutModalIsOpen, setLogoutModalIsOpen] = useState<boolean>(false)
   const userId = useSelector(selectUserId)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -14,6 +17,7 @@ export const AccountDropdown = ({ anchorEl, setAnchorEl }) => {
 
   const handleClose = e => {
     setAnchorEl(null)
+    setLogoutModalIsOpen(false)
 
     const { innerText } = e.target
     if (innerText === 'My profile') {
@@ -28,25 +32,39 @@ export const AccountDropdown = ({ anchorEl, setAnchorEl }) => {
     }
   }
 
+  const toggleModal = () => setLogoutModalIsOpen(!logoutModalIsOpen)
+
   return (
-    <Menu
-      anchorEl={anchorEl}
-      open={open}
-      onClose={handleClose}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'right',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id='custom-menu-paper'
-      autoFocus={false}
-    >
-      <MenuItem onClick={handleClose}>My profile</MenuItem>
-      <MenuItem onClick={handleClose}>Settings</MenuItem>
-      <MenuItem onClick={handleClose}>Log out</MenuItem>
-    </Menu>
+    <div>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        id='custom-menu-paper'
+        autoFocus={false}
+      >
+        <MenuItem onClick={handleClose}>My profile</MenuItem>
+        <MenuItem onClick={handleClose}>Settings</MenuItem>
+        <MenuItem onClick={toggleModal}>Log out</MenuItem>
+      </Menu>
+      <CommonModal
+        isOpen={logoutModalIsOpen}
+        heading='Log out?'
+        body='You worked hard. Enjoy yourself!'
+        handleCancel={toggleModal}
+        handleConfirm={handleClose}
+        cancelButtonLabel='Cancel'
+        confirmButtonLabel='Log out'
+        customWidth={240}
+      />
+    </div>
   )
 }
