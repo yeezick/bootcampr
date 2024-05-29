@@ -5,6 +5,7 @@ export const determineUserAvailability = (
   dateFields,
   setIsAvailable
 ) => {
+  console.log(dateFields)
   const [weekday, eventDate] = generateDayJs(dateFields.start)
     .format('ddd-M/D/YYYY')
     .split('-')
