@@ -3,8 +3,9 @@
 
 .overview {
   color: #212121;
-  max-width: 650px;
+  max-width: 670px;
   padding: 16px 0 0;
+  margin-top: 48px;
 
   .ov-text-cont {
     @include flex(column);
@@ -24,7 +25,7 @@
     position: relative;
     width: 100%;
 
-h1 {
+    h1 {
       color: #212121;
       flex: 1 1 0;
       margin: 0;
@@ -59,7 +60,7 @@ h1 {
         line-height: 24px,
       )
     );
-b {
+    b {
       font-weight: 700;
       margin: 0;
       padding: 0;
@@ -88,15 +89,27 @@ b {
     margin: 0px 0px;
   }
 
-  .details-div p{
+  .details-div p {
     margin: 5px 0px;
   }
 
   .details-div ul {
     margin: 5px 0px;
+    padding-left: 10px;
+  }
+
+  .details-div li {
+    line-height: 24px;
+    list-style-type: none;
+  }
+
+  .details-div li::before {
+    content: '\2022';
+    font-size: 16px;
+    margin-right: 8px;
   }
 
   .products-req-doc {
-    color: #0D47A1;
+    color: #0d47a1;
   }
 }

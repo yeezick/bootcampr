@@ -1,21 +1,21 @@
 import { useCallback, useState } from 'react'
 import { useAppSelector, useAppDispatch } from 'utils/redux/hooks'
 import {
-  selectAuthUser,
-  updateAuthUser,
   getUserProfileImage,
+  selectUserId,
+  setUploadedImage,
 } from 'utils/redux/slices/userSlice'
-import { updateUser } from 'utils/api'
-import { ImageEditorModalProps } from '../../interfaces/ProfileImageInterfaces'
-import ImageEditorHeader from './ImageEditorHeader'
-import ImageEditorControls from './ImageEditorControls'
-import ImageEditorContent from './ImageEditorContent'
-import { createUserImage, saveCroppedImage } from './ImageEditorModalUtils'
+import { ToggleImageModalProps } from '../../interfaces/ProfileImageInterfaces'
+import { ImageEditorAvatar } from './ImageEditorAvatar'
+import { ImageEditorControls } from './ImageEditorControls'
+import { saveCroppedImage } from './ImageEditorModalUtils'
 import getCroppedImg from 'components/Crop/Utils/CropImage'
-import { Dialog, DialogActions } from '@mui/material'
+import { Box, DialogTitle, Dialog, DialogActions } from '@mui/material'
 import { Area, Point } from 'react-easy-crop/types'
-import './ImageEditorModal.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
+import { updateUserImage } from 'utils/api/services'
+import CloseIcon from '@mui/icons-material/Close'
+import './ImageEditorModal.scss'
 
 /**
  * ImageEditorModal component allows the user to edit, crop, and save images.
@@ -25,11 +25,15 @@ import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
  * @param {Function} setUploadedImage - Function to update the uploaded image.
  * @returns {JSX.Element} - ImageEditorModal component.
  */
-const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
+export const ImageEditorModal: React.FC<ToggleImageModalProps> = ({
   onOpen,
   onClose,
+  onCloseProfilePreviewAvatarModal = () => {},
+  setImageUploaded,
 }) => {
-  // Component state for managing the uploaded image, crop position, crop area, and zoom level
+  const dispatch = useAppDispatch()
+  const profilePicture = useAppSelector(getUserProfileImage)
+  const userId = useAppSelector(selectUserId)
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
   const [cropArea, setCropArea] = useState<Area>({
     x: 0,
@@ -37,21 +41,14 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
     width: 100,
     height: 100,
   })
-  const [zoom, setZoom] = useState<number>(1)
+  // const [zoom, setZoom] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const dispatch = useAppDispatch()
-  const profilePicture = useAppSelector(getUserProfileImage)
-  const authUser = useAppSelector(selectAuthUser)
-  const { _id: userId } = authUser
 
-  /**
-   * Resets the component state and calls the onClose callback to close the modal.
-   */
   const handleClose = useCallback(() => {
-    onClose()
     setCrop({ x: 0, y: 0 })
     setCropArea({ x: 0, y: 0, width: 100, height: 100 })
-    setZoom(1)
+    // setZoom(1)
+    onClose()
   }, [onClose])
 
   /**
@@ -59,31 +56,35 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
    */
   const handleSave = useCallback(async () => {
     if (profilePicture) {
-      getCroppedImg(profilePicture, cropArea, zoom).then(
-        async croppedImageURL => {
-          if (croppedImageURL) {
-            setIsLoading(true)
-            try {
-              const croppedImageFile = await saveCroppedImage(croppedImageURL)
-              await createUserImage(croppedImageFile, userId)
-              const userImageUpdate = await updateUser(userId, {
-                hasProfilePicture: true,
-              })
-
-              dispatch(updateAuthUser(userImageUpdate))
-              dispatch(successSnackbar('Photo saved!'))
-              handleClose()
-              setIsLoading(false)
-            } catch (error) {
-              console.log('Failed to generate cropped image URL:', error)
-              dispatch(errorSnackbar('Photo did not upload. Please try again.'))
-              setIsLoading(false)
-            }
+      getCroppedImg(profilePicture, cropArea).then(async croppedImageURL => {
+        if (croppedImageURL) {
+          setIsLoading(true)
+          try {
+            const croppedImageFile = await saveCroppedImage(croppedImageURL)
+            const updateUser = await updateUserImage(userId, croppedImageFile)
+            dispatch(setUploadedImage(updateUser.image))
+            dispatch(successSnackbar('Photo saved!'))
+            handleClose()
+            onCloseProfilePreviewAvatarModal()
+            setIsLoading(false)
+            if (setImageUploaded) setImageUploaded(true)
+          } catch (error) {
+            console.log('Failed to generate cropped image URL:', error)
+            dispatch(errorSnackbar('Photo did not upload. Please try again.'))
+            setIsLoading(false)
           }
         }
-      )
+      })
     }
-  }, [profilePicture, cropArea, zoom, handleClose, dispatch, userId])
+  }, [
+    profilePicture,
+    cropArea,
+    handleClose,
+    onCloseProfilePreviewAvatarModal,
+    dispatch,
+    userId,
+    setImageUploaded,
+  ])
 
   return (
     <Dialog
@@ -93,15 +94,19 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
       maxWidth='sm'
       fullWidth
     >
-      <ImageEditorHeader handleClose={handleClose} />
+      <Box className='image-modal__header'>
+        <div></div>
+        <DialogTitle className='image-modal__title'>Edit photo</DialogTitle>
+        <CloseIcon className='image-modal__close-btn' onClick={onClose} />
+      </Box>
       <div className='image-modal__content'>
-        <ImageEditorContent
+        <ImageEditorAvatar
           profilePicture={profilePicture}
           crop={crop}
-          zoom={zoom}
           setCrop={setCrop}
           setCropArea={setCropArea}
-          setZoom={setZoom}
+          // zoom={zoom}
+          // setZoom={setZoom}
         />
         <DialogActions className='image-modal__actions'>
           <ImageEditorControls
@@ -114,5 +119,3 @@ const ImageEditorModal: React.FC<ImageEditorModalProps> = ({
     </Dialog>
   )
 }
-
-export default ImageEditorModal

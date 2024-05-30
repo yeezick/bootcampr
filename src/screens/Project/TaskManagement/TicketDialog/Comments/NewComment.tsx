@@ -87,11 +87,10 @@ export const NewComment = ({
 
   const handleInputChange = e => setInputText(e.target.value)
   const handleSendClick = () => handleCreate(inputText)
-  const defaultImageURL = generateDefaultPicture(firstName, lastName) // BC-800 revert when image uploading feature is fixed
 
   return (
     <div className={`comment-input-banner ${commentClass}`}>
-      <img src={defaultImageURL} alt='commentor-profile-picture' />
+      <img src={userProfilePicture} alt='commentor-profile-pic' />
       <TextField
         className='comment-input'
         disabled={hasConflictedTicket}

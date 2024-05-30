@@ -49,8 +49,6 @@ export const emptyUser: UserInterface = {
     portfolioUrl: '',
   },
   profilePicture: '',
-  defaultProfilePicture: '',
-  hasProfilePicture: false,
   payment: {
     experience: 'unchosen',
     paid: false,

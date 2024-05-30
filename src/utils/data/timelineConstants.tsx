@@ -10,7 +10,7 @@ export const timelineData = [
   },
   {
     date: 'Week 1 - 3',
-    title: 'Assign and complete tasks',
+    title: 'Assign and complete stories',
     description: (
       <div>
         <p>Homepage</p>
