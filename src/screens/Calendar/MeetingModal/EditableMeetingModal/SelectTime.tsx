@@ -27,7 +27,6 @@ export const SelectTime = ({ dateFields, setDateFields, type }) => {
   }, [dateFields.start, dateFields.end])
 
   const handleTimeChange = e => {
-    console.log(dateFields)
     const { value } = e.target
     const updatedDateFields = { ...dateFields }
 

@@ -1,4 +1,5 @@
 import { generateDayJs } from 'utils/helpers'
+import { dayJSformattedTZdata } from 'utils/data/timeZoneConstants'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
@@ -10,6 +11,10 @@ function convertToUTC(time, timezoneOffset) {
   return dayjs.tz(formatedTime, timezoneOffset).utc().format()
 }
 
+function getUTCOffset(time, timezoneIdentifier) {
+  return dayjs.tz(time, timezoneIdentifier).format('Z')
+}
+
 export const determineUserAvailability = (
   currMember,
   dateFields,
@@ -18,8 +23,10 @@ export const determineUserAvailability = (
   const eventTimezone = dateFields.eventTimezone
   const userTimezone = currMember.timezone
 
-  const startInUTC = convertToUTC(dateFields.start, eventTimezone)
-  const endInUTC = convertToUTC(dateFields.end, eventTimezone)
+  const eventUTC = dayJSformattedTZdata[eventTimezone].utc
+
+  const startInUTC = convertToUTC(dateFields.start, eventUTC)
+  const endInUTC = convertToUTC(dateFields.end, eventUTC)
 
   const [weekday, eventDate] = generateDayJs(startInUTC)
     .format('ddd-M/D/YYYY')
@@ -39,6 +46,13 @@ export const determineUserAvailability = (
     const timeSlotEndInUTC = convertToUTC(
       `${eventDate} ${timeSlotEnd}`,
       userTimezone
+    )
+
+    console.log(
+      'Availability for ',
+      currMember.firstName,
+      timeSlotStartInUTC,
+      timeSlotEndInUTC
     )
 
     const isLastSlot = i === dayAvailability.length - 1
