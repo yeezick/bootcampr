@@ -6,9 +6,6 @@
 @import 'WhatsNextPage';
 
 .project-completion {
-  .page-bar {
-    justify-content: flex-start;
-  }
 
   .page-container {
     @include container-properties(
@@ -30,6 +27,7 @@
     }
 
     input {
+      border-radius: 5px;
       box-sizing: border-box;
       height: 40px;
       margin-top: 8px;
