@@ -1,11 +1,13 @@
 .project-details-content {
+  .banner-and-tab-list {
+    position: absolute;
+    width: calc(100% - 30px);
+    z-index: 2;
+  }
   .tab-list {
     background: #fff;
-    margin: 0 0 -40px 32px;
+    margin-left: 32px;
     padding: 16px 0;
-    position: absolute;
-    width: calc(100% - 320px);
-    z-index: 2;
 
     & .MuiTabs-indicator {
       background-color: #ffa726;
@@ -29,7 +31,16 @@
     padding: 0;
   }
 
-  .tab-panel {
+  .tab-panel,
+  .with-banner {
     margin-left: 10px;
+  }
+
+  .tab-panel {
+    padding-top: 85px;
+  }
+
+  .with-banner {
+    padding-top: 193px;
   }
 }

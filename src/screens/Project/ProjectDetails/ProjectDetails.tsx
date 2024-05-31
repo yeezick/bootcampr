@@ -5,13 +5,13 @@ import { Presentation } from './Presentation'
 import './ProjectDetails.scss'
 import { Box, Tab } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
+import { PresentationInfoBanner } from './PresentationInfoBanner'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectCompletedInfo } from 'utils/redux/slices/projectSlice'
-import { ProjectComplationBanner } from 'screens/ProjectCompletion/ProjectCompletionBanner'
 
 export const ProjectDetails = () => {
-  const projectCompletedInfo = useAppSelector(selectCompletedInfo)
-  const isProjectCompleted = projectCompletedInfo.presenting !== null
+  const projectSubmissionInfo = useAppSelector(selectCompletedInfo)
+  const isProjectSubmitted = projectSubmissionInfo.presenting !== null
   const tabData = [
     { label: 'PROJECT BRIEF', content: <Overview /> },
     { label: 'TIMELINE', content: <ProjectTimeline /> },
@@ -24,11 +24,14 @@ export const ProjectDetails = () => {
     setValue(newValue)
   }
 
+  const tabPanelStyles = isProjectSubmitted ? 'with-banner' : 'tab-panel'
+
   return (
     <Box className='project-details-content'>
       <>{isProjectCompleted && <ProjectComplationBanner />} </>
       <TabContext value={value}>
-        <Box>
+        <Box className='banner-and-tab-list'>
+          {isProjectSubmitted && <PresentationInfoBanner />}
           <TabList
             className='tab-list'
             onChange={handleChange}
@@ -49,7 +52,7 @@ export const ProjectDetails = () => {
           <TabPanel
             key={`tab-panel-${idx + 1}`}
             value={(idx + 1).toString()}
-            className='tab-panel'
+            className={tabPanelStyles}
           >
             {tab.content}
           </TabPanel>

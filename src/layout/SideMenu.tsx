@@ -24,8 +24,8 @@ export const SideMenu = () => {
   const { active } = useAppSelector(selectSideMenu)
   const projectSubmissionInfo = useAppSelector(selectCompletedInfo)
   const userExperience = useAppSelector(selectUserExperience)
-  const [isDisabled, setIsDisabled] = useState(false)
-  const isProjectSubmitted = Boolean(projectSubmissionInfo.deployedUrl)
+  const [isDisabled, setIsDisabled] = useState(true)
+  const isProjectSubmitted = Boolean(projectSubmissionInfo.presenting !== null)
   const isActiveUser = userExperience === 'active'
 
   const handleProjectCompletion = () =>
@@ -62,7 +62,7 @@ export const SideMenu = () => {
           <PrimaryButton
             disabled={isDisabled}
             onClick={handleProjectCompletion}
-            label='Submit Project'
+            label='Submit project'
             style={{ bottom: 32, position: 'absolute', width: '235px' }}
           />
         )}
