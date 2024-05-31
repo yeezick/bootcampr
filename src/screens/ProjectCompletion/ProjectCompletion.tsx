@@ -19,10 +19,10 @@ export const ProjectCompletion = () => {
       component: ConfirmationPage,
       title: 'Confirmation',
     },
-    {
-      component: WhatsNextPage,
-      title: "What's next",
-    },
+    // {
+    //   component: WhatsNextPage,
+    //   title: "What's next",
+    // },
   ]
 
   return (

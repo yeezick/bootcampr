@@ -23,6 +23,8 @@ export const WhatsNextPage = () => {
   }
 
   const teamPresenting = completedInfo.presenting
+  console.log(teamPresenting)
+  console.log(typeof teamPresenting)
 
   return (
     <div
