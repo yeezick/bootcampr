@@ -1,0 +1,26 @@
+.project-url-container {
+  .label-text {
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0;
+  }
+
+  .url-input {
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    height: 40px;
+    line-height: 24px;
+    margin-top: 16px;
+    outline: 1px solid #212121;
+    padding: 8px 16px;
+    width: 328px;
+  }
+
+  .url-input:focus-visible {
+    border: none;
+    outline: 2px solid #0d47a1;
+    outline-offset: -1px;
+  }
+}

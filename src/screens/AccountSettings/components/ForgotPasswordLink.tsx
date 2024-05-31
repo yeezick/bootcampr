@@ -95,6 +95,7 @@ export const ForgotPasswordLink = ({
         inputErrorMessage='Invalid email address. Enter the email address you used to sign up with Bootcampr.'
         cancelButtonLabel='Cancel'
         confirmButtonLabel='Send email'
+        customWidth={360}
       />
     </>
   )

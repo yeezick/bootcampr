@@ -1,0 +1,18 @@
+.participation-radio-container {
+  .participation-radio {
+    .MuiRadio-root {
+      color: black;
+      padding-left: 15px;
+      &.Mui-checked {
+        color: #0d47a1;
+      }
+    }
+    .MuiSvgIcon-root {
+      font-size: 16px;
+    }
+  }
+
+  .helper-text {
+    margin: -5px 0 0 30px;
+  }
+}

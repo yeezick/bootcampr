@@ -1,4 +1,5 @@
 import { FormControl } from '@mui/material'
+import { ProjectUrlProps } from 'interfaces/components'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
@@ -7,8 +8,9 @@ import {
   selectCompletedInfo,
   updateDeployedUrl,
 } from 'utils/redux/slices/projectSlice'
+import './ProjectUrl.scss'
 
-export const ProjectUrl = ({ setIsDisabled }) => {
+export const ProjectUrl = ({ setIsDisabled, labelText }: ProjectUrlProps) => {
   const dispatch = useDispatch()
   const completedInfo = useSelector(selectCompletedInfo)
   const deployedUrl =
@@ -26,11 +28,12 @@ export const ProjectUrl = ({ setIsDisabled }) => {
   }, [deployedUrl, setIsDisabled])
 
   return (
-    <FormControl className='url-input'>
+    <FormControl className='project-url-container'>
       <label htmlFor='projectUrl'>
-        <p>Project Url</p>
+        <p className='label-text'>{labelText}</p>
       </label>
       <input
+        className='url-input'
         id='projectUrl'
         onBlur={handleUrlChange}
         onChange={handleUrlChange}
