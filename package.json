@@ -8,7 +8,8 @@
     "test": "jest --config jest.config.ts",
     "eject": "react-scripts eject",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "cy:open": "cypress open"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -64,6 +65,7 @@
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
     "babel-jest": "^29.4.3",
+    "cypress": "^13.10.0",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
