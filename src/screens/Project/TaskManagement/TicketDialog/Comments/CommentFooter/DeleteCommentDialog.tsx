@@ -3,35 +3,50 @@ import { PrimaryButton, TextButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 import { useState } from 'react'
 import { deleteComment } from 'utils/api/comments'
+import { deleteReply } from 'utils/api/replies'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { deleteCommentFromTicket } from 'utils/redux/slices/projectSlice'
 import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
 
 export const DeleteCommentDialog = ({
-  commentId,
+  comment,
   open,
   toggleDeleteDialog,
   toggleFetchComments,
 }) => {
+  const { _id: commentId } = comment
   const { _id: ticketId, status: ticketStatus } =
     useAppSelector(selectTicketFields)
   const dispatch = useAppDispatch()
   const handleCloseDialog = () => toggleDeleteDialog(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const isReply = comment.parentId ? true : false
 
   const handleDelete = async () => {
     setIsLoading(true)
-    const deleteResponse = await deleteComment(commentId, ticketId)
-    if (deleteResponse.status === 500) {
+
+    let deleteResponse
+    if (isReply) {
+      deleteResponse = await deleteReply(commentId, comment.parentId)
+    } else {
+      deleteResponse = await deleteComment(commentId, ticketId)
+    }
+
+    if (deleteResponse.error) {
       dispatch(errorSnackbar(deleteResponse.message))
       return
     }
-    dispatch(deleteCommentFromTicket({ commentId, ticketId, ticketStatus }))
+
+    if (!isReply) {
+      dispatch(deleteCommentFromTicket({ commentId, ticketId, ticketStatus }))
+    }
+
     toggleFetchComments(state => !state)
     toggleDeleteDialog(false)
     setIsLoading(false)
   }
+
   return (
     <Dialog open={open} onClose={handleCloseDialog} maxWidth='xs'>
       <DialogContent className='confirmation-dialog'>
