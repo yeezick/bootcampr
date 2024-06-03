@@ -5,6 +5,9 @@ on: push
 env:
   CI: false
 
+permissions:
+  contents: read
+
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
