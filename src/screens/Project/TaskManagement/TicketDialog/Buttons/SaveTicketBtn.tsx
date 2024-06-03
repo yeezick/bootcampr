@@ -60,7 +60,7 @@ export const SaveTicketBtn = () => {
       disabled={isEmptyString(ticketFields.title) || hasConflictedTicket}
       loading={isLoading}
       onClick={handleSaveTicket}
-      label={'Save Changes'}
+      label={'Save changes'}
     />
   )
 }
