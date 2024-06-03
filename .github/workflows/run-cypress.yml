@@ -6,7 +6,7 @@ env:
   CI: false
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   cypress-run:
