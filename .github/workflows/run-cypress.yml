@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: yeezick/bootcampr-backend
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PAT }}
           path: backend
           ref: development
       - name: Run backend
