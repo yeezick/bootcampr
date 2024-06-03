@@ -11,10 +11,6 @@ function convertToUTC(time, timezoneOffset) {
   return dayjs.tz(formatedTime, timezoneOffset).utc().format()
 }
 
-function getUTCOffset(time, timezoneIdentifier) {
-  return dayjs.tz(time, timezoneIdentifier).format('Z')
-}
-
 export const determineUserAvailability = (
   currMember,
   dateFields,
@@ -46,13 +42,6 @@ export const determineUserAvailability = (
     const timeSlotEndInUTC = convertToUTC(
       `${eventDate} ${timeSlotEnd}`,
       userTimezone
-    )
-
-    console.log(
-      'Availability for ',
-      currMember.firstName,
-      timeSlotStartInUTC,
-      timeSlotEndInUTC
     )
 
     const isLastSlot = i === dayAvailability.length - 1
