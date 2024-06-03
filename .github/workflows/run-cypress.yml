@@ -11,7 +11,8 @@ permissions:
 jobs:
   cypress-run:
     environment:
-      name: ${{ contains(github.ref_name, 'release/')  && 'staging' || 'development'}}
+      # name: ${{ contains(github.ref_name, 'release/')  && 'staging' || 'development'}}
+      name: ${{ 'development'}}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout backend
