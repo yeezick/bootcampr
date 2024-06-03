@@ -9,10 +9,39 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout backend
+        uses: actions/checkout@v4
+        with:
+          repository: yeezick/bootcampr-backend
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: backend
+          ref: development
+      - name: Run backend
+        run: |
+          cd backend && 
+          npm install && 
+          npm run dev & 
+          sleep 15 &&
+          curl http://localhost:8001 -I
+        env:
+          BACKEND_URL: http://localhost:8001
+          FRONTEND_URL: http://localhost:3000
+          TOKEN_KEY: ${{ vars.TOKEN_KEY }}
+          MONGODB_URI: ${{vars.MONGODB_URI}}
+          CALENDAR_CREDS: ${{ vars.CALENDAR_CREDS}}
+          CALENDAR_EMAIL: ${{ vars.CALENDAR_EMAIL }}
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          path: frontend
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
           build: npm run test:build
           start: npm start
+          record: true
+          wait-on: 'http://127.0.0.1:3000, http://127.0.0.1:8001'
+          wait-on-timeout: 120
+          working-directory: frontend
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}

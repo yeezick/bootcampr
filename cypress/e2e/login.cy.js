@@ -1,8 +1,9 @@
 // TODO: turn email creds into env var
+// TODo: should email apis be mocked?
 
 describe('Login screen', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/sign-in')
+    cy.visit('/sign-in')
   })
 
   it('User can log in', () => {
