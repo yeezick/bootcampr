@@ -4,6 +4,7 @@
 describe('Login screen', () => {
   beforeEach(() => {
     cy.visit('/sign-in')
+    cy.get('h1').contains('Log in').should('be.visible')
   })
 
   it('User can log in', () => {
