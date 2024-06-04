@@ -43,7 +43,11 @@ export const Overview = () => {
   return (
     <div className='overview'>
       {accordionData.map(item => (
-        <AccordionItem title={item.title} details={item.content} />
+        <AccordionItem
+          key={item.title}
+          title={item.title}
+          details={item.content}
+        />
       ))}
     </div>
   )

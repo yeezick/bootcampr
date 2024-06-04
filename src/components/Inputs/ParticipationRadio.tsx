@@ -12,12 +12,8 @@ import {
   selectCompletedInfo,
   updatePresenting,
 } from 'utils/redux/slices/projectSlice'
-
-interface ParticipationRadioProps {
-  labelText: string
-  setIsDisabled: React.Dispatch<React.SetStateAction<boolean>>
-  helperText?: string
-}
+import { ParticipationRadioProps } from 'interfaces/components'
+import './ParticipationRadio.scss'
 
 export const ParticipationRadio = ({
   labelText,
@@ -29,17 +25,16 @@ export const ParticipationRadio = ({
   const presenting = completedInfo.presenting
 
   const handleChange = e => {
-    const participating = e.target.value
+    const participating = e.target.value === 'true'
     dispatch(updatePresenting(participating))
-    setIsDisabled(false)
   }
 
   useEffect(() => {
-    presenting ? setIsDisabled(false) : setIsDisabled(true)
+    presenting !== null ? setIsDisabled(false) : setIsDisabled(true)
   }, [presenting, setIsDisabled])
 
   return (
-    <FormControl>
+    <FormControl className='participation-radio-container'>
       <label htmlFor='participationRadio'>
         <h2>{labelText}</h2>
       </label>
@@ -49,18 +44,22 @@ export const ParticipationRadio = ({
         onChange={handleChange}
       >
         <FormControlLabel
-          value='true'
-          control={<Radio className='participation-radio' />}
+          className='participation-radio'
+          value={true}
+          control={<Radio />}
           label='My team will participate'
         />
         <FormControlLabel
-          value='false'
-          control={<Radio className='participation-radio' />}
+          className='participation-radio'
+          value={false}
+          control={<Radio />}
           label='My team will not participate'
         />
-        <FormHelperText className='participation-helper-text'>
-          *Please let us know by {helperText} if you plan to participate.
-        </FormHelperText>
+        {helperText && (
+          <FormHelperText className='helper-text'>
+            *Please let us know by {helperText} if you plan to participate.
+          </FormHelperText>
+        )}
       </RadioGroup>
     </FormControl>
   )

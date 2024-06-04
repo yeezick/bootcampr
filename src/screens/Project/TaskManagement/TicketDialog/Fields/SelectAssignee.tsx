@@ -31,6 +31,7 @@ export const SelectAssignee = () => {
         className='select'
         name={'assignee'}
         onChange={handleAssigneeChange}
+        MenuProps={{ sx: { maxHeight: 400 } }}
         value={assignee}
       >
         <MenuItem value='Unassigned'>

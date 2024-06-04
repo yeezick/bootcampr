@@ -15,15 +15,13 @@ export const CommentFooter = ({
   return (
     <div className='comment-actions'>
       <LikeButton
-        commentId={commentId}
+        comment={comment}
         fetchComments={fetchComments}
-        likes={likes}
         toggleFetchComments={toggleFetchComments}
         isDisabled={hasConflictedTicket}
       />
       <AuthorActions
-        authorId={authorId}
-        commentId={commentId}
+        comment={comment}
         toggleEditMode={toggleEditMode}
         toggleFetchComments={toggleFetchComments}
         isDisabled={hasConflictedTicket}
