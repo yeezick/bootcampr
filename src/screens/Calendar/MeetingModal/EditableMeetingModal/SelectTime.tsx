@@ -43,7 +43,6 @@ export const SelectTime = ({ dateFields, setDateFields, type }) => {
           draft.end = combineDateWithTime(date, timeOptions[nextIdx])
         }
       })
-      console.log(updatedDateFields)
       setDateFields(updatedDateFields)
     } else if (type === 'end') {
       updatedDateFields[type] = combineDateWithTime(date, value)
