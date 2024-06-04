@@ -12,7 +12,7 @@ jobs:
   cypress-run:
     environment:
       # name: ${{ contains(github.ref_name, 'release/')  && 'staging' || 'development'}}
-      name: ${{ 'development'}}
+      name: development
     runs-on: ubuntu-latest
     steps:
       - name: Checkout backend
@@ -33,9 +33,12 @@ jobs:
           BACKEND_URL: http://localhost:8001
           FRONTEND_URL: http://localhost:3000
           TOKEN_KEY: ${{ vars.TOKEN_KEY }}
-          MONGODB_URI: ${{vars.MONGODB_URI}}
-          CALENDAR_CREDS: ${{ vars.CALENDAR_CREDS}}
+          MONGODB_URI: ${{ vars.MONGODB_URI }}
+          CALENDAR_CREDS: ${{ vars.CALENDAR_CREDS }}
           CALENDAR_EMAIL: ${{ vars.CALENDAR_EMAIL }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          SENDGRID_EMAIL: ${{ vars.SENDGRID_EMAIL }}
+          SENDGRID_ADMIN_EMAIL: ${{ vars.SENDGRID_ADMIN_EMAIL }}
       - name: Checkout
         uses: actions/checkout@v4
         with:
