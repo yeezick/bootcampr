@@ -11,6 +11,8 @@ describe('Login screen', () => {
     login('svc.jira.swe@gmail.com', 'gumballs')
     cy.url().should('include', '/project/')
     cy.window().its('localStorage.bootcamprAuthToken').should('be.a', 'string')
+    cy.get('h2').contains('Product Details').should('be.visible')
+    cy.get('h2').contains('Project Portal').should('be.visible')
   })
 
   it('User receives error for incorrect password', () => {
