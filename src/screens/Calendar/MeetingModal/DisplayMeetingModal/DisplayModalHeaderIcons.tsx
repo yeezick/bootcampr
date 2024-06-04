@@ -20,7 +20,7 @@ export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
   const calendarId = useAppSelector(selectCalendarId)
   const open = Boolean(anchorEl)
   const popoverId = open ? 'meeting-popover' : undefined
-
+  const [isLoading, setIsloading] = useState<boolean>(false)
   const handleClick = event => setAnchorEl(event.currentTarget)
   const handleClosePopover = () => setAnchorEl(null)
   const dispatch = useAppDispatch()
@@ -31,13 +31,16 @@ export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
   }
 
   const handleDelete = async e => {
+    setIsloading(true)
     try {
       await deleteEvent(calendarId, eventId)
       dispatch(deleteExistingEvent({ eventId }))
       dispatch(successSnackbar('Meeting canceled successfully.'))
       handleClose()
+      setIsloading(false)
     } catch (error) {
       console.log(error)
+      setIsloading(false)
     }
   }
 
@@ -45,6 +48,7 @@ export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
     <div className='modal-icons'>
       {!checkSandboxEvent(eventId) && <MoreVertIcon onClick={handleClick} />}
       <DisplayPopover
+        isLoading={isLoading}
         anchorEl={anchorEl}
         handleClosePopover={handleClosePopover}
         handleDelete={handleDelete}

@@ -20,19 +20,19 @@ export const getTicketComments = async (
 
 export const createComment = async commentData => {
   try {
-    const ticketData = await api.post('/comments/create', commentData)
-    return ticketData.data
+    const newComment = await api.post('/comments/create', commentData)
+    return newComment.data
   } catch (error) {
-    return { error: { status: 500, message: 'Failed to create comment' } }
+    return { error }
   }
 }
 
 export const deleteComment = async (commentId, ticketId) => {
   try {
-    const response = await api.delete(`/comments/${ticketId}/${commentId}`)
+    const response = await api.delete(`/comments/${commentId}/${ticketId}`)
     return { status: response.status }
   } catch (error) {
-    return { status: 500, message: 'Failed to delete comment' }
+    return { error: 'Failed to delete comment' }
   }
 }
 
@@ -44,7 +44,7 @@ export const updateComment = async (commentId, commentUpdates) => {
     )
     return { status: 200, ...response.data }
   } catch (error) {
-    return { error: { status: 500, message: 'Failed to update comment' } }
+    return { error: 'Failed to update comment' }
   }
 }
 

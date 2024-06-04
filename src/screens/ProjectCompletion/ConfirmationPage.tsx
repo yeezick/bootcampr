@@ -1,12 +1,13 @@
 import { useSelector } from 'react-redux'
 import { selectProject } from 'utils/redux/slices/projectSlice'
 import { useEffect, useState } from 'react'
-import { Stack } from '@mui/material'
-import { PrimaryButton } from 'components/Buttons'
 import { ProjectUrl } from 'components/Inputs/ProjectUrl'
 import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
 import { editProject } from 'utils/api'
-import { PaginatorButton } from 'components/Buttons/PaginatorButtons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { BackButton, PrimaryButton } from 'components/Buttons'
+import { errorSnackbar } from 'utils/helpers/commentHelpers'
+import { useAppDispatch } from 'utils/redux/hooks'
 
 export const ConfirmationPage = ({ handlePageNavigation }) => {
   const project = useSelector(selectProject)
@@ -14,102 +15,92 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
   const completedInfo = project.completedInfo
   const deployedUrl = completedInfo.deployedUrl
   const presenting = completedInfo.presenting
+  const dispatch = useAppDispatch()
   const [isInvalidUrl, setIsInvalidUrl] = useState(!deployedUrl)
   const [isInvalidRadio, setIsInvalidRadio] = useState(presenting === null)
   const [isDisabled, setIsDisabled] = useState(
     isInvalidUrl || isInvalidRadio ? true : false
   )
-  const [isLoading, setIsLoading] = useState(false)
-
-  //TODO: convert alerts to MUI toast to match Figma designs
-
-  useEffect(() => {
-    setIsLoading(false)
-  }, [setIsLoading])
+  const [isForwardLoading, setIsForwardLoading] = useState<boolean>(false)
+  const [isBackLoading, setIsBackLoading] = useState<boolean>(false)
 
   useEffect(() => {
     setIsDisabled(isInvalidUrl || isInvalidRadio ? true : false)
   }, [setIsDisabled, isInvalidUrl, isInvalidRadio])
 
-  const handleSubmit = async e => {
-    e.preventDefault()
-
+  const updateCompletedInfo = async () => {
     const updatedProject = {
       completedInfo: {
-        deployedUrl: deployedUrl,
         presenting: presenting,
+        deployedUrl: deployedUrl,
       },
     }
 
-    if (isDisabled) {
-      alert(
-        `Please enter a valid URL and indicate whether or not your team is presenting`
-      )
-      return
-    } else {
-      try {
-        setIsLoading(true)
-        const response = await editProject(projectID, updatedProject)
-
-        if (response) {
-          handlePageNavigation('next')
-          window.scrollTo(0, 0)
-          setIsLoading(false)
-        }
-      } catch (error) {
-        console.error(
-          `An error occurred while saving presentation details.`,
-          error
+    try {
+      await editProject(projectID, updatedProject)
+      window.scrollTo(0, 0)
+    } catch (error) {
+      console.error(error)
+      dispatch(
+        errorSnackbar(
+          'Presentation information failed to save. Please try again.'
         )
-        setIsLoading(false)
-      }
+      )
     }
   }
 
-  const handleCancel = () => {
-    handlePageNavigation('previous')
-    window.scrollTo(0, 0)
+  const handleNavigationButtons = async (direction: 'previous' | 'next') => {
+    const setLoading =
+      direction === 'next' ? setIsForwardLoading : setIsBackLoading
+
+    setLoading(true)
+    try {
+      await updateCompletedInfo()
+      handlePageNavigation(direction)
+    } finally {
+      setLoading(false)
+    }
   }
+
+  const handlePrevious = () => handleNavigationButtons('previous')
+  const handleNext = () => handleNavigationButtons('next')
 
   return (
     <div
       className='project-completion-confirmation-page'
       aria-labelledby='formHeader'
     >
-      <form>
-        <section className='title'>
-          <h1 id='formHeader'>Great! You’re almost done!</h1>
-          <p>
-            Make sure to double check the information and submit your project!
-          </p>
-        </section>
+      <section className='title'>
+        <h1 id='formHeader'>Great! You’re almost done!</h1>
+        <p>
+          Make sure to double check the information and submit your project!
+        </p>
+      </section>
 
-        <section className='url-container'>
-          <ProjectUrl setIsDisabled={setIsInvalidUrl} />
-        </section>
+      <section className='url-container'>
+        <ProjectUrl setIsDisabled={setIsInvalidUrl} labelText='Project URL' />
+      </section>
 
-        <section className='participation-container'>
-          <ParticipationRadio
-            labelText='Presentation'
-            setIsDisabled={setIsInvalidRadio}
-          />
-        </section>
+      <section className='participation-container'>
+        <ParticipationRadio
+          labelText='Presentation'
+          setIsDisabled={setIsInvalidRadio}
+        />
+      </section>
 
-        <Stack className='btn-container'>
-          <PaginatorButton
-            buttonType='secondary'
-            handler={handleCancel}
-            text='Presentation'
-          />
-          <PrimaryButton
-            aria-disabled={isDisabled || isLoading}
-            disabled={isDisabled || isLoading}
-            text='Submit'
-            type='submit'
-            handler={handleSubmit}
-          />
-        </Stack>
-      </form>
+      <ButtonContainer gap={16}>
+        <BackButton
+          onClick={handlePrevious}
+          label='Presentation'
+          loading={isBackLoading}
+        />
+        <PrimaryButton
+          onClick={handleNext}
+          label='Submit'
+          disabled={isDisabled}
+          loading={isForwardLoading}
+        />
+      </ButtonContainer>
     </div>
   )
 }

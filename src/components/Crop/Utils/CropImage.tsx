@@ -5,6 +5,7 @@ import loadImage from 'blueimp-load-image'
 export const createImage = (url: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
     const image = new Image()
+    image.crossOrigin = 'anonymous'
     // Resolve the promise when the image is successfully loaded
     image.addEventListener('load', () => resolve(image))
     // Reject the promise if there's an error loading the image

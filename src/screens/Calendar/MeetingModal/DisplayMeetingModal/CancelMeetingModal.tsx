@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
 import { CancelMeetingButtons } from './CancelMeetingButtons'
 
@@ -7,6 +6,7 @@ export const CancelMeetingModal = ({
   openModal,
   handleCloseModal,
   handleDelete,
+  isLoading,
 }) => {
   return (
     <div>
@@ -24,6 +24,7 @@ export const CancelMeetingModal = ({
           <CancelMeetingButtons
             handleCloseModal={handleCloseModal}
             handleDelete={handleDelete}
+            isLoading={isLoading}
           />
         </Box>
       </Modal>

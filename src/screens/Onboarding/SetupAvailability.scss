@@ -21,19 +21,4 @@
       line-height: 24px;
     }
   }
-
-  .setup-avail-buttons-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 32px;
-
-    .setup-avail-buttons {
-      display: flex;
-      justify-content: space-between;
-
-      .MuiButtonBase-root {
-        text-transform: none;
-      }
-    }
-  }
 }

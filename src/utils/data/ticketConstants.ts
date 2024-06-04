@@ -18,7 +18,7 @@ export const sampleComment = [
     _id: sampleCommentId,
     likes: [],
     content: 'This is a sample comment',
-    authorId: 'sillyGoose',
+    authorId: 'danaDesigner',
     replies: [sampleReplyId],
     isReply: false,
     createdAt: sampleCommentDate,
@@ -29,9 +29,9 @@ export const sampleComment = [
 export const sampleReply = [
   {
     _id: sampleReplyId,
-    likes: ['sillyGoose'],
+    likes: ['danaDesigner'],
     content: 'This is a sample reply',
-    authorId: 'starStruck',
+    authorId: 'edwardEngineer',
     replies: [],
     isReply: true,
     createdAt: sampleReplyDate,

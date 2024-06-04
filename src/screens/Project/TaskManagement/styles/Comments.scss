@@ -11,9 +11,9 @@
     gap: 16px;
     padding: 8px 16px 12px 16px;
     width: 100%;
-   
+
     p {
-        margin: 0;
+      margin: 0;
     }
 
     .comment-actions {
@@ -32,7 +32,11 @@
         }
 
         .MuiSvgIcon-root {
-          color: #1A237E
+          color: #1a237e;
+        }
+
+        &.disabled {
+          pointer-events: none;
         }
       }
 
@@ -40,14 +44,14 @@
         align-items: center;
         display: flex;
         justify-content: row;
-        
+
         .MuiSvgIcon-root {
           font-size: 5px;
           margin: 0 5px;
         }
 
         .MuiButtonBase-root {
-          color: #1A237E;
+          color: #1a237e;
           font-size: 14px;
           text-transform: none;
         }
@@ -56,10 +60,10 @@
 
     .comment-content {
       p {
-          font-size: 16px;
+        font-size: 16px;
       }
     }
-  
+
     .comment-top-banner {
       display: flex;
       flex-direction: row;
@@ -67,23 +71,24 @@
 
       .comment-author {
         p {
-            font-size: 16px;
-            font-weight: 600;
-            line-height: 24px;
-            letter-spacing: .5px;
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 24px;
+          letter-spacing: 0.5px;
         }
       }
-  
+
       .comment-date-time {
         p {
-            color: rgb(87, 87, 87);
-            font-size: 14px;
+          color: rgb(87, 87, 87);
+          font-size: 14px;
         }
       }
     }
   }
 
-  .comment-input-banner, .comment-container {
+  .comment-input-banner,
+  .comment-container {
     img {
       border-radius: 50%;
       height: 24px;
@@ -97,7 +102,7 @@
     flex-direction: row;
     margin-top: 15px;
   }
- 
+
   .comment-input-banner {
     display: flex;
     align-items: center;
@@ -114,25 +119,25 @@
       font-size: 14px;
       width: 100%;
 
-    .MuiInputBase-root {
-      padding: 0;
-    }
-    
-    .MuiOutlinedInput-input {
-      padding: 8px 0 8px 16px;;
+      .MuiInputBase-root {
+        padding: 0;
+      }
+
+      .MuiOutlinedInput-input {
+        padding: 8px 0 8px 16px;
+      }
+
+      .MuiOutlinedInput-notchedOutline {
+        border-radius: 4px;
+        border-color: #212121;
+      }
     }
 
-    .MuiOutlinedInput-notchedOutline {
-      border-radius: 4px;
-      border-color: #212121;
-    }
-  }
-
-  input:focus {
+    input:focus {
       outline: none;
     }
   }
-      
+
   .comment-thumbnail {
     margin-top: 5px;
   }
@@ -142,12 +147,6 @@
     flex-direction: column;
     height: fit-content;
     width: 100%;
-
-    .edit-buttons {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 5px;
-    }
 
     .MuiOutlinedInput-notchedOutline {
       border: none;

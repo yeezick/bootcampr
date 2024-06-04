@@ -1,4 +1,3 @@
-import { createSerializableStateInvariantMiddleware } from '@reduxjs/toolkit'
 import { ProjectInterface } from 'interfaces'
 import { TimezonesUTC } from 'utils/data/timeZoneConstants'
 
@@ -22,8 +21,6 @@ export interface UserInterface {
   project?: string
   onboarded?: boolean
   profilePicture?: string
-  defaultProfilePicture: string
-  hasProfilePicture?: boolean
   role?: 'Software Engineer' | 'UX Designer' | 'Product Manager' | ''
   unreadMessages?: {}
   savedProjects?: ProjectInterface[]

@@ -16,6 +16,12 @@
     font-size: 24px;
   }
 
+  //Loading spinner styles
+  .MuiCircularProgress-root {
+    position: absolute;
+    transform: translate(-50%, -50%);
+  }
+
   //Shared styling for hovered, active, and disabled states
   &.primary,
   &.secondary,

@@ -10,28 +10,30 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 2;
+  z-index: 3;
 
   .body {
-    @include flex(row, normal,  center);
+    @include flex(row, normal, center);
     background: #ffffff;
     box-shadow: 0px 1px 3px 1px rgba(26, 35, 126, 0.15),
-    0px 1px 2px 0px rgba(26, 36, 126, 0.3);
+      0px 1px 2px 0px rgba(26, 36, 126, 0.3);
     gap: 16px;
     height: 100%;
     width: 100%;
     z-index: 1;
 
     h2 {
-      @include font-properties((
+      @include font-properties(
+        (
           line-height: 40px,
           weight: 700,
           size: 32px,
-          ));
-          color: #313335;
-          font-style: normal;
-          margin: 0;
-          padding-left: 32px;
-        }
+        )
+      );
+      color: #313335;
+      font-style: normal;
+      margin: 0;
+      padding-left: 32px;
     }
+  }
 }

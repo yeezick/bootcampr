@@ -18,8 +18,12 @@
     padding: 32px;
   }
 
+  &.container:focus-visible {
+    outline: none;
+  }
+
   &.contents {
-    align-items: end;
+    align-items: flex-end;
     display: flex;
     flex-direction: column;
     row-gap: 16px;
@@ -92,40 +96,5 @@
     line-height: 16px;
     padding: 0px 16px;
     margin-bottom: -20px;
-  }
-
-  &.buttons {
-    column-gap: 8px;
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 16px;
-
-    .cancel,
-    .confirm {
-      height: 40px;
-      text-transform: unset !important;
-    }
-
-    .cancel {
-      color: #1a237e;
-      padding: 0px 12px;
-
-      &:hover {
-        background: #00000014;
-      }
-
-      &:active {
-        background: #0000001f;
-      }
-    }
-
-    .confirm {
-      font-weight: 500;
-      padding: 0px 24px;
-
-      &:disabled {
-        opacity: 0.5;
-      }
-    }
   }
 }

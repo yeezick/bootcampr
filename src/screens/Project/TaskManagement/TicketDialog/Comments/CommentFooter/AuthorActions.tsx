@@ -6,11 +6,12 @@ import { selectUserId } from 'utils/redux/slices/userSlice'
 import { DeleteCommentDialog } from './DeleteCommentDialog'
 
 export const AuthorActions = ({
-  authorId,
-  commentId,
+  comment,
   toggleEditMode,
   toggleFetchComments,
+  isDisabled,
 }) => {
+  const { authorId, _id: commentId } = comment
   const [deleteDialog, toggleDeleteDialog] = useState(false)
   const userId = useAppSelector(selectUserId)
   const allowEditComment = () => toggleEditMode(state => !state)
@@ -19,13 +20,19 @@ export const AuthorActions = ({
   if (authorId === userId) {
     return (
       <div className='author-actions'>
-        <Button onClick={allowEditComment} sx={{ minWidth: '0' }}>
+        <Button
+          onClick={allowEditComment}
+          sx={{ minWidth: '0' }}
+          disabled={isDisabled}
+        >
           Edit
         </Button>
         {fetchIcon('circle')}
-        <Button onClick={deleteThisComment}>Delete</Button>
+        <Button onClick={deleteThisComment} disabled={isDisabled}>
+          Delete
+        </Button>
         <DeleteCommentDialog
-          commentId={commentId}
+          comment={comment}
           open={deleteDialog}
           toggleDeleteDialog={toggleDeleteDialog}
           toggleFetchComments={toggleFetchComments}

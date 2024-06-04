@@ -1,4 +1,4 @@
-import { Button, IconButton } from '@mui/material'
+import { Button, CircularProgress, IconButton } from '@mui/material'
 import {
   CommonButtonProps,
   ConditionalButtonProps,
@@ -15,32 +15,63 @@ import './Buttons.scss'
 
 export const createButton = (props: CommonButtonProps) => {
   const {
-    children,
     colorScheme = 'primary',
     endIcon,
-    //TODO: remove handler prop and utilize onClick instead. Implement during app-wide button refactor
-    handler,
     startIcon,
-    text,
+    label,
+    loading,
+    onClick,
     ...MuiProps
   } = props
 
   const conditionalProps: ConditionalButtonProps = {
     ...MuiProps,
+    'aria-label': label + ' button',
     disableElevation: true,
     disableRipple: true,
-    onClick: handler,
     style: MuiProps.style,
     variant: MuiProps.variant,
     ...(startIcon && { startIcon: fetchIcon(startIcon) }),
     ...(endIcon && { endIcon: fetchIcon(endIcon) }),
   }
 
+  const sentenceCaseLabel = label
+    ? label.trim().charAt(0).toUpperCase() + label.trim().slice(1).toLowerCase()
+    : ''
+
   return (
-    <Button className={`common-button ${colorScheme}`} {...conditionalProps}>
-      {text}
-      {children}
+    <Button
+      className={`common-button ${colorScheme}`}
+      {...conditionalProps}
+      onClick={onClick}
+    >
+      <span style={{ visibility: loading ? 'hidden' : 'visible' }}>
+        {sentenceCaseLabel}
+      </span>
+      {loading && <CustomLoadingSpinner />}
     </Button>
+  )
+}
+
+const CustomLoadingSpinner = () => {
+  return (
+    <>
+      <CircularProgress
+        size={'25px'}
+        variant='determinate'
+        value={100}
+        sx={{
+          color: 'white',
+        }}
+      />
+      <CircularProgress
+        size={'25px'}
+        variant='indeterminate'
+        sx={{
+          color: '#1a237e',
+        }}
+      />
+    </>
   )
 }
 
@@ -50,12 +81,11 @@ export const createButton = (props: CommonButtonProps) => {
  * @see {@link 'src/components/Buttons/ButtonVariants.ts'} for example usage.
  */
 export const createIconButton = (props: IconBtnProps) => {
-  const { handler, filled, icon, iconSize, ...MuiProps } = props
+  const { filled, icon, iconSize, ...MuiProps } = props
   const conditionalProps = {
     ...MuiProps,
     children: fetchIcon(icon),
     disableRipple: true,
-    onClick: handler,
     style: MuiProps.style,
   }
 

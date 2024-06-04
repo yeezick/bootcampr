@@ -26,7 +26,7 @@ export const SelectAttendees = ({
   const isSandboxEvent = calendarId === 'sandbox'
   const filteredMembers = projectMembers.filter(members => {
     if (isSandboxEvent) {
-      return members.email !== 'star@struck.com'
+      return members.email !== 'dana@designer.com'
     } else {
       return members.email !== authUserEmail
     }

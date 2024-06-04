@@ -115,7 +115,7 @@ export const ChatPageHeader = () => {
       dispatch(onScreenUpdate(ChatScreen.EditChatRoom))
     } else {
       const user = participants.find(
-        partipant => partipant.userInfo._id !== authUser._id
+        participant => participant.userInfo._id !== authUser._id
       )
       if (user) {
         const userId = user.userInfo._id

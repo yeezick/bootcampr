@@ -35,7 +35,7 @@ export const buildSandboxEvent = (eventInfo, eventId?): ConvertedEvent => {
   return {
     attendees: updatedAttendees,
     description,
-    creator: 'star@struck.com',
+    creator: 'dana@designer.com',
     end: endTime,
     eventId: eventId || generateHexadecimal(),
     googleDateFields: {

@@ -6,23 +6,24 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { api } from 'utils/api/apiConfig'
 import { createSnackBar } from 'utils/redux/slices/snackBarSlice'
+import { PrimaryButton } from 'components/Buttons'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { updateEmailAddress } from 'utils/api'
+import { errorSnackbar } from 'utils/helpers/commentHelpers'
 
 export const Email = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const [newEmail, setNewEmail] = useState('')
-  const [reEnterNewEmail, setReEnterNewEmail] = useState('')
-  const [emailMatch, setEmailMatch] = useState(false)
-  const [nonEmpty, setNonEmpty] = useState(false)
   const [isDisabled, toggleIsDisabled] = useState(true)
   const [isValidEmail, setValidEmail] = useState(true)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const currentUserEmail = authUser.email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
   const refreshForm = () => {
     setNewEmail('')
-    setReEnterNewEmail('')
     toggleIsDisabled(true)
     setValidEmail(true)
   }
@@ -36,40 +37,28 @@ export const Email = () => {
     }
   }
 
-  const checkIfEmailsMatch = () => {
-    const validation = newEmail === reEnterNewEmail
-    setEmailMatch(validation)
-    return validation
-  }
-
   const handleUpdateNewEmail = async () => {
-    if (isDisabled) {
-      return
+    setIsLoading(true)
+    const response = await updateEmailAddress(newEmail, authUser._id)
+
+    if (response.status === 201) {
+      const encodedEmail = btoa(newEmail)
+      navigate(
+        `/users/${authUser._id}/update-email-confirmation?${encodedEmail}`
+      )
+    } else {
+      dispatch(errorSnackbar('There was an error updating your email'))
     }
-    const response = await updateEmailAddress(
-      currentUserEmail,
-      newEmail,
-      authUser,
-      navigate
-    )
-    const severity = response.status >= 400 ? 'error' : 'success'
-    const backUpMessage = severity === 'error' ? 'Unexpected Error' : 'Success'
-    dispatch(
-      createSnackBar({
-        message: response.data.friendlyMessage || backUpMessage,
-        severity,
-      })
-    )
+    setIsLoading(false)
   }
 
   useEffect(() => {
-    setNonEmpty(newEmail.length > 1 && reEnterNewEmail.length > 1)
-    if (newEmail.length > 0 && isValidEmail) {
+    if (newEmail.trim().length > 0 && isValidEmail) {
       toggleIsDisabled(false)
     } else {
       toggleIsDisabled(true)
     }
-  }, [newEmail, reEnterNewEmail, isDisabled])
+  }, [newEmail])
 
   return (
     <div className='settings-card'>
@@ -89,39 +78,14 @@ export const Email = () => {
         />
         {!isValidEmail && <p className='invalid-msg'>Invalid email address</p>}
       </div>
-      <div className='buttons'>
-        <button
-          className='update'
+      <ButtonContainer style={{ marginTop: '32px' }}>
+        <PrimaryButton
+          loading={isLoading}
           disabled={isDisabled}
           onClick={handleUpdateNewEmail}
-        >
-          Update email address
-        </button>
-      </div>
+          label='Update email address'
+        />
+      </ButtonContainer>
     </div>
   )
-}
-
-export const updateEmailAddress = async (
-  currentUserEmail,
-  newEmail,
-  authUser,
-  navigate
-) => {
-  const reqBody = {
-    userId: authUser._id,
-    oldEmail: currentUserEmail,
-    newEmail: newEmail,
-  }
-  const response = await api.post(
-    `/users/${authUser._id}/update-email-verification`,
-    reqBody
-  )
-  // only redirect to info page if above response is successful
-  if (response.status === 201) {
-    const encodedEmail = btoa(newEmail)
-    navigate(`/users/${authUser._id}/update-email-confirmation?${encodedEmail}`)
-  }
-
-  return response
 }
