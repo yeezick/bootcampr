@@ -26,7 +26,8 @@ jobs:
         run: |
           cd backend && 
           npm install && 
-          npm run dev
+          npm run dev & 
+          sleep 5
         env:
           BACKEND_URL: http://localhost:8001
           FRONTEND_URL: http://localhost:3000
