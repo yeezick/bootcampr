@@ -44,7 +44,7 @@ export const SelectTimeInput = ({
   return (
     <Select
       defaultValue={slot[index]}
-      inputProps={{ sx: { padding: '8px 13px !important' } }}
+      inputProps={{ sx: { padding: '8px 13px' } }}
       MenuProps={menuPropsSX}
       name={`${day}-${idx}-${index}`}
       onChange={e => handleTimeChange(e, days, setDays, isStart)}
@@ -63,6 +63,7 @@ export const SelectTimeInput = ({
 
 const selectSX = {
   padding: '0 !important',
+  margin: '0px',
   fontSize: '16px',
   '& .MuiSvgIcon-root': { display: 'none' },
   backgroundColor: '#fefefe',
@@ -74,6 +75,9 @@ const selectSX = {
     border: 1,
     borderColor: 'black',
   },
+  '&.MuiPaper-root': {
+    marginLeft: '0px',
+  },
   width: '108px',
   elevation: '0',
 }
@@ -82,10 +86,11 @@ const menuPropsSX = {
   PaperProps: {
     sx: {
       boxShadow: 0,
-      marginLeft: 2.5,
+      marginLeft: 0,
       marginTop: 0.5,
       maxHeight: 340,
-      width: 130,
+      width: 110,
     },
   },
+  disableScrollLock: true,
 }

@@ -54,9 +54,7 @@ export const AccountDropdown = ({ anchorEl, closeDropdown }) => {
           horizontal: 'right',
         }}
         id='custom-menu-paper'
-        classes={{
-          paper: 'custom-menu-paper',
-        }}
+        disableScrollLock={true}
       >
         <MenuItem onClick={handleClose}>View Profile</MenuItem>
         <MenuItem onClick={handleClose}>Settings</MenuItem>
