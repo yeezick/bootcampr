@@ -274,3 +274,30 @@ export const updateWeekDayNumber = teamCommonAvailability => {
 
   return teamCommonAvailability
 }
+
+export const formatAvailabilityDate = (
+  sundayDate,
+  dayOfWeek,
+  startTime,
+  endTime
+) => {
+  const start = dayjs(`${sundayDate} ${startTime}`)
+    .day(Number(dayOfWeek))
+    .format('YYYY-MM-DDTHH:mm:ss')
+  const end = dayjs(`${sundayDate} ${endTime}`)
+    .day(Number(dayOfWeek))
+    .format('YYYY-MM-DDTHH:mm:ss')
+  return {
+    start: dayjs.tz(start, 'America/New_York').format('YYYY-MM-DDTHH:mm:ssZ'),
+    end: dayjs.tz(end, 'America/New_York').format('YYYY-MM-DDTHH:mm:ssZ'),
+  }
+}
+
+export const generateTeamAvailabilityEvent = (start, end) => ({
+  title: 'Team Availability',
+  start: start,
+  end: end,
+  backgroundColor: '#E8F5E9',
+  borderColor: '#388E3C',
+  timeZone: 'America/New_York',
+})
