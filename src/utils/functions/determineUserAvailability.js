@@ -1,15 +1,5 @@
-import { generateDayJs } from 'utils/helpers'
+import { generateDayJs, convertToUTC } from 'utils/helpers'
 import { dayJSformattedTZdata } from 'utils/data/timeZoneConstants'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
-dayjs.extend(utc)
-dayjs.extend(timezone)
-
-function convertToUTC(time, timezoneOffset) {
-  const formatedTime = dayjs(time).format('YYYY-MM-DDTHH:mm:ss')
-  return dayjs.tz(formatedTime, timezoneOffset).utc().format()
-}
 
 export const determineUserAvailability = (
   currMember,
