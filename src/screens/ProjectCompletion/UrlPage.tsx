@@ -11,33 +11,61 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 import { ForwardButton, SecondaryButton } from 'components/Buttons'
+import { editProject } from 'utils/api'
+import { errorSnackbar } from 'utils/helpers/commentHelpers'
 
 export const UrlPage = ({ handlePageNavigation }) => {
   const project = useSelector(selectProject)
   const projectID = project._id
+  const completedInfo = project.completedInfo
+  const deployedUrl = completedInfo.deployedUrl
   const [isDisabled, setIsDisabled] = useState(true)
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
+  const [isForwardLoading, setIsForwardLoading] = useState<boolean>(false)
+  const [isCancelLoading, setIsCancelLoading] = useState<boolean>(false)
 
-  //TODO: convert alerts to MUI toast to match Figma designs
-
-  const handleSubmit = e => {
-    e.preventDefault()
-
+  const withLoadingState = (loadingSetter, asyncFunction) => async () => {
+    loadingSetter(true)
     try {
-      setIsDisabled(true)
-      handlePageNavigation('next')
-      window.scrollTo(0, 0)
+      await asyncFunction()
     } catch (err) {
-      console.log(err)
+      console.error(err)
+      dispatch(errorSnackbar('Url failed to save. Please try again.'))
+    } finally {
+      loadingSetter(false)
     }
   }
 
-  const handleCancel = () => {
+  const handleSubmitAction = async () => {
+    const updatedProject = {
+      completedInfo: {
+        ...completedInfo,
+        deployedUrl: deployedUrl,
+      },
+    }
+
+    await editProject(projectID, updatedProject)
+    handlePageNavigation('next')
+    window.scrollTo(0, 0)
+  }
+
+  const handleCancelAction = async () => {
+    const updatedProject = {
+      completedInfo: {
+        deployedUrl: '',
+        presenting: null,
+      },
+    }
+
+    await editProject(projectID, updatedProject)
     navigate(`/project/${projectID}`)
     dispatch(updateDeployedUrl(''))
     dispatch(updatePresenting(null))
   }
+
+  const handleNext = withLoadingState(setIsForwardLoading, handleSubmitAction)
+  const handleCancel = withLoadingState(setIsCancelLoading, handleCancelAction)
 
   return (
     <div className='project-completion-url-page' aria-labelledby='formHeading'>
@@ -45,13 +73,18 @@ export const UrlPage = ({ handlePageNavigation }) => {
       <form>
         <Stack className='form-content' spacing={'32px'}>
           <p>First, input the URL to your website.</p>
-          <ProjectUrl setIsDisabled={setIsDisabled} />
+          <ProjectUrl setIsDisabled={setIsDisabled} labelText='Project URL' />
           <ButtonContainer gap={16}>
-            <SecondaryButton onClick={handleCancel} label='Cancel' />
+            <SecondaryButton
+              onClick={handleCancel}
+              label='Cancel'
+              loading={isCancelLoading}
+            />
             <ForwardButton
-              disabled={isDisabled}
+              onClick={handleNext}
               label='Presentation'
-              onClick={handleSubmit}
+              disabled={isDisabled}
+              loading={isForwardLoading}
             />
           </ButtonContainer>
         </Stack>

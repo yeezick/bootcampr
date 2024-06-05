@@ -7,8 +7,15 @@ import { EditComment } from './EditComment'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectUsersById } from 'utils/redux/slices/projectSlice'
 import { generateDefaultPicture } from 'utils/helpers'
+import { Replies } from './Replies'
+import { CommentProps } from 'interfaces/Comments'
 
-export const Comment = ({ comment, fetchComments, toggleFetchComments }) => {
+export const Comment = ({
+  comment,
+  fetchComments,
+  isReply,
+  toggleFetchComments,
+}: CommentProps) => {
   const { authorId, createdAt } = comment
   const [authorData] = useAppSelector(selectUsersById([authorId]))
   const [editMode, toggleEditMode] = useState(false)
@@ -17,26 +24,35 @@ export const Comment = ({ comment, fetchComments, toggleFetchComments }) => {
     profilePicture || generateDefaultPicture(firstName, lastName)
 
   return (
-    <div className='comment-container'>
-      <img className='comment-thumbnail' src={authorProfilePicture} />
-      {editMode ? (
-        <EditComment
-          comment={comment}
-          toggleEditMode={toggleEditMode}
-          toggleFetchComments={toggleFetchComments}
-        />
-      ) : (
-        <div className='comment-card'>
-          <CommentHeader authorId={authorId} createdAt={createdAt} />
-          <CommentContent comment={comment} />
-          <CommentFooter
+    <>
+      <div className='comment-container'>
+        <img className='comment-thumbnail' src={authorProfilePicture} />
+        {editMode ? (
+          <EditComment
             comment={comment}
-            fetchComments={fetchComments}
             toggleEditMode={toggleEditMode}
             toggleFetchComments={toggleFetchComments}
           />
-        </div>
+        ) : (
+          <div className='comment-card'>
+            <CommentHeader authorId={authorId} createdAt={createdAt} />
+            <CommentContent comment={comment} />
+            <CommentFooter
+              comment={comment}
+              fetchComments={fetchComments}
+              toggleEditMode={toggleEditMode}
+              toggleFetchComments={toggleFetchComments}
+            />
+          </div>
+        )}
+      </div>
+      {!isReply && (
+        <Replies
+          parentComment={comment}
+          toggleFetchComments={toggleFetchComments}
+          fetchComments={fetchComments}
+        />
       )}
-    </div>
+    </>
   )
 }

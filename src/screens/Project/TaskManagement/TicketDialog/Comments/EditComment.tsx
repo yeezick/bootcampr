@@ -6,6 +6,7 @@ import { TextField } from '@mui/material'
 import { updateComment } from 'utils/api/comments'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
+import { updateReply } from 'utils/api/replies'
 
 export const EditComment = ({
   comment,
@@ -13,22 +14,30 @@ export const EditComment = ({
   toggleFetchComments,
 }) => {
   const { authorId, _id: commentId, content, createdAt } = comment
-  const [updatedComment, setUpdatedComment] = useState(content)
+  const [updatedContent, setUpdatedContent] = useState(content)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const handleCancel = () => toggleEditMode(false)
-  const handleInputChange = e => setUpdatedComment(e.target.value)
+  const handleInputChange = e => setUpdatedContent(e.target.value)
+  const isReply = comment.parentId ? true : false
 
   const handleSave = async e => {
     setIsLoading(true)
-    const updateResponse = await updateComment(commentId, {
-      content: updatedComment,
-    })
-
-    if (updateResponse.status === 200) {
-      dispatch(successSnackbar('Changes saved!'))
+    let updateResponse
+    if (isReply) {
+      updateResponse = await updateReply(commentId, {
+        content: updatedContent,
+      })
     } else {
-      dispatch(errorSnackbar(updateResponse.error.message))
+      updateResponse = await updateComment(commentId, {
+        content: updatedContent,
+      })
+    }
+
+    if (updateResponse.error) {
+      dispatch(errorSnackbar(updateResponse.error))
+    } else {
+      dispatch(successSnackbar('Changes saved!'))
     }
 
     toggleFetchComments(state => !state)
@@ -41,7 +50,7 @@ export const EditComment = ({
       <div className='comment-card'>
         <CommentHeader authorId={authorId} createdAt={createdAt} />
         <TextField
-          value={updatedComment}
+          value={updatedContent}
           onChange={handleInputChange}
           multiline
         />
