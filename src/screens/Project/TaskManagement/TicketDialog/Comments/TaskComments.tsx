@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { TicketTextLabel } from '../Fields'
-import { NewComment } from './InputBanner'
+import { NewComment } from './NewComment'
 import { Comment } from './Comment'
-import { CommentType } from 'interfaces/TaskBoardInterface'
 import { getTicketComments } from 'utils/api/comments'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
@@ -10,7 +9,6 @@ import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
 export const TaskComments = () => {
   const { _id: ticketId } = useAppSelector(selectTicketFields)
   const [comments, setComments] = useState([])
-  // BC-763: High priority! Makes an API call for each reply thread for every comment action
   const [fetchComments, toggleFetchComments] = useState(false)
 
   useEffect(() => {
@@ -25,25 +23,17 @@ export const TaskComments = () => {
     <div className='comments-container'>
       <TicketTextLabel icon={'chatBubble'} label='Comments' />
       <NewComment
-        commentType={CommentType.Parent}
         toggleFetchComments={toggleFetchComments}
         fetchComments={fetchComments}
       />
       <div>
         {comments?.map(comment => (
-          <>
-            <Comment
-              comment={comment}
-              toggleFetchComments={toggleFetchComments}
-              fetchComments={fetchComments}
-              key={comment._id}
-            />
-            {/* <Replies // Need ticket to fix 
-              parentComment={comment}
-              toggleFetchComments={toggleFetchComments}
-              fetchComments={fetchComments}
-            /> */}
-          </>
+          <Comment
+            comment={comment}
+            toggleFetchComments={toggleFetchComments}
+            fetchComments={fetchComments}
+            key={comment._id}
+          />
         ))}
       </div>
     </div>
