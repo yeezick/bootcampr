@@ -85,7 +85,12 @@ export const Avatar: React.FC<AvatarProps> = ({
   const handleAvatarIconClick = () => {
     if (!hasIcon) return
 
-    if (profilePicture !== defaultImageURL && profilePicture !== '') {
+    const isProfilePictureSet =
+      profilePicture !== defaultImageURL &&
+      profilePicture !== '' &&
+      profilePicture !== undefined
+
+    if (isProfilePictureSet) {
       setIsImageEditorOpen(true)
       setImageUploaded(true)
     } else {
