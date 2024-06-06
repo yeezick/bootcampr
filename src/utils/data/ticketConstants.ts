@@ -12,30 +12,32 @@ const sampleCommentId = generateHexadecimal()
 const sampleReplyId = generateHexadecimal()
 const sampleCommentDate = blankDayJs().format()
 const sampleReplyDate = blankDayJs().add(1, 'hour').format()
+const sampleTicketId = '66551cc616071a6eb0beb998'
 
-export const sampleComment = [
+export const sampleReply = [
   {
-    _id: sampleCommentId,
-    likes: [],
-    content: 'This is a sample comment',
-    authorId: 'danaDesigner',
-    replies: [sampleReplyId],
-    isReply: false,
-    createdAt: sampleCommentDate,
-    updatedAt: sampleCommentDate,
+    authorId: 'edwardEngineer',
+    content: 'This is a sample reply',
+    createdAt: sampleReplyDate,
+    likes: ['danaDesigner'],
+    ticketId: sampleTicketId,
+    parentId: sampleCommentId,
+    updatedAt: sampleReplyDate,
+    _id: sampleReplyId,
     __v: 0,
   },
 ]
-export const sampleReply = [
+
+export const sampleComment = [
   {
-    _id: sampleReplyId,
-    likes: ['danaDesigner'],
-    content: 'This is a sample reply',
-    authorId: 'edwardEngineer',
-    replies: [],
-    isReply: true,
-    createdAt: sampleReplyDate,
-    updatedAt: sampleReplyDate,
+    authorId: 'danaDesigner',
+    content: 'This is a sample comment',
+    createdAt: sampleCommentDate,
+    likes: [],
+    replies: sampleReply,
+    ticketId: sampleTicketId,
+    updatedAt: sampleCommentDate,
+    _id: sampleCommentId,
     __v: 0,
   },
 ]
