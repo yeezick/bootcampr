@@ -7,6 +7,7 @@ import userReducer from 'utils/redux/slices/userSlice'
 import snackBarSlice from './slices/snackBarSlice'
 import userInterfaceReducer from './slices/userInterfaceSlice'
 import taskBoardSlice from './slices/taskBoardSlice'
+import teamMembersReducer from './slices/teamMembers'
 
 export type RootState = {
   calendar: ReturnType<typeof calendarReducer>
@@ -17,6 +18,7 @@ export type RootState = {
   taskBoard: ReturnType<typeof taskBoardSlice>
   ui: ReturnType<typeof userReducer> // todo: rename to user
   userInterface: ReturnType<typeof userInterfaceReducer>
+  teamMembers: ReturnType<typeof teamMembersReducer>
 }
 
 /**
@@ -31,6 +33,7 @@ const appReducer: Reducer<RootState> = combineReducers({
   taskBoard: taskBoardSlice,
   ui: userReducer,
   userInterface: userInterfaceReducer,
+  teamMembers: teamMembersReducer,
 })
 
 const rootReducer: Reducer<RootState> = (state, action) => {
