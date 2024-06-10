@@ -1,8 +1,10 @@
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectBanner } from 'utils/redux/slices/userInterfaceSlice'
 import {
   selectIsRecurringUnpaidUser,
+  selectIsRecurringUser,
   selectUserId,
   selectUserPayment,
 } from 'utils/redux/slices/userSlice'
@@ -10,15 +12,15 @@ import { PrimaryButton } from 'components/Buttons'
 import { handleJoinDiscord, handleJoinTeam } from 'utils/helpers/paymentHelpers'
 import { fetchIcon } from 'utils/components/Icons'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
-import { useEffect, useState } from 'react'
 import bannerImg from '../../assets/Images/banner-img.png'
 import bannerImgLg from '../../assets/Images/banner-img-lg.png'
 
 export const PortalBanner = () => {
   const { active, type } = useAppSelector(selectBanner)
   const isRecurringUnpaidUser = useAppSelector(selectIsRecurringUnpaidUser)
+  const isRecurringUser = useAppSelector(selectIsRecurringUser)
 
-  if (isRecurringUnpaidUser) return
+  if (isRecurringUnpaidUser || isRecurringUser) return null
   if (!active) return null
   if (type === 'sandbox') {
     return <SandboxBanner />
