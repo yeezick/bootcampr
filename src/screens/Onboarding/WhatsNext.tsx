@@ -21,43 +21,43 @@ export const WhatsNext = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    const checkUserPayment = async () => {
-      const checkoutSessionId = searchParams.get('checkout_session_id')
-      const res = await verifyPayment(checkoutSessionId)
-      if (!res.valid) {
-        navigate('/contact-us')
-        dispatch(
-          errorSnackbar(
-            'There was a problem verifying your payment. Please reach out to us to resolve your issue!'
-          )
-        )
-        return
-      }
+  // useEffect(() => {
+  //   const checkUserPayment = async () => {
+  //     const checkoutSessionId = searchParams.get('checkout_session_id')
+  //     const res = await verifyPayment(checkoutSessionId)
+  //     if (!res.valid) {
+  //       navigate('/contact-us')
+  //       dispatch(
+  //         errorSnackbar(
+  //           'There was a problem verifying your payment. Please reach out to us to resolve your issue!'
+  //         )
+  //       )
+  //       return
+  //     }
 
-      if (!authUser.payment.paid) {
-        const updatedUserExperience = await updatePaymentExperience(
-          authUser._id,
-          { experience: 'waitlist', paid: true }
-        )
-        const updatedUserProfile = await updateUserProfile({ onboarded: true })
+  //     if (!authUser.payment.paid) {
+  //       const updatedUserExperience = await updatePaymentExperience(
+  //         authUser._id,
+  //         { experience: 'waitlist', paid: true }
+  //       )
+  //       const updatedUserProfile = await updateUserProfile({ onboarded: true })
 
-        if (updatedUserExperience.error) {
-          dispatch(errorSnackbar('Error updating project experience.'))
-          return
-        } else if (updatedUserProfile.error) {
-          dispatch(errorSnackbar('Error updating user as onboarded.'))
-          return
-        } else {
-          dispatch(updateUserExperience(updatedUserExperience))
-          dispatch(updateAuthUser({ onboarded: true }))
-        }
-      }
-    }
-    if (authUser._id) {
-      checkUserPayment()
-    }
-  }, [authUser])
+  //       if (updatedUserExperience.error) {
+  //         dispatch(errorSnackbar('Error updating project experience.'))
+  //         return
+  //       } else if (updatedUserProfile.error) {
+  //         dispatch(errorSnackbar('Error updating user as onboarded.'))
+  //         return
+  //       } else {
+  //         dispatch(updateUserExperience(updatedUserExperience))
+  //         dispatch(updateAuthUser({ onboarded: true }))
+  //       }
+  //     }
+  //   }
+  //   if (authUser._id) {
+  //     checkUserPayment()
+  //   }
+  // }, [authUser])
 
   const handleViewProjectDetails = () => {
     // If user is not yet assigned a project, route them to the generic Product Details page
