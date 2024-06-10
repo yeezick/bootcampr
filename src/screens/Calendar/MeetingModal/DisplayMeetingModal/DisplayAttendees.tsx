@@ -42,7 +42,7 @@ export const DisplayAttendees = () => {
   return (
     <>
       <GroupsOutlinedIcon className='people-icon centered-icon' />
-      <div className='invited-members'>
+      <div className='invited-members modal-section'>
         {invitedMembers.map(member => (
           <InvitedMember member={member} />
         ))}
