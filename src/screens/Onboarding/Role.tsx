@@ -46,10 +46,10 @@ export const Role = ({ handlePageNavigation }) => {
     event.preventDefault()
     setIsLoading(true)
     try {
-      const response = await updateUserProfile({
+      dispatch(updateAuthUser({ role: selectedRole }))
+      await updateUserProfile({
         role: selectedRole,
       })
-      dispatch(updateAuthUser(response.userProfile))
       setButtonEnabled(false)
       handlePageNavigation('next')
       setIsLoading(false)
