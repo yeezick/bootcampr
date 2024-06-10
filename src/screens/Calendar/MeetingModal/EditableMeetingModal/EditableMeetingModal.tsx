@@ -216,7 +216,6 @@ export const EditableMeetingModal = () => {
   return (
     <Dialog
       className='meeting-modal'
-      maxWidth='lg'
       TransitionProps={{ onEntering: handleEntering }}
       open={visibleModal}
       sx={modalStyles}
@@ -314,5 +313,6 @@ const titleInputFieldStyles = {
 const modalStyles = {
   '& .MuiPaper-root': {
     borderRadius: '0px',
+    width: '600px',
   },
 }
