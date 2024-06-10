@@ -4,18 +4,20 @@ import {
 } from 'utils/functions/chatLogic'
 import { formatTimestamp } from 'utils/helpers/dateFormatHelpers'
 import adminAvatar from '../../../assets/bootcamprAdmin.svg'
-import './Messages.scss'
+import { useAppSelector } from 'utils/redux/hooks'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import './Messages.scss'
 
 export const Message = ({
   message,
   index,
   messages,
-  authUser,
   selectedMessages,
   handleTimestampClick,
   currentConversation,
 }) => {
+  const authUser = useAppSelector(selectAuthUser)
   const isSenderAuthUser = message.sender._id === authUser._id
   const showSenderName =
     currentConversation.chatType === 'group' &&
