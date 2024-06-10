@@ -61,13 +61,17 @@ const userSlice = createSlice({
     },
     setAuthUser: (state, action: PayloadAction<UserInterface>) => {
       const authUserPayload = produce(action.payload, draft => {
-        if (action.payload.payment.experience === 'sandbox') {
+        const user = action.payload
+        const sandboxOrWaitlistUser =
+          !user.projects.activeProject && !user.projects.projects.length
+        if (sandboxOrWaitlistUser) {
           draft.projects.activeProject = 'sandbox'
         }
-        const hasManyProjects = action.payload.projects.projects.length > 1
-        draft.isRecurringUser = hasManyProjects ? true : false
       })
       state.auth.user = authUserPayload
+    },
+    setAuthUserLoading: (state, action) => {
+      state.status.isLoading = action.payload
     },
     updateAuthUser: (state, action: PayloadAction<UpdateUserReducer>) => {
       state.auth.user = {
@@ -118,7 +122,7 @@ const userSlice = createSlice({
     builder
       // REGISTER
       .addCase(register.pending, state => {
-        state.status.isLoading = false
+        state.status.isLoading = true
       })
       .addCase(register.fulfilled, (state, action) => {
         state.status.isLoading = false
@@ -160,23 +164,42 @@ export const selectUserExperience = (state: RootState) =>
   state.ui.auth.user.payment.experience
 export const selectUserPayment = (state: RootState) =>
   state.ui.auth.user.payment
-export const selectIsRecurringWaitlistUser = (state: RootState) =>
-  !state.ui.auth.user.projects.activeProject &&
-  state.ui.auth.user.projects.projects.length > 0
 export const uiStatus = (state: RootState) => state.ui.status
+// user status
+export const selectIsActiveUser = (state: RootState) => {
+  return (
+    state.ui.auth.user.payment.experience === 'active' &&
+    state.ui.auth.user.payment.paid &&
+    state.ui.auth.user.projects.projects.length === 1
+  )
+}
+export const selectIsRecurringUser = (state: RootState) => {
+  return (
+    state.ui.auth.user.payment.experience === 'recurring' &&
+    state.ui.auth.user.payment.paid
+  )
+}
+export const selectIsRecurringActiveUser = (state: RootState) => {
+  return (
+    state.ui.auth.user.payment.experience === 'active' &&
+    state.ui.auth.user.payment.paid &&
+    state.ui.auth.user.projects.projects.length > 1
+  )
+}
 export const selectIsRecurringUnpaidUser = createSelector(
   [selectCompletedInfo, selectUserPayment],
   (projectCompletion, payment) => {
     const projectSubmitted =
       projectCompletion.presenting !== null &&
       projectCompletion.deployedUrl?.length !== 0
-    const unpaidUser = payment.experience === 'waitlist' && !payment.paid
+    const unpaidUser = payment.experience === 'recurring' && !payment.paid
     return projectSubmitted && unpaidUser
   }
 )
 
 export const {
   setAuthUser,
+  setAuthUserLoading,
   updateAuthUser,
   updateUserExperience,
   updateUserProject,
