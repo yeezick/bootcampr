@@ -1,29 +1,6 @@
-@keyframes loading-icon-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.loading-status {
-  align-items: center;
-  color: orange;
-  column-gap: 1.5vh;
+.loader-container {
   display: flex;
-  font-size: 6vh;
+  align-items: center;
   justify-content: center;
-  margin-top: 25vh;
-}
-
-.loading-status h3 {
-  color: rgb(108, 108, 149);
-  font-size: 4vh;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .loading-icon {
-    animation: loading-icon-spin infinite 2s linear;
-  }
+  height: 100%;
 }
