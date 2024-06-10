@@ -6,8 +6,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #e5e5e5;
-  overflow: auto !important;
-  padding-right: 0px !important;
 }
 
 code {
