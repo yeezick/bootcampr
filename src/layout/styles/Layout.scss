@@ -16,14 +16,16 @@
 }
 
 .portal-wrapper {
+  position: relative;
   .banner {
     align-items: center;
     background-color: #fff3e0;
     display: flex;
-    justify-content: space-between;
-    min-height: 91px;
     height: fit-content;
+    justify-content: space-between;
+    position: fixed;
     width: 100vw;
+    z-index: 4;
 
     img {
       height: 75px;
@@ -73,6 +75,7 @@
 
   .portal-layout {
     display: flex;
+    padding-top: var(--banner-height, 0px);
 
     .portal-view {
       background-color: white;
