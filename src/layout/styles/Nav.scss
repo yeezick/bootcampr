@@ -1,12 +1,16 @@
-.custom-menu-paper {
-  margin: 0 10px !important;
-}
-
 .navbar-wrapper {
   display: flex;
   gap: 58px;
   justify-content: flex-end;
   width: 100%;
+}
+
+.MuiMenu-root {
+  margin-top: -10px;
+
+  .MuiMenuItem-root {
+    min-width: 164px;
+  }
 }
 
 nav {
@@ -74,12 +78,13 @@ nav {
 
     .nav-icons-container {
       align-items: center;
+      cursor: pointer;
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
 
-    .account.avatar {
+    .avatar {
       height: 50px;
       margin-left: 16px;
     }
@@ -100,8 +105,12 @@ nav {
       position: absolute;
       right: 5px;
       top: 59px;
+      transition: transform 0.3s ease;
     }
 
+    .open {
+      transform: rotate(180deg);
+    }
     .avatar-default-picture {
       background-color: #ffa726;
       border-radius: 50%;
@@ -135,10 +144,6 @@ nav {
       .chat-icon {
         cursor: pointer;
         padding: 13.5px;
-      }
-
-      &:hover {
-        background-color: #d0d0d0;
       }
     }
   }

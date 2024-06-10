@@ -1,17 +1,17 @@
 import './SuccessScreen.scss'
-import { Button, ThemeProvider, createTheme } from '@mui/material'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import {
   ResType,
   SuccessQueryParam,
   emptySuccessScreenValues,
 } from 'utils/data/authSettingsConstants'
-import { forgotPasswordEmailVerification, getOneUser, logOut } from 'utils/api'
+import { forgotPasswordEmailVerification, logOut } from 'utils/api'
 import { useAppDispatch } from 'utils/redux/hooks'
 import { SuccessScreenValues } from 'interfaces/AccountSettingsInterface'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { logoutAuthUser } from 'utils/redux/slices/userSlice'
+import { PrimaryButton } from 'components/Buttons'
 
 export const SuccessScreen = () => {
   const navigate = useNavigate()
@@ -96,14 +96,6 @@ export const SuccessScreen = () => {
     logUserOut()
   }, [])
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#FFA726',
-      },
-    },
-  })
-
   const containerClass =
     screen === SuccessQueryParam.resetPasswordEmail
       ? 'container-spaced'
@@ -131,15 +123,7 @@ export const SuccessScreen = () => {
       </div>
       <div className='success-screen actions'>
         {buttonLabel && (
-          <ThemeProvider theme={theme}>
-            <Button
-              className='actions button'
-              variant='contained'
-              onClick={buttonAction}
-            >
-              {buttonLabel}
-            </Button>
-          </ThemeProvider>
+          <PrimaryButton onClick={buttonAction} label={buttonLabel} />
         )}
         {hyperlinkLabel && (
           <div className='actions hyperlink' onClick={hyperlinkAction}>

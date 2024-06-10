@@ -9,8 +9,10 @@ import {
   handleTicketMovingBetweenColumns,
 } from 'utils/helpers/taskHelpers'
 import { DragDropContext } from 'react-beautiful-dnd'
+import { useKanbanSocketEvents } from 'components/Socket/kanbanSocket'
 
 export const BoardColumns = () => {
+  const { moveTicketEvent, reorderTicketEvent } = useKanbanSocketEvents()
   const { projectId } = useParams()
   const projectTracker = useAppSelector(selectProjectTracker)
   const dispatch = useAppDispatch()
@@ -20,6 +22,9 @@ export const BoardColumns = () => {
     : 'columns-wrapper'
 
   const handleOnDragEnd = async movingTicket => {
+    // ticket is dropped outside of a valid column
+    if (!movingTicket.destination) return
+
     const {
       source: { droppableId: oldColumnId, index: oldColumnIdx },
       destination: { droppableId: newColumnId, index: newColumnIdx },
@@ -38,14 +43,16 @@ export const BoardColumns = () => {
         dispatch,
         projectId,
         projectTracker,
-        movingTicket
+        movingTicket,
+        reorderTicketEvent
       )
     } else {
       await handleTicketMovingBetweenColumns(
         dispatch,
         projectId,
         projectTracker,
-        movingTicket
+        movingTicket,
+        moveTicketEvent
       )
     }
   }

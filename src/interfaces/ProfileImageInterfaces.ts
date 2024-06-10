@@ -1,6 +1,5 @@
 import React, { RefObject } from 'react'
 import { Area, Point } from 'react-easy-crop/types'
-import { UserInterface } from './UserInterface'
 
 export interface AvatarProps {
   clickable?: boolean | undefined
@@ -18,27 +17,20 @@ export interface TeamAvatarProps {
   userId: string
 }
 
-export interface ProfilePreviewImageProps {
-  onOpen: boolean
-  onClose: () => void
-}
-
-export interface ImageEditorModalProps {
-  onOpen: boolean
-  onClose: () => void
-}
-
-export interface ImageEditorHeaderProps {
-  handleClose: () => void
+export interface ToggleImageModalProps {
+  onOpen?: boolean
+  onClose?: () => void
+  onCloseProfilePreviewAvatarModal?: () => void
+  setImageUploaded?: (value: boolean) => void
 }
 
 export interface ImageEditorContentProps {
-  profilePicture: string
+  profilePicture: string | null
   crop: Point
-  zoom: number
+  zoom?: number
   setCrop: (crop: Point) => void
   setCropArea: (cropArea: Area) => void
-  setZoom: (zoom: number) => void
+  setZoom?: (zoom: number) => void
 }
 
 export interface FileInputProps {

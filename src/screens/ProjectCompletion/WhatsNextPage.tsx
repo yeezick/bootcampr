@@ -4,21 +4,17 @@ import {
   selectCompletedInfo,
   selectProject,
 } from 'utils/redux/slices/projectSlice'
-import { Stack } from '@mui/material'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
-import { useState } from 'react'
+import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
 export const WhatsNextPage = () => {
   const completedInfo = useSelector(selectCompletedInfo)
   const navigate = useNavigate()
   const project = useSelector(selectProject)
   const projectID = project._id
-  const [isDisabled, setIsDisabled] = useState(false)
 
-  const handleSurvey = e => {
-    e.preventDefault()
+  const handleSurvey = () => {
     alert('TBD Google Survey Path')
-    setIsDisabled(true)
   }
 
   const handleCancel = () => {
@@ -62,18 +58,13 @@ export const WhatsNextPage = () => {
           </p>
         </section>
       </div>
-      <Stack className='btn-container'>
+      <ButtonContainer justify='center' style={{ marginTop: '64px' }} gap={16}>
         <SecondaryButton
-          handler={handleCancel}
-          text='Back to Product Details'
+          onClick={handleCancel}
+          label='Back to Product Details'
         />
-        <PrimaryButton
-          aria-disabled={isDisabled}
-          handler={handleSurvey}
-          disabled={isDisabled}
-          text='Answer survey'
-        />
-      </Stack>
+        <PrimaryButton onClick={handleSurvey} label='Answer survey' />
+      </ButtonContainer>
     </div>
   )
 }

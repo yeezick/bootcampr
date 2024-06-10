@@ -29,7 +29,7 @@ export const SelectDate = () => {
     } else {
       setDayPickerDayjs(generateDayJs(dueDate))
     }
-  }, [])
+  }, [dueDate])
 
   const handleDateChange = newDate => {
     setDayPickerDayjs(newDate)
@@ -47,6 +47,7 @@ export const SelectDate = () => {
         format='MM/DD/YY'
         onChange={handleDateChange}
         slots={{ openPickerIcon: iconMap['calendar'] }}
+        slotProps={{ popper: { placement: 'bottom-end' } }}
         value={datePickerDayjs}
       />
     </div>

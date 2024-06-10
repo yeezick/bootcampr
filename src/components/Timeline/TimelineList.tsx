@@ -34,10 +34,15 @@ export const TimelineList = () => {
             <Typography id='tl-title' variant='subtitle1' component='span'>
               {item.title}
             </Typography>
-            <Typography id='tl-date' variant='subtitle2' color='text.secondary'>
+            <Typography
+              id='tl-date'
+              variant='subtitle2'
+              color='text.secondary'
+              component='span'
+            >
               {item.date}
             </Typography>
-            <Typography id='tl-body' variant='body2'>
+            <Typography id='tl-body' variant='body2' component='span'>
               {item.description}
             </Typography>
           </TimelineContent>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import './EmailSentConfirmation.scss'
 import { useNavigate } from 'react-router-dom'
-import { PrimaryButton } from 'components/Buttons'
 import { isMobileWidth } from 'utils/helpers'
+import { PrimaryButton } from 'components/Buttons'
 import { UpdateEmailAddressLink } from '../../../../components/UpdateEmailAddressLink/UpdateEmailAddressLink'
 
 export const EmailSentConfirmation: React.FC = () => {
@@ -44,10 +44,10 @@ const DesktopEmailSentConfirmation = ({ email, setEmail }) => {
       <div className='message-content confirm'>
         <p>Confirm your email address to log in.</p>
       </div>
-      {/* <div className='message-content update-email'>
+      <div className='message-content update-email'>
         <UpdateEmailAddressLink setEmail={setEmail} />
         <span> if it's incorrect.</span>
-      </div> */}
+      </div>
       <div className='img-container'>
         <img alt='A person jumps in the air in celebration' />
       </div>
@@ -78,8 +78,8 @@ const MobileEmailSentConfirmation = ({ email, setEmail }) => {
         <img alt='A person smiles from behind a laptop while a rocket launches in the background' />
       </div>
       <PrimaryButton
-        text="Visit Bootcampr's homepage'"
-        handler={handleRouteToHomepage}
+        label="Visit Bootcampr's homepage'"
+        onClick={handleRouteToHomepage}
       />
     </div>
   )

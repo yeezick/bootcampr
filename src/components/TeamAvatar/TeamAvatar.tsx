@@ -24,7 +24,7 @@ export const TeamAvatar = ({ userId, size }: TeamAvatarProps) => {
     )
   } else {
     const { firstName, lastName, profilePicture } = user
-    const defaultImageURL = generateDefaultPicture(firstName, lastName) // BC-800 revert when image uploading feature is fixed
+    const defaultImageURL = generateDefaultPicture(firstName, lastName)
 
     return (
       <div className='team-avatar'>
@@ -32,7 +32,7 @@ export const TeamAvatar = ({ userId, size }: TeamAvatarProps) => {
           <div className='ta-profile-pics'>
             <img
               className={`ta-imgs ${size || ''}`}
-              src={defaultImageURL}
+              src={profilePicture}
               alt='team avatar pics'
             />
           </div>

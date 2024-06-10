@@ -10,24 +10,24 @@ import {
   processChatRoom,
 } from 'utils/redux/slices/chatSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
+//endpoint has already slash at the end
 const ENDPOINT = api.getUri()
 
-export const useSocket = userId => {
+export const useChatSocket = userId => {
   const [socket, setSocket] = useState(null)
 
   useEffect(() => {
-    const newSocket = io(ENDPOINT, {
+    const newSocket = io(`${ENDPOINT}chat`, {
       query: { userId },
       transports: ['websocket'],
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 3000,
     })
+
     newSocket.emit('setUserId', userId)
 
     newSocket.on('connect', () => {
-      console.log('Socket reconnected')
-      // For reconnection
       newSocket.emit('setUserId', userId)
     })
 
@@ -40,14 +40,14 @@ export const useSocket = userId => {
   return socket
 }
 
-export const useSocketEvents = (listenForChatEvents = false) => {
+export const useChatSocketEvents = (listenForChatEvents = false) => {
   const dispatch = useAppDispatch()
   const currentConversation = useAppSelector(selectChat)
   const authUser = useAppSelector(selectAuthUser)
   const activeChatRoomId = useAppSelector(
     state => state.chatbox.activeChatRoomId
   )
-  const socket = useSocket(authUser._id)
+  const socket = useChatSocket(authUser._id)
 
   const sendMessage = message => {
     if (currentConversation._id) {
@@ -61,6 +61,7 @@ export const useSocketEvents = (listenForChatEvents = false) => {
 
   useEffect(() => {
     if (!socket) return
+
     if (activeChatRoomId && listenForChatEvents) {
       socket.emit('join-conversation', {
         chatRoomId: activeChatRoomId,

@@ -36,3 +36,23 @@ export const getLastCallForPresentation = (presentationStartDate, zone) => {
     .format('MMMM D, YYYY h:mma')
   return `${presentationTime} ${zone}`
 }
+
+/**
+ * @param presentationStartDate dayjs object
+ */
+export const formatLastCallDate = presentationStartDate => {
+  const presentationTime = presentationStartDate
+    .subtract(48, 'hour')
+    .format('MM/DD/YYYY')
+  return `${presentationTime}`
+}
+
+/**
+ * @param url string
+ */
+export const getFullUrl = url => {
+  if (!/^https?:\/\//i.test(url)) {
+    return 'http://' + url
+  }
+  return url
+}
