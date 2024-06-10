@@ -6,14 +6,11 @@ import { selectDisplayedEvent } from 'utils/redux/slices/calendarSlice'
 import { useNavigate } from 'react-router-dom'
 import { generateDefaultPicture } from 'utils/helpers'
 
-export const DisplayAttendees = ({ creator }) => {
+export const DisplayAttendees = () => {
   const [invitedMembers, setInvitedMembers] = useState([])
-  const { attendees } = useAppSelector(selectDisplayedEvent)
+  const { attendees, organizer } = useAppSelector(selectDisplayedEvent)
   const emailQueries = attendees.map(attendee => attendee.email)
   const teamMembers = useAppSelector(selectMembersByEmail(emailQueries))
-  const meetingOrganizer = attendees.filter(
-    attendee => attendee.comment === 'organizer'
-  )
 
   useEffect(() => {
     const prepareInvitedMembers = () => {
@@ -23,16 +20,13 @@ export const DisplayAttendees = ({ creator }) => {
           const { firstName, lastName, profilePicture, role, email, _id } =
             member
           invitedMemberInfo.push({
-            firstName: firstName,
-            profilePicture: profilePicture,
-            lastName: lastName,
-            role: role,
-            email: email,
+            firstName,
+            profilePicture,
+            lastName,
+            role,
+            email,
             userId: _id,
-            organizer:
-              meetingOrganizer.length > 0 && meetingOrganizer[0].email === email
-                ? true
-                : false,
+            organizer: organizer === email ? true : false,
           })
         }
         const organizerIndex = invitedMemberInfo.findIndex(

@@ -40,7 +40,7 @@ export const DisplayMeetingModal = () => {
   if (!displayedEvent) {
     return null
   }
-  const { creator, summary } = displayedEvent
+  const { summary } = displayedEvent
 
   return (
     <Dialog open={displayMeeting} onClose={handleClose}>
@@ -55,7 +55,7 @@ export const DisplayMeetingModal = () => {
             displayedFields={displayedFields}
             summary={summary}
           />
-          <DisplayAttendees creator={creator} />
+          <DisplayAttendees />
           <DisplayMeetingLink />
           <DisplayDescription />
         </div>

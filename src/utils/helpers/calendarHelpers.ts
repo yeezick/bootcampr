@@ -25,10 +25,6 @@ export const buildSandboxEvent = (eventInfo, eventId?): ConvertedEvent => {
     updatedAttendees.shift()
   }
 
-  if (!updatedAttendees.find(attendee => attendee.comment === 'organizer')) {
-    updatedAttendees[0] = { ...updatedAttendees[0], comment: 'organizer' }
-  }
-
   const startTime = changeDateTimeZone(start.dateTime, start.timezone)
   const endTime = changeDateTimeZone(end.dateTime, end.timezone)
 
@@ -43,6 +39,7 @@ export const buildSandboxEvent = (eventInfo, eventId?): ConvertedEvent => {
       startTime: start.dateTime,
     },
     hangoutLink: googleMeetingInfo.enabled ? 'https://meet.google.com' : '',
+    organizer: 'dana@designer.com',
     start: startTime,
     timeZone: start.timeZone,
     title: summary,
@@ -72,15 +69,6 @@ export const checkIfAllMembersInvited = (
     toggleInviteAll(false)
   } else if (!inviteAll && allMembersInvited) {
     toggleInviteAll(true)
-  }
-}
-
-export const checkSandboxEvent = eventId => {
-  const sandboxEvents = ['uxdStandup', 'sweStandup', 'allTeamStandup']
-  if (sandboxEvents.includes(eventId)) {
-    return true
-  } else {
-    return false
   }
 }
 
@@ -191,6 +179,7 @@ export const generateHexadecimal = () => {
 export const parseCalendarEventForMeetingInfo = (e): MeetingModalInfo => {
   const { end, start } = e.event._instance.range
   const { extendedProps, title: summary } = e.event._def
+
   return {
     ...extendedProps,
     dateFields: {

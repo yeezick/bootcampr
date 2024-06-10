@@ -155,12 +155,6 @@ export const EditableMeetingModal = () => {
       }
     }
 
-    attendeeList.forEach(attendee => {
-      attendee.email === userEmail
-        ? (attendee.comment = 'organizer')
-        : (attendee.comment = 'not organizer')
-    })
-
     const eventInfo: EventInfo = {
       attendees: attendeeList,
       description,
@@ -178,6 +172,7 @@ export const EditableMeetingModal = () => {
         timeZone: eventTimezone,
       },
       summary,
+      organizer: authUser.email,
       projectId,
     }
 
