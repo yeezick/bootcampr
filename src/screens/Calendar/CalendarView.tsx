@@ -95,11 +95,12 @@ export const CalendarView = () => {
       )
 
       const teamAvailabilities = []
+      console.log('team avail', updatedTeamCommonAvail)
 
       projectSundayDates.forEach(sundayDate => {
         Object.entries(updatedTeamCommonAvail).forEach(
-          ([dayOfWeek, availability]) => {
-            (availability as any[]).forEach(([startTime, endTime]) => {
+          ([dayOfWeek, availability]: [string, string[]]) => {
+            availability.forEach(([startTime, endTime]) => {
               const { start, end } = formatAvailabilityDate(
                 sundayDate,
                 dayOfWeek,
