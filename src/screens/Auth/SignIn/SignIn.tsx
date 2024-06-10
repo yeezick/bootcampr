@@ -18,6 +18,7 @@ import { buildProjectPortal } from 'utils/helpers'
 import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
 import { PrimaryButton } from 'components/Buttons'
+import { initializeMembers } from 'utils/redux/slices/teamMembers'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -73,6 +74,7 @@ const SignIn: React.FC = (): JSX.Element => {
     }
 
     dispatch(setAuthUser(response))
+    dispatch(initializeMembers(response._id))
     const { payment, onboarded, projects } = response
 
     if (payment.experience === 'unchosen') {
@@ -82,21 +84,37 @@ const SignIn: React.FC = (): JSX.Element => {
     } else if (
       isSandboxId(payment.experience) ||
       (isWaitlistExperience(payment.experience) &&
-        projects.activeProject === null)
+        projects.activeProject === null &&
+        !projects.projects?.length)
     ) {
-      await storeUserProject(dispatch, 'sandbox')
-      navigate('/project/sandbox')
-      dispatch(setPortal(buildProjectPortal('sandbox')))
+      //TODO - Is this project an old field?
       dispatch(
         updateAuthUser({
           project: 'sandbox',
-          projects: { activeProject: 'sandbox' },
+          projects: { activeProject: 'sandbox', projects: [] },
         })
       )
+      dispatch(setPortal(buildProjectPortal('sandbox')))
+      await storeUserProject(dispatch, 'sandbox')
+      navigate('/project/sandbox')
+    } else if (
+      // recurring waitlisted user
+      payment.experience === 'recurring' &&
+      projects.activeProject === null &&
+      projects.projects?.length
+    ) {
+      dispatch(setPortal(buildProjectPortal('waitlist')))
+      dispatch(
+        updateAuthUser({
+          projects: { activeProject: '', projects: projects.projects },
+        })
+      )
+      await storeUserProject(dispatch, 'waitlist')
+      navigate('/project/waitlist')
     } else {
+      dispatch(setPortal(buildProjectPortal(projects.activeProject)))
       await storeUserProject(dispatch, projects.activeProject)
       navigate(`/project/${projects.activeProject}`)
-      dispatch(setPortal(buildProjectPortal(projects.activeProject)))
     }
   }
 

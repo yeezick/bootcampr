@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectAuthUser,
-  selectIsRecurringWaitlistUser,
+  selectIsRecurringUser,
   updateAuthUser,
   updateUserExperience,
   updateUserProject,
@@ -24,7 +24,7 @@ export const WhatsNext = () => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const isRecurringWaitlistUser = useAppSelector(selectIsRecurringWaitlistUser)
+  const isRecurringUser = useAppSelector(selectIsRecurringUser)
 
   useEffect(() => {
     const checkUserPayment = async () => {
@@ -41,16 +41,25 @@ export const WhatsNext = () => {
       }
 
       if (!authUser.payment.paid) {
-        const updatedUserExperience = await updatePaymentExperience(
-          authUser._id,
-          { experience: 'waitlist', paid: true }
-        )
-        const updatedUserProfile = await updateUserProfile({ onboarded: true })
+        let updatedUserExperience
+        if (!authUser.projects.projects.length) {
+          updatedUserExperience = await updatePaymentExperience(authUser._id, {
+            experience: 'waitlist',
+            paid: true,
+          })
 
-        //reset fields for recurring user
-        dispatch(updateUserProject(''))
-        await removeActiveProject(authUser._id)
-        await storeUserProject(dispatch, 'sandbox')
+          dispatch(updateUserProject('sandbox'))
+          await storeUserProject(dispatch, 'sandbox')
+        } else {
+          updatedUserExperience = await updatePaymentExperience(authUser._id, {
+            experience: 'recurring',
+            paid: true,
+          })
+          await removeActiveProject(authUser._id)
+          await storeUserProject(dispatch, 'waitlist')
+        }
+
+        const updatedUserProfile = await updateUserProfile({ onboarded: true })
 
         if (updatedUserExperience.error) {
           dispatch(errorSnackbar('Error updating project experience.'))
@@ -73,7 +82,7 @@ export const WhatsNext = () => {
     // If user is not yet assigned a project, route them to the generic Product Details page
     const projectSlug = authUser.projects.activeProject
       ? authUser.projects.activeProject
-      : 'sandbox'
+      : 'waitlist'
     navigate(`/project/${projectSlug}`)
   }
 
@@ -82,7 +91,7 @@ export const WhatsNext = () => {
       <div className='lastscreen-text-container'>
         <div className='lastscreen-header'>
           <h1>
-            {isRecurringWaitlistUser
+            {isRecurringUser
               ? "You're ready for your next project!"
               : "You're a Bootcampr now!"}
           </h1>

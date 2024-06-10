@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
-import { blankDayJs, changePortalPage, generateDayJs } from 'utils/helpers'
+import {
+  blankDayJs,
+  changePortalPage,
+  extractDomain,
+  generateDayJs,
+} from 'utils/helpers'
 import { iconMap } from 'utils/components/Icons'
 import {
   selectCompletedInfo,
@@ -12,9 +17,11 @@ import {
 import './styles/SideMenu.scss'
 import { PrimaryButton } from 'components/Buttons'
 import {
-  selectIsRecurringWaitlistUser,
+  selectIsRecurringActiveUser,
+  selectIsRecurringUser,
   selectUserExperience,
 } from 'utils/redux/slices/userSlice'
+import { SelectProject } from 'screens/Project/RecurringUser/SelectProject'
 
 export const SideMenu = () => {
   const navigate = useNavigate()
@@ -24,8 +31,8 @@ export const SideMenu = () => {
   const { active } = useAppSelector(selectSideMenu)
   const projectSubmissionInfo = useAppSelector(selectCompletedInfo)
   const userExperience = useAppSelector(selectUserExperience)
-  const [isDisabled, setIsDisabled] = useState(true)
-  const isProjectSubmitted = Boolean(projectSubmissionInfo.presenting !== null)
+  const [isDisabled, setIsDisabled] = useState(false)
+  const isProjectSubmitted = projectSubmissionInfo.presenting !== null
   const isActiveUser = userExperience === 'active'
 
   const handleProjectCompletion = () =>
@@ -36,19 +43,19 @@ export const SideMenu = () => {
     if (!projectSubmissionDate) {
       return
     }
-    // const checkSubmissionTime = () => {
-    //   const submissionDate = generateDayJs(projectSubmissionDate)
-    //   const now = blankDayJs()
-    //   setIsDisabled(
-    //     now.isBefore(submissionDate, 'minute') || isProjectSubmitted
-    //   )
-    // }
+    const checkSubmissionTime = () => {
+      const submissionDate = generateDayJs(projectSubmissionDate)
+      const now = blankDayJs()
+      setIsDisabled(
+        now.isBefore(submissionDate, 'minute') || isProjectSubmitted
+      )
+    }
 
-    // checkSubmissionTime()
+    checkSubmissionTime()
 
-    // const dateCheckInterval = setInterval(checkSubmissionTime, 60000)
+    const dateCheckInterval = setInterval(checkSubmissionTime, 60000)
 
-    // return () => clearInterval(dateCheckInterval)
+    return () => clearInterval(dateCheckInterval)
   }, [active, projectSubmissionDate, isProjectSubmitted])
 
   return (
@@ -73,9 +80,15 @@ export const SideMenu = () => {
 
 const SideMenuLinks = () => {
   const { links } = useAppSelector(selectSideMenu)
-
+  const isRecurringUser = useAppSelector(selectIsRecurringUser)
+  const isRecurringActiveUser = useAppSelector(selectIsRecurringActiveUser)
+  const { pathname } = useLocation()
+  const domain = extractDomain(pathname)
+  const displayProjectSelector =
+    (isRecurringUser || isRecurringActiveUser) && domain === 'project'
   return (
     <div className='sidemenu-links'>
+      {displayProjectSelector && <SelectProject />}
       {links.map(link => (
         <MenuLink key={link.route} linkDetails={link} />
       ))}
@@ -88,11 +101,13 @@ const MenuLink = ({ linkDetails }) => {
   const { domain, icon, label, route, headerTitle } = linkDetails
   const LinkIcon = iconMap[icon]
   const dispatch = useAppDispatch()
-  const isRecurringWaitlistUser = useAppSelector(selectIsRecurringWaitlistUser)
+  const isRecurringUser = useAppSelector(selectIsRecurringUser)
+  const currentProjectId = useAppSelector(selectProjectId)
   const disableLinks =
-    isRecurringWaitlistUser &&
+    isRecurringUser &&
     headerTitle !== 'Product Details' &&
-    domain === 'project'
+    domain === 'project' &&
+    (currentProjectId === 'waitlist' || !currentProjectId)
 
   const linkClassName = `link ${
     location.pathname === route ? 'current-location' : ''

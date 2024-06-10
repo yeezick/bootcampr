@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectAuthUser,
   setAuthUser,
+  setAuthUserLoading,
   uiStatus,
 } from 'utils/redux/slices/userSlice'
 
@@ -33,20 +34,39 @@ export const AuthWrapper = ({ children }) => {
   const isProtectedRoute = !unprotectedRoutes.some(route =>
     matchPath({ path: route, end: true }, location.pathname)
   )
+  const [domain, paramId] = location.pathname.split('/').filter(Boolean)
 
   useEffect(() => {
     const verifyAndNavigateUser = async () => {
+      dispatch(setAuthUserLoading(true))
       try {
         const token = localStorage.getItem('bootcamprAuthToken')
         //to syncronize and get user info again after refreshing the page
         if (token && !authUser?._id) {
           const verifiedAuthUser = await verify()
           if (verifiedAuthUser?._id) {
-            await storeUserProject(
-              dispatch,
-              verifiedAuthUser.projects.activeProject || 'sandbox'
-            )
             dispatch(setAuthUser(verifiedAuthUser))
+            const userHasValidProjectId =
+              verifiedAuthUser.projects.activeProject === paramId ||
+              verifiedAuthUser.projects.projects.includes(paramId)
+            const isWaitlisted =
+              paramId === 'waitlist' &&
+              verifiedAuthUser.payment.experience === 'recurring'
+            const userProjectId =
+              verifiedAuthUser.projects.activeProject || 'waitlist'
+
+            if (
+              domain === 'project' &&
+              !userHasValidProjectId &&
+              !isWaitlisted
+            ) {
+              await storeUserProject(dispatch, userProjectId)
+              navigate(`/project/${userProjectId}`, { replace: true })
+              return
+            }
+            // Problem when user is matched to a team
+            const projectId = domain === 'project' ? paramId : userProjectId
+            await storeUserProject(dispatch, projectId)
           } else if (isProtectedRoute) {
             navigate('/sign-in')
           }
@@ -59,11 +79,20 @@ export const AuthWrapper = ({ children }) => {
         if (isProtectedRoute) {
           navigate('/sign-in')
         }
+      } finally {
+        dispatch(setAuthUserLoading(false))
       }
     }
 
     verifyAndNavigateUser()
-  }, [authUser._id, dispatch, location.pathname, navigate])
+  }, [
+    authUser,
+    dispatch,
+    location.pathname,
+    navigate,
+    paramId,
+    authUser.projects.activeProject,
+  ])
 
   useEffect(() => {
     const routeToMobileGate = () => {

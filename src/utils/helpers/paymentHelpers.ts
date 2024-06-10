@@ -1,13 +1,6 @@
-import {
-  updatePaymentExperience,
-  updateUser,
-  updateUserProfile,
-} from 'utils/api'
+import { updatePaymentExperience } from 'utils/api'
 import { errorSnackbar } from './commentHelpers'
-import {
-  updateAuthUser,
-  updateUserExperience,
-} from 'utils/redux/slices/userSlice'
+import { updateUserExperience } from 'utils/redux/slices/userSlice'
 
 export const handleJoinTeam = async (dispatch, navigate, userId) => {
   const updatedExperience = await updatePaymentExperience(userId, {
@@ -27,19 +20,15 @@ export const handleJoinDiscord = () => {
 
 export const handleJoinNewTeam = async (dispatch, navigate, userId) => {
   await updatePaymentExperience(userId, {
-    experience: 'waitlist',
+    experience: 'recurring',
     paid: false,
   })
 
-  await updateUser(userId, {
-    onboarded: false,
-  })
   dispatch(
     updateUserExperience({
-      experience: 'waitlist',
+      experience: 'recurring',
       paid: false,
     })
   )
-  dispatch(updateAuthUser({ onboarded: false }))
   navigate('/onboarding')
 }

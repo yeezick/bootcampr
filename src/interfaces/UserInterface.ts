@@ -33,7 +33,7 @@ export interface UserInterface {
 
 export interface Banner {
   active: boolean
-  type: 'sandbox' | 'waitlist' | ''
+  type: 'sandbox' | 'waitlist' | 'recurring' | ''
 }
 
 export interface UiInterface {
@@ -48,7 +48,7 @@ export interface BuildPortal {
 }
 
 export interface Payment {
-  experience: 'active' | 'sandbox' | 'unchosen' | 'waitlist'
+  experience: 'active' | 'sandbox' | 'unchosen' | 'waitlist' | 'recurring'
   paid?: boolean
 }
 
