@@ -38,12 +38,12 @@
 
     .content {
       color: #1944a3;
-      text-align: center;
       display: flex;
       flex-direction: column;
+      font-weight: bold;
       gap: 8px;
       margin: 16px 0;
-      font-weight: bold;
+      text-align: center;
 
       h2,
       p {
@@ -51,8 +51,8 @@
       }
 
       h2 {
-        font-weight: bold;
         font-size: 28px;
+        font-weight: bold;
         line-height: 36px;
       }
 
@@ -62,11 +62,11 @@
       }
 
       .infotext {
+        align-items: center;
         display: flex;
         font-weight: bolder;
         gap: 4px;
         text-align: left;
-        align-items: center;
       }
     }
   }
