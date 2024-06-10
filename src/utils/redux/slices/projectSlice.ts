@@ -1,4 +1,9 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import {
+  createSelector,
+  createSlice,
+  current,
+  PayloadAction,
+} from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { TicketInterface } from 'interfaces'
 import { ProjectInterface } from 'interfaces/ProjectInterface'
@@ -44,6 +49,7 @@ const initialState: ProjectInterface = {
   projectPortal: {
     renderProjectPortal: false,
   },
+  projectPresented: false,
 }
 
 export interface AddCommentToTicketReducer {
@@ -165,21 +171,31 @@ const projectSlice = createSlice({
     },
     setProject: (state, action: PayloadAction<ProjectInterface>) => {
       const updatedProject = produce(action.payload, draft => {
-        const { engineers, designers, productManagers } = draft.members
-        draft.members.emailMap = mapMembersByEmail([
-          engineers,
-          designers,
-          productManagers,
-        ])
-        draft.members.idMap = mapMembersById([
-          engineers,
-          designers,
-          productManagers,
-        ])
-        draft.projectPortal = { renderProjectPortal: false }
+        // assign the new instance to the initial state
+        Object.assign(draft, action.payload)
+        if (action.payload._id && action.payload._id !== 'waitlist') {
+          const { engineers, designers, productManagers } = draft.members
+          draft.members.emailMap = mapMembersByEmail([
+            engineers,
+            designers,
+            productManagers,
+          ])
+          draft.members.idMap = mapMembersById([
+            engineers,
+            designers,
+            productManagers,
+          ])
+
+          draft.projectPortal = { renderProjectPortal: false }
+          draft.projectPresented = false
+        }
       })
       return updatedProject
     },
+    setProjectLoading: (state, action) => {
+      state.loading = action.payload
+    },
+    // TODO: should we create more generic loading state and component?
     setProjectFailure: state => {
       state.loading = false
     },
@@ -189,6 +205,12 @@ const projectSlice = createSlice({
     setProjectSuccess: (state, action: PayloadAction<ProjectInterface>) => {
       state.loading = false
       return action.payload
+    },
+    setProjectPresented: (state, action) => {
+      const { projectId, isPresented } = action.payload
+      if (state._id === projectId) {
+        state.projectPresented = isPresented
+      }
     },
     renderProjectPortal: state => {
       state.projectPortal.renderProjectPortal =
@@ -249,12 +271,16 @@ export const selectMembersByRole = createSelector(
 
 export const selectProject = (state: RootState) => state.project
 export const selectProjectId = (state: RootState) => state.project._id
+export const selectProjectPresented = (state: RootState) =>
+  state.project.projectPresented
 export const selectProjectTracker = (state: RootState) =>
   state.project.projectTracker
 export const selectRenderProjectPortal = (state: RootState) =>
   state.project.projectPortal.renderProjectPortal
 export const selectProjectTimeline = (state: RootState) =>
   state.project.timeline
+export const selectProjectUiLoading = (state: RootState) =>
+  state.project.loading
 
 export const selectPresentationDate = createSelector(
   selectProjectTimeline,
@@ -286,6 +312,8 @@ export const {
   updateProject,
   updatePresenting,
   updateDeployedUrl,
+  setProjectLoading,
+  setProjectPresented,
   setProjectStart,
   setProjectSuccess,
   setProjectFailure,

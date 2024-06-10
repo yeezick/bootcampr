@@ -41,6 +41,7 @@ export interface ProjectInterface {
   projectPortal: {
     renderProjectPortal: boolean
   }
+  projectPresented: boolean
 }
 
 export interface ProjectTrackerInterface {
