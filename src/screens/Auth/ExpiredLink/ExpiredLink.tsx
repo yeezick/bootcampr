@@ -32,10 +32,15 @@ export const ExpiredLink = () => {
     <div>
       <div className='expired-link-page'>
         <h1>Email verification link expired</h1>
-        <p>
-          Looks like the verification link has expired. Not to worry, we can
-          send the link again.
-        </p>
+        <div className='contents'>
+          <p>
+            The link we sent by email to confirm your email address has expired.
+          </p>
+          <p>
+            We can resend the link so you can verify your email address and log
+            in.
+          </p>
+        </div>
         <PrimaryButton
           label='Resend verification link'
           onClick={handleNewLink}
