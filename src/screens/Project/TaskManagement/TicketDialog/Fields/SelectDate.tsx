@@ -47,6 +47,7 @@ export const SelectDate = () => {
         format='MM/DD/YY'
         onChange={handleDateChange}
         slots={{ openPickerIcon: iconMap['calendar'] }}
+        slotProps={{ popper: { placement: 'bottom-end' } }}
         value={datePickerDayjs}
       />
     </div>

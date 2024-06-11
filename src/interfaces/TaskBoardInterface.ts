@@ -12,13 +12,8 @@ export interface SetVisibleTicketsReducer {
   projectTracker: ProjectTrackerInterface
   userId?: string
 }
-/*  */
 
-export enum CommentType {
-  Parent = 'PARENT',
-  Reply = 'REPLY',
-}
-
+/* Interfaces */
 export type ConfirmationDialogType = '' | 'cancel' | 'delete'
 
 export interface TaskBoardInterface {
