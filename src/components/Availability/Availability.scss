@@ -4,7 +4,7 @@
     padding: 16px 32px;
     width: 590px;
 
-    h2 {
+h2 {
         font-size: 14px;
         margin: 0;
     }
@@ -21,8 +21,8 @@
 
     .availability-requirement{
         font-size: 15px;
-        font-weight: 600;
         font-style: italic;
+        font-weight: 600;
         margin-bottom: 16px;
     }
 
@@ -34,10 +34,9 @@
         justify-content: space-between;
 
         .timezone-input {
-            width: 328px;
             font-size: 16px;
+            width: 328px;
         }
-     
         .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon {
             height: .8em;
             top: 3.5px;
@@ -63,7 +62,7 @@
         margin-left: -10px;
         min-height: 45px;
 
-        h2 {
+h2 {
             width: 70px;
         }
 
@@ -74,10 +73,10 @@
             height: fit-content;
             width: 100%;
 
-            h2 {
+h2 {
                 align-self: center;
-                font-weight: 300;
                 font-size: 16px;
+                font-weight: 300;
             }
 
             .check-day {
@@ -129,7 +128,7 @@
             justify-content: space-between;
             width: 100%;
 
-            h4 {
+h4 {
                 font-weight: 600;
                 letter-spacing: -3px;
                 margin: 0 15px 0 12px;
