@@ -132,7 +132,7 @@ export const CopyTimesModal = ({
             onClick={handleApply}
             label='Apply'
             disabled={isDisabled}
-            sx={{ width: '100%' }}
+            fullWidth
           />
         </div>
       </div>
