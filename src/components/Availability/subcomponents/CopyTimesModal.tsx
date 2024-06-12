@@ -1,4 +1,4 @@
-import { Checkbox } from '@mui/material'
+import { Checkbox, Popover, Paper } from '@mui/material'
 import { useState, useEffect, useRef } from 'react'
 import './CopyTimesModal.scss'
 import { weekdaysMap } from '../utils/data'
@@ -10,7 +10,10 @@ export const CopyTimesModal = ({
   idx,
   copyTimes,
   setDays,
-  handleRenderModal,
+  open,
+  id,
+  anchorEl,
+  handleClosePopover,
 }) => {
   const timeString = `${days[day].availability[idx][0]} - ${days[day].availability[idx][1]}`
   const [checked, setChecked] = useState({
@@ -35,27 +38,30 @@ export const CopyTimesModal = ({
     'Saturday',
   ]
 
-  const modalEl = useRef<any>()
+  const modalEl = useRef(null)
 
   const handleApply = e => {
     copyTimes(checked, day, days, idx, setDays)
-    handleRenderModal(e, idx)
+    handleClosePopover()
   }
 
   useEffect(() => {
     const handler = e => {
-      if (!modalEl.current) {
-        return
-      }
-      if (!modalEl.current.contains(e.target)) {
-        handleRenderModal(e, idx)
+      if (
+        modalEl.current &&
+        !modalEl.current.contains(e.target) &&
+        anchorEl &&
+        !anchorEl.contains(e.target)
+      ) {
+        handleClosePopover()
       }
     }
-    document.addEventListener('click', handler, true)
+    document.addEventListener('mousedown', handler)
+
     return () => {
-      document.removeEventListener('click', handler)
+      document.removeEventListener('mousedown', handler)
     }
-  }, [])
+  }, [anchorEl, handleClosePopover])
 
   useEffect(() => {
     const {
@@ -82,37 +88,55 @@ export const CopyTimesModal = ({
   }, [checked])
 
   return (
-    <div className='copy-times-modal' ref={modalEl}>
-      <p className='copy-times-text'>
-        Copy <strong>{timeString}</strong> to:
-      </p>
-      <CopyTimesOption
-        day='Everyday'
-        selectedDay={day}
-        checked={checked}
-        setChecked={setChecked}
-        key={idx}
-      />
-      {weekdayNames.map(
-        weekdayName =>
-          weekdayName != weekdaysMap[day] && (
-            <CopyTimesOption
-              day={weekdayName}
-              selectedDay={day}
-              checked={checked}
-              setChecked={setChecked}
-              key={weekdayName}
-            />
-          )
-      )}
-      <PrimaryButton
-        onClick={handleApply}
-        label='Apply'
-        disabled={isDisabled}
-        fullWidth
-        style={{ marginTop: '10px' }}
-      />
-    </div>
+    <Popover
+      id={id}
+      open={open}
+      anchorEl={anchorEl}
+      onClose={handleClosePopover}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'left',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'left',
+      }}
+      disablePortal
+      keepMounted
+    >
+      <div className='copy-times-modal' ref={modalEl}>
+        <p className='copy-times-text'>
+          Copy <strong>{timeString}</strong> to:
+        </p>
+        <CopyTimesOption
+          day='Everyday'
+          selectedDay={day}
+          checked={checked}
+          setChecked={setChecked}
+          key='Everyday'
+        />
+        {weekdayNames.map(
+          weekdayName =>
+            weekdayName !== weekdaysMap[day] && (
+              <CopyTimesOption
+                day={weekdayName}
+                selectedDay={day}
+                checked={checked}
+                setChecked={setChecked}
+                key={weekdayName}
+              />
+            )
+        )}
+        <div className='apply-submit-button'>
+          <PrimaryButton
+            onClick={handleApply}
+            label='Apply'
+            disabled={isDisabled}
+            fullWidth
+          />
+        </div>
+      </div>
+    </Popover>
   )
 }
 

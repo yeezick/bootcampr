@@ -7,7 +7,7 @@ import { createIconButton } from '../ButtonHelpers'
  * @param {boolean} [filled] - Whether the button background is filled.
 * @param {('small' | 'medium' | 'large' )} [iconSize] - The size of the icon; small, medium, or large.
 
- * @param {function} [handler] - Function to be called when the button is clicked.
+ * @param {function} [onClick] - Function to be called when the button is clicked.
  * @param {object} [style] - Custom styles to be applied to the button.
  * @param {boolean} [disabled] - Whether the button is disabled.
  * @param {string} [href] - Cause the button to render as a link and direct to the given destination.
