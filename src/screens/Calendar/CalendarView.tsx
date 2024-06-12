@@ -96,6 +96,8 @@ export const CalendarView = () => {
 
       const teamAvailabilities = []
 
+      console.log('Temp change for linter')
+
       projectSundayDates.forEach(sundayDate => {
         Object.entries(updatedTeamCommonAvail).forEach(
           ([dayOfWeek, availability]) => {
