@@ -16,7 +16,6 @@ import { useEffect, useState } from 'react'
 import { PrimaryButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
-
 export const EditAvailability = () => {
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
@@ -50,8 +49,8 @@ export const EditAvailability = () => {
       <Availability context='users-profile' />
       <ButtonContainer style={{ marginTop: '32px' }}>
         <PrimaryButton
-          handler={handleSaveAvailability}
-          text='Save'
+          onClick={handleSaveAvailability}
+          label='Save'
           loading={isLoading}
           disabled={isDisabled}
         />
