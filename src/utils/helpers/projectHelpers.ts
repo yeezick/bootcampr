@@ -1,3 +1,5 @@
+import { blankDayJs, generateDayJs } from './calendarHelpers'
+
 /**
  * @param presentationDate dayjs object
  * @param userTimezone string e.g. 'America/New_York'
@@ -55,4 +57,15 @@ export const getFullUrl = url => {
     return 'http://' + url
   }
   return url
+}
+
+export const hasPresentationDatePassed = (endDate, currentProjectId) => {
+  const now = blankDayJs()
+  const endDateEST = generateDayJs(endDate)
+    .tz('America/New_York')
+    .hour(13)
+    .minute(0)
+    .second(0)
+    .add(7, 'day')
+  return now.isAfter(endDateEST, 'hour') && currentProjectId !== 'waitlist'
 }

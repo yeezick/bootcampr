@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { FormControl, MenuItem, Select } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
+  fetchAndStoreUserProject,
   selectProjectId,
   selectProjectUiLoading,
 } from 'utils/redux/slices/projectSlice'
@@ -12,7 +13,7 @@ import {
   selectIsRecurringUser,
   updateAuthUser,
 } from 'utils/redux/slices/userSlice'
-import { buildProjectPortal, storeUserProject } from 'utils/helpers'
+import { buildProjectPortal } from 'utils/helpers'
 import './SelectProject.scss'
 
 export const SelectProject = () => {
@@ -26,7 +27,7 @@ export const SelectProject = () => {
   const projectsWithSandbox = isRecurringUser
     ? [...projects.projects, 'waitlist']
     : projects.projects
-  console.log(projectsWithSandbox)
+
   const projectsList = projectsWithSandbox.reduce(
     (projects, projectId, index) => {
       projects.push({ label: `Project ${index + 1}`, projectValue: projectId })
@@ -49,7 +50,7 @@ export const SelectProject = () => {
       selectedProject === 'waitlist' ? null : selectedProject
     setOpenSelect(true)
     dispatch(setPortal(buildProjectPortal(selectedProject)))
-    await storeUserProject(dispatch, selectedProject)
+    await dispatch(fetchAndStoreUserProject(selectedProject))
     dispatch(
       updateAuthUser({
         projects: {

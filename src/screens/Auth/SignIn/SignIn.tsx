@@ -1,4 +1,3 @@
-import './SignIn.scss'
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAppDispatch } from 'utils/redux/hooks'
@@ -6,19 +5,19 @@ import { signIn } from 'utils/api'
 import { setAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
 import { SignInInterface } from 'interfaces/UserInterface'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
-import { storeUserProject } from 'utils/helpers/stateHelpers'
 import { ForgotPasswordLink } from 'screens/AccountSettings/components/ForgotPasswordLink'
 import { toggleVisiblity } from 'components/Inputs'
 import { GoAlert } from 'react-icons/go'
 import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import login from '../../../assets/Images/login.png'
-import './SignIn.scss'
 import { buildProjectPortal } from 'utils/helpers'
 import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
 import { PrimaryButton } from 'components/Buttons'
-import { initializeMembers } from 'utils/redux/slices/teamMembers'
+import { fetchAndStoreUserProject } from 'utils/redux/slices/projectSlice'
+import { fetchTeamMembers } from 'utils/redux/slices/teamMembersSlice'
+import './SignIn.scss'
 
 const SignIn: React.FC = (): JSX.Element => {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true)
@@ -74,7 +73,7 @@ const SignIn: React.FC = (): JSX.Element => {
     }
 
     dispatch(setAuthUser(response))
-    dispatch(initializeMembers(response._id))
+    await dispatch(fetchTeamMembers(response._id)).unwrap()
     const { payment, onboarded, projects } = response
 
     if (payment.experience === 'unchosen') {
@@ -87,15 +86,13 @@ const SignIn: React.FC = (): JSX.Element => {
         projects.activeProject === null &&
         !projects.projects?.length)
     ) {
-      //TODO - Is this project an old field?
       dispatch(
         updateAuthUser({
-          project: 'sandbox',
           projects: { activeProject: 'sandbox', projects: [] },
         })
       )
       dispatch(setPortal(buildProjectPortal('sandbox')))
-      await storeUserProject(dispatch, 'sandbox')
+      dispatch(fetchAndStoreUserProject('sandbox'))
       navigate('/project/sandbox')
     } else if (
       // recurring waitlisted user
@@ -109,11 +106,12 @@ const SignIn: React.FC = (): JSX.Element => {
           projects: { activeProject: '', projects: projects.projects },
         })
       )
-      await storeUserProject(dispatch, 'waitlist')
+      dispatch(fetchAndStoreUserProject('waitlist'))
+
       navigate('/project/waitlist')
     } else {
       dispatch(setPortal(buildProjectPortal(projects.activeProject)))
-      await storeUserProject(dispatch, projects.activeProject)
+      dispatch(fetchAndStoreUserProject(projects.activeProject))
       navigate(`/project/${projects.activeProject}`)
     }
   }

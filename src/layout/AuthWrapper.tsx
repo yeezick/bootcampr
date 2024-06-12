@@ -3,8 +3,10 @@ import { useEffect } from 'react'
 import { matchPath, useLocation, useNavigate } from 'react-router-dom'
 import { verify } from 'utils/api/users'
 import { isMobileWidth } from 'utils/helpers'
-import { storeUserProject } from 'utils/helpers/stateHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import { fetchAndStoreUserProject } from 'utils/redux/slices/projectSlice'
+import { fetchTeamMembers } from 'utils/redux/slices/teamMembersSlice'
+
 import {
   selectAuthUser,
   setAuthUser,
@@ -44,8 +46,11 @@ export const AuthWrapper = ({ children }) => {
         //to syncronize and get user info again after refreshing the page
         if (token && !authUser?._id) {
           const verifiedAuthUser = await verify()
+          await dispatch(fetchTeamMembers(verifiedAuthUser._id)).unwrap()
+          console.log('here')
           if (verifiedAuthUser?._id) {
             dispatch(setAuthUser(verifiedAuthUser))
+
             const userHasValidProjectId =
               verifiedAuthUser.projects.activeProject === paramId ||
               verifiedAuthUser.projects.projects.includes(paramId)
@@ -60,13 +65,13 @@ export const AuthWrapper = ({ children }) => {
               !userHasValidProjectId &&
               !isWaitlisted
             ) {
-              await storeUserProject(dispatch, userProjectId)
+              dispatch(fetchAndStoreUserProject(userProjectId))
+
               navigate(`/project/${userProjectId}`, { replace: true })
               return
             }
-            // Problem when user is matched to a team
             const projectId = domain === 'project' ? paramId : userProjectId
-            await storeUserProject(dispatch, projectId)
+            dispatch(fetchAndStoreUserProject(projectId))
           } else if (isProtectedRoute) {
             navigate('/sign-in')
           }
@@ -85,14 +90,7 @@ export const AuthWrapper = ({ children }) => {
     }
 
     verifyAndNavigateUser()
-  }, [
-    authUser,
-    dispatch,
-    location.pathname,
-    navigate,
-    paramId,
-    authUser.projects.activeProject,
-  ])
+  }, [authUser, dispatch, location.pathname, navigate, paramId])
 
   useEffect(() => {
     const routeToMobileGate = () => {

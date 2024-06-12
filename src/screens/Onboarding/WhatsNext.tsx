@@ -8,7 +8,7 @@ import {
   updateUserExperience,
   updateUserProject,
 } from 'utils/redux/slices/userSlice'
-import './WhatsNext.scss'
+import { fetchAndStoreUserProject } from 'utils/redux/slices/projectSlice'
 import {
   removeActiveProject,
   updatePaymentExperience,
@@ -17,7 +17,7 @@ import {
 } from 'utils/api'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { PrimaryButton } from 'components/Buttons'
-import { storeUserProject } from 'utils/helpers'
+import './WhatsNext.scss'
 
 export const WhatsNext = () => {
   const authUser = useAppSelector(selectAuthUser)
@@ -49,14 +49,14 @@ export const WhatsNext = () => {
           })
 
           dispatch(updateUserProject('sandbox'))
-          await storeUserProject(dispatch, 'sandbox')
+          await fetchAndStoreUserProject('sandbox')
         } else {
           updatedUserExperience = await updatePaymentExperience(authUser._id, {
             experience: 'recurring',
             paid: true,
           })
           await removeActiveProject(authUser._id)
-          await storeUserProject(dispatch, 'waitlist')
+          await fetchAndStoreUserProject('waitlist')
         }
 
         const updatedUserProfile = await updateUserProfile({ onboarded: true })

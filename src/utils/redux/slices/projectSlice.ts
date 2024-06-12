@@ -1,4 +1,5 @@
 import {
+  createAsyncThunk,
   createSelector,
   createSlice,
   current,
@@ -7,8 +8,12 @@ import {
 import { produce } from 'immer'
 import { TicketInterface } from 'interfaces'
 import { ProjectInterface } from 'interfaces/ProjectInterface'
-import { generateDayJs } from 'utils/helpers'
+import { generateDayJs, hasPresentationDatePassed } from 'utils/helpers'
 import { RootState } from 'utils/redux/store'
+import { setInitialVisibleTickets } from './taskBoardSlice'
+import { getOneProject } from 'utils/api'
+import { emptyProject } from 'utils/data/projectConstants'
+import { selectMembersMap } from './teamMembersSlice'
 
 // TODO: Make project tracker its own model and add to taskboard slice
 
@@ -79,6 +84,60 @@ export interface UpdateTicketReducer {
   initialStatus: string
   updatedTicket: TicketInterface
 }
+
+export const fetchAndStoreUserProject = createAsyncThunk<
+  ProjectInterface,
+  string,
+  { state: RootState }
+>(
+  'project/fetchAndStoreUserProject',
+  async (projectId, { getState, dispatch, rejectWithValue }) => {
+    try {
+      const teamMembers = selectMembersMap(getState())
+      let userProject
+      if (projectId === 'waitlist') {
+        userProject = {
+          ...emptyProject,
+          _id: 'waitlist',
+        }
+      } else {
+        userProject = await getOneProject(projectId)
+        const roles = Object.keys(userProject.members)
+        roles.forEach(role => {
+          userProject.members[role] = userProject.members[role].map(
+            memberId => {
+              userProject.members[role] = teamMembers[memberId]
+              return teamMembers[memberId]
+            }
+          )
+        })
+        const { engineers, designers, productManagers } = userProject.members
+        userProject.members.emailMap = mapMembersByEmail([
+          engineers,
+          designers,
+          productManagers,
+        ])
+        userProject.members.idMap = mapMembersById([
+          engineers,
+          designers,
+          productManagers,
+        ])
+        userProject.projectPortal = { renderProjectPortal: false }
+        userProject.projectPresented = hasPresentationDatePassed(
+          userProject.timeline.endDate,
+          projectId
+        )
+      }
+      dispatch(setProject(userProject))
+      dispatch(setInitialVisibleTickets(userProject.projectTracker))
+
+      return userProject
+    } catch (error) {
+      console.error('Store user project failed: ', error)
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
 
 const projectSlice = createSlice({
   name: 'project',
@@ -192,9 +251,6 @@ const projectSlice = createSlice({
       })
       return updatedProject
     },
-    setProjectLoading: (state, action) => {
-      state.loading = action.payload
-    },
     // TODO: should we create more generic loading state and component?
     setProjectFailure: state => {
       state.loading = false
@@ -216,6 +272,19 @@ const projectSlice = createSlice({
       state.projectPortal.renderProjectPortal =
         !state.projectPortal.renderProjectPortal
     },
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchAndStoreUserProject.pending, state => {
+        state.loading = true
+      })
+      .addCase(fetchAndStoreUserProject.fulfilled, (state, action) => {
+        return {
+          ...state,
+          ...action.payload,
+          loading: false,
+        }
+      })
   },
 })
 
@@ -312,7 +381,6 @@ export const {
   updateProject,
   updatePresenting,
   updateDeployedUrl,
-  setProjectLoading,
   setProjectPresented,
   setProjectStart,
   setProjectSuccess,
