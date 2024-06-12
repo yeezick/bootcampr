@@ -39,13 +39,8 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
     }
 
     try {
-      const response = await editProject(projectID, updatedProject)
-
-      if (response) {
-        navigate(`/project/${projectID}/complete/whats-next`)
-        window.scrollTo(0, 0)
-        setIsLoading(false)
-      }
+      await editProject(projectID, updatedProject)
+      window.scrollTo(0, 0)
     } catch (error) {
       console.error(error)
       dispatch(
@@ -63,7 +58,9 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
     setLoading(true)
     try {
       await updateCompletedInfo()
-      handlePageNavigation(direction)
+      direction === 'previous'
+        ? handlePageNavigation(direction)
+        : navigate(`/project/${projectID}/complete/whats-next`)
     } finally {
       setLoading(false)
     }
