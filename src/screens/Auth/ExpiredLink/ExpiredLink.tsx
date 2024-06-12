@@ -30,21 +30,21 @@ export const ExpiredLink = () => {
 
   return (
     <div>
-      <div className='expired-page'>
-        <div className='expired-link-grid'>
-          <span className='expired-logo'>
-            <TbRefreshAlert />
-          </span>
-          <h1>Email verification link expired</h1>
+      <div className='expired-link-page'>
+        <h1>Email verification link expired</h1>
+        <div className='contents'>
           <p>
-            Looks like the verification link has expired. Not to worry, we can
-            send the link again.
+            The link we sent by email to confirm your email address has expired.
           </p>
-          <PrimaryButton
-            label='Resend verification link'
-            onClick={handleNewLink}
-          />
+          <p>
+            We can resend the link so you can verify your email address and log
+            in.
+          </p>
         </div>
+        <PrimaryButton
+          label='Resend verification link'
+          onClick={handleNewLink}
+        />
       </div>
     </div>
   )
