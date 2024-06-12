@@ -88,7 +88,7 @@
         align-items: flex-end;
         display: flex;
 
-        .avatar {
+        .chat-avatar {
           margin-left: 8px;
         }
 
@@ -133,7 +133,7 @@
           }
 
           &.same-sender-one-message {
-            border-radius: 16px 5px 5px 16px;
+            border-radius: 16px;
           }
         }
 
@@ -165,7 +165,7 @@
           }
 
           &.same-sender-one-message {
-            border-radius: 5px 16px 16px 5px;
+            border-radius: 16px;
           }
         }
 
