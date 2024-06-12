@@ -7,7 +7,7 @@ import userReducer from 'utils/redux/slices/userSlice'
 import snackBarSlice from './slices/snackBarSlice'
 import userInterfaceReducer from './slices/userInterfaceSlice'
 import taskBoardSlice from './slices/taskBoardSlice'
-import teamMembersReducer from './slices/teamMembers'
+import teamMembersReducer from './slices/teamMembersSlice'
 
 export type RootState = {
   calendar: ReturnType<typeof calendarReducer>

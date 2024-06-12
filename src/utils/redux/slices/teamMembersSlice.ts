@@ -1,7 +1,19 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import {
+  PayloadAction,
+  createAsyncThunk,
+  createSlice,
+  current,
+} from '@reduxjs/toolkit'
+import { UserInterface } from 'interfaces'
 import { getAllTeamMembers } from 'utils/api'
 import { RootState } from 'utils/redux/store'
-import { fetchThreads } from './chatSlice'
+
+const initialState = {
+  members: [],
+  membersMap: {},
+  loading: false,
+  error: null,
+}
 
 export const fetchTeamMembers = createAsyncThunk(
   'teamMembers/fetchTeamMembers',
@@ -16,22 +28,18 @@ export const fetchTeamMembers = createAsyncThunk(
   }
 )
 
-export const initializeMembers = createAsyncThunk(
-  'teamMembers/initialize',
-  async (authUserId: string, thunkAPI) => {
-    await thunkAPI.dispatch(fetchTeamMembers(authUserId))
-    await thunkAPI.dispatch(fetchThreads())
-  }
-)
-
 const teamMembersSlice = createSlice({
   name: 'teamMembers',
-  initialState: {
-    members: {},
-    loading: false,
-    error: null,
+  initialState: initialState,
+  reducers: {
+    updateMembersMap: (state, action: PayloadAction<UserInterface[]>) => {
+      const newMembers = action.payload
+      newMembers.forEach(member => {
+        state.members = [...state.members, member]
+        state.membersMap[member._id] = member
+      })
+    },
   },
-  reducers: {},
   extraReducers: builder => {
     builder
       .addCase(fetchTeamMembers.pending, state => {
@@ -40,6 +48,10 @@ const teamMembersSlice = createSlice({
       })
       .addCase(fetchTeamMembers.fulfilled, (state, action) => {
         state.members = action.payload
+        state.membersMap = action.payload.reduce((normalizedMember, member) => {
+          normalizedMember[member._id] = member
+          return normalizedMember
+        }, {})
         state.loading = false
       })
       .addCase(fetchTeamMembers.rejected, (state, action) => {
@@ -49,5 +61,9 @@ const teamMembersSlice = createSlice({
   },
 })
 
+export const { updateMembersMap } = teamMembersSlice.actions
+
 export const selectMembers = (state: RootState) => state.teamMembers.members
+export const selectMembersMap = (state: RootState) =>
+  state.teamMembers.membersMap
 export default teamMembersSlice.reducer
