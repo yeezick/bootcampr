@@ -17,45 +17,4 @@
     @include flex(column, flex-start, center);
     margin: 64px auto auto;
   }
-  
-  .url-input {
-    p {
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 24px;
-      margin: 0;
-    }
-
-    input {
-      border-radius: 5px;
-      box-sizing: border-box;
-      height: 40px;
-      margin-top: 8px;
-      padding: 8px 16px;
-      width: 328px;
-    }
-  }
-
-  .participation-radio {
-    &.MuiRadio-root {
-      color: black;
-      padding-left: 15px;
-
-      &.Mui-checked {
-        color: #0d47a1;
-      }
-
-      .MuiSvgIcon-root {
-        font-size: 16px;
-      }
-    }
-  }
-
-  .participation-helper-text {
-    color: #616161;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 16px;
-    margin: -5px 0px 0px 30px;
-  }
 }
