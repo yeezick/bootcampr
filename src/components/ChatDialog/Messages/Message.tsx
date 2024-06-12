@@ -1,12 +1,13 @@
+import { useAppSelector } from 'utils/redux/hooks'
 import {
   isFirstMessageBySameUser,
   getMessageClassNames,
 } from 'utils/functions/chatLogic'
 import { formatTimestamp } from 'utils/helpers/dateFormatHelpers'
 import adminAvatar from '../../../assets/bootcamprAdmin.svg'
-import { useAppSelector } from 'utils/redux/hooks'
-import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
+import { selectChat } from 'utils/redux/slices/chatSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import { ChatUserAvatar } from '../ChatAvatar/ChatAvatar'
 import './Messages.scss'
 
 export const Message = ({
@@ -15,9 +16,9 @@ export const Message = ({
   messages,
   selectedMessages,
   handleTimestampClick,
-  currentConversation,
 }) => {
   const authUser = useAppSelector(selectAuthUser)
+  const currentConversation = useAppSelector(selectChat)
   const isSenderAuthUser = message.sender._id === authUser._id
   const showSenderName =
     currentConversation.chatType === 'group' &&
@@ -74,7 +75,11 @@ const RecipientsAvatar = ({ message }) => {
       {isBotMessage ? (
         <img src={adminAvatar} alt='avatar' />
       ) : (
-        <TeamAvatar userId={message.sender._id} size='x-small' />
+        <ChatUserAvatar
+          avatarSize='x-small'
+          userInfo={message.sender}
+          profilePicture={message.sender.profilePicture}
+        />
       )}
     </div>
   )

@@ -1,10 +1,13 @@
-import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
+import Avatar from '@mui/material/Avatar'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
-import { extractConversationAvatars } from 'utils/functions/chatLogic'
-import Avatar from '@mui/material/Avatar'
+import {
+  extractConversationAvatars,
+  getInitials,
+} from 'utils/functions/chatLogic'
 import { FiCamera } from 'react-icons/fi'
+import { UserInterface } from 'interfaces'
 import './ChatAvatar.scss'
 
 export const ChatAvatar = ({
@@ -21,9 +24,10 @@ export const ChatAvatar = ({
 
   if (chatType === 'private') {
     return (
-      <TeamAvatar
-        userId={membersWithoutAuth[0].userInfo._id}
-        size={avatarSize}
+      <ChatUserAvatar
+        avatarSize={avatarSize}
+        userInfo={membersWithoutAuth[0].userInfo}
+        profilePicture={membersWithoutAuth[0].userInfo.profilePicture}
       />
     )
   }
@@ -36,7 +40,13 @@ export const ChatAvatar = ({
         <GroupPhotoAvatar groupPhoto={groupPhoto} avatarSize={avatarSize} />
       )
     } else if (isTeamChat) {
-      avatarComponent = <TeamChatAvatar avatarSize={avatarSize} />
+      avatarComponent = (
+        <ChatUserAvatar
+          avatarSize={avatarSize}
+          profilePicture={groupPhoto}
+          isTeam
+        />
+      )
     } else {
       const pictures = extractConversationAvatars(participants, authUser._id)
       avatarComponent = (
@@ -72,7 +82,19 @@ const GroupPhotoAvatar = ({ groupPhoto, avatarSize }) => {
   )
 }
 
-const TeamChatAvatar = ({ avatarSize }) => {
+interface ChatAvatarInterface {
+  avatarSize: string
+  isTeam?: boolean
+  userInfo?: UserInterface
+  profilePicture?: string
+}
+
+export const ChatUserAvatar = ({
+  avatarSize,
+  isTeam,
+  userInfo,
+  profilePicture,
+}: ChatAvatarInterface) => {
   const avatarSizeStyles = {
     'x-small': {
       fontSize: 16,
@@ -94,12 +116,19 @@ const TeamChatAvatar = ({ avatarSize }) => {
   const avatarStyle = {
     fontFamily: 'Roboto',
     textAlign: 'center',
-    backgroundColor: '#1A237E',
-    color: '#FFA726',
+    backgroundColor: isTeam ? '#1A237E' : '#FFA726',
+    color: isTeam ? '#FFA726' : '#1A237E',
     ...avatarSizeStyles[avatarSize],
   }
 
-  const displayName = avatarSize === 'large' ? 'Team Chat' : 'TC'
+  const displayTeamName = avatarSize === 'large' ? 'Team Chat' : 'TC'
+  const displayName = isTeam
+    ? displayTeamName
+    : getInitials(userInfo.firstName, userInfo.lastName)
 
-  return <Avatar sx={avatarStyle}>{displayName}</Avatar>
+  return (
+    <Avatar sx={avatarStyle} src={profilePicture}>
+      {!profilePicture && displayName}
+    </Avatar>
+  )
 }

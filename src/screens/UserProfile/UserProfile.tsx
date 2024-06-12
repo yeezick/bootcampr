@@ -22,11 +22,12 @@ import { useChatSocketEvents } from 'components/Socket/chatSocket'
 import './UserProfile.scss'
 import { PrimaryButton } from 'components/Buttons'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
+import { selectMembers } from 'utils/redux/slices/teamMembersSlice'
 
 export const UserProfile: React.FC = () => {
   const authUser = useAppSelector(selectAuthUser)
   const { userId } = useParams()
-  const teamMembers = useAppSelector(selectMembersAsTeam)
+  const teamMembers = useAppSelector(selectMembers)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { createNewRoom } = useChatSocketEvents(false)

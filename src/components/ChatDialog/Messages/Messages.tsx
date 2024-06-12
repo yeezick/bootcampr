@@ -29,7 +29,6 @@ export const Messages = ({ selectedMessages, handleTimestampClick }) => {
             messages={messages}
             selectedMessages={selectedMessages}
             handleTimestampClick={handleTimestampClick}
-            currentConversation={currentConversation}
           />
         ))}
       </>
