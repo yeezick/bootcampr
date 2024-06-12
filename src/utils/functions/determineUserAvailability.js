@@ -1,29 +1,50 @@
-import { generateDayJs } from 'utils/helpers'
+import { generateDayJs, convertToUTC } from 'utils/helpers'
+import { dayJSformattedTZdata } from 'utils/data/timeZoneConstants'
 
 export const determineUserAvailability = (
   currMember,
   dateFields,
   setIsAvailable
 ) => {
-  const [weekday, eventDate] = generateDayJs(dateFields.start)
+  const eventTimezone = dateFields.eventTimezone
+  const userTimezone = currMember.timezone
+
+  const eventUTC = dayJSformattedTZdata[eventTimezone].utc
+
+  const startInUTC = convertToUTC(dateFields.start, eventUTC)
+  const endInUTC = convertToUTC(dateFields.end, eventUTC)
+
+  const [weekday, eventDate] = generateDayJs(startInUTC)
     .format('ddd-M/D/YYYY')
     .split('-')
   const weekDay = weekday.toUpperCase()
+
   const { availability } = currMember
   const dayAvailability = availability[weekDay].availability
+
   for (let i = 0; i < dayAvailability.length; i++) {
     const [timeSlotStart, timeSlotEnd] = dayAvailability[i]
+
+    const timeSlotStartInUTC = convertToUTC(
+      `${eventDate} ${timeSlotStart}`,
+      userTimezone
+    )
+    const timeSlotEndInUTC = convertToUTC(
+      `${eventDate} ${timeSlotEnd}`,
+      userTimezone
+    )
+
     const isLastSlot = i === dayAvailability.length - 1
-    const timeSlotStartDayJs = generateDayJs(`${eventDate} ${timeSlotStart}`)
-    const timeSlotEndDayJs = generateDayJs(`${eventDate} ${timeSlotEnd}`)
-    const startDifference = timeSlotStartDayJs.diff(dateFields.start, 'minute')
-    const endDifference = timeSlotEndDayJs.diff(dateFields.end, 'minute')
+    const timeSlotStartDayJs = generateDayJs(timeSlotStartInUTC)
+    const timeSlotEndDayJs = generateDayJs(timeSlotEndInUTC)
+    const startDifference = timeSlotStartDayJs.diff(startInUTC, 'minute')
+    const endDifference = timeSlotEndDayJs.diff(endInUTC, 'minute')
     const differenceFromSlotStartToEventEnd = timeSlotStartDayJs.diff(
-      dateFields.end,
+      endInUTC,
       'minute'
     )
     const differenceFromSlotEndToEventStart = timeSlotEndDayJs.diff(
-      dateFields.start,
+      startInUTC,
       'minute'
     )
 

@@ -137,6 +137,11 @@ export const generateDayJs = (date: string) => {
   return dayjs(date)
 }
 
+export const convertToUTC = (time, timezoneOffset) => {
+  const formatedTime = dayjs(time).format('YYYY-MM-DDTHH:mm:ss')
+  return dayjs.tz(formatedTime, timezoneOffset).utc().format()
+}
+
 const generateInitialTime = type => {
   const timeStr = dayjs().format('hh:mm A')
   const [time, period] = timeStr.split(/\s/)
