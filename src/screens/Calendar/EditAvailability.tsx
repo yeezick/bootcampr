@@ -1,5 +1,8 @@
 import { Availability } from 'components/Availability/Availability'
-import { saveAvailability } from 'components/Availability/utils/helpers'
+import {
+  disableForwardButton,
+  saveAvailability,
+} from 'components/Availability/utils/helpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   getUserTimezone,
@@ -9,9 +12,9 @@ import {
 import './EditAvailability.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { AvailabilityInterface } from 'interfaces'
+import { useEffect, useState } from 'react'
 import { PrimaryButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
-import { useState } from 'react'
 
 export const EditAvailability = () => {
   const dispatch = useAppDispatch()
@@ -20,6 +23,8 @@ export const EditAvailability = () => {
   const userAvailability = useAppSelector<AvailabilityInterface>(
     selectUserAvailability
   )
+
+  const [isDisabled, setIsDisabled] = useState(true)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleSaveAvailability = async () => {
@@ -34,14 +39,20 @@ export const EditAvailability = () => {
     }
   }
 
+  useEffect(() => {
+    const disabled = disableForwardButton(userAvailability)
+    setIsDisabled(disabled)
+  }, [userAvailability])
+
   return (
     <div className='edit-availability-container'>
-      <Availability />
+      <Availability context='users-profile' />
       <ButtonContainer style={{ marginTop: '32px' }}>
         <PrimaryButton
           onClick={handleSaveAvailability}
           label='Save'
           loading={isLoading}
+          disabled={isDisabled}
         />
       </ButtonContainer>
     </div>
