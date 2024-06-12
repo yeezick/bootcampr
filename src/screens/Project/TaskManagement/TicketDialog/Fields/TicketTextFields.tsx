@@ -8,6 +8,7 @@ import {
 import { handleReduxInputChange } from 'utils/helpers'
 import { iconMap } from 'utils/components/Icons'
 import { TaskComments } from '../Comments/TaskComments'
+import { selectProjectPresented } from 'utils/redux/slices/projectSlice'
 
 export const TicketTextFields = () => {
   const ticketDialogState = useAppSelector(selectTicketDialogState)
@@ -28,6 +29,7 @@ export const TicketTextFields = () => {
 }
 export const TicketTextField = ({ field, label, icon, ...muiProps }) => {
   const ticketFields = useAppSelector(selectTicketFields)
+  const projectPresented = useAppSelector(selectProjectPresented)
   const dispatch = useAppDispatch()
   const handleInputChange = e =>
     handleReduxInputChange(e, dispatch, setTicketFields)
@@ -41,6 +43,7 @@ export const TicketTextField = ({ field, label, icon, ...muiProps }) => {
         onChange={handleInputChange}
         value={ticketFields[field]}
         variant='outlined'
+        disabled={projectPresented}
         {...muiProps}
       />
     </div>

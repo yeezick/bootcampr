@@ -1,6 +1,9 @@
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { selectProjectId } from 'utils/redux/slices/projectSlice'
+import {
+  selectProjectId,
+  selectProjectPresented,
+} from 'utils/redux/slices/projectSlice'
 import {
   resetTicketFields,
   setVisibleTicketDialog,
@@ -11,6 +14,7 @@ import { CreateTaskButton } from 'components/Buttons'
 export const CreateTicketTab = ({ columnStatus }) => {
   const projectId = useAppSelector(selectProjectId)
   const { _id: userId, payment } = useAppSelector(selectAuthUser)
+  const projectPresented = useAppSelector(selectProjectPresented)
   const dispatch = useAppDispatch()
 
   const openCreateTicketDialog = () => {
@@ -25,6 +29,10 @@ export const CreateTicketTab = ({ columnStatus }) => {
   }
 
   return (
-    <CreateTaskButton onClick={openCreateTicketDialog} label='Create story' />
+    <CreateTaskButton
+      onClick={openCreateTicketDialog}
+      label='Create story'
+      disabled={projectPresented}
+    />
   )
 }

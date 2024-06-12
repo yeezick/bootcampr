@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
-import { selectProjectTimeline } from 'utils/redux/slices/projectSlice'
+import {
+  selectProjectPresented,
+  selectProjectTimeline,
+} from 'utils/redux/slices/projectSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
 import { DatePicker } from '@mui/x-date-pickers'
@@ -15,6 +18,7 @@ export const SelectDate = () => {
   const [datePickerDayjs, setDayPickerDayjs] = useState(blankDayJs())
   const { startDate, endDate } = useAppSelector(selectProjectTimeline)
   const { dueDate } = useAppSelector(selectTicketFields)
+  const projectPresented = useAppSelector(selectProjectPresented)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -49,6 +53,7 @@ export const SelectDate = () => {
         slots={{ openPickerIcon: iconMap['calendar'] }}
         slotProps={{ popper: { placement: 'bottom-end' } }}
         value={datePickerDayjs}
+        disabled={projectPresented}
       />
     </div>
   )
