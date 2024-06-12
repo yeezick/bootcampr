@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 import { useAppSelector } from 'utils/redux/hooks'
 import { getUserTimezone } from 'utils/redux/slices/userSlice'
 
-export const TimeZoneInputBanner = () => {
+export const TimeZoneInputBanner = ({ context }) => {
   const dispatch = useDispatch()
   const storedUserTimezone = useAppSelector(getUserTimezone)
   const [userFriendlyTimezone, setUserFriendlyTimezone] = useState(Timezones.ET)
@@ -39,13 +39,18 @@ export const TimeZoneInputBanner = () => {
 
   return (
     <div className='timezone-input-container'>
-      <h2>Availability</h2>
+      {context === 'onboarding' ? (
+        <h2>Availability</h2>
+      ) : (
+        <h2>Update Availability</h2>
+      )}
       <Select
         defaultValue={userFriendlyTimezone}
         IconComponent={ExpandMoreRounded}
         sx={tzSelectSx}
         value={userFriendlyTimezone}
         onChange={handleChange}
+        className='timezone-input'
       >
         {Object.keys(Timezones).map(zone => (
           <MenuItem key={zone} value={Timezones[zone]}>
