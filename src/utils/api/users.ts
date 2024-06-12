@@ -25,6 +25,16 @@ export const getAllTeamMembers = async (id: string) => {
   }
 }
 
+export const getUsersByIds = async (ids: string[]) => {
+  try {
+    const res = await api.post(`/users/usersIds`, ids)
+    return res.data
+  } catch (error) {
+    console.error('Error in get team members:', error)
+    return false
+  }
+}
+
 export const getOneUser = async (id: any) => {
   try {
     const res = await api.get(`/users/${id}`)

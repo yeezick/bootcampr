@@ -13,6 +13,7 @@ import { ChatDialogMain } from 'components/ChatDialog/ChatDialogMain/ChatDialogM
 import { useChatSocketEvents } from 'components/Socket/chatSocket'
 import { Avatar } from 'components/Avatar/Avatar'
 import {
+  fetchThreads,
   selectChatUI,
   selectUnreadMessageCount,
   setActiveChatRoomId,
@@ -23,9 +24,8 @@ import { buildPortal } from 'utils/helpers'
 import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { CustomBadge } from 'components/Badge/Badge'
 import { selectProjectId } from 'utils/redux/slices/projectSlice'
-import './styles/Nav.scss'
 import { logOut } from 'utils/api'
-import { initializeMembers } from 'utils/redux/slices/teamMembers'
+import './styles/Nav.scss'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
@@ -34,7 +34,6 @@ export const Nav = () => {
   const experience = useAppSelector(selectUserExperience)
   const currentProjectId = useAppSelector(selectProjectId)
   const { _id: userId } = authUser
-
   const dispatch = useAppDispatch()
   const location = useLocation()
   const excludedRoutes = [
@@ -127,19 +126,17 @@ export const Nav = () => {
 
 const AuthorizedNavLinks = ({ notificationCount, setAnchorEl, anchorEl }) => {
   const dispatch = useAppDispatch()
+  const authUser = useAppSelector(selectAuthUser)
   const { visibleChat } = useAppSelector(selectChatUI)
   const unreadMessagesCount = useAppSelector(selectUnreadMessageCount)
-  const authUser = useAppSelector(selectAuthUser)
   const { _id: userId } = authUser
   const chatRef = useRef(null)
   useChatSocketEvents(false)
 
   useEffect(() => {
-    if (authUser && authUser._id) {
-      dispatch(initializeMembers(authUser._id))
-      dispatch(setActiveChatRoomId(null))
-    }
-  }, [dispatch, authUser])
+    dispatch(fetchThreads())
+    dispatch(setActiveChatRoomId(null))
+  }, [dispatch])
 
   const toggleChatBox = () => {
     dispatch(toggleChat())
