@@ -47,17 +47,3 @@ export const updateComment = async (commentId, commentUpdates) => {
     return { error: 'Failed to update comment' }
   }
 }
-
-export const getReplies = async (
-  commentId: string
-): Promise<CommentInterface[]> => {
-  try {
-    if (isSandboxId(commentId)) {
-      return sampleReply
-    }
-    const response = await api.get(`/comments/${commentId}/replies`)
-    return response.data
-  } catch (error) {
-    return []
-  }
-}
