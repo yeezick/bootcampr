@@ -10,9 +10,20 @@ export interface CommentInterface {
   createdAt: string
   content: string
   likes: string[]
-  replies: string[]
+  replies: ReplyInterface[]
 }
 
+export interface ReplyInterface {
+  _id: string
+  likes: string[]
+  content: string
+  authorId: string
+  createdAt: string
+  updatedAt: string
+  ticketId: string
+  parentId: string
+  __v: number
+}
 export interface NewCommentProps {
   fetchComments: boolean
   parentCommentId?: string
