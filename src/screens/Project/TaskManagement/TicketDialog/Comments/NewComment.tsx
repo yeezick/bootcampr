@@ -14,6 +14,7 @@ import {
   selectHasConflictedTicket,
   selectTicketFields,
 } from 'utils/redux/slices/taskBoardSlice'
+import { isEmptyString } from 'utils/helpers/inputUtils'
 
 export const NewComment = ({
   fetchComments,
@@ -47,6 +48,7 @@ export const NewComment = ({
   }
 
   const handleCreate = async inputText => {
+    if (isEmptyString(inputText)) return
     if (hasConflictedTicket) return
     if (isSandboxId(ticketId || parentCommentId)) {
       dispatch(errorSnackbar('This feature is disabled for the sandbox!'))
