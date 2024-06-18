@@ -2,9 +2,12 @@ import { Loader } from 'components/Loader/Loader'
 import { useEffect } from 'react'
 import { matchPath, useLocation, useNavigate } from 'react-router-dom'
 import { verify } from 'utils/api/users'
-import { isMobileWidth } from 'utils/helpers'
+import { determineProjectIdByStatus, isMobileWidth } from 'utils/helpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { fetchAndStoreUserProject } from 'utils/redux/slices/projectSlice'
+import {
+  fetchAndStoreUserProject,
+  selectProject,
+} from 'utils/redux/slices/projectSlice'
 import { fetchTeamMembers } from 'utils/redux/slices/teamMembersSlice'
 
 import {
@@ -46,32 +49,27 @@ export const AuthWrapper = ({ children }) => {
         //to syncronize and get user info again after refreshing the page
         if (token && !authUser?._id) {
           const verifiedAuthUser = await verify()
-          await dispatch(fetchTeamMembers(verifiedAuthUser._id)).unwrap()
-          console.log('here')
           if (verifiedAuthUser?._id) {
+            await dispatch(fetchTeamMembers(verifiedAuthUser._id)).unwrap()
             dispatch(setAuthUser(verifiedAuthUser))
 
-            const userHasValidProjectId =
+            let projectId
+            const paramIsValidProjectId =
               verifiedAuthUser.projects.activeProject === paramId ||
               verifiedAuthUser.projects.projects.includes(paramId)
-            const isWaitlisted =
-              paramId === 'waitlist' &&
-              verifiedAuthUser.payment.experience === 'recurring'
-            const userProjectId =
-              verifiedAuthUser.projects.activeProject || 'waitlist'
 
-            if (
-              domain === 'project' &&
-              !userHasValidProjectId &&
-              !isWaitlisted
-            ) {
-              dispatch(fetchAndStoreUserProject(userProjectId))
-
-              navigate(`/project/${userProjectId}`, { replace: true })
-              return
+            if (verifiedAuthUser.payment.experience === 'unchosen') {
+              projectId = 'sandbox'
+            } else if (paramIsValidProjectId) {
+              projectId = paramId
+            } else {
+              projectId = determineProjectIdByStatus(verifiedAuthUser)
             }
-            const projectId = domain === 'project' ? paramId : userProjectId
-            dispatch(fetchAndStoreUserProject(projectId))
+
+            if (domain === 'project' && paramId !== projectId) {
+              navigate(`/project/${projectId}`, { replace: true })
+            }
+            await dispatch(fetchAndStoreUserProject(projectId))
           } else if (isProtectedRoute) {
             navigate('/sign-in')
           }
@@ -90,7 +88,7 @@ export const AuthWrapper = ({ children }) => {
     }
 
     verifyAndNavigateUser()
-  }, [authUser, dispatch, location.pathname, navigate, paramId])
+  }, [authUser._id, dispatch, location.pathname, navigate])
 
   useEffect(() => {
     const routeToMobileGate = () => {
