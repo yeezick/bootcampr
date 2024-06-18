@@ -23,7 +23,17 @@ export const Role = ({ handlePageNavigation }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const authUser = useAppSelector(selectAuthUser)
   const isRecurringUnpaid = useAppSelector(selectIsRecurringUnpaidUser)
-  const welcomeText = isRecurringUnpaid ? 'Welcome back' : 'Welcome'
+  const welcomeText = isRecurringUnpaid
+    ? {
+        header: 'Welcome back',
+        description:
+          "Let's review the information we'll use to best match project teams.",
+      }
+    : {
+        header: 'Welcome',
+        description:
+          "Let's start with information we'll use to best match project teams.",
+      }
   const buttonLabel = isRecurringUnpaid
     ? 'Review availability'
     : 'Set availability'
@@ -81,11 +91,9 @@ export const Role = ({ handlePageNavigation }) => {
     <div className='onboarding-container'>
       <div className='welcome-container'>
         <h1>
-          {welcomeText}, {authUser.firstName}!
+          {welcomeText.header}, {authUser.firstName}!
         </h1>
-        <p>
-          Let's start with information we'll use to best match project teams.
-        </p>
+        <p>{welcomeText.description}</p>
       </div>
       <div className='role-selection-container'>
         <div>
