@@ -26,6 +26,7 @@ import { CustomBadge } from 'components/Badge/Badge'
 import { selectProjectId } from 'utils/redux/slices/projectSlice'
 import { logOut } from 'utils/api'
 import './styles/Nav.scss'
+import { useKanbanSocketEvents } from 'components/Socket/kanbanSocket'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
@@ -132,6 +133,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl, anchorEl }) => {
   const { _id: userId } = authUser
   const chatRef = useRef(null)
   useChatSocketEvents(false)
+  useKanbanSocketEvents()
 
   useEffect(() => {
     dispatch(fetchThreads())

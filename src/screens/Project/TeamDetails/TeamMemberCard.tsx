@@ -32,7 +32,7 @@ const MemberInfo = ({ member, roleHeader }) => {
     role === getPreviousRoleByHeader(roleHeader)
       ? role
       : getPreviousRoleByHeader(roleHeader)
-  console.log(userRoleByProject)
+
   return (
     <div className='member-info'>
       <div className='member-img'>
