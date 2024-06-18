@@ -18,15 +18,18 @@ import {
 } from 'utils/redux/slices/chatSlice'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { useChatSocketEvents } from 'components/Socket/chatSocket'
-import './UserProfile.scss'
 import { PrimaryButton } from 'components/Buttons'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
 import { selectMembers } from 'utils/redux/slices/teamMembersSlice'
+import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
+import './UserProfile.scss'
+import { Loader } from 'components/Loader/Loader'
 
 export const UserProfile: React.FC = () => {
   const authUser = useAppSelector(selectAuthUser)
   const { userId } = useParams()
   const teamMembers = useAppSelector(selectMembers)
+  const sandboxTeam = useAppSelector(selectMembersAsTeam)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { createNewRoom } = useChatSocketEvents(false)
@@ -40,15 +43,19 @@ export const UserProfile: React.FC = () => {
     if (authUser._id === userId) {
       userProfile = authUser
     } else {
-      userProfile = teamMembers.find(member => member._id === userId)
+      const team =
+        authUser.projects.activeProject === 'sandbox'
+          ? sandboxTeam
+          : teamMembers
+      userProfile = team.find(member => member._id === userId)
     }
 
     setUserProfileInfo(userProfile)
-  }, [teamMembers, userProfileInfo, authUser, userId])
+  }, [teamMembers, userProfileInfo, authUser, userId, sandboxTeam])
 
   // BC-334: should handle this case
   if (!userProfileInfo || !userProfileInfo._id) {
-    return <div>Loading user... or there isn't one.</div>
+    return <Loader />
   }
 
   const handleProfileMessageClick = async () => {
