@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
@@ -18,13 +18,18 @@ import {
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { PrimaryButton } from 'components/Buttons'
 import './WhatsNext.scss'
+import { Loader } from 'components/Loader/Loader'
 
 export const WhatsNext = () => {
   const authUser = useAppSelector(selectAuthUser)
+  const [isLoading, setIsLoading] = useState(false)
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const isRecurringUser = useAppSelector(selectIsRecurringUser)
+  const bannerHeader = isRecurringUser
+    ? "You're ready for your next project!"
+    : "You're a Bootcampr now!"
 
   useEffect(() => {
     const checkUserPayment = async () => {
@@ -51,10 +56,12 @@ export const WhatsNext = () => {
           dispatch(updateUserProject('sandbox'))
           await fetchAndStoreUserProject('sandbox')
         } else {
-          updatedUserExperience = await updatePaymentExperience(authUser._id, {
+          updatedUserExperience = {
             experience: 'recurring',
             paid: true,
-          })
+          }
+          dispatch(updateUserExperience(updatedUserExperience))
+          await updatePaymentExperience(authUser._id, updatedUserExperience)
           await removeActiveProject(authUser._id)
           await fetchAndStoreUserProject('waitlist')
         }
@@ -74,9 +81,15 @@ export const WhatsNext = () => {
       }
     }
     if (authUser._id) {
+      setIsLoading(true)
       checkUserPayment()
+      setIsLoading(false)
     }
   }, [authUser])
+
+  if (isLoading) {
+    return <Loader />
+  }
 
   const handleViewProjectDetails = () => {
     // If user is not yet assigned a project, route them to the generic Product Details page
@@ -90,11 +103,7 @@ export const WhatsNext = () => {
     <div className='onboarding-lastscreen-container'>
       <div className='lastscreen-text-container'>
         <div className='lastscreen-header'>
-          <h1>
-            {isRecurringUser
-              ? "You're ready for your next project!"
-              : "You're a Bootcampr now!"}
-          </h1>
+          <h1>{bannerHeader}</h1>
         </div>
         <div className='whats-next'>
           <h2> What's next?</h2>

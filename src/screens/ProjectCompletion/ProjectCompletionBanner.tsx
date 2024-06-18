@@ -21,7 +21,7 @@ export const ProjectCompletionBanner = () => {
 
   return (
     <div className='project-completion-banner'>
-      <img src={bannerImg} />
+      <img src={bannerImg} alt='completion' />
       <div className='content'>
         <h2>Congrats on completing your project!</h2>
         <p>Join a new cross-functional team to gain more experience.</p>

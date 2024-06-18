@@ -11,8 +11,7 @@ import { fetchIcon } from 'utils/components/Icons'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { buildProjectPortal } from 'utils/helpers'
 import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
-import { getOneProject } from 'utils/api'
-import { setProject } from 'utils/redux/slices/projectSlice'
+import { fetchAndStoreUserProject } from 'utils/redux/slices/projectSlice'
 import { handleJoinTeam } from 'utils/helpers/paymentHelpers'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { useState } from 'react'
@@ -41,16 +40,13 @@ const SandboxCard = () => {
     const updatedExperience = await updatePaymentExperience(userId, {
       experience: 'sandbox',
     })
-    const sandboxProject = await getOneProject('sandbox')
+
     if (updatedExperience.error) {
       dispatch(errorSnackbar('Error setting project experience.'))
       return
-    } else if (sandboxProject.error) {
-      dispatch(errorSnackbar('Error fetching sandbox project'))
-      return
     }
 
-    dispatch(setProject(sandboxProject))
+    dispatch(fetchAndStoreUserProject('sandbox'))
     dispatch(updateUserProject('sandbox'))
     dispatch(updateUserExperience(updatedExperience))
     dispatch(setPortal(buildProjectPortal('sandbox')))
