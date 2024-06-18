@@ -17,9 +17,9 @@ import {
 import './styles/SideMenu.scss'
 import { PrimaryButton } from 'components/Buttons'
 import {
-  selectIsRecurringActiveUser,
   selectIsRecurringUser,
   selectUserExperience,
+  selectUserHasMultipleProjects,
 } from 'utils/redux/slices/userSlice'
 import { SelectProject } from 'screens/Project/RecurringUser/SelectProject'
 
@@ -80,12 +80,12 @@ export const SideMenu = () => {
 
 const SideMenuLinks = () => {
   const { links } = useAppSelector(selectSideMenu)
-  const isRecurringUser = useAppSelector(selectIsRecurringUser)
-  const isRecurringActiveUser = useAppSelector(selectIsRecurringActiveUser)
+  const isRecurringWaitlistUser = useAppSelector(selectIsRecurringUser)
+  const userHasMultipleProjects = useAppSelector(selectUserHasMultipleProjects)
   const { pathname } = useLocation()
   const domain = extractDomain(pathname)
   const displayProjectSelector =
-    (isRecurringUser || isRecurringActiveUser) && domain === 'project'
+    (isRecurringWaitlistUser || userHasMultipleProjects) && domain === 'project'
   return (
     <div className='sidemenu-links'>
       {displayProjectSelector && <SelectProject />}

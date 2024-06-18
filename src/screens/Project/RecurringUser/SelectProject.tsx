@@ -46,19 +46,9 @@ export const SelectProject = () => {
 
   const handleProjectChange = async event => {
     const selectedProject = event.target.value
-    const userActiveProject =
-      selectedProject === 'waitlist' ? null : selectedProject
     setOpenSelect(true)
     dispatch(setPortal(buildProjectPortal(selectedProject)))
     await dispatch(fetchAndStoreUserProject(selectedProject))
-    dispatch(
-      updateAuthUser({
-        projects: {
-          activeProject: userActiveProject,
-          projects: projects.projects,
-        },
-      })
-    )
     navigate(`/project/${selectedProject}`)
     setOpenSelect(false)
   }

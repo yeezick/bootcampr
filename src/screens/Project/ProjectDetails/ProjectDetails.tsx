@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Overview } from './Overview'
 import { ProjectTimeline } from './ProjectTimeline'
 import { Presentation } from './Presentation'
@@ -8,30 +8,37 @@ import { PresentationInfoBanner } from './PresentationInfoBanner'
 import { useAppSelector } from 'utils/redux/hooks'
 import {
   selectCompletedInfo,
-  selectProjectPresented,
+  selectPresentationDateWithTime,
+  selectProjectCompleted,
+  selectProjectId,
 } from 'utils/redux/slices/projectSlice'
 import {
+  selectAuthUser,
+  selectIsActiveUser,
+  selectIsInactiveUser,
   selectIsRecurringUnpaidUser,
-  selectUserPayment,
 } from 'utils/redux/slices/userSlice'
-import { isPaidActiveExperience } from 'utils/helpers/taskHelpers'
+import { blankDayJs } from 'utils/helpers'
 import { ProjectCompletionBanner } from 'screens/ProjectCompletion/ProjectCompletionBanner'
 import { SubmittedProject } from './SubmittedProject'
 import './ProjectDetails.scss'
 
 export const ProjectDetails = () => {
-  const projectPresented = useAppSelector(selectProjectPresented)
+  const [value, setValue] = useState('1')
   const { presenting } = useAppSelector(selectCompletedInfo)
-  const userExperience = useAppSelector(selectUserPayment)
-  const isActiveUser = isPaidActiveExperience(userExperience)
+  const currentProjectId = useAppSelector(selectProjectId)
+  const projectCompleted = useAppSelector(selectProjectCompleted)
+  const isInactiveUser = useAppSelector(selectIsInactiveUser)
+  const isActiveUser = useAppSelector(selectIsActiveUser)
   const isRecurringUnpaidUser = useAppSelector(selectIsRecurringUnpaidUser)
   const isProjectSubmitted = presenting !== null
+  const authUser = useAppSelector(selectAuthUser)
   const presentationTab = { label: 'PRESENTATION', content: <Presentation /> }
   const submittedProjectTab = {
     label: 'SUBMITTED PROJECT',
     content: <SubmittedProject />,
   }
-  const projectInfoTab = projectPresented
+  const projectInfoTab = projectCompleted
     ? submittedProjectTab
     : presentationTab
 
@@ -41,23 +48,25 @@ export const ProjectDetails = () => {
     { ...projectInfoTab },
   ]
 
-  const [value, setValue] = useState('1')
-
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
   }
-  const projectSubmittedNotPresented = isProjectSubmitted && !projectPresented
+  const projectSubmittedNotPresented = isProjectSubmitted && !projectCompleted
   const tabPanelStyles = projectSubmittedNotPresented
     ? 'with-banner'
     : 'tab-panel'
 
+  const displaysCurrentProjectInfo =
+    currentProjectId === authUser.projects.activeProject
+
   return (
     <Box className='project-details-content'>
       <>
-        {projectSubmittedNotPresented &&
-          (isActiveUser || isRecurringUnpaidUser) && (
-            <ProjectCompletionBanner />
-          )}{' '}
+        {(isInactiveUser ||
+          isRecurringUnpaidUser ||
+          (isActiveUser &&
+            projectSubmittedNotPresented &&
+            displaysCurrentProjectInfo)) && <ProjectCompletionBanner />}{' '}
       </>
       <TabContext value={value}>
         <Box className='banner-and-tab-list'>

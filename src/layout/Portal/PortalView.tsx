@@ -25,11 +25,11 @@ export const PortalView = ({ children }) => {
   const experience = useAppSelector(selectUserExperience)
   const projectId = useAppSelector(selectProjectId)
   const userId = useAppSelector(selectUserId)
-  const isRecurringUser = useAppSelector(selectIsRecurringUser)
   const isProjectLoading = useAppSelector(selectProjectUiLoading)
   const [searchParams] = useSearchParams()
   const portal = searchParams.get('portal')
   const currentPath = pathname.split('/').pop()
+  const displayBanner = projectId === 'waitlist'
 
   useEffect(() => {
     let routeId
@@ -68,7 +68,7 @@ export const PortalView = ({ children }) => {
             <Loader />
           ) : (
             <>
-              {isRecurringUser && <RecurringUserBanner />}
+              {displayBanner && <RecurringUserBanner />}
               <PortalHeader />
               <div className='portal-content'>{children}</div>
             </>
