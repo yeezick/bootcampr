@@ -40,6 +40,7 @@ export const DeleteTicketDialog = () => {
       deleteTicketEvent({
         ticketId,
         ticketStatus: status,
+        projectId,
       })
     }
 

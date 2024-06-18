@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react'
-import {
-  selectProjectPresented,
-  selectProjectTimeline,
-} from 'utils/redux/slices/projectSlice'
+import { selectProjectTimeline } from 'utils/redux/slices/projectSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
 import { DatePicker } from '@mui/x-date-pickers'
@@ -12,13 +9,14 @@ import { iconMap } from 'utils/components/Icons'
 import { blankDayJs, generateDayJs } from 'utils/helpers'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import dayjs from 'dayjs'
+import { selectProjectCompleted } from 'utils/redux/slices/projectSlice'
 dayjs.extend(isSameOrAfter)
 
 export const SelectDate = () => {
   const [datePickerDayjs, setDayPickerDayjs] = useState(blankDayJs())
   const { startDate, endDate } = useAppSelector(selectProjectTimeline)
   const { dueDate } = useAppSelector(selectTicketFields)
-  const projectPresented = useAppSelector(selectProjectPresented)
+  const projectCompleted = useAppSelector(selectProjectCompleted)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -53,7 +51,7 @@ export const SelectDate = () => {
         slots={{ openPickerIcon: iconMap['calendar'] }}
         slotProps={{ popper: { placement: 'bottom-end' } }}
         value={datePickerDayjs}
-        disabled={projectPresented}
+        disabled={projectCompleted}
       />
     </div>
   )

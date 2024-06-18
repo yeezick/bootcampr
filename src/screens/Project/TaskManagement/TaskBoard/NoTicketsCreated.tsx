@@ -6,8 +6,8 @@ import {
   setVisibleTicketDialog,
 } from 'utils/redux/slices/taskBoardSlice'
 import {
-  selectProjectPresented,
   selectProjectTracker,
+  selectProjectCompleted,
 } from 'utils/redux/slices/projectSlice'
 import '../styles/NoTicketsCreated.scss'
 import { doTicketsExist } from 'utils/helpers/taskHelpers'
@@ -26,7 +26,7 @@ export const NoTicketsCreated = () => {
   const [ticketsExist, setTicketsExist] = useState(false)
   const projectTracker = useAppSelector(selectProjectTracker)
   const dispatch = useAppDispatch()
-  const projectPresented = useAppSelector(selectProjectPresented)
+  const projectCompleted = useAppSelector(selectProjectCompleted)
   const openCreateTicketDialog = () => {
     dispatch(setVisibleTicketDialog('create'))
     dispatch(
@@ -62,7 +62,7 @@ export const NoTicketsCreated = () => {
             label='Create story'
             onClick={openCreateTicketDialog}
             startIcon='plus'
-            disabled={projectPresented}
+            disabled={projectCompleted}
           />
         </div>
       </div>

@@ -17,6 +17,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    word-break: break-word;
 
     p {
       display: -webkit-box;
@@ -25,7 +26,7 @@
       margin: 0;
       overflow: hidden;
       -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;  
+      -webkit-box-orient: vertical;
     }
 
     .tab-icons {
@@ -44,7 +45,7 @@
         display: flex;
         gap: 4px;
 
-        .count{
+        .count {
           font-size: 14px;
           line-height: 19.6px;
         }
@@ -53,7 +54,6 @@
       &.MuiSvgIcon-root {
         font-size: 24px;
       }
-
     }
   }
 }
