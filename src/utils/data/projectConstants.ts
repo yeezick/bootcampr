@@ -37,7 +37,7 @@ export const emptyProject: ProjectInterface = {
   projectPortal: {
     renderProjectPortal: false,
   },
-  projectPresented: false,
+  completed: false,
 }
 
 // export const emptyProject = {

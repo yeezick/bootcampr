@@ -165,27 +165,28 @@ export const selectUserExperience = (state: RootState) =>
 export const selectUserPayment = (state: RootState) =>
   state.ui.auth.user.payment
 export const uiStatus = (state: RootState) => state.ui.status
+
 // user status
-export const selectIsActiveUser = (state: RootState) => {
-  return (
-    state.ui.auth.user.payment.experience === 'active' &&
-    state.ui.auth.user.payment.paid &&
-    state.ui.auth.user.projects.projects.length === 1
-  )
-}
-export const selectIsRecurringUser = (state: RootState) => {
-  return (
-    state.ui.auth.user.payment.experience === 'recurring' &&
-    state.ui.auth.user.payment.paid
-  )
-}
-export const selectIsRecurringActiveUser = (state: RootState) => {
-  return (
-    state.ui.auth.user.payment.experience === 'active' &&
-    state.ui.auth.user.payment.paid &&
-    state.ui.auth.user.projects.projects.length > 1
-  )
-}
+export const selectIsActiveUser = createSelector(
+  [selectUserPayment],
+  payment => payment.experience === 'active' && payment.paid
+)
+
+export const selectIsInactiveUser = createSelector(
+  [selectUserPayment],
+  payment => payment.experience === 'inactive' && !payment.paid
+)
+
+export const selectIsRecurringUser = createSelector(
+  [selectUserPayment],
+  payment => payment.experience === 'recurring' && payment.paid
+)
+
+export const selectUserHasMultipleProjects = createSelector(
+  [selectAuthUser],
+  user => user.projects.projects.length > 1
+)
+
 export const selectIsRecurringUnpaidUser = createSelector(
   [selectCompletedInfo, selectUserPayment],
   (projectCompletion, payment) => {

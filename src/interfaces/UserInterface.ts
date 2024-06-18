@@ -10,7 +10,6 @@ export interface UserInterface {
   email: string
   firstName: string
   interestedProjects?: ProjectInterface[]
-  isRecurringUser: boolean
   lastName: string
   links?: {
     githubUrl?: string
@@ -33,7 +32,7 @@ export interface UserInterface {
 
 export interface Banner {
   active: boolean
-  type: 'sandbox' | 'waitlist' | 'recurring' | ''
+  type: 'sandbox' | 'waitlist' | ''
 }
 
 export interface UiInterface {
@@ -48,7 +47,13 @@ export interface BuildPortal {
 }
 
 export interface Payment {
-  experience: 'active' | 'sandbox' | 'unchosen' | 'waitlist' | 'recurring'
+  experience:
+    | 'active'
+    | 'sandbox'
+    | 'unchosen'
+    | 'waitlist'
+    | 'recurring'
+    | 'inactive'
   paid?: boolean
 }
 

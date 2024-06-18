@@ -8,7 +8,7 @@ import {
 import { produce } from 'immer'
 import { TicketInterface } from 'interfaces'
 import { ProjectInterface } from 'interfaces/ProjectInterface'
-import { generateDayJs, hasPresentationDatePassed } from 'utils/helpers'
+import { generateDayJs } from 'utils/helpers'
 import { RootState } from 'utils/redux/store'
 import { setInitialVisibleTickets } from './taskBoardSlice'
 import { getOneProject } from 'utils/api'
@@ -54,7 +54,7 @@ const initialState: ProjectInterface = {
   projectPortal: {
     renderProjectPortal: false,
   },
-  projectPresented: false,
+  completed: false,
 }
 
 export interface AddCommentToTicketReducer {
@@ -93,8 +93,8 @@ export const fetchAndStoreUserProject = createAsyncThunk<
   'project/fetchAndStoreUserProject',
   async (projectId, { getState, dispatch, rejectWithValue }) => {
     try {
-      const teamMembers = selectMembersMap(getState())
       let userProject
+      const teamMembers = selectMembersMap(getState())
       if (projectId === 'waitlist') {
         userProject = {
           ...emptyProject,
@@ -102,15 +102,17 @@ export const fetchAndStoreUserProject = createAsyncThunk<
         }
       } else {
         userProject = await getOneProject(projectId)
-        const roles = Object.keys(userProject.members)
-        roles.forEach(role => {
-          userProject.members[role] = userProject.members[role].map(
-            memberId => {
-              userProject.members[role] = teamMembers[memberId]
-              return teamMembers[memberId]
-            }
-          )
-        })
+        if (projectId !== 'sandbox') {
+          const roles = Object.keys(userProject.members)
+          roles.forEach(role => {
+            userProject.members[role] = userProject.members[role].map(
+              memberId => {
+                userProject.members[role] = teamMembers[memberId]
+                return teamMembers[memberId]
+              }
+            )
+          })
+        }
         const { engineers, designers, productManagers } = userProject.members
         userProject.members.emailMap = mapMembersByEmail([
           engineers,
@@ -123,10 +125,6 @@ export const fetchAndStoreUserProject = createAsyncThunk<
           productManagers,
         ])
         userProject.projectPortal = { renderProjectPortal: false }
-        userProject.projectPresented = hasPresentationDatePassed(
-          userProject.timeline.endDate,
-          projectId
-        )
       }
       dispatch(setProject(userProject))
       dispatch(setInitialVisibleTickets(userProject.projectTracker))
@@ -229,27 +227,7 @@ const projectSlice = createSlice({
       state.completedInfo.deployedUrl = action.payload
     },
     setProject: (state, action: PayloadAction<ProjectInterface>) => {
-      const updatedProject = produce(action.payload, draft => {
-        // assign the new instance to the initial state
-        Object.assign(draft, action.payload)
-        if (action.payload._id && action.payload._id !== 'waitlist') {
-          const { engineers, designers, productManagers } = draft.members
-          draft.members.emailMap = mapMembersByEmail([
-            engineers,
-            designers,
-            productManagers,
-          ])
-          draft.members.idMap = mapMembersById([
-            engineers,
-            designers,
-            productManagers,
-          ])
-
-          draft.projectPortal = { renderProjectPortal: false }
-          draft.projectPresented = false
-        }
-      })
-      return updatedProject
+      return action.payload
     },
     // TODO: should we create more generic loading state and component?
     setProjectFailure: state => {
@@ -261,12 +239,6 @@ const projectSlice = createSlice({
     setProjectSuccess: (state, action: PayloadAction<ProjectInterface>) => {
       state.loading = false
       return action.payload
-    },
-    setProjectPresented: (state, action) => {
-      const { projectId, isPresented } = action.payload
-      if (state._id === projectId) {
-        state.projectPresented = isPresented
-      }
     },
     renderProjectPortal: state => {
       state.projectPortal.renderProjectPortal =
@@ -340,28 +312,28 @@ export const selectMembersByRole = createSelector(
 
 export const selectProject = (state: RootState) => state.project
 export const selectProjectId = (state: RootState) => state.project._id
-export const selectProjectPresented = (state: RootState) =>
-  state.project.projectPresented
 export const selectProjectTracker = (state: RootState) =>
   state.project.projectTracker
 export const selectRenderProjectPortal = (state: RootState) =>
   state.project.projectPortal.renderProjectPortal
 export const selectProjectTimeline = (state: RootState) =>
   state.project.timeline
+export const selectPresentationDate = (state: RootState) =>
+  state.project.timeline.presentationDate
+export const selectProjectCompleted = (state: RootState) =>
+  state.project.completed
 export const selectProjectUiLoading = (state: RootState) =>
   state.project.loading
 
-export const selectPresentationDate = createSelector(
-  selectProjectTimeline,
-  projectTimeline => {
-    const presentationStartEST = generateDayJs(projectTimeline.endDate)
+export const selectPresentationDateWithTime = createSelector(
+  selectPresentationDate,
+  presentationDate => {
+    const presentationStartEST = generateDayJs(presentationDate)
       .tz('America/New_York')
       .hour(13)
       .minute(0)
       .second(0)
-      .add(7, 'day')
     const presentationEndEST = presentationStartEST.add(1, 'hour')
-
     return {
       startDateEST: presentationStartEST,
       endDateEST: presentationEndEST,
@@ -381,7 +353,6 @@ export const {
   updateProject,
   updatePresenting,
   updateDeployedUrl,
-  setProjectPresented,
   setProjectStart,
   setProjectSuccess,
   setProjectFailure,

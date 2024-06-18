@@ -11,9 +11,14 @@ import { GoAlert } from 'react-icons/go'
 import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import login from '../../../assets/Images/login.png'
-import { buildProjectPortal } from 'utils/helpers'
+import {
+  buildProjectPortal,
+  statusInactive,
+  statusRecurringUnpaid,
+  statusRecurringWaitlist,
+  statusSandboxOrWaitlist,
+} from 'utils/helpers'
 import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
-import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
 import { PrimaryButton } from 'components/Buttons'
 import { fetchAndStoreUserProject } from 'utils/redux/slices/projectSlice'
 import { fetchTeamMembers } from 'utils/redux/slices/teamMembersSlice'
@@ -73,46 +78,46 @@ const SignIn: React.FC = (): JSX.Element => {
     }
 
     dispatch(setAuthUser(response))
-    await dispatch(fetchTeamMembers(response._id)).unwrap()
     const { payment, onboarded, projects } = response
 
     if (payment.experience === 'unchosen') {
       navigate('/payment/choose-experience')
     } else if (payment.experience === 'waitlist' && !onboarded) {
       navigate(`/onboarding`)
-    } else if (
-      isSandboxId(payment.experience) ||
-      (isWaitlistExperience(payment.experience) &&
-        projects.activeProject === null &&
-        !projects.projects?.length)
-    ) {
+    } else if (statusSandboxOrWaitlist(payment, projects)) {
       dispatch(
         updateAuthUser({
           projects: { activeProject: 'sandbox', projects: [] },
         })
       )
-      dispatch(setPortal(buildProjectPortal('sandbox')))
-      dispatch(fetchAndStoreUserProject('sandbox'))
-      navigate('/project/sandbox')
-    } else if (
-      // recurring waitlisted user
-      payment.experience === 'recurring' &&
-      projects.activeProject === null &&
-      projects.projects?.length
-    ) {
-      dispatch(setPortal(buildProjectPortal('waitlist')))
+      setAndNavigateToProject(dispatch, navigate, 'sandbox')
+    } else if (statusRecurringWaitlist(payment, projects)) {
+      await dispatch(fetchTeamMembers(response._id)).unwrap()
       dispatch(
         updateAuthUser({
           projects: { activeProject: '', projects: projects.projects },
         })
       )
-      dispatch(fetchAndStoreUserProject('waitlist'))
-
-      navigate('/project/waitlist')
+      setAndNavigateToProject(dispatch, navigate, 'waitlist')
+    } else if (
+      statusInactive(payment, projects) ||
+      statusRecurringUnpaid(payment)
+    ) {
+      await dispatch(fetchTeamMembers(response._id)).unwrap()
+      const allProjects = projects.projects
+      const latestProject = allProjects[allProjects.length - 1]
+      dispatch(
+        updateAuthUser({
+          projects: {
+            activeProject: latestProject,
+            projects: projects.projects,
+          },
+        })
+      )
+      setAndNavigateToProject(dispatch, navigate, latestProject)
     } else {
-      dispatch(setPortal(buildProjectPortal(projects.activeProject)))
-      dispatch(fetchAndStoreUserProject(projects.activeProject))
-      navigate(`/project/${projects.activeProject}`)
+      await dispatch(fetchTeamMembers(response._id)).unwrap()
+      setAndNavigateToProject(dispatch, navigate, projects.activeProject)
     }
   }
 
@@ -214,3 +219,9 @@ export const getEncodedEmail = pathInfo => {
 }
 
 export { SignIn }
+
+const setAndNavigateToProject = (dispatch, navigate, projectId) => {
+  dispatch(setPortal(buildProjectPortal(projectId)))
+  dispatch(fetchAndStoreUserProject(projectId))
+  navigate(`/project/${projectId}`)
+}
