@@ -68,5 +68,5 @@ export const selectMembersMap = (state: RootState) =>
   state.teamMembers.membersMap
 export default teamMembersSlice.reducer
 
-export const selectUserById = (userId: string) => (state: RootState) =>
+export const selectMemberById = (userId: string) => (state: RootState) =>
   state.teamMembers.membersMap[userId]
