@@ -15,19 +15,24 @@ import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
 import { useState } from 'react'
 
-export const TeamMemberCard = ({ member }) => {
+export const TeamMemberCard = ({ roleHeader, member }) => {
   const { _id: memberId } = member
 
   return (
     <div className='member-card'>
-      <MemberInfo member={member} />
+      <MemberInfo member={member} roleHeader={roleHeader} />
       <MemberButtons memberId={memberId} />
     </div>
   )
 }
 
-const MemberInfo = ({ member }) => {
+const MemberInfo = ({ member, roleHeader }) => {
   const { firstName, lastName, role, _id: memberId } = member
+  const userRoleByProject =
+    role === getPreviousRoleByHeader(roleHeader)
+      ? role
+      : getPreviousRoleByHeader(roleHeader)
+  console.log(userRoleByProject)
   return (
     <div className='member-info'>
       <div className='member-img'>
@@ -37,7 +42,7 @@ const MemberInfo = ({ member }) => {
         <p className='name'>
           {firstName} {lastName}
         </p>
-        <p className='role'>{role}</p>
+        <p className='role'>{userRoleByProject}</p>
       </div>
     </div>
   )
@@ -92,4 +97,14 @@ const MemberButtons = ({ memberId }) => {
       <PrimaryButton onClick={handleProfile} label='View profile' />
     </ButtonContainer>
   )
+}
+
+const getPreviousRoleByHeader = header => {
+  if (header === 'UX Designers') {
+    return 'UX Designer'
+  } else if (header === 'Software Engineers') {
+    return 'Software Engineer'
+  } else if (header === 'Product Manager') {
+    return 'Product Manager'
+  }
 }
