@@ -23,13 +23,16 @@ import { Loader } from 'components/Loader/Loader'
 export const WhatsNext = () => {
   const authUser = useAppSelector(selectAuthUser)
   const [isLoading, setIsLoading] = useState(false)
+  const [isUserUpdated, setIsUserUpdated] = useState(false)
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const isRecurringUser = useAppSelector(selectIsRecurringUser)
-  const bannerHeader = isRecurringUser
-    ? "You're ready for your next project!"
-    : "You're a Bootcampr now!"
+  const bannerHeader = isUserUpdated
+    ? isRecurringUser
+      ? "You're ready for your next project!"
+      : "You're a Bootcampr now!"
+    : ''
 
   useEffect(() => {
     const checkUserPayment = async () => {
@@ -54,20 +57,18 @@ export const WhatsNext = () => {
           })
 
           dispatch(updateUserProject('sandbox'))
-          await fetchAndStoreUserProject('sandbox')
+          await dispatch(fetchAndStoreUserProject('sandbox'))
         } else {
-          updatedUserExperience = {
+          updatedUserExperience = await updatePaymentExperience(authUser._id, {
             experience: 'recurring',
             paid: true,
-          }
-          dispatch(updateUserExperience(updatedUserExperience))
-          await updatePaymentExperience(authUser._id, updatedUserExperience)
+          })
           await removeActiveProject(authUser._id)
-          await fetchAndStoreUserProject('waitlist')
+          dispatch(updateUserProject(''))
+          await dispatch(fetchAndStoreUserProject('waitlist')).unwrap()
         }
 
         const updatedUserProfile = await updateUserProfile({ onboarded: true })
-
         if (updatedUserExperience.error) {
           dispatch(errorSnackbar('Error updating project experience.'))
           return
@@ -78,6 +79,7 @@ export const WhatsNext = () => {
           dispatch(updateUserExperience(updatedUserExperience))
           dispatch(updateAuthUser({ onboarded: true }))
         }
+        setIsUserUpdated(true)
       }
     }
     if (authUser._id) {
