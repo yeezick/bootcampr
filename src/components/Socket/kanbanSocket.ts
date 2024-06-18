@@ -71,7 +71,6 @@ export const useKanbanSocketEvents = () => {
   }
 
   const updateTicketEvent = ticketInfo => {
-    console.log(ticketInfo)
     socket.emit('update-ticket', {
       authUserId: authUserId,
       receiversIds: membersWithoutAuthIds,
@@ -125,7 +124,6 @@ export const useKanbanSocketEvents = () => {
       ticketId,
       projectId,
     }) => {
-      console.log(currentProjectId, projectId)
       if (currentProjectId !== projectId) return
 
       const newStatus = ticketInfo.newColumnId
@@ -158,9 +156,7 @@ export const useKanbanSocketEvents = () => {
     }
 
     const handleReoerderTicket = ticketInfo => {
-      console.log(ticketInfo)
       const { columnId, reorderedColumn, projectId } = ticketInfo
-      console.log('here', currentProjectId, projectId)
       if (currentProjectId !== projectId) return
       dispatch(
         reorderColumn({

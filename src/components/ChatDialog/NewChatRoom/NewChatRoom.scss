@@ -35,9 +35,9 @@
     .members-invite-select {
       display: flex;
       flex-direction: column;
+      flex-grow: 1;
       overflow-y: auto;
       row-gap: 16px;
-      flex-grow: 1;
 
       .members-grid {
         display: flex;
