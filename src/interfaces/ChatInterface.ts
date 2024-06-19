@@ -1,6 +1,13 @@
 import { ChatScreen } from 'utils/data/chatConstants'
 import { BasicUserInfoInterface, UserInterface } from './UserInterface'
 
+export interface ChatAvatarInterface {
+  avatarSize: string
+  isTeam?: boolean
+  userInfo?: UserInterface
+  profilePicture?: string
+}
+
 export interface ChatSliceInterface {
   activeChatRoomId: string
   chat: ChatInterface

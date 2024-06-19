@@ -7,7 +7,7 @@ import { formatTimestamp } from 'utils/helpers/dateFormatHelpers'
 import adminAvatar from '../../../assets/bootcamprAdmin.svg'
 import { selectChat } from 'utils/redux/slices/chatSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
-import { ChatUserAvatar } from '../ChatAvatar/ChatAvatar'
+import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 import './Messages.scss'
 
 export const Message = ({
@@ -75,11 +75,7 @@ const RecipientsAvatar = ({ message }) => {
       {isBotMessage ? (
         <img src={adminAvatar} alt='avatar' />
       ) : (
-        <ChatUserAvatar
-          avatarSize='x-small'
-          userInfo={message.sender}
-          profilePicture={message.sender.profilePicture}
-        />
+        <TeamAvatar size='x-small' userId={message.sender._id} />
       )}
     </div>
   )

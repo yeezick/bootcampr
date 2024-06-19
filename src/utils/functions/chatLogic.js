@@ -15,7 +15,9 @@ export const getDefaultAvatar = member => {
 }
 
 export const getInitials = (firstName, lastName) => {
-  return `${firstName.split('')[0]}${lastName.split('')[0]}`
+  return `${firstName.split('')[0].toUpperCase()}${lastName
+    .split('')[0]
+    .toUpperCase()}`
 }
 
 export const getAllInvitedMembers = (

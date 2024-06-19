@@ -1,4 +1,4 @@
-import { ChatUserAvatar } from '../ChatAvatar/ChatAvatar'
+import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 import './UserDetails.scss'
 /**
  * @param title
@@ -17,7 +17,7 @@ export const UserDetails = ({
 }) => {
   return (
     <div className='avatar-details-container'>
-      <ChatUserAvatar avatarSize={avatarSize} userInfo={userInfo} />
+      <TeamAvatar size={avatarSize} userId={userInfo._id} />
       <div className={`info-grid ${className}`}>
         <p className='title'>{title}</p>
         {description && <p className='description'>{description}</p>}

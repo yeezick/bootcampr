@@ -1,26 +1,46 @@
 @import 'scss/mixins';
 
-.group-photo-container {
+.photo-container {
   @include group-profile-picture-grid(0px);
 
   &.large {
     padding-top: 32px;
   }
 
+  .user-avatar,
   .group-photo {
-    &.large {
-      height: 96px;
-      width: 96px;
+    font-family: 'Roboto';
+    text-align: center;
+    margin: 0;
+
+    &.x-small {
+      font-size: 16px;
+      height: 32px;
+      width: 32px;
     }
 
     &.small {
+      font-size: 22px;
       height: 40px;
       width: 40px;
     }
 
-    &.x-small {
-      height: 32px;
-      width: 32px;
+    &.large {
+      font-size: 28px;
+      height: 96px;
+      width: 96px;
+    }
+  }
+
+  .user-avatar {
+    &.team {
+      background-color: #1a237e;
+      color: #ffa726;
+    }
+
+    &.user {
+      background-color: #ffa726;
+      color: #1a237e;
     }
   }
 }
