@@ -52,20 +52,12 @@ export const Avatar: React.FC<AvatarProps> = ({
   )
 
   const isProfilePictureSet =
-    profilePicture !== defaultImageURL &&
-    profilePicture !== '' &&
-    profilePicture !== undefined &&
-    profilePicture !== null &&
-    dataUrlRegex.test(profilePicture)
+    profilePicture &&
+    !dataUrlRegex.test(profilePicture) &&
+    profilePicture !== defaultImageURL
 
   useEffect(() => {
-    if (isProfilePictureSet) {
-      setImageUploaded(false)
-    }
-
-    if (imageUploaded) {
-      dispatch(setUploadedImage(profilePicture))
-    }
+    if (isProfilePictureSet) setImageUploaded(true)
 
     if (user) {
       setUserNames({ firstName: user.firstName, lastName: user.lastName })
@@ -104,7 +96,6 @@ export const Avatar: React.FC<AvatarProps> = ({
 
     if (isProfilePictureSet) {
       setIsImageEditorOpen(true)
-      setImageUploaded(true)
     } else {
       fileInputRef.current?.click()
     }
