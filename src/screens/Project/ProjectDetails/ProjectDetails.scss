@@ -34,6 +34,11 @@
   .tab-panel,
   .with-banner {
     margin-left: 10px;
+    //deployed fixes
+    margin-top: 0;
+    position: sticky;
+    width: auto;
+    box-shadow: none; //may need to specifically target .MuiTapPanel-root
   }
 
   .tab-panel {
