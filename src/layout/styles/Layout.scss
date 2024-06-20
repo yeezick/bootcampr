@@ -16,14 +16,16 @@
 }
 
 .portal-wrapper {
+  position: relative;
   .banner {
     align-items: center;
     background-color: #fff3e0;
     display: flex;
-    justify-content: space-between;
-    min-height: 91px;
     height: fit-content;
+    justify-content: space-between;
+    position: fixed;
     width: 100vw;
+    z-index: 4;
 
     img {
       height: 75px;
@@ -38,12 +40,12 @@
 
     .content {
       color: #1944a3;
-      text-align: center;
       display: flex;
       flex-direction: column;
+      font-weight: bold;
       gap: 8px;
       margin: 16px 0;
-      font-weight: bold;
+      text-align: center;
 
       h2,
       p {
@@ -51,8 +53,8 @@
       }
 
       h2 {
-        font-weight: bold;
         font-size: 28px;
+        font-weight: bold;
         line-height: 36px;
       }
 
@@ -62,17 +64,18 @@
       }
 
       .infotext {
+        align-items: center;
         display: flex;
         font-weight: bolder;
         gap: 4px;
         text-align: left;
-        align-items: center;
       }
     }
   }
 
   .portal-layout {
     display: flex;
+    padding-top: var(--banner-height, 0px);
 
     .portal-view {
       background-color: white;

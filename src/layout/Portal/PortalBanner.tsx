@@ -6,18 +6,35 @@ import { PrimaryButton } from 'components/Buttons'
 import { handleJoinDiscord, handleJoinTeam } from 'utils/helpers/paymentHelpers'
 import { fetchIcon } from 'utils/components/Icons'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import bannerImg from '../../assets/Images/banner-img.png'
 import bannerImgLg from '../../assets/Images/banner-img-lg.png'
 
 export const PortalBanner = () => {
   const { active, type } = useAppSelector(selectBanner)
-  if (!active) return null
-  if (type === 'sandbox') {
-    return <SandboxBanner />
-  } else if (type === 'waitlist') {
-    return <WaitlistBanner />
+  const bannerRef = useRef(null)
+
+  const setBannerHeight = () => {
+    if (bannerRef.current) {
+      const bannerHeight = bannerRef.current.offsetHeight
+      document.documentElement.style.setProperty(
+        '--banner-height',
+        `${bannerHeight}px`
+      )
+    }
   }
+
+  useEffect(() => {
+    setBannerHeight()
+  }, [type])
+
+  if (!active) return null
+  return (
+    <div ref={bannerRef} className='banner'>
+      {type === 'waitlist' && <WaitlistBanner />}
+      {type === 'sandbox' && <SandboxBanner />}
+    </div>
+  )
 }
 
 const SandboxBanner = () => {
@@ -27,7 +44,7 @@ const SandboxBanner = () => {
   const handleJoinTeamBtn = () => handleJoinTeam(dispatch, navigate, userId)
 
   return (
-    <div className='banner'>
+    <>
       <img src={bannerImg} />
       <div className='content'>
         <h2>Bootcampr Sandbox</h2>
@@ -41,7 +58,7 @@ const SandboxBanner = () => {
         onClick={handleJoinTeamBtn}
         style={{ marginRight: '32px' }}
       />
-    </div>
+    </>
   )
 }
 
@@ -50,7 +67,7 @@ const WaitlistBanner = () => {
   const navigate = useNavigate()
   const handleCompleteOnboarding = () => navigate('/onboarding')
   return (
-    <div className='banner'>
+    <>
       <img className='waitlist-img' src={bannerImgLg} />
       <div className='content'>
         <h2>We're working to match you to a team.</h2>
@@ -78,7 +95,7 @@ const WaitlistBanner = () => {
         onClick={paid ? handleJoinDiscord : handleCompleteOnboarding}
         style={{ marginRight: '32px' }}
       />
-    </div>
+    </>
   )
 }
 

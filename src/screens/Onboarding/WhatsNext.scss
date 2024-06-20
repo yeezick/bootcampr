@@ -75,6 +75,11 @@
     line-height: 22.4px;
     text-align: center;
     width: 650px;
+
+    span {
+      color: #022888;
+      text-decoration-line: underline;
+    }
   }
 
   p {
@@ -84,15 +89,6 @@
     line-height: 22.4px;
     margin: 0 0 8px 0;
     text-align: center;
-  }
-
-  span {
-    color: #022888;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 22.4px;
-    text-decoration-line: underline;
   }
 }
 

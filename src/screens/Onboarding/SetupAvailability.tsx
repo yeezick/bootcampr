@@ -64,7 +64,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
           </strong>
         </i>
       </div>
-      <Availability />
+      <Availability context='onboarding' />
       <ButtonContainer style={{ marginTop: '32px' }} gap={32}>
         <BackButton onClick={handlePrevious} label='Role' />
         <ForwardButton
