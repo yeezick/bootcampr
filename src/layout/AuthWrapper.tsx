@@ -2,12 +2,18 @@ import { Loader } from 'components/Loader/Loader'
 import { useEffect } from 'react'
 import { matchPath, useLocation, useNavigate } from 'react-router-dom'
 import { verify } from 'utils/api/users'
-import { isMobileWidth } from 'utils/helpers'
-import { storeUserProject } from 'utils/helpers/stateHelpers'
+import { determineProjectIdByStatus, isMobileWidth } from 'utils/helpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
+import {
+  fetchAndStoreUserProject,
+  selectProject,
+} from 'utils/redux/slices/projectSlice'
+import { fetchTeamMembers } from 'utils/redux/slices/teamMembersSlice'
+
 import {
   selectAuthUser,
   setAuthUser,
+  setAuthUserLoading,
   uiStatus,
 } from 'utils/redux/slices/userSlice'
 
@@ -33,20 +39,37 @@ export const AuthWrapper = ({ children }) => {
   const isProtectedRoute = !unprotectedRoutes.some(route =>
     matchPath({ path: route, end: true }, location.pathname)
   )
+  const [domain, paramId] = location.pathname.split('/').filter(Boolean)
 
   useEffect(() => {
     const verifyAndNavigateUser = async () => {
+      dispatch(setAuthUserLoading(true))
       try {
         const token = localStorage.getItem('bootcamprAuthToken')
         //to syncronize and get user info again after refreshing the page
         if (token && !authUser?._id) {
           const verifiedAuthUser = await verify()
           if (verifiedAuthUser?._id) {
-            await storeUserProject(
-              dispatch,
-              verifiedAuthUser.projects.activeProject || 'sandbox'
-            )
+            await dispatch(fetchTeamMembers(verifiedAuthUser._id)).unwrap()
             dispatch(setAuthUser(verifiedAuthUser))
+
+            let projectId
+            const paramIsValidProjectId =
+              verifiedAuthUser.projects.activeProject === paramId ||
+              verifiedAuthUser.projects.projects.includes(paramId)
+
+            if (verifiedAuthUser.payment.experience === 'unchosen') {
+              projectId = 'sandbox'
+            } else if (paramIsValidProjectId) {
+              projectId = paramId
+            } else {
+              projectId = determineProjectIdByStatus(verifiedAuthUser)
+            }
+
+            if (domain === 'project' && paramId !== projectId) {
+              navigate(`/project/${projectId}`, { replace: true })
+            }
+            await dispatch(fetchAndStoreUserProject(projectId))
           } else if (isProtectedRoute) {
             navigate('/sign-in')
           }
@@ -59,6 +82,8 @@ export const AuthWrapper = ({ children }) => {
         if (isProtectedRoute) {
           navigate('/sign-in')
         }
+      } finally {
+        dispatch(setAuthUserLoading(false))
       }
     }
 

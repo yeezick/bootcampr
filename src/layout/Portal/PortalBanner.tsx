@@ -1,17 +1,24 @@
+import { useEffect, useState, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectBanner } from 'utils/redux/slices/userInterfaceSlice'
-import { selectUserId, selectUserPayment } from 'utils/redux/slices/userSlice'
+import {
+  selectIsRecurringUnpaidUser,
+  selectIsRecurringUser,
+  selectUserId,
+  selectUserPayment,
+} from 'utils/redux/slices/userSlice'
 import { PrimaryButton } from 'components/Buttons'
 import { handleJoinDiscord, handleJoinTeam } from 'utils/helpers/paymentHelpers'
 import { fetchIcon } from 'utils/components/Icons'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
-import { useEffect, useRef, useState } from 'react'
 import bannerImg from '../../assets/Images/banner-img.png'
 import bannerImgLg from '../../assets/Images/banner-img-lg.png'
 
 export const PortalBanner = () => {
   const { active, type } = useAppSelector(selectBanner)
+  const isRecurringUnpaidUser = useAppSelector(selectIsRecurringUnpaidUser)
+  const isRecurringUser = useAppSelector(selectIsRecurringUser)
   const bannerRef = useRef(null)
 
   const setBannerHeight = () => {
@@ -29,6 +36,7 @@ export const PortalBanner = () => {
   }, [type])
 
   if (!active) return null
+  if (isRecurringUnpaidUser || isRecurringUser) return null
   return (
     <div ref={bannerRef} className='banner'>
       {type === 'waitlist' && <WaitlistBanner />}

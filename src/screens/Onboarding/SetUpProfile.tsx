@@ -1,6 +1,9 @@
 import './SetUpProfile.scss'
 import { useEffect, useState } from 'react'
-import { selectAuthUser } from 'utils/redux/slices/userSlice'
+import {
+  selectAuthUser,
+  selectIsRecurringUnpaidUser,
+} from 'utils/redux/slices/userSlice'
 import { emptyUser } from 'utils/data/userConstants'
 import { UserInterface } from 'interfaces/UserInterface'
 import { Avatar } from 'components/Avatar/Avatar'
@@ -28,6 +31,7 @@ export const determineDisabledbtn = (updateUserForm, setDisabledBtn) => {
 // BC-787: remove BEM styling
 export const SetUpProfile = ({ handlePageNavigation }) => {
   const authUser = useAppSelector(selectAuthUser)
+  const isRecurringUnpaid = useAppSelector(selectIsRecurringUnpaidUser)
   const [updateUserForm, setUpdateUserForm] = useState<UserInterface>(emptyUser)
   const [errorStates, setErrorStates] = useState({
     firstName: false,
@@ -53,11 +57,15 @@ export const SetUpProfile = ({ handlePageNavigation }) => {
   const handleInputChange = e =>
     handleUserProfileInputChange(e, setUpdateUserForm, setErrorStates)
 
+  const profileInfoText = isRecurringUnpaid
+    ? 'Review your profile.'
+    : 'Set up your profile so your team can get to know you.'
+
   return (
     <div className='setupProfile'>
       <div className='setupProfile__profile-header-cont'>
         <h2>Profile</h2>
-        <p>Set up your profile so your team can get to know you.</p>
+        <p>{profileInfoText}</p>
         <p>You can edit your profile later by going to My Account.</p>
         <i>*Required fields</i>
       </div>

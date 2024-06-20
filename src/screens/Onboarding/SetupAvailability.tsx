@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   getUserTimezone,
   selectAuthUser,
+  selectIsRecurringUnpaidUser,
   selectUserAvailability,
 } from 'utils/redux/slices/userSlice'
 import { saveAvailability } from 'components/Availability/utils/helpers'
@@ -24,9 +25,11 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
   const authUser = useAppSelector(selectAuthUser)
   const storedUserTZinUTC = useAppSelector(getUserTimezone)
   const days = useAppSelector(selectUserAvailability)
-
+  const isRecurringUnpaidUser = useAppSelector(selectIsRecurringUnpaidUser)
   const [isDisabled, setIsDisabled] = useState(true)
-
+  const buttonLabel = isRecurringUnpaidUser
+    ? 'Review profile'
+    : 'Set up profile'
   const storeAvailability = async () => {
     try {
       const avail = await saveAvailability(
@@ -70,7 +73,7 @@ export const SetupAvailability: React.FC<SetupAvailabilityProps> = ({
         <ForwardButton
           disabled={isDisabled}
           onClick={handleNext}
-          label='Set up profile'
+          label={buttonLabel}
         />
       </ButtonContainer>
     </div>

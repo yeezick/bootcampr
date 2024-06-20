@@ -8,6 +8,7 @@ import {
   moveTicketBetweenColumns,
   reorderColumn,
   selectMembersAsTeam,
+  selectProjectId,
   selectProjectTracker,
   updateTicket,
 } from 'utils/redux/slices/projectSlice'
@@ -56,6 +57,7 @@ export const useKanbanSocketEvents = () => {
   const projectTracker = useAppSelector(selectProjectTracker)
   const members = useAppSelector(selectMembersAsTeam)
   const currentTicketFields = useAppSelector(selectTicketFields)
+  const currentProjectId = useAppSelector(selectProjectId)
   const membersWithoutAuthIds = members
     .map(member => member._id)
     .filter(id => id !== authUserId)
@@ -76,12 +78,13 @@ export const useKanbanSocketEvents = () => {
     })
   }
 
-  const moveTicketEvent = ({ ticketInfo, ticketId }) => {
+  const moveTicketEvent = ({ ticketInfo, ticketId, projectId }) => {
     socket.emit('move-ticket', {
       ticketInfo,
       receiversIds: membersWithoutAuthIds,
       authUserId: authUserId,
       ticketId: ticketId,
+      projectId,
     })
   }
 
@@ -96,7 +99,8 @@ export const useKanbanSocketEvents = () => {
     if (!socket) return
 
     const handleDeleteTicket = ({ updaterId, ticketInfo }) => {
-      const { ticketStatus, ticketId } = ticketInfo
+      const { ticketStatus, ticketId, projectId } = ticketInfo
+      if (currentProjectId !== projectId) return
       const deletedTicket = projectTracker[ticketStatus].find(
         ticket => ticket._id === ticketId
       )
@@ -114,7 +118,14 @@ export const useKanbanSocketEvents = () => {
       }
     }
 
-    const handleMoveTicket = ({ ticketInfo, updaterId, ticketId }) => {
+    const handleMoveTicket = ({
+      ticketInfo,
+      updaterId,
+      ticketId,
+      projectId,
+    }) => {
+      if (currentProjectId !== projectId) return
+
       const newStatus = ticketInfo.newColumnId
       const isCurrentTicketMoved =
         ticketId === currentTicketFields._id &&
@@ -144,8 +155,9 @@ export const useKanbanSocketEvents = () => {
       }
     }
 
-    const handleReoerderTicket = ticketInfo => {
-      const { columnId, reorderedColumn } = ticketInfo
+    const handleReorderTicket = ticketInfo => {
+      const { columnId, reorderedColumn, projectId } = ticketInfo
+      if (currentProjectId !== projectId) return
       dispatch(
         reorderColumn({
           columnId,
@@ -155,7 +167,8 @@ export const useKanbanSocketEvents = () => {
     }
 
     const handleUpdateTicket = ({ updaterId, ticketInfo }) => {
-      const { initialStatus, updatedTicket } = ticketInfo
+      const { initialStatus, updatedTicket, projectId } = ticketInfo
+      if (currentProjectId !== projectId) return
       const isCurrentTicket = updatedTicket._id === currentTicketFields._id
 
       const ticket = projectTracker[initialStatus].find(
@@ -185,13 +198,13 @@ export const useKanbanSocketEvents = () => {
 
     socket.on('ticket-deleted', handleDeleteTicket)
     socket.on('ticket-moved', handleMoveTicket)
-    socket.on('ticket-reordered', handleReoerderTicket)
+    socket.on('ticket-reordered', handleReorderTicket)
     socket.on('ticket-updated', handleUpdateTicket)
 
     return () => {
       socket.off('ticket-deleted', handleDeleteTicket)
       socket.off('ticket-moved', handleMoveTicket)
-      socket.off('ticket-reordered', handleReoerderTicket)
+      socket.off('ticket-reordered', handleReorderTicket)
       socket.off('ticket-updated', handleUpdateTicket)
     }
   }, [socket, projectTracker, authUserId, visibleTicketDialog, dispatch])

@@ -9,12 +9,14 @@ import { iconMap } from 'utils/components/Icons'
 import { blankDayJs, generateDayJs } from 'utils/helpers'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import dayjs from 'dayjs'
+import { selectProjectCompleted } from 'utils/redux/slices/projectSlice'
 dayjs.extend(isSameOrAfter)
 
 export const SelectDate = () => {
   const [datePickerDayjs, setDayPickerDayjs] = useState(blankDayJs())
   const { startDate, endDate } = useAppSelector(selectProjectTimeline)
   const { dueDate } = useAppSelector(selectTicketFields)
+  const projectCompleted = useAppSelector(selectProjectCompleted)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -49,6 +51,7 @@ export const SelectDate = () => {
         slots={{ openPickerIcon: iconMap['calendar'] }}
         slotProps={{ popper: { placement: 'bottom-end' } }}
         value={datePickerDayjs}
+        disabled={projectCompleted}
       />
     </div>
   )

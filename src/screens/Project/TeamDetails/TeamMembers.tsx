@@ -50,6 +50,7 @@ const RoleMembers = ({ roleMembers, role }) => {
       {roleMembers?.map(member => (
         <TeamMemberCard
           member={member}
+          roleHeader={roleHeader}
           key={`${roleClassName}-${member._id}`}
         />
       ))}

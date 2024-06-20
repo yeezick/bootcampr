@@ -9,7 +9,7 @@ import {
 } from 'utils/helpers'
 import { convertOffsetToTimezone } from 'utils/data/timeZoneConstants'
 import {
-  selectPresentationDate,
+  selectPresentationDateWithTime,
   selectProject,
 } from 'utils/redux/slices/projectSlice'
 import { getUserTimezone } from 'utils/redux/slices/userSlice'
@@ -29,7 +29,7 @@ export const PresentationPage = ({ handlePageNavigation }) => {
   const [isForwardLoading, setIsForwardLoading] = useState<boolean>(false)
   const [isBackLoading, setIsBackLoading] = useState<boolean>(false)
   const userTimezoneOffset = useAppSelector(getUserTimezone)
-  const presentationDate = useAppSelector(selectPresentationDate)
+  const presentationDate = useAppSelector(selectPresentationDateWithTime)
   const userTimezoneInfo = convertOffsetToTimezone[userTimezoneOffset]
   const { startDate } = convertPresentationDateUserTZ(
     presentationDate,

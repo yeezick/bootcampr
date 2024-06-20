@@ -14,19 +14,43 @@ export const getDefaultAvatar = member => {
   return defaultImageURL
 }
 
-export const getNumberOfInvitedMembers = (
-  currentParticipants,
-  selectedUserIds
+export const getInitials = (firstName, lastName) => {
+  return `${firstName.split('')[0].toUpperCase()}${lastName
+    .split('')[0]
+    .toUpperCase()}`
+}
+
+export const getAllInvitedMembers = (
+  currentParticipantsIds,
+  selectedUserIds,
+  authUserId
 ) => {
-  let invitedMembersNumber
-  if (currentParticipants.length) {
-    //if we're updating an existing chat
-    invitedMembersNumber = currentParticipants.length + selectedUserIds.length
-  } else {
-    //if we create a new chat, including auth user
-    invitedMembersNumber = selectedUserIds.length + 1
+  const allUserIds = new Set(currentParticipantsIds)
+  selectedUserIds.forEach(memberId => allUserIds.add(memberId))
+  if (currentParticipantsIds.length === 0) {
+    allUserIds.add(authUserId)
   }
-  return invitedMembersNumber
+  return allUserIds
+}
+
+export const getGroupChatAvatarText = participantsCount => {
+  let minTeamSize = 6
+  let maxMembersSize = 5
+  let maxTeamSize = minTeamSize + maxMembersSize
+  let adjustedSize
+
+  if (minTeamSize === participantsCount) return '5+'
+
+  while (true) {
+    if (minTeamSize < participantsCount && participantsCount < maxTeamSize) {
+      adjustedSize = minTeamSize
+      break
+    } else {
+      minTeamSize = maxTeamSize - 1
+      maxTeamSize = maxTeamSize + maxMembersSize
+    }
+  }
+  return `${adjustedSize}+`
 }
 
 export const getMessageClassNames = (
@@ -60,7 +84,7 @@ export const getMessageClassNames = (
     isOnlyMessageBySameSender(messages, index) && 'same-sender-one-message'
 
   const isAvatarDisplayed = isLastMessageAndSameRecipient
-    ? 'avatar'
+    ? 'message-avatar'
     : 'no-avatar'
 
   const isMessageSelected = selectedMessages.includes(message)
@@ -80,6 +104,19 @@ export const getMessageClassNames = (
     timestampClasses,
     isSameSenderAsPrevious,
   }
+}
+
+export const getMissingMemberIds = (threads, members) => {
+  const missingIds = []
+
+  threads.forEach(thread => {
+    thread.participants.forEach(participant => {
+      if (!members[participant.userInfo]) {
+        missingIds.push(participant.userInfo)
+      }
+    })
+  })
+  return missingIds
 }
 
 export const getParticipantsNames = (
@@ -172,18 +209,28 @@ export const isSameSenderAsPrevious = (messages, m, i) => {
 export const isTeamMembersSelected = (
   currentParticipants,
   selectedUserIds,
-  members
+  projectMembers,
+  authUserId
 ) => {
-  const totalSelectedMembers = getNumberOfInvitedMembers(
-    currentParticipants,
-    selectedUserIds
+  const currentParticipantsIds = currentParticipants.map(
+    participant => participant.userInfo._id
   )
-  return totalSelectedMembers === members.length
+
+  const totalSelectedMembers = getAllInvitedMembers(
+    currentParticipantsIds,
+    selectedUserIds,
+    authUserId
+  )
+
+  if (totalSelectedMembers.size !== projectMembers.length) return false
+  else {
+    return projectMembers.every(member => totalSelectedMembers.has(member._id))
+  }
 }
 
 export const mapParticipantsWithMemberDetails = (chatRoom, members) => {
   return chatRoom.participants.map(pp => {
-    const member = members.find(member => member._id === pp.userInfo)
+    const member = members[pp.userInfo]
     return member
       ? {
           ...pp,
@@ -209,15 +256,15 @@ export const mapMessageSender = (message, members) => {
         lastName: 'Admin',
       }
     } else {
-      messageSender = members.find(member => member._id === message.sender)
+      messageSender = members[message.sender]
     }
     return {
       ...message,
       sender: messageSender
         ? {
             _id: messageSender._id,
-            firstName: messageSender.firstName,
-            lastName: messageSender.lastName,
+            firstName: messageSender.firstName || '',
+            lastName: messageSender.lastName || '',
             email: messageSender.email || '',
             profilePicture: messageSender.profilePicture || '',
           }

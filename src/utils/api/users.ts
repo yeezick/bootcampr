@@ -15,6 +15,26 @@ export const getAllUsers = async () => {
   }
 }
 
+export const getAllTeamMembers = async (id: string) => {
+  try {
+    const res = await api.get(`/users/${id}/teamMembers`)
+    return res.data
+  } catch (error) {
+    console.error('Error in get team members:', error)
+    return false
+  }
+}
+
+export const getUsersByIds = async (ids: string[]) => {
+  try {
+    const res = await api.post(`/users/usersIds`, ids)
+    return res.data
+  } catch (error) {
+    console.error('Error in get team members:', error)
+    return false
+  }
+}
+
 export const getOneUser = async (id: any) => {
   try {
     const res = await api.get(`/users/${id}`)
@@ -206,6 +226,16 @@ export const deleteUserAccount = async (id: string) => {
     const res = await api.delete(`/users/${id}`)
     return res.data
   } catch (error) {
+    throw error
+  }
+}
+
+export const removeActiveProject = async (id: string) => {
+  try {
+    const res = await api.put(`/users/${id}/removeActiveProject`)
+    return res.data
+  } catch (error) {
+    console.error(error)
     throw error
   }
 }

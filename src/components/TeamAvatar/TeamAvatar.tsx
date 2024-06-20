@@ -3,13 +3,18 @@ import { TeamAvatarProps } from 'interfaces/ProfileImageInterfaces'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectUsersById } from 'utils/redux/slices/projectSlice'
 import { generateDefaultPicture } from 'utils/helpers'
+import { selectMemberById } from 'utils/redux/slices/teamMembersSlice'
 import './TeamAvatar.scss'
 
 export const TeamAvatar = ({ userId, size }: TeamAvatarProps) => {
   //Each time TeamAvatar recieves a new userId prop, even if the actual userId value hasn't changed, it's treated as a new instance
+  let user
+  //Do we need this memoized selector here? for now, I'm keeping this for sandbox team but it can be handled differently if we don't need this for any other reason
   const memoizedUserId = useMemo(() => selectUsersById([userId]), [userId])
-  const [user] = useAppSelector(memoizedUserId)
+  const [teamMember] = useAppSelector(memoizedUserId)
+  user = useAppSelector(selectMemberById(userId))
 
+  user = user || teamMember
   if (!user) {
     return (
       <div className='team-avatar'>

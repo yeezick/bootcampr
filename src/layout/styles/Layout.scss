@@ -73,6 +73,47 @@
     }
   }
 
+  .recurring-waitlist-banner {
+    align-items: center;
+    background-color: #fff3e0;
+    display: flex;
+    justify-content: space-between;
+    min-height: 91px;
+    height: 100px;
+    padding: 8px 32px;
+
+    .waitlist-img {
+      height: 75px;
+      width: 75px;
+    }
+
+    .content {
+      color: #1944a3;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      font-weight: bold;
+      margin: 0 auto;
+
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h2 {
+        font-size: 28px;
+        font-weight: bold;
+        line-height: 36px;
+        margin-bottom: 8px;
+      }
+
+      p {
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+  }
+
   .portal-layout {
     display: flex;
     padding-top: var(--banner-height, 0px);
