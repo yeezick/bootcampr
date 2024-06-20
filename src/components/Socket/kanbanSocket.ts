@@ -155,7 +155,7 @@ export const useKanbanSocketEvents = () => {
       }
     }
 
-    const handleReoerderTicket = ticketInfo => {
+    const handleReorderTicket = ticketInfo => {
       const { columnId, reorderedColumn, projectId } = ticketInfo
       if (currentProjectId !== projectId) return
       dispatch(
@@ -198,13 +198,13 @@ export const useKanbanSocketEvents = () => {
 
     socket.on('ticket-deleted', handleDeleteTicket)
     socket.on('ticket-moved', handleMoveTicket)
-    socket.on('ticket-reordered', handleReoerderTicket)
+    socket.on('ticket-reordered', handleReorderTicket)
     socket.on('ticket-updated', handleUpdateTicket)
 
     return () => {
       socket.off('ticket-deleted', handleDeleteTicket)
       socket.off('ticket-moved', handleMoveTicket)
-      socket.off('ticket-reordered', handleReoerderTicket)
+      socket.off('ticket-reordered', handleReorderTicket)
       socket.off('ticket-updated', handleUpdateTicket)
     }
   }, [socket, projectTracker, authUserId, visibleTicketDialog, dispatch])
