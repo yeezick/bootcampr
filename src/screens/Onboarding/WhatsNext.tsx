@@ -28,11 +28,9 @@ export const WhatsNext = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const isRecurringUser = useAppSelector(selectIsRecurringUser)
-  const bannerHeader = isUserUpdated
-    ? isRecurringUser
-      ? "You're ready for your next project!"
-      : "You're a Bootcampr now!"
-    : ''
+  const bannerHeader = isRecurringUser
+    ? "You're ready for your next project!"
+    : "You're a Bootcampr now!"
 
   useEffect(() => {
     const checkUserPayment = async () => {
@@ -88,8 +86,8 @@ export const WhatsNext = () => {
       setIsLoading(false)
     }
   }, [authUser])
-
-  if (isLoading) {
+  console.log(isUserUpdated)
+  if (isLoading || !isUserUpdated) {
     return <Loader />
   }
 
