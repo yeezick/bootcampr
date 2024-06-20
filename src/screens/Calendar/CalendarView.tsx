@@ -6,11 +6,14 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import { fetchSandboxCalendar, fetchUserCalendar } from 'utils/api/calendar'
 import {
   selectCalendarId,
+  selectProjectCompleted,
   selectProjectId,
   selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
 import {
+  formatAvailabilityDate,
   generateDayJs,
+  generateTeamAvailabilityEvent,
   parseCalendarEventForMeetingInfo,
   updateWeekDayNumber,
   updateWeekNumber,
@@ -33,7 +36,6 @@ import weekday from 'dayjs/plugin/weekday'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import { getTeamCommonAvailability } from 'utils/api'
-import { TeamAvailability } from 'interfaces'
 dayjs.extend(weekday)
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -47,7 +49,7 @@ export const CalendarView = () => {
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
   const timeline = useAppSelector(selectProjectTimeline)
   const [weekNumber, setWeekNumber] = useState('')
-
+  const projectCompleted = useAppSelector(selectProjectCompleted)
   const firstDay = timeline.startDate
   const lastDay = generateDayJs(timeline.endDate)
     .weekday(7)
@@ -61,70 +63,82 @@ export const CalendarView = () => {
     dayjs(timeline.startDate).add(21, 'day').format('YYYY-MM-DD'),
   ]
 
-  useEffect(() => {
-    const fetchAllEvents = async () => {
-      let googleCalendarEvents = []
-      if (calendarId === 'sandbox') {
-        googleCalendarEvents = await fetchSandboxCalendar(timeline)
-      } else {
-        googleCalendarEvents = await fetchUserCalendar(calendarId, userEmail)
-      }
-
-      if (!googleCalendarEvents) {
-        setEventFetchingStatus('error')
-        return
-      }
-
-      setEventFetchingStatus('success')
-      dispatch(storeConvertedEvents(googleCalendarEvents))
+  const fetchAllEvents = async () => {
+    let googleCalendarEvents = []
+    if (calendarId === 'sandbox') {
+      googleCalendarEvents = await fetchSandboxCalendar(timeline)
+    } else {
+      googleCalendarEvents = await fetchUserCalendar(calendarId, userEmail)
     }
 
-    const fetchTeamCommonAvailability = async () => {
+    if (!googleCalendarEvents) {
+      setEventFetchingStatus('error')
+      return
+    }
+
+    setEventFetchingStatus('success')
+    dispatch(storeConvertedEvents(googleCalendarEvents))
+  }
+
+  const fetchTeamCommonAvailability = async () => {
+    try {
       dispatch(clearTeamAvailability())
       const teamCommonAvailability = await getTeamCommonAvailability(projectId)
+
+      if (!teamCommonAvailability) {
+        console.error('Team common availability not found.')
+        return
+      }
+      const teamAvailabilities = []
       const updatedTeamCommonAvail = await updateWeekDayNumber(
         teamCommonAvailability
       )
 
-      for (let j = 0; j < projectSundayDates.length; j++) {
-        for (const [key] of Object.entries(updatedTeamCommonAvail)) {
-          const arr = updatedTeamCommonAvail[key]
-
-          for (let i = 0; i < arr.length; i++) {
-            const start = dayjs(`${projectSundayDates[j]} ${arr[i][0]}`)
-              .day(Number(key))
-              .format('YYYY-MM-DDTHH:mm:ss')
-            const end = dayjs(`${projectSundayDates[j]} ${arr[i][1]}`)
-              .day(Number(key))
-              .format('YYYY-MM-DDTHH:mm:ss')
-            const formatedStart = dayjs
-              .tz(start, 'America/New_York')
-              .format('YYYY-MM-DDTHH:mm:ssZ')
-            const formatedEnd = dayjs
-              .tz(end, 'America/New_York')
-              .format('YYYY-MM-DDTHH:mm:ssZ')
-
-            const teamAvailability: TeamAvailability = {
-              title: 'Team Availability',
-              start: formatedStart,
-              end: formatedEnd,
-              backgroundColor: '#E8F5E9',
-              borderColor: '#388E3C',
-              timeZone: 'America/New_York',
-            }
-            dispatch(storeTeamAvailability(teamAvailability))
+      projectSundayDates.forEach(sundayDate => {
+        Object.entries(updatedTeamCommonAvail).forEach(
+          ([dayOfWeek, availability]: [string, string[]]) => {
+            availability.forEach(([startTime, endTime]) => {
+              const { start, end } = formatAvailabilityDate(
+                sundayDate,
+                dayOfWeek,
+                startTime,
+                endTime
+              )
+              const teamAvailability = generateTeamAvailabilityEvent(start, end)
+              teamAvailabilities.push(teamAvailability)
+            })
           }
-        }
-      }
+        )
+      })
+      dispatch(storeTeamAvailability(teamAvailabilities))
+    } catch (error) {
+      console.error('Error fetching team availability:', error)
     }
+  }
 
+  useEffect(() => {
     if (calendarId && userEmail) {
       fetchAllEvents()
       if (projectId) {
         fetchTeamCommonAvailability()
       }
     }
-  }, [calendarId, userEmail])
+  }, [calendarId, userEmail, projectId])
+
+  const disableButton = () => {
+    setTimeout(() => {
+      const calendarApi = calendarRef.current?.getApi()
+      if (calendarApi) {
+        const button = calendarApi.el.querySelector(
+          '.fc-createMeeting-button'
+        ) as HTMLButtonElement
+        if (button) {
+          button.classList.add('disabled-button')
+          button.disabled = true
+        }
+      }
+    })
+  }
 
   const handleEventClick = e => {
     if (e.event.title !== 'Team Availability') {
@@ -142,13 +156,21 @@ export const CalendarView = () => {
     })
   }
 
+  const handleDynamicButtons = () => {
+    renderWeekNumber()
+    //hack: the calendar is fully initialized so that we can get the calendarRef
+    if (projectCompleted) {
+      disableButton()
+    }
+  }
+
   switch (eventFetchingStatus) {
     case 'success':
       return (
         <div className='calendar-container'>
           <FullCalendar
             ref={calendarRef}
-            datesSet={renderWeekNumber}
+            datesSet={handleDynamicButtons}
             events={[...convertedEventsAsArr, ...teamAvailabilityArr]}
             eventClick={handleEventClick}
             eventTimeFormat={{

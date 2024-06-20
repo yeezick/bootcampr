@@ -1,8 +1,16 @@
 .ticket-dropdown-fields {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  width: 318px;
   
+  .dropdown-fields {
+    align-items: flex-end;
+    display: flex; 
+    flex-direction: column;
+    gap: 32px;
+    margin-bottom: 58px;
+  }
+
   .MuiOutlinedInput-input {
     background: #fff;
     box-sizing: border-box;
@@ -12,12 +20,19 @@
   .MuiOutlinedInput-notchedOutline {
     border: none;
   }
+
+  .status>.select, 
+  .ticket-creator, 
+  .assignee>.select, 
+  .due-date>.select-date {
+    margin-left: 32px;
+    width: 204px; 
+  }
   
   .status {
     .select {
       font-size: 16px;
       margin-left: 32px;
-      width: calc(100% - 32px); // 32px from margin
     }
   }
 
@@ -26,25 +41,25 @@
     background-color: #fff;
     border-radius: 4px;
     box-sizing: border-box;
-    display: flex; 
+    display: flex;
     gap: 16px;
-    margin-left: 32px;
     padding: 8px;
 
     .creator-info {
       p {
         margin: 0;
+        white-space: nowrap;
       }
     }
   }
 
   .assignee {
     .select {
-      margin-left: 32px;
-      width: calc(100% - 32px); // 32px from margin
-
       .MuiSelect-iconOutlined {
         display: none;
+      }
+      .MuiOutlinedInput-input {
+        padding-right: 0;
       }
     }
   }
@@ -53,20 +68,20 @@
     .select-date {
       background-color: #fff;
       border-radius: 4px;
-      margin-left: 32px;
-      padding: 8px 12px 8px 16px;
+      box-sizing: border-box;
+      height: 40px;
 
       .MuiOutlinedInput-input {
         line-height: 0px;
-        padding: 0;
+        padding: 8px 12px 8px 16px;
+      }
+
+      .MuiOutlinedInput-root {
+        height: 100%;
       }
 
       .MuiSvgIcon-root {
         color: #212121;
-      }
-
-      .MuiIconButton-root {
-        padding: 0;
       }
     }
   }

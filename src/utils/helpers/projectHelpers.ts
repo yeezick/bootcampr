@@ -1,3 +1,11 @@
+import { blankDayJs, generateDayJs } from './calendarHelpers'
+import {
+  statusInactive,
+  statusRecurringUnpaid,
+  statusRecurringWaitlist,
+  statusSandboxOrWaitlist,
+} from './userHelpers'
+
 /**
  * @param presentationDate dayjs object
  * @param userTimezone string e.g. 'America/New_York'
@@ -35,4 +43,53 @@ export const getLastCallForPresentation = (presentationStartDate, zone) => {
     .subtract(48, 'hour')
     .format('MMMM D, YYYY h:mma')
   return `${presentationTime} ${zone}`
+}
+
+/**
+ * @param presentationStartDate dayjs object
+ */
+export const formatLastCallDate = presentationStartDate => {
+  const presentationTime = presentationStartDate
+    .subtract(48, 'hour')
+    .format('MM/DD/YYYY')
+  return `${presentationTime}`
+}
+
+/**
+ * @param url string
+ */
+export const getFullUrl = url => {
+  if (!/^https?:\/\//i.test(url)) {
+    return 'http://' + url
+  }
+  return url
+}
+
+export const determineProjectIdByStatus = authUser => {
+  let projectId
+  if (statusSandboxOrWaitlist(authUser.payment, authUser.projects)) {
+    projectId = 'sandbox'
+  } else if (statusRecurringWaitlist(authUser.payment, authUser.projects)) {
+    projectId = 'waitlist'
+  } else if (
+    statusInactive(authUser.payment, authUser.projects) ||
+    statusRecurringUnpaid(authUser.payment)
+  ) {
+    const allprojects = authUser.projects?.projects
+    projectId = authUser.projects?.projects[allprojects.length - 1]
+  } else {
+    projectId = authUser.projects.activeProject
+  }
+  return projectId
+}
+
+export const hasPresentationDatePassed = (endDate, currentProjectId) => {
+  const now = blankDayJs()
+  const endDateEST = generateDayJs(endDate)
+    .tz('America/New_York')
+    .hour(13)
+    .minute(0)
+    .second(0)
+    .add(7, 'day')
+  return now.isAfter(endDateEST, 'hour') && currentProjectId !== 'waitlist'
 }

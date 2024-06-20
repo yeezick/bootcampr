@@ -1,0 +1,17 @@
+.select-project {
+  margin-bottom: 64px;
+
+  .MuiFormControl-root {
+    .MuiInputBase-root {
+      .MuiSelect-select {
+        padding: 8px 12px 8px 16px;
+      }
+    }
+
+    .Mui-focused {
+      .MuiOutlinedInput-notchedOutline {
+        border-color: #0d47a1;
+      }
+    }
+  }
+}

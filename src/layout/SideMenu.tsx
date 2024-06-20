@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectSideMenu } from 'utils/redux/slices/userInterfaceSlice'
-import { blankDayJs, changePortalPage, generateDayJs } from 'utils/helpers'
+import {
+  blankDayJs,
+  changePortalPage,
+  extractDomain,
+  generateDayJs,
+} from 'utils/helpers'
 import { iconMap } from 'utils/components/Icons'
 import {
   selectCompletedInfo,
@@ -11,7 +16,12 @@ import {
 } from 'utils/redux/slices/projectSlice'
 import './styles/SideMenu.scss'
 import { PrimaryButton } from 'components/Buttons'
-import { selectUserExperience } from 'utils/redux/slices/userSlice'
+import {
+  selectIsRecurringUser,
+  selectUserExperience,
+  selectUserHasMultipleProjects,
+} from 'utils/redux/slices/userSlice'
+import { SelectProject } from 'screens/Project/RecurringUser/SelectProject'
 
 export const SideMenu = () => {
   const navigate = useNavigate()
@@ -21,8 +31,8 @@ export const SideMenu = () => {
   const { active } = useAppSelector(selectSideMenu)
   const projectSubmissionInfo = useAppSelector(selectCompletedInfo)
   const userExperience = useAppSelector(selectUserExperience)
-  const [isDisabled, setIsDisabled] = useState(true)
-  const isProjectSubmitted = Boolean(projectSubmissionInfo.deployedUrl)
+  const [isDisabled, setIsDisabled] = useState(false)
+  const isProjectSubmitted = projectSubmissionInfo.presenting !== null
   const isActiveUser = userExperience === 'active'
 
   const handleProjectCompletion = () =>
@@ -59,7 +69,7 @@ export const SideMenu = () => {
           <PrimaryButton
             disabled={isDisabled}
             onClick={handleProjectCompletion}
-            label='Submit Project'
+            label='Submit project'
             style={{ bottom: 32, position: 'absolute', width: '235px' }}
           />
         )}
@@ -70,9 +80,15 @@ export const SideMenu = () => {
 
 const SideMenuLinks = () => {
   const { links } = useAppSelector(selectSideMenu)
-
+  const isRecurringWaitlistUser = useAppSelector(selectIsRecurringUser)
+  const userHasMultipleProjects = useAppSelector(selectUserHasMultipleProjects)
+  const { pathname } = useLocation()
+  const domain = extractDomain(pathname)
+  const displayProjectSelector =
+    (isRecurringWaitlistUser || userHasMultipleProjects) && domain === 'project'
   return (
     <div className='sidemenu-links'>
+      {displayProjectSelector && <SelectProject />}
       {links.map(link => (
         <MenuLink key={link.route} linkDetails={link} />
       ))}
@@ -85,10 +101,26 @@ const MenuLink = ({ linkDetails }) => {
   const { domain, icon, label, route, headerTitle } = linkDetails
   const LinkIcon = iconMap[icon]
   const dispatch = useAppDispatch()
-  const linkClassName = `${'link'} ${
+  const isRecurringUser = useAppSelector(selectIsRecurringUser)
+  const currentProjectId = useAppSelector(selectProjectId)
+  const disableLinks =
+    isRecurringUser &&
+    headerTitle !== 'Product Details' &&
+    domain === 'project' &&
+    (currentProjectId === 'waitlist' || !currentProjectId)
+
+  const linkClassName = `link ${
     location.pathname === route ? 'current-location' : ''
-  }`
-  const handlePortalLinkClick = () => changePortalPage(dispatch, headerTitle)
+  } ${disableLinks ? 'disabled-link' : ''}`
+
+  const handlePortalLinkClick = event => {
+    if (disableLinks) {
+      event.preventDefault()
+      return
+    } else {
+      changePortalPage(dispatch, headerTitle)
+    }
+  }
 
   return (
     <Link

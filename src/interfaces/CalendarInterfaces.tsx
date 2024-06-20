@@ -27,6 +27,7 @@ export interface ConvertedEvent {
   end?: string
   eventId?: string
   location?: string
+  organizer: string
   start?: string
   timeZone?: string
   title?: string
@@ -47,3 +48,5 @@ export interface TeamAvailability {
   borderColor: string
   timeZone: string
 }
+
+export type TeamAvailabilityArray = TeamAvailability[]

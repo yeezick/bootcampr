@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { MenuItem, Select } from '@mui/material'
 import {
   selectTicketDialogState,
@@ -6,12 +7,13 @@ import {
 } from 'utils/redux/slices/taskBoardSlice'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { handleReduxInputChange } from 'utils/helpers'
-import { useEffect } from 'react'
 import { TicketTextLabel } from './TicketTextFields'
+import { selectProjectCompleted } from 'utils/redux/slices/projectSlice'
 
 export const SelectStatus = () => {
   const { status } = useAppSelector(selectTicketFields)
   const ticketDialogState = useAppSelector(selectTicketDialogState)
+  const projectCompleted = useAppSelector(selectProjectCompleted)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -32,6 +34,7 @@ export const SelectStatus = () => {
         name='status'
         onChange={handleStatusChange}
         value={status}
+        disabled={projectCompleted}
       >
         <MenuItem value={'toDo'}>To Do</MenuItem>
         <MenuItem value={'inProgress'}>In progress</MenuItem>

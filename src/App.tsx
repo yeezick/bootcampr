@@ -25,6 +25,7 @@ import './App.css'
 import { EmailRouter } from 'components/EmailRouter/EmailRouter'
 import { MobileGate } from 'screens/Auth/Mobile/MobileGate'
 import { TaskBoard } from 'screens/Project/TaskManagement'
+import { WhatsNextPage } from 'screens/ProjectCompletion/WhatsNextPage'
 
 function App() {
   return (
@@ -76,6 +77,10 @@ function App() {
               <Route
                 path=':projectId/complete'
                 element={<ProjectCompletion />}
+              />
+              <Route
+                path=':projectId/complete/whats-next'
+                element={<WhatsNextPage />}
               />
               <Route path=':projectId/calendar' element={<CalendarScreen />} />
               <Route path=':projectId/tasks' element={<TaskBoard />} />

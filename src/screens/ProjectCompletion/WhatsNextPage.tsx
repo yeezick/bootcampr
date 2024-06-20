@@ -13,8 +13,7 @@ export const WhatsNextPage = () => {
   const project = useSelector(selectProject)
   const projectID = project._id
 
-  const handleSurvey = e => {
-    e.preventDefault()
+  const handleSurvey = () => {
     alert('TBD Google Survey Path')
   }
 

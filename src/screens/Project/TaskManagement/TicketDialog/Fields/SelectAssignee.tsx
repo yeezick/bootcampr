@@ -1,7 +1,10 @@
 import { handleReduxInputChange } from 'utils/helpers'
 import { MenuItem, Select } from '@mui/material'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
+import {
+  selectMembersAsTeam,
+  selectProjectCompleted,
+} from 'utils/redux/slices/projectSlice'
 import {
   selectTicketFields,
   setTicketFields,
@@ -13,6 +16,7 @@ import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'
 export const SelectAssignee = () => {
   const projectMembers = useAppSelector(selectMembersAsTeam)
   const { assignee } = useAppSelector(selectTicketFields)
+  const projectCompleted = useAppSelector(selectProjectCompleted)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -31,7 +35,9 @@ export const SelectAssignee = () => {
         className='select'
         name={'assignee'}
         onChange={handleAssigneeChange}
+        MenuProps={{ sx: { maxHeight: 400 } }}
         value={assignee}
+        disabled={projectCompleted}
       >
         <MenuItem value='Unassigned'>
           <div className='unassigned-card'>

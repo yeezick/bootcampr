@@ -19,3 +19,14 @@ export interface PasswordInputProps {
     | React.Dispatch<React.SetStateAction<SignUpInterface>>
     | React.Dispatch<React.SetStateAction<PasswordFormData>>
 }
+
+export interface ProjectUrlProps {
+  labelText?: string
+  setIsDisabled: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export interface ParticipationRadioProps {
+  labelText?: string
+  setIsDisabled: React.Dispatch<React.SetStateAction<boolean>>
+  helperText?: string
+}
