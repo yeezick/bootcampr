@@ -10,12 +10,14 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { DisplayPopover } from './DisplayPopover'
 import { deleteEvent } from 'utils/api/events'
 import { selectCalendarId } from 'utils/redux/slices/projectSlice'
-import { checkSandboxEvent } from 'utils/helpers'
 import { successSnackbar } from 'utils/helpers/commentHelpers'
+import { selectUserEmail } from 'utils/redux/slices/userSlice'
+import { isSandboxId } from 'utils/helpers/taskHelpers'
 
 export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const displayedEvent = useAppSelector(selectDisplayedEvent)
+  const authUserEmail = useAppSelector(selectUserEmail)
   const { eventId } = displayedEvent
   const calendarId = useAppSelector(selectCalendarId)
   const open = Boolean(anchorEl)
@@ -44,9 +46,13 @@ export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
     }
   }
 
+  const isEventOrganizer = displayedEvent.organizer === authUserEmail
+  const shouldDisplayEventOptions =
+    isSandboxId(eventId) || isEventOrganizer ? true : false
+
   return (
     <div className='modal-icons'>
-      {!checkSandboxEvent(eventId) && <MoreVertIcon onClick={handleClick} />}
+      {shouldDisplayEventOptions && <MoreVertIcon onClick={handleClick} />}
       <DisplayPopover
         isLoading={isLoading}
         anchorEl={anchorEl}

@@ -1,4 +1,4 @@
-import { AccessTime, ArrowDropDown } from '@mui/icons-material'
+import { AccessTime } from '@mui/icons-material'
 import { DatePicker } from '@mui/x-date-pickers'
 import {
   updateDateInTimeSelections,
@@ -16,13 +16,14 @@ import timezone from 'dayjs/plugin/timezone'
 import '../styles/DisplayMeetingModal.scss'
 import '../styles/Datefields.scss'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
-import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 dayjs.extend(isSameOrAfter)
 
 export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
-  const [datePickerDayjs, setDayPickerDayjs] = useState(blankDayJs())
+  const [datePickerDayjs, setDayPickerDayjs] = useState(
+    generateDayJs(dateFields.date)
+  )
   const { startDate, endDate } = useAppSelector(selectProjectTimeline)
 
   const handleDate = newDate => {
@@ -33,10 +34,18 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
       start: updateDateInTimeSelections(newDate, dateFields.start),
     }
     setDateFields(updatedDateFields)
+    setDayPickerDayjs(newDate)
   }
 
   useEffect(() => {
-    if (dayjs(startDate).isSameOrAfter(blankDayJs())) {
+    const todayIsBeforeProjectStart = dayjs(startDate).isSameOrAfter(
+      blankDayJs()
+    )
+    const eventIsAfterProjectStart = dayjs(dateFields.date).isSameOrAfter(
+      startDate
+    )
+
+    if (!eventIsAfterProjectStart && todayIsBeforeProjectStart) {
       const newDate = generateDayJs(startDate)
       setDayPickerDayjs(newDate)
       const updatedDateFields = {
@@ -46,8 +55,6 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
         start: updateDateInTimeSelections(newDate, dateFields.start),
       }
       setDateFields(updatedDateFields)
-    } else {
-      setDayPickerDayjs(blankDayJs())
     }
   }, [])
 
