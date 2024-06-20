@@ -4,6 +4,7 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { AvatarGrid } from '../AvatarGrid/AvatarGrid'
 import {
   extractConversationAvatars,
+  getGroupChatAvatarText,
   getInitials,
 } from 'utils/functions/chatLogic'
 import './ChatAvatar.scss'
@@ -116,24 +117,4 @@ const UserAvatar = ({ avatarSize, userInfo }) => {
       {!avatar && displayName}
     </Avatar>
   )
-}
-
-const getGroupChatAvatarText = participantsCount => {
-  let minTeamSize = 6
-  let maxMembersSize = 5
-  let maxTeamSize = minTeamSize + maxMembersSize
-  let adjustedSize
-
-  if (minTeamSize === participantsCount) return '5+'
-
-  while (true) {
-    if (minTeamSize < participantsCount && participantsCount < maxTeamSize) {
-      adjustedSize = minTeamSize
-      break
-    } else {
-      minTeamSize = maxTeamSize - 1
-      maxTeamSize = maxTeamSize + maxMembersSize
-    }
-  }
-  return `${adjustedSize}+`
 }

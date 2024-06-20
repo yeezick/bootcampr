@@ -33,6 +33,26 @@ export const getAllInvitedMembers = (
   return allUserIds
 }
 
+export const getGroupChatAvatarText = participantsCount => {
+  let minTeamSize = 6
+  let maxMembersSize = 5
+  let maxTeamSize = minTeamSize + maxMembersSize
+  let adjustedSize
+
+  if (minTeamSize === participantsCount) return '5+'
+
+  while (true) {
+    if (minTeamSize < participantsCount && participantsCount < maxTeamSize) {
+      adjustedSize = minTeamSize
+      break
+    } else {
+      minTeamSize = maxTeamSize - 1
+      maxTeamSize = maxTeamSize + maxMembersSize
+    }
+  }
+  return `${adjustedSize}+`
+}
+
 export const getMessageClassNames = (
   messages,
   message,
