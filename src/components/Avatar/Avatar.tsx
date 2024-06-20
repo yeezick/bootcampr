@@ -42,6 +42,7 @@ export const Avatar: React.FC<AvatarProps> = ({
   })
   const imgClassName = clickable || setAnchorEl ? 'avatar-img' : 'non-clickable'
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const dataUrlRegex = /^data:image\/[a-zA-Z]+;base64,[^ "]+$/
 
   const handleCloseImageEditor = () => setIsImageEditorOpen(false)
 
@@ -50,14 +51,14 @@ export const Avatar: React.FC<AvatarProps> = ({
     userNames.lastName
   )
 
-  useEffect(() => {
-    dispatch(setUploadedImage(profilePicture))
-    if (profilePicture === defaultImageURL) {
-      setImageUploaded(false)
-    }
-  }, [dispatch, profilePicture, defaultImageURL])
+  const isProfilePictureSet =
+    profilePicture &&
+    !dataUrlRegex.test(profilePicture) &&
+    profilePicture !== defaultImageURL
 
   useEffect(() => {
+    if (isProfilePictureSet) setImageUploaded(true)
+
     if (user) {
       setUserNames({ firstName: user.firstName, lastName: user.lastName })
     } else {
@@ -66,7 +67,15 @@ export const Avatar: React.FC<AvatarProps> = ({
         lastName: authUser.lastName,
       })
     }
-  }, [authUser, user])
+  }, [
+    dispatch,
+    profilePicture,
+    defaultImageURL,
+    imageUploaded,
+    authUser,
+    user,
+    isProfilePictureSet,
+  ])
 
   const handleFileInputChange = (dataUrl: string) => {
     dispatch(setUploadedImage(dataUrl))
@@ -85,14 +94,8 @@ export const Avatar: React.FC<AvatarProps> = ({
   const handleAvatarIconClick = () => {
     if (!hasIcon) return
 
-    const isProfilePictureSet =
-      profilePicture !== defaultImageURL &&
-      profilePicture !== '' &&
-      profilePicture !== undefined
-
     if (isProfilePictureSet) {
       setIsImageEditorOpen(true)
-      setImageUploaded(true)
     } else {
       fileInputRef.current?.click()
     }
