@@ -140,10 +140,11 @@ nav {
       border-radius: 50%;
       display: flex;
       justify-content: center;
+      height: 50px;
+      width: 50px;
 
       .chat-icon {
         cursor: pointer;
-        padding: 13.5px;
       }
     }
   }

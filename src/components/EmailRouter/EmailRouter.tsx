@@ -4,10 +4,12 @@ import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { selectSortedThreads } from 'utils/redux/slices/chatSlice'
 import { chatRouterHandler } from 'utils/helpers/emailRouterHelpers'
+import { selectProjectId } from 'utils/redux/slices/projectSlice'
 
 export const EmailRouter = () => {
   const dispatch = useAppDispatch()
   const authUser = useAppSelector(selectAuthUser)
+  const currentProjectId = useAppSelector(selectProjectId)
   const navigate = useNavigate()
   const path = useLocation()
   const queryParams = new URLSearchParams(path.search)
@@ -17,9 +19,22 @@ export const EmailRouter = () => {
   useEffect(() => {
     if (authUser?._id && notificationPage === 'chat' && threads.length > 0) {
       const chatRoomId = queryParams.get('chatRoomId')
-      chatRouterHandler(threads, authUser, chatRoomId, dispatch, navigate)
+      chatRouterHandler(
+        threads,
+        currentProjectId,
+        chatRoomId,
+        dispatch,
+        navigate
+      )
     }
-  }, [authUser?._id, notificationPage, dispatch, navigate, threads])
+  }, [
+    authUser?._id,
+    notificationPage,
+    dispatch,
+    navigate,
+    threads,
+    currentProjectId,
+  ])
 
   return null
 }

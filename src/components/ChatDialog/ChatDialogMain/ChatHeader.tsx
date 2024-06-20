@@ -27,12 +27,15 @@ import { ChatAvatar } from '../ChatAvatar/ChatAvatar'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
 
 const getTitleText = (chatScreen, currentConversation, authUser) => {
-  const title = getParticipantsNames(
-    currentConversation.participants,
-    currentConversation.chatType,
-    currentConversation.groupName,
-    authUser
-  )
+  const title =
+    currentConversation.participants.length > 5
+      ? 'Group Chat'
+      : getParticipantsNames(
+          currentConversation.participants,
+          currentConversation.chatType,
+          currentConversation.groupName,
+          authUser
+        )
   const titleTextLookup = {
     [ChatScreen.ChatRoom]: `${title}`,
     [ChatScreen.ComposeNewChat]: 'New Chat Room',

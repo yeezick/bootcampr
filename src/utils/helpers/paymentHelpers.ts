@@ -17,3 +17,18 @@ export const handleJoinTeam = async (dispatch, navigate, userId) => {
 export const handleJoinDiscord = () => {
   window.open('https://discord.gg/JJGBf9SX6y', '_blank')
 }
+
+export const handleJoinNewTeam = async (dispatch, navigate, userId) => {
+  await updatePaymentExperience(userId, {
+    experience: 'recurring',
+    paid: false,
+  })
+
+  dispatch(
+    updateUserExperience({
+      experience: 'recurring',
+      paid: false,
+    })
+  )
+  navigate('/onboarding')
+}

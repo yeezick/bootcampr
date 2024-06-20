@@ -16,11 +16,13 @@ import { getChatMessagesByType, getUserChatThreads } from 'utils/api/chat'
 import { ChatScreen } from 'utils/data/chatConstants'
 import { RootState } from 'utils/redux/store'
 import { selectUserId } from './userSlice'
-import { selectMembersAsTeam } from './projectSlice'
 import {
+  getMissingMemberIds,
   mapMessageSender,
   mapParticipantsWithMemberDetails,
 } from 'utils/functions/chatLogic'
+import { selectMembersMap, updateMembersMap } from './teamMembersSlice'
+import { getUsersByIds } from 'utils/api'
 
 // todo: chats from project slice should be moved here
 const initialState: ChatSliceInterface = {
@@ -64,10 +66,10 @@ export const fetchMessages = createAsyncThunk<
   { state: RootState }
 >(
   'chatbox/fetchMessages',
-  async ({ chatId, chatType }, { getState, rejectWithValue }) => {
+  async ({ chatId, chatType }, { getState, dispatch, rejectWithValue }) => {
     try {
       const messages = await getChatMessagesByType(chatId, chatType)
-      const members = selectMembersAsTeam(getState())
+      const members = selectMembersMap(getState())
       const mappedMessages = messages.map(message => {
         return mapMessageSender(message, members)
       })
@@ -82,24 +84,39 @@ export const fetchThreads = createAsyncThunk<
   ChatInterface[],
   undefined,
   { state: RootState }
->('chatbox/fetchThreads', async (_, thunkAPI) => {
-  try {
-    const threads = await getUserChatThreads()
-    const members = selectMembersAsTeam(thunkAPI.getState())
-    const threadsMap = threads.map((thread: ChatInterface) => {
-      const lastMessageMap = mapMessageSender(thread.lastMessage, members)
-      const participantsMap = mapParticipantsWithMemberDetails(thread, members)
-      return {
-        ...thread,
-        participants: participantsMap,
-        lastMessage: lastMessageMap,
+>(
+  'chatbox/fetchThreads',
+  async (_, { getState, dispatch, rejectWithValue }) => {
+    try {
+      const threads = await getUserChatThreads()
+      const members = selectMembersMap(getState())
+      const missingMembers = getMissingMemberIds(threads, members)
+
+      if (missingMembers.length) {
+        const newMembers = await getUsersByIds(missingMembers)
+        dispatch(updateMembersMap(newMembers))
       }
-    })
-    return threadsMap
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data)
+      const updatedMembers = selectMembersMap(getState())
+
+      const threadsMap = threads.map((thread: ChatInterface) => {
+        const lastMessageMap = mapMessageSender(thread.lastMessage, members)
+        const participantsMap = mapParticipantsWithMemberDetails(
+          thread,
+          updatedMembers
+        )
+
+        return {
+          ...thread,
+          participants: participantsMap,
+          lastMessage: lastMessageMap,
+        }
+      })
+      return threadsMap
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
   }
-})
+)
 
 //map participants and get details
 export const processChatRoom = createAsyncThunk<
@@ -109,8 +126,8 @@ export const processChatRoom = createAsyncThunk<
 >(
   'chatbox/createAndSetNewChatRoom',
   async (chatRoom, { getState, dispatch }) => {
-    const members = selectMembersAsTeam(getState())
-    const mappedParticipants = mapParticipantsWithMemberDetails(
+    const members = selectMembersMap(getState())
+    const mappedParticipants = await mapParticipantsWithMemberDetails(
       chatRoom,
       members
     )

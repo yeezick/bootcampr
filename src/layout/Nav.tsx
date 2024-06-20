@@ -23,19 +23,18 @@ import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
 import { buildPortal } from 'utils/helpers'
 import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { CustomBadge } from 'components/Badge/Badge'
-import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
-import './styles/Nav.scss'
+import { selectProjectId } from 'utils/redux/slices/projectSlice'
 import { logOut } from 'utils/api'
+import './styles/Nav.scss'
+import { useKanbanSocketEvents } from 'components/Socket/kanbanSocket'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const authUser = useAppSelector(selectAuthUser)
   const experience = useAppSelector(selectUserExperience)
-  const {
-    _id: userId,
-    projects: { activeProject },
-  } = authUser
+  const currentProjectId = useAppSelector(selectProjectId)
+  const { _id: userId } = authUser
   const dispatch = useAppDispatch()
   const location = useLocation()
   const excludedRoutes = [
@@ -51,7 +50,7 @@ export const Nav = () => {
     location.pathname.startsWith(route)
   )
   const handlePortalLink = () =>
-    buildPortal(dispatch, 'project', activeProject, experience)
+    buildPortal(dispatch, 'project', currentProjectId, experience)
   const handleNonPortalLink = async () => {
     if (window.location.pathname === '/users/reset-password') {
       await logOut()
@@ -82,7 +81,7 @@ export const Nav = () => {
             {userId && (
               <Link
                 className={`header-link ${isActiveLink('project')}`}
-                to={`/project/${activeProject || 'sandbox'}`}
+                to={`/project/${currentProjectId}`}
                 onClick={handlePortalLink}
               >
                 Project Portal
@@ -128,19 +127,18 @@ export const Nav = () => {
 
 const AuthorizedNavLinks = ({ notificationCount, setAnchorEl, anchorEl }) => {
   const dispatch = useAppDispatch()
+  const authUser = useAppSelector(selectAuthUser)
   const { visibleChat } = useAppSelector(selectChatUI)
   const unreadMessagesCount = useAppSelector(selectUnreadMessageCount)
-  const projectMembers = useAppSelector(selectMembersAsTeam)
-  const authUser = useAppSelector(selectAuthUser)
   const { _id: userId } = authUser
   const chatRef = useRef(null)
   useChatSocketEvents(false)
+  useKanbanSocketEvents()
 
   useEffect(() => {
-    //Warning: needs to be checked if members are loaded
     dispatch(fetchThreads())
     dispatch(setActiveChatRoomId(null))
-  }, [dispatch, projectMembers.length])
+  }, [dispatch])
 
   const toggleChatBox = () => {
     dispatch(toggleChat())
@@ -159,20 +157,12 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl, anchorEl }) => {
   return (
     <div className='notifications'>
       {userId && (
-        <div className='nav-icons-container'>
-          <div className='messages-icon' ref={chatRef}>
-            <BsFillChatLeftTextFill
-              size={23}
-              className='chat-icon'
-              onClick={handleToggleChatBox}
-            />
-            <CustomBadge content={unreadMessagesCount} variant='standard' />
-            {visibleChat && <ChatDialogMain />}
-          </div>
-          <p className='account' onClick={handleToggleChatBox}>
-            Messages
-          </p>
-        </div>
+        <NavChatContainer
+          chatRef={chatRef}
+          handleToggleChatBox={handleToggleChatBox}
+          unreadMessagesCount={unreadMessagesCount}
+          visibleChat={visibleChat}
+        />
       )}
       <div className='nav-icons-container' onClick={handleClick}>
         <div className='avatar'>
@@ -206,3 +196,27 @@ const UnauthorizedNavLinks = () => (
     </div>
   </div>
 )
+
+const NavChatContainer = ({
+  chatRef,
+  handleToggleChatBox,
+  unreadMessagesCount,
+  visibleChat,
+}) => {
+  return (
+    <div className='nav-icons-container'>
+      <div className='messages-icon' ref={chatRef}>
+        <BsFillChatLeftTextFill
+          size={23}
+          className='chat-icon'
+          onClick={handleToggleChatBox}
+        />
+        <CustomBadge content={unreadMessagesCount} variant='standard' />
+        {visibleChat && <ChatDialogMain />}
+      </div>
+      <p className='account' onClick={handleToggleChatBox}>
+        Messages
+      </p>
+    </div>
+  )
+}

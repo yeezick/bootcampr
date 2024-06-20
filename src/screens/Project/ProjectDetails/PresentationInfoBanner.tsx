@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectCompletedInfo,
-  selectPresentationDate,
+  selectPresentationDateWithTime,
   selectProject,
   updateDeployedUrl,
   updatePresenting,
@@ -25,7 +25,7 @@ export const PresentationInfoBanner = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const projectSubmissionInfo = useAppSelector(selectCompletedInfo)
-  const presentationDate = useAppSelector(selectPresentationDate)
+  const presentationDate = useAppSelector(selectPresentationDateWithTime)
   const project = useSelector(selectProject)
   const projectID = project._id
 

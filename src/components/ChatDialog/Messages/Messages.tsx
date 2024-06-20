@@ -3,11 +3,7 @@ import { selectChat } from 'utils/redux/slices/chatSlice'
 import { Message } from './Message'
 import { EmptyChatPage } from '../ChatRoom/EmptyChatPage'
 
-export const Messages = ({
-  authUser,
-  selectedMessages,
-  handleTimestampClick,
-}) => {
+export const Messages = ({ selectedMessages, handleTimestampClick }) => {
   const currentConversation = useAppSelector(selectChat)
   const messages = currentConversation.messages || []
   const listResults = messages.length ? 'messages' : 'noMessages'
@@ -31,10 +27,8 @@ export const Messages = ({
             message={message}
             index={index}
             messages={messages}
-            authUser={authUser}
             selectedMessages={selectedMessages}
             handleTimestampClick={handleTimestampClick}
-            currentConversation={currentConversation}
           />
         ))}
       </>

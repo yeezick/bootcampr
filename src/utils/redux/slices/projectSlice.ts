@@ -1,9 +1,19 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+  current,
+  PayloadAction,
+} from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { TicketInterface } from 'interfaces'
 import { ProjectInterface } from 'interfaces/ProjectInterface'
 import { generateDayJs } from 'utils/helpers'
 import { RootState } from 'utils/redux/store'
+import { setInitialVisibleTickets } from './taskBoardSlice'
+import { getOneProject } from 'utils/api'
+import { emptyProject } from 'utils/data/projectConstants'
+import { selectMembersMap } from './teamMembersSlice'
 
 // TODO: Make project tracker its own model and add to taskboard slice
 
@@ -44,6 +54,7 @@ const initialState: ProjectInterface = {
   projectPortal: {
     renderProjectPortal: false,
   },
+  completed: false,
 }
 
 export interface AddCommentToTicketReducer {
@@ -73,6 +84,58 @@ export interface UpdateTicketReducer {
   initialStatus: string
   updatedTicket: TicketInterface
 }
+
+export const fetchAndStoreUserProject = createAsyncThunk<
+  ProjectInterface,
+  string,
+  { state: RootState }
+>(
+  'project/fetchAndStoreUserProject',
+  async (projectId, { getState, dispatch, rejectWithValue }) => {
+    try {
+      let userProject
+      const teamMembers = selectMembersMap(getState())
+      if (projectId === 'waitlist') {
+        userProject = {
+          ...emptyProject,
+          _id: 'waitlist',
+        }
+      } else {
+        userProject = await getOneProject(projectId)
+        if (projectId !== 'sandbox') {
+          const roles = Object.keys(userProject.members)
+          roles.forEach(role => {
+            userProject.members[role] = userProject.members[role].map(
+              memberId => {
+                userProject.members[role] = teamMembers[memberId]
+                return teamMembers[memberId]
+              }
+            )
+          })
+        }
+        const { engineers, designers, productManagers } = userProject.members
+        userProject.members.emailMap = mapMembersByEmail([
+          engineers,
+          designers,
+          productManagers,
+        ])
+        userProject.members.idMap = mapMembersById([
+          engineers,
+          designers,
+          productManagers,
+        ])
+        userProject.projectPortal = { renderProjectPortal: false }
+      }
+      dispatch(setProject(userProject))
+      dispatch(setInitialVisibleTickets(userProject.projectTracker))
+
+      return userProject
+    } catch (error) {
+      console.error('Store user project failed: ', error)
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
 
 const projectSlice = createSlice({
   name: 'project',
@@ -164,22 +227,9 @@ const projectSlice = createSlice({
       state.completedInfo.deployedUrl = action.payload
     },
     setProject: (state, action: PayloadAction<ProjectInterface>) => {
-      const updatedProject = produce(action.payload, draft => {
-        const { engineers, designers, productManagers } = draft.members
-        draft.members.emailMap = mapMembersByEmail([
-          engineers,
-          designers,
-          productManagers,
-        ])
-        draft.members.idMap = mapMembersById([
-          engineers,
-          designers,
-          productManagers,
-        ])
-        draft.projectPortal = { renderProjectPortal: false }
-      })
-      return updatedProject
+      return action.payload
     },
+    // TODO: should we create more generic loading state and component?
     setProjectFailure: state => {
       state.loading = false
     },
@@ -194,6 +244,19 @@ const projectSlice = createSlice({
       state.projectPortal.renderProjectPortal =
         !state.projectPortal.renderProjectPortal
     },
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchAndStoreUserProject.pending, state => {
+        state.loading = true
+      })
+      .addCase(fetchAndStoreUserProject.fulfilled, (state, action) => {
+        return {
+          ...state,
+          ...action.payload,
+          loading: false,
+        }
+      })
   },
 })
 
@@ -255,18 +318,22 @@ export const selectRenderProjectPortal = (state: RootState) =>
   state.project.projectPortal.renderProjectPortal
 export const selectProjectTimeline = (state: RootState) =>
   state.project.timeline
+export const selectPresentationDate = (state: RootState) =>
+  state.project.timeline.presentationDate
+export const selectProjectCompleted = (state: RootState) =>
+  state.project.completed
+export const selectProjectUiLoading = (state: RootState) =>
+  state.project.loading
 
-export const selectPresentationDate = createSelector(
-  selectProjectTimeline,
-  projectTimeline => {
-    const presentationStartEST = generateDayJs(projectTimeline.endDate)
+export const selectPresentationDateWithTime = createSelector(
+  selectPresentationDate,
+  presentationDate => {
+    const presentationStartEST = generateDayJs(presentationDate)
       .tz('America/New_York')
       .hour(13)
       .minute(0)
       .second(0)
-      .add(7, 'day')
     const presentationEndEST = presentationStartEST.add(1, 'hour')
-
     return {
       startDateEST: presentationStartEST,
       endDateEST: presentationEndEST,

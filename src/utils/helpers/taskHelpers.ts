@@ -114,6 +114,7 @@ export const handleColumnReordering = async (
       reorderTicketEvent({
         columnId: oldColumnId,
         reorderedColumn: response.reorderedColumn,
+        projectId,
       })
     }
   } catch (error) {
@@ -164,7 +165,7 @@ export const handleTicketMovingBetweenColumns = async (
 
     if (!isSandboxId(projectId)) {
       await moveTicketColumn(projectId, moveData)
-      moveTicketEvent({ ticketInfo: movingTicketColumns, ticketId })
+      moveTicketEvent({ ticketInfo: movingTicketColumns, ticketId, projectId })
     }
   } catch (error) {
     console.error(error)
