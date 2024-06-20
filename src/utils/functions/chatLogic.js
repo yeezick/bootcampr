@@ -64,7 +64,7 @@ export const getMessageClassNames = (
     isOnlyMessageBySameSender(messages, index) && 'same-sender-one-message'
 
   const isAvatarDisplayed = isLastMessageAndSameRecipient
-    ? 'chat-avatar'
+    ? 'message-avatar'
     : 'no-avatar'
 
   const isMessageSelected = selectedMessages.includes(message)
