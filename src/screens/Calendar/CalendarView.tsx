@@ -57,6 +57,7 @@ export const CalendarView = () => {
     .weekday(7)
     .format('YYYY-MM-DD')
   const calendarRef = useRef(null)
+  const [calendarApi, selectCalendarApi] = useState(null)
   const dispatch = useAppDispatch()
   const projectSundayDates = [
     timeline.startDate,
@@ -121,14 +122,15 @@ export const CalendarView = () => {
   }
 
   const checkButtonStatus = () => {
-    const calendarApi = calendarRef.current.getApi()
-    const currentDate = generateDayJs(calendarApi.today()).format('YYYY-MM-DD')
-    const validStart = generateDayJs(firstDay).format('YYYY-MM-DD')
-    const validEnd = generateDayJs(lastDay).format('YYYY-MM-DD')
-    setIsTodayButtonEnabled(!isProjectStartConfirmed)
-    setIsProjectStartConfirmed(
-      currentDate >= validStart && currentDate <= validEnd
-    )
+    if (!calendarApi) return
+
+    const projectStartDate = generateDayJs(firstDay).format('YYYY-MM-DD')
+    const projectEndDate = generateDayJs(lastDay).format('YYYY-MM-DD')
+    const projectDatesNotDefined = !projectStartDate && !projectEndDate
+    const projectStarted = !projectDatesNotDefined
+
+    setIsProjectStartConfirmed(projectStarted)
+    setIsTodayButtonEnabled(!projectStarted)
   }
 
   useEffect(() => {
@@ -140,6 +142,7 @@ export const CalendarView = () => {
     }
 
     if (calendarRef.current) {
+      selectCalendarApi(calendarRef.current.getApi())
       checkButtonStatus()
     }
   }, [
@@ -158,22 +161,25 @@ export const CalendarView = () => {
 
   const renderWeekNumber = () => {
     setTimeout(() => {
-      const calendarApi = calendarRef.current.getApi()
-      const sundayDate = generateDayJs(calendarApi.getDate())
-        .day(0)
-        .format('YYYY-MM-DD')
-      updateWeekNumber(sundayDate, firstDay, setWeekNumber)
+      if (calendarApi) {
+        const sundayDate = generateDayJs(calendarApi.getDate())
+          .day(0)
+          .format('YYYY-MM-DD')
+        updateWeekNumber(sundayDate, firstDay, setWeekNumber)
+      }
     })
   }
 
   const handleTodayButtonClick = () => {
-    const calendarApi = calendarRef.current.getApi()
-    calendarApi.today()
+    if (calendarApi) {
+      calendarApi.today()
+    }
   }
 
   const handleProjectStartButtonClick = () => {
-    const calendarApi = calendarRef.current.getApi()
-    calendarApi.gotoDate(firstDay)
+    if (calendarApi) {
+      calendarApi.gotoDate(firstDay)
+    }
   }
 
   switch (eventFetchingStatus) {
@@ -184,23 +190,14 @@ export const CalendarView = () => {
             <SecondaryButton
               onClick={handleProjectStartButtonClick}
               label='Project Start Date'
-              style={{
-                top: '82px',
-                left: '0px',
-                padding: '7px 15px',
-                textTransform: 'capitalize',
-              }}
+              className='calendar-pro-start-btn'
             />
           )}
           {!isProjectStartConfirmed && isTodayButtonEnabled && (
             <SecondaryButton
               onClick={handleTodayButtonClick}
               label='Today'
-              style={{
-                top: '83px',
-                left: '0px',
-                padding: '7px 16px',
-              }}
+              className='calendar-today-btn'
             />
           )}
           <FullCalendar
