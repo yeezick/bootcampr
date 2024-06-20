@@ -57,7 +57,7 @@ export const CalendarView = () => {
     .weekday(7)
     .format('YYYY-MM-DD')
   const calendarRef = useRef(null)
-  const [calendarApi, selectCalendarApi] = useState(null)
+  const [calendarApi, setCalendarApi] = useState(null)
   const dispatch = useAppDispatch()
   const projectSundayDates = [
     timeline.startDate,
@@ -142,7 +142,7 @@ export const CalendarView = () => {
     }
 
     if (calendarRef.current) {
-      selectCalendarApi(calendarRef.current.getApi())
+      setCalendarApi(calendarRef.current.getApi())
       checkButtonStatus()
     }
   }, [
