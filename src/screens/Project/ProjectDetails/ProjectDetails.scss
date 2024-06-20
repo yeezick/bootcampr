@@ -34,6 +34,11 @@
   .tab-panel,
   .with-banner {
     margin-left: 10px;
+    // the following styles have no visual effect in the local environment but were added in BC-900 to address layout bugs in the deployed dev environment.
+    box-shadow: none;
+    margin-top: 0;
+    position: sticky;
+    width: auto;
   }
 
   .tab-panel {

@@ -18,7 +18,7 @@ export const AboutMeInput = ({ handleInputChange, errorState, bio }) => {
         maxLength={500}
         minRows={8}
         placeholder={
-          "I'm from...\nI live in...\nI chose this career path because...\n My hobbies are...\nA fun fact about me is..."
+          "I'm from...\nI live in...\nI chose this career path because...\nMy hobbies are...\nA fun fact about me is..."
         }
         value={bio}
       />
