@@ -86,7 +86,7 @@ export const WhatsNext = () => {
       setIsLoading(false)
     }
   }, [authUser])
-  console.log(isUserUpdated)
+
   if (isLoading || !isUserUpdated) {
     return <Loader />
   }
