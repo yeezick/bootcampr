@@ -8,6 +8,8 @@ import {
 } from 'utils/functions/chatLogic'
 import './ChatAvatar.scss'
 
+const MINIMUM_TEAM_SIZE = 5
+
 export const ChatAvatar = ({
   groupPhoto,
   chatType,
@@ -53,16 +55,27 @@ const GroupChatAvatar = ({
   authUserId,
 }) => {
   let avatarComponent
+  const membersCount = participants.length
 
   if (groupPhoto) {
     avatarComponent = (
-      <GroupPhotoAvatar groupPhoto={groupPhoto} avatarSize={avatarSize} />
+      <GroupPhoto groupPhoto={groupPhoto} avatarSize={avatarSize} />
     )
-  } else if (isTeamChat) {
-    avatarComponent = <TeamChatAvatar avatarSize={avatarSize} />
   } else {
-    const pictures = extractConversationAvatars(participants, authUserId)
-    avatarComponent = <AvatarGrid pictures={pictures} avatarSize={avatarSize} />
+    if (membersCount > MINIMUM_TEAM_SIZE) {
+      avatarComponent = (
+        <GroupAvatar
+          avatarSize={avatarSize}
+          isTeamChat={isTeamChat}
+          membersCount={membersCount}
+        />
+      )
+    } else {
+      const pictures = extractConversationAvatars(participants, authUserId)
+      avatarComponent = (
+        <AvatarGrid pictures={pictures} avatarSize={avatarSize} />
+      )
+    }
   }
 
   return (
@@ -70,7 +83,7 @@ const GroupChatAvatar = ({
   )
 }
 
-const GroupPhotoAvatar = ({ groupPhoto, avatarSize }) => {
+const GroupPhoto = ({ groupPhoto, avatarSize }) => {
   return (
     <img
       src={groupPhoto}
@@ -80,12 +93,13 @@ const GroupPhotoAvatar = ({ groupPhoto, avatarSize }) => {
   )
 }
 
-const TeamChatAvatar = ({ avatarSize }) => {
+const GroupAvatar = ({ avatarSize, isTeamChat, membersCount }) => {
   const displayTeamName = avatarSize === 'large' ? 'Team Chat' : 'TC'
-
+  const displayGroupName = getGroupChatAvatarText(membersCount)
+  const avatarClassname = isTeamChat ? 'team' : 'group'
   return (
-    <Avatar className={`user-avatar ${avatarSize} team`}>
-      {displayTeamName}
+    <Avatar className={`chat-avatar ${avatarSize} ${avatarClassname}`}>
+      {isTeamChat ? displayTeamName : displayGroupName}
     </Avatar>
   )
 }
@@ -96,10 +110,30 @@ const UserAvatar = ({ avatarSize, userInfo }) => {
 
   return (
     <Avatar
-      className={`user-avatar ${avatarSize} ${avatar ? '' : 'user'}`}
+      className={`chat-avatar ${avatarSize} ${avatar ? '' : 'user'}`}
       src={avatar}
     >
       {!avatar && displayName}
     </Avatar>
   )
+}
+
+const getGroupChatAvatarText = participantsCount => {
+  let minTeamSize = 6
+  let maxMembersSize = 5
+  let maxTeamSize = minTeamSize + maxMembersSize
+  let adjustedSize
+
+  if (minTeamSize === participantsCount) return '5+'
+
+  while (true) {
+    if (minTeamSize < participantsCount && participantsCount < maxTeamSize) {
+      adjustedSize = minTeamSize
+      break
+    } else {
+      minTeamSize = maxTeamSize - 1
+      maxTeamSize = maxTeamSize + maxMembersSize
+    }
+  }
+  return `${adjustedSize}+`
 }

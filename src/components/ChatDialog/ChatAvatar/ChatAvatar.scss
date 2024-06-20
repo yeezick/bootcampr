@@ -7,7 +7,7 @@
     padding-top: 32px;
   }
 
-  .user-avatar,
+  .chat-avatar,
   .group-photo {
     font-family: 'Roboto';
     text-align: center;
@@ -32,7 +32,16 @@
     }
   }
 
-  .user-avatar {
+  .chat-avatar {
+    &.group {
+      background-color: #1a237e;
+      color: #ffa726;
+
+      &.large {
+        font-size: 42px;
+      }
+    }
+
     &.team {
       background-color: #1a237e;
       color: #ffa726;
