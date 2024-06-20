@@ -8,7 +8,6 @@ import {
 } from 'utils/redux/slices/projectSlice'
 import { selectPortal } from 'utils/redux/slices/userInterfaceSlice'
 import {
-  selectIsRecurringUser,
   selectUserExperience,
   selectUserId,
 } from 'utils/redux/slices/userSlice'
@@ -29,7 +28,7 @@ export const PortalView = ({ children }) => {
   const [searchParams] = useSearchParams()
   const portal = searchParams.get('portal')
   const currentPath = pathname.split('/').pop()
-  const displayBanner = projectId === 'waitlist'
+  const waitlistProject = projectId === 'waitlist'
 
   useEffect(() => {
     let routeId
@@ -68,7 +67,7 @@ export const PortalView = ({ children }) => {
             <Loader />
           ) : (
             <>
-              {displayBanner && <RecurringUserBanner />}
+              {waitlistProject && <RecurringUserBanner />}
               <PortalHeader />
               <div className='portal-content'>{children}</div>
             </>
