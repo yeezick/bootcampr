@@ -89,17 +89,15 @@ export const CalendarView = () => {
         console.error('Team common availability not found.')
         return
       }
-
+      const teamAvailabilities = []
       const updatedTeamCommonAvail = await updateWeekDayNumber(
         teamCommonAvailability
       )
 
-      const teamAvailabilities = []
-
       projectSundayDates.forEach(sundayDate => {
         Object.entries(updatedTeamCommonAvail).forEach(
-          ([dayOfWeek, availability]) => {
-            ;(availability as any[]).forEach(([startTime, endTime]) => {
+          ([dayOfWeek, availability]: [string, string[]]) => {
+            availability.forEach(([startTime, endTime]) => {
               const { start, end } = formatAvailabilityDate(
                 sundayDate,
                 dayOfWeek,
