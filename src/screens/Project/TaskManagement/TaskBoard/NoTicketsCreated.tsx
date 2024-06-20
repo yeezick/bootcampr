@@ -10,7 +10,11 @@ import {
   selectProjectCompleted,
 } from 'utils/redux/slices/projectSlice'
 import '../styles/NoTicketsCreated.scss'
-import { doTicketsExist } from 'utils/helpers/taskHelpers'
+import {
+  doTicketsExist,
+  isSandboxId,
+  isWaitlistExperience,
+} from 'utils/helpers/taskHelpers'
 import { PrimaryButton } from 'components/Buttons'
 import {
   selectAuthUser,
@@ -27,11 +31,13 @@ export const NoTicketsCreated = () => {
   const projectTracker = useAppSelector(selectProjectTracker)
   const dispatch = useAppDispatch()
   const projectCompleted = useAppSelector(selectProjectCompleted)
+  const isSandboxOrWaitlist =
+    isSandboxId(experience) || isWaitlistExperience(experience)
   const openCreateTicketDialog = () => {
     dispatch(setVisibleTicketDialog('create'))
     dispatch(
       resetTicketFields({
-        createdBy: experience === 'sandbox' ? 'edwardEngineer' : userId,
+        createdBy: isSandboxOrWaitlist ? 'edwardEngineer' : userId,
         status: 'toDo',
         projectId,
       })
