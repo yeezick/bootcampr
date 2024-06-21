@@ -83,13 +83,10 @@ export const determineProjectIdByStatus = authUser => {
   return projectId
 }
 
-export const hasPresentationDatePassed = (endDate, currentProjectId) => {
-  const now = blankDayJs()
-  const endDateEST = generateDayJs(endDate)
-    .tz('America/New_York')
-    .hour(13)
-    .minute(0)
-    .second(0)
-    .add(7, 'day')
-  return now.isAfter(endDateEST, 'hour') && currentProjectId !== 'waitlist'
+export const getProjectHeaderTitle = (pathname, projetcsList) => {
+  const [_, paramId] = pathname.split('/').filter(Boolean)
+  const project = projetcsList.find(
+    projectInfo => projectInfo.projectId === paramId
+  )
+  return project ? `${project.label}: Product Details` : 'Product Details'
 }
