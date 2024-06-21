@@ -8,11 +8,7 @@ import {
   selectProjectUiLoading,
 } from 'utils/redux/slices/projectSlice'
 import { setPortal } from 'utils/redux/slices/userInterfaceSlice'
-import {
-  selectAuthUser,
-  selectIsRecurringUser,
-  updateAuthUser,
-} from 'utils/redux/slices/userSlice'
+import { selectUserProjectList } from 'utils/redux/slices/userSlice'
 import { buildProjectPortal } from 'utils/helpers'
 import './SelectProject.scss'
 
@@ -20,21 +16,10 @@ export const SelectProject = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const [openSelect, setOpenSelect] = useState(false)
-  const isRecurringUser = useAppSelector(selectIsRecurringUser)
   const isProjectLoading = useAppSelector(selectProjectUiLoading)
   const currentProjectId = useAppSelector(selectProjectId)
-  const { projects } = useAppSelector(selectAuthUser)
-  const projectsWithSandbox = isRecurringUser
-    ? [...projects.projects, 'waitlist']
-    : projects.projects
+  const projectsList = useAppSelector(selectUserProjectList)
 
-  const projectsList = projectsWithSandbox.reduce(
-    (projects, projectId, index) => {
-      projects.push({ label: `Project ${index + 1}`, projectValue: projectId })
-      return projects
-    },
-    []
-  )
   const isSelectOpen =
     (openSelect || isProjectLoading) && Boolean(currentProjectId)
 
@@ -67,12 +52,10 @@ export const SelectProject = () => {
         >
           {projectsList.map(project => (
             <MenuItem
-              key={project.projectValue}
-              value={project.projectValue}
+              key={project.projectId}
+              value={project.projectId}
               className={
-                currentProjectId === project.projectValue
-                  ? 'selected-project'
-                  : ''
+                currentProjectId === project.projectId ? 'selected-project' : ''
               }
             >
               {project.label}
