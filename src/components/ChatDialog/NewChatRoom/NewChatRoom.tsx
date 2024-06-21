@@ -15,8 +15,9 @@ import {
   selectTeamChat,
   setCurrentChat,
 } from 'utils/redux/slices/chatSlice'
-import { ChatScreen } from 'utils/data/chatConstants'
+import { selectMembers } from 'utils/redux/slices/teamMembersSlice'
 import { selectMembersAsTeam } from 'utils/redux/slices/projectSlice'
+import { ChatScreen } from 'utils/data/chatConstants'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { isTeamMembersSelected } from 'utils/functions/chatLogic'
 import { PrimaryButton } from 'components/Buttons'
@@ -29,7 +30,8 @@ export const NewChatRoom = ({ chatScreen }) => {
   const { createNewRoom } = useChatSocketEvents(false)
   const currentConversation = useAppSelector(selectChat)
   const authUser = useAppSelector(selectAuthUser)
-  const members = useAppSelector(selectMembersAsTeam)
+  const members = useAppSelector(selectMembers)
+  const currentProjectMembers = useAppSelector(selectMembersAsTeam)
   const teamChat = useAppSelector(selectTeamChat)
   const [selectedChatUsers, setSelectedChatUsers] = useState([])
   const [inviteList, setInviteList] = useState([])
@@ -129,7 +131,8 @@ export const NewChatRoom = ({ chatScreen }) => {
     const isAllTeamMembersSelected = isTeamMembersSelected(
       currentParticipants,
       selectedUserIds,
-      members
+      currentProjectMembers,
+      authUser._id
     )
 
     if (isAllTeamMembersSelected) {
@@ -206,7 +209,9 @@ export const NewChatRoom = ({ chatScreen }) => {
     <div className='new-chat-container'>
       <section className='members-invite'>
         <div className='members-invite-select'>
-          <p>Select members to invite to your chat room</p>
+          <div className='members-invite-header'>
+            <p>Select members to invite to your chat room</p>
+          </div>
           <div className='members-grid'>
             <FormControlLabel
               control={
@@ -232,7 +237,7 @@ export const NewChatRoom = ({ chatScreen }) => {
                 label={
                   <UserDetails
                     title={`${member.firstName} ${member.lastName}`}
-                    userId={member._id}
+                    userInfo={member}
                     description={member.role}
                     avatarSize='small'
                   />
@@ -243,16 +248,19 @@ export const NewChatRoom = ({ chatScreen }) => {
         </div>
         <p className='members-invite-info'>{membersInviteInfo}</p>
       </section>
-      <PrimaryButton
-        loading={isLoading}
-        onClick={handleCreateChatRoom}
-        disabled={!selectedChatUsers.length}
-        label={
-          chatScreen === ChatScreen.ComposeNewChat
-            ? 'Create Chat Room'
-            : 'Invite to Chat'
-        }
-      />
+      <div className='button-container'>
+        <PrimaryButton
+          fullWidth
+          loading={isLoading}
+          onClick={handleCreateChatRoom}
+          disabled={!selectedChatUsers.length}
+          label={
+            chatScreen === ChatScreen.ComposeNewChat
+              ? 'Create Chat Room'
+              : 'Invite to Chat'
+          }
+        />
+      </div>
     </div>
   )
 }

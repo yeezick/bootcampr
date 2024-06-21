@@ -6,6 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import { fetchSandboxCalendar, fetchUserCalendar } from 'utils/api/calendar'
 import {
   selectCalendarId,
+  selectProjectCompleted,
   selectProjectId,
   selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
@@ -35,7 +36,6 @@ import weekday from 'dayjs/plugin/weekday'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import { getTeamCommonAvailability } from 'utils/api'
-import { TeamAvailability } from 'interfaces'
 dayjs.extend(weekday)
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -49,7 +49,7 @@ export const CalendarView = () => {
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
   const timeline = useAppSelector(selectProjectTimeline)
   const [weekNumber, setWeekNumber] = useState('')
-
+  const projectCompleted = useAppSelector(selectProjectCompleted)
   const firstDay = timeline.startDate
   const lastDay = generateDayJs(timeline.endDate)
     .weekday(7)
@@ -89,17 +89,15 @@ export const CalendarView = () => {
         console.error('Team common availability not found.')
         return
       }
-
+      const teamAvailabilities = []
       const updatedTeamCommonAvail = await updateWeekDayNumber(
         teamCommonAvailability
       )
 
-      const teamAvailabilities = []
-
       projectSundayDates.forEach(sundayDate => {
         Object.entries(updatedTeamCommonAvail).forEach(
-          ([dayOfWeek, availability]) => {
-            ;(availability as any[]).forEach(([startTime, endTime]) => {
+          ([dayOfWeek, availability]: [string, string[]]) => {
+            availability.forEach(([startTime, endTime]) => {
               const { start, end } = formatAvailabilityDate(
                 sundayDate,
                 dayOfWeek,
@@ -127,6 +125,21 @@ export const CalendarView = () => {
     }
   }, [calendarId, userEmail, projectId])
 
+  const disableButton = () => {
+    setTimeout(() => {
+      const calendarApi = calendarRef.current?.getApi()
+      if (calendarApi) {
+        const button = calendarApi.el.querySelector(
+          '.fc-createMeeting-button'
+        ) as HTMLButtonElement
+        if (button) {
+          button.classList.add('disabled-button')
+          button.disabled = true
+        }
+      }
+    })
+  }
+
   const handleEventClick = e => {
     if (e.event.title !== 'Team Availability') {
       dispatch(setDisplayedEvent(parseCalendarEventForMeetingInfo(e)))
@@ -143,13 +156,21 @@ export const CalendarView = () => {
     })
   }
 
+  const handleDynamicButtons = () => {
+    renderWeekNumber()
+    //hack: the calendar is fully initialized so that we can get the calendarRef
+    if (projectCompleted) {
+      disableButton()
+    }
+  }
+
   switch (eventFetchingStatus) {
     case 'success':
       return (
         <div className='calendar-container'>
           <FullCalendar
             ref={calendarRef}
-            datesSet={renderWeekNumber}
+            datesSet={handleDynamicButtons}
             events={[...convertedEventsAsArr, ...teamAvailabilityArr]}
             eventClick={handleEventClick}
             eventTimeFormat={{

@@ -27,9 +27,11 @@ export const ConversationThumbnail = ({
       }:`
   const ppAuth = participants.find(pp => pp.userInfo._id === authUser._id)
   const description = `${senderInfo} ${lastMessageText}`
-  const groupTitle = groupName
-    ? groupName
-    : getParticipantsNames(participants, chatType, groupName, authUser)
+  const getGroupChatName =
+    participants.length > 5
+      ? 'Group Chat'
+      : getParticipantsNames(participants, chatType, groupName, authUser)
+  const groupTitle = groupName ? groupName : getGroupChatName
   const unreadMessageClass = ppAuth.hasUnreadMessage ? 'notification' : ''
 
   return (

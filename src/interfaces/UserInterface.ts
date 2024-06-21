@@ -47,7 +47,13 @@ export interface BuildPortal {
 }
 
 export interface Payment {
-  experience: 'active' | 'sandbox' | 'unchosen' | 'waitlist'
+  experience:
+    | 'active'
+    | 'sandbox'
+    | 'unchosen'
+    | 'waitlist'
+    | 'recurring'
+    | 'inactive'
   paid?: boolean
 }
 

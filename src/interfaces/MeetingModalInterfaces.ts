@@ -1,7 +1,6 @@
 export type AttendeeList = {
   email: string
   responseStatus?: string
-  comment?: string
 }
 
 export interface DateFieldsInterface {
@@ -33,6 +32,7 @@ export interface EventInfo {
     timeZone: string
   }
   summary: string
+  organizer: string
   projectId: string
 }
 
@@ -57,6 +57,7 @@ export interface MeetingModalInfo {
   location?: string
   summary: string
   metadata: any
+  organizer: string
 }
 
 export interface MeetingText {

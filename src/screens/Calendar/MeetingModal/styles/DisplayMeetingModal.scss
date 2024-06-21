@@ -1,12 +1,11 @@
 .display-meeting-modal {
   min-width: 400px;
+  max-width: 450px;
 }
 
 .display-modal-wrapper {
   display: grid;
   justify-content: flex-start;
-  gap: 16px;
-
   grid-template-areas: 
   "headerSpace headerContent"
   "attendeeIcon attendees"
@@ -19,8 +18,13 @@
       padding: 0px;
     }
 
+  .modal-section {
+    margin-bottom: 16px;
+  }
+
   .description {
-    grid-area: description
+    grid-area: description;
+    line-height: 24px;
   }
 
   .description-icon {
@@ -29,6 +33,7 @@
 
   .header-content {
     grid-area: headerContent;
+    margin-bottom: 16px;
 
     h3 {
       font-size: 16px;
@@ -50,6 +55,7 @@
 
   .centered-icon {
     color: #212121;
+    margin-right: 16px;
   }
 
   .meeting-link {
@@ -87,7 +93,12 @@
       width: 30px;
     }
   }
-  .p{
+
+  .invited-member:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .p {
     font-size: 16px;
   }
 
@@ -107,8 +118,10 @@
 
 .modal-icons {
   display:flex;
-  flex-direction: row;;
+  flex-direction: row;
   justify-content: flex-end;
+  margin-bottom: 8px;
+
   :first-child {
     margin-right: 10px;
     cursor: pointer;

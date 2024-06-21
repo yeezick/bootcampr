@@ -2,7 +2,13 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  height: 100%;
   justify-content: space-between;
+
+  .button-container {
+    display: flex;
+    width: 100%;
+  }
 
   .members-invite {
     display: flex;
@@ -12,14 +18,24 @@
     line-height: 24px;
     padding: 8px 8px 8px 8px;
     row-gap: 32px;
+    overflow: hidden;
+
+    .members-invite-header {
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
 
     .members-invite-info {
       font-size: 14px;
       line-height: 20px;
     }
+
     .members-invite-select {
       display: flex;
       flex-direction: column;
+      flex-grow: 1;
       overflow-y: auto;
       row-gap: 16px;
 
@@ -58,6 +74,7 @@
       text-align: left;
     }
   }
+
   .no-remaining-members {
     align-items: center;
     display: flex;

@@ -183,6 +183,10 @@ export const determinePortalFromUrl = (
   }
 }
 
+export const extractDomain = path => {
+  return path.split('/').filter(Boolean)[0]
+}
+
 /**
  * Checks if window width is small enough to be considered mobile
  * @returns Boolean

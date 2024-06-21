@@ -1,4 +1,9 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+  createSelector,
+} from '@reduxjs/toolkit'
 import {
   AvailabilityInterface,
   Payment,
@@ -12,6 +17,7 @@ import { TimezonesUTC } from 'utils/data/timeZoneConstants'
 import { UpdateUserReducer } from 'interfaces/UserReducers'
 import { produce } from 'immer'
 import { generateDefaultPicture } from 'utils/helpers'
+import { selectCompletedInfo } from './projectSlice'
 
 // todo: auth.status should be its own slice
 // todo: sidemenu & ui like notifications should be its own slice
@@ -55,11 +61,17 @@ const userSlice = createSlice({
     },
     setAuthUser: (state, action: PayloadAction<UserInterface>) => {
       const authUserPayload = produce(action.payload, draft => {
-        if (action.payload.payment.experience === 'sandbox') {
+        const user = action.payload
+        const sandboxOrWaitlistUser =
+          !user.projects.activeProject && !user.projects.projects.length
+        if (sandboxOrWaitlistUser) {
           draft.projects.activeProject = 'sandbox'
         }
       })
       state.auth.user = authUserPayload
+    },
+    setAuthUserLoading: (state, action) => {
+      state.status.isLoading = action.payload
     },
     updateAuthUser: (state, action: PayloadAction<UpdateUserReducer>) => {
       state.auth.user = {
@@ -110,7 +122,7 @@ const userSlice = createSlice({
     builder
       // REGISTER
       .addCase(register.pending, state => {
-        state.status.isLoading = false
+        state.status.isLoading = true
       })
       .addCase(register.fulfilled, (state, action) => {
         state.status.isLoading = false
@@ -154,8 +166,55 @@ export const selectUserPayment = (state: RootState) =>
   state.ui.auth.user.payment
 export const uiStatus = (state: RootState) => state.ui.status
 
+// user status
+export const selectIsActiveUser = createSelector(
+  [selectUserPayment],
+  payment => payment.experience === 'active' && payment.paid
+)
+
+export const selectIsInactiveUser = createSelector(
+  [selectUserPayment],
+  payment => payment.experience === 'inactive' && !payment.paid
+)
+
+export const selectIsRecurringUser = createSelector(
+  [selectUserPayment],
+  payment => payment.experience === 'recurring' && payment.paid
+)
+
+export const selectIsRecurringUnpaidUser = createSelector(
+  [selectCompletedInfo, selectUserPayment],
+  (projectCompletion, payment) => {
+    const projectSubmitted =
+      projectCompletion.presenting !== null &&
+      projectCompletion.deployedUrl?.length !== 0
+    const unpaidUser = payment.experience === 'recurring' && !payment.paid
+    return projectSubmitted && unpaidUser
+  }
+)
+
+export const selectUserHasMultipleProjects = createSelector(
+  [selectAuthUser],
+  user => user.projects.projects.length > 1
+)
+
+export const selectUserProjectList = createSelector(
+  [selectAuthUser, selectIsRecurringUser],
+  (user, isRecurringUser) => {
+    const projectsWithSandbox = isRecurringUser
+      ? [...user.projects.projects, 'waitlist']
+      : user.projects.projects
+
+    return projectsWithSandbox.reduce((projects, id, index) => {
+      projects.push({ label: `Project ${index + 1}`, projectId: id })
+      return projects
+    }, [])
+  }
+)
+
 export const {
   setAuthUser,
+  setAuthUserLoading,
   updateAuthUser,
   updateUserExperience,
   updateUserProject,

@@ -1,11 +1,10 @@
-import { FaSpinner } from 'react-icons/fa'
+import CircularProgress from '@mui/material/CircularProgress'
 import './Loader.scss'
 
-export const Loader: React.FC = () => {
+export const Loader = () => {
   return (
-    <div className='loading-status'>
-      <FaSpinner className='loading-icon' />
-      <h3>Bootcamper</h3>
+    <div className='loader-container '>
+      <CircularProgress />
     </div>
   )
 }

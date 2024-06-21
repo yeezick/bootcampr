@@ -7,8 +7,8 @@ import { useEffect } from 'react'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useAppSelector } from 'utils/redux/hooks'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { WhatsNext } from './WhatsNext'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
+import { selectProjectId } from 'utils/redux/slices/projectSlice'
 
 export const Onboarding = () => {
   const authUser = useAppSelector(selectAuthUser)
@@ -16,6 +16,7 @@ export const Onboarding = () => {
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   const pageId = queryParams.get('pageId')
+  const currentProjectId = useAppSelector(selectProjectId)
 
   useEffect(() => {
     const {
@@ -29,7 +30,7 @@ export const Onboarding = () => {
       experience === 'active' &&
       onboarded
     ) {
-      navigate(`/project/${activeProject}`)
+      navigate(`/project/${currentProjectId}`)
     } else if (pageId) {
       navigate(`/onboarding?pageId=${pageId}`)
     }

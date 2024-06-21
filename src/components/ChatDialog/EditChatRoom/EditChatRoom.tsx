@@ -35,13 +35,13 @@ export const EditChatRoom = () => {
         <p>Member</p>
         <div className='members-list'>
           {sortedParticipants.map(pp => (
-            <div className='member'>
+            <div className='member' key={pp.userInfo._id}>
               <UserDetails
                 key={pp.userInfo._id}
                 title={`${pp.userInfo.firstName} ${pp.userInfo.lastName}`}
                 description={pp.userInfo.role}
                 avatarSize='x-small'
-                userId={pp.userInfo._id}
+                userInfo={pp.userInfo}
               />
             </div>
           ))}

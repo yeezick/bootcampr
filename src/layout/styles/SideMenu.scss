@@ -6,7 +6,7 @@
   clip-path: inset(0px -10px 0px -10px);
   position: relative;
   min-width: $sidemenu-width;
-  z-index: 3;
+  z-index: 4;
 }
 
 .sidemenu-content {
@@ -28,6 +28,7 @@
   .title {
     align-items: center;
     display: flex;
+    margin-bottom: 16px;
     h2 {
       font-size: 22px;
       font-style: normal;
@@ -57,6 +58,14 @@
     .MuiSvgIcon-root {
       color: 'red';
       margin-right: 16px;
+    }
+
+    &.disabled-link {
+      cursor: not-allowed;
+      color: #212121;
+      opacity: 0.38;
+      text-decoration: none;
+      pointer-events: none;
     }
   }
 

@@ -57,8 +57,10 @@ export const SetupProfileBtns = ({
       return
     }
 
+    const userExperience =
+      authUser.projects.projects.length === 0 ? 'waitlist' : 'recurring'
     const updatedUserExperience = await updatePaymentExperience(authUser._id, {
-      experience: 'waitlist',
+      experience: userExperience,
     })
 
     if (updatedUserExperience.error) {

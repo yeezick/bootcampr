@@ -7,7 +7,10 @@ import { createComment } from 'utils/api/comments'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
 import { generateDefaultPicture } from 'utils/helpers'
-import { addCommentToTicket } from 'utils/redux/slices/projectSlice'
+import {
+  addCommentToTicket,
+  selectProjectCompleted,
+} from 'utils/redux/slices/projectSlice'
 import { createReply } from 'utils/api/replies'
 import { NewCommentProps } from 'interfaces/Comments'
 import {
@@ -31,6 +34,7 @@ export const NewComment = ({
     lastName,
     profilePicture,
   } = useAppSelector(selectAuthUser)
+  const projectCompleted = useAppSelector(selectProjectCompleted)
   const dispatch = useAppDispatch()
   const isReply = parentCommentId ? true : false
   const userProfilePicture =
@@ -49,7 +53,7 @@ export const NewComment = ({
 
   const handleCreate = async inputText => {
     if (isEmptyString(inputText)) return
-    if (hasConflictedTicket) return
+    if (hasConflictedTicket || projectCompleted) return
     if (isSandboxId(ticketId || parentCommentId)) {
       dispatch(errorSnackbar('This feature is disabled for the sandbox!'))
       setInputText('')
@@ -95,7 +99,7 @@ export const NewComment = ({
       <img src={userProfilePicture} alt='commentor-profile-pic' />
       <TextField
         className='comment-input'
-        disabled={hasConflictedTicket}
+        disabled={hasConflictedTicket || projectCompleted}
         onKeyUp={createOnEnter}
         placeholder={placeholder}
         value={inputText}
@@ -104,7 +108,7 @@ export const NewComment = ({
           endAdornment: (
             <SendAdornment
               handleSendClick={handleSendClick}
-              disabled={hasConflictedTicket}
+              disabled={hasConflictedTicket || projectCompleted}
             />
           ),
         }}
