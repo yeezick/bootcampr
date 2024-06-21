@@ -18,6 +18,7 @@ export const EmailVerify = () => {
       try {
         const { data } = await api.get(`/${userId}/verify/${emailToken}`)
         const { bootcamprNewToken, user } = data
+        localStorage.setItem('bootcamprAuthToken', bootcamprNewToken)
 
         if (data.isExpired) {
           const encodedEmail = pathInfo.search.slice(1)
@@ -30,7 +31,6 @@ export const EmailVerify = () => {
 
         if (pathInfo.search.length > 0) {
           let redirectURL
-          logOut()
 
           // attempt to update newEmail in backend
           const decodedEmail = atob(pathInfo.search.slice(1))
@@ -55,6 +55,7 @@ export const EmailVerify = () => {
       }
     }
     verifyEmail()
+    logOut()
   }, [userId, emailToken])
 
   return null
