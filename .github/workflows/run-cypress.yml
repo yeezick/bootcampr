@@ -48,7 +48,7 @@ jobs:
           npm install && 
           npm run test:build &&
           npm run start &
-          sleep 180
+          sleep 200
       - name: Checkout E2E suite
         uses: actions/checkout@v4
         with:
