@@ -35,7 +35,7 @@ jobs:
           repository: yeezick/bootcampr-backend
           token: ${{ secrets.GH_PAT }}
           path: backend
-          ref: main # This means all backend checkouts will fall back to main 
+          ref: main # This means all backend checkouts will fall back to main if release does not exist
       - name: Run backend
         run: |
           cd backend && 
@@ -65,11 +65,21 @@ jobs:
           sleep 240
       - name: Checkout E2E suite
         uses: actions/checkout@v4
+        id: e2e-branch-checkout
+        continue-on-error: true
         with:
           repository: yeezick/collabify-qa
           token: ${{ secrets.GH_PAT }}
           path: e2e
           ref: ${{ github.ref_name  }}    
+      - name: Retry E2E suite checkout
+        if: steps.e2e-branch-checkout.outcome == 'failure'
+        uses: actions/checkout@v4
+        with:
+          repository: yeezick/collabify-qa
+          token: ${{ secrets.GH_PAT }}
+          path: e2e
+          ref: main # This means all e2e checkouts will fall back to main if release does not exist
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
