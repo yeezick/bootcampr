@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: frontend
-      - name: Run backend
+      - name: Run frontend
         run: |
           cd frontend && 
           npm install && 
@@ -59,7 +59,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          start: npm cy:run
+          start: npm run cy:run
           record: true
           wait-on: 'http://127.0.0.1:3000, http://127.0.0.1:8001'
           wait-on-timeout: 120
