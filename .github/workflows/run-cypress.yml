@@ -38,10 +38,17 @@ jobs:
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
           SENDGRID_EMAIL: ${{ vars.SENDGRID_EMAIL }}
           SENDGRID_ADMIN_EMAIL: ${{ vars.SENDGRID_ADMIN_EMAIL }}
-      - name: Checkout
+      - name: Checkout frontend
         uses: actions/checkout@v4
         with:
           path: frontend
+      - name: Checkout E2E suite
+        uses: actions/checkout@v4
+        with:
+          repository: yeezick/collabify-qa
+          token: ${{ secrets.GH_PAT }}
+          path: e2e
+          ref: ${{ github.ref_name  }}    
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
@@ -50,6 +57,6 @@ jobs:
           record: true
           wait-on: 'http://127.0.0.1:3000, http://127.0.0.1:8001'
           wait-on-timeout: 120
-          working-directory: frontend
+          working-directory: e2e/e2e-cypress
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
