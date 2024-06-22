@@ -3,7 +3,7 @@ name: Cypress Tests
 on: 
   push:
     branches:
-      - 'releases/**'
+      - 'release/**'
       - 'hotfix/**'
 
 env:
