@@ -25,7 +25,7 @@ export const useKanbanSocket = userId => {
   const [socket, setSocket] = useState(null)
 
   useEffect(() => {
-    const newSocket = io(`${ENDPOINT}kanban`, {
+    const newSocket = io(`${ENDPOINT}/kanban`, {
       query: { userId },
       transports: ['websocket'],
       reconnection: true,
