@@ -39,7 +39,7 @@ export const getGroupChatAvatarText = participantsCount => {
   let maxTeamSize = minTeamSize + maxMembersSize
   let adjustedSize
 
-  if (minTeamSize === participantsCount) return '5+'
+  if (minTeamSize === participantsCount) return '+5'
 
   while (true) {
     if (minTeamSize < participantsCount && participantsCount < maxTeamSize) {
@@ -50,7 +50,7 @@ export const getGroupChatAvatarText = participantsCount => {
       maxTeamSize = maxTeamSize + maxMembersSize
     }
   }
-  return `${adjustedSize}+`
+  return `+${adjustedSize}`
 }
 
 export const getMessageClassNames = (

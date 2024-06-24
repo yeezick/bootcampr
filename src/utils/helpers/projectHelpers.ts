@@ -84,9 +84,13 @@ export const determineProjectIdByStatus = authUser => {
 }
 
 export const getProjectHeaderTitle = (pathname, projetcsList) => {
-  const [_, paramId] = pathname.split('/').filter(Boolean)
+  const [domain, paramId] = pathname.split('/').filter(Boolean)
   const project = projetcsList.find(
     projectInfo => projectInfo.projectId === paramId
   )
-  return project ? `${project.label}: Product Details` : 'Product Details'
+  const userHasMultipleProject = projetcsList.length > 1
+
+  return userHasMultipleProject && project
+    ? `${project.label}: Product Details`
+    : 'Product Details'
 }
