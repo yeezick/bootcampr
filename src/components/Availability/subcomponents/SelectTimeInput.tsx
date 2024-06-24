@@ -74,8 +74,15 @@ const selectSX = {
   '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
     borderColor: '#0D47A1;',
   },
-  '&.MuiPaper-root': {
+  '& .MuiPopover-root .MuiPaper-root': {
     marginLeft: '0px',
+    width: '120px',
+  },
+  '& .MuiPaper-root-MuiPopover-paper-MuiMenu-paper': {
+    width: '120px',
+  },
+  '& .MuiMenu-root .MuiMenuItem-root': {
+    minWidth: '0px',
   },
   width: '108px',
   elevation: '0',
@@ -84,10 +91,8 @@ const selectSX = {
 const menuPropsSX = {
   PaperProps: {
     sx: {
-      marginLeft: 0.7,
-      marginTop: 1.2,
       maxHeight: 340,
-      width: '120px !important',
+      maxWidth: 108,
     },
   },
   disableScrollLock: true,
