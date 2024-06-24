@@ -4,7 +4,11 @@ import { CustomCard } from 'components/Card/Card'
 import { updateUserProfile } from 'utils/api'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectAuthUser, updateAuthUser } from 'utils/redux/slices/userSlice'
+import {
+  selectAuthUser,
+  selectIsRecurringUnpaidUser,
+  updateAuthUser,
+} from 'utils/redux/slices/userSlice'
 import softwareEngineer from '../../assets/Images/software-engineer.png'
 import uxDesigner from '../../assets/Images/ux-designer.png'
 import productManager from '../../assets/Images/product-manager.png'
@@ -18,6 +22,21 @@ export const Role = ({ handlePageNavigation }) => {
   const [buttonEnabled, setButtonEnabled] = useState(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const authUser = useAppSelector(selectAuthUser)
+  const isRecurringUnpaid = useAppSelector(selectIsRecurringUnpaidUser)
+  const welcomeText = isRecurringUnpaid
+    ? {
+        header: 'Welcome back',
+        description:
+          "Let's review the information we'll use to best match project teams.",
+      }
+    : {
+        header: 'Welcome',
+        description:
+          "Let's start with information we'll use to best match project teams.",
+      }
+  const buttonLabel = isRecurringUnpaid
+    ? 'Review availability'
+    : 'Set availability'
 
   const roles = [
     {
@@ -46,10 +65,10 @@ export const Role = ({ handlePageNavigation }) => {
     event.preventDefault()
     setIsLoading(true)
     try {
-      const response = await updateUserProfile({
+      dispatch(updateAuthUser({ role: selectedRole }))
+      await updateUserProfile({
         role: selectedRole,
       })
-      dispatch(updateAuthUser(response.userProfile))
       setButtonEnabled(false)
       handlePageNavigation('next')
       setIsLoading(false)
@@ -71,10 +90,10 @@ export const Role = ({ handlePageNavigation }) => {
   return (
     <div className='onboarding-container'>
       <div className='welcome-container'>
-        <h1>Welcome, {authUser.firstName}!</h1>
-        <p>
-          Let's start with information we'll use to best match project teams.
-        </p>
+        <h1>
+          {welcomeText.header}, {authUser.firstName}!
+        </h1>
+        <p>{welcomeText.description}</p>
       </div>
       <div className='role-selection-container'>
         <div>
@@ -96,7 +115,7 @@ export const Role = ({ handlePageNavigation }) => {
           loading={isLoading}
           disabled={!buttonEnabled}
           onClick={handleSubmit}
-          label='Set availability'
+          label={buttonLabel}
         />
       </ButtonContainer>
     </div>

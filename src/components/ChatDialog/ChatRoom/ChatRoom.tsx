@@ -94,7 +94,6 @@ export const ChatRoom = () => {
     <div className='messages-container'>
       <section className='messages-grid' ref={containerRef}>
         <Messages
-          authUser={authUser}
           selectedMessages={selectedMessages}
           handleTimestampClick={handleTimestampClick}
         />

@@ -6,6 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import { fetchSandboxCalendar, fetchUserCalendar } from 'utils/api/calendar'
 import {
   selectCalendarId,
+  selectProjectCompleted,
   selectProjectId,
   selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
@@ -27,7 +28,6 @@ import {
   storeTeamAvailability,
   clearTeamAvailability,
 } from 'utils/redux/slices/calendarSlice'
-import { SecondaryButton } from 'components/Buttons'
 import { DisplayMeetingModal } from 'screens/Calendar/MeetingModal'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import dayjs from 'dayjs'
@@ -49,16 +49,14 @@ export const CalendarView = () => {
   const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
   const timeline = useAppSelector(selectProjectTimeline)
   const [weekNumber, setWeekNumber] = useState('')
+  const projectCompleted = useAppSelector(selectProjectCompleted)
+  const calendarRef = useRef(null)
+  const dispatch = useAppDispatch()
   const [isTodayButtonEnabled, setIsTodayButtonEnabled] = useState(true)
-  const [isProjectStartConfirmed, setIsProjectStartConfirmed] = useState(false)
-
   const firstDay = timeline.startDate
   const lastDay = generateDayJs(timeline.endDate)
     .weekday(7)
     .format('YYYY-MM-DD')
-  const calendarRef = useRef(null)
-  const [calendarApi, setCalendarApi] = useState(null)
-  const dispatch = useAppDispatch()
   const projectSundayDates = [
     timeline.startDate,
     dayjs(timeline.startDate).add(7, 'day').format('YYYY-MM-DD'),
@@ -92,17 +90,15 @@ export const CalendarView = () => {
         console.error('Team common availability not found.')
         return
       }
-
+      const teamAvailabilities = []
       const updatedTeamCommonAvail = await updateWeekDayNumber(
         teamCommonAvailability
       )
 
-      const teamAvailabilities = []
-
       projectSundayDates.forEach(sundayDate => {
         Object.entries(updatedTeamCommonAvail).forEach(
-          ([dayOfWeek, availability]) => {
-            ;(availability as any[]).forEach(([startTime, endTime]) => {
+          ([dayOfWeek, availability]: [string, string[]]) => {
+            availability.forEach(([startTime, endTime]) => {
               const { start, end } = formatAvailabilityDate(
                 sundayDate,
                 dayOfWeek,
@@ -122,6 +118,7 @@ export const CalendarView = () => {
   }
 
   const checkButtonStatus = () => {
+    const calendarApi = calendarRef.current?.getApi()
     if (!calendarApi) return
 
     const projectStartDate = generateDayJs(firstDay).format('YYYY-MM-DD')
@@ -129,7 +126,7 @@ export const CalendarView = () => {
     const projectDatesNotDefined = !projectStartDate && !projectEndDate
     const projectStarted = !projectDatesNotDefined
 
-    setIsProjectStartConfirmed(projectStarted)
+    console.log('project started:', projectStarted)
     setIsTodayButtonEnabled(!projectStarted)
   }
 
@@ -140,18 +137,29 @@ export const CalendarView = () => {
         fetchTeamCommonAvailability()
       }
     }
+  }, [calendarId, userEmail, projectId])
 
-    if (calendarRef.current) {
-      setCalendarApi(calendarRef.current.getApi())
-      checkButtonStatus()
-    }
-  }, [
-    calendarId,
-    userEmail,
-    projectId,
-    eventFetchingStatus,
-    isProjectStartConfirmed,
-  ])
+  useEffect(() => {
+    const calendarApi = calendarRef.current?.getApi()
+    if (!calendarApi) return
+
+    checkButtonStatus()
+  }, [firstDay, lastDay, eventFetchingStatus])
+
+  const disableButton = () => {
+    setTimeout(() => {
+      const calendarApi = calendarRef.current?.getApi()
+      if (!calendarApi) return
+
+      const button = calendarApi.el.querySelector(
+        '.fc-createMeeting-button'
+      ) as HTMLButtonElement
+      if (button) {
+        button.classList.add('disabled-button')
+        button.disabled = true
+      }
+    })
+  }
 
   const handleEventClick = e => {
     if (e.event.title !== 'Team Availability') {
@@ -161,24 +169,35 @@ export const CalendarView = () => {
 
   const renderWeekNumber = () => {
     setTimeout(() => {
-      if (calendarApi) {
-        const sundayDate = generateDayJs(calendarApi.getDate())
-          .day(0)
-          .format('YYYY-MM-DD')
-        updateWeekNumber(sundayDate, firstDay, setWeekNumber)
-      }
+      const calendarApi = calendarRef.current?.getApi()
+      if (!calendarApi) return
+
+      const sundayDate = generateDayJs(calendarApi.getDate())
+        .day(0)
+        .format('YYYY-MM-DD')
+      updateWeekNumber(sundayDate, firstDay, setWeekNumber)
     })
   }
 
   const handleTodayButtonClick = () => {
-    if (calendarApi) {
-      calendarApi.today()
-    }
+    const calendarApi = calendarRef.current?.getApi()
+    if (!calendarApi) return
+
+    calendarApi.today()
   }
 
   const handleProjectStartButtonClick = () => {
-    if (calendarApi) {
-      calendarApi.gotoDate(firstDay)
+    const calendarApi = calendarRef.current?.getApi()
+    if (!calendarApi) return
+
+    calendarApi.gotoDate(firstDay)
+  }
+
+  const handleDynamicButtons = () => {
+    renderWeekNumber()
+    //hack: the calendar is fully initialized so that we can get the calendarRef
+    if (projectCompleted) {
+      disableButton()
     }
   }
 
@@ -186,23 +205,9 @@ export const CalendarView = () => {
     case 'success':
       return (
         <div className='calendar-container'>
-          {isProjectStartConfirmed && (
-            <SecondaryButton
-              onClick={handleProjectStartButtonClick}
-              label='Project Start Date'
-              className='calendar-pro-start-btn'
-            />
-          )}
-          {!isProjectStartConfirmed && isTodayButtonEnabled && (
-            <SecondaryButton
-              onClick={handleTodayButtonClick}
-              label='Today'
-              className='calendar-today-btn'
-            />
-          )}
           <FullCalendar
             ref={calendarRef}
-            datesSet={renderWeekNumber}
+            datesSet={handleDynamicButtons}
             events={[...convertedEventsAsArr, ...teamAvailabilityArr]}
             eventClick={handleEventClick}
             eventTimeFormat={{
@@ -236,9 +241,11 @@ export const CalendarView = () => {
               },
               projectStart: {
                 text: 'Project Start Date',
+                click: () => handleProjectStartButtonClick(),
               },
               today: {
                 text: 'Today',
+                click: () => handleTodayButtonClick(),
               },
             }}
           />

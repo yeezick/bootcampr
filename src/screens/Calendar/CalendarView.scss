@@ -18,30 +18,14 @@
   .fc .fc-projectStart-button:active,
   .fc .fc-today-button,
   .fc .fc-today-button:active {
-    background-color: transparent;
-    border-color: transparent;
-    color: transparent;
-    font-size: 14px;
-    font-weight: 500;
-    margin: 0px;
-    padding: 7px 17px;
-    text-transform: capitalize;
-  }
-
-  .calendar-pro-start-btn,
-  .calendar-pro-start-btn:active,
-  .calendar-today-btn,
-  .calendar-today-btn:active {
     background-color: white;
     border-color: #1a237e;
     color: #1a237e;
     font-size: 14px;
     font-weight: 500;
-    left: 0px;
     margin: 0px;
-    padding: 7px 16px;
+    padding: 7px 17px;
     text-transform: capitalize;
-    top: 83px;
   }
 
   .fc .fc-prev-button {

@@ -9,7 +9,7 @@ export const CustomBadge: React.FC<BadgeInterface> = ({
   maxValue,
 }) => {
   //This is for the message component if we make it general Badge component we should handle position differently
-  const customPosition = content && 'translate(8px, -28px)'
+  const customPosition = content && 'translate(15px, -35px)'
   return (
     <div>
       <Badge

@@ -2,21 +2,28 @@
     background-color: #fafafa;
     border-radius: 5px;
     padding: 16px 32px;
-    width: 550px;
+    width: 590px;
 
-    h2 {
+h2 {
         font-size: 14px;
         margin: 0;
     }
 
     hr {
-        border: 1px solid #d9d9d9;
+        border: 0.5px solid #d9d9d9;
     }
 
     p {
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 500;
-        margin-top: 20px;
+        margin-top: 16px;
+    }
+
+    .availability-requirement{
+        font-size: 15px;
+        font-style: italic;
+        font-weight: 600;
+        margin-bottom: 16px;
     }
 
     .timezone-input-container {
@@ -26,6 +33,10 @@
         flex-direction: row;
         justify-content: space-between;
 
+        .timezone-input {
+            font-size: 16px;
+            width: 328px;
+        }
         .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon {
             height: .8em;
             top: 3.5px;
@@ -33,7 +44,7 @@
         }
 
         h2 {
-            font-size: 21px;
+            font-size: 22px;
             font-weight: 400;
         }
 
@@ -47,11 +58,11 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        margin: 23px 0px;
+        margin: 16px 0px;
         margin-left: -10px;
         min-height: 45px;
 
-        h2 {
+h2 {
             width: 70px;
         }
 
@@ -62,14 +73,16 @@
             height: fit-content;
             width: 100%;
 
-            h2 {
+h2 {
                 align-self: center;
-                font-weight: 400;
+                font-size: 16px;
+                font-weight: 300;
             }
 
             .check-day {
                 align-self: flex-start;
                 display: flex;
+                margin-top: 5px;
             }
 
             .timeslots-container {
@@ -115,7 +128,7 @@
             justify-content: space-between;
             width: 100%;
 
-            h4 {
+h4 {
                 font-weight: 600;
                 letter-spacing: -3px;
                 margin: 0 15px 0 12px;

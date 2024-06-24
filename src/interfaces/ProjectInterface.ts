@@ -36,11 +36,13 @@ export interface ProjectInterface {
     startDate?: string
     projectSubmissionDate?: string
     endDate?: string
+    presentationDate?: string
   }
   title?: string
   projectPortal: {
     renderProjectPortal: boolean
   }
+  completed: boolean
 }
 
 export interface ProjectTrackerInterface {

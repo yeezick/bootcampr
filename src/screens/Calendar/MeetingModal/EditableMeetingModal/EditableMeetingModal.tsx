@@ -45,6 +45,7 @@ export const EditableMeetingModal = () => {
   const [inviteAll, toggleInviteAll] = useState(false)
   const [visibleModal, toggleVisibleModal] = useState(false)
   const [googleMeeting, toggleGoogleMeeting] = useState(false)
+  const [disabledBtn, setDisabledBtn] = useState(true)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const modalDisplayStatus = useAppSelector(selectModalDisplayStatus)
   const displayedEvent = useAppSelector(selectDisplayedEvent)
@@ -55,7 +56,12 @@ export const EditableMeetingModal = () => {
   const calendarId = useAppSelector(selectCalendarId)
   const userEmail = useAppSelector(selectUserEmail)
   const dispatch = useAppDispatch()
-  const disabledBtn = isEmptyString(meetingText.summary)
+
+  useEffect(() => {
+    if (dateFields.eventTimezone) {
+      setDisabledBtn(isEmptyString(meetingText.summary))
+    }
+  }, [meetingText, dateFields.eventTimezone])
 
   useEffect(() => {
     if (modalDisplayStatus === 'create') {
@@ -155,12 +161,6 @@ export const EditableMeetingModal = () => {
       }
     }
 
-    attendeeList.forEach(attendee => {
-      attendee.email === userEmail
-        ? (attendee.comment = 'organizer')
-        : (attendee.comment = 'not organizer')
-    })
-
     const eventInfo: EventInfo = {
       attendees: attendeeList,
       description,
@@ -178,6 +178,7 @@ export const EditableMeetingModal = () => {
         timeZone: eventTimezone,
       },
       summary,
+      organizer: authUser.email,
       projectId,
     }
 
@@ -221,7 +222,6 @@ export const EditableMeetingModal = () => {
   return (
     <Dialog
       className='meeting-modal'
-      maxWidth='lg'
       TransitionProps={{ onEntering: handleEntering }}
       open={visibleModal}
       sx={modalStyles}
@@ -319,5 +319,6 @@ const titleInputFieldStyles = {
 const modalStyles = {
   '& .MuiPaper-root': {
     borderRadius: '0px',
+    width: '600px',
   },
 }

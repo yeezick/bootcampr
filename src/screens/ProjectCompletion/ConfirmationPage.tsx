@@ -6,10 +6,12 @@ import { ParticipationRadio } from 'components/Inputs/ParticipationRadio'
 import { editProject } from 'utils/api'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 import { BackButton, PrimaryButton } from 'components/Buttons'
+import { useNavigate } from 'react-router-dom'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch } from 'utils/redux/hooks'
 
 export const ConfirmationPage = ({ handlePageNavigation }) => {
+  const navigate = useNavigate()
   const project = useSelector(selectProject)
   const projectID = project._id
   const completedInfo = project.completedInfo
@@ -56,7 +58,9 @@ export const ConfirmationPage = ({ handlePageNavigation }) => {
     setLoading(true)
     try {
       await updateCompletedInfo()
-      handlePageNavigation(direction)
+      direction === 'previous'
+        ? handlePageNavigation(direction)
+        : navigate(`/project/${projectID}/complete/whats-next`)
     } finally {
       setLoading(false)
     }
