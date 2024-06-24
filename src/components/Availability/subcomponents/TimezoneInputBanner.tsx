@@ -51,6 +51,7 @@ export const TimeZoneInputBanner = ({ context }) => {
         value={userFriendlyTimezone}
         onChange={handleChange}
         className='timezone-input'
+        inputProps={{ MenuProps: { disableScrollLock: true } }}
       >
         {Object.keys(Timezones).map(zone => (
           <MenuItem key={zone} value={Timezones[zone]}>

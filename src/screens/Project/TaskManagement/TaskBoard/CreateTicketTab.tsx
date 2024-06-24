@@ -9,21 +9,21 @@ import {
   setVisibleTicketDialog,
 } from 'utils/redux/slices/taskBoardSlice'
 import { CreateTaskButton } from 'components/Buttons'
-import { statusSandboxOrWaitlist } from 'utils/helpers'
+import { isSandboxId, isWaitlistExperience } from 'utils/helpers/taskHelpers'
 
 export const CreateTicketTab = ({ columnStatus }) => {
   const projectId = useAppSelector(selectProjectId)
-  const { _id: userId, payment, projects } = useAppSelector(selectAuthUser)
+  const { _id: userId, payment } = useAppSelector(selectAuthUser)
   const projectCompleted = useAppSelector(selectProjectCompleted)
   const dispatch = useAppDispatch()
+  const isSandboxOrWaitlist =
+    isSandboxId(payment.experience) || isWaitlistExperience(payment.experience)
 
   const openCreateTicketDialog = () => {
     dispatch(setVisibleTicketDialog('create'))
     dispatch(
       resetTicketFields({
-        createdBy: statusSandboxOrWaitlist(payment, projects)
-          ? 'edwardEngineer'
-          : userId,
+        createdBy: isSandboxOrWaitlist ? 'edwardEngineer' : userId,
         status: columnStatus,
         projectId,
       })

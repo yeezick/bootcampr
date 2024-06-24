@@ -1,3 +1,5 @@
+// TODO: This component is not being called anywhere but the components and helper functions are?
+// Needs to be cleaned up.
 import { DropDownSettings } from 'interfaces/AccountSettingsInterface'
 import { initialDropdownState, settings } from './helper/data'
 import { DropdownToggleButton } from './components/DropdownToggleButton'

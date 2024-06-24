@@ -182,11 +182,6 @@ export const selectIsRecurringUser = createSelector(
   payment => payment.experience === 'recurring' && payment.paid
 )
 
-export const selectUserHasMultipleProjects = createSelector(
-  [selectAuthUser],
-  user => user.projects.projects.length > 1
-)
-
 export const selectIsRecurringUnpaidUser = createSelector(
   [selectCompletedInfo, selectUserPayment],
   (projectCompletion, payment) => {
@@ -195,6 +190,25 @@ export const selectIsRecurringUnpaidUser = createSelector(
       projectCompletion.deployedUrl?.length !== 0
     const unpaidUser = payment.experience === 'recurring' && !payment.paid
     return projectSubmitted && unpaidUser
+  }
+)
+
+export const selectUserHasMultipleProjects = createSelector(
+  [selectAuthUser],
+  user => user.projects.projects.length > 1
+)
+
+export const selectUserProjectList = createSelector(
+  [selectAuthUser, selectIsRecurringUser],
+  (user, isRecurringUser) => {
+    const projectsWithSandbox = isRecurringUser
+      ? [...user.projects.projects, 'waitlist']
+      : user.projects.projects
+
+    return projectsWithSandbox.reduce((projects, id, index) => {
+      projects.push({ label: `Project ${index + 1}`, projectId: id })
+      return projects
+    }, [])
   }
 )
 
