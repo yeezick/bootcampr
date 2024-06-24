@@ -103,6 +103,7 @@ export const CopyTimesModal = ({
       }}
       disablePortal
       keepMounted
+      disableScrollLock
     >
       <div className='copy-times-modal' ref={modalEl}>
         <p className='copy-times-text'>

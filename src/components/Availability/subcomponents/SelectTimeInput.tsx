@@ -63,6 +63,7 @@ export const SelectTimeInput = ({
 
 const selectSX = {
   padding: '0 !important',
+  margin: '0px',
   fontSize: '16px',
   '& .MuiSvgIcon-root': { display: 'none' },
   backgroundColor: '#fefefe',
@@ -71,8 +72,17 @@ const selectSX = {
     border: '1px solid black',
   },
   '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-    border: 1,
-    borderColor: 'black',
+    borderColor: '#0D47A1;',
+  },
+  '& .MuiPopover-root .MuiPaper-root': {
+    marginLeft: '0px',
+    width: '120px',
+  },
+  '& .MuiPaper-root-MuiPopover-paper-MuiMenu-paper': {
+    width: '120px',
+  },
+  '& .MuiMenu-root .MuiMenuItem-root': {
+    minWidth: '0px',
   },
   width: '108px',
   elevation: '0',
@@ -81,11 +91,9 @@ const selectSX = {
 const menuPropsSX = {
   PaperProps: {
     sx: {
-      boxShadow: 0,
-      marginLeft: 2.5,
-      marginTop: 0.5,
       maxHeight: 340,
-      width: 130,
+      maxWidth: 108,
     },
   },
+  disableScrollLock: true,
 }
