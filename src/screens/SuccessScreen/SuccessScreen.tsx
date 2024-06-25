@@ -1,4 +1,3 @@
-import './SuccessScreen.scss'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import {
@@ -12,6 +11,7 @@ import { SuccessScreenValues } from 'interfaces/AccountSettingsInterface'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { logoutAuthUser } from 'utils/redux/slices/userSlice'
 import { PrimaryButton } from 'components/Buttons'
+import './SuccessScreen.scss'
 
 export const SuccessScreen = () => {
   const navigate = useNavigate()
