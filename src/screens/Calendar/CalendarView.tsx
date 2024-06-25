@@ -3,6 +3,7 @@ import { useRef } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
+import rrulePlugin from '@fullcalendar/rrule'
 import { fetchSandboxCalendar, fetchUserCalendar } from 'utils/api/calendar'
 import {
   selectCalendarId,
@@ -225,7 +226,7 @@ export const CalendarView = () => {
             allDaySlot={false}
             initialView='timeGridWeek'
             nowIndicator={true}
-            plugins={[dayGridPlugin, timeGridPlugin]}
+            plugins={[dayGridPlugin, timeGridPlugin, rrulePlugin]}
             validRange={{
               start: firstDay,
               end: lastDay,

@@ -31,6 +31,8 @@ export interface ConvertedEvent {
   start?: string
   timeZone?: string
   title?: string
+  rrule?: string
+  recurringEventId?: string
 }
 
 export interface DateFieldsAsDayjs {

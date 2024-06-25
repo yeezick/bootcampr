@@ -16,11 +16,22 @@ import timezone from 'dayjs/plugin/timezone'
 import '../styles/DisplayMeetingModal.scss'
 import '../styles/Datefields.scss'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+import { RecurringDays } from './RecurringDays'
+import { RecurringCheckbox } from './RecurringCheckbox'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 dayjs.extend(isSameOrAfter)
 
-export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
+export const DateFields = ({
+  dateFields,
+  dayjs,
+  setDateFields,
+  days,
+  setDays,
+  handleSelect,
+  recurrenceInfo,
+  setRecurrenceInfo,
+}) => {
   const [datePickerDayjs, setDayPickerDayjs] = useState(
     generateDayJs(dateFields.date)
   )
@@ -95,6 +106,14 @@ export const DateFields = ({ dateFields, dayjs, setDateFields }) => {
           dateFields={dateFields}
           setDateFields={setDateFields}
           eventTimezone={dateFields.eventTimezone}
+        />
+        <RecurringCheckbox
+          setRecurrenceInfo={setRecurrenceInfo}
+          recurrenceInfo={recurrenceInfo}
+        />
+        <RecurringDays
+          recurrenceInfo={recurrenceInfo}
+          handleSelect={handleSelect}
         />
       </div>
     </>

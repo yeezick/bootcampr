@@ -1,6 +1,11 @@
 import { Dialog, DialogContent, DialogActions, TextField } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
-import { BooleanObject, DateFieldsInterface, EventInfo } from 'interfaces'
+import {
+  BooleanObject,
+  DateFieldsInterface,
+  EventInfo,
+  RecurrenceMeeting,
+} from 'interfaces'
 import dayjs from 'dayjs'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { successSnackbar, errorSnackbar } from 'utils/helpers/commentHelpers'
@@ -8,6 +13,7 @@ import {
   selectCalendarId,
   selectMembersAsTeam,
   selectProjectId,
+  selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { SelectAttendees } from './SelectAttendees'
@@ -20,7 +26,10 @@ import {
   initialDateFields,
 } from 'utils/helpers'
 import { DescriptionField } from './MeetingTextField'
-import { initialMeetingText } from 'utils/data/calendarConstants'
+import {
+  initialMeetingText,
+  initialRecurrenceInfo,
+} from 'utils/data/calendarConstants'
 import {
   addNewEvent,
   selectDisplayedEvent,
@@ -37,10 +46,16 @@ import { PrimaryButton } from 'components/Buttons'
 import { isEmptyString } from 'utils/helpers/inputUtils'
 
 export const EditableMeetingModal = () => {
+  const { endDate } = useAppSelector(selectProjectTimeline)
+  const formattedED = dayjs(endDate).format('YYYYMMDD')
   const [meetingText, setMeetingText] = useState(initialMeetingText)
   const [dateFields, setDateFields] = useState<DateFieldsInterface>(
     initialDateFields()
   )
+  const [recurrenceInfo, setRecurrenceInfo] = useState<RecurrenceMeeting>(
+    initialRecurrenceInfo
+  )
+  const [days, setDays] = useState([])
   const [attendees, setAttendees] = useState<BooleanObject>({})
   const [inviteAll, toggleInviteAll] = useState(false)
   const [visibleModal, toggleVisibleModal] = useState(false)
@@ -72,11 +87,18 @@ export const EditableMeetingModal = () => {
         updatedAttendees[authUser.email] = true
       }
       setAttendees(updatedAttendees)
+      setRecurrenceInfo({ ...recurrenceInfo, until: formattedED })
 
       toggleVisibleModal(true)
     } else if (modalDisplayStatus === 'edit') {
-      const { description, googleDateFields, location, summary } =
-        displayedEvent
+      const {
+        description,
+        googleDateFields,
+        location,
+        summary,
+        recurringEventId,
+        rrule,
+      } = displayedEvent
 
       if (displayedEvent?.attendees) {
         const prefilledAttendees = {}
@@ -130,6 +152,15 @@ export const EditableMeetingModal = () => {
     setAttendees({})
     toggleInviteAll(false)
     dispatch(setModalDisplayStatus(false))
+    setRecurrenceInfo(initialRecurrenceInfo)
+    setDays([])
+  }
+
+  const handleSelect = (event, value) => {
+    setRecurrenceInfo({
+      ...recurrenceInfo,
+      days: value,
+    })
   }
 
   const handleInviteAll = () => {
@@ -180,6 +211,7 @@ export const EditableMeetingModal = () => {
       summary,
       organizer: authUser.email,
       projectId,
+      recurrenceInfo,
     }
 
     if (modalDisplayStatus === 'create') {
@@ -247,6 +279,11 @@ export const EditableMeetingModal = () => {
               dateFields={dateFields}
               setDateFields={setDateFields}
               dayjs={dayjs}
+              days={days}
+              setDays={setDays}
+              handleSelect={handleSelect}
+              recurrenceInfo={recurrenceInfo}
+              setRecurrenceInfo={setRecurrenceInfo}
             />
 
             <SelectAttendees

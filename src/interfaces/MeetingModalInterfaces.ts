@@ -16,6 +16,13 @@ interface GoogleAttendees {
   comment: string
 }
 
+export interface RecurrenceMeeting {
+  enabled: boolean
+  freq: string
+  days: []
+  until: string
+}
+
 export interface EventInfo {
   attendees: AttendeeList[]
   description: string
@@ -34,6 +41,7 @@ export interface EventInfo {
   summary: string
   organizer: string
   projectId: string
+  recurrenceInfo: RecurrenceMeeting
 }
 
 export interface MeetingModalInfo {
@@ -58,6 +66,8 @@ export interface MeetingModalInfo {
   summary: string
   metadata: any
   organizer: string
+  recurringEventId: string
+  rrule: string
 }
 
 export interface MeetingText {
