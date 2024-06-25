@@ -50,6 +50,10 @@ export const AccountDropdown = ({ anchorEl, setAnchorEl }) => {
         }}
         id='custom-menu-paper'
         autoFocus={false}
+        disableScrollLock
+        style={{
+          width: '164px',
+        }}
       >
         <MenuItem onClick={handleClose}>My profile</MenuItem>
         <MenuItem onClick={handleClose}>Settings</MenuItem>
