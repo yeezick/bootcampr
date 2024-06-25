@@ -126,7 +126,6 @@ export const CalendarView = () => {
     const projectDatesNotDefined = !projectStartDate && !projectEndDate
     const projectStarted = !projectDatesNotDefined
 
-    console.log('project started:', projectStarted)
     setIsTodayButtonEnabled(!projectStarted)
   }
 
