@@ -30,12 +30,12 @@ import {
 } from 'utils/redux/slices/calendarSlice'
 import { DisplayMeetingModal } from 'screens/Calendar/MeetingModal'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
-import './CalendarView.scss'
 import dayjs from 'dayjs'
 import weekday from 'dayjs/plugin/weekday'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import { getTeamCommonAvailability } from 'utils/api'
+import './CalendarView.scss'
 dayjs.extend(weekday)
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -50,12 +50,13 @@ export const CalendarView = () => {
   const timeline = useAppSelector(selectProjectTimeline)
   const [weekNumber, setWeekNumber] = useState('')
   const projectCompleted = useAppSelector(selectProjectCompleted)
+  const calendarRef = useRef(null)
+  const dispatch = useAppDispatch()
+  const [isTodayButtonEnabled, setIsTodayButtonEnabled] = useState(true)
   const firstDay = timeline.startDate
   const lastDay = generateDayJs(timeline.endDate)
     .weekday(7)
     .format('YYYY-MM-DD')
-  const calendarRef = useRef(null)
-  const dispatch = useAppDispatch()
   const projectSundayDates = [
     timeline.startDate,
     dayjs(timeline.startDate).add(7, 'day').format('YYYY-MM-DD'),
@@ -116,6 +117,18 @@ export const CalendarView = () => {
     }
   }
 
+  const checkButtonStatus = () => {
+    const calendarApi = calendarRef.current?.getApi()
+    if (!calendarApi) return
+
+    const projectStartDate = generateDayJs(firstDay).format('YYYY-MM-DD')
+    const projectEndDate = generateDayJs(lastDay).format('YYYY-MM-DD')
+    const projectDatesNotDefined = !projectStartDate && !projectEndDate
+    const projectStarted = !projectDatesNotDefined
+
+    setIsTodayButtonEnabled(!projectStarted)
+  }
+
   useEffect(() => {
     if (calendarId && userEmail) {
       fetchAllEvents()
@@ -125,17 +138,24 @@ export const CalendarView = () => {
     }
   }, [calendarId, userEmail, projectId])
 
+  useEffect(() => {
+    const calendarApi = calendarRef.current?.getApi()
+    if (!calendarApi) return
+
+    checkButtonStatus()
+  }, [firstDay, lastDay, eventFetchingStatus])
+
   const disableButton = () => {
     setTimeout(() => {
       const calendarApi = calendarRef.current?.getApi()
-      if (calendarApi) {
-        const button = calendarApi.el.querySelector(
-          '.fc-createMeeting-button'
-        ) as HTMLButtonElement
-        if (button) {
-          button.classList.add('disabled-button')
-          button.disabled = true
-        }
+      if (!calendarApi) return
+
+      const button = calendarApi.el.querySelector(
+        '.fc-createMeeting-button'
+      ) as HTMLButtonElement
+      if (button) {
+        button.classList.add('disabled-button')
+        button.disabled = true
       }
     })
   }
@@ -148,12 +168,28 @@ export const CalendarView = () => {
 
   const renderWeekNumber = () => {
     setTimeout(() => {
-      const calendarApi = calendarRef.current.getApi()
+      const calendarApi = calendarRef.current?.getApi()
+      if (!calendarApi) return
+
       const sundayDate = generateDayJs(calendarApi.getDate())
         .day(0)
         .format('YYYY-MM-DD')
       updateWeekNumber(sundayDate, firstDay, setWeekNumber)
     })
+  }
+
+  const handleTodayButtonClick = () => {
+    const calendarApi = calendarRef.current?.getApi()
+    if (!calendarApi) return
+
+    calendarApi.today()
+  }
+
+  const handleProjectStartButtonClick = () => {
+    const calendarApi = calendarRef.current?.getApi()
+    if (!calendarApi) return
+
+    calendarApi.gotoDate(firstDay)
   }
 
   const handleDynamicButtons = () => {
@@ -179,7 +215,9 @@ export const CalendarView = () => {
               meridiem: true,
             }}
             headerToolbar={{
-              start: 'title today prev weekTitle next',
+              start: `title ${
+                isTodayButtonEnabled ? 'today' : 'projectStart'
+              } prev weekTitle next`,
               center: '',
               end: 'createMeeting',
             }}
@@ -199,6 +237,14 @@ export const CalendarView = () => {
               },
               weekTitle: {
                 text: `Week ${weekNumber}`,
+              },
+              projectStart: {
+                text: 'Project Start Date',
+                click: () => handleProjectStartButtonClick(),
+              },
+              today: {
+                text: 'Today',
+                click: () => handleTodayButtonClick(),
               },
             }}
           />
