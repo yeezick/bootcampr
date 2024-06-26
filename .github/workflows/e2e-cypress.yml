@@ -16,8 +16,7 @@ jobs:
   cypress-run:
     environment:
       name:
-        ${{ contains(fromJSON('["release/", "hotfix/"]'), github.ref_name) &&
-        'staging' || 'development' }}
+        ${{ contains(fromJSON('["release/", "hotfix/"]'), github.ref_name) && 'staging' || 'development' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout E2E suite
