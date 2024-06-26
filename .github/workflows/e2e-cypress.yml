@@ -1,10 +1,10 @@
 name: Cypress Tests
 
 on:
-  push
-  # branches:
-  #   - 'release/**'
-  #   - 'hotfix/**'
+  push:
+    branches:
+      - 'release/**'
+      - 'hotfix/**'
 
 env:
   CI: false
@@ -16,7 +16,8 @@ jobs:
   cypress-run:
     environment:
       name:
-        ${{ contains(fromJSON('["release/", "hotfix/"]'), github.ref_name) && 'staging' || 'development' }}
+        ${{ contains(fromJSON('["release/", "hotfix/"]'), github.ref_name) &&
+        'staging' || 'development' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout E2E suite
