@@ -40,7 +40,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          start: npm run cy:run
           record: true
           working-directory: e2e/e2e-cypress
         env:
