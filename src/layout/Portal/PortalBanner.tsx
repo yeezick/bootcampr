@@ -35,12 +35,13 @@ export const PortalBanner = () => {
     setBannerHeight()
   }, [type])
 
-  if (!active) return null
+  // if (!active) return null
   if (isRecurringUnpaidUser || isRecurringUser) return null
   return (
     <div ref={bannerRef} className='banner'>
       {type === 'waitlist' && <WaitlistBanner />}
       {type === 'sandbox' && <SandboxBanner />}
+      <WaitlistBanner />
     </div>
   )
 }
@@ -130,6 +131,9 @@ const WaitlistPageInfo = () => {
         )
         break
       default:
+        setInfoText(
+          'You can review the Product Details to prepare for the kickoff meeting.'
+        )
         return
     }
   }, [pathname])
