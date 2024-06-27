@@ -1,10 +1,11 @@
 name: Cypress Tests
 
-on: 
-  push:
-    branches:
-      - 'release/**'
-      - 'hotfix/**'
+on:
+  push
+  # push:
+  #   branches:
+  #     - 'release/**'
+  #     - 'hotfix/**'
 
 env:
   CI: false
@@ -15,54 +16,15 @@ permissions:
 jobs:
   cypress-run:
     environment:
-      # name: ${{ contains(fromJSON('["release/", "hotfix/"]'), github.ref_name) && 'staging' || 'development'}}
-      name: 'staging'
+      name:
+        staging
+        # ${{ contains(fromJSON('["release/", "hotfix/"]'), github.ref_name) && 'staging' || 'development' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout backend
-        uses: actions/checkout@v4
-        id: backend-branch-checkout
-        continue-on-error: true
-        with:
-          repository: yeezick/bootcampr-backend
-          token: ${{ secrets.GH_PAT }}
-          path: backend
-          ref: ${{ github.ref_name }} 
-      - name: Retry backend checkout
-        if: steps.backend-branch-checkout.outcome == 'failure'
-        uses: actions/checkout@v4
-        with:
-          repository: yeezick/bootcampr-backend
-          token: ${{ secrets.GH_PAT }}
-          path: backend
-          ref: main # This means all backend checkouts will fall back to main if release does not exist
       - name: Run backend
         run: |
-          cd backend && 
-          npm install && 
-          npm run dev & 
-          sleep 5
-        env:
-          BACKEND_URL: http://localhost:8001
-          FRONTEND_URL: http://localhost:3000
-          TOKEN_KEY: ${{ vars.TOKEN_KEY }}
-          MONGODB_URI: ${{ vars.MONGODB_URI }}
-          CALENDAR_CREDS: ${{ vars.CALENDAR_CREDS }}
-          CALENDAR_EMAIL: ${{ vars.CALENDAR_EMAIL }}
-          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
-          SENDGRID_EMAIL: ${{ vars.SENDGRID_EMAIL }}
-          SENDGRID_ADMIN_EMAIL: ${{ vars.SENDGRID_ADMIN_EMAIL }}
-      - name: Checkout frontend
-        uses: actions/checkout@v4
-        with:
-          path: frontend
-      - name: Run frontend
-        run: |
-          cd frontend && 
-          npm install && 
-          npm run test:build &&
-          npm run start &
-          sleep 240
+          echo ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
+          echo ${{github.ref_name}}
       - name: Checkout E2E suite
         uses: actions/checkout@v4
         id: e2e-branch-checkout
@@ -71,7 +33,7 @@ jobs:
           repository: yeezick/collabify-qa
           token: ${{ secrets.GH_PAT }}
           path: e2e
-          ref: ${{ github.ref_name  }}    
+          ref: ${{ github.ref_name  }}
       - name: Retry E2E suite checkout
         if: steps.e2e-branch-checkout.outcome == 'failure'
         uses: actions/checkout@v4
@@ -83,10 +45,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          start: npm run cy:run
           record: true
-          wait-on: 'http://127.0.0.1:3000, http://127.0.0.1:8001'
-          wait-on-timeout: 120
           working-directory: e2e/e2e-cypress
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
