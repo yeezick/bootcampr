@@ -1,13 +1,18 @@
+@import 'scss/variables';
+
 .project-details-content {
-  .banner-and-tab-list {
-    position: absolute;
-    width: calc(100% - 288px);
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+
+  .tab-list-container {
+    background-color: #fff;
+    width: calc(100% - $sidemenu-width);
     z-index: 2;
   }
   .tab-list {
-    background: #fff;
     margin-left: 32px;
-    padding: 16px 0;
+    padding-bottom: 16px;
 
     & .MuiTabs-indicator {
       background-color: #ffa726;
@@ -19,6 +24,7 @@
       color: black;
       margin-right: 16px;
       min-width: auto;
+
       &.Mui-selected {
         color: black;
       }
@@ -31,21 +37,17 @@
     padding: 0;
   }
 
-  .tab-panel,
-  .with-banner {
-    margin-left: 10px;
-    // the following styles have no visual effect in the local environment but were added in BC-900 to address layout bugs in the deployed dev environment.
-    box-shadow: none;
-    margin-top: 0;
-    position: sticky;
-    width: auto;
-  }
+  .tab-panels {
+    height: Calc(100% - var(--tab-list-and-banner-height, 0px));
+    overflow-y: scroll;
 
-  .tab-panel {
-    padding-top: 85px;
-  }
-
-  .with-banner {
-    padding-top: 193px;
+    .tab-panel {
+      margin-left: 10px;
+      // the following styles have no visual effect in the local environment but were added in BC-900 to address layout bugs in the deployed dev environment.
+      box-shadow: none;
+      margin-top: 0;
+      position: relative;
+      width: auto;
+    }
   }
 }
