@@ -16,9 +16,13 @@ jobs:
   cypress-run:
     environment:
       name:
-        ${{ contains(fromJSON('["release/", "hotfix/"]'), github.ref_name) && 'staging' || 'development' }}
+        development
+        # ${{ contains(fromJSON('["release/", "hotfix/"]'), github.ref_name) && 'staging' || 'development' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Run backend
+        run: |
+          echo ${{ contains(fromJSON('["release/", "hotfix/"]'), github.ref_name) }}
       - name: Checkout E2E suite
         uses: actions/checkout@v4
         id: e2e-branch-checkout
