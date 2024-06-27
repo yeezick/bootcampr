@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: Run backend
         run: |
-          echo ${{ contains(fromJSON('["release/", "hotfix/",  "feature/"]'), github.ref_name) }}
+          echo ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
           echo ${{github.ref_name}}
       - name: Checkout E2E suite
         uses: actions/checkout@v4
