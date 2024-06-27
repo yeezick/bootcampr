@@ -130,9 +130,6 @@ const WaitlistPageInfo = () => {
         )
         break
       default:
-        setInfoText(
-          'You can review the Product Details to prepare for the kickoff meeting.'
-        )
         return
     }
   }, [pathname])
