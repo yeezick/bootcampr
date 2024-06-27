@@ -35,13 +35,12 @@ export const PortalBanner = () => {
     setBannerHeight()
   }, [type])
 
-  // if (!active) return null
+  if (!active) return null
   if (isRecurringUnpaidUser || isRecurringUser) return null
   return (
     <div ref={bannerRef} className='banner'>
       {type === 'waitlist' && <WaitlistBanner />}
       {type === 'sandbox' && <SandboxBanner />}
-      <WaitlistBanner />
     </div>
   )
 }
