@@ -1,10 +1,6 @@
 name: Cypress Tests
 
-on:
-  push:
-    branches:
-      - 'release/**'
-      - 'hotfix/**'
+on: [push, issue_comment]
 
 env:
   CI: false
@@ -14,32 +10,37 @@ permissions:
 
 jobs:
   cypress-run:
+    # if:
+    #   ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/')) || github.event.label.name == 'run-e2e' }}
     environment:
       name:
         ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout E2E suite
-        uses: actions/checkout@v4
-        id: e2e-branch-checkout
-        continue-on-error: true
-        with:
-          repository: yeezick/collabify-qa
-          token: ${{ secrets.GH_PAT }}
-          path: e2e
-          ref: ${{ github.ref_name  }}
-      - name: Retry E2E suite checkout
-        if: steps.e2e-branch-checkout.outcome == 'failure'
-        uses: actions/checkout@v4
-        with:
-          repository: yeezick/collabify-qa
-          token: ${{ secrets.GH_PAT }}
-          path: e2e
-          ref: main # This means all e2e checkouts will fall back to main if release does not exist
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          record: true
-          working-directory: e2e/e2e-cypress
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      - name: Run backend
+        run: |
+          echo ${{ github.event.issue }}
+      # - name: Checkout E2E suite
+      #   uses: actions/checkout@v4
+      #   id: e2e-branch-checkout
+      #   continue-on-error: true
+      #   with:
+      #     repository: yeezick/collabify-qa
+      #     token: ${{ secrets.GH_PAT }}
+      #     path: e2e
+      #     ref: ${{ github.ref_name  }}
+      # - name: Retry E2E suite checkout
+      #   if: steps.e2e-branch-checkout.outcome == 'failure'
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: yeezick/collabify-qa
+      #     token: ${{ secrets.GH_PAT }}
+      #     path: e2e
+      #     ref: main # This means all e2e checkouts will fall back to main if release does not exist
+      # - name: Cypress run
+      #   uses: cypress-io/github-action@v6
+      #   with:
+      #     record: true
+      #     working-directory: e2e/e2e-cypress
+      #   env:
+      #     CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
