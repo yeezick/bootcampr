@@ -1,8 +1,11 @@
 name: Cypress Tests
 
-on: 
+on:  
+  push:
+    branches:
+      - 'release/**'
+      - 'hotfix/**'
   issue_comment:
-    types: [created, deleted]
 
 env:
   CI: false
@@ -12,8 +15,8 @@ permissions:
 
 jobs:
   cypress-run:
-    if:
-      ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/')) || github.event.issue.pull_request}}
+    # if:
+    #   ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/')) || github.event.issue.pull_request}}
     environment:
       name:
         ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
