@@ -1,6 +1,8 @@
 name: Cypress Tests
 
-on: [push, issue_comment]
+on: 
+  push:
+  issue_comment: 
 
 env:
   CI: false
