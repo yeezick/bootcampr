@@ -1,11 +1,10 @@
 name: Cypress Tests
 
-on:  
+on: issue_comment
 #   push:
 #     branches:
 #       - 'release/**'
 #       - 'hotfix/**'
-  issue_comment:
 
 env:
   CI: false
@@ -49,4 +48,3 @@ jobs:
       #     working-directory: e2e/e2e-cypress
       #   env:
       #     CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-
