@@ -10,8 +10,8 @@ permissions:
 
 jobs:
   cypress-run:
-    # if:
-    #   ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/')) || github.event.label.name == 'run-e2e' }}
+    if:
+      ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/')) || github.event.issue.pull_request}}
     environment:
       name:
         ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
