@@ -1,11 +1,10 @@
 name: Cypress Tests
 
 on:
-  push
-  # push:
-  #   branches:
-  #     - 'release/**'
-  #     - 'hotfix/**'
+  push:
+    branches:
+      - 'release/**'
+      - 'hotfix/**'
 
 env:
   CI: false
@@ -17,14 +16,9 @@ jobs:
   cypress-run:
     environment:
       name:
-        staging
-        # ${{ contains(fromJSON('["release/", "hotfix/"]'), github.ref_name) && 'staging' || 'development' }}
+        ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
     runs-on: ubuntu-latest
     steps:
-      - name: Run backend
-        run: |
-          echo ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
-          echo ${{github.ref_name}}
       - name: Checkout E2E suite
         uses: actions/checkout@v4
         id: e2e-branch-checkout
