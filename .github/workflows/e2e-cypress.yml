@@ -21,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
     steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
       - name: Change PR base for feature branches
         run: |
           echo "$GITHUB_CONTEXT"
