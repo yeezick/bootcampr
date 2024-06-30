@@ -24,7 +24,7 @@ jobs:
       - name: Change PR base for feature branches
         run: |
           echo "$GITHUB_CONTEXT"
-          gh pr edit ${{ github.ref_name }} --base ${{vars.CURRENT_RELEASE}}
+          gh pr edit ${{ github.event.number }} --base ${{vars.CURRENT_RELEASE}}
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
