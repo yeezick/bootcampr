@@ -23,7 +23,7 @@ jobs:
       - name: Change PR base for feature branches
         run: gh pr edit ${{ github.ref_name  }} --base ${{vars.CURRENT_RELEASE}}
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
   manual-e2e-trigger:
     if: ${{ github.event_name == 'pull_request'}}
     runs-on: ubuntu-latest
