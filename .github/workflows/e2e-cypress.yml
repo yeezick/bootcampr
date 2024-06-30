@@ -15,10 +15,16 @@ permissions:
   issues: write
   pull-requests: write
 
+env: 
+  WORKFLOW_ENV: 
+    ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
+
+
 jobs:
   change-base: 
     if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' && !(contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  }}
     runs-on: ubuntu-latest
+    environment: ${{ vars.WORKFLOW_ENV }}
     steps:
       - name: Change PR base for feature branches
         run: gh pr edit ${{ github.ref_name  }} --base ${{vars.CURRENT_RELEASE}}
@@ -46,9 +52,7 @@ jobs:
             })
   cypress-run:
     if: ${{ github.event_name != 'pull_request'}}
-    environment:
-      name:
-        ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
+    environment: ${{ vars.WORKFLOW_ENV }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout E2E suite
