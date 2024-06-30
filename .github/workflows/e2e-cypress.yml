@@ -24,7 +24,7 @@ jobs:
   change-base: 
     # if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' && !(contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  }}
     runs-on: ubuntu-latest
-    environment: ${{ env.WORKFLOW_ENV }}
+    environment: ${{ vars.WORKFLOW_ENV }}
     steps:
       - name: Change PR base for feature branches
         run: gh pr edit ${{ github.ref_name  }} --base ${{vars.CURRENT_RELEASE}}
