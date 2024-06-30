@@ -10,9 +10,6 @@ on:
       - 'hotfix/**'
   workflow_dispatch:
 
-env:
-  CI: false
-
 permissions:
   contents: write
   issues: write
