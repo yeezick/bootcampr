@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   manual-e2e-trigger:
-    if: ${{ github.event_name == 'pull-request'}}
+    if: ${{ github.event_name == 'pull_request'}}
     runs-on: ubuntu-latest
     steps:
       - name: Link to manual E2E workflow dispatch 
@@ -35,7 +35,7 @@ jobs:
               `
             })
   cypress-run:
-    if: ${{ github.event_name != 'pull-request'}}
+    if: ${{ github.event_name != 'pull_request'}}
     environment:
       name:
         ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
