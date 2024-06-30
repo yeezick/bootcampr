@@ -1,6 +1,8 @@
 name: Cypress Tests
 
-on: issue_comment
+on:
+  push:
+  workflow_dispatch:
 #   push:
 #     branches:
 #       - 'release/**'
@@ -15,7 +17,7 @@ permissions:
 jobs:
   cypress-run:
     # if:
-    #   ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/')) || github.event.issue.pull_request}}
+    #   ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/')) || github.event.}}
     environment:
       name:
         ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
@@ -23,7 +25,17 @@ jobs:
     steps:
       - name: Run backend
         run: |
-          echo ${{ github.event.issue }}
+          echo ${{ github.ref_name  }}
+      - name: Link to manual E2E workflow dispatch 
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 Thanks for reporting!'
+            })
       # - name: Checkout E2E suite
       #   uses: actions/checkout@v4
       #   id: e2e-branch-checkout
