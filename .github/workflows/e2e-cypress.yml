@@ -5,9 +5,9 @@ on:
     types: 
       - opened
   push:
-    branches:
-      - 'release/**'
-      - 'hotfix/**'
+    # branches:
+    #   - 'release/**'
+    #   - 'hotfix/**'
   workflow_dispatch:
 
 permissions:
@@ -16,54 +16,63 @@ permissions:
   pull-requests: write
 
 jobs:
-  manual-e2e-trigger:
-    if: ${{ github.event_name == 'pull_request'}}
+  change-base: 
+    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' && !(contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  }}
     runs-on: ubuntu-latest
+    environment: ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
     steps:
-      - name: Link to manual E2E workflow dispatch 
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `# 🔎 Manually trigger E2E tests
-              Cypress only runs automatically for 
-              1. Visit this URL [here](https://github.com/yeezick/bootcampr/actions/workflows/e2e-cypress.yml)
-              1. Select your branch name & run
-
-              Note: This will not trigger a rerun on the PR itself. Manual actions are only visible on the actions dashboard. 
-              `
-            })
-  cypress-run:
-    if: ${{ github.event_name != 'pull_request'}}
-    environment:
-      name:
-        ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout E2E suite
+      - name: Checkout branch
         uses: actions/checkout@v4
-        id: e2e-branch-checkout
-        continue-on-error: true
-        with:
-          repository: yeezick/collabify-qa
-          token: ${{ secrets.GH_PAT }}
-          path: e2e
-          ref: ${{ github.ref_name  }}
-      - name: Retry E2E suite checkout
-        if: steps.e2e-branch-checkout.outcome == 'failure'
-        uses: actions/checkout@v4
-        with:
-          repository: yeezick/collabify-qa
-          token: ${{ secrets.GH_PAT }}
-          path: e2e
-          ref: main # This means all e2e checkouts will fall back to main if release does not exist
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          record: true
-          working-directory: e2e/e2e-cypress
+      - name: Change PR base for feature branches
+        run: gh pr edit ${{ github.event.number }} --base ${{vars.CURRENT_RELEASE}}
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+  # manual-e2e-trigger:
+  #   if: ${{ github.event_name == 'pull_request'}}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Link to manual E2E workflow dispatch 
+  #       uses: actions/github-script@v7
+  #       with:
+  #         script: |
+  #           github.rest.issues.createComment({
+  #             issue_number: context.issue.number,
+  #             owner: context.repo.owner,
+  #             repo: context.repo.repo,
+  #             body: `# 🔎 Manually trigger E2E tests
+  #             Cypress only runs automatically for 
+  #             1. Visit this URL [here](https://github.com/yeezick/bootcampr/actions/workflows/e2e-cypress.yml)
+  #             1. Select your branch name & run
+
+  #             Note: This will not trigger a rerun on the PR itself. Manual actions are only visible on the actions dashboard. 
+  #             `
+  #           })
+  # cypress-run:
+  #   if: ${{ github.event_name != 'pull_request'}}
+  #   environment: ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout E2E suite
+  #       uses: actions/checkout@v4
+  #       id: e2e-branch-checkout
+  #       continue-on-error: true
+  #       with:
+  #         repository: yeezick/collabify-qa
+  #         token: ${{ secrets.GH_PAT }}
+  #         path: e2e
+  #         ref: ${{ github.ref_name  }}
+  #     - name: Retry E2E suite checkout
+  #       if: steps.e2e-branch-checkout.outcome == 'failure'
+  #       uses: actions/checkout@v4
+  #       with:
+  #         repository: yeezick/collabify-qa
+  #         token: ${{ secrets.GH_PAT }}
+  #         path: e2e
+  #         ref: main # This means all e2e checkouts will fall back to main if release does not exist
+  #     - name: Cypress run
+  #       uses: cypress-io/github-action@v6
+  #       with:
+  #         record: true
+  #         working-directory: e2e/e2e-cypress
+  #       env:
+  #         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
