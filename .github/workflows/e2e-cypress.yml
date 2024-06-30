@@ -1,3 +1,5 @@
+# Jobs should be split up by the pull_request and push events
+# To avoid check pollution on pull requests and unnecessary processes
 name: Cypress Tests
 
 on:
@@ -16,7 +18,19 @@ permissions:
   pull-requests: write
 
 jobs:
-  manual-e2e-trigger:
+  change-base: 
+    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' && !(contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  }}
+    runs-on: ubuntu-latest
+    environment: ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+      - name: Change PR base for feature branches
+        run: gh pr edit ${{ github.event.number }} --base ${{vars.CURRENT_RELEASE}}
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          
+  link-manual-e2e-trigger:
     if: ${{ github.event_name == 'pull_request'}}
     runs-on: ubuntu-latest
     steps:
@@ -36,11 +50,10 @@ jobs:
               Note: This will not trigger a rerun on the PR itself. Manual actions are only visible on the actions dashboard. 
               `
             })
+
   cypress-run:
     if: ${{ github.event_name != 'pull_request'}}
-    environment:
-      name:
-        ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
+    environment: ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout E2E suite
@@ -50,7 +63,6 @@ jobs:
         with:
           repository: yeezick/collabify-qa
           token: ${{ secrets.GH_PAT }}
-          path: e2e
           ref: ${{ github.ref_name  }}
       - name: Retry E2E suite checkout
         if: steps.e2e-branch-checkout.outcome == 'failure'
@@ -58,12 +70,11 @@ jobs:
         with:
           repository: yeezick/collabify-qa
           token: ${{ secrets.GH_PAT }}
-          path: e2e
           ref: main # This means all e2e checkouts will fall back to main if release does not exist
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
           record: true
-          working-directory: e2e/e2e-cypress
+          working-directory: ./e2e-cypress
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
