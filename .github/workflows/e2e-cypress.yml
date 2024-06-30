@@ -32,6 +32,8 @@ jobs:
               Cypress only runs automatically for 
               1. Visit this URL [here](https://github.com/yeezick/bootcampr/actions/workflows/e2e-cypress.yml)
               1. Select your branch name & run
+
+              Note: This will not trigger a rerun on the PR itself. Manual actions are only visible on the actions dashboard. 
               `
             })
   cypress-run:
