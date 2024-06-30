@@ -17,19 +17,16 @@ permissions:
 
 jobs:
   change-base: 
-    # if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' && !(contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  }}
+    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' && !(contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  }}
     runs-on: ubuntu-latest
     environment: ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
       - name: Change PR base for feature branches
-        run: |
-          echo "$GITHUB_CONTEXT"
-          gh pr edit ${{ github.event.number }} --base ${{vars.CURRENT_RELEASE}}
+        run: gh pr edit ${{ github.event.number }} --base ${{vars.CURRENT_RELEASE}}
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-          GITHUB_CONTEXT: ${{ toJson(github) }}
   # manual-e2e-trigger:
   #   if: ${{ github.event_name == 'pull_request'}}
   #   runs-on: ubuntu-latest
