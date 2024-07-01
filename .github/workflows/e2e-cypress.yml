@@ -26,17 +26,17 @@ jobs:
           echo release ${{ contains(github.ref_name, 'release/') }}
           echo hotfix ${{ contains(github.ref_name, 'hotfix/') }}
           echo environment  ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
-  # change-base: 
-  #   if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' && !(contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  }}
-  #   runs-on: ubuntu-latest
-  #   environment: ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
-  #   steps:
-  #     - name: Checkout branch
-  #       uses: actions/checkout@v4
-  #     - name: Change PR base for feature branches
-  #       run: gh pr edit ${{ github.event.number }} --base ${{vars.CURRENT_RELEASE}}
-  #       env:
-  #         GH_TOKEN: ${{ secrets.GH_PAT }}
+  change-base: 
+    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' && !(contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  }}
+    runs-on: ubuntu-latest
+    environment: ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+      - name: Change PR base for feature branches
+        run: gh pr edit ${{ github.event.number }} --base ${{vars.CURRENT_RELEASE}}
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
           
   # link-manual-e2e-trigger:
   #   if: ${{ github.event_name == 'pull_request'}}
