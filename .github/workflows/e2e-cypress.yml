@@ -7,9 +7,9 @@ on:
     types: 
       - opened
   push:
-    branches:
-      - 'release/**'
-      - 'hotfix/**'
+    # branches:
+    #   - 'release/**'
+    #   - 'hotfix/**'
   workflow_dispatch:
 
 permissions:
@@ -18,6 +18,15 @@ permissions:
   pull-requests: write
 
 jobs:
+  log-ref:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo ${{github.ref_name}}
+          echo ${{github.event_name}}
+          echo release ${{ contains(github.ref_name, 'release/') }}
+          echo hotfix ${{ contains(github.ref_name, 'hotfix/') }}
+          echo env ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
   change-base: 
     if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' && !(contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  }}
     runs-on: ubuntu-latest
@@ -29,7 +38,6 @@ jobs:
         run: gh pr edit ${{ github.event.number }} --base ${{vars.CURRENT_RELEASE}}
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-          
   link-manual-e2e-trigger:
     if: ${{ github.event_name == 'pull_request'}}
     runs-on: ubuntu-latest
@@ -50,7 +58,6 @@ jobs:
               Note: This will not trigger a rerun on the PR itself. Manual actions are only visible on the actions dashboard. 
               `
             })
-
   cypress-run:
     if: ${{ github.event_name != 'pull_request'}}
     environment: ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
