@@ -1,17 +1,14 @@
 import './Settings.scss'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import { PrimaryButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 import { updateEmailAddress } from 'utils/api'
-import { errorSnackbar } from 'utils/helpers/commentHelpers'
 
 export const Email = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const authUser = useAppSelector(selectAuthUser)
   const [newEmail, setNewEmail] = useState('')
   const [isDisabled, setIsDisabled] = useState(true)
@@ -27,10 +24,12 @@ export const Email = () => {
   }
 
   const handleEmailChange = e => {
-    const { value } = e.target
+    const value = e.target.value.trim()
     setNewEmail(value)
     setErrorMessage('')
-    if (value.trim() && emailRegex.test(value) && errorMessage === '') {
+    if (value === currentUserEmail) {
+      setErrorMessage('New email cannot be the same as current email')
+    } else if (value && emailRegex.test(value) && errorMessage === '') {
       setIsDisabled(false)
     } else {
       setIsDisabled(true)
@@ -41,11 +40,11 @@ export const Email = () => {
   }
 
   const validateEmail = () => {
-    if (newEmail === currentUserEmail) {
-      setErrorMessage('New email cannot be the same as current email')
-      return false
-    } else if (newEmail.length > 0 && !emailRegex.test(newEmail)) {
+    if (newEmail && !emailRegex.test(newEmail)) {
       setErrorMessage('Invalid email address')
+      return false
+    } else if (newEmail === currentUserEmail) {
+      setErrorMessage('New email cannot be the same as current email')
       return false
     }
     setErrorMessage('')
@@ -53,10 +52,7 @@ export const Email = () => {
   }
 
   const handleUpdateNewEmail = async () => {
-    if (!validateEmail()) {
-      setIsDisabled(true)
-      return
-    }
+    if (!validateEmail()) return
 
     setIsLoading(true)
     const response = await updateEmailAddress(newEmail, authUser._id)
@@ -67,10 +63,16 @@ export const Email = () => {
         `/users/${authUser._id}/update-email-confirmation?${encodedEmail}`
       )
     } else {
-      dispatch(errorSnackbar('There was an error updating your email'))
+      setErrorMessage(response.data.friendlyMessage)
     }
     setIsLoading(false)
   }
+
+  useEffect(() => {
+    if (errorMessage !== '') {
+      setIsDisabled(true)
+    }
+  }, [errorMessage])
 
   return (
     <div className='settings-card'>

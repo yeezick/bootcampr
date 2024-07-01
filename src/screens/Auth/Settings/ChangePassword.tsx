@@ -2,16 +2,14 @@ import './Settings.scss'
 import { PasswordFormData } from 'interfaces/AccountSettingsInterface'
 import { PasswordErrors } from 'interfaces/components'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { logOut, updateUsersPassword } from 'utils/api'
+import { updateUsersPassword } from 'utils/api'
 import { SuccessQueryParam } from 'utils/data/authSettingsConstants'
 import { emptyPasswordData } from 'utils/data/userConstants'
 import { useAppSelector } from 'utils/redux/hooks'
-import { logoutAuthUser, selectAuthUser } from 'utils/redux/slices/userSlice'
+import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { useFormValidation } from 'utils/helpers'
 import { PasswordInputs } from 'components/Inputs'
 import { useNavigate } from 'react-router-dom'
-import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { PrimaryButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 
@@ -24,7 +22,6 @@ export const ChangePassword = () => {
   const [isDisabled, toggleIsDisabled] = useState<boolean>(true)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const authUser = useAppSelector(selectAuthUser)
-  const dispatch = useDispatch()
 
   useEffect(() => {
     setFormValues(emptyPasswordData)
@@ -43,8 +40,6 @@ export const ChangePassword = () => {
     if (passwordData.status >= 400) {
       passwordData.friendlyMessage === 'Your password is incorrect.' &&
         setInputError(true)
-
-      dispatch(errorSnackbar(passwordData.friendlyMessage))
     } else {
       setInputError(false)
       navigate(`/success?screen=${SuccessQueryParam.changePassword}`)
