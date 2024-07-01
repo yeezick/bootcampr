@@ -109,7 +109,7 @@ export const NewPassword = ({
             required
             onChange={handlePasswordChange}
             type={inputType}
-            autoComplete='new-password'
+            autoComplete='password'
             onFocus={() => setInputTouched(true)}
             onBlur={handleValidatePassword}
           />

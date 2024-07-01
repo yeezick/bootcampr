@@ -69,7 +69,7 @@ export const ConfirmNewPassword = ({
             required
             onChange={handleConfirmPassword}
             type={inputType}
-            autoComplete='confirm-password'
+            autoComplete='confirmPassword'
             style={{
               borderColor: !isValid ? '#d32f2f' : '',
             }}

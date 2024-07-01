@@ -72,7 +72,7 @@ export const CurrentPassword = ({
               required
               onChange={handlePasswordChange}
               type={inputType}
-              autoComplete='current-password'
+              autoComplete='currentPassword'
             />
             <IconButton
               className={`current-password ${eyeconClassname}`}
