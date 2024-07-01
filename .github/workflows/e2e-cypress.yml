@@ -64,7 +64,7 @@ jobs:
 
   cypress-run:
     if: ${{ github.event_name != 'pull_request'}}
-    environment: ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
+    environment: ${{ (contains(github.head_ref, 'release/') || contains(github.head_ref, 'hotfix/'))  && 'staging' || 'development'  }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout E2E suite
@@ -74,7 +74,7 @@ jobs:
         with:
           repository: yeezick/collabify-qa
           token: ${{ secrets.GH_PAT }}
-          ref: ${{ github.ref_name  }}
+          ref: ${{ github.head_ref  }}
       - name: Retry E2E suite checkout
         if: steps.e2e-branch-checkout.outcome == 'failure'
         uses: actions/checkout@v4
