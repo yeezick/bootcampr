@@ -1,5 +1,6 @@
 # Jobs should be split up by the pull_request and push events
 # To avoid check pollution on pull requests and unnecessary processes
+# For branch name, use head_ref for PR events, ref_name for push/dispatch events
 name: Cypress Tests
 
 on:
@@ -64,7 +65,7 @@ jobs:
 
   cypress-run:
     if: ${{ github.event_name != 'pull_request'}}
-    environment: ${{ (contains(github.head_ref, 'release/') || contains(github.head_ref, 'hotfix/'))  && 'staging' || 'development'  }}
+    environment: ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout E2E suite
@@ -74,7 +75,7 @@ jobs:
         with:
           repository: yeezick/collabify-qa
           token: ${{ secrets.GH_PAT }}
-          ref: ${{ github.head_ref  }}
+          ref: ${{ github.ref_name  }}
       - name: Retry E2E suite checkout
         if: steps.e2e-branch-checkout.outcome == 'failure'
         uses: actions/checkout@v4
