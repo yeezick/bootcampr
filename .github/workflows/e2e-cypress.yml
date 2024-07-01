@@ -37,7 +37,6 @@ jobs:
         run: gh pr edit ${{ github.event.number }} --base ${{vars.CURRENT_RELEASE}}
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-          
   link-manual-e2e-trigger:
     if: ${{ github.event_name == 'pull_request'}}
     runs-on: ubuntu-latest
@@ -58,7 +57,6 @@ jobs:
               Note: This will not trigger a rerun on the PR itself. Manual actions are only visible on the actions dashboard. 
               `
             })
-
   cypress-run:
     if: ${{ github.event_name != 'pull_request'}}
     environment: ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
