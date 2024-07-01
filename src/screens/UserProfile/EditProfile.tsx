@@ -6,12 +6,12 @@ import { selectAuthUser, setAuthUser } from 'utils/redux/slices/userSlice'
 import { emptyUser } from 'utils/data/userConstants'
 import { updateUser } from 'utils/api/users'
 import { Avatar } from 'components/Avatar/Avatar'
-import './EditProfile.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { ProfileInputs } from 'components/UserProfile/components/ProfileInputs'
 import { determineDisabledbtn } from 'screens/Onboarding/SetUpProfile'
 import { handleUserProfileInputChange } from 'utils/helpers'
 import { PrimaryButton } from 'components/Buttons'
+import './EditProfile.scss'
 
 export const EditProfile: React.FC = () => {
   const authUser = useSelector(selectAuthUser)
