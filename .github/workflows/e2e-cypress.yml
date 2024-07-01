@@ -19,17 +19,6 @@ permissions:
   pull-requests: write
 
 jobs:
-  generate-new-ref:
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_CONTEXT: ${{ toJson(github) }}
-    steps:
-      - run: |
-          echo ref ${{github.head_ref}}
-          echo release ${{ contains(github.head_ref, 'release/') }}
-          echo hotfix ${{ contains(github.head_ref, 'hotfix/') }}
-          echo env ${{ (contains(github.head_ref, 'release/') || contains(github.head_ref, 'hotfix/'))  && 'staging' || 'development'  }}
-          echo "$GITHUB_CONTEXT"
   change-base: 
     if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' && !(contains(github.head_ref, 'release/') || contains(github.head_ref, 'hotfix/'))  }}
     runs-on: ubuntu-latest
