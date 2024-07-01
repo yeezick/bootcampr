@@ -7,9 +7,9 @@ on:
     types: 
       - opened
   push:
-    branches:
-      - 'release/**'
-      - 'hotfix/**'
+    # branches:
+    #   - 'release/**'
+    #   - 'hotfix/**'
   workflow_dispatch:
 
 permissions:
