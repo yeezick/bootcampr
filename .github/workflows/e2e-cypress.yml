@@ -1,30 +1,62 @@
+# Jobs should be split up by the pull_request and push events
+# To avoid check pollution on pull requests and unnecessary processes
+# For branch name, use head_ref for PR events, ref_name for push/dispatch events
 name: Cypress Tests
 
 on:
-  push
-  # push:
-  #   branches:
-  #     - 'release/**'
-  #     - 'hotfix/**'
-
-env:
-  CI: false
+  pull_request:
+    types: 
+      - opened
+  push:
+    branches:
+      - 'release/**'
+      - 'hotfix/**'
+  workflow_dispatch:
 
 permissions:
   contents: write
+  issues: write
+  pull-requests: write
 
 jobs:
-  cypress-run:
-    environment:
-      name:
-        staging
-        # ${{ contains(fromJSON('["release/", "hotfix/"]'), github.ref_name) && 'staging' || 'development' }}
+  change-base: 
+    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'main' && !(contains(github.head_ref, 'release/') || contains(github.head_ref, 'hotfix/'))  }}
+    runs-on: ubuntu-latest
+    environment: ${{ (contains(github.head_ref, 'release/') || contains(github.head_ref, 'hotfix/'))  && 'staging' || 'development'  }}
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+      - name: Change PR base for feature branches
+        run: gh pr edit ${{ github.event.number }} --base ${{vars.CURRENT_RELEASE}}
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          
+  link-manual-e2e-trigger:
+    if: ${{ github.event_name == 'pull_request'}}
     runs-on: ubuntu-latest
     steps:
-      - name: Run backend
-        run: |
-          echo ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
-          echo ${{github.ref_name}}
+      - name: Link to manual E2E workflow dispatch 
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `# 🔎 Manually trigger E2E tests
+              Cypress only runs automatically for 
+              1. Visit this URL [here](https://github.com/yeezick/bootcampr/actions/workflows/e2e-cypress.yml)
+              1. Select your branch name & run
+
+              Note: This will not trigger a rerun on the PR itself. Manual actions are only visible on the actions dashboard. 
+              `
+            })
+
+  cypress-run:
+    if: ${{ github.event_name != 'pull_request'}}
+    environment: ${{ (contains(github.ref_name, 'release/') || contains(github.ref_name, 'hotfix/'))  && 'staging' || 'development'  }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout E2E suite
         uses: actions/checkout@v4
         id: e2e-branch-checkout
@@ -32,7 +64,6 @@ jobs:
         with:
           repository: yeezick/collabify-qa
           token: ${{ secrets.GH_PAT }}
-          path: e2e
           ref: ${{ github.ref_name  }}
       - name: Retry E2E suite checkout
         if: steps.e2e-branch-checkout.outcome == 'failure'
@@ -40,12 +71,11 @@ jobs:
         with:
           repository: yeezick/collabify-qa
           token: ${{ secrets.GH_PAT }}
-          path: e2e
           ref: main # This means all e2e checkouts will fall back to main if release does not exist
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
           record: true
-          working-directory: e2e/e2e-cypress
+          working-directory: ./e2e-cypress
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
