@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { handleFormInputChange, passwordInputLabel } from 'utils/helpers'
 import {
   PasswordCriteria,
@@ -56,6 +56,22 @@ export const NewPassword = ({
     handlePasswordMatching(formValues.confirmPassword, value, setPasswordMatch)
   }
 
+  useEffect(() => {
+    const inputElement = document.getElementById(inputId)
+
+    const handleAutoFill = event => {
+      if (event.animationName === 'onAutoFillStart') {
+        handlePasswordChange({ target: inputElement })
+      }
+    }
+
+    inputElement.addEventListener('animationstart', handleAutoFill)
+
+    return () => {
+      inputElement.removeEventListener('animationstart', handleAutoFill)
+    }
+  }, [])
+
   const PasswordValidations = ({ errors }) => {
     const { length, lowercase, number, uppercase } = errors
     return (
@@ -93,6 +109,7 @@ export const NewPassword = ({
             required
             onChange={handlePasswordChange}
             type={inputType}
+            autoComplete='new-password'
             onFocus={() => setInputTouched(true)}
             onBlur={handleValidatePassword}
           />

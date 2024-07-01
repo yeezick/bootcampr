@@ -41,6 +41,22 @@ export const ConfirmNewPassword = ({
     }
   }, [passwordMatch])
 
+  useEffect(() => {
+    const inputElement = document.getElementById(inputId)
+
+    const handleAutoFill = event => {
+      if (event.animationName === 'onAutoFillStart') {
+        handleConfirmPassword({ target: inputElement })
+      }
+    }
+
+    inputElement.addEventListener('animationstart', handleAutoFill)
+
+    return () => {
+      inputElement.removeEventListener('animationstart', handleAutoFill)
+    }
+  }, [])
+
   return (
     <div className='confirm-password'>
       <FormControl className='confirm-password container'>
@@ -53,6 +69,7 @@ export const ConfirmNewPassword = ({
             required
             onChange={handleConfirmPassword}
             type={inputType}
+            autoComplete='confirm-password'
             style={{
               borderColor: !isValid ? '#d32f2f' : '',
             }}

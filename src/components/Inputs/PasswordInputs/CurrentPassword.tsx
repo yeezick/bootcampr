@@ -1,6 +1,6 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { FormControl, IconButton } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 import { ForgotPasswordLink } from 'screens/AccountSettings/components/ForgotPasswordLink'
 import { handleFormInputChange } from 'utils/helpers'
@@ -15,6 +15,22 @@ export const CurrentPassword = ({
 }) => {
   const [inputType, setInputType] = useState('password')
   const inputId = 'currentPassword'
+
+  useEffect(() => {
+    const inputElement = document.getElementById(inputId)
+
+    const handleAutoFill = event => {
+      if (event.animationName === 'onAutoFillStart') {
+        handlePasswordChange({ target: inputElement })
+      }
+    }
+
+    inputElement.addEventListener('animationstart', handleAutoFill)
+
+    return () => {
+      inputElement.removeEventListener('animationstart', handleAutoFill)
+    }
+  }, [])
 
   const handlePasswordChange = e => {
     disableErrorState()
@@ -56,6 +72,7 @@ export const CurrentPassword = ({
               required
               onChange={handlePasswordChange}
               type={inputType}
+              autoComplete='current-password'
             />
             <IconButton
               className={`current-password ${eyeconClassname}`}
