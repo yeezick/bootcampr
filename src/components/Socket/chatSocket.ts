@@ -17,7 +17,7 @@ export const useChatSocket = userId => {
   const [socket, setSocket] = useState(null)
 
   useEffect(() => {
-    const newSocket = io(`${ENDPOINT}chat`, {
+    const newSocket = io(`${ENDPOINT}/chat`, {
       query: { userId },
       transports: ['websocket'],
       reconnection: true,

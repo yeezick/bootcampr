@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Overview } from './Overview'
 import { ProjectTimeline } from './ProjectTimeline'
 import { Presentation } from './Presentation'
@@ -8,7 +8,6 @@ import { PresentationInfoBanner } from './PresentationInfoBanner'
 import { useAppSelector } from 'utils/redux/hooks'
 import {
   selectCompletedInfo,
-  selectPresentationDateWithTime,
   selectProjectCompleted,
   selectProjectId,
 } from 'utils/redux/slices/projectSlice'
@@ -18,7 +17,6 @@ import {
   selectIsInactiveUser,
   selectIsRecurringUnpaidUser,
 } from 'utils/redux/slices/userSlice'
-import { blankDayJs } from 'utils/helpers'
 import { ProjectCompletionBanner } from 'screens/ProjectCompletion/ProjectCompletionBanner'
 import { SubmittedProject } from './SubmittedProject'
 import './ProjectDetails.scss'
@@ -31,8 +29,9 @@ export const ProjectDetails = () => {
   const isInactiveUser = useAppSelector(selectIsInactiveUser)
   const isActiveUser = useAppSelector(selectIsActiveUser)
   const isRecurringUnpaidUser = useAppSelector(selectIsRecurringUnpaidUser)
-  const isProjectSubmitted = presenting !== null
   const authUser = useAppSelector(selectAuthUser)
+  const tabListAndBannerRef = useRef(null)
+  const isProjectSubmitted = presenting !== null
   const presentationTab = { label: 'PRESENTATION', content: <Presentation /> }
   const submittedProjectTab = {
     label: 'SUBMITTED PROJECT',
@@ -48,54 +47,68 @@ export const ProjectDetails = () => {
     { ...projectInfoTab },
   ]
 
+  const projectSubmittedNotPresented = isProjectSubmitted && !projectCompleted
+
+  const showProjectCompletionBanner =
+    isInactiveUser ||
+    isRecurringUnpaidUser ||
+    (isActiveUser &&
+      projectSubmittedNotPresented &&
+      currentProjectId === authUser.projects.activeProject)
+
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
   }
-  const projectSubmittedNotPresented = isProjectSubmitted && !projectCompleted
-  const tabPanelStyles = projectSubmittedNotPresented
-    ? 'with-banner'
-    : 'tab-panel'
 
-  const displaysCurrentProjectInfo =
-    currentProjectId === authUser.projects.activeProject
+  const setTabListAndBannerHeight = () => {
+    if (tabListAndBannerRef.current) {
+      const tabListAndBannerHeight = tabListAndBannerRef.current.offsetHeight
+      document.documentElement.style.setProperty(
+        '--tab-list-and-banner-height',
+        `${tabListAndBannerHeight}px`
+      )
+    }
+  }
+
+  useEffect(() => {
+    setTabListAndBannerHeight()
+  }, [])
 
   return (
     <Box className='project-details-content'>
-      <>
-        {(isInactiveUser ||
-          isRecurringUnpaidUser ||
-          (isActiveUser &&
-            projectSubmittedNotPresented &&
-            displaysCurrentProjectInfo)) && <ProjectCompletionBanner />}{' '}
-      </>
       <TabContext value={value}>
-        <Box className='banner-and-tab-list'>
+        <Box ref={tabListAndBannerRef}>
+          {showProjectCompletionBanner && <ProjectCompletionBanner />}
           {projectSubmittedNotPresented && <PresentationInfoBanner />}
-          <TabList
-            className='tab-list'
-            onChange={handleChange}
-            aria-label='Product Details navigation'
-          >
-            {tabData.map((tab, idx) => (
-              <Tab
-                key={`tab-${idx + 1}`}
-                label={tab.label}
-                value={(idx + 1).toString()}
-                className='tab'
-                disableRipple
-              />
-            ))}
-          </TabList>
+          <Box className='tab-list-container'>
+            <TabList
+              className='tab-list'
+              onChange={handleChange}
+              aria-label='Product Details navigation'
+            >
+              {tabData.map((tab, idx) => (
+                <Tab
+                  key={`tab-${idx + 1}`}
+                  label={tab.label}
+                  value={(idx + 1).toString()}
+                  className='tab'
+                  disableRipple
+                />
+              ))}
+            </TabList>
+          </Box>
         </Box>
-        {tabData.map((tab, idx) => (
-          <TabPanel
-            key={`tab-panel-${idx + 1}`}
-            value={(idx + 1).toString()}
-            className={tabPanelStyles}
-          >
-            {tab.content}
-          </TabPanel>
-        ))}
+        <Box className='tab-panels'>
+          {tabData.map((tab, idx) => (
+            <TabPanel
+              key={`tab-panel-${idx + 1}`}
+              value={(idx + 1).toString()}
+              className='tab-panel'
+            >
+              {tab.content}
+            </TabPanel>
+          ))}
+        </Box>
       </TabContext>
     </Box>
   )

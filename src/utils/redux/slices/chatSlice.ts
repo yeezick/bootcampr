@@ -209,8 +209,10 @@ const chatSlice = createSlice({
 
         state.threads[chatRoomId].lastMessage = newMessage
         if (state.activeChatRoomId === receivedMessage.chatRoomId) {
-          state.chat.messages = [...state.chat.messages, newMessage]
+          const updatedMessages = [...state.chat.messages, newMessage]
+          state.chat.messages = updatedMessages
           state.chat.lastMessage = newMessage
+          state.threads[chatRoomId].messages = updatedMessages
         }
       }
     },
