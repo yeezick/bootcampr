@@ -16,22 +16,6 @@ export const CurrentPassword = ({
   const [inputType, setInputType] = useState('password')
   const inputId = 'currentPassword'
 
-  useEffect(() => {
-    const inputElement = document.getElementById(inputId)
-
-    const handleAutoFill = event => {
-      if (event.animationName === 'onAutoFillStart') {
-        handlePasswordChange({ target: inputElement })
-      }
-    }
-
-    inputElement.addEventListener('animationstart', handleAutoFill)
-
-    return () => {
-      inputElement.removeEventListener('animationstart', handleAutoFill)
-    }
-  }, [])
-
   const handlePasswordChange = e => {
     disableErrorState()
     handleFormInputChange(e, setFormValues)
@@ -54,6 +38,23 @@ export const CurrentPassword = ({
       toggleVisiblity(inputType, setInputType)
     }
   }
+
+  useEffect(() => {
+    const inputElement = document.getElementById(inputId)
+
+    const handleInput = event => {
+      if (event.inputType === 'insertText') {
+        handlePasswordChange({ target: inputElement })
+        console.log('autofill detected on:', event.target)
+      }
+    }
+
+    inputElement.addEventListener('input', handleInput)
+
+    return () => {
+      inputElement.removeEventListener('input', handleInput)
+    }
+  }, [])
 
   const inputClassname = inputError ? 'input-error' : ''
   const eyeconClassname = inputError ? 'error-icon' : 'eyecon'

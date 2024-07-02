@@ -44,16 +44,17 @@ export const ConfirmNewPassword = ({
   useEffect(() => {
     const inputElement = document.getElementById(inputId)
 
-    const handleAutoFill = event => {
-      if (event.animationName === 'onAutoFillStart') {
+    const handleInput = event => {
+      if (event.inputType === 'insertText') {
         handleConfirmPassword({ target: inputElement })
+        console.log('autofill detected on:', event.target)
       }
     }
 
-    inputElement.addEventListener('animationstart', handleAutoFill)
+    inputElement.addEventListener('input', handleInput)
 
     return () => {
-      inputElement.removeEventListener('animationstart', handleAutoFill)
+      inputElement.removeEventListener('input', handleInput)
     }
   }, [])
 
