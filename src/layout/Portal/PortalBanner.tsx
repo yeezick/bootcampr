@@ -41,7 +41,7 @@ export const PortalBanner = () => {
   return (
     <div ref={bannerRef} className='banner'>
       {type === 'waitlist' && paid && <WaitlistBanner />}
-      {type === 'sandbox' || (!paid && <SandboxBanner />)}
+      {(type === 'sandbox' || !paid) && <SandboxBanner />}
     </div>
   )
 }
