@@ -127,10 +127,7 @@ export const Nav = () => {
       )}
       {isOnboardingRoute && (
         <div className='navbar-wrapper'>
-          <SecondaryButton
-            label='Back to sandbox'
-            onClick={handleNavToPortal}
-          />
+          <SecondaryButton label='Go to sandbox' onClick={handleNavToPortal} />
         </div>
       )}
       <AccountDropdown anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
