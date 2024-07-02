@@ -28,7 +28,7 @@ export const ProjectCompletionBanner = () => {
       </div>
       <PrimaryButton
         label={
-          isRecurringUnpaidUser ? 'Complete Onboarding' : 'Join a new team'
+          isRecurringUnpaidUser ? 'Complete onboarding' : 'Join a new team'
         }
         onClick={
           isRecurringUnpaidUser
