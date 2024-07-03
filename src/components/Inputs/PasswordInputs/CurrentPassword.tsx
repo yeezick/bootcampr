@@ -45,7 +45,6 @@ export const CurrentPassword = ({
     const handleInput = event => {
       if (event.inputType === 'insertText') {
         handlePasswordChange({ target: inputElement })
-        console.log('autofill detected on:', event.target)
       }
     }
 

@@ -47,7 +47,6 @@ export const ConfirmNewPassword = ({
     const handleInput = event => {
       if (event.inputType === 'insertText') {
         handleConfirmPassword({ target: inputElement })
-        console.log('autofill detected on:', event.target)
       }
     }
 
