@@ -59,6 +59,7 @@ const calendarSlice = createSlice({
       )
       delete state.eventMap[eventId]
     },
+
     storeTeamAvailability: (
       state,
       action: PayloadAction<TeamAvailabilityArray>

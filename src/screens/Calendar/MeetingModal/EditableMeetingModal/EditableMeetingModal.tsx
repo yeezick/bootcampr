@@ -133,6 +133,7 @@ export const EditableMeetingModal = () => {
         inviteAll,
         toggleInviteAll
       )
+      //setRecurrenceInfo({ ...recurrenceInfo, recurringEventId })
       toggleVisibleModal(true)
     } else {
       toggleVisibleModal(false)
@@ -214,40 +215,74 @@ export const EditableMeetingModal = () => {
       recurrenceInfo,
     }
 
-    if (modalDisplayStatus === 'create') {
-      try {
+    // if (modalDisplayStatus === 'create') {
+    //   try {
+    //     const newEvent = await createEvent(calendarId, eventInfo)
+    //     console.log(newEvent)
+    //     dispatch(addNewEvent(newEvent))
+    //     handleClose()
+    //     dispatch(successSnackbar('Invite sent successfully!'))
+    //     setIsLoading(false)
+    //   } catch (error) {
+    //     console.error(
+    //       `Error creating event for calendar (${calendarId}): `,
+    //       error
+    //     )
+    //     dispatch(errorSnackbar('Unable to create meeting. Please try again.'))
+    //     setIsLoading(false)
+    //   }
+    // } else if (modalDisplayStatus === 'edit') {
+    //   try {
+    //     const updatedEvent = await updateEvent(
+    //       calendarId,
+    //       displayedEvent.eventId,
+    //       eventInfo
+    //     )
+    //     dispatch(updateExistingEvent(updatedEvent))
+    //     handleClose()
+    //     dispatch(successSnackbar('Meeting updated successfully!'))
+    //     setIsLoading(false)
+    //   } catch (error) {
+    //     console.error(
+    //       `Error creating event for calendar (${calendarId}): `,
+    //       error
+    //     )
+    //     dispatch(errorSnackbar('Meeting failed to update. Please try again.'))
+    //     setIsLoading(false)
+    //   }
+    // }
+    try {
+      if (modalDisplayStatus === 'create') {
         const newEvent = await createEvent(calendarId, eventInfo)
-        dispatch(addNewEvent(newEvent))
-        handleClose()
-        dispatch(successSnackbar('Invite sent successfully!'))
-        setIsLoading(false)
-      } catch (error) {
-        console.error(
-          `Error creating event for calendar (${calendarId}): `,
-          error
+        console.log(newEvent)
+        // Store the initial eventId as recurringEventId in Redux
+        dispatch(
+          addNewEvent({
+            ...newEvent,
+            recurringEventId: newEvent.rrule ? newEvent.eventId : null,
+          })
         )
-        dispatch(errorSnackbar('Unable to create meeting. Please try again.'))
-        setIsLoading(false)
-      }
-    } else if (modalDisplayStatus === 'edit') {
-      try {
+        dispatch(successSnackbar('Invite sent successfully!'))
+      } else if (modalDisplayStatus === 'edit') {
         const updatedEvent = await updateEvent(
           calendarId,
           displayedEvent.eventId,
           eventInfo
         )
         dispatch(updateExistingEvent(updatedEvent))
-        handleClose()
         dispatch(successSnackbar('Meeting updated successfully!'))
-        setIsLoading(false)
-      } catch (error) {
-        console.error(
-          `Error creating event for calendar (${calendarId}): `,
-          error
-        )
-        dispatch(errorSnackbar('Meeting failed to update. Please try again.'))
-        setIsLoading(false)
       }
+      handleClose()
+    } catch (error) {
+      console.error(
+        `Error handling event for calendar (${calendarId}): `,
+        error
+      )
+      dispatch(
+        errorSnackbar('Unable to process the meeting. Please try again.')
+      )
+    } finally {
+      setIsLoading(false)
     }
   }
 

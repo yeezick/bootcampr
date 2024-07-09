@@ -8,17 +8,29 @@ import {
 import { Close } from '@mui/icons-material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { DisplayPopover } from './DisplayPopover'
-import { deleteEvent } from 'utils/api/events'
+import {
+  deleteEvent,
+  deleteRecurringEvents,
+  fetchRecurringEvents,
+} from 'utils/api/events'
 import { selectCalendarId } from 'utils/redux/slices/projectSlice'
 import { successSnackbar } from 'utils/helpers/commentHelpers'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
 
-export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
+export const DisplayModalHeaderIcons = ({
+  handleClose,
+  setDisplayMeeting,
+  recurrenceInd,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const displayedEvent = useAppSelector(selectDisplayedEvent)
   const authUserEmail = useAppSelector(selectUserEmail)
-  const { eventId } = displayedEvent
+  const {
+    eventId,
+    recurringEventId,
+    dateFields: { start },
+  } = displayedEvent
   const calendarId = useAppSelector(selectCalendarId)
   const open = Boolean(anchorEl)
   const popoverId = open ? 'meeting-popover' : undefined
@@ -27,16 +39,37 @@ export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
   const handleClosePopover = () => setAnchorEl(null)
   const dispatch = useAppDispatch()
 
+  console.log(start)
+
   const handleEdit = () => {
     dispatch(setModalDisplayStatus('edit'))
     setDisplayMeeting(false)
   }
 
-  const handleDelete = async e => {
+  const handleDelete = async recurDelInd => {
     setIsloading(true)
+
     try {
-      await deleteEvent(calendarId, eventId)
-      dispatch(deleteExistingEvent({ eventId }))
+      if (recurDelInd === 'series' && recurringEventId) {
+        await deleteEvent(calendarId, recurringEventId)
+        dispatch(deleteExistingEvent({ eventId: recurringEventId }))
+      } else if (recurDelInd === 'instance' && recurringEventId) {
+        const instanceToDelete = await fetchRecurringEvents(
+          calendarId,
+          recurringEventId,
+          start
+        )
+
+        if (instanceToDelete) {
+          await deleteEvent(calendarId, instanceToDelete.id)
+          dispatch(deleteExistingEvent({ eventId: instanceToDelete.id }))
+        } else {
+          console.error('No instance found to delete.')
+        }
+      } else {
+        await deleteEvent(calendarId, eventId)
+        dispatch(deleteExistingEvent({ eventId }))
+      }
       dispatch(successSnackbar('Meeting canceled successfully.'))
       handleClose()
       setIsloading(false)
@@ -52,7 +85,7 @@ export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
 
   return (
     <div className='modal-icons'>
-      {shouldDisplayEventOptions && <MoreVertIcon onClick={handleClick} />}
+      {/*shouldDisplayEventOptions &&*/ <MoreVertIcon onClick={handleClick} />}
       <DisplayPopover
         isLoading={isLoading}
         anchorEl={anchorEl}
