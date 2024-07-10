@@ -41,7 +41,7 @@ export interface EventInfo {
   summary: string
   organizer: string
   projectId: string
-  recurrenceInfo: RecurrenceMeeting
+  recurrence: string[]
 }
 
 export interface MeetingModalInfo {

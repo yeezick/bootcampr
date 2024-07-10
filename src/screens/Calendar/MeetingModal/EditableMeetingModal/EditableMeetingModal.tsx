@@ -51,16 +51,11 @@ import { PrimaryButton } from 'components/Buttons'
 import { isEmptyString } from 'utils/helpers/inputUtils'
 
 export const EditableMeetingModal = () => {
-  const { endDate } = useAppSelector(selectProjectTimeline)
-  const formattedED = dayjs(endDate).format('YYYYMMDD')
   const [meetingText, setMeetingText] = useState(initialMeetingText)
   const [dateFields, setDateFields] = useState<DateFieldsInterface>(
     initialDateFields()
   )
-  const [recurrenceInfo, setRecurrenceInfo] = useState<RecurrenceMeeting>(
-    initialRecurrenceInfo
-  )
-  const [days, setDays] = useState([])
+  const [recurrenceRule, setRecurrenceRule] = useState<string | null>(null)
   const [attendees, setAttendees] = useState<BooleanObject>({})
   const [inviteAll, toggleInviteAll] = useState(false)
   const [visibleModal, toggleVisibleModal] = useState(false)
@@ -92,18 +87,11 @@ export const EditableMeetingModal = () => {
         updatedAttendees[authUser.email] = true
       }
       setAttendees(updatedAttendees)
-      setRecurrenceInfo({ ...recurrenceInfo, until: formattedED })
 
       toggleVisibleModal(true)
     } else if (modalDisplayStatus === 'edit') {
-      const {
-        description,
-        googleDateFields,
-        location,
-        summary,
-        recurringEventId,
-        rrule,
-      } = displayedEvent
+      const { description, googleDateFields, location, summary } =
+        displayedEvent
 
       if (displayedEvent?.attendees) {
         const prefilledAttendees = {}
@@ -138,7 +126,6 @@ export const EditableMeetingModal = () => {
         inviteAll,
         toggleInviteAll
       )
-      //setRecurrenceInfo({ ...recurrenceInfo, recurringEventId })
       toggleVisibleModal(true)
     } else {
       toggleVisibleModal(false)
@@ -158,15 +145,6 @@ export const EditableMeetingModal = () => {
     setAttendees({})
     toggleInviteAll(false)
     dispatch(setModalDisplayStatus(false))
-    setRecurrenceInfo(initialRecurrenceInfo)
-    setDays([])
-  }
-
-  const handleSelect = (event, value) => {
-    setRecurrenceInfo({
-      ...recurrenceInfo,
-      days: value,
-    })
   }
 
   const handleInviteAll = () => {
@@ -180,6 +158,10 @@ export const EditableMeetingModal = () => {
       setAttendees(updatedAttendance)
       toggleInviteAll(!inviteAll)
     }
+  }
+
+  const handleRecurrenceChange = (rule: string | null) => {
+    setRecurrenceRule(rule)
   }
 
   const handleSubmit = async e => {
@@ -217,45 +199,9 @@ export const EditableMeetingModal = () => {
       summary,
       organizer: authUser.email,
       projectId,
-      recurrenceInfo,
+      recurrence: recurrenceRule ? [recurrenceRule] : [],
     }
 
-    // if (modalDisplayStatus === 'create') {
-    //   try {
-    //     const newEvent = await createEvent(calendarId, eventInfo)
-    //     console.log(newEvent)
-    //     dispatch(addNewEvent(newEvent))
-    //     handleClose()
-    //     dispatch(successSnackbar('Invite sent successfully!'))
-    //     setIsLoading(false)
-    //   } catch (error) {
-    //     console.error(
-    //       `Error creating event for calendar (${calendarId}): `,
-    //       error
-    //     )
-    //     dispatch(errorSnackbar('Unable to create meeting. Please try again.'))
-    //     setIsLoading(false)
-    //   }
-    // } else if (modalDisplayStatus === 'edit') {
-    //   try {
-    //     const updatedEvent = await updateEvent(
-    //       calendarId,
-    //       displayedEvent.eventId,
-    //       eventInfo
-    //     )
-    //     dispatch(updateExistingEvent(updatedEvent))
-    //     handleClose()
-    //     dispatch(successSnackbar('Meeting updated successfully!'))
-    //     setIsLoading(false)
-    //   } catch (error) {
-    //     console.error(
-    //       `Error creating event for calendar (${calendarId}): `,
-    //       error
-    //     )
-    //     dispatch(errorSnackbar('Meeting failed to update. Please try again.'))
-    //     setIsLoading(false)
-    //   }
-    // }
     try {
       if (modalDisplayStatus === 'create') {
         const newEvent = await createEvent(calendarId, eventInfo)
@@ -327,11 +273,7 @@ export const EditableMeetingModal = () => {
               dateFields={dateFields}
               setDateFields={setDateFields}
               dayjs={dayjs}
-              days={days}
-              setDays={setDays}
-              handleSelect={handleSelect}
-              recurrenceInfo={recurrenceInfo}
-              setRecurrenceInfo={setRecurrenceInfo}
+              onRecurrenceChange={handleRecurrenceChange}
             />
 
             <SelectAttendees
