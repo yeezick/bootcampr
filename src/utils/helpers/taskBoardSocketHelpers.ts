@@ -135,7 +135,7 @@ export const handleUpdateTicket =
       currentTicketFields,
       visibleTicketDialog,
     } = getCurrentState(getState)
-    console.log(ticketInfo)
+
     const { updatedTicketInfo, projectId } = ticketInfo
     const { updatedTicket, initialStatus } = updatedTicketInfo
 
