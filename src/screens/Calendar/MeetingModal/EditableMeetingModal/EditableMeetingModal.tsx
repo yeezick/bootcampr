@@ -18,7 +18,11 @@ import {
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { SelectAttendees } from './SelectAttendees'
 import { DateFields } from './DateFields'
-import { createEvent, updateEvent } from 'utils/api/events'
+import {
+  createEvent,
+  fetchRecurringEvents,
+  updateEvent,
+} from 'utils/api/events'
 import {
   changeDateTimeZone,
   checkIfAllMembersInvited,
@@ -35,6 +39,7 @@ import {
   selectDisplayedEvent,
   selectModalDisplayStatus,
   setModalDisplayStatus,
+  storeMultipleEvents,
   updateExistingEvent,
 } from 'utils/redux/slices/calendarSlice'
 import '../styles/EditableMeetingModal.scss'
@@ -254,14 +259,22 @@ export const EditableMeetingModal = () => {
     try {
       if (modalDisplayStatus === 'create') {
         const newEvent = await createEvent(calendarId, eventInfo)
-        console.log(newEvent)
-        // Store the initial eventId as recurringEventId in Redux
         dispatch(
           addNewEvent({
             ...newEvent,
             recurringEventId: newEvent.rrule ? newEvent.eventId : null,
           })
         )
+
+        if (newEvent.rrule) {
+          const recurringEvents = await fetchRecurringEvents(
+            calendarId,
+            newEvent.eventId
+          )
+          console.log(recurringEvents)
+          dispatch(storeMultipleEvents(recurringEvents))
+        }
+
         dispatch(successSnackbar('Invite sent successfully!'))
       } else if (modalDisplayStatus === 'edit') {
         const updatedEvent = await updateEvent(

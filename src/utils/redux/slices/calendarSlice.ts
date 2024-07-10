@@ -7,6 +7,7 @@ import {
   DeleteEvent,
   TeamAvailabilityArray,
 } from 'interfaces'
+import { fetchRecurringEvents } from 'utils/api/events'
 import { RootState } from 'utils/redux/store'
 
 /** Context:
@@ -26,9 +27,25 @@ const calendarSlice = createSlice({
   initialState,
   reducers: {
     addNewEvent: (state, action: PayloadAction<ConvertedEvent>) => {
-      state.convertedEvents = [...state.convertedEvents, action.payload]
-      const { eventId } = action.payload
+      const newEvent = action.payload
+      state.convertedEvents = [...state.convertedEvents, newEvent]
+      const { eventId, recurringEventId } = newEvent
       state.eventMap[eventId] = state.convertedEvents.length
+
+      // if (recurringEventId) {
+      //   fetchRecurringEvents(state, recurringEventId).then(recurringEvents => {
+      //     state.convertedEvents = [...state.convertedEvents, ...recurringEvents];
+      //     recurringEvents.forEach(recEvent => {
+      //       state.eventMap[recEvent.eventId] = state.convertedEvents.length - 1;
+      //     });
+      //   });
+      // }
+    },
+    storeMultipleEvents: (state, action: PayloadAction<ConvertedEvent[]>) => {
+      state.convertedEvents = [...state.convertedEvents, ...action.payload]
+      action.payload.forEach(event => {
+        state.eventMap[event.eventId] = state.convertedEvents.length - 1
+      })
     },
     updateExistingEvent: (state, action: PayloadAction<ConvertedEvent>) => {
       state.convertedEvents = state.convertedEvents.map(event =>
@@ -53,13 +70,24 @@ const calendarSlice = createSlice({
       state.modalDisplayStatus = 'display'
     },
     deleteExistingEvent: (state, action: PayloadAction<DeleteEvent>) => {
-      const { eventId } = action.payload
-      state.convertedEvents = state.convertedEvents.filter(
-        event => event.eventId !== eventId
-      )
-      delete state.eventMap[eventId]
-    },
+      const { eventId, recurringEventId } = action.payload
 
+      if (recurringEventId) {
+        state.convertedEvents = state.convertedEvents.filter(
+          event => event.recurringEventId !== recurringEventId
+        )
+        for (const id in state.eventMap) {
+          if (id.startsWith(recurringEventId)) {
+            delete state.eventMap[id]
+          }
+        }
+      } else {
+        state.convertedEvents = state.convertedEvents.filter(
+          event => event.eventId !== eventId
+        )
+        delete state.eventMap[eventId]
+      }
+    },
     storeTeamAvailability: (
       state,
       action: PayloadAction<TeamAvailabilityArray>
@@ -92,6 +120,7 @@ export const selectTeamAvailabilityArr = (state: RootState) =>
 
 export const {
   addNewEvent,
+  storeMultipleEvents,
   updateExistingEvent,
   setDisplayedEvent,
   storeConvertedEvents,

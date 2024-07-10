@@ -11,6 +11,7 @@ import { DisplayPopover } from './DisplayPopover'
 import {
   deleteEvent,
   deleteRecurringEvents,
+  deleteSpecificInstance,
   fetchRecurringEvents,
 } from 'utils/api/events'
 import { selectCalendarId } from 'utils/redux/slices/projectSlice'
@@ -39,8 +40,6 @@ export const DisplayModalHeaderIcons = ({
   const handleClosePopover = () => setAnchorEl(null)
   const dispatch = useAppDispatch()
 
-  console.log(start)
-
   const handleEdit = () => {
     dispatch(setModalDisplayStatus('edit'))
     setDisplayMeeting(false)
@@ -52,17 +51,18 @@ export const DisplayModalHeaderIcons = ({
     try {
       if (recurDelInd === 'series' && recurringEventId) {
         await deleteEvent(calendarId, recurringEventId)
-        dispatch(deleteExistingEvent({ eventId: recurringEventId }))
+        dispatch(
+          deleteExistingEvent({ eventId: recurringEventId, recurringEventId })
+        )
       } else if (recurDelInd === 'instance' && recurringEventId) {
-        const instanceToDelete = await fetchRecurringEvents(
+        const instanceId = await deleteSpecificInstance(
           calendarId,
           recurringEventId,
           start
         )
 
-        if (instanceToDelete) {
-          await deleteEvent(calendarId, instanceToDelete.id)
-          dispatch(deleteExistingEvent({ eventId: instanceToDelete.id }))
+        if (instanceId) {
+          dispatch(deleteExistingEvent({ eventId: instanceId }))
         } else {
           console.error('No instance found to delete.')
         }

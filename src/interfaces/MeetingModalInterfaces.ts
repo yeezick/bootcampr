@@ -78,6 +78,7 @@ export interface MeetingText {
 
 export interface DeleteEvent {
   eventId: string
+  recurringEventId?: string
 }
 
 export type ModalDisplayStatus = 'display' | 'edit' | 'create' | false

@@ -77,42 +77,51 @@ export const deleteRecurringEvents = async (calendarId: string, eventId) => {
   }
 }
 
-export const fetchRecurringEvents = async (
-  calendarId: string,
-  eventId,
-  startDateTime
-) => {
+export const fetchRecurringEvents = async (calendarId: string, eventId) => {
   try {
     const instances = await api.get(
       `/calendar/${calendarId}/recurringEvents/${eventId}`
     )
-    console.log(instances.data.data.items || instances.data)
 
     if (!instances) {
       console.error('No instances found in response.')
       return
     }
 
-    const instanceToDelete = instances.data.data.items.find(instance => {
-      const targetStart = dayjs
-        .tz(startDateTime, instance.originalStartTime.timeZone)
-        .format('YYYY-MM-DDTHH:mm:ssZ') // Convert target start to the same time zone
-      console.log(
-        'Comparing:',
-        targetStart,
-        instance.originalStartTime.dateTime
-      )
-      return targetStart === instance.originalStartTime.dateTime
-    })
-
-    if (!instanceToDelete) {
-      console.error('Instance not found.')
-      return
-    }
-
-    console.log('Instance to delete:', instanceToDelete)
-    return instanceToDelete
+    return instances.data.data.items
   } catch (error) {
     console.error('Error fetching instance:', error)
+  }
+}
+
+export const deleteSpecificInstance = async (
+  calendarId: string,
+  recurringEventId: string,
+  startDateTime: string
+) => {
+  try {
+    const instances = await fetchRecurringEvents(calendarId, recurringEventId)
+
+    const instanceToDelete = instances.find(instance => {
+      const instanceTimezone = instance.originalStartTime.timeZone
+
+      let targetStart = dayjs
+        .tz(startDateTime, instanceTimezone)
+        .format('YYYY-MM-DDTHH:mm:ssZ') // Convert target start to the same time zone
+      let instanceStart = instance.originalStartTime.dateTime
+
+      return targetStart === instanceStart
+    })
+
+    if (instanceToDelete) {
+      await deleteEvent(calendarId, instanceToDelete.id)
+      return instanceToDelete.id
+    } else {
+      console.error('No instance found to delete.')
+      return null
+    }
+  } catch (error) {
+    console.error('Error deleting specific instance:', error)
+    return null
   }
 }
