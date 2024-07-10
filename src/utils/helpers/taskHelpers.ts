@@ -99,22 +99,25 @@ export const handleColumnReordering = async (
       oldColumnIdx,
       newColumnIdx
     )
-    dispatch(
-      reorderColumn({
-        columnId: oldColumnId,
-        reorderedColumn: response.reorderedColumn,
-      })
-    )
+    const reorderColumnAction = isSandboxId(projectId)
+      ? reorderColumn({
+          columnId: oldColumnId,
+          reorderedColumn: response.reorderedColumn,
+        })
+      : reorderTicketEvent({
+          ticketColumnInfo: {
+            columnId: oldColumnId,
+            reorderedColumn: response.reorderedColumn,
+          },
+          projectId,
+        })
+    dispatch(reorderColumnAction)
+
     if (!isSandboxId(projectId)) {
       await reorderProjectColumn(projectId, {
         columnId: oldColumnId,
         oldIdx: oldColumnIdx,
         newIdx: newColumnIdx,
-      })
-      reorderTicketEvent({
-        columnId: oldColumnId,
-        reorderedColumn: response.reorderedColumn,
-        projectId,
       })
     }
   } catch (error) {
@@ -160,12 +163,18 @@ export const handleTicketMovingBetweenColumns = async (
       oldColumnId,
       oldColumn: response.oldColumn,
     }
+    const moveColumnAction = isSandboxId(projectId)
+      ? moveTicketBetweenColumns(movingTicketColumns)
+      : moveTicketEvent({
+          ticketColumnInfo: movingTicketColumns,
+          ticketId,
+          projectId,
+        })
 
-    dispatch(moveTicketBetweenColumns(movingTicketColumns))
+    dispatch(moveColumnAction)
 
     if (!isSandboxId(projectId)) {
       await moveTicketColumn(projectId, moveData)
-      moveTicketEvent({ ticketInfo: movingTicketColumns, ticketId, projectId })
     }
   } catch (error) {
     console.error(error)

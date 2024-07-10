@@ -29,8 +29,8 @@ import {
 } from 'utils/redux/slices/projectSlice'
 import { logOut } from 'utils/api'
 import './styles/Nav.scss'
-import { useKanbanSocketEvents } from 'components/Socket/kanbanSocket'
 import { SecondaryButton } from 'components/Buttons'
+import { useSocket } from 'utils/socket/useSocket'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
@@ -153,7 +153,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl, anchorEl }) => {
   const { _id: userId } = authUser
   const chatRef = useRef(null)
   useChatSocketEvents(false)
-  useKanbanSocketEvents()
+  useSocket('kanban', userId)
 
   useEffect(() => {
     dispatch(fetchThreads())
