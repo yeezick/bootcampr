@@ -57,7 +57,6 @@ export const createKanbanSocketMiddleware = () => {
             receiversIds: receiversIds,
             ticketInfo: action.payload,
           })
-
           break
         case 'DELETE_TICKET':
           emitEvent('kanban', 'delete-ticket', {
@@ -65,7 +64,6 @@ export const createKanbanSocketMiddleware = () => {
             receiversIds: receiversIds,
             ticketInfo: action.payload,
           })
-
           break
         case 'MOVE_TICKET':
           emitEvent('kanban', 'move-ticket', {
@@ -73,7 +71,6 @@ export const createKanbanSocketMiddleware = () => {
             receiversIds: receiversIds,
             ticketInfo: action.payload,
           })
-
           break
         case 'REORDER_TICKET':
           emitEvent('kanban', 'reorder-ticket', {
@@ -81,7 +78,6 @@ export const createKanbanSocketMiddleware = () => {
             receiversIds: receiversIds,
             ticketInfo: action.payload,
           })
-
           break
         case 'UPDATE_TICKET':
           emitEvent('kanban', 'update-ticket', {
@@ -89,7 +85,6 @@ export const createKanbanSocketMiddleware = () => {
             receiversIds: receiversIds,
             ticketInfo: action.payload,
           })
-
           break
       }
 

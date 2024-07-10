@@ -52,11 +52,13 @@ export const handleDeleteTicket =
     } = getCurrentState(getState)
     const { deletedTicketInfo, projectId } = ticketInfo
     const { ticketStatus, ticketId } = deletedTicketInfo
+
     if (currentProjectId !== projectId) return
 
     const deletedTicket = projectTracker[ticketStatus].find(
       ticket => ticket._id === ticketId
     )
+
     if (!deletedTicket) return
 
     const isCurrentTicket = deletedTicket._id === currentTicketFields._id
@@ -140,7 +142,6 @@ export const handleUpdateTicket =
     if (currentProjectId !== projectId) return
 
     const isCurrentTicket = updatedTicket._id === currentTicketFields._id
-
     const ticket = projectTracker[initialStatus].find(
       ticket => ticket._id === updatedTicket._id
     )
