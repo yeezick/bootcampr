@@ -1,6 +1,6 @@
+import { useState } from 'react'
 import { BackButton, ForwardButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
-import { useState } from 'react'
 import {
   createCheckout,
   updatePaymentExperience,
@@ -44,6 +44,8 @@ export const SetupProfileBtns = ({
     setPrimaryIsLoading(true)
     try {
       await updateUserProfile(updateUserForm)
+      // const updatedUser = await updateUser(authUser._id, updateUserForm)
+      // dispatch(setAuthUser(updatedUser))
       setPrimaryIsLoading(false)
     } catch (err) {
       dispatch(errorSnackbar('Profile failed to save. Please try again.'))
