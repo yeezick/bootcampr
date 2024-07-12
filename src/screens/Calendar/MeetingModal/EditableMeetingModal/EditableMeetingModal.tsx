@@ -205,12 +205,6 @@ export const EditableMeetingModal = () => {
     try {
       if (modalDisplayStatus === 'create') {
         const newEvent = await createEvent(calendarId, eventInfo)
-        dispatch(
-          addNewEvent({
-            ...newEvent,
-            recurringEventId: newEvent.rrule ? newEvent.eventId : null,
-          })
-        )
 
         if (newEvent.rrule) {
           const recurringEvents = await fetchRecurringEvents(
@@ -219,6 +213,13 @@ export const EditableMeetingModal = () => {
           )
           console.log(recurringEvents)
           dispatch(storeMultipleEvents(recurringEvents))
+        } else {
+          dispatch(
+            addNewEvent({
+              ...newEvent,
+              recurringEventId: newEvent.rrule ? newEvent.eventId : null,
+            })
+          )
         }
 
         dispatch(successSnackbar('Invite sent successfully!'))

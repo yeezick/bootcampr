@@ -10,9 +10,14 @@ import {
   FormControlLabel,
 } from '@mui/material'
 import dayjs from 'dayjs'
-import { useState } from 'react'
-import { useAppSelector } from 'utils/redux/hooks'
+import { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectProjectTimeline } from 'utils/redux/slices/projectSlice'
+import { CustomRecurrenceModal } from './CustomRecurrenceModal'
+import { api } from 'utils/api/apiConfig'
+import { useSelector } from 'react-redux'
+import { selectUserId } from 'utils/redux/slices/userSlice'
+import { fetchCustomRecurrences } from 'utils/api/customRecurrences'
 
 const daysOfWeek = [
   'Sunday',
@@ -26,69 +31,96 @@ const daysOfWeek = [
 
 export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
   const [recurrence, setRecurrence] = useState<string>('')
+  const [openModal, setOpenModal] = useState(false)
   const [customDays, setCustomDays] = useState<string[]>([])
   const { endDate } = useAppSelector(selectProjectTimeline)
-  const formattedED = dayjs(endDate).format('YYYYMMDD')
-
+  const formattedED = dayjs(endDate).add(1, 'day').format('YYYYMMDD')
   const dayOfTheWeek = daysOfWeek[dayjs(date).day()]
+  const recurrenceOptions = [
+    { value: 'one-time', label: 'One-time meeting' },
+    { value: 'daily', label: 'Daily' },
+    { value: 'weekly', label: `Weekly on ${dayOfTheWeek}` },
+    { value: 'weekdays', label: 'Every weekday (Monday-Friday)' },
+    { value: 'custom', label: 'Custom' },
+  ]
+  const [customRecurrences, setCustomRecurrences] = useState<string[]>([])
+  const dispatch = useAppDispatch()
+  const userId = useAppSelector(selectUserId)
+
+  // const getCustomRecurrences = async userId => {
+  //   const customRecurrencess = await fetchCustomRecurrences(userId);
+
+  // }
+
+  useEffect(() => {
+    const fetchRecurrences = async () => {
+      const customRecurrencess = await fetchCustomRecurrences(userId)
+      setCustomRecurrences(customRecurrencess.map(r => r.recurrenceLabel))
+    }
+    if (userId) {
+      fetchRecurrences()
+    }
+  }, [userId])
 
   const handleRecurrenceChange = (event: SelectChangeEvent<string>) => {
     const value = event.target.value
-    setRecurrence(value)
-    if (value !== 'custom') {
-      setCustomDays([])
+    if (value === 'Custom') {
+      setOpenModal(true)
+    } else {
+      setRecurrence(value)
+      onRecurrenceChange(generateRRule(value, customDays, formattedED))
     }
-    onRecurrenceChange(generateRRule(value, customDays, formattedED))
   }
 
-  const handleCustomDaysChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.name
-    setCustomDays(prev =>
-      prev.includes(value)
-        ? prev.filter(day => day !== value)
-        : [...prev, value]
-    )
-    onRecurrenceChange(generateRRule(recurrence, customDays, formattedED))
+  const handleSaveCustomRecurrence = (selectedDays: string[]) => {
+    const customLabel = `Weekly on ${selectedDays.join(', ')}`
+    try {
+      const res = api.post('/customRecurrence', {
+        userId,
+        recurrenceLabel: customLabel,
+        daysOfWeek: selectedDays,
+      })
+      console.log(res)
+      setCustomRecurrences(prev => [...prev, customLabel])
+      setRecurrence(customLabel)
+      onRecurrenceChange(generateRRule('custom', selectedDays, formattedED))
+    } catch (error) {
+      console.error('Failed to save custom recurrence.')
+    }
+    setOpenModal(false)
   }
-
-  //console.log(customDays, recurrence, recurrenceRule)
 
   return (
-    <FormControl fullWidth>
-      <InputLabel id='recurrence-label'>Recurrence</InputLabel>
-      <Select
-        labelId='recurrence-label'
-        id='recurrence-select'
-        value={recurrence}
-        label='Recurrence'
-        onChange={handleRecurrenceChange}
-      >
-        <MenuItem value='one-time'>One-time meeting</MenuItem>
-        <MenuItem value='daily'>Daily</MenuItem>
-        <MenuItem value='weekly'>Weekly on {dayOfTheWeek}</MenuItem>
-        <MenuItem value='weekdays'>Everyday (Monday-Friday)</MenuItem>
-        <MenuItem value='custom'>Custom</MenuItem>
-      </Select>
-      {recurrence === 'custom' && (
-        <FormGroup>
-          {daysOfWeek.map(day => (
-            <FormControlLabel
-              key={day}
-              control={
-                <Checkbox
-                  checked={customDays.includes(day)}
-                  onChange={handleCustomDaysChange}
-                  name={day}
-                />
-              }
-              label={day}
-            />
+    <>
+      <FormControl fullWidth>
+        <InputLabel id='recurrence-label'>Recurrence</InputLabel>
+        <Select
+          labelId='recurrence-label'
+          id='recurrence-select'
+          value={recurrence}
+          label='Recurrence'
+          onChange={handleRecurrenceChange}
+        >
+          {recurrenceOptions.slice(0, -1).map(option => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
           ))}
-        </FormGroup>
-      )}
-    </FormControl>
+          {customRecurrences.map(custom => (
+            <MenuItem key={custom} value={custom}>
+              {custom}
+            </MenuItem>
+          ))}
+          <MenuItem value='Custom'>Custom</MenuItem>
+        </Select>
+      </FormControl>
+      <CustomRecurrenceModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        onSave={handleSaveCustomRecurrence}
+        daysOfWeek={daysOfWeek}
+      />
+    </>
   )
 }
 
