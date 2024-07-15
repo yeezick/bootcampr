@@ -7,12 +7,9 @@ import { updateComment } from 'utils/api/comments'
 import { PrimaryButton, SecondaryButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 import { updateReply } from 'utils/api/replies'
+import { editCommentEvent } from 'utils/redux/actions/socketActions'
 
-export const EditComment = ({
-  comment,
-  toggleEditMode,
-  toggleFetchComments,
-}) => {
+export const EditComment = ({ comment, toggleEditMode }) => {
   const { authorId, _id: commentId, content, createdAt } = comment
   const [updatedContent, setUpdatedContent] = useState(content)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -39,8 +36,7 @@ export const EditComment = ({
     } else {
       dispatch(successSnackbar('Changes saved!'))
     }
-
-    toggleFetchComments(state => !state)
+    dispatch(editCommentEvent())
     toggleEditMode(false)
     setIsLoading(false)
   }

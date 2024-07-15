@@ -28,6 +28,7 @@ export interface TaskBoardInterface {
     ticket: TicketInterface
     dialogState: '' | 'delete' | 'edit'
   }
+  fetchComments: boolean
 }
 
 export type TicketDialogState = '' | 'create' | 'edit'
