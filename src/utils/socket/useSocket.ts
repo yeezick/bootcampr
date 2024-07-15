@@ -4,8 +4,8 @@ import { useAppDispatch } from 'utils/redux/hooks'
 export const useSocket = (
   namespace,
   userId,
-  connectType = 'CONNECT_SOCKET',
-  disconnectType = 'DISCONNECT_SOCKET'
+  connectType = `CONNECT_${namespace.toUpperCase()}_SOCKET`,
+  disconnectType = `DISCONNECT_${namespace.toUpperCase()}_SOCKET`
 ) => {
   const dispatch = useAppDispatch()
 

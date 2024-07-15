@@ -24,9 +24,14 @@ export const createKanbanSocketMiddleware = () => {
       const members = selectMembersAsTeam(state)
       const receiversIds = members.map(member => member._id)
 
+      const kanbanEmitEvent = (event, data) => {
+        return emitEvent('kanban', event, data, userId)
+      }
+
       switch (action.type) {
-        case 'CONNECT_SOCKET':
+        case 'CONNECT_KANBAN_SOCKET':
           socket = connectSocket('kanban', userId)
+          //Receive information from backend
           socket.on('ticket-created', createdTicketInfo => {
             dispatch(handleCreateTicket(createdTicketInfo))
           })
@@ -48,39 +53,40 @@ export const createKanbanSocketMiddleware = () => {
             dispatch(handleUpdateTicket({ updaterId, ticketInfo }))
           })
           break
-        case 'DISCONNECT_SOCKET':
+        case 'DISCONNECT_KANBAN_SOCKET':
           disconnectSocket('kanban')
           socket = null
           break
+        //Send information to backend
         case 'CREATE_TICKET':
-          emitEvent('kanban', 'create-ticket', {
+          kanbanEmitEvent('create-ticket', {
             receiversIds: receiversIds,
             ticketInfo: action.payload,
           })
           break
         case 'DELETE_TICKET':
-          emitEvent('kanban', 'delete-ticket', {
+          kanbanEmitEvent('delete-ticket', {
             authUserId: userId,
             receiversIds: receiversIds,
             ticketInfo: action.payload,
           })
           break
         case 'MOVE_TICKET':
-          emitEvent('kanban', 'move-ticket', {
+          kanbanEmitEvent('move-ticket', {
             authUserId: userId,
             receiversIds: receiversIds,
             ticketInfo: action.payload,
           })
           break
         case 'REORDER_TICKET':
-          emitEvent('kanban', 'reorder-ticket', {
+          kanbanEmitEvent('reorder-ticket', {
             authUserId: userId,
             receiversIds: receiversIds,
             ticketInfo: action.payload,
           })
           break
         case 'UPDATE_TICKET':
-          emitEvent('kanban', 'update-ticket', {
+          kanbanEmitEvent('update-ticket', {
             authUserId: userId,
             receiversIds: receiversIds,
             ticketInfo: action.payload,

@@ -154,6 +154,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl, anchorEl }) => {
   const chatRef = useRef(null)
   useChatSocketEvents(false)
   useSocket('kanban', userId)
+  useSocket('comment', userId)
 
   useEffect(() => {
     dispatch(fetchThreads())

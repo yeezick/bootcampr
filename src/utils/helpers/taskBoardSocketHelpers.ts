@@ -32,7 +32,6 @@ export const getCurrentState = (getState): TaskBoardSocketStateInterface => {
 export const handleCreateTicket =
   ({ createdTicketInfo, projectId }) =>
   (dispatch, getState) => {
-    console.log(createdTicketInfo, projectId)
     const { currentProjectId } = getCurrentState(getState)
 
     if (currentProjectId !== projectId) return
