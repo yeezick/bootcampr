@@ -12,7 +12,7 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import {
   moveTicketEvent,
   reorderTicketEvent,
-} from 'utils/redux/actions/kanbanSocketActions'
+} from 'utils/redux/actions/socketActions'
 
 export const BoardColumns = () => {
   const { projectId } = useParams()

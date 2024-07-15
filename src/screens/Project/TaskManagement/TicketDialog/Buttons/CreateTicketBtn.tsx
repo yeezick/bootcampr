@@ -8,7 +8,7 @@ import {
   closeVisibleTicketDialog,
   isSandboxId,
 } from 'utils/helpers/taskHelpers'
-import { createTicketEvent } from 'utils/redux/actions/kanbanSocketActions'
+import { createTicketEvent } from 'utils/redux/actions/socketActions'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   addTicketToStatus,

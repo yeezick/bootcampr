@@ -16,7 +16,7 @@ import { successSnackbar } from 'utils/helpers/commentHelpers'
 import { PrimaryButton, TextButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 import { useState } from 'react'
-import { deleteTicketEvent } from 'utils/redux/actions/kanbanSocketActions'
+import { deleteTicketEvent } from 'utils/redux/actions/socketActions'
 
 export const DeleteTicketDialog = () => {
   const confirmationDialogType = useAppSelector(selectConfirmationDialogType)
