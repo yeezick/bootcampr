@@ -8,6 +8,7 @@ import snackBarSlice from './slices/snackBarSlice'
 import userInterfaceReducer from './slices/userInterfaceSlice'
 import taskBoardSlice from './slices/taskBoardSlice'
 import teamMembersReducer from './slices/teamMembersSlice'
+import recurrenceSlice from './slices/recurrenceSlice'
 
 export type RootState = {
   calendar: ReturnType<typeof calendarReducer>
@@ -16,6 +17,7 @@ export type RootState = {
   project: ReturnType<typeof projectReducer>
   snackBar: ReturnType<typeof snackBarSlice>
   taskBoard: ReturnType<typeof taskBoardSlice>
+  recurrence: ReturnType<typeof recurrenceSlice>
   ui: ReturnType<typeof userReducer> // todo: rename to user
   userInterface: ReturnType<typeof userInterfaceReducer>
   teamMembers: ReturnType<typeof teamMembersReducer>
@@ -31,6 +33,7 @@ const appReducer: Reducer<RootState> = combineReducers({
   project: projectReducer,
   snackBar: snackBarSlice,
   taskBoard: taskBoardSlice,
+  recurrence: recurrenceSlice,
   ui: userReducer,
   userInterface: userInterfaceReducer,
   teamMembers: teamMembersReducer,

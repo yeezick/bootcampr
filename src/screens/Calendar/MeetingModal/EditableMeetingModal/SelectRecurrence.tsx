@@ -18,6 +18,14 @@ import { api } from 'utils/api/apiConfig'
 import { useSelector } from 'react-redux'
 import { selectUserId } from 'utils/redux/slices/userSlice'
 import { fetchCustomRecurrences } from 'utils/api/customRecurrences'
+import {
+  addCustomRecurrence,
+  selectCustomRecurrences,
+  selectRecurrence,
+  setCustomRecurrences,
+  setRecurrence,
+} from 'utils/redux/slices/recurrenceSlice'
+import { RootState } from 'utils/redux/rootReducer'
 
 const daysOfWeek = [
   'Sunday',
@@ -30,10 +38,18 @@ const daysOfWeek = [
 ]
 
 export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
-  const [recurrence, setRecurrence] = useState<string>('')
-  const [openModal, setOpenModal] = useState(false)
-  const [customDays, setCustomDays] = useState<string[]>([])
+  const dispatch = useAppDispatch()
+  const recurrence = useSelector(
+    (state: RootState) => state.recurrence.recurrence
+  )
+  const customRecurrences = useSelector(
+    (state: RootState) => state.recurrence.customRecurrences
+  )
   const { endDate } = useAppSelector(selectProjectTimeline)
+  const userId = useAppSelector(selectUserId)
+
+  const [openModal, setOpenModal] = useState(false)
+
   const formattedED = dayjs(endDate).add(1, 'day').format('YYYYMMDD')
   const dayOfTheWeek = daysOfWeek[dayjs(date).day()]
   const recurrenceOptions = [
@@ -43,47 +59,65 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
     { value: 'weekdays', label: 'Every weekday (Monday-Friday)' },
     { value: 'custom', label: 'Custom' },
   ]
-  const [customRecurrences, setCustomRecurrences] = useState<string[]>([])
-  const dispatch = useAppDispatch()
-  const userId = useAppSelector(selectUserId)
 
-  // const getCustomRecurrences = async userId => {
-  //   const customRecurrencess = await fetchCustomRecurrences(userId);
-
-  // }
+  const [customDays, setCustomDays] = useState<string[]>([])
 
   useEffect(() => {
     const fetchRecurrences = async () => {
-      const customRecurrencess = await fetchCustomRecurrences(userId)
-      setCustomRecurrences(customRecurrencess.map(r => r.recurrenceLabel))
+      if (userId) {
+        try {
+          const response = await fetchCustomRecurrences(userId)
+          dispatch(setCustomRecurrences(response.data)) // Assuming the data is in response.data
+        } catch (error) {
+          console.error('Failed to fetch custom recurrences', error)
+        }
+      }
     }
-    if (userId) {
-      fetchRecurrences()
-    }
+    fetchRecurrences()
   }, [userId])
+
+  useEffect(() => {
+    if (recurrence.startsWith('Weekly on')) {
+      const customRecurrence = customRecurrences.find(
+        cr => cr.recurrenceLabel === recurrence
+      )
+      if (customRecurrence) {
+        setCustomDays(customRecurrence.daysOfWeek)
+        onRecurrenceChange(
+          generateRRule('custom', customRecurrence.daysOfWeek, formattedED)
+        )
+      }
+    } else {
+      onRecurrenceChange(generateRRule(recurrence, [], formattedED))
+    }
+  }, [recurrence, formattedED, customDays, onRecurrenceChange])
 
   const handleRecurrenceChange = (event: SelectChangeEvent<string>) => {
     const value = event.target.value
     if (value === 'Custom') {
       setOpenModal(true)
     } else {
-      setRecurrence(value)
-      onRecurrenceChange(generateRRule(value, customDays, formattedED))
+      dispatch(setRecurrence(value))
+      setCustomDays([])
     }
   }
 
   const handleSaveCustomRecurrence = (selectedDays: string[]) => {
     const customLabel = `Weekly on ${selectedDays.join(', ')}`
+    const newCustomRecurrence = {
+      recurrenceLabel: customLabel,
+      daysOfWeek: selectedDays,
+      userId,
+    }
     try {
       const res = api.post('/customRecurrence', {
         userId,
         recurrenceLabel: customLabel,
         daysOfWeek: selectedDays,
       })
-      console.log(res)
-      setCustomRecurrences(prev => [...prev, customLabel])
-      setRecurrence(customLabel)
-      onRecurrenceChange(generateRRule('custom', selectedDays, formattedED))
+      dispatch(addCustomRecurrence(newCustomRecurrence))
+      dispatch(setRecurrence(customLabel))
+      setCustomDays(selectedDays) // Set custom days when saving custom recurrence
     } catch (error) {
       console.error('Failed to save custom recurrence.')
     }
@@ -93,13 +127,11 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
   return (
     <>
       <FormControl fullWidth>
-        <InputLabel id='recurrence-label'>Recurrence</InputLabel>
         <Select
-          labelId='recurrence-label'
           id='recurrence-select'
           value={recurrence}
-          label='Recurrence'
           onChange={handleRecurrenceChange}
+          sx={recurrencesSelectStyles}
         >
           {recurrenceOptions.slice(0, -1).map(option => (
             <MenuItem key={option.value} value={option.value}>
@@ -107,8 +139,11 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
             </MenuItem>
           ))}
           {customRecurrences.map(custom => (
-            <MenuItem key={custom} value={custom}>
-              {custom}
+            <MenuItem
+              key={custom.recurrenceLabel}
+              value={custom.recurrenceLabel}
+            >
+              {custom.recurrenceLabel}
             </MenuItem>
           ))}
           <MenuItem value='Custom'>Custom</MenuItem>
@@ -156,4 +191,26 @@ const generateRRule = (
     default:
       return null
   }
+}
+
+const recurrencesSelectStyles = {
+  color: 'black',
+  borderRadius: '5px',
+  padding: '5px',
+  fontSize: '14px',
+  width: '320px',
+  height: '40px',
+
+  '& .MuiSelect-select.MuiInputBase-input': {
+    paddingRight: '0px',
+  },
+  '&:hover': {
+    cursor: 'pointer',
+    '& .MuiOutlinedInput-notchedOutline': {
+      border: '1.5px solid black',
+    },
+  },
+  '& .MuiOutlinedInput-notchedOutline': {
+    borderColor: 'black',
+  },
 }
