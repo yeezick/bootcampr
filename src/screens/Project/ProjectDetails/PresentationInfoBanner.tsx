@@ -112,7 +112,7 @@ export const PresentationInfoBanner = () => {
     (urlIsDisabled || isDisabled) && (presentingIsDisabled || isDisabled)
 
   return (
-    <div className='presentation-info-container'>
+    <>
       <div className='presentation-info-banner'>
         <div className='icon-container'>{fetchIcon('info')}</div>
         <div className='text-container'>
@@ -154,6 +154,6 @@ export const PresentationInfoBanner = () => {
         confirmButtonDisabled={modalIsDisabled}
         customWidth={338}
       />
-    </div>
+    </>
   )
 }

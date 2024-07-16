@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   logoutAuthUser,
   selectAuthUser,
@@ -23,10 +23,14 @@ import { AccountDropdown } from 'components/AccountDropdown.tsx/AccountDropdown'
 import { buildPortal } from 'utils/helpers'
 import { resetPortal } from 'utils/redux/slices/userInterfaceSlice'
 import { CustomBadge } from 'components/Badge/Badge'
-import { selectProjectId } from 'utils/redux/slices/projectSlice'
+import {
+  fetchAndStoreUserProject,
+  selectProjectId,
+} from 'utils/redux/slices/projectSlice'
 import { logOut } from 'utils/api'
 import './styles/Nav.scss'
 import { useKanbanSocketEvents } from 'components/Socket/kanbanSocket'
+import { SecondaryButton } from 'components/Buttons'
 
 export const Nav = () => {
   const [notificationCount, setNotificationCount] = useState(0)
@@ -34,9 +38,10 @@ export const Nav = () => {
   const authUser = useAppSelector(selectAuthUser)
   const experience = useAppSelector(selectUserExperience)
   const currentProjectId = useAppSelector(selectProjectId)
-  const { _id: userId } = authUser
+  const { _id: userId, payment } = authUser
   const dispatch = useAppDispatch()
   const location = useLocation()
+  const navigate = useNavigate()
   const excludedRoutes = [
     '/payment',
     '/sign-up',
@@ -49,6 +54,16 @@ export const Nav = () => {
   const isExcludedRoute = excludedRoutes.some(route =>
     location.pathname.startsWith(route)
   )
+  const isOnboardingRoute =
+    location.pathname === '/onboarding' && experience === 'waitlist'
+  const handleNavToPortal = () => {
+    if (experience === 'waitlist' && !payment.paid) {
+      dispatch(fetchAndStoreUserProject('sandbox'))
+      navigate(`/project/sandbox`)
+    } else {
+      navigate(`/project/${currentProjectId}`)
+    }
+  }
   const handlePortalLink = () =>
     buildPortal(dispatch, 'project', currentProjectId, experience)
   const handleNonPortalLink = async () => {
@@ -120,6 +135,11 @@ export const Nav = () => {
           )}
         </div>
       )}
+      {isOnboardingRoute && (
+        <div className='navbar-wrapper'>
+          <SecondaryButton label='Go to sandbox' onClick={handleNavToPortal} />
+        </div>
+      )}
       <AccountDropdown anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
     </nav>
   )
@@ -177,6 +197,7 @@ const AuthorizedNavLinks = ({ notificationCount, setAnchorEl, anchorEl }) => {
     </div>
   )
 }
+
 const UnauthorizedNavLinks = () => (
   <div className='auth-btn'>
     <div>

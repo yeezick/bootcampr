@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { FiArrowLeft } from 'react-icons/fi'
 import { HiOutlinePencilAlt } from 'react-icons/hi'
 import { BiPencil } from 'react-icons/bi'
@@ -21,10 +20,10 @@ import {
   updateCurrentChat,
 } from 'utils/redux/slices/chatSlice'
 import { CommonModal } from 'components/CommonModal/CommonModal'
-import './ChatDialogMain.scss'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { ChatAvatar } from '../ChatAvatar/ChatAvatar'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
+import './ChatDialogMain.scss'
 
 const getTitleText = (chatScreen, currentConversation, authUser) => {
   const title =
@@ -75,8 +74,12 @@ export const ChatPageHeader = () => {
   const { chatScreen } = useAppSelector(selectChatUI)
   const authUser = useAppSelector(selectAuthUser)
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
   const { groupPhoto, chatType, isTeamChat, participants } = currentConversation
+  const onGroupChatEditScreen =
+    chatType === 'group' && chatScreen === 'editChatRoom'
+  const headerTitle =
+    currentConversation.groupName ||
+    getTitleText(chatScreen, currentConversation, authUser)
 
   const handleBackArrowClick = () => {
     dispatch(setActiveChatRoomId(null))
@@ -131,9 +134,6 @@ export const ChatPageHeader = () => {
     setOpenEditNameModal(true)
   }
 
-  const onGroupChatEditScreen =
-    chatType === 'group' && chatScreen === 'editChatRoom'
-
   return (
     <div className='page-title'>
       <FiArrowLeft size={24} onClick={handleBackArrowClick} />
@@ -145,8 +145,8 @@ export const ChatPageHeader = () => {
         avatarSize='x-small'
       />
       <div className='title-with-icon'>
-        <h5 onClick={handleChangeScreen} className='group-link'>
-          {getTitleText(chatScreen, currentConversation, authUser)}
+        <h5 onClick={handleChangeScreen} className={`group-link ${chatScreen}`}>
+          {headerTitle}
         </h5>
         {onGroupChatEditScreen && (
           <div className='edit-pen'>
