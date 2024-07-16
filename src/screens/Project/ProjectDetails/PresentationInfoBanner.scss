@@ -1,29 +1,25 @@
-.presentation-info-container {
-  background-color: white;
-  padding: 16px 0 0 16px;
+.presentation-info-banner {
+  background-color: #e4f0f8;
+  color: #1a237e;
+  display: flex;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0 16px;
 
-  .presentation-info-banner {
-    background-color: #e4f0f8;
+  .icon-container {
+    padding: 16px;
+  }
+
+  .modal-trigger {
+    cursor: pointer;
+    font-weight: 700;
+    text-decoration: underline;
+  }
+
+  .deployed-url,
+  .deployed-url:visited,
+  .deployed-url:hover,
+  .deployed-url:active {
     color: #1a237e;
-    display: flex;
-    font-size: 16px;
-    line-height: 24px;
-
-    .icon-container {
-      padding: 16px;
-    }
-
-    .modal-trigger {
-      cursor: pointer;
-      font-weight: 700;
-      text-decoration: underline;
-    }
-
-    .deployed-url,
-    .deployed-url:visited,
-    .deployed-url:hover,
-    .deployed-url:active {
-      color: #1a237e;
-    }
   }
 }

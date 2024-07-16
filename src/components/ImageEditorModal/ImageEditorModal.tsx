@@ -54,7 +54,7 @@ export const ImageEditorModal: React.FC<ToggleImageModalProps> = ({
   /**
    * Generates a cropped image URL, creates an image file from the URL, sends the file to the server, and then closes the modal.
    */
-  const handleSave = useCallback(async () => {
+  const handleSave = () => {
     if (profilePicture) {
       getCroppedImg(profilePicture, cropArea).then(async croppedImageURL => {
         if (croppedImageURL) {
@@ -76,15 +76,7 @@ export const ImageEditorModal: React.FC<ToggleImageModalProps> = ({
         }
       })
     }
-  }, [
-    profilePicture,
-    cropArea,
-    handleClose,
-    onCloseProfilePreviewAvatarModal,
-    dispatch,
-    userId,
-    setImageUploaded,
-  ])
+  }
 
   return (
     <Dialog

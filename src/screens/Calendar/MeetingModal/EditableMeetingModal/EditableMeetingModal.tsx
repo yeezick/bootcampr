@@ -151,7 +151,6 @@ export const EditableMeetingModal = () => {
     const { end, start, eventTimezone } = dateFields
     const { description, summary } = meetingText
     const attendeeList = []
-
     const updatedStartTime = changeDateTimeZone(start, eventTimezone)
     const updatedEndTime = changeDateTimeZone(end, eventTimezone)
 
@@ -185,6 +184,11 @@ export const EditableMeetingModal = () => {
     if (modalDisplayStatus === 'create') {
       try {
         const newEvent = await createEvent(calendarId, eventInfo)
+        if (newEvent.errors) {
+          throw Error(
+            'Create event call failed: \n ${newEvent.errors[0].message}'
+          )
+        }
         dispatch(addNewEvent(newEvent))
         handleClose()
         dispatch(successSnackbar('Invite sent successfully!'))
@@ -194,7 +198,11 @@ export const EditableMeetingModal = () => {
           `Error creating event for calendar (${calendarId}): `,
           error
         )
-        dispatch(errorSnackbar('Unable to create meeting. Please try again.'))
+        dispatch(
+          errorSnackbar(
+            'Unable to create meeting. Please try again in a few seconds.'
+          )
+        )
         setIsLoading(false)
       }
     } else if (modalDisplayStatus === 'edit') {

@@ -17,6 +17,7 @@ import bannerImgLg from '../../assets/Images/banner-img-lg.png'
 
 export const PortalBanner = () => {
   const { active, type } = useAppSelector(selectBanner)
+  const { paid } = useAppSelector(selectUserPayment)
   const isRecurringUnpaidUser = useAppSelector(selectIsRecurringUnpaidUser)
   const isRecurringUser = useAppSelector(selectIsRecurringUser)
   const bannerRef = useRef(null)
@@ -39,8 +40,8 @@ export const PortalBanner = () => {
   if (isRecurringUnpaidUser || isRecurringUser) return null
   return (
     <div ref={bannerRef} className='banner'>
-      {type === 'waitlist' && <WaitlistBanner />}
-      {type === 'sandbox' && <SandboxBanner />}
+      {type === 'waitlist' && paid && <WaitlistBanner />}
+      {(type === 'sandbox' || !paid) && <SandboxBanner />}
     </div>
   )
 }
@@ -49,7 +50,12 @@ const SandboxBanner = () => {
   const userId = useAppSelector(selectUserId)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const { paid } = useAppSelector(selectUserPayment)
+  const { type } = useAppSelector(selectBanner)
+
   const handleJoinTeamBtn = () => handleJoinTeam(dispatch, navigate, userId)
+
+  const startedOnboarding = !paid && type === 'waitlist'
 
   return (
     <>
@@ -62,7 +68,7 @@ const SandboxBanner = () => {
         </p>
       </div>
       <PrimaryButton
-        label='Join a team'
+        label={startedOnboarding ? 'Complete onboarding' : 'Join a team'}
         onClick={handleJoinTeamBtn}
         style={{ marginRight: '32px' }}
       />
