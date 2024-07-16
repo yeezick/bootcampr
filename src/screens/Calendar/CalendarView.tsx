@@ -14,6 +14,7 @@ import {
   formatAvailabilityDate,
   generateDayJs,
   generateTeamAvailabilityEvent,
+  getProjectDateRanges,
   parseCalendarEventForMeetingInfo,
   updateWeekDayNumber,
   updateWeekNumber,
@@ -30,29 +31,35 @@ import {
 } from 'utils/redux/slices/calendarSlice'
 import { DisplayMeetingModal } from 'screens/Calendar/MeetingModal'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
+import { getTeamCommonAvailability } from 'utils/api'
 import dayjs from 'dayjs'
 import weekday from 'dayjs/plugin/weekday'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import { getTeamCommonAvailability } from 'utils/api'
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 import './CalendarView.scss'
 dayjs.extend(weekday)
 dayjs.extend(utc)
 dayjs.extend(timezone)
+dayjs.extend(isSameOrAfter)
+dayjs.extend(isSameOrBefore)
 
 export const CalendarView = () => {
+  const dispatch = useAppDispatch()
+  const calendarRef = useRef(null)
   const calendarId = useAppSelector(selectCalendarId)
   const convertedEventsAsArr = useAppSelector(selectConvertedEventsAsArr)
   const userEmail = useAppSelector(selectUserEmail)
   const projectId = useAppSelector(selectProjectId)
   const teamAvailabilityArr = useAppSelector(selectTeamAvailabilityArr)
-  const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
   const timeline = useAppSelector(selectProjectTimeline)
-  const [weekNumber, setWeekNumber] = useState('')
   const projectCompleted = useAppSelector(selectProjectCompleted)
-  const calendarRef = useRef(null)
-  const dispatch = useAppDispatch()
+  const [weekNumber, setWeekNumber] = useState('')
+  const [eventFetchingStatus, setEventFetchingStatus] = useState('loading')
+  const [initialDate, setInitialDate] = useState(null)
   const [isTodayButtonEnabled, setIsTodayButtonEnabled] = useState(true)
+  const [isProjectEnded, setIsProjectEnded] = useState(false)
   const firstDay = timeline.startDate
   const lastDay = generateDayJs(timeline.endDate)
     .weekday(7)
@@ -117,16 +124,25 @@ export const CalendarView = () => {
     }
   }
 
-  const checkButtonStatus = () => {
+  const updateButtonAndInitialDateState = () => {
     const calendarApi = calendarRef.current?.getApi()
     if (!calendarApi) return
 
-    const projectStartDate = generateDayJs(firstDay).format('YYYY-MM-DD')
-    const projectEndDate = generateDayJs(lastDay).format('YYYY-MM-DD')
-    const projectDatesNotDefined = !projectStartDate && !projectEndDate
-    const projectStarted = !projectDatesNotDefined
+    const today = dayjs()
+    const projectStartDate = generateDayJs(firstDay)
+    const projectEndDate = generateDayJs(lastDay)
 
-    setIsTodayButtonEnabled(!projectStarted)
+    const { projectNotStarted, projectEnded, projectActive } =
+      getProjectDateRanges(projectStartDate, projectEndDate, today)
+
+    setIsTodayButtonEnabled(projectActive)
+    setIsProjectEnded(projectEnded)
+
+    if (projectNotStarted || projectEnded) {
+      setInitialDate(projectStartDate.toDate())
+    } else {
+      setInitialDate(today.toDate())
+    }
   }
 
   useEffect(() => {
@@ -142,7 +158,7 @@ export const CalendarView = () => {
     const calendarApi = calendarRef.current?.getApi()
     if (!calendarApi) return
 
-    checkButtonStatus()
+    updateButtonAndInitialDateState()
   }, [firstDay, lastDay, eventFetchingStatus])
 
   const disableButton = () => {
@@ -153,6 +169,7 @@ export const CalendarView = () => {
       const button = calendarApi.el.querySelector(
         '.fc-createMeeting-button'
       ) as HTMLButtonElement
+
       if (button) {
         button.classList.add('disabled-button')
         button.disabled = true
@@ -205,6 +222,7 @@ export const CalendarView = () => {
       return (
         <div className='calendar-container'>
           <FullCalendar
+            key={initialDate ? initialDate.toISOString() : 'loading'}
             ref={calendarRef}
             datesSet={handleDynamicButtons}
             events={[...convertedEventsAsArr, ...teamAvailabilityArr]}
@@ -216,7 +234,9 @@ export const CalendarView = () => {
             }}
             headerToolbar={{
               start: `title ${
-                isTodayButtonEnabled ? 'today' : 'projectStart'
+                isProjectEnded || !isTodayButtonEnabled
+                  ? 'projectStart'
+                  : 'today'
               } prev weekTitle next`,
               center: '',
               end: 'createMeeting',
@@ -226,10 +246,8 @@ export const CalendarView = () => {
             initialView='timeGridWeek'
             nowIndicator={true}
             plugins={[dayGridPlugin, timeGridPlugin]}
-            validRange={{
-              start: firstDay,
-              end: lastDay,
-            }}
+            initialDate={initialDate}
+            validRange={{ start: firstDay, end: lastDay }}
             customButtons={{
               createMeeting: {
                 text: '+ Create meeting',
