@@ -15,7 +15,7 @@ export const handleJoinTeam = async (dispatch, navigate, userId) => {
 }
 
 export const handleJoinDiscord = () => {
-  window.open('https://discord.gg/JJGBf9SX6y', '_blank')
+  window.open('https://discord.gg/3Dj94K2ADy', '_blank')
 }
 
 export const handleJoinNewTeam = async (dispatch, navigate, userId) => {
