@@ -290,3 +290,19 @@ export const generateTeamAvailabilityEvent = (start, end) => ({
   borderColor: '#388E3C',
   timeZone: 'America/New_York',
 })
+
+export const sortWeekdays = weekdays => {
+  const dayOrder = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ]
+
+  return weekdays.sort((a, b) => {
+    return dayOrder.indexOf(a) - dayOrder.indexOf(b)
+  })
+}

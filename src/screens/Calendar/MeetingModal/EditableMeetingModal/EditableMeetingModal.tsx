@@ -1,11 +1,6 @@
 import { Dialog, DialogContent, DialogActions, TextField } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
-import {
-  BooleanObject,
-  DateFieldsInterface,
-  EventInfo,
-  RecurrenceMeeting,
-} from 'interfaces'
+import { BooleanObject, DateFieldsInterface, EventInfo } from 'interfaces'
 import dayjs from 'dayjs'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { successSnackbar, errorSnackbar } from 'utils/helpers/commentHelpers'
@@ -13,7 +8,6 @@ import {
   selectCalendarId,
   selectMembersAsTeam,
   selectProjectId,
-  selectProjectTimeline,
 } from 'utils/redux/slices/projectSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { SelectAttendees } from './SelectAttendees'
@@ -30,16 +24,13 @@ import {
   initialDateFields,
 } from 'utils/helpers'
 import { DescriptionField } from './MeetingTextField'
-import {
-  initialMeetingText,
-  initialRecurrenceInfo,
-} from 'utils/data/calendarConstants'
+import { initialMeetingText } from 'utils/data/calendarConstants'
 import {
   addNewEvent,
   selectDisplayedEvent,
   selectModalDisplayStatus,
   setModalDisplayStatus,
-  storeMultipleEvents,
+  storeConvertedEvents,
   updateExistingEvent,
 } from 'utils/redux/slices/calendarSlice'
 import '../styles/EditableMeetingModal.scss'
@@ -162,7 +153,7 @@ export const EditableMeetingModal = () => {
 
   const handleRecurrenceChange = (rule: string | null) => {
     setRecurrenceRule(rule)
-    console.log(rule)
+    // console.log(rule)
   }
 
   const handleSubmit = async e => {
@@ -212,8 +203,7 @@ export const EditableMeetingModal = () => {
             calendarId,
             newEvent.eventId
           )
-          console.log(recurringEvents)
-          dispatch(storeMultipleEvents(recurringEvents))
+          dispatch(storeConvertedEvents(recurringEvents))
         } else {
           dispatch(
             addNewEvent({

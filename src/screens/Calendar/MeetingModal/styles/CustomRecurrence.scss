@@ -1,0 +1,25 @@
+.custom-recurrence-modal {
+  display: flex;
+  flex-direction: column;
+
+
+  h2{
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 32px;
+  }
+
+  h3{
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0px 0px 7px 0px;
+  }
+
+  .custom-label .MuiTypography-root {
+    font-size: 16px; // Change this value to your desired font size
+    // Add more styles if needed
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+  }
+
+  
+}

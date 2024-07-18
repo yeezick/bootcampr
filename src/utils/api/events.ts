@@ -88,7 +88,7 @@ export const fetchRecurringEvents = async (calendarId: string, eventId) => {
       return
     }
 
-    return instances.data.data.items
+    return instances.data
   } catch (error) {
     console.error('Error fetching instance:', error)
   }
@@ -101,21 +101,23 @@ export const deleteSpecificInstance = async (
 ) => {
   try {
     const instances = await fetchRecurringEvents(calendarId, recurringEventId)
-
+    console.log(instances)
     const instanceToDelete = instances.find(instance => {
-      const instanceTimezone = instance.originalStartTime.timeZone
+      const instanceTimezone = instance.timeZone
 
       let targetStart = dayjs
         .tz(startDateTime, instanceTimezone)
         .format('YYYY-MM-DDTHH:mm:ssZ') // Convert target start to the same time zone
-      let instanceStart = instance.originalStartTime.dateTime
-
+      let instanceStart = instance.start
+      console.log(targetStart, instanceStart)
       return targetStart === instanceStart
     })
 
+    console.log(instanceToDelete)
+
     if (instanceToDelete) {
-      await deleteEvent(calendarId, instanceToDelete.id)
-      return instanceToDelete.id
+      await deleteEvent(calendarId, instanceToDelete.eventId)
+      return instanceToDelete.eventId
     } else {
       console.error('No instance found to delete.')
       return null

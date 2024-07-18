@@ -29,7 +29,7 @@ const calendarSlice = createSlice({
     addNewEvent: (state, action: PayloadAction<ConvertedEvent>) => {
       const newEvent = action.payload
       state.convertedEvents = [...state.convertedEvents, newEvent]
-      const { eventId, recurringEventId } = newEvent
+      const { eventId } = newEvent
       state.eventMap[eventId] = state.convertedEvents.length
 
       // if (recurringEventId) {

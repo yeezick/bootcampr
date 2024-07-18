@@ -1,14 +1,4 @@
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Checkbox,
-  ListItemText,
-  FormGroup,
-  FormControlLabel,
-} from '@mui/material'
+import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
@@ -20,12 +10,11 @@ import { selectUserId } from 'utils/redux/slices/userSlice'
 import { fetchCustomRecurrences } from 'utils/api/customRecurrences'
 import {
   addCustomRecurrence,
-  selectCustomRecurrences,
-  selectRecurrence,
   setCustomRecurrences,
   setRecurrence,
 } from 'utils/redux/slices/recurrenceSlice'
 import { RootState } from 'utils/redux/rootReducer'
+import { sortWeekdays } from 'utils/helpers'
 
 const daysOfWeek = [
   'Sunday',
@@ -49,6 +38,7 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
   const userId = useAppSelector(selectUserId)
 
   const [openModal, setOpenModal] = useState(false)
+  const [customDays, setCustomDays] = useState<string[]>([])
 
   const formattedED = dayjs(endDate).add(1, 'day').format('YYYYMMDD')
   const dayOfTheWeek = daysOfWeek[dayjs(date).day()]
@@ -59,8 +49,6 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
     { value: 'weekdays', label: 'Every weekday (Monday-Friday)' },
     { value: 'custom', label: 'Custom' },
   ]
-
-  const [customDays, setCustomDays] = useState<string[]>([])
 
   useEffect(() => {
     const fetchRecurrences = async () => {
@@ -74,6 +62,8 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
       }
     }
     fetchRecurrences()
+
+    dispatch(setRecurrence(recurrenceOptions[0].value))
   }, [userId])
 
   useEffect(() => {
@@ -103,10 +93,11 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
   }
 
   const handleSaveCustomRecurrence = (selectedDays: string[]) => {
-    const customLabel = `Weekly on ${selectedDays.join(', ')}`
+    const sortedSelectedDays = sortWeekdays(selectedDays)
+    const customLabel = `Weekly on ${sortedSelectedDays.join(', ')}`
     const newCustomRecurrence = {
       recurrenceLabel: customLabel,
-      daysOfWeek: selectedDays,
+      daysOfWeek: sortedSelectedDays,
       userId,
     }
     try {
