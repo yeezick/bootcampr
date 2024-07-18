@@ -44,7 +44,6 @@ dayjs.extend(timezone)
 export const CalendarView = () => {
   const calendarId = useAppSelector(selectCalendarId)
   const convertedEventsAsArr = useAppSelector(selectConvertedEventsAsArr)
-  console.log(convertedEventsAsArr)
   const userEmail = useAppSelector(selectUserEmail)
   const projectId = useAppSelector(selectProjectId)
   const teamAvailabilityArr = useAppSelector(selectTeamAvailabilityArr)

@@ -7,7 +7,10 @@ import { CustomRecurrenceModal } from './CustomRecurrenceModal'
 import { api } from 'utils/api/apiConfig'
 import { useSelector } from 'react-redux'
 import { selectUserId } from 'utils/redux/slices/userSlice'
-import { fetchCustomRecurrences } from 'utils/api/customRecurrences'
+import {
+  createCustomRecurrence,
+  fetchCustomRecurrences,
+} from 'utils/api/customRecurrences'
 import {
   addCustomRecurrence,
   setCustomRecurrences,
@@ -50,12 +53,13 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
     { value: 'custom', label: 'Custom' },
   ]
 
+  // Effect to fetch custom recurrences and set initial recurrence option
   useEffect(() => {
     const fetchRecurrences = async () => {
       if (userId) {
         try {
           const response = await fetchCustomRecurrences(userId)
-          dispatch(setCustomRecurrences(response.data)) // Assuming the data is in response.data
+          dispatch(setCustomRecurrences(response.data))
         } catch (error) {
           console.error('Failed to fetch custom recurrences', error)
         }
@@ -66,6 +70,7 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
     dispatch(setRecurrence(recurrenceOptions[0].value))
   }, [userId])
 
+  // Effect to handle changes in recurrence and custom days
   useEffect(() => {
     if (recurrence.startsWith('Weekly on')) {
       const customRecurrence = customRecurrences.find(
@@ -82,6 +87,7 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
     }
   }, [recurrence, formattedED, customDays, onRecurrenceChange])
 
+  // Handler for recurrence select change
   const handleRecurrenceChange = (event: SelectChangeEvent<string>) => {
     const value = event.target.value
     if (value === 'Custom') {
@@ -92,7 +98,8 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
     }
   }
 
-  const handleSaveCustomRecurrence = (selectedDays: string[]) => {
+  // Handler for saving custom recurrence
+  const handleSaveCustomRecurrence = async (selectedDays: string[]) => {
     const sortedSelectedDays = sortWeekdays(selectedDays)
     const customLabel = `Weekly on ${sortedSelectedDays.join(', ')}`
     const newCustomRecurrence = {
@@ -101,14 +108,10 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
       userId,
     }
     try {
-      const res = api.post('/customRecurrence', {
-        userId,
-        recurrenceLabel: customLabel,
-        daysOfWeek: selectedDays,
-      })
+      await createCustomRecurrence(newCustomRecurrence)
       dispatch(addCustomRecurrence(newCustomRecurrence))
       dispatch(setRecurrence(customLabel))
-      setCustomDays(selectedDays) // Set custom days when saving custom recurrence
+      setCustomDays(selectedDays)
     } catch (error) {
       console.error('Failed to save custom recurrence.')
     }
@@ -150,6 +153,7 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
   )
 }
 
+// Function to generate RRule based on recurrence type
 const generateRRule = (
   recurrence: string,
   customDays: string[],
