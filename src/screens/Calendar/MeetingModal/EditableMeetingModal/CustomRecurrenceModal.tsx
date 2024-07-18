@@ -59,7 +59,6 @@ export const CustomRecurrenceModal = ({
               style={{ padding: '0px 17px 0px 17px' }}
             />
             <PrimaryButton
-              //loading={isLoading}
               colorScheme='primary'
               disabled={selectedDays.length > 0 ? false : true}
               onClick={handleSave}
@@ -76,9 +75,4 @@ const checkboxStyle = {
   '& .MuiSvgIcon-root': {
     fill: '#1A237E',
   },
-}
-
-const labelStyle = {
-  fontSize: '16px', // Change this value to your desired font size
-  // Add more styles if needed
 }

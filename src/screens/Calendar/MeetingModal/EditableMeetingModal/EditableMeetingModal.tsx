@@ -60,7 +60,6 @@ export const EditableMeetingModal = () => {
   const projectId = useAppSelector(selectProjectId)
   const projectMembers = useAppSelector(selectMembersAsTeam)
   const calendarId = useAppSelector(selectCalendarId)
-  const userEmail = useAppSelector(selectUserEmail)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
