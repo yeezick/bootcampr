@@ -76,34 +76,3 @@ export const usTimeZones = [
   { value: 'America/Anchorage', name: 'Alaska Time (AKT)' },
   { value: 'Pacific/Honolulu', name: 'Hawaii-Aleutian Time (HT)' },
 ]
-
-export const DAYS = [
-  {
-    key: 'SU',
-    label: 'S',
-  },
-  {
-    key: 'MO',
-    label: 'M',
-  },
-  {
-    key: 'TU',
-    label: 'T',
-  },
-  {
-    key: 'WE',
-    label: 'W',
-  },
-  {
-    key: 'TH',
-    label: 'T',
-  },
-  {
-    key: 'FR',
-    label: 'F',
-  },
-  {
-    key: 'SA',
-    label: 'S',
-  },
-]

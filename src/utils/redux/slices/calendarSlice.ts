@@ -31,21 +31,6 @@ const calendarSlice = createSlice({
       state.convertedEvents = [...state.convertedEvents, newEvent]
       const { eventId } = newEvent
       state.eventMap[eventId] = state.convertedEvents.length
-
-      // if (recurringEventId) {
-      //   fetchRecurringEvents(state, recurringEventId).then(recurringEvents => {
-      //     state.convertedEvents = [...state.convertedEvents, ...recurringEvents];
-      //     recurringEvents.forEach(recEvent => {
-      //       state.eventMap[recEvent.eventId] = state.convertedEvents.length - 1;
-      //     });
-      //   });
-      // }
-    },
-    storeMultipleEvents: (state, action: PayloadAction<ConvertedEvent[]>) => {
-      state.convertedEvents = [...state.convertedEvents, ...action.payload]
-      action.payload.forEach(event => {
-        state.eventMap[event.eventId] = state.convertedEvents.length - 1
-      })
     },
     updateExistingEvent: (state, action: PayloadAction<ConvertedEvent>) => {
       state.convertedEvents = state.convertedEvents.map(event =>
@@ -120,7 +105,6 @@ export const selectTeamAvailabilityArr = (state: RootState) =>
 
 export const {
   addNewEvent,
-  storeMultipleEvents,
   updateExistingEvent,
   setDisplayedEvent,
   storeConvertedEvents,
