@@ -25,7 +25,6 @@ export const DisplayMeetingModal = () => {
   const modalDisplayStatus = useAppSelector(selectModalDisplayStatus)
   const dispatch = useAppDispatch()
   const handleClose = () => dispatch(setModalDisplayStatus(false))
-  const [recurrenceInd, setRecurrenceInd] = useState(false)
 
   useEffect(() => {
     if (modalDisplayStatus === 'display') {
@@ -52,7 +51,6 @@ export const DisplayMeetingModal = () => {
         <DisplayModalHeaderIcons
           handleClose={handleClose}
           setDisplayMeeting={setDisplayMeeting}
-          recurrenceInd={recurrenceInd}
         />
 
         <div className='display-modal-wrapper'>

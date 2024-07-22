@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Modal, Box, Checkbox, FormControlLabel, Button } from '@mui/material'
 import '../styles/CustomRecurrence.scss'
-import { classNames } from 'react-easy-crop/helpers'
 import { PrimaryButton, TextButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 

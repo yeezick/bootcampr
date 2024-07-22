@@ -16,13 +16,6 @@ interface GoogleAttendees {
   comment: string
 }
 
-export interface RecurrenceMeeting {
-  enabled: boolean
-  freq: string
-  days: []
-  until: string
-}
-
 export interface EventInfo {
   attendees: AttendeeList[]
   description: string

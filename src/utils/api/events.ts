@@ -56,27 +56,6 @@ export const deleteEvent = async (calendarId: string, eventId) => {
   }
 }
 
-export const deleteRecurringEvents = async (calendarId: string, eventId) => {
-  try {
-    if (isSandboxId(calendarId)) {
-      return
-    }
-
-    const response = await api.delete(
-      `/calendar/${calendarId}/recurringEvents/${eventId}`
-    )
-
-    if (response) {
-      console.log('Instance deleted successfully.')
-      // Update UI accordingly
-    } else {
-      console.error('Error deleting instance.')
-    }
-  } catch (error) {
-    console.error('Error deleting instance:', error)
-  }
-}
-
 export const fetchRecurringEvents = async (calendarId: string, eventId) => {
   try {
     const instances = await api.get(

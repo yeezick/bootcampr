@@ -22,7 +22,6 @@ export const CancelMeetingModal = ({
 
   const handleChange = e => {
     setRecurDelInd(e.target.value)
-    console.log(recurDelInd)
   }
 
   const handleDeleteClick = () => {

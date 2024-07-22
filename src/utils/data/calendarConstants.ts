@@ -1,16 +1,9 @@
-import { MeetingText, RecurrenceMeeting } from 'interfaces'
+import { MeetingText } from 'interfaces'
 
 export const initialMeetingText: MeetingText = {
   description: '',
   meetingLink: '',
   summary: '',
-}
-
-export const initialRecurrenceInfo: RecurrenceMeeting = {
-  enabled: false,
-  freq: 'WEEKLY',
-  days: [],
-  until: '',
 }
 
 export const staticEmails = [

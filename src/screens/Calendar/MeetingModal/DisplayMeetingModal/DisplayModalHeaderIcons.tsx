@@ -8,22 +8,13 @@ import {
 import { Close } from '@mui/icons-material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { DisplayPopover } from './DisplayPopover'
-import {
-  deleteEvent,
-  deleteRecurringEvents,
-  deleteSpecificInstance,
-  fetchRecurringEvents,
-} from 'utils/api/events'
+import { deleteEvent, deleteSpecificInstance } from 'utils/api/events'
 import { selectCalendarId } from 'utils/redux/slices/projectSlice'
 import { successSnackbar } from 'utils/helpers/commentHelpers'
 import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
 
-export const DisplayModalHeaderIcons = ({
-  handleClose,
-  setDisplayMeeting,
-  recurrenceInd,
-}) => {
+export const DisplayModalHeaderIcons = ({ handleClose, setDisplayMeeting }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const displayedEvent = useAppSelector(selectDisplayedEvent)
   const authUserEmail = useAppSelector(selectUserEmail)

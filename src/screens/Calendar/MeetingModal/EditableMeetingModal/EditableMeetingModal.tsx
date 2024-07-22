@@ -152,7 +152,6 @@ export const EditableMeetingModal = () => {
 
   const handleRecurrenceChange = (rule: string | null) => {
     setRecurrenceRule(rule)
-    // console.log(rule)
   }
 
   const handleSubmit = async e => {
