@@ -103,3 +103,18 @@ export const deleteSpecificInstance = async (
     return null
   }
 }
+
+export const fetchParentRecurringEvents = async (
+  calendarId: string,
+  eventId
+) => {
+  try {
+    const res = await api.get(
+      `/calendar/${calendarId}/recurringEvent/${eventId}`
+    )
+
+    return res.data
+  } catch (error) {
+    console.error('Error fetching instance:', error)
+  }
+}

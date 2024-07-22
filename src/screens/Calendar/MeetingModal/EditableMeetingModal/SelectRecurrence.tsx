@@ -15,7 +15,8 @@ import {
   setRecurrence,
 } from 'utils/redux/slices/recurrenceSlice'
 import { RootState } from 'utils/redux/rootReducer'
-import { generateDayJs, sortWeekdays } from 'utils/helpers'
+import { generateDayJs, matchRRuleToOption, sortWeekdays } from 'utils/helpers'
+import { selectDisplayedEvent } from 'utils/redux/slices/calendarSlice'
 
 const daysOfWeek = [
   'Sunday',
@@ -50,7 +51,7 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
     { value: 'weekdays', label: 'Every weekday (Monday-Friday)' },
     { value: 'custom', label: 'Custom' },
   ]
-
+  const displayedEvent = useAppSelector(selectDisplayedEvent)
   // Effect to fetch custom recurrences and set initial recurrence option
   useEffect(() => {
     const fetchRecurrences = async () => {
@@ -65,7 +66,13 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
     }
     fetchRecurrences()
 
-    dispatch(setRecurrence(recurrenceOptions[0].value))
+    // Match RRULE to an option
+    if (displayedEvent.rrule) {
+      const matchedOption = matchRRuleToOption(displayedEvent.rrule)
+      dispatch(setRecurrence(matchedOption))
+    } else {
+      dispatch(setRecurrence(recurrenceOptions[0].value))
+    }
   }, [userId])
 
   // Effect to handle changes in recurrence and custom days

@@ -15,6 +15,7 @@ import {
   formatAvailabilityDate,
   generateDayJs,
   generateTeamAvailabilityEvent,
+  matchRRuleToOption,
   parseCalendarEventForMeetingInfo,
   updateWeekDayNumber,
   updateWeekNumber,
@@ -37,6 +38,7 @@ import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import { getTeamCommonAvailability } from 'utils/api'
 import './CalendarView.scss'
+import { fetchParentRecurringEvents } from 'utils/api/events'
 dayjs.extend(weekday)
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -161,12 +163,31 @@ export const CalendarView = () => {
     })
   }
 
-  const handleEventClick = e => {
+  const handleEventClick = async e => {
     if (e.event.title !== 'Team Availability') {
-      dispatch(setDisplayedEvent(parseCalendarEventForMeetingInfo(e)))
+      const parsedEvent = parseCalendarEventForMeetingInfo(e)
+      if (parsedEvent.recurringEventId) {
+        try {
+          const res = await fetchParentRecurringEvents(
+            calendarId,
+            parsedEvent.recurringEventId
+          )
+          const rrule = res.data.recurrence[0].substring(6)
+
+          const updatedEvent = {
+            ...parsedEvent,
+            rrule,
+          }
+          dispatch(setDisplayedEvent(updatedEvent))
+        } catch (error) {
+          console.error('Failed to fetch parent recurring event', error)
+          dispatch(setDisplayedEvent(parsedEvent))
+        }
+      } else {
+        dispatch(setDisplayedEvent(parsedEvent))
+      }
     }
   }
-
   const renderWeekNumber = () => {
     setTimeout(() => {
       const calendarApi = calendarRef.current?.getApi()

@@ -7,7 +7,6 @@ import {
   DeleteEvent,
   TeamAvailabilityArray,
 } from 'interfaces'
-import { fetchRecurringEvents } from 'utils/api/events'
 import { RootState } from 'utils/redux/store'
 
 /** Context:

@@ -306,3 +306,67 @@ export const sortWeekdays = weekdays => {
     return dayOrder.indexOf(a) - dayOrder.indexOf(b)
   })
 }
+
+interface RecurrenceRule {
+  FREQ?: string
+  BYDAY?: string
+}
+
+// Convert rrule string to object
+const parseRRule = rruleString => {
+  const rruleParts = rruleString.split(';')
+  const rrule: RecurrenceRule = {}
+  rruleParts.forEach(part => {
+    const [key, value] = part.split('=')
+    rrule[key] = value
+  })
+  return rrule
+}
+
+export const matchRRuleToOption = rruleString => {
+  const rruleObj = parseRRule(rruleString)
+  const freq = rruleObj.FREQ
+  const byday = rruleObj.BYDAY ? rruleObj.BYDAY.split(',') : []
+
+  if (freq === 'DAILY') {
+    return 'daily'
+  } else if (freq === 'WEEKLY' && byday.length === 0) {
+    return 'weekly'
+  } else if (
+    freq === 'WEEKLY' &&
+    byday.length === 5 &&
+    byday.includes('MO') &&
+    byday.includes('TU') &&
+    byday.includes('WE') &&
+    byday.includes('TH') &&
+    byday.includes('FR')
+  ) {
+    return 'weekdays'
+  } else if (freq === 'WEEKLY' && byday.length > 0) {
+    const days = byday
+      .map(day => {
+        switch (day) {
+          case 'SU':
+            return 'Sunday'
+          case 'MO':
+            return 'Monday'
+          case 'TU':
+            return 'Tuesday'
+          case 'WE':
+            return 'Wednesday'
+          case 'TH':
+            return 'Thursday'
+          case 'FR':
+            return 'Friday'
+          case 'SA':
+            return 'Saturday'
+          default:
+            return ''
+        }
+      })
+      .filter(day => day !== '')
+    return `Weekly on ${days.join(', ')}`
+  }
+
+  return 'one-time'
+}

@@ -212,12 +212,20 @@ export const EditableMeetingModal = () => {
 
         dispatch(successSnackbar('Invite sent successfully!'))
       } else if (modalDisplayStatus === 'edit') {
-        const updatedEvent = await updateEvent(
-          calendarId,
-          displayedEvent.eventId,
-          eventInfo
-        )
-        dispatch(updateExistingEvent(updatedEvent))
+        const eventId =
+          displayedEvent.recurringEventId || displayedEvent.eventId
+        const updatedEvent = await updateEvent(calendarId, eventId, eventInfo)
+
+        if (displayedEvent.recurringEventId) {
+          const recurringEvents = await fetchRecurringEvents(
+            calendarId,
+            eventId
+          )
+          dispatch(storeConvertedEvents(recurringEvents))
+        } else {
+          dispatch(updateExistingEvent(updatedEvent))
+        }
+
         dispatch(successSnackbar('Meeting updated successfully!'))
       }
       handleClose()

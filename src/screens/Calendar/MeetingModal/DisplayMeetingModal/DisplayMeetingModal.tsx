@@ -1,6 +1,6 @@
 import { Dialog, DialogContent } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { convertDateFieldsForDisplay } from 'utils/helpers'
+import { convertDateFieldsForDisplay, matchRRuleToOption } from 'utils/helpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectDisplayedEvent,
@@ -13,6 +13,11 @@ import { DisplayTimeAndSummary } from './DisplayTimeAndSummary'
 import { DisplayModalHeaderIcons } from './DisplayModalHeaderIcons'
 import { DisplayDescription } from './DisplayDescription'
 import { DisplayMeetingLink } from './DisplayMeetingLink'
+import {
+  fetchParentRecurringEvents,
+  fetchRecurringEvents,
+} from 'utils/api/events'
+import { selectCalendarId } from 'utils/redux/slices/projectSlice'
 
 export const DisplayMeetingModal = () => {
   const [displayMeeting, setDisplayMeeting] = useState(false)
@@ -25,12 +30,14 @@ export const DisplayMeetingModal = () => {
   const modalDisplayStatus = useAppSelector(selectModalDisplayStatus)
   const dispatch = useAppDispatch()
   const handleClose = () => dispatch(setModalDisplayStatus(false))
+  const calendarId = useAppSelector(selectCalendarId)
 
   useEffect(() => {
     if (modalDisplayStatus === 'display') {
       setDisplayedFields(
         convertDateFieldsForDisplay(displayedEvent.googleDateFields)
       )
+
       setDisplayMeeting(true)
     } else {
       setDisplayMeeting(false)
