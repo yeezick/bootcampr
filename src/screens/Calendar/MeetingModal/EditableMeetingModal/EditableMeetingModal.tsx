@@ -36,7 +36,6 @@ import {
 import '../styles/EditableMeetingModal.scss'
 import { MeetingModalHeaderIcons } from './MeetingModalHeaderIcons'
 import { GoogleMeetsToggler } from './GoogleMeetsToggler'
-import { selectUserEmail } from 'utils/redux/slices/userSlice'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
 import { PrimaryButton } from 'components/Buttons'
 import { isEmptyString } from 'utils/helpers/inputUtils'

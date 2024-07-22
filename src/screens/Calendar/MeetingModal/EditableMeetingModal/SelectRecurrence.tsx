@@ -1,10 +1,8 @@
 import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material'
-import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectProjectTimeline } from 'utils/redux/slices/projectSlice'
 import { CustomRecurrenceModal } from './CustomRecurrenceModal'
-import { api } from 'utils/api/apiConfig'
 import { useSelector } from 'react-redux'
 import { selectUserId } from 'utils/redux/slices/userSlice'
 import {
@@ -17,7 +15,7 @@ import {
   setRecurrence,
 } from 'utils/redux/slices/recurrenceSlice'
 import { RootState } from 'utils/redux/rootReducer'
-import { sortWeekdays } from 'utils/helpers'
+import { generateDayJs, sortWeekdays } from 'utils/helpers'
 
 const daysOfWeek = [
   'Sunday',
@@ -43,8 +41,8 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
   const [openModal, setOpenModal] = useState(false)
   const [customDays, setCustomDays] = useState<string[]>([])
 
-  const formattedED = dayjs(endDate).add(1, 'day').format('YYYYMMDD')
-  const dayOfTheWeek = daysOfWeek[dayjs(date).day()]
+  const formattedED = generateDayJs(endDate).add(1, 'day').format('YYYYMMDD')
+  const dayOfTheWeek = daysOfWeek[generateDayJs(date).day()]
   const recurrenceOptions = [
     { value: 'one-time', label: 'One-time meeting' },
     { value: 'daily', label: 'Daily' },

@@ -1,11 +1,12 @@
-import Box from '@mui/material/Box'
-import Modal from '@mui/material/Modal'
 import { CancelMeetingButtons } from './CancelMeetingButtons'
-import Radio from '@mui/material/Radio'
-import RadioGroup from '@mui/material/RadioGroup'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import FormControl from '@mui/material/FormControl'
-import FormLabel from '@mui/material/FormLabel'
+import {
+  Box,
+  Modal,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+} from '@mui/material'
 import { useAppSelector } from 'utils/redux/hooks'
 import { selectDisplayedEvent } from 'utils/redux/slices/calendarSlice'
 import { useState } from 'react'
