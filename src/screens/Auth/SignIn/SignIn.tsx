@@ -10,7 +10,6 @@ import { toggleVisiblity } from 'components/Inputs'
 import { GoAlert } from 'react-icons/go'
 import { FormControl, IconButton } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import login from '../../../assets/Images/login.png'
 import {
   buildProjectPortal,
   statusInactive,
@@ -129,7 +128,6 @@ const SignIn: React.FC = (): JSX.Element => {
     <div>
       <div className='sign_in'>
         <div className='sign_in_container'>
-          <img src={login} alt='a person seated at a desk types on a laptop' />
           <form className='sign_in_form'>
             <div className='sign_in_content'>
               <h1>Log in</h1>
