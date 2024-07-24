@@ -16,13 +16,12 @@ import { successSnackbar } from 'utils/helpers/commentHelpers'
 import { PrimaryButton, TextButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
 import { useState } from 'react'
-import { useKanbanSocketEvents } from 'components/Socket/kanbanSocket'
+import { deleteTicketEvent } from 'utils/redux/actions/socketActions'
 
 export const DeleteTicketDialog = () => {
   const confirmationDialogType = useAppSelector(selectConfirmationDialogType)
   const projectId = useAppSelector(selectProjectId)
   const ticketFields = useAppSelector(selectTicketFields)
-  const { deleteTicketEvent } = useKanbanSocketEvents()
   const dispatch = useAppDispatch()
   const handleCloseDialog = () => closeConfirmationDialog(dispatch)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -30,21 +29,21 @@ export const DeleteTicketDialog = () => {
   const handleDeleteTicket = async () => {
     setIsLoading(true)
     const { status, _id: ticketId } = ticketFields
+    const ticketInfo = {
+      ticketId,
+      ticketStatus: status,
+      projectId,
+    }
+    const deleteTicketAction = isSandboxId(ticketId)
+      ? deleteTicket({ status, ticketId })
+      : deleteTicketEvent({ deletedTicketInfo: ticketInfo, projectId })
+
     // BC-412: add guard clause for tickets that failed to delete & display error toast
     if (!isSandboxId(ticketId)) {
-      await deleteTicketApi({
-        ticketId,
-        ticketStatus: status,
-        projectId,
-      })
-      deleteTicketEvent({
-        ticketId,
-        ticketStatus: status,
-        projectId,
-      })
+      await deleteTicketApi(ticketInfo)
     }
 
-    dispatch(deleteTicket({ status, ticketId }))
+    dispatch(deleteTicketAction)
     dispatch(successSnackbar('Story deleted successfully'))
     closeVisibleTicketDialog(dispatch)
     setIsLoading(false)

@@ -31,4 +31,5 @@ export const initialTaskBoardState: TaskBoardInterface = {
     ticket: null,
     dialogState: '',
   },
+  fetchComments: false,
 }
