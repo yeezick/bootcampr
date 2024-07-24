@@ -9,10 +9,12 @@ import {
   handleTicketMovingBetweenColumns,
 } from 'utils/helpers/taskHelpers'
 import { DragDropContext } from 'react-beautiful-dnd'
-import { useKanbanSocketEvents } from 'components/Socket/kanbanSocket'
+import {
+  moveTicketEvent,
+  reorderTicketEvent,
+} from 'utils/redux/actions/socketActions'
 
 export const BoardColumns = () => {
-  const { moveTicketEvent, reorderTicketEvent } = useKanbanSocketEvents()
   const { projectId } = useParams()
   const projectTracker = useAppSelector(selectProjectTracker)
   const dispatch = useAppDispatch()
