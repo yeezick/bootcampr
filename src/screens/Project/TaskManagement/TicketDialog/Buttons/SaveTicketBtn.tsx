@@ -1,6 +1,5 @@
 import { PrimaryButton } from 'components/Buttons'
 import { useState } from 'react'
-import { useKanbanSocketEvents } from 'components/Socket/kanbanSocket'
 import { saveUpdatedTicket } from 'utils/api/tickets'
 import { errorSnackbar, successSnackbar } from 'utils/helpers/commentHelpers'
 import { isEmptyString } from 'utils/helpers/inputUtils'
@@ -9,6 +8,7 @@ import {
   closeVisibleTicketDialog,
   isSandboxId,
 } from 'utils/helpers/taskHelpers'
+import { updateTicketEvent } from 'utils/redux/actions/socketActions'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   selectProjectId,
@@ -30,34 +30,33 @@ export const SaveTicketBtn = () => {
   const projectCompleted = useAppSelector(selectProjectCompleted)
   const dispatch = useAppDispatch()
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const { updateTicketEvent } = useKanbanSocketEvents()
 
   const handleSaveTicket = async e => {
     setIsLoading(true)
     const ticketPayload = buildTicketPayload(projectId, userId, ticketFields)
     const ticketResponse = await saveUpdatedTicket(ticketPayload)
+    const saveTicketAction = isSandboxId(projectId)
+      ? updateTicket({
+          initialStatus: ticketFields.oldStatus,
+          updatedTicket: ticketResponse,
+        })
+      : updateTicketEvent({
+          updatedTicketInfo: {
+            initialStatus: ticketFields.oldStatus,
+            updatedTicket: ticketResponse,
+          },
+          projectId,
+        })
 
     if (ticketResponse.error) {
       dispatch(errorSnackbar('Something went wrong saving your story.'))
     } else {
-      dispatch(
-        updateTicket({
-          initialStatus: ticketFields.oldStatus,
-          updatedTicket: ticketResponse,
-        })
-      )
+      dispatch(saveTicketAction)
       dispatch(resetTicketFields({}))
       dispatch(successSnackbar('Changes saved!'))
       closeVisibleTicketDialog(dispatch)
-
-      if (!isSandboxId(projectId)) {
-        updateTicketEvent({
-          initialStatus: ticketFields.oldStatus,
-          updatedTicket: ticketResponse,
-          projectId,
-        })
-      }
     }
+
     setIsLoading(false)
   }
 

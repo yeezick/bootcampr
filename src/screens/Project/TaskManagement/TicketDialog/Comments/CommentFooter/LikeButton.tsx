@@ -4,16 +4,12 @@ import { updateComment } from 'utils/api/comments'
 import { updateReply } from 'utils/api/replies'
 import { determineLikeIcon, errorSnackbar } from 'utils/helpers/commentHelpers'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
+import { likeCommentEvent } from 'utils/redux/actions/socketActions'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { selectUsersById } from 'utils/redux/slices/projectSlice'
 import { selectUserId } from 'utils/redux/slices/userSlice'
 
-export const LikeButton = ({
-  comment,
-  fetchComments,
-  isDisabled,
-  toggleFetchComments,
-}) => {
+export const LikeButton = ({ comment, isDisabled }) => {
   const { likes, _id: commentId } = comment
   const [likedByUser, toggleLikedByUser] = useState(false)
   const likers = useAppSelector(selectUsersById(likes))
@@ -57,7 +53,7 @@ export const LikeButton = ({
       if (updatedResponse.error) {
         dispatch(errorSnackbar('There was an error updating the likes'))
       } else {
-        toggleFetchComments(!fetchComments)
+        dispatch(likeCommentEvent())
       }
     }
   }

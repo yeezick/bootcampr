@@ -7,10 +7,7 @@ import { createComment } from 'utils/api/comments'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { isSandboxId } from 'utils/helpers/taskHelpers'
 import { generateDefaultPicture } from 'utils/helpers'
-import {
-  addCommentToTicket,
-  selectProjectCompleted,
-} from 'utils/redux/slices/projectSlice'
+import { selectProjectCompleted } from 'utils/redux/slices/projectSlice'
 import { createReply } from 'utils/api/replies'
 import { NewCommentProps } from 'interfaces/Comments'
 import {
@@ -18,12 +15,12 @@ import {
   selectTicketFields,
 } from 'utils/redux/slices/taskBoardSlice'
 import { isEmptyString } from 'utils/helpers/inputUtils'
+import {
+  addCommentEvent,
+  replyCommentEvent,
+} from 'utils/redux/actions/socketActions'
 
-export const NewComment = ({
-  fetchComments,
-  parentCommentId,
-  toggleFetchComments,
-}: NewCommentProps) => {
+export const NewComment = ({ parentCommentId }: NewCommentProps) => {
   const [inputText, setInputText] = useState('')
   const { _id: ticketId, status: ticketStatus } =
     useAppSelector(selectTicketFields)
@@ -79,14 +76,17 @@ export const NewComment = ({
     } else {
       if (!isReply) {
         dispatch(
-          addCommentToTicket({
-            commentId: response._id,
-            ticketId,
-            ticketStatus,
+          addCommentEvent({
+            comment: {
+              commentId: response._id,
+              ticketId,
+              ticketStatus,
+            },
           })
         )
+      } else {
+        dispatch(replyCommentEvent())
       }
-      toggleFetchComments(!fetchComments)
       setInputText('')
     }
   }

@@ -1,12 +1,7 @@
+import { useState } from 'react'
 import { BackButton, ForwardButton } from 'components/Buttons'
 import { ButtonContainer } from 'components/Buttons/ButtonContainer'
-import { useState } from 'react'
-import {
-  createCheckout,
-  updatePaymentExperience,
-  updateUser,
-  updateUserProfile,
-} from 'utils/api'
+import { createCheckout, updatePaymentExperience, updateUser } from 'utils/api'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
@@ -33,43 +28,45 @@ export const SetupProfileBtns = ({
       const updatedUser = await updateUser(authUser._id, updateUserForm)
       dispatch(setAuthUser(updatedUser))
       handlePageNavigation('previous')
-      setSecondaryIsLoading(false)
     } catch (error) {
       dispatch(errorSnackbar('Profile failed to save. Please try again.'))
+    } finally {
       setSecondaryIsLoading(false)
     }
   }
 
-  const handlePrimaryClick = async () => {
+  const handlePrimaryClick = async e => {
     setPrimaryIsLoading(true)
+
     try {
-      await updateUserProfile(updateUserForm)
-      setPrimaryIsLoading(false)
+      const updatedUser = await updateUser(authUser._id, updateUserForm)
+      dispatch(setAuthUser(updatedUser))
+
+      const checkoutResponse = await createCheckout()
+      if (checkoutResponse.error && !checkoutResponse.checkoutUrl) {
+        dispatch(errorSnackbar(checkoutResponse.error))
+        return
+      }
+
+      const userExperience =
+        authUser.projects.projects.length === 0 ? 'waitlist' : 'recurring'
+      const updatedUserExperience = await updatePaymentExperience(
+        authUser._id,
+        {
+          experience: userExperience,
+        }
+      )
+
+      if (updatedUserExperience.error) {
+        dispatch(errorSnackbar('Error setting project experience.'))
+        return
+      } else {
+        dispatch(updateUserExperience(updatedUserExperience))
+        window.location.href = checkoutResponse.checkoutUrl
+      }
     } catch (err) {
       dispatch(errorSnackbar('Profile failed to save. Please try again.'))
-      setPrimaryIsLoading(false)
-    }
-
-    const checkoutResponse = await createCheckout()
-    if (checkoutResponse.error && !checkoutResponse.checkoutUrl) {
-      dispatch(errorSnackbar(checkoutResponse.error))
-      setPrimaryIsLoading(false)
-      return
-    }
-
-    const userExperience =
-      authUser.projects.projects.length === 0 ? 'waitlist' : 'recurring'
-    const updatedUserExperience = await updatePaymentExperience(authUser._id, {
-      experience: userExperience,
-    })
-
-    if (updatedUserExperience.error) {
-      dispatch(errorSnackbar('Error setting project experience.'))
-      setPrimaryIsLoading(false)
-      return
-    } else {
-      dispatch(updateUserExperience(updatedUserExperience))
-      window.location.href = checkoutResponse.checkoutUrl
+    } finally {
       setPrimaryIsLoading(false)
     }
   }
