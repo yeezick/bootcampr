@@ -99,7 +99,10 @@ export const fetchThreads = createAsyncThunk<
       const updatedMembers = selectMembersMap(getState())
 
       const threadsMap = threads.map((thread: ChatInterface) => {
-        const lastMessageMap = mapMessageSender(thread.lastMessage, members)
+        const lastMessageMap = mapMessageSender(
+          thread.lastMessage,
+          updatedMembers
+        )
         const participantsMap = mapParticipantsWithMemberDetails(
           thread,
           updatedMembers

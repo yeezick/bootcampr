@@ -6,7 +6,9 @@ import { isEmptyString } from 'utils/helpers/inputUtils'
 import {
   buildTicketPayload,
   closeVisibleTicketDialog,
+  isSandboxId,
 } from 'utils/helpers/taskHelpers'
+import { createTicketEvent } from 'utils/redux/actions/socketActions'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
   addTicketToStatus,
@@ -33,7 +35,11 @@ export const CreateTicketBtn = () => {
     if (ticketResponse.error) {
       dispatch(errorSnackbar('Something went wrong creating your story.'))
     } else {
-      dispatch(addTicketToStatus(ticketResponse))
+      const userTicketAction = isSandboxId(projectId)
+        ? addTicketToStatus(ticketResponse)
+        : createTicketEvent({ createdTicketInfo: ticketResponse, projectId })
+
+      dispatch(userTicketAction)
       dispatch(resetTicketFields({}))
       dispatch(successSnackbar('Story created!'))
       closeVisibleTicketDialog(dispatch)

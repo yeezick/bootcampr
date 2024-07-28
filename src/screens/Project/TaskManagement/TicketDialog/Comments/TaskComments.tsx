@@ -4,12 +4,15 @@ import { NewComment } from './NewComment'
 import { Comment } from './Comment'
 import { getTicketComments } from 'utils/api/comments'
 import { useAppSelector } from 'utils/redux/hooks'
-import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
+import {
+  selectFetchComments,
+  selectTicketFields,
+} from 'utils/redux/slices/taskBoardSlice'
 
 export const TaskComments = () => {
   const { _id: ticketId } = useAppSelector(selectTicketFields)
+  const fetchComments = useAppSelector(selectFetchComments)
   const [comments, setComments] = useState([])
-  const [fetchComments, toggleFetchComments] = useState(false)
 
   useEffect(() => {
     const getComments = async () => {
@@ -22,18 +25,10 @@ export const TaskComments = () => {
   return (
     <div className='comments-container'>
       <TicketTextLabel icon={'chatBubble'} label='Comments' />
-      <NewComment
-        toggleFetchComments={toggleFetchComments}
-        fetchComments={fetchComments}
-      />
+      <NewComment />
       <div>
         {comments?.map(comment => (
-          <Comment
-            comment={comment}
-            toggleFetchComments={toggleFetchComments}
-            fetchComments={fetchComments}
-            key={comment._id}
-          />
+          <Comment comment={comment} key={comment._id} />
         ))}
       </div>
     </div>
