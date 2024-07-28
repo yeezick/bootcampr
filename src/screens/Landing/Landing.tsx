@@ -13,7 +13,7 @@ export const Landing: React.FC = () => {
 
   useEffect(() => {
     if (env !== 'local') {
-      window.location.replace('https://landing.bootcampr.io/')
+      window.location.replace('https://landing.collabify.ai/')
     }
   }, [env])
 

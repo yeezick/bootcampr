@@ -30,7 +30,7 @@ export const WhatsNext = () => {
   const isRecurringUser = useAppSelector(selectIsRecurringUser)
   const bannerHeader = isRecurringUser
     ? "You're ready for your next project!"
-    : "You're a Bootcampr now!"
+    : "You're a Collabify now!"
 
   useEffect(() => {
     const checkUserPayment = async () => {
@@ -108,7 +108,7 @@ export const WhatsNext = () => {
         <div className='whats-next'>
           <h2> What's next?</h2>
           <p>
-            Bootcampr is now working to match you to a team. After your team of
+            Collabify is now working to match you to a team. After your team of
             3 SWEs and 2 UXDs, and 1 PM is complete, we'll send an email with
             the date and time of your project kickoff meeting. (Approximately 1
             - 2 weeks from today)

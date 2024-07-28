@@ -34,7 +34,7 @@ export const MobileGate = () => {
 
       <img />
       <PrimaryButton
-        label="Visit Bootcampr's homepage"
+        label="Visit Collabify's homepage"
         onClick={handleRouteToLanding}
       />
     </div>

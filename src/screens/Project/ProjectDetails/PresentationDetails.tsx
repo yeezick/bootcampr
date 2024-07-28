@@ -67,7 +67,7 @@ export const PresentationDetails = () => {
         <h2>Why present your project?</h2>
         <ul>
           <li>
-            Hone your presentation skills in front of the Bootcampr product
+            Hone your presentation skills in front of the Collabify product
             team.
           </li>
           <li>

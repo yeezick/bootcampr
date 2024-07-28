@@ -63,7 +63,7 @@ const SandboxCard = () => {
           <p className='purpose'>Try the tools</p>
         </div>
         <p className='description'>
-          Not quite ready to join a team? Try the tools provided by Bootcampr in
+          Not quite ready to join a team? Try the tools provided by Collabify in
           the Project Portal.
         </p>
       </div>

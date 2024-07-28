@@ -63,9 +63,9 @@ export const ChatsList = ({ handleConversationClick }) => {
       <EmptyChatPage
         screen='NoConversations'
         className='no-result'
-        text='Join the Bootcampr community while you wait to get matched to a team.'
+        text='Join the Collabify community while you wait to get matched to a team.'
         handler={{
-          text: 'Join the Bootcampr community',
+          text: 'Join the Collabify community',
           function: handleJoinDiscord,
         }}
       />

@@ -97,7 +97,7 @@ export const signIn = async (credentials: any) => {
       return { message: res.data.message }
     }
     const { token, user } = res.data
-    localStorage.setItem('bootcamprAuthToken', token)
+    localStorage.setItem('collabifyAuthToken', token)
     return user
   } catch (error) {
     throw error
@@ -106,16 +106,16 @@ export const signIn = async (credentials: any) => {
 
 export const logOut = async () => {
   try {
-    localStorage.removeItem('bootcamprAuthToken')
+    localStorage.removeItem('collabifyAuthToken')
   } catch (error) {
     throw error
   }
 }
 
 export const verify = async () => {
-  const bootcamprAuthToken = localStorage.getItem('bootcamprAuthToken')
+  const collabifyAuthToken = localStorage.getItem('collabifyAuthToken')
   try {
-    if (bootcamprAuthToken) {
+    if (collabifyAuthToken) {
       const { data: payload } = await api.get('/verify')
       const { data: user } = await api.get(`/users/${payload.userID}`)
       return user

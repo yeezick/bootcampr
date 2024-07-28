@@ -61,7 +61,7 @@ const SandboxBanner = () => {
     <>
       <img src={bannerImg} />
       <div className='content'>
-        <h2>Bootcampr Sandbox</h2>
+        <h2>Collabify Sandbox</h2>
         <p>
           Feel free to explore the platform and try the features. Join an agile
           team when you're ready!
@@ -105,7 +105,7 @@ const WaitlistBanner = () => {
         <WaitlistPageInfo />
       </div>
       <PrimaryButton
-        label={paid ? 'Join the Bootcampr community' : 'Complete onboarding'}
+        label={paid ? 'Join the Collabify community' : 'Complete onboarding'}
         onClick={paid ? handleJoinDiscord : handleCompleteOnboarding}
         style={{ marginRight: '32px' }}
       />

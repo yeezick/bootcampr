@@ -79,7 +79,7 @@ export const Nav = () => {
   const landingPage =
     process.env.REACT_APP_API_ENV === 'local'
       ? '/'
-      : 'https://landing.bootcampr.io/'
+      : 'https://landing.collabify.ai/'
 
   return (
     <nav>
@@ -104,21 +104,21 @@ export const Nav = () => {
             )}
             <a
               className={`header-link ${isActiveLink('contact-us')}`}
-              href='https://landing.bootcampr.io/contactus'
+              href='https://landing.collabify.ai/contactus'
               target='_blank'
             >
               Contact Us
             </a>
             <a
               className={`header-link ${isActiveLink('community')}`}
-              href='https://landing.bootcampr.io/community'
+              href='https://landing.collabify.ai/community'
               target='_blank'
             >
               Community
             </a>
             <a
               className={`header-link ${isActiveLink('enterprise')}`}
-              href='https://landing.bootcampr.io/enterprise'
+              href='https://landing.collabify.ai/enterprise'
               target='_blank'
             >
               Enterprise
