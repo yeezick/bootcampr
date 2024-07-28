@@ -1,31 +1,15 @@
 import { Comment } from './Comment'
 import { NewComment } from './NewComment'
 
-export const Replies = ({
-  parentComment,
-  toggleFetchComments,
-  fetchComments,
-}) => {
+export const Replies = ({ parentComment }) => {
   const { replies, _id: parentCommentId } = parentComment
 
   return (
     <div className='replies-container'>
       {replies.map(reply => {
-        return (
-          <Comment
-            comment={reply}
-            fetchComments={fetchComments}
-            isReply={true}
-            key={reply._id}
-            toggleFetchComments={toggleFetchComments}
-          />
-        )
+        return <Comment comment={reply} isReply={true} key={reply._id} />
       })}
-      <NewComment
-        parentCommentId={parentCommentId}
-        toggleFetchComments={toggleFetchComments}
-        fetchComments={fetchComments}
-      />
+      <NewComment parentCommentId={parentCommentId} />
     </div>
   )
 }

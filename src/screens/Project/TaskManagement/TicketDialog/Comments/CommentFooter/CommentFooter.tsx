@@ -4,13 +4,7 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { selectHasConflictedTicket } from 'utils/redux/slices/taskBoardSlice'
 import { selectProjectCompleted } from 'utils/redux/slices/projectSlice'
 
-export const CommentFooter = ({
-  comment,
-  toggleFetchComments,
-  fetchComments,
-  toggleEditMode,
-}) => {
-  const { authorId, likes, _id: commentId } = comment
+export const CommentFooter = ({ comment, toggleEditMode }) => {
   const hasConflictedTicket = useAppSelector(selectHasConflictedTicket)
   const projectCompleted = useAppSelector(selectProjectCompleted)
 
@@ -18,14 +12,11 @@ export const CommentFooter = ({
     <div className='comment-actions'>
       <LikeButton
         comment={comment}
-        fetchComments={fetchComments}
-        toggleFetchComments={toggleFetchComments}
         isDisabled={hasConflictedTicket || projectCompleted}
       />
       <AuthorActions
         comment={comment}
         toggleEditMode={toggleEditMode}
-        toggleFetchComments={toggleFetchComments}
         isDisabled={hasConflictedTicket || projectCompleted}
       />
     </div>
