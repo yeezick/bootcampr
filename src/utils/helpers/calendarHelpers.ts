@@ -211,6 +211,20 @@ export const updateDateInTimeSelections = (newDate, timeIso) => {
   return finalDayjs.toISOString()
 }
 
+export const getProjectDateRanges = (
+  projectStartDate,
+  projectEndDate,
+  today
+) => {
+  const projectNotStarted = today.isBefore(projectStartDate)
+  const projectEnded = today.isAfter(projectEndDate)
+  const projectActive =
+    today.isSameOrAfter(projectStartDate) &&
+    today.isSameOrBefore(projectEndDate)
+
+  return { projectNotStarted, projectEnded, projectActive }
+}
+
 export const updateWeekNumber = (sundayDate, firstDay, setWeekNumber) => {
   const secondWeekSunday = dayjs(firstDay).add(7, 'day').format('YYYY-MM-DD')
   const thirdWeekSunday = dayjs(secondWeekSunday)
