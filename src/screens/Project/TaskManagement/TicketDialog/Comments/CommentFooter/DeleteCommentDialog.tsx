@@ -5,16 +5,11 @@ import { useState } from 'react'
 import { deleteComment } from 'utils/api/comments'
 import { deleteReply } from 'utils/api/replies'
 import { errorSnackbar } from 'utils/helpers/commentHelpers'
+import { deleteCommentEvent } from 'utils/redux/actions/socketActions'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
-import { deleteCommentFromTicket } from 'utils/redux/slices/projectSlice'
 import { selectTicketFields } from 'utils/redux/slices/taskBoardSlice'
 
-export const DeleteCommentDialog = ({
-  comment,
-  open,
-  toggleDeleteDialog,
-  toggleFetchComments,
-}) => {
+export const DeleteCommentDialog = ({ comment, open, toggleDeleteDialog }) => {
   const { _id: commentId } = comment
   const { _id: ticketId, status: ticketStatus } =
     useAppSelector(selectTicketFields)
@@ -37,12 +32,12 @@ export const DeleteCommentDialog = ({
       dispatch(errorSnackbar(deleteResponse.message))
       return
     }
-
-    if (!isReply) {
-      dispatch(deleteCommentFromTicket({ commentId, ticketId, ticketStatus }))
-    }
-
-    toggleFetchComments(state => !state)
+    dispatch(
+      deleteCommentEvent({
+        isReply,
+        comment: { commentId, ticketId, ticketStatus },
+      })
+    )
     toggleDeleteDialog(false)
     setIsLoading(false)
   }

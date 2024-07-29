@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import { UserDetails } from '../UserDetails/UserDetails'
 import './EditChatRoom.scss'
@@ -36,13 +37,21 @@ export const EditChatRoom = () => {
         <div className='members-list'>
           {sortedParticipants.map(pp => (
             <div className='member' key={pp.userInfo._id}>
-              <UserDetails
+              <Link
+                className='user-profile'
                 key={pp.userInfo._id}
-                title={`${pp.userInfo.firstName} ${pp.userInfo.lastName}`}
-                description={pp.userInfo.role}
-                avatarSize='x-small'
-                userInfo={pp.userInfo}
-              />
+                to={`users/${pp.userInfo._id}`}
+                target='_blank'
+                rel='noopener'
+              >
+                <UserDetails
+                  key={pp.userInfo._id}
+                  title={`${pp.userInfo.firstName} ${pp.userInfo.lastName}`}
+                  description={pp.userInfo.role}
+                  avatarSize='x-small'
+                  userInfo={pp.userInfo}
+                />
+              </Link>
             </div>
           ))}
         </div>

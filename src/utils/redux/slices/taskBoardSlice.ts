@@ -70,6 +70,9 @@ const taskBoardSlice = createSlice({
       state.conflictedTicket.ticket = ticket
       state.conflictedTicket.dialogState = dialogState
     },
+    toggleFetchComments: state => {
+      state.fetchComments = !state.fetchComments
+    },
   },
 })
 
@@ -91,6 +94,8 @@ export const selectVisibleTicketDialog = (state: RootState) =>
   state.taskBoard.visibleTicketDialog
 export const selectVisibleTickets = (state: RootState) =>
   state.taskBoard.visibleTickets
+export const selectFetchComments = (state: RootState) =>
+  state.taskBoard.fetchComments
 
 export const {
   resetTicketFields,
@@ -100,5 +105,6 @@ export const {
   setVisibleTickets,
   setVisibleTicketDialog,
   setConflictTicket,
+  toggleFetchComments,
 } = taskBoardSlice.actions
 export default taskBoardSlice.reducer
