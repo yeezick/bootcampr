@@ -18,6 +18,7 @@ import {
   parseCalendarEventForMeetingInfo,
   updateWeekDayNumber,
   updateWeekNumber,
+  blankDayJs,
 } from 'utils/helpers/calendarHelpers'
 import { useAppDispatch, useAppSelector } from 'utils/redux/hooks'
 import {
@@ -128,7 +129,7 @@ export const CalendarView = () => {
     const calendarApi = calendarRef.current?.getApi()
     if (!calendarApi) return
 
-    const today = dayjs()
+    const today = blankDayJs()
     const projectStartDate = generateDayJs(firstDay)
     const projectEndDate = generateDayJs(lastDay)
 
