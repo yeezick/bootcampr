@@ -10,12 +10,7 @@ import { generateDefaultPicture } from 'utils/helpers'
 import { Replies } from './Replies'
 import { CommentProps } from 'interfaces/Comments'
 
-export const Comment = ({
-  comment,
-  fetchComments,
-  isReply,
-  toggleFetchComments,
-}: CommentProps) => {
+export const Comment = ({ comment, isReply }: CommentProps) => {
   const { authorId, createdAt } = comment
   const [authorData] = useAppSelector(selectUsersById([authorId]))
   const [editMode, toggleEditMode] = useState(false)
@@ -28,31 +23,16 @@ export const Comment = ({
       <div className='comment-container'>
         <img className='comment-thumbnail' src={authorProfilePicture} />
         {editMode ? (
-          <EditComment
-            comment={comment}
-            toggleEditMode={toggleEditMode}
-            toggleFetchComments={toggleFetchComments}
-          />
+          <EditComment comment={comment} toggleEditMode={toggleEditMode} />
         ) : (
           <div className='comment-card'>
             <CommentHeader authorId={authorId} createdAt={createdAt} />
             <CommentContent comment={comment} />
-            <CommentFooter
-              comment={comment}
-              fetchComments={fetchComments}
-              toggleEditMode={toggleEditMode}
-              toggleFetchComments={toggleFetchComments}
-            />
+            <CommentFooter comment={comment} toggleEditMode={toggleEditMode} />
           </div>
         )}
       </div>
-      {!isReply && (
-        <Replies
-          parentComment={comment}
-          toggleFetchComments={toggleFetchComments}
-          fetchComments={fetchComments}
-        />
-      )}
+      {!isReply && <Replies parentComment={comment} />}
     </>
   )
 }

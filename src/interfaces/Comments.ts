@@ -1,8 +1,8 @@
+import { UserInterface } from './UserInterface'
+
 export interface CommentProps {
   comment: CommentInterface
-  fetchComments: boolean
   isReply?: boolean
-  toggleFetchComments: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface CommentInterface {
@@ -11,6 +11,12 @@ export interface CommentInterface {
   content: string
   likes: string[]
   replies: ReplyInterface[]
+}
+
+export interface CommentSocketStateInterface {
+  userId: string
+  members: UserInterface[]
+  currentProjectId: string
 }
 
 export interface ReplyInterface {
@@ -25,7 +31,5 @@ export interface ReplyInterface {
   __v: number
 }
 export interface NewCommentProps {
-  fetchComments: boolean
   parentCommentId?: string
-  toggleFetchComments: React.Dispatch<React.SetStateAction<boolean>>
 }
