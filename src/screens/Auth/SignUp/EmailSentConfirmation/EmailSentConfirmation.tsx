@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import './EmailSentConfirmation.scss'
 import { useNavigate } from 'react-router-dom'
 import { isMobileWidth } from 'utils/helpers'
 import { PrimaryButton } from 'components/Buttons'
 import { UpdateEmailAddressLink } from '../../../../components/UpdateEmailAddressLink/UpdateEmailAddressLink'
+import './EmailSentConfirmation.scss'
 
 export const EmailSentConfirmation: React.FC = () => {
   const [email, setEmail] = useState(() => {
@@ -32,17 +32,14 @@ export const EmailSentConfirmation: React.FC = () => {
 const DesktopEmailSentConfirmation = ({ email, setEmail }) => {
   return (
     <div className='email-confirmation-container'>
-      <p className='message-content header'>
-        Congrats! You've taken the first step.
-      </p>
       <p className='message-content subheader'>
         We sent a confirmation email to <span>{email}</span>.
       </p>
       <div className='message-content text'>
-        <p>It may be in your junk or spam folder.</p>
+        <strong>Confirm your email address to log in</strong>
       </div>
-      <div className='message-content confirm'>
-        <p>Confirm your email address to log in.</p>
+      <div className='message-content text'>
+        <p>It may be in your junk or spam folder.</p>
       </div>
       <div className='message-content update-email'>
         <UpdateEmailAddressLink setEmail={setEmail} />

@@ -84,6 +84,7 @@ export const emptySignUp: SignUpInterface = {
   firstName: '',
   lastName: '',
   password: '',
+  role: '',
 }
 
 export const emptyPasswordData: PasswordFormData = {

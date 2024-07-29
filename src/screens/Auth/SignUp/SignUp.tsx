@@ -8,11 +8,10 @@ import { SignUpInterface } from 'interfaces/UserInterface'
 import { PasswordErrors } from 'interfaces/components/Input'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { emptySignUp } from 'utils/data/userConstants'
-import { Email, Text, PasswordInputs } from 'components/Inputs'
-import './SignUp.scss'
+import { Email, Text, PasswordInputs, RoleInput } from 'components/Inputs'
 import { Checkbox, FormControlLabel } from '@mui/material'
-import signup from '../../../assets/Images/signup.png'
 import { PrimaryButton } from 'components/Buttons'
+import './SignUp.scss'
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate()
@@ -41,33 +40,20 @@ export const SignUp: React.FC = () => {
 
   useEffect(() => {
     const validateForm = () => {
-      const { confirmPassword, password } = formValues
-      const emptyForm = Object.values(formValues).some(value => value === '')
+      const emptyPassword = password === ''
       const passwordHasErrors = Object.values(passwordErrors).some(error =>
         ['neutral', 'criteria-not-met'].includes(error)
       )
-      const passwordsMatch = () => {
-        if (confirmPassword === '' || password === '' || passwordHasErrors) {
-          return false
-        } else if (confirmPassword !== password) {
-          return false
-        }
-        return true
-      }
+      const validPassword = emptyPassword || passwordHasErrors ? false : true
 
-      if (
-        emptyForm === false &&
-        isAccepted &&
-        passwordsMatch() &&
-        isValidEmail
-      ) {
+      if (!emptyPassword && isAccepted && validPassword && isValidEmail) {
         return setDisabledForm(false)
       } else {
         return setDisabledForm(true)
       }
     }
     validateForm()
-  }, [formValues, isAccepted, passwordErrors, isValidEmail])
+  }, [isAccepted, passwordErrors, isValidEmail])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -114,6 +100,8 @@ export const SignUp: React.FC = () => {
     }
   }
 
+  //TODO: Figure out why Role value isnt updating the database, could be backend needs to be updated!
+
   return (
     <div className='signup-screen'>
       {alertBanner.status && (
@@ -122,19 +110,10 @@ export const SignUp: React.FC = () => {
           <p>{alertBanner.text}</p>
         </div>
       )}
-
       <div className='signup-header'>
         <h1>Join Bootcampr today.</h1>
-        <h2>Get the experience. Get the job.</h2>
       </div>
       <div className='signup-banner'>
-        <div>
-          <img
-            src={signup}
-            alt='A person smiles while working on a laptop at a coffee shop'
-          />
-        </div>
-
         <div className='signup-container'>
           <form className='signup-form' autoComplete='off'>
             <Text
@@ -148,6 +127,13 @@ export const SignUp: React.FC = () => {
               name='lastName'
               required
               setFormValues={setFormValues}
+            />
+            <RoleInput
+              label='Role'
+              name='role'
+              required
+              setFormValues={setFormValues}
+              formValues={formValues}
             />
             <Email
               setFormValues={setFormValues}
@@ -228,6 +214,7 @@ const TermsLink = () => {
     <a
       href='https://docs.google.com/document/d/1Mhl_-ON-qayHKilEKCWKZ8xQBi8JLR9U5Mi_0dWLh8c/edit?usp=sharing'
       target='_blank'
+      rel='noreferrer'
     >
       I have read the terms and conditions.
     </a>

@@ -110,6 +110,7 @@ export interface SignUpInterface {
   firstName: string
   lastName: string
   password: string
+  role: 'Software Engineer' | 'UX Designer' | 'Product Manager' | ''
 }
 
 export interface SignInInterface {
