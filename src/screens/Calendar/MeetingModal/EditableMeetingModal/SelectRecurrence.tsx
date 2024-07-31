@@ -67,7 +67,7 @@ export const SelectRecurrence = ({ onRecurrenceChange, date }) => {
     fetchRecurrences()
 
     // Match RRULE to an option
-    if (displayedEvent.rrule) {
+    if (displayedEvent && displayedEvent.rrule) {
       const matchedOption = matchRRuleToOption(displayedEvent.rrule)
       dispatch(setRecurrence(matchedOption))
     } else {
