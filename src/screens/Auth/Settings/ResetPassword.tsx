@@ -35,8 +35,8 @@ export const ResetPassword = () => {
 
   useEffect(() => {
     const verifyValidToken = async () => {
-      if (!localStorage.getItem('bootcamprAuthToken') && token) {
-        localStorage.setItem('bootcamprAuthToken', token)
+      if (!localStorage.getItem('collabifyAuthToken') && token) {
+        localStorage.setItem('collabifyAuthToken', token)
       }
 
       const user = await verify()

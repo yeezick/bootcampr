@@ -40,7 +40,7 @@ export const WhatsNextPage = () => {
           ) : (
             <p>
               It was a pleasure having you and your teammates try out our soft
-              launch Bootcampr product! We’ll be releasing our official product
+              launch Collabify product! We’ll be releasing our official product
               soon with more prompts for you to try. So, we are hoping we get to
               see you again in the future!
             </p>
@@ -50,7 +50,7 @@ export const WhatsNextPage = () => {
           <h2>In the meantime...</h2>
           <p>
             We love feedback! Please answer a short survey about your experience
-            with Bootcampr. We’ll send the survey to your team members, too.
+            with Collabify. We’ll send the survey to your team members, too.
             <br />
             <br />
             Upon completion, we’ll send you a certificate of completion by email

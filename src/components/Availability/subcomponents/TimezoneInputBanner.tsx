@@ -3,8 +3,8 @@ import { ExpandMoreRounded } from '@mui/icons-material'
 import { Timezones } from '../utils/data'
 import { setUserTimezone } from 'utils/redux/slices/userSlice'
 import { useDispatch } from 'react-redux'
-import { bootcamprTimezoneToUTCMap } from 'utils/data/timeZoneConstants'
-import { utcToBootcamprTimezoneMap } from 'utils/data/timeZoneConstants'
+import { collabifyTimezoneToUTCMap } from 'utils/data/timeZoneConstants'
+import { utcToCollabifyTimezoneMap } from 'utils/data/timeZoneConstants'
 import { guessUserTimezone } from 'utils/helpers/availabilityHelpers'
 import { useEffect, useState } from 'react'
 import { useAppSelector } from 'utils/redux/hooks'
@@ -20,7 +20,7 @@ export const TimeZoneInputBanner = ({ context }) => {
     let timezone
 
     if (storedUserTimezone) {
-      timezone = utcToBootcamprTimezoneMap[storedUserTimezone]
+      timezone = utcToCollabifyTimezoneMap[storedUserTimezone]
       setUserFriendlyTimezone(timezone)
     } else if (guessedUserTimezone) {
       timezone = guessedUserTimezone.userFriendly
@@ -31,7 +31,7 @@ export const TimeZoneInputBanner = ({ context }) => {
 
   const handleChange = e => {
     const timezoneValue = e.target.value
-    const userTZinUTC = bootcamprTimezoneToUTCMap[timezoneValue]
+    const userTZinUTC = collabifyTimezoneToUTCMap[timezoneValue]
 
     setUserFriendlyTimezone(timezoneValue)
     dispatch(setUserTimezone(userTZinUTC))
