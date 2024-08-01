@@ -105,7 +105,7 @@ const WaitlistBanner = () => {
         <WaitlistPageInfo />
       </div>
       <PrimaryButton
-        label={paid ? 'Join the Collabify community' : 'Complete onboarding'}
+        label={paid ? 'Join The Collabify community' : 'Complete onboarding'}
         onClick={paid ? handleJoinDiscord : handleCompleteOnboarding}
         style={{ marginRight: '32px' }}
       />

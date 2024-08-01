@@ -30,7 +30,7 @@ export const WhatsNext = () => {
   const isRecurringUser = useAppSelector(selectIsRecurringUser)
   const bannerHeader = isRecurringUser
     ? "You're ready for your next project!"
-    : "You're a Collabify now!"
+    : "You're ready to Collabify!"
 
   useEffect(() => {
     const checkUserPayment = async () => {
