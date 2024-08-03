@@ -1,5 +1,6 @@
 import { ProjectTrackerInterface } from './ProjectInterface'
 import { TicketInterface } from './TicketInterFace'
+import { UserInterface } from './UserInterface'
 
 /* Reducers */
 export interface SetVisibleTicketDialogReducer {
@@ -27,10 +28,20 @@ export interface TaskBoardInterface {
     ticket: TicketInterface
     dialogState: '' | 'delete' | 'edit'
   }
+  fetchComments: boolean
 }
 
 export type TicketDialogState = '' | 'create' | 'edit'
 
 export interface TicketFieldsInterface extends TicketInterface {
   oldStatus?: string
+}
+
+export interface TaskBoardSocketStateInterface {
+  userId: string
+  visibleTicketDialog: boolean
+  projectTracker: ProjectTrackerInterface
+  members: UserInterface[]
+  currentTicketFields: TicketFieldsInterface
+  currentProjectId: string
 }

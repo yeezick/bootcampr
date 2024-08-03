@@ -5,12 +5,7 @@ import { useAppSelector } from 'utils/redux/hooks'
 import { selectUserId } from 'utils/redux/slices/userSlice'
 import { DeleteCommentDialog } from './DeleteCommentDialog'
 
-export const AuthorActions = ({
-  comment,
-  toggleEditMode,
-  toggleFetchComments,
-  isDisabled,
-}) => {
+export const AuthorActions = ({ comment, toggleEditMode, isDisabled }) => {
   const { authorId, _id: commentId } = comment
   const [deleteDialog, toggleDeleteDialog] = useState(false)
   const userId = useAppSelector(selectUserId)
@@ -35,7 +30,6 @@ export const AuthorActions = ({
           comment={comment}
           open={deleteDialog}
           toggleDeleteDialog={toggleDeleteDialog}
-          toggleFetchComments={toggleFetchComments}
         />
       </div>
     )

@@ -17,8 +17,8 @@ export const EmailVerify = () => {
     const verifyEmail = async () => {
       try {
         const { data } = await api.get(`/${userId}/verify/${emailToken}`)
-        const { bootcamprNewToken, user } = data
-        localStorage.setItem('bootcamprAuthToken', bootcamprNewToken)
+        const { collabifyNewToken, user } = data
+        localStorage.setItem('collabifyAuthToken', collabifyNewToken)
 
         if (data.isExpired) {
           const encodedEmail = pathInfo.search.slice(1)

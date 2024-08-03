@@ -1,7 +1,7 @@
 import * as dayjs from 'dayjs'
 import {
   dayJSformattedTZdata,
-  utcToBootcamprTimezoneMap,
+  utcToCollabifyTimezoneMap,
 } from 'utils/data/timeZoneConstants'
 
 /**
@@ -23,7 +23,7 @@ export const guessUserTimezone = () => {
     dayJSformattedTZdata[userTZ].utc
   ) {
     const utc = dayJSformattedTZdata[userTZ].utc
-    const userFriendly = utcToBootcamprTimezoneMap[utc]
+    const userFriendly = utcToCollabifyTimezoneMap[utc]
 
     return {
       utc,

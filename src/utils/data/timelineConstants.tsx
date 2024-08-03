@@ -4,7 +4,7 @@ export const timelineData = [
     title: 'Kickoff Meeting',
     description: (
       <div>
-        <p>Welcome to Bootcampr! Meet your team and plan your project.</p>
+        <p>Welcome to Collabify! Meet your team and plan your project.</p>
       </div>
     ),
   },

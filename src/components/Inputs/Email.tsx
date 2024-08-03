@@ -7,7 +7,7 @@ export const Email = ({ setFormValues, setIsValidEmail }) => {
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const inputId = 'email'
-  const sampleEmail = ' (ex. uxdesigner@bootcampr.io)'
+  const sampleEmail = ' (ex. uxdesigner@collabify.ai)'
 
   const validateEmail = async e => {
     const email = e.target.value.trim()
