@@ -9,10 +9,10 @@ import { PasswordErrors } from 'interfaces/components/Input'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { emptySignUp } from 'utils/data/userConstants'
 import { Email, Text, PasswordInputs } from 'components/Inputs'
-import './SignUp.scss'
 import { Checkbox, FormControlLabel } from '@mui/material'
-import signup from '../../../assets/Images/signup.png'
 import { PrimaryButton } from 'components/Buttons'
+import signup from '../../../assets/Images/signup.png'
+import './SignUp.scss'
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate()
@@ -151,7 +151,7 @@ export const SignUp: React.FC = () => {
             />
             <Email
               setFormValues={setFormValues}
-              setIsValidEmail={setIsValidEmail}
+              onValidationChange={setIsValidEmail}
             />
             <PasswordInputs
               formValues={formValues}

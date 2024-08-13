@@ -1,20 +1,20 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FormControl, FormHelperText } from '@mui/material'
 import { handleFormInputChange } from 'utils/helpers/stateHelpers'
 import { verifyEmail } from 'utils/api'
 
-export const Email = ({ setFormValues, setIsValidEmail }) => {
+export const Email = ({ setFormValues, onValidationChange }) => {
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [email, setEmail] = useState('')
   const inputId = 'email'
-  const sampleEmail = ' (ex. uxdesigner@bootcampr.io)'
+  const sampleEmail = ' (ex. uxdesigner@collabify.ai)'
 
-  const validateEmail = async e => {
-    const email = e.target.value.trim()
-
+  const validateEmail = async (email: string) => {
     if (email === '') {
       setError(true)
       setErrorMessage('This field is required')
+      onValidationChange(false)
       return
     }
 
@@ -23,22 +23,32 @@ export const Email = ({ setFormValues, setIsValidEmail }) => {
     if (status >= 400) {
       setError(true)
       setErrorMessage(message)
-      setIsValidEmail(false)
+      onValidationChange(false)
     } else if (status === 200) {
       setError(false)
       setErrorMessage('')
-      setIsValidEmail(true)
+      onValidationChange(true)
     }
   }
 
-  const handleEmailChange = e => {
-    const email = e.target.value.trim()
-    if (email.length) {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    validateEmail(e.target.value.trim())
+  }
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.trim()
+    setEmail(value)
+    handleFormInputChange(e, setFormValues)
+    if (value.length) {
       setError(false)
     }
-
-    handleFormInputChange(e, setFormValues)
   }
+
+  useEffect(() => {
+    if (email.length > 0) {
+      validateEmail(email)
+    }
+  }, [email])
 
   return (
     <div className='email'>
@@ -52,8 +62,9 @@ export const Email = ({ setFormValues, setIsValidEmail }) => {
             aria-required
             id={inputId}
             name={inputId}
-            onBlur={validateEmail}
+            onBlur={handleBlur}
             onChange={handleEmailChange}
+            value={email}
             required
             type={inputId}
             style={{
