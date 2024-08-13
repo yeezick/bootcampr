@@ -7,7 +7,7 @@ import { UpdateEmailAddressLink } from '../../../../components/UpdateEmailAddres
 
 export const EmailSentConfirmation: React.FC = () => {
   const [email, setEmail] = useState(() => {
-    const storedUser = JSON.parse(sessionStorage.getItem('bootcamprLocalUser'))
+    const storedUser = JSON.parse(sessionStorage.getItem('collabifyLocalUser'))
     return storedUser ? storedUser.email : ''
   })
   const [isMobile, setIsMobile] = useState(false)
@@ -78,7 +78,7 @@ const MobileEmailSentConfirmation = ({ email, setEmail }) => {
         <img alt='A person smiles from behind a laptop while a rocket launches in the background' />
       </div>
       <PrimaryButton
-        label="Visit Bootcampr's homepage'"
+        label="Visit Collabify's homepage'"
         onClick={handleRouteToHomepage}
       />
     </div>

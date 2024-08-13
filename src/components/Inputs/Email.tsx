@@ -10,7 +10,8 @@ export const Email = ({ setFormValues, onValidationChange }) => {
   const inputId = 'email'
   const sampleEmail = ' (ex. uxdesigner@collabify.ai)'
 
-  const validateEmail = async (email: string) => {
+  const validateEmail = async e => {
+    const email = e.target.value.trim()
     if (email === '') {
       setError(true)
       setErrorMessage('This field is required')

@@ -1,5 +1,5 @@
 /**
- * User friendly timezone strings defined by Bootcampr UX team
+ * User friendly timezone strings defined by Collabify UX team
  */
 export enum UserFriendlyTimezones {
   'Newfoundland Time (NT)',
@@ -27,9 +27,9 @@ export enum TimezonesUTC {
 }
 
 /**
- * Mapping of standard UTC timezone to Bootcampr defined user friendly strings
+ * Mapping of standard UTC timezone to Collabify defined user friendly strings
  */
-export const utcToBootcamprTimezoneMap = {
+export const utcToCollabifyTimezoneMap = {
   '-10:00': 'Hawaii-Aleutian Time (HT)',
   '-09:00': 'Alaska Time (AKT)',
   '-08:00': 'Pacific Time (PT)',
@@ -41,9 +41,9 @@ export const utcToBootcamprTimezoneMap = {
 }
 
 /**
- * Mapping of Bootcampr defined user friendly timezone strings to UTC standard
+ * Mapping of Collabify defined user friendly timezone strings to UTC standard
  */
-export const bootcamprTimezoneToUTCMap = {
+export const collabifyTimezoneToUTCMap = {
   'Hawaii-Aleutian Time (HT)': '-10:00',
   'Alaska Time (AKT)': '-09:00',
   'Pacific Time (PT)': '-08:00',

@@ -45,7 +45,7 @@ export const AuthWrapper = ({ children }) => {
     const verifyAndNavigateUser = async () => {
       dispatch(setAuthUserLoading(true))
       try {
-        const token = localStorage.getItem('bootcamprAuthToken')
+        const token = localStorage.getItem('collabifyAuthToken')
         //to syncronize and get user info again after refreshing the page
         if (token && !authUser?._id) {
           const verifiedAuthUser = await verify()

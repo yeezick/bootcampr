@@ -6,7 +6,7 @@ import { selectAuthUser } from 'utils/redux/slices/userSlice'
 
 export const UpdateEmailAddressLink = ({ setEmail }) => {
   const authUser = useAppSelector(selectAuthUser)
-  const localUser = JSON.parse(sessionStorage.getItem('bootcamprLocalUser'))
+  const localUser = JSON.parse(sessionStorage.getItem('collabifyLocalUser'))
   const userId = localUser ? localUser.userId : authUser._id
 
   const [newEmail, setNewEmail] = useState<string>('')
@@ -48,7 +48,7 @@ export const UpdateEmailAddressLink = ({ setEmail }) => {
           email: newEmail,
         }
         sessionStorage.setItem(
-          'bootcamprLocalUser',
+          'collabifyLocalUser',
           JSON.stringify(updatedLocalUser)
         )
       }
