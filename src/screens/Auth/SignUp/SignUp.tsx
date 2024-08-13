@@ -40,9 +40,7 @@ export const SignUp: React.FC = () => {
 
   useEffect(() => {
     const validateForm = () => {
-      const emptyForm = Object.entries(formValues)
-        .filter(([key, _value]) => key !== 'confirmPassword') // should confirmPassword be removed from signUp interface and constants to avoid this approach?
-        .some(([_key, value]) => value === '')
+      const emptyForm = Object.values(formValues).some(value => value === '')
       const passwordHasErrors = Object.values(passwordErrors).some(error =>
         ['neutral', 'criteria-not-met'].includes(error)
       )

@@ -105,7 +105,6 @@ export interface UiSliceInterface {
 }
 
 export interface SignUpInterface {
-  confirmPassword: string
   email: string
   firstName: string
   lastName: string
