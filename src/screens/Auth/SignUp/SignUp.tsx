@@ -40,20 +40,21 @@ export const SignUp: React.FC = () => {
 
   useEffect(() => {
     const validateForm = () => {
-      const emptyPassword = password === ''
+      const emptyForm = Object.entries(formValues)
+        .filter(([key, _value]) => key !== 'confirmPassword') // should confirmPassword be removed from signUp interface and constants to avoid this approach?
+        .some(([_key, value]) => value === '')
       const passwordHasErrors = Object.values(passwordErrors).some(error =>
         ['neutral', 'criteria-not-met'].includes(error)
       )
-      const validPassword = emptyPassword || passwordHasErrors ? false : true
 
-      if (!emptyPassword && isAccepted && validPassword && isValidEmail) {
+      if (!emptyForm && isAccepted && !passwordHasErrors && isValidEmail) {
         return setDisabledForm(false)
       } else {
         return setDisabledForm(true)
       }
     }
     validateForm()
-  }, [isAccepted, passwordErrors, isValidEmail])
+  }, [formValues, isAccepted, passwordErrors, isValidEmail])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -99,8 +100,6 @@ export const SignUp: React.FC = () => {
       setIsLoading(false)
     }
   }
-
-  //TODO: Figure out why Role value isnt updating the database, could be backend needs to be updated!
 
   return (
     <div className='signup-screen'>
