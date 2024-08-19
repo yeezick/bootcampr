@@ -2,11 +2,7 @@ import { useState } from 'react'
 import { PasswordInputProps } from 'interfaces/components/Input'
 import { MdCheck } from 'react-icons/md'
 import { RxCross2 } from 'react-icons/rx'
-import {
-  ConfirmNewPassword,
-  CurrentPassword,
-  NewPassword,
-} from './PasswordInputs'
+import { CurrentPassword, NewPassword } from './PasswordInputs'
 
 export const PasswordInputs = (props: PasswordInputProps) => {
   const [passwordMatch, setPasswordMatch] = useState(null)
@@ -23,15 +19,8 @@ export const PasswordInputs = (props: PasswordInputProps) => {
       {passwordInputName === 'settings-pwd-reset' && (
         <CurrentPassword {...propsWithPasswordMatch} name='currentPassword' />
       )}
-      {passwordInputName === 'sign-up' ? (
+      {passwordInputName === 'sign-up' && (
         <NewPassword {...propsWithPasswordMatch} name='password' />
-      ) : (
-        <NewPassword {...propsWithPasswordMatch} name='password' /> && (
-          <ConfirmNewPassword
-            {...propsWithPasswordMatch}
-            name='confirmPassword'
-          />
-        )
       )}
     </div>
   )
