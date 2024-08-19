@@ -17,21 +17,27 @@ export const AccountDropdown = ({ anchorEl, setAnchorEl }) => {
 
   const handleClose = e => {
     setAnchorEl(null)
+  }
+
+  const handleMenuClick = (action: string) => {
+    setAnchorEl(null)
     setLogoutModalIsOpen(false)
 
-    const { innerText } = e.target
-    if (innerText === 'My profile') {
-      window.open(`/users/${userId}`)
-    } else if (innerText === 'Settings') {
-      buildPortal(dispatch, 'settings', userId)
-      navigateToDomain(navigate, `/users/${userId}/settings/email`, 'settings')
-    } else if (innerText === 'Log out') {
+    if (action === 'logout') {
       logOut()
       dispatch(clearStates())
       navigate('/')
+    } else if (action === 'profile') {
+      window.open(`/users/${userId}`)
+    } else if (action === 'settings') {
+      buildPortal(dispatch, 'settings', userId)
+      navigateToDomain(navigate, `/users/${userId}/settings/email`, 'settings')
     }
   }
 
+  const handleLogoutConfirm = () => handleMenuClick('logout')
+  const handleProfileClick = () => handleMenuClick('profile')
+  const handleSettingsClick = () => handleMenuClick('settings')
   const toggleModal = () => setLogoutModalIsOpen(!logoutModalIsOpen)
 
   return (
@@ -55,8 +61,8 @@ export const AccountDropdown = ({ anchorEl, setAnchorEl }) => {
           width: '164px',
         }}
       >
-        <MenuItem onClick={handleClose}>My profile</MenuItem>
-        <MenuItem onClick={handleClose}>Settings</MenuItem>
+        <MenuItem onClick={handleProfileClick}>My profile</MenuItem>
+        <MenuItem onClick={handleSettingsClick}>Settings</MenuItem>
         <MenuItem onClick={toggleModal}>Log out</MenuItem>
       </Menu>
       <CommonModal
@@ -64,7 +70,7 @@ export const AccountDropdown = ({ anchorEl, setAnchorEl }) => {
         heading='Log out?'
         body='You worked hard. Enjoy yourself!'
         handleCancel={toggleModal}
-        handleConfirm={handleClose}
+        handleConfirm={handleLogoutConfirm}
         cancelButtonLabel='Cancel'
         confirmButtonLabel='Log out'
         customWidth={240}
