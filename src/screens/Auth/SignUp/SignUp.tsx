@@ -65,7 +65,7 @@ export const SignUp: React.FC = () => {
         userId: payload.newUser,
         email: formValues.email,
       }
-      sessionStorage.setItem('bootcamprLocalUser', JSON.stringify(localUser))
+      sessionStorage.setItem('collabifyLocalUser', JSON.stringify(localUser))
 
       navigate(`/sign-up/${payload.newUser}/confirmation-email-sent`, {
         replace: true,
@@ -108,7 +108,8 @@ export const SignUp: React.FC = () => {
         </div>
       )}
       <div className='signup-header'>
-        <h1>Join Bootcampr today.</h1>
+        <h1>Join Collabify today.</h1>
+        <h2>Get the experience. Get the job.</h2>
       </div>
       <div className='signup-banner'>
         <div className='signup-container'>
@@ -134,7 +135,7 @@ export const SignUp: React.FC = () => {
             />
             <Email
               setFormValues={setFormValues}
-              setIsValidEmail={setIsValidEmail}
+              onValidationChange={setIsValidEmail}
             />
             <PasswordInputs
               formValues={formValues}

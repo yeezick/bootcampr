@@ -21,11 +21,11 @@ export const MaxUsers = () => {
         </p>
         <img src={maxUsersPng} alt='Max users image' />
         <p className='meantime'>
-          In the meantime, you can enter the Bootcampr sandbox and try the
+          In the meantime, you can enter the Collabify sandbox and try the
           tools.
         </p>
         <PrimaryButton
-          label='Enter Bootcampr Sandbox'
+          label='Enter Collabify Sandbox'
           onClick={handleEnterSandbox}
         />
       </div>

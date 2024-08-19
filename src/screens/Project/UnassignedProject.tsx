@@ -14,7 +14,7 @@ export const UnassignedProject = () => {
       <div className='unassigned'>
         <p>
           You are not assigned to a project yet. In the meantime, familiarize
-          yourself with Bootcampr and get a headstart to being a star applicant!
+          yourself with Collabify and get a headstart to being a star applicant!
         </p>
         <Link to={`/users/${authUser._id}`}>How it works</Link>
         {/* can be replaced by a 'How-To' screen */}

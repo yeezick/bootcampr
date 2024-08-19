@@ -67,7 +67,7 @@ Runs the Cypress E2E suite.
    [collabify-qa](https://github.com/yeezick/collabify-qa), repo is checked out
    on `main`
 1. Runs the Cypress tests suite on the (deployed release
-   branch)[https://dev.bootcampr.io]
+   branch)[https://dev.collabify.ai]
 
 ### Notes
 

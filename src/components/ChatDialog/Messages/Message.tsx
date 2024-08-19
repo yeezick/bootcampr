@@ -4,7 +4,7 @@ import {
   getMessageClassNames,
 } from 'utils/functions/chatLogic'
 import { formatTimestamp } from 'utils/helpers/dateFormatHelpers'
-import adminAvatar from '../../../assets/bootcamprAdmin.svg'
+import adminAvatar from '../../../assets/collabifyAdmin.svg'
 import { selectChat } from 'utils/redux/slices/chatSlice'
 import { selectAuthUser } from 'utils/redux/slices/userSlice'
 import { TeamAvatar } from 'components/TeamAvatar/TeamAvatar'

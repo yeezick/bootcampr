@@ -252,7 +252,7 @@ export const mapMessageSender = (message, members) => {
     if (message.isBotMessage) {
       messageSender = {
         _id: message.sender,
-        firstName: 'Bootcampr',
+        firstName: 'Collabify',
         lastName: 'Admin',
       }
     } else {
