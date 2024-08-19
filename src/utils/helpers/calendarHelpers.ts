@@ -284,10 +284,12 @@ export const formatAvailabilityDate = (
   startTime,
   endTime
 ) => {
-  const start = dayjs(`${sundayDate} ${startTime}`)
+  //To support both Safari and Chrome we need to pass the date in the format 'YYYY-MM-DD HH:mm A'
+  const dateFormat = 'YYYY-MM-DD HH:mm A'
+  const start = dayjs(`${sundayDate} ${startTime}`, dateFormat)
     .day(Number(dayOfWeek))
     .format('YYYY-MM-DDTHH:mm:ss')
-  const end = dayjs(`${sundayDate} ${endTime}`)
+  const end = dayjs(`${sundayDate} ${endTime}`, dateFormat)
     .day(Number(dayOfWeek))
     .format('YYYY-MM-DDTHH:mm:ss')
   return {
