@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { FormControl, FormHelperText } from '@mui/material'
 import { handleFormInputChange } from 'utils/helpers/stateHelpers'
 import { verifyEmail } from 'utils/api'
@@ -10,16 +10,15 @@ export const Email = ({ setFormValues, onValidationChange }) => {
   const inputId = 'email'
   const sampleEmail = ' (ex. uxdesigner@collabify.ai)'
 
-  const validateEmail = async e => {
-    const email = e.target.value.trim()
-    if (email === '') {
+  const validateEmail = async emailValue => {
+    if (emailValue === '') {
       setError(true)
       setErrorMessage('This field is required')
       onValidationChange(false)
       return
     }
 
-    const { status, message } = await verifyEmail(email)
+    const { status, message } = await verifyEmail(emailValue)
 
     if (status >= 400) {
       setError(true)
@@ -39,17 +38,12 @@ export const Email = ({ setFormValues, onValidationChange }) => {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim()
     setEmail(value)
-    handleFormInputChange(e, setFormValues)
     if (value.length) {
       setError(false)
     }
-  }
 
-  useEffect(() => {
-    if (email.length > 0) {
-      validateEmail(email)
-    }
-  }, [email])
+    handleFormInputChange(e, setFormValues)
+  }
 
   return (
     <div className='email'>

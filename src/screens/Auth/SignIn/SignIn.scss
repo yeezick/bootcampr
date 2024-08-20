@@ -3,7 +3,6 @@
     align-items: center;
     display: flex;
     flex-direction: row;
-    gap: 128px;
     justify-content: center;
     margin-top: 80px;
   }
@@ -11,9 +10,10 @@
   .sign_in_form {
     display: flex;
     flex-direction: column;
+    margin-top: 80px;
+    max-width: 500px;
     min-width: 250px;
     min-height: 250px;
-    max-width: 500px;
     text-align: justify;
     width: 40vmin;
   }

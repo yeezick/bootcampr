@@ -73,12 +73,18 @@
   flex-direction: column;
   width: 328px;
 
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
   .sign-up-input-container {
     width: 100%;
   }
 
   .form-input {
-    margin: 8px 0px;
+    margin: 8px 0px 0px;
 
     input {
       border: 1px solid #212121;
@@ -89,6 +95,11 @@
       line-height: 24px;
       padding: 8px 16px;
       width: 100%;
+    }
+
+    p {
+      margin: 0px;
+      padding: 0px 16px;
     }
   }
 }
@@ -239,7 +250,7 @@
 
 #signup-agreement {
   font-size: 14px;
-  margin: 20px 0;
+  margin-top: -5px;
 
   p {
     margin: 0px 0;
@@ -247,7 +258,7 @@
 }
 
 .sign-up-redirect-link {
-  margin: 64px 0 20px;
+  margin: 48px 0 20px;
   text-align: center;
 
   p {
