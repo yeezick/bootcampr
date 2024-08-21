@@ -8,10 +8,9 @@ import { SignUpInterface } from 'interfaces/UserInterface'
 import { PasswordErrors } from 'interfaces/components/Input'
 import { AlertBanners } from 'interfaces/AccountSettingsInterface'
 import { emptySignUp } from 'utils/data/userConstants'
-import { Email, Text, PasswordInputs } from 'components/Inputs'
+import { Email, Text, PasswordInputs, RoleInput } from 'components/Inputs'
 import { Checkbox, FormControlLabel } from '@mui/material'
 import { PrimaryButton } from 'components/Buttons'
-import signup from '../../../assets/Images/signup.png'
 import './SignUp.scss'
 
 export const SignUp: React.FC = () => {
@@ -41,26 +40,12 @@ export const SignUp: React.FC = () => {
 
   useEffect(() => {
     const validateForm = () => {
-      const { confirmPassword, password } = formValues
       const emptyForm = Object.values(formValues).some(value => value === '')
       const passwordHasErrors = Object.values(passwordErrors).some(error =>
         ['neutral', 'criteria-not-met'].includes(error)
       )
-      const passwordsMatch = () => {
-        if (confirmPassword === '' || password === '' || passwordHasErrors) {
-          return false
-        } else if (confirmPassword !== password) {
-          return false
-        }
-        return true
-      }
 
-      if (
-        emptyForm === false &&
-        isAccepted &&
-        passwordsMatch() &&
-        isValidEmail
-      ) {
+      if (!emptyForm && isAccepted && !passwordHasErrors && isValidEmail) {
         return setDisabledForm(false)
       } else {
         return setDisabledForm(true)
@@ -122,19 +107,11 @@ export const SignUp: React.FC = () => {
           <p>{alertBanner.text}</p>
         </div>
       )}
-
       <div className='signup-header'>
         <h1>Join Collabify today.</h1>
         <h2>Get the experience. Get the job.</h2>
       </div>
       <div className='signup-banner'>
-        <div>
-          <img
-            src={signup}
-            alt='A person smiles while working on a laptop at a coffee shop'
-          />
-        </div>
-
         <div className='signup-container'>
           <form className='signup-form' autoComplete='off'>
             <Text
@@ -148,6 +125,13 @@ export const SignUp: React.FC = () => {
               name='lastName'
               required
               setFormValues={setFormValues}
+            />
+            <RoleInput
+              label='Role'
+              name='role'
+              required
+              setFormValues={setFormValues}
+              formValues={formValues}
             />
             <Email
               setFormValues={setFormValues}
@@ -228,6 +212,7 @@ const TermsLink = () => {
     <a
       href='https://docs.google.com/document/d/1Mhl_-ON-qayHKilEKCWKZ8xQBi8JLR9U5Mi_0dWLh8c/edit?usp=sharing'
       target='_blank'
+      rel='noreferrer'
     >
       I have read the terms and conditions.
     </a>

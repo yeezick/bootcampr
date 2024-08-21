@@ -23,8 +23,16 @@ export const PasswordInputs = (props: PasswordInputProps) => {
       {passwordInputName === 'settings-pwd-reset' && (
         <CurrentPassword {...propsWithPasswordMatch} name='currentPassword' />
       )}
-      <NewPassword {...propsWithPasswordMatch} name='password' />
-      <ConfirmNewPassword {...propsWithPasswordMatch} name='confirmPassword' />
+      {passwordInputName === 'sign-up' ? (
+        <NewPassword {...propsWithPasswordMatch} name='password' />
+      ) : (
+        <NewPassword {...propsWithPasswordMatch} name='password' /> && (
+          <ConfirmNewPassword
+            {...propsWithPasswordMatch}
+            name='confirmPassword'
+          />
+        )
+      )}
     </div>
   )
 }

@@ -11,20 +11,12 @@
   width: 60vw;
 
   .message-content {
-    &.header {
-      font-size: 36px;
-      font-weight: 700;
-      line-height: 44px;
-      margin: 0;
-      margin-bottom: 8px;
-    }
-
     &.subheader {
       font-size: 24px;
       font-weight: 700;
       line-height: 32px;
-      margin: 0;
-      margin-bottom: 8px;
+      margin: 0 0 16px 0;
+      white-space: nowrap;
 
       span {
         color: #5c6bc0;
@@ -35,16 +27,16 @@
       font-size: 16px;
       font-weight: 400;
       line-height: 24px;
+      margin-bottom: 16px;
       width: 456px;
 
       p {
         margin: 0;
       }
-    }
 
-    &.confirm {
-      font-weight: 700;
-      margin-bottom: 32px;
+      strong {
+        font-size: 18px;
+      }
     }
 
     &.update-email {
@@ -54,6 +46,7 @@
         cursor: pointer;
         text-decoration: underline;
       }
+      margin-top: 20px;
     }
   }
 

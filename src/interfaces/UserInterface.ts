@@ -105,11 +105,11 @@ export interface UiSliceInterface {
 }
 
 export interface SignUpInterface {
-  confirmPassword: string
   email: string
   firstName: string
   lastName: string
   password: string
+  role: 'Software Engineer' | 'UX Designer' | 'Product Manager' | ''
 }
 
 export interface SignInInterface {

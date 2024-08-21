@@ -79,11 +79,11 @@ export const initialUserSliceState: UiSliceInterface = {
 }
 
 export const emptySignUp: SignUpInterface = {
-  confirmPassword: '',
   email: '',
   firstName: '',
   lastName: '',
   password: '',
+  role: '',
 }
 
 export const emptyPasswordData: PasswordFormData = {
