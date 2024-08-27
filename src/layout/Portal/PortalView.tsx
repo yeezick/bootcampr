@@ -44,18 +44,21 @@ export const PortalView = ({ children }) => {
         headerTitle = 'Sprints'
         break
     }
+
+    const { domain } = determinePortalFromUrl(pathname, userId, projectId)
+    const isDomainMismatch = domain !== portalType
+    const portalDomain = isDomainMismatch ? domain : portalType
+    routeId = portalDomain === 'project' ? projectId : userId
+
     if (activePortal) {
-      routeId = portalType === 'project' ? projectId : userId
-      buildPortal(dispatch, portalType, routeId, experience, headerTitle)
+      buildPortal(dispatch, portalDomain, routeId, experience, headerTitle)
     } else if (portal) {
       routeId = portal === 'project' ? projectId : userId
       buildPortal(dispatch, portal, routeId, experience, headerTitle)
     } else {
-      const { domain } = determinePortalFromUrl(pathname, userId, projectId)
-      routeId = domain === 'project' ? projectId : userId
       buildPortal(dispatch, domain, routeId, experience, headerTitle)
     }
-  }, [activePortal, portalType, experience, projectId])
+  }, [activePortal, portalType, experience, projectId, pathname])
 
   return (
     <div className='portal-wrapper'>
